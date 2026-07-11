@@ -113,7 +113,7 @@ If `main` is only checked out elsewhere, do not checkout `main` in the primary t
 
 ## Output format
 
-Follow [references/output-schema.md](../references/output-schema.md).
+Follow [references/output-schema.md](references/output-schema.md).
 
 ```markdown
 ## Branch cleanup summary

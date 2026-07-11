@@ -6,7 +6,7 @@
 
 Assign each skill to exactly one repo. Update when adding skills.
 
-## Team (`toolbox/` → `shared.slugs`)
+## Team (`toolbox/`)
 
 Generic orchestration, planning, quality, workflow — shared across work + side project.
 
@@ -26,7 +26,7 @@ Generic orchestration, planning, quality, workflow — shared across work + side
 | branch-cleanup     | Branch hygiene            |
 | pull-request       | PR description from diff  |
 
-Also vendored: `references/` → project `references/`
+Shared reference docs live in `.skeleton/references/` and are materialized into each skill's `references/` directory via `skeleton references sync`.
 
 ### Consumer setup
 
@@ -35,23 +35,19 @@ Skeleton and toolbox are complementary — init skeleton first, then install ski
 ```bash
 npm install -D @csark0812/skeleton
 npx skeleton init --skills
-npx skills add csark0812/toolbox --skill '*' -a cursor claude-code -y
-# or: ./scripts/sync.sh <project-root>
+npx skills add csark0812/toolbox --skill '*' -a cursor claude-code --copy -y
 ```
 
 - **toolbox** — skill content SSOT (this repo)
 - **skeleton** — validates docs, registries, and skill links in the consumer project
 - **`.skeleton/customize/`** — project overrides; hooks inject on skill read
-- **`sync.sh`** — vendor copy into `.claude/skills/`; does not replace skeleton init
 
-Distribution (skills only):
+Distribution:
 
 ```bash
 npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code -y
 npx skills update -g
 ```
-
-Or vendor: `./scripts/sync.sh <project-root>`
 
 ## Personal (`personal-toolbox/` → global install)
 

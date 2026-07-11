@@ -32,7 +32,7 @@ When wiring is uncertain across layers, build the **thinnest repro path** that t
 2. Instrument only that path — [cross-cutting.md](cross-cutting.md)
 3. Expand only after the slice proves which layer breaks
 
-For **building new features** as vertical slices, use tracer bullets in [issues-format.md](../../references/planning/issues-format.md) — not this skill.
+For **building new features** as vertical slices, use tracer bullets in [issues-format.md](planning/issues-format.md) — not this skill.
 
 ## When it's a design problem
 

@@ -5,7 +5,7 @@ description: Multi-lens code review for PR, commit, unstaged, staged, merge, and
 
 # Code review
 
-Council dispatch: [`docs/developer/agent-workflows.md`](../../../docs/developer/agent-workflows.md) § Council agents · [council-dispatch.md](references/council-dispatch.md) · [agent-selection.md](references/agent-selection.md). Ambient routing extract → [agent-routing.md](../references/agent-routing.md) § Pre-ship / PR.
+Council dispatch: [`docs/developer/agent-workflows.md`](../../../docs/developer/agent-workflows.md) § Council agents · [council-dispatch.md](references/council-dispatch.md) · [agent-selection.md](references/agent-selection.md). Ambient routing extract → [agent-routing.md](references/agent-routing.md) § Pre-ship / PR.
 
 ## When to Use
 
@@ -47,4 +47,4 @@ Not for: PR description/body ([`pull-request`](../pull-request/SKILL.md)), Curso
 
 ## Output format
 
-Follow [references/output-schema.md](../references/output-schema.md). Review findings use [references/output.md](references/output.md) — scannable finding blocks, synthesis header, Action vs Noted/Deferred tiers per [merge-blockers.md](references/merge-blockers.md).
+Follow [references/output-schema.md](references/output-schema.md). Review findings use [references/output.md](references/output.md) — scannable finding blocks, synthesis header, Action vs Noted/Deferred tiers per [merge-blockers.md](references/merge-blockers.md).

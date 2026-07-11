@@ -17,7 +17,7 @@ Not for: unknown layer or NDJSON instrumentation ([`debug`](../debug/SKILL.md)),
 
 ## Skill boundaries
 
-See [agent-routing.md](../references/agent-routing.md) § Quality & ops.
+See [agent-routing.md](references/agent-routing.md) § Quality & ops.
 
 ## Core Discipline
 
@@ -154,4 +154,4 @@ test('reducer creates pane', () => {
 
 ## Output format
 
-Follow [references/output-schema.md](../references/output-schema.md). Preflight: Docker required for backend integration tests — scope to unit/file lint if unavailable.
+Follow [references/output-schema.md](references/output-schema.md). Preflight: Docker required for backend integration tests — scope to unit/file lint if unavailable.

@@ -110,8 +110,8 @@ Domain-specific synthesis (review filing, investigate verdicts, second-opinion s
 
 | Recipe | Entry skill |
 | --- | --- |
-| [parallel-explore.md](../references/planning/parallel-explore.md) | build Step 3, grill, second-opinion sweeps |
-| [parallel-gather.md](../references/planning/parallel-gather.md) | multi gather jobs, build context collection |
+| [parallel-explore.md](references/planning/parallel-explore.md) | build Step 3, grill, second-opinion sweeps |
+| [parallel-gather.md](references/planning/parallel-gather.md) | multi gather jobs, build context collection |
 | [parallel-plan-evidence.md](../second-opinion/references/parallel-plan-evidence.md) | second-opinion Stance A |
 | [parallel-broad.md](../investigate/references/parallel-broad.md) | investigate (explicit wide fish) |
 | [parallel-research.md](../investigate/references/parallel-research.md) | investigate (parallel web topics) |
@@ -206,4 +206,4 @@ More than 10 members — split into multiple `multi` runs.
 
 ## Output format
 
-Follow [references/output-schema.md](../references/output-schema.md). Consolidated runs use [references/output-format.md](references/output-format.md).
+Follow [references/output-schema.md](references/output-schema.md). Consolidated runs use [references/output-format.md](references/output-format.md).

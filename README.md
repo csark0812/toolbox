@@ -14,8 +14,8 @@ Personal skills live in the private [personal-toolbox](https://github.com/csark0
 # All team skills, global
 npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code -y
 
-# All team skills, project-scoped
-npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code -y
+# All team skills, project-scoped (commit .claude/skills/ or .agents/skills/)
+npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code --copy -y
 
 # Update after push
 npx skills update -g   # global
@@ -34,30 +34,23 @@ npm install -D @csark0812/skeleton
 npx skeleton init --skills
 
 # 2. Team skills (global or project-scoped)
-npx skills add csark0812/toolbox --skill '*' -a cursor claude-code -y
-# or vendor a copy into the project:
-./scripts/sync.sh ~/path/to/project
+npx skills add csark0812/toolbox --skill '*' -a cursor claude-code --copy -y
 ```
 
 After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton audit self` to verify.
 
 ### Roles
 
-| Piece                      | Role                                                                                       |
-| -------------------------- | ------------------------------------------------------------------------------------------ |
-| **toolbox** (this repo)    | Skill source SSOT — what skills exist and how they're written                              |
-| **skeleton**               | Docs/skill registry linter — validates links, banners, and scan perimeter                  |
-| **`.skeleton/customize/`** | Project-specific skill overrides (injected via IDE hooks on read)                          |
-| **`sync.sh`**              | Vendors a copy of toolbox skills into `.claude/skills/` — does not replace `skeleton init` |
+| Piece                       | Role                                                                      |
+| --------------------------- | ------------------------------------------------------------------------- |
+| **toolbox** (this repo)     | Skill source SSOT — what skills exist and how they're written             |
+| **skeleton**                | Docs/skill registry linter — validates links, banners, and scan perimeter |
+| **`.skeleton/customize/`**  | Project-specific skill overrides (injected via IDE hooks on read)         |
+| **`.skeleton/references/`** | Canonical shared reference docs — copied into each skill at build time    |
 
 Do not edit synced `SKILL.md` files in consumer projects — override in `.skeleton/customize/<slug>.md` instead. See [skeleton customize docs](https://github.com/csark0812/skeleton/blob/main/docs/developer/customize.md).
 
-### Vendor into a project repo
-
-```bash
-./scripts/sync.sh ~/path/to/project
-# commit .claude/skills/ in the project
-```
+Each skill is self-contained: shared reference docs are generated copies under `{slug}/references/` with provenance headers. Edit canonical files in `.skeleton/references/`, then run `npm run references:sync`.
 
 ## Skills
 
@@ -77,8 +70,6 @@ Do not edit synced `SKILL.md` files in consumer projects — override in `.skele
 | branch-cleanup     | Clean merged/stale branches and worktrees    |
 | pull-request       | PR description from diff                     |
 
-Also included: `references/` (shared planning, routing, dialogue docs).
-
 See [docs/tiers.md](docs/tiers.md) for tier assignment rules.
 
 ## Daily workflow
@@ -92,9 +83,9 @@ npx skills update -g
 ## Adding a skill
 
 1. Create `<slug>/SKILL.md`
-2. Add slug to `shared.slugs` and verify: `./scripts/check-slugs.sh`
-3. Update `docs/tiers.md`
+2. Update `docs/tiers.md`
+3. If linking shared refs, use `../references/...` in source — `npm run references:sync` materializes copies
 4. `npm run validate:changed -- --staged`
-5. Push → CI green → `npx skills update -g` or `./scripts/sync.sh` in target projects
+5. Push → CI green → `npx skills update -g`
 
 Inter-toolbox links use relative paths (`../multi/SKILL.md`). Project-local skills (`k8s`, `components`, etc.) must not use `/SKILL.md` links — see [docs/tiers.md](docs/tiers.md). Consumer doc paths (`docs/developer/…`) are Phase 3 link migration.

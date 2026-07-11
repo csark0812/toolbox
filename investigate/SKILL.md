@@ -16,11 +16,11 @@ For when something feels wrong but the user can't fully articulate it yet, or th
 - Narrow a vague unease into confirm/refute with citable primary-source evidence
 - Parallel web research on independent topics (via **multi**)
 
-Not for: written plan review ([`second-opinion`](../second-opinion/SKILL.md)), fuzzy ideation ([`crystallize`](../crystallize/SKILL.md)). For reproducible bugs, pair with [`testing`](../testing/SKILL.md) (+ [`debug`](../debug/SKILL.md) when layer/logs unclear) — see [agent-routing.md](../references/agent-routing.md) § Quality & ops. Ambient extract → [agent-routing.md](../references/agent-routing.md) § Specific doubt.
+Not for: written plan review ([`second-opinion`](../second-opinion/SKILL.md)), fuzzy ideation ([`crystallize`](../crystallize/SKILL.md)). For reproducible bugs, pair with [`testing`](../testing/SKILL.md) (+ [`debug`](../debug/SKILL.md) when layer/logs unclear) — see [agent-routing.md](references/agent-routing.md) § Quality & ops. Ambient extract → [agent-routing.md](references/agent-routing.md) § Specific doubt.
 
 ## Stance and routing
 
-- If the user has **reproducible misbehavior**, use **testing** (repro + fix loop) alongside this skill; add **debug** when the layer is unclear or Cursor NDJSON / compose instrumentation is needed — [agent-routing.md](../references/agent-routing.md) § Quality & ops.
+- If the user has **reproducible misbehavior**, use **testing** (repro + fix loop) alongside this skill; add **debug** when the layer is unclear or Cursor NDJSON / compose instrumentation is needed — [agent-routing.md](references/agent-routing.md) § Quality & ops.
 - If they have a **plan file** to critique, use **second-opinion**.
 - For **fuzzy** thinking and no specific code target yet, **crystallize** can precede this skill.
 - Multiple independent **web research** topics → [parallel-research.md](references/parallel-research.md) via **multi**.
@@ -28,7 +28,7 @@ Not for: written plan review ([`second-opinion`](../second-opinion/SKILL.md)), f
 
 ## Structural and product checks
 
-When evidence touches structure or product scope, apply [dialogue-contract.md](../references/dialogue-contract.md) § Structural checks and § Product checks — name the spectrum in **What to do next** (localized change vs staged / ground-up). Full product gate → **product-principles** + [product hub (decision framework)](../../../docs/product/README.md).
+When evidence touches structure or product scope, apply [dialogue-contract.md](references/dialogue-contract.md) § Structural checks and § Product checks — name the spectrum in **What to do next** (localized change vs staged / ground-up). Full product gate → **product-principles** + [product hub (decision framework)](../../../docs/product/README.md).
 
 ## Protocol
 
@@ -61,7 +61,7 @@ When evidence touches structure or product scope, apply [dialogue-contract.md](.
 
 ## Output format
 
-Follow [output-schema.md](../references/output-schema.md). End with this block when the clarification chain (when needed) and evidence pass are complete — not before. If the hunch is still too vague, **ask the next narrowing question** instead of forcing a verdict.
+Follow [output-schema.md](references/output-schema.md). End with this block when the clarification chain (when needed) and evidence pass are complete — not before. If the hunch is still too vague, **ask the next narrowing question** instead of forcing a verdict.
 
 ```markdown
 ## Hunch: [one-line restatement]

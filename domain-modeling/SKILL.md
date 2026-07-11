@@ -30,7 +30,7 @@ Follow the table format in [`glossary.md`](../../../docs/domain/glossary.md): **
 
 ## Output format
 
-Follow [references/output-schema.md](../references/output-schema.md). When terms resolve:
+Follow [references/output-schema.md](references/output-schema.md). When terms resolve:
 
 ```markdown
 ## Terms resolved

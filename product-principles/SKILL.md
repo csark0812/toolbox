@@ -5,7 +5,7 @@ description: PostPrint product philosophy router and decision framework. Use whe
 
 # Product principles
 
-Invocable entry for **what to build and why**: thesis-aligned evaluation and the **decision framework** checklist. Ambient product checks in dialogue → [dialogue-contract.md](../references/dialogue-contract.md); in plan review → [second-opinion/references/second-opinion.md](../second-opinion/references/second-opinion.md).
+Invocable entry for **what to build and why**: thesis-aligned evaluation and the **decision framework** checklist. Ambient product checks in dialogue → [dialogue-contract.md](references/dialogue-contract.md); in plan review → [second-opinion/references/second-opinion.md](../second-opinion/references/second-opinion.md).
 
 Canonical prose: [`docs/product/README.md`](../../../docs/product/README.md).
 
@@ -39,4 +39,4 @@ Reuse and surface alignment (`/components` + `docs/design/patterns.md`) connect 
 
 ## Output format
 
-Follow [references/output-schema.md](../references/output-schema.md).
+Follow [references/output-schema.md](references/output-schema.md).

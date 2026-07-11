@@ -1,6 +1,6 @@
 # Review output
 
-Extends [`output-schema`](../../references/output-schema.md). Synthesis via [synthesis.md](synthesis.md) ends here. Worth-doing gate → [code-review-quality-gates.md](../../../../docs/developer/code-review-quality-gates.md) § Worth-doing gate.
+Extends [`output-schema`](output-schema.md). Synthesis via [synthesis.md](synthesis.md) ends here. Worth-doing gate → [code-review-quality-gates.md](../../../../docs/developer/code-review-quality-gates.md) § Worth-doing gate.
 
 **Default filing:** Merge-blockers only — [merge-blockers.md](merge-blockers.md). Unless the user opted into improvements mode, file **only** `scope: ship-blocker` (reachable production bugs). Do not file test inventory, docs gaps, refactor, or polish.
 

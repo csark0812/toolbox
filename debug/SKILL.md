@@ -13,7 +13,7 @@ description: Bug localization and Cursor debug-mode instrumentation across PostP
 - Cursor debug mode, NDJSON at `.cursor/debug-*.log`, compose mount/env
 - Instrumentation to prove or disprove a hypothesis
 
-Not for: new features ([issues-format.md](../references/planning/issues-format.md)), tests/CI ([`testing`](../testing/SKILL.md)), read-only hunches ([`investigate`](../investigate/SKILL.md)), prod/k8s logs (`k8s` project-local skill — see [docs/tiers.md](../docs/tiers.md)).
+Not for: new features ([issues-format.md](references/planning/issues-format.md)), tests/CI ([`testing`](../testing/SKILL.md)), read-only hunches ([`investigate`](../investigate/SKILL.md)), prod/k8s logs (`k8s` project-local skill — see [docs/tiers.md](../docs/tiers.md)).
 
 ## Craft principles
 
@@ -57,7 +57,7 @@ Instrumentation: [references/instrumentation.md](references/instrumentation.md) 
 
 ## Skill boundaries
 
-See [agent-routing.md](../references/agent-routing.md) § Quality & ops. **Handoffs:** reproducible failure with a test → `testing` first; add `debug` when test output is insufficient. Multi-surface wiring uncertainty → `debug` first.
+See [agent-routing.md](references/agent-routing.md) § Quality & ops. **Handoffs:** reproducible failure with a test → `testing` first; add `debug` when test output is insufficient. Multi-surface wiring uncertainty → `debug` first.
 
 ## Path rules (summary)
 
@@ -82,4 +82,4 @@ See [agent-routing.md](../references/agent-routing.md) § Quality & ops. **Hando
 
 ## Output format
 
-Follow [references/output-schema.md](../references/output-schema.md). End with hypothesis verdicts (CONFIRMED / REJECTED / INCONCLUSIVE) and cleanup status when instrumentation was used.
+Follow [references/output-schema.md](references/output-schema.md). End with hypothesis verdicts (CONFIRMED / REJECTED / INCONCLUSIVE) and cleanup status when instrumentation was used.

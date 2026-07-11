@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Grill
 
-Pressure-test a design before code. Before the first turn, read [dialogue-contract.md](../references/dialogue-contract.md) (shared behavior) and [dialogue-handoffs.md](../references/dialogue-handoffs.md) (routing).
+Pressure-test a design before code. Before the first turn, read [dialogue-contract.md](references/dialogue-contract.md) (shared behavior) and [dialogue-handoffs.md](references/dialogue-handoffs.md) (routing).
 
 Shared understanding before implementation. **Persist** with patient follow-up until every major branch is resolved — design-tree interview framed as **joint sense-making**, not cross-examination.
 
@@ -49,12 +49,12 @@ If almost there, **ask the next question** instead of summarizing prematurely.
 
 - **product-principles** ([decision framework via product hub](../../../docs/product/README.md)) — when you need to *evaluate* options (scoring). Grill reaches *alignment* before weighing.
 - **planning/build.md** — if the user just finished grill, skip redundant clarification there (Step 4).
-- **Repo exploration for a branch** — optional [parallel-explore.md](../references/planning/parallel-explore.md) via **multi** when a design branch depends on repo facts; grill stays dialogue-first.
-- **Ambient routing** — inline extract (branches, deps, falsifier) → [agent-routing.md](../references/agent-routing.md) § Before implement; full grill remains user-paced.
+- **Repo exploration for a branch** — optional [parallel-explore.md](references/planning/parallel-explore.md) via **multi** when a design branch depends on repo facts; grill stays dialogue-first.
+- **Ambient routing** — inline extract (branches, deps, falsifier) → [agent-routing.md](references/agent-routing.md) § Before implement; full grill remains user-paced.
 
 ## Output format
 
-Follow [output-schema.md](../references/output-schema.md). End with this block when **When to stop** criteria are met — not before:
+Follow [output-schema.md](references/output-schema.md). End with this block when **When to stop** criteria are met — not before:
 
 ```markdown
 ## Decisions reached
@@ -66,7 +66,7 @@ Follow [output-schema.md](../references/output-schema.md). End with this block w
 - [Anything explicitly punted]
 
 ## Next step
-- Ready to implement → [planning/build.md](../references/planning/build.md) (then [code-review](../code-review/SKILL.md) once code exists)
+- Ready to implement → [planning/build.md](references/planning/build.md) (then [code-review](../code-review/SKILL.md) once code exists)
 - Written plan for external read → [second-opinion](../second-opinion/SKILL.md)
 - One concrete code doubt → [investigate](../investigate/SKILL.md)
 - Still fuzzy on intent → **crystallize** skill

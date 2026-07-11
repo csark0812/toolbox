@@ -7,14 +7,15 @@
 		"doc": "docs"
 	},
 	"scripts": {
-		"check:slugs": "./scripts/check-slugs.sh",
+		"references:sync": "skeleton references sync",
+		"references:check": "skeleton references check",
 		"audit:hub": "skeleton audit docs --paths=README.md,docs",
 		"audit:docs": "skeleton audit docs",
 		"audit:skills": "skeleton audit skills",
 		"audit:self": "skeleton audit self",
 		"validate:changed": "skeleton validate changed",
 		"validate:ci": "skeleton validate changed --base origin/main",
-		"test": "npm run check:slugs && npm run audit:hub && npm run audit:skills && npm run validate:ci"
+		"test": "npm run references:check && npm run audit:hub && npm run audit:skills && npm run validate:ci"
 	},
 	"repository": {
 		"type": "git",
@@ -28,6 +29,6 @@
 	},
 	"homepage": "https://github.com/csark0812/toolbox#readme",
 	"devDependencies": {
-		"@csark0812/skeleton": "^1.0.0"
+		"@csark0812/skeleton": "^1.1.0"
 	}
 }

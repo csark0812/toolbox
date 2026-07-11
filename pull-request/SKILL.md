@@ -45,4 +45,4 @@ Not for: code review, council dispatch, fix-loop ([`code-review`](../code-review
 
 ## Output format
 
-Follow [references/output-schema.md](../references/output-schema.md).
+Follow [references/output-schema.md](references/output-schema.md).
