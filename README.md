@@ -1,5 +1,9 @@
 # toolbox
 
+**Source of truth for** team Cursor/Claude agent skills.
+
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-11 -->
+
 Public SSOT for team Cursor/Claude agent skills.
 
 Personal skills live in the private [personal-toolbox](https://github.com/csark0812/personal-toolbox) repo. New skills start from the public [skeleton](https://github.com/csark0812/skeleton) template.
@@ -29,21 +33,21 @@ Shorthand for `https://github.com/csark0812/toolbox`. The `@` prefix (npm-style 
 
 ## Skills
 
-| Slug | Purpose |
-|------|---------|
-| multi | Parallel subagent orchestration kernel |
-| code-review | Multi-lens code review with council dispatch |
-| crystallize | Fuzzy idea → shaped intent |
-| grill | Pressure-test design before implementation |
-| second-opinion | Written plan review |
-| investigate | Confirm/refute a code or approach hunch |
-| product-principles | Product philosophy and build evaluation |
-| domain-modeling | Domain glossary discipline |
-| testing | Write, fix, and run tests |
-| debug | Cross-layer bug localization |
-| handoff | Compact session handoff |
-| branch-cleanup | Clean merged/stale branches and worktrees |
-| pull-request | PR description from diff |
+| Slug               | Purpose                                      |
+| ------------------ | -------------------------------------------- |
+| multi              | Parallel subagent orchestration kernel       |
+| code-review        | Multi-lens code review with council dispatch |
+| crystallize        | Fuzzy idea → shaped intent                   |
+| grill              | Pressure-test design before implementation   |
+| second-opinion     | Written plan review                          |
+| investigate        | Confirm/refute a code or approach hunch      |
+| product-principles | Product philosophy and build evaluation      |
+| domain-modeling    | Domain glossary discipline                   |
+| testing            | Write, fix, and run tests                    |
+| debug              | Cross-layer bug localization                 |
+| handoff            | Compact session handoff                      |
+| branch-cleanup     | Clean merged/stale branches and worktrees    |
+| pull-request       | PR description from diff                     |
 
 Also included: `references/` (shared planning, routing, dialogue docs).
 

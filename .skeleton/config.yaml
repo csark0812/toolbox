@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=node_modules/@csark0812/skeleton/schemas/config.schema.json
+
+scan:
+  include:
+    - "README.md"
+    - "docs/**"
+    - ".skeleton/registry.md"
+    - "shared.slugs"
+  exclude:
+    - "references/**"
+    - "**/references/**"
+    # Skill dirs — expand in Phase 2b
+    - "multi/**"
+    - "code-review/**"
+    - "crystallize/**"
+    - "grill/**"
+    - "second-opinion/**"
+    - "investigate/**"
+    - "product-principles/**"
+    - "domain-modeling/**"
+    - "testing/**"
+    - "debug/**"
+    - "handoff/**"
+    - "branch-cleanup/**"
+    - "pull-request/**"
+  banned: []
+  retiredSkills: []
+
+daysUntilStale: 180

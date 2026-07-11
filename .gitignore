@@ -1,2 +1,5 @@
 .DS_Store
 *.asc
+node_modules/
+.cursor/
+.claude/
