@@ -1,57 +1,65 @@
 # toolbox
 
-Private SSOT for Cursor/Claude agent skills.
+Public SSOT for team Cursor/Claude agent skills.
 
-## Tiers
+Personal skills live in the private [personal-toolbox](https://github.com/csark0812/personal-toolbox) repo.
 
-| Tier | Path | Distribution |
-|------|------|--------------|
-| **Team** | `team/<slug>/` | Vendored into project `.claude/skills/` via `scripts/sync.sh` — committed for coworkers |
-| **Personal** | `personal/<slug>/` | Global install only (`npx skills add -g`) — never in project repos |
-| **Sensitive** | `personal/raw/**` | git-crypt encrypted; Slack exports, writing samples, identity source material |
+## Install
 
-Distilled rules live in `personal/<slug>/SKILL.md`. Sensitive source material never goes in team skills or SKILL.md bodies.
+### npx skills (recommended)
 
-## Prerequisites
+Project-scoped (e.g. applications):
 
 ```bash
-brew install git-crypt gnupg
-gh auth login   # for clone/push
+npx skills add https://github.com/csark0812/toolbox/tree/main/team --agent cursor claude-code
+npx skills update -p
 ```
 
-## New machine
+### Vendor into a project repo
 
 ```bash
-# 1. Import GPG key (see docs/gpg-second-machine.md)
-gpg --import ~/path/to/toolbox-gpg-secret.asc
-
-# 2. Bootstrap
-git clone git@github.com:csark0812/toolbox.git ~/Repositories/toolbox
-~/Repositories/toolbox/scripts/bootstrap.sh
+./scripts/sync.sh ~/path/to/project
+# commit .claude/skills/ in the project
 ```
 
-Personal skills symlink to `~/.agents/skills/` (Cursor) and `~/.claude/skills/` (Claude Code).
+## Skills
+
+| Slug | Purpose |
+|------|---------|
+| multi | Parallel subagent orchestration kernel |
+| code-review | Multi-lens code review with council dispatch |
+| crystallize | Fuzzy idea → shaped intent |
+| grill | Pressure-test design before implementation |
+| second-opinion | Written plan review |
+| investigate | Confirm/refute a code or approach hunch |
+| product-principles | Product philosophy and build evaluation |
+| domain-modeling | Domain glossary discipline |
+| testing | Write, fix, and run tests |
+| debug | Cross-layer bug localization |
+| handoff | Compact session handoff |
+| branch-cleanup | Clean merged/stale branches and worktrees |
+| pull-request | PR description from diff |
+
+Also included: `team/references/` (shared planning, routing, dialogue docs).
+
+See [docs/tiers.md](docs/tiers.md) for tier assignment rules.
 
 ## Daily workflow
 
-Edit skills in this repo, then propagate:
-
 ```bash
 cd ~/Repositories/toolbox
-git pull && git-crypt unlock   # if encrypted files changed
+git pull
 
-# Team skills → project repos
-./scripts/sync.sh ~/path/to/work-repo
-./scripts/sync.sh ~/path/to/side-project
-# commit in each project
+# Option A: update project install
+cd ~/path/to/project && npx skills update -p
 
-# Personal skills: live via ~/.cursor/skills symlinks after git pull
+# Option B: vendor + commit
+~/Repositories/toolbox/scripts/sync.sh ~/path/to/project
 ```
 
-Work-repo and side-project never sync to each other — both pull from toolbox.
+## Adding a skill
 
-## Security
-
-- Private repo, solo access
-- `personal/raw/**` encrypted with git-crypt (opaque even if hub access is granted later)
-- Sync script uses allowlist (`shared.slugs`) — never mirrors entire tree into projects
+1. Create `team/<slug>/SKILL.md`
+2. Add slug to `shared.slugs`
+3. Update `docs/tiers.md`
+4. Push, then `npx skills update -p` or `./scripts/sync.sh` in target projects

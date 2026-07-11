@@ -1,8 +1,8 @@
 # Skill tiers
 
-Assign each skill to exactly one tier. Update when adding skills.
+Assign each skill to exactly one repo. Update when adding skills.
 
-## Team (`team/` → `shared.slugs` → project `.claude/skills/`)
+## Team (`toolbox/team/` → `shared.slugs`)
 
 Generic orchestration, planning, quality, workflow — shared across work + side project.
 
@@ -24,18 +24,25 @@ Generic orchestration, planning, quality, workflow — shared across work + side
 
 Also vendored: `team/references/` → project `references/`
 
-## Personal (`personal/` → global `npx skills add -g`)
+Distribution:
+
+- **npx skills:** `npx skills add https://github.com/csark0812/toolbox/tree/main/team`
+- **Vendor:** `./scripts/sync.sh <project-root>`
+
+## Personal (`personal-toolbox/personal/` → global install)
+
+Private repo. See [personal-toolbox](https://github.com/csark0812/personal-toolbox).
 
 | Slug | Notes |
 |------|-------|
 | voice | Writing tone; references `personal/raw/` for calibration |
 
-## Sensitive (`personal/raw/` → git-crypt)
+Distribution:
 
-| File | Notes |
-|------|-------|
-| writing-samples.md | Curated voice excerpts |
-| (add) slack-export-*.md | Raw exports — optional |
+```bash
+npx skills add https://github.com/csark0812/personal-toolbox/tree/main/personal --skill voice -g --agent cursor claude-code
+npx skills update -g
+```
 
 ## Project-local only (NOT in toolbox)
 
