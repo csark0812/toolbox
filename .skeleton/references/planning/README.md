@@ -44,4 +44,4 @@ Planning orchestrates work; it does **not** replace other skills:
 | **project-tracking** | Branch, draft PR, Closes, Linear state **after** a plan exists and you’re starting work (`verify.md` Step 5). |
 | **code-review** | Holistic PR / implementation review **after** code exists; AI drift on staged/unstaged ([ai-drift.md](../../../../docs/developer/ai-drift.md)). |
 
-Structural checks in plans → **second-opinion** ([second-opinion.md](../../second-opinion/references/second-opinion.md)). Product scope → consumer-local **product-principles** skill via `.skeleton/customize/` before locking feature scope or behavior.
+Structural checks in plans → **second-opinion** ([second-opinion.md](../../second-opinion/references/second-opinion.md)). Product scope → `.skeleton/customize/second-opinion.md` or `grill.md` before locking feature scope or behavior.
