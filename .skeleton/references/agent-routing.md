@@ -1,8 +1,8 @@
 # Agent ambient routing
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-03 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-11 -->
 
-**SSOT:** Automatic task classification, severity tiers, inline skill invariants, and escalation. Edit here only; council dispatch in [agent-workflows.md](../../../docs/developer/agent-workflows.md); pre-artifact dialogue in [dialogue-handoffs.md](dialogue-handoffs.md).
+**SSOT:** Automatic task classification, severity tiers, inline skill invariants, and escalation. Edit here only; pre-artifact dialogue in [dialogue-handoffs.md](dialogue-handoffs.md).
 
 Agents classify every task, apply the minimum thought process for the tier, and escalate to full skills when triggers fire. **Same behavior** hands-on and hands-off — only visibility differs (chat narration vs PR § Routing).
 
@@ -15,7 +15,7 @@ Run on every turn that touches work product; **re-classify at boundaries**:
 3. **Invariant** — apply tier row from [routing table](#routing-table) before editing.
 4. **Work** — implement, investigate, or answer.
 5. **Boundary** — re-classify at checkpoints; escalate if scope grew.
-6. **Ship** — validate; council and fix-loop per linked SSOT when High.
+6. **Ship** — validate; council and fix-loop when High.
 
 **Boundaries (mandatory re-classify):**
 
@@ -30,7 +30,7 @@ Run on every turn that touches work product; **re-classify at boundaries**:
 |-------|--------|
 | User intent | Message text, explicit mode ("fix", "implement", "review") |
 | Diff shape | Files touched, packages crossed, line count |
-| Artifacts | `.cursor/plans/*.plan.md`, PRD paths, prior synthesis in thread |
+| Artifacts | Plan / PRD paths on disk, prior synthesis in thread |
 | Thread history | Action findings, fix-loop state |
 | Task type | Feature / bug / refactor / docs — [build.md](planning/build.md) Step 2 |
 
@@ -49,9 +49,9 @@ Run on every turn that touches work product; **re-classify at boundaries**:
 | Single file, docs-only, explicit quick fix | Low |
 | Multi-file same package; bug with repro; single-module refactor | Low–Medium (Medium if behavior change) |
 | Intent vague, scope unnamed ("improve X") | Medium |
-| Plan artifact on disk (`.plan.md`, PRD) | Medium |
-| Cross-package (`apps/` + `tspackages/`, client + backend) | High |
-| User-facing surface (routes, extension, query domains) | High |
+| Plan artifact on disk | Medium |
+| Cross-package or cross-service | High |
+| User-facing surface | High |
 | Auth, payments, privacy, API schema | High |
 | Prior Action findings in thread or PR | High |
 | [modes.md](../code-review/references/modes.md) Full escalation triggers | High |
@@ -62,16 +62,16 @@ Escalation column **links SSOT** — do not duplicate thresholds here.
 
 | Situation | Tier | Inline invariant (auto) | Escalate to (full) |
 |-----------|------|-------------------------|-------------------|
-| Any code edit | Low+ | Reuse check, [ai-drift.md](../../../docs/developer/ai-drift.md) write-time, `validate:changed` | — |
+| Any code edit | Low+ | Reuse check; validate touched paths | — |
 | Fuzzy intent | Medium | State 2–3 branches + assumption taken; one clarifying question if hands-on | Unresolved branches → [grill](../grill/SKILL.md) |
 | Plan on disk | Medium | [verify.md](planning/verify.md) axis pass inline; list gaps and deferrals | Structural gaps → [second-opinion](../second-opinion/SKILL.md) Stance B |
 | Specific doubt | Medium | Two ranked hypotheses; primary-source read; mini-verdict | Partial + boundary → full [investigate](../investigate/SKILL.md); wide scope → [multi](../multi/SKILL.md) + [parallel-broad.md](../investigate/references/parallel-broad.md) |
 | Before implement (Medium+) | Medium | Branches, deps, falsifier ([grill](../grill/SKILL.md) extract); document open questions | Cross-package → High row |
 | New feature end-to-end | Medium–High | Tracer bullet check — [issues-format.md](planning/issues-format.md) | Multi-domain → [build.md](planning/build.md) Step 3 |
-| TanStack / UI touch | Medium+ | Domain skill extracts inline (keys, invalidation, a11y) | Cross-surface parity → consumer UI/components skill (when present) |
-| Pre-ship / PR | All | Consumer validate router on touched paths | [modes.md](../code-review/references/modes.md) → [code-review](../code-review/SKILL.md) council |
-| Post-review fix | High | Read prior synthesis; theme batch | Consumer review-fix-loop (when present) |
-| Reproducible bug | Medium | § Quality & ops handoff chain | Consumer verify/testing + debug (when present) |
+| UI / cross-surface touch | Medium+ | Note parity questions inline | Cross-surface design → [grill](../grill/SKILL.md) |
+| Pre-ship / PR | All | Validate touched paths | [modes.md](../code-review/references/modes.md) → [code-review](../code-review/SKILL.md) |
+| Post-review fix | High | Read prior synthesis; theme batch | [code-review](../code-review/SKILL.md) contextual re-review |
+| Reproducible bug | Medium | § Quality & ops | [investigate](../investigate/SKILL.md) |
 
 ## PR § Routing (hands-off)
 
@@ -88,25 +88,18 @@ Mandatory on **Medium+** when creating or updating a PR:
 
 ## Quality & ops
 
-Preserved from former [skill-boundaries.md](skill-boundaries.md) — update handoff rules here when testing, debug, or investigate skills change.
-
 ### Trigger matrix
 
 | Trigger | Route to |
 |---------|----------|
-| Failing test, CI, add/run tests | Consumer **testing** / **verify-changes** skill (when present) |
-| Unknown layer, session logs, cross-layer repro | Consumer **debug** skill (when present) |
 | Vague hunch, no repro yet | [investigate](../investigate/SKILL.md) |
-| Passive test-coverage review in council | [code-review](../code-review/SKILL.md) → `correctness` agent |
+| Reproducible misbehavior | [investigate](../investigate/SKILL.md) |
+| Passive holistic review at ship | [code-review](../code-review/SKILL.md) |
 | Building a **new feature** end-to-end | Tracer bullets — [issues-format.md](planning/issues-format.md) |
-| Stack won't start, sandbox error | Consumer troubleshooting doc (when present) |
-| Prod/k8s logs | Consumer **k8s** or observability skill (when present) |
 
 ### Handoffs
 
-- Reproducible failure with a test → consumer verify/testing first; add debug when test output is insufficient or layer is unclear.
-- **debug** may hand back to **testing** once repro is instrumented.
-- Reproducible misbehavior with a specific code doubt → **investigate** + consumer verify/testing (+ debug when session logs / layer unclear).
+- Reproducible misbehavior with a specific code doubt → **investigate**.
 
 ## Skill extracts (ambient)
 
@@ -123,5 +116,4 @@ Full user-paced sessions remain user-invoked (`disable-model-invocation: true`).
 ## Related
 
 - Pre-artifact dialogue routing: [dialogue-handoffs.md](dialogue-handoffs.md)
-- Council dispatch: [agent-workflows.md](../../../docs/developer/agent-workflows.md) § Council agents
-- Cold-start excerpt: [AGENTS.md](../../../AGENTS.md) § Ambient routing
+- Council dispatch: [council-dispatch.md](../code-review/references/council-dispatch.md)

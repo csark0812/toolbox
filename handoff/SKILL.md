@@ -8,14 +8,14 @@ disable-model-invocation: true
 
 Compact and transfer context when a long session (grill → plan → implement → review) must continue in a **fresh chat**. Every other skill assumes one continuous context window — this fills that gap.
 
-**Write handoff docs to `_agent/handoffs/` only** — gitignored, inside the workspace so `@`-reference works. Do not create files under `docs/`, `.cursor/plans/`, or anywhere git-tracked.
+**Write handoff docs to `_agent/handoffs/` only** — gitignored, inside the workspace so `@`-reference works. Do not create files under committed doc trees or plan locations.
 
-**Why `_agent/`:** Consumer ephemeral agent workspace — session artifacts outside the doc audit perimeter. Handoffs belong there, not in `docs/` or committed paths.
+**Why `_agent/`:** Ephemeral agent workspace — session artifacts outside the doc audit perimeter.
 
 ## When to Use
 
 - End of a long session before starting a fresh chat
-- Mid fix-loop when context is exhausted but work continues (consumer review-fix-loop when present)
+- Mid fix-loop when context is exhausted but work continues
 - User explicitly asks to "hand off", "compact context", or "prepare for a new session"
 
 Not for: routing between skills mid-task ([`agent-routing.md`](references/agent-routing.md) · [`dialogue-handoffs.md`](references/dialogue-handoffs.md)), authoring a plan ([`references/planning/build.md`](references/planning/build.md)), or review-fix-loop chat blocks only — use **handoff** when the next session needs full session context, not just fix-loop state.
@@ -25,15 +25,15 @@ Not for: routing between skills mid-task ([`agent-routing.md`](references/agent-
 1. **Confirm scope.** Ask what the next session must pick up (implement, review, investigate, plan revision) if unclear.
 2. **Gather from the thread** — original ask, decisions, work done, current state, open questions, blockers. Do not invent progress.
 3. **Collect artifact pointers** — paths and URLs only; never paste full bodies into the handoff file:
-   - PRDs — cite path strings only (e.g. `docs/prds/` or project PRD index)
-   - Plans under consumer plan path (e.g. `.cursor/plans/*.plan.md`)
-   - Issue URLs (Linear, ClickUp, etc.), GitHub PR URLs
+   - PRDs — cite path strings only
+   - Plans on disk — cite path strings only
+   - Issue URLs, GitHub PR URLs
    - Git branch name, commit SHAs, and commit messages (one line each)
    - Prior review synthesis pasted in chat (summarize; link PR if on disk)
 4. **Redact before write.** Strip secrets, tokens, credentials, and PII from the handoff doc. Use `[REDACTED]` when needed; never write `.env` values or session cookies to disk.
 5. **Write to `_agent/handoffs/`.** From repo root:
    - Ensure directory exists: `mkdir -p _agent/handoffs`
-   - Create a unique file per consumer customize (e.g. `<prefix>-handoff-YYYYMMDD-HHMMSS.md`)
+   - Create a unique timestamped file
    - Write the handoff using the [Output template](#output-template) below
    - Do not commit; `_agent/` should be in `.gitignore`
 6. **Tell the user the path.** End the turn with the **repo-relative path** (and absolute if helpful) so they can `@`-reference it in the next session.
@@ -45,7 +45,7 @@ Not for: routing between skills mid-task ([`agent-routing.md`](references/agent-
 - **Reference, don't duplicate.** Artifacts stay at their paths; the handoff points to them.
 - **Actionable for a cold agent.** A reader with no prior thread should know what to do first and which skill to invoke.
 - **Honest state.** Distinguish done, in-progress, and deferred; cite evidence (commits, tests run, review themes).
-- **No tracked-source pollution.** Never save under `docs/` or other committed paths — use `_agent/handoffs/`.
+- **No tracked-source pollution.** Never save under committed doc trees — use `_agent/handoffs/`.
 
 ## Output template
 
@@ -82,8 +82,8 @@ Write this structure to the handoff file (fill every section; use `—` or `none
 
 | Kind | Path or URL |
 |------|-------------|
-| Plan | consumer plan path |
-| PRD | project PRD path (e.g. `docs/prds/`) |
+| Plan | [path] |
+| PRD | [path] |
 | Issue | [issue URL] |
 | PR | [GitHub PR URL] |
 | Commits | `abc1234` — message |
@@ -100,7 +100,7 @@ From [agent-routing.md](references/agent-routing.md) — tier/situation match; i
 Closed: [themes]
 Open: [themes]
 Next batch: [root_cause or —]
-Next pass: [e.g. contextual Full re-review per consumer customize]
+Next pass: [e.g. contextual Full re-review]
 
 ## Redaction note
 
@@ -109,14 +109,8 @@ Next pass: [e.g. contextual Full re-review per consumer customize]
 
 After writing, tell the user:
 
-```markdown
-## Handoff written
-
-**Path:** `_agent/handoffs/<filename>.md`
-
-Paste or `@`-reference this file in your next session. It is gitignored — do not commit.
-```
+> Handoff written to `_agent/handoffs/<filename>.md` — `@`-reference it in the next session.
 
 ## Consumer bindings
 
-Filename prefix, memory hub path, and review-fix-loop hooks inject via `.skeleton/customize/handoff.md` on skill read. Do not edit synced copies in place.
+Project overrides inject via `.skeleton/customize/handoff.md` on skill read. Do not edit synced copies in place.

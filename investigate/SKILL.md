@@ -1,6 +1,6 @@
 ---
 name: investigate
-description: Narrow a hunch about code, approach, or claim, then confirm or refute with evidence and a verdict (Confirmed / Refuted / Partial) with citable primary-source references. Not a written plan review (second-opinion) or open-ended ideation (crystallize). For reproducible misbehavior, pair with consumer verify/testing skills (+ debug when layer or session logs are unclear).
+description: Narrow a hunch about code, approach, or claim, then confirm or refute with evidence and a verdict (Confirmed / Refuted / Partial) with citable primary-source references. Not a written plan review (second-opinion) or open-ended ideation (crystallize).
 disable-model-invocation: true
 ---
 
@@ -16,11 +16,10 @@ For when something feels wrong but the user can't fully articulate it yet, or th
 - Narrow a vague unease into confirm/refute with citable primary-source evidence
 - Parallel web research on independent topics (via **multi**)
 
-Not for: written plan review ([`second-opinion`](../second-opinion/SKILL.md)), fuzzy ideation ([`crystallize`](../crystallize/SKILL.md)). For reproducible bugs, pair with consumer verify/testing (+ debug when layer/logs unclear) — see [agent-routing.md](references/agent-routing.md) § Quality & ops. Ambient extract → [agent-routing.md](references/agent-routing.md) § Specific doubt.
+Not for: written plan review ([`second-opinion`](../second-opinion/SKILL.md)), fuzzy ideation ([`crystallize`](../crystallize/SKILL.md)). Ambient extract → [agent-routing.md](references/agent-routing.md) § Specific doubt.
 
 ## Stance and routing
 
-- If the user has **reproducible misbehavior**, use consumer verify/testing (repro + fix loop) alongside this skill; add debug when the layer is unclear or session instrumentation is needed — [agent-routing.md](references/agent-routing.md) § Quality & ops.
 - If they have a **plan file** to critique, use **second-opinion**.
 - For **fuzzy** thinking and no specific code target yet, **crystallize** can precede this skill.
 - Multiple independent **web research** topics → [parallel-research.md](references/parallel-research.md) via **multi**.
@@ -50,7 +49,7 @@ When evidence touches structure, apply [dialogue-contract.md](references/dialogu
 |--------|----------|
 | Code | `file:line` (mandatory for code hunches) |
 | Docs / web | `URL#section` or quoted passage |
-| Product / research claims | Specific data point or quoted source |
+| Research claims | Specific data point or quoted source |
 
 ## Principles
 
@@ -81,7 +80,7 @@ Follow [output-schema.md](references/output-schema.md). End with this block when
 
 ### What to do next
 
-- [Concrete next action: fix, monitor, ignore, investigate further, or hand off to crystallize/grill → planning/build.md / second-opinion / consumer verify/testing / debug]
+- [Concrete next action: fix, monitor, ignore, investigate further, or hand off to crystallize/grill → planning/build.md / second-opinion]
 - [If structural: localized change vs staged / ground-up work — one line, tied to evidence]
 ```
 

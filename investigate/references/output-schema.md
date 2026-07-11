@@ -10,19 +10,18 @@ Operational skills that produce user-facing results should follow this baseline.
 ## Triggers (frontmatter)
 
 - **Strong:** concrete situation + artifact ("fix CI failure", "wire TanStack Query domain X").
-- **Weak:** generic "help with code" — route via [`AGENTS.md`](../../../AGENTS.md) or [`../README.md`](../README.md).
+- **Weak:** generic "help with code" — route via project entry doc or skills index.
 - **Not this skill:** list explicit handoffs to adjacent skills when boundaries overlap.
 
 ## Preflight
 
 Before running a skill that needs external tools, verify or state fallback:
 
-| Tool | Skills that need it | If missing |
-|------|---------------------|------------|
+| Tool | Typical use | If missing |
+|------|-------------|------------|
 | Docker | backend dev/test, integration tests | Scope to file lint/typecheck; say backend verify blocked |
-| `gh` | consumer-local project-tracking, pull-request skills | File output only; skip `gh pr edit` when `gh` missing |
-| Linear MCP | consumer-local project-tracking `start`/`finish` | Fail on `start`; warn on `finish` |
-| Backend services | consumer client generation command | Document trap; do not run client gen — not a standalone skill |
+| `gh` | PR/issue workflows | File output only; skip `gh pr edit` when `gh` missing |
+| Issue tracker MCP | issue `start`/`finish` | Fail on `start`; warn on `finish` |
 
 ## Final response shape
 
@@ -36,7 +35,4 @@ Use repo-relative paths in backticks. Prefer imperative leads for action items.
 
 ## Validation defaults
 
-For code changes, prefer scoped verification per consumer validate router (when present):
-
-- Consumer `validate:changed <path>` or equivalent — agent default
-- Avoid full-repo lint/check for small edits
+For code changes, prefer scoped verification on touched paths — avoid full-repo lint/check for small edits.

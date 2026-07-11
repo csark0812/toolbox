@@ -55,7 +55,6 @@ Follow [output-schema.md](references/output-schema.md). End with this block when
 - Fresh read of a plan on disk → **second-opinion**
 - One concrete code doubt → **investigate**
 - PRD or structured plan → [planning/build.md](references/planning/build.md)
-- Linear / tracking → consumer project-tracking skill (when present)
 ```
 
 ## Consumer bindings

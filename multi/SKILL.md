@@ -1,11 +1,11 @@
 ---
 name: multi
-description: Parallel subagent orchestration kernel — spawn invariants, model routing, generic prompts and synthesis. Consumer skills supply job recipes (explore, research, council review, …). Use when a task splits into independent slices and parallel work improves coverage, speed, or confidence.
+description: Parallel subagent orchestration kernel — spawn invariants, model routing, generic prompts and synthesis. Entry skills supply job recipes (explore, research, council review, …). Use when a task splits into independent slices and parallel work improves coverage, speed, or confidence.
 ---
 
 # Multi
 
-Parallel independent subagents via the host **Task** tool (Cursor: **Subagent**). **Orchestration kernel only** — consumer skills own job recipes and domain-specific synthesis.
+Parallel independent subagents via the host **Task** tool (Cursor: **Subagent**). **Orchestration kernel only** — entry skills own job recipes and domain-specific synthesis.
 
 ## When to Use
 
@@ -23,11 +23,10 @@ Skip when: one agent suffices, work is sequential, or user wants a single pass �
 | Per-member output shape | [references/member-schema.md](references/member-schema.md) |
 | Generic consolidated report | [references/output-format.md](references/output-format.md) |
 | Agent discovery (mechanical) | [references/agent-discovery.md](references/agent-discovery.md) |
-| Consumer recipes | [Consumer index](#consumer-index) |
 
 ## Non-negotiables
 
-When this skill applies (user attached `multi`, consumer skill invokes parallel dispatch, or the plan chose `N ≥ 2` members):
+When this skill applies (user attached `multi`, an entry skill invokes parallel dispatch, or the plan chose `N ≥ 2` members):
 
 1. **Spawn real members** — Use the host **Task** tool once per planned member with chosen `subagent_type` and model per [Model assignment](#model-assignment). Parallel `read_file` / `grep` / other tools are **not** substitutes for member runs.
 2. **Synthesis runs after members** — The [synthesis gate](#synthesis-gate) merges member outputs. Writing a consolidated report **without** running those `Task` calls first is a **violation**, not an optimization.
@@ -53,7 +52,7 @@ When this skill applies (user attached `multi`, consumer skill invokes parallel 
 
 ### 1. Classify
 
-Load the consumer skill's recipe when one applies (see [Consumer index](#consumer-index)); otherwise plan manually:
+Load the entry skill's recipe when one applies; otherwise plan manually:
 
 - Job type: `research` | `explore` | `gather` | `mixed`
 - Source of truth: `web` | `repo` | `plan`
@@ -104,18 +103,7 @@ After members return:
 3. High-stakes contradiction → Premium tiebreaker Task or escalate to the user.
 4. Write one consolidated report per [output-format.md](references/output-format.md).
 
-Domain-specific synthesis (review filing, investigate verdicts, second-opinion sections) → consumer skill recipe.
-
-## Consumer index
-
-| Recipe | Entry skill |
-| --- | --- |
-| [parallel-explore.md](references/planning/parallel-explore.md) | build Step 3, grill, second-opinion sweeps |
-| [parallel-gather.md](references/planning/parallel-gather.md) | multi gather jobs, build context collection |
-| [parallel-plan-evidence.md](../second-opinion/references/parallel-plan-evidence.md) | second-opinion Stance A |
-| [parallel-broad.md](../investigate/references/parallel-broad.md) | investigate (explicit wide fish) |
-| [parallel-research.md](../investigate/references/parallel-research.md) | investigate (parallel web topics) |
-| [council-dispatch.md](../code-review/references/council-dispatch.md) | code-review |
+Domain-specific synthesis (review filing, investigate verdicts, second-opinion sections) → entry skill recipe.
 
 ## Fallback matrix
 
@@ -171,7 +159,7 @@ A dedicated routing table for informed per-slice model choice may replace or ref
 | `research` (web) | Standard | `composer-2.5-fast` | Conflicting sources or policy/legal ambiguity |
 | `mixed` | Per slice | Per tier table | — |
 
-Per-agent tier defaults → agent `dispatch.model` in `.claude/agents/` + judgment above.
+Per-agent tier defaults → agent dispatch config + judgment above.
 
 #### Diversity
 
@@ -210,4 +198,4 @@ Follow [references/output-schema.md](references/output-schema.md). Consolidated 
 
 ## Consumer bindings
 
-Consumer recipe index, council agent paths, and agent-workflows pointers inject via `.skeleton/customize/multi.md` on skill read. Do not edit synced copies in place.
+Project recipe index and council agent paths inject via `.skeleton/customize/multi.md` on skill read. Do not edit synced copies in place.

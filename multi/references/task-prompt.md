@@ -30,7 +30,7 @@ Constraints:
 | `research` | Independent web topic |
 | `mixed` | One slice per member; no cross-member dependencies |
 
-Job recipes → consumer skill references (see [multi consumer index](../SKILL.md#consumer-index)).
+Job recipes → entry skill references (injected via project customize on skill read).
 
 ## Perspective diversity
 

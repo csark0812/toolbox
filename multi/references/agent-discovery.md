@@ -1,8 +1,8 @@
 # Agent Discovery
 
-Mechanical steps for discovering workspace council agents and intersecting with the host Task tool. **Selection scoring** (review depth, diff paths, plan keywords) lives in consumer recipes — e.g. [code-review agent-selection.md](../../code-review/references/agent-selection.md) for review.
+Mechanical steps for discovering workspace council agents and intersecting with the host Task tool. **Selection scoring** (review depth, diff paths, plan keywords) lives in entry-skill recipes — e.g. [code-review agent-selection.md](../../code-review/references/agent-selection.md) for review.
 
-Used by [`multi`](../SKILL.md) and consumer recipes that optionally spawn council agents.
+Used by [`multi`](../SKILL.md) and entry-skill recipes that optionally spawn council agents.
 
 ## Discovery steps
 
@@ -12,7 +12,7 @@ Used by [`multi`](../SKILL.md) and consumer recipes that optionally spawn counci
 3. AVAILABLE ← { agent.name | agent in DISCOVER, agent.dispatch.kind ≠ skip, agent.name ∈ HOST }
 4. CONTEXT_FILTER ← exclude agents whose dispatch.contexts does not include active profile
                      (default [review] when omitted; manual/web may name agents explicitly)
-5. If SELECTED empty after consumer scoring → fallback: host built-in subagent_type + slice in Task prompt
+5. If SELECTED empty after entry-skill scoring → fallback: host built-in subagent_type + slice in Task prompt
 ```
 
 ## Dispatch metadata (agent frontmatter)
@@ -46,7 +46,7 @@ dispatch:
 
 ## Path and keyword matching
 
-Shared helpers for consumer recipes that score agents:
+Shared helpers for entry-skill recipes that score agents:
 
 - **Path prefix:** task path starts with entry in `dispatch.paths` (normalize trailing `/`).
 - **Glob:** match task path against `dispatch.path_globs` (standard glob semantics).
@@ -60,7 +60,7 @@ Coordinator reads plan/PRD file and collects:
 - Markdown links to repo files
 - Explicit "see `path`" citations
 
-Pass as `task_paths[]` to consumer scoring.
+Pass as `task_paths[]` to entry-skill scoring.
 
 ## Model tier from agent metadata
 
@@ -75,7 +75,7 @@ Pass as `task_paths[]` to consumer scoring.
 Before spawning, log:
 
 ```markdown
-Profile: [review / repo / plan / manual / web — from consumer recipe]
+Profile: [review / repo / plan / manual / web — from entry-skill recipe]
 Discovered: [all agent names from .claude/agents/]
 Host supports: [subagent_type enum]
 Available: [intersection after context filter]
