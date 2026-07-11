@@ -17,13 +17,13 @@ Canonical prose: [`docs/product/README.md`](../../../docs/product/README.md).
 - Grounding a design or engineering decision in first principles
 - Resolving a disagreement about scope, priority, or direction
 
-Not for: visual implementation (`/components`), typography/brand/marketing (`/brand-design`), cross-surface reuse via [`components`](../components/SKILL.md) and [`docs/design/patterns.md`](../../../docs/design/patterns.md).
+Not for: visual implementation (`/components`), typography/brand/marketing (`/brand-design`), cross-surface reuse via `/components` + `docs/design/patterns.md` (consumer project paths).
 
-**Before product decisions:** read [`docs/product/README.md`](../../../docs/product/README.md) Tier 1 (philosophy, researcher model). Tier 2 build gates (decision framework, review, examples) — load from the hub when evaluating a specific feature. UI-scoped decisions → [`docs/design/README.md`](../../../docs/design/README.md) or [`/components`](../components/SKILL.md).
+**Before product decisions:** read `docs/product/README.md` Tier 1 (philosophy, researcher model). Tier 2 build gates (decision framework, review, examples) — load from the hub when evaluating a specific feature. UI-scoped decisions → `docs/design/README.md` or `/components`.
 
 ## Consistency (cross-surface)
 
-Cross-surface consistency is a product requirement — see [product hub § surfaces](../../../docs/product/README.md) and reuse via [`components`](../components/SKILL.md) + [`patterns.md`](../../../docs/design/patterns.md).
+Cross-surface consistency is a product requirement — see product hub § surfaces and reuse via `/components` + `docs/design/patterns.md`.
 
 ## Skill hierarchy
 
@@ -35,7 +35,7 @@ brand-design        ← how it should look and feel / brand identity
 
 Each layer depends on the one above it. A component decision should be
 traceable to a brand decision, which should be traceable to a product decision.
-Reuse and surface alignment ([`components`](../components/SKILL.md) + [`patterns.md`](../../../docs/design/patterns.md)) connect product intent to implementation.
+Reuse and surface alignment (`/components` + `docs/design/patterns.md`) connect product intent to implementation.
 
 ## Output format
 

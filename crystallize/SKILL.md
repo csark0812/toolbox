@@ -55,5 +55,5 @@ Follow [output-schema.md](../references/output-schema.md). End with this block w
 - Fresh read of a plan on disk → **second-opinion**
 - One concrete code doubt → **investigate**
 - PRD or structured plan → [planning/build.md](../references/planning/build.md)
-- Linear / tracking → [project-tracking](../project-tracking/SKILL.md)
+- Linear / tracking → `project-tracking` (project-local skill — see [docs/tiers.md](../docs/tiers.md))
 ```

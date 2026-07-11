@@ -13,7 +13,7 @@ description: Bug localization and Cursor debug-mode instrumentation across PostP
 - Cursor debug mode, NDJSON at `.cursor/debug-*.log`, compose mount/env
 - Instrumentation to prove or disprove a hypothesis
 
-Not for: new features ([issues-format.md](../references/planning/issues-format.md)), tests/CI ([`testing`](../testing/SKILL.md)), read-only hunches ([`investigate`](../investigate/SKILL.md)), prod/k8s logs ([`k8s`](../k8s/SKILL.md)).
+Not for: new features ([issues-format.md](../references/planning/issues-format.md)), tests/CI ([`testing`](../testing/SKILL.md)), read-only hunches ([`investigate`](../investigate/SKILL.md)), prod/k8s logs (`k8s` project-local skill — see [docs/tiers.md](../docs/tiers.md)).
 
 ## Craft principles
 

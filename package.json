@@ -7,12 +7,14 @@
 		"doc": "docs"
 	},
 	"scripts": {
-    "test": "npm run audit:docs",
-		"validate:changed": "skeleton validate changed",
-		"validate:ci": "skeleton validate changed --base origin/main",
+		"check:slugs": "./scripts/check-slugs.sh",
+		"audit:hub": "skeleton audit docs --paths=README.md,docs",
 		"audit:docs": "skeleton audit docs",
 		"audit:skills": "skeleton audit skills",
-		"audit:self": "skeleton audit self"
+		"audit:self": "skeleton audit self",
+		"validate:changed": "skeleton validate changed",
+		"validate:ci": "skeleton validate changed --base origin/main",
+		"test": "npm run check:slugs && npm run audit:hub && npm run audit:skills && npm run validate:ci"
 	},
 	"repository": {
 		"type": "git",

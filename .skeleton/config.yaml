@@ -6,10 +6,6 @@ scan:
     - "docs/**"
     - ".skeleton/registry.md"
     - "shared.slugs"
-  exclude:
-    - "references/**"
-    - "**/references/**"
-    # Skill dirs — expand in Phase 2b
     - "multi/**"
     - "code-review/**"
     - "crystallize/**"
@@ -23,6 +19,9 @@ scan:
     - "handoff/**"
     - "branch-cleanup/**"
     - "pull-request/**"
+  exclude:
+    - "references/**"
+    - "**/references/**"
   banned: []
   retiredSkills: []
 

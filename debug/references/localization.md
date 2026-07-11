@@ -4,7 +4,7 @@ Narrow the layer before reading implementation code or adding instrumentation.
 
 | Symptom | Suspect layer | First check |
 |---------|---------------|-------------|
-| Stale data after mutation | TanStack Query cache | Invalidation in mutation `onSuccess` — [`tanstack-query` SKILL.md](../../tanstack-query/SKILL.md) |
+| Stale data after mutation | TanStack Query cache | Invalidation in mutation `onSuccess` — `tanstack-query` (project-local skill) |
 | Data correct in DevTools, wrong on screen | React render | Prop chain, `useMemo` deps |
 | Sporadic 401s / redirect loops | Auth middleware | Token refresh race — [`tspackages/api-middleware/`](../../../../tspackages/api-middleware/) |
 | State doubled or missing | WebSocket handler | Event idempotency — [`docs/developer/websocket.md`](../../../../docs/developer/websocket.md) |

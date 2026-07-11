@@ -43,12 +43,12 @@ After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton a
 
 ### Roles
 
-| Piece | Role |
-| ----- | ---- |
-| **toolbox** (this repo) | Skill source SSOT — what skills exist and how they're written |
-| **skeleton** | Docs/skill registry linter — validates links, banners, and scan perimeter |
-| **`.skeleton/customize/`** | Project-specific skill overrides (injected via IDE hooks on read) |
-| **`sync.sh`** | Vendors a copy of toolbox skills into `.claude/skills/` — does not replace `skeleton init` |
+| Piece                      | Role                                                                                       |
+| -------------------------- | ------------------------------------------------------------------------------------------ |
+| **toolbox** (this repo)    | Skill source SSOT — what skills exist and how they're written                              |
+| **skeleton**               | Docs/skill registry linter — validates links, banners, and scan perimeter                  |
+| **`.skeleton/customize/`** | Project-specific skill overrides (injected via IDE hooks on read)                          |
+| **`sync.sh`**              | Vendors a copy of toolbox skills into `.claude/skills/` — does not replace `skeleton init` |
 
 Do not edit synced `SKILL.md` files in consumer projects — override in `.skeleton/customize/<slug>.md` instead. See [skeleton customize docs](https://github.com/csark0812/skeleton/blob/main/docs/developer/customize.md).
 
@@ -92,6 +92,9 @@ npx skills update -g
 ## Adding a skill
 
 1. Create `<slug>/SKILL.md`
-2. Add slug to `shared.slugs`
+2. Add slug to `shared.slugs` and verify: `./scripts/check-slugs.sh`
 3. Update `docs/tiers.md`
-4. Push, then `npx skills update -g` or `./scripts/sync.sh` in target projects
+4. `npm run validate:changed -- --staged`
+5. Push → CI green → `npx skills update -g` or `./scripts/sync.sh` in target projects
+
+Inter-toolbox links use relative paths (`../multi/SKILL.md`). Project-local skills (`k8s`, `components`, etc.) must not use `/SKILL.md` links — see [docs/tiers.md](docs/tiers.md). Consumer doc paths (`docs/developer/…`) are Phase 3 link migration.
