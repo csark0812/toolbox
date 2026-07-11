@@ -5,7 +5,7 @@ description: Multi-lens code review for PR, commit, unstaged, staged, merge, and
 
 # Code review
 
-Council dispatch: consumer agent-workflows and council roster via `.skeleton/customize/code-review.md`. References: [council-dispatch.md](references/council-dispatch.md) · [agent-selection.md](references/agent-selection.md). Ambient routing extract → [agent-routing.md](references/agent-routing.md) § Pre-ship / PR.
+Council dispatch: consumer agent-workflows and council roster (when present). References: [council-dispatch.md](references/council-dispatch.md) · [agent-selection.md](references/agent-selection.md). Ambient routing extract → [agent-routing.md](references/agent-routing.md) § Pre-ship / PR.
 
 ## When to Use
 
@@ -25,9 +25,9 @@ Not for: PR description/body (consumer-local **pull-request** skill), Cursor `/r
 | Agent selection | [references/agent-selection.md](references/agent-selection.md) |
 | Review synthesis | [references/synthesis.md](references/synthesis.md) |
 | Output | [references/output.md](references/output.md) — scannable finding-block shape (not Cursor `bugbot` subagent) |
-| Thorough/Full gates | Consumer quality-gates doc via `.skeleton/customize/` |
-| AI drift | Consumer ai-drift doc via `.skeleton/customize/` |
-| Large-branch fix-loop | Consumer review-fix-loop doc via `.skeleton/customize/` |
+| Thorough/Full gates | Consumer quality-gates doc (when present) |
+| AI drift | Consumer ai-drift doc (when present) |
+| Large-branch fix-loop | Consumer review-fix-loop doc (when present) |
 | Product intent / non-regressions | [references/product-intent.md](references/product-intent.md) |
 
 ## Workflow

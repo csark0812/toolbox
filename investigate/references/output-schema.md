@@ -36,7 +36,7 @@ Use repo-relative paths in backticks. Prefer imperative leads for action items.
 
 ## Validation defaults
 
-For code changes, prefer scoped verification per consumer validate router (see `.skeleton/customize/`):
+For code changes, prefer scoped verification per consumer validate router (when present):
 
 - Consumer `validate:changed <path>` or equivalent — agent default
 - Avoid full-repo lint/check for small edits

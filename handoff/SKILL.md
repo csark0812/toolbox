@@ -15,7 +15,7 @@ Compact and transfer context when a long session (grill → plan → implement �
 ## When to Use
 
 - End of a long session before starting a fresh chat
-- Mid fix-loop when context is exhausted but work continues (consumer review-fix-loop via customize)
+- Mid fix-loop when context is exhausted but work continues (consumer review-fix-loop when present)
 - User explicitly asks to "hand off", "compact context", or "prepare for a new session"
 
 Not for: routing between skills mid-task ([`agent-routing.md`](references/agent-routing.md) · [`dialogue-handoffs.md`](references/dialogue-handoffs.md)), authoring a plan ([`references/planning/build.md`](references/planning/build.md)), or review-fix-loop chat blocks only — use **handoff** when the next session needs full session context, not just fix-loop state.

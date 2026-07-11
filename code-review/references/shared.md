@@ -1,10 +1,10 @@
 # Shared: Base Branch and Diff
 
-Used by code-review PR/merge modes. PR body generation is a **consumer-local** skill — see `.skeleton/customize/`.
+Used by code-review PR/merge modes. PR body generation is a consumer-local skill (when present).
 
 ## Base branch
 
-- From user message (e.g. "Base branch: development") or consumer default via customize
+- From user message (e.g. "Base branch: development") or consumer default (when present)
 - If PR exists on current branch: `gh pr view --json baseRefName -q .baseRefName`
 
 ## Diff commands

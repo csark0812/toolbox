@@ -44,7 +44,7 @@ Synced with [dialogue-contract.md](dialogue-contract.md) § Product checks — p
 
 When the plan touches scope, trust, or cross-surface behavior — flag misalignment; do not substitute for [product hub (decision framework)](../../../../docs/product/README.md) unless the user asks for a full gate pass.
 
-Full scoring → **product-principles** + decision-framework.
+Full scoring → consumer product evaluation skill when present.
 
 ### Analysis framework
 

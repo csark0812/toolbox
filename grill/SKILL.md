@@ -22,7 +22,7 @@ Shared understanding before implementation. **Persist** with patient follow-up u
 4. **One branch at a time; exhaust it.** No unstructured question lists across unrelated topics. **Chained follow-ups** on the same branch until settled. When branches are explicit, prefer **AskQuestion** for the choice; mirror/context in prose above the card.
 5. **Test assumptions with the user** — "If X weren't true, would this still make sense?"
 6. **Falsifiers on the record** — for major choices, what would show a branch was the wrong bet?
-7. **Sharpen domain terms** against consumer glossary — see `.skeleton/customize/grill.md`.
+7. **Sharpen domain terms** against the consumer glossary as they resolve — grill does not own the glossary.
 8. **Don't stop early.** Every major branch resolved, not just the happy path.
 
 ## Design tree
@@ -47,7 +47,7 @@ If almost there, **ask the next question** instead of summarizing prematurely.
 
 ## Integration
 
-- **Product evaluation** — see `.skeleton/customize/grill.md` when scoring options. Grill reaches *alignment* before weighing.
+- **Product evaluation** — when scoring options, use the consumer product skill if present. Grill reaches *alignment* before weighing.
 - **planning/build.md** — if the user just finished grill, skip redundant clarification there (Step 4).
 - **Repo exploration for a branch** — optional [parallel-explore.md](references/planning/parallel-explore.md) via **multi** when a design branch depends on repo facts; grill stays dialogue-first.
 - **Ambient routing** — inline extract (branches, deps, falsifier) → [agent-routing.md](references/agent-routing.md) § Before implement; full grill remains user-paced.

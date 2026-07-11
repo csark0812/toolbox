@@ -68,15 +68,15 @@ Escalation column **links SSOT** — do not duplicate thresholds here.
 | Situation | Tier | Inline invariant (auto) | Escalate to (full) |
 |-----------|------|-------------------------|-------------------|
 | Any code edit | Low+ | Reuse check, [ai-drift.md](../../../docs/developer/ai-drift.md) write-time, `validate:changed` | — |
-| Fuzzy intent | Medium | State 2–3 branches + assumption taken; one clarifying question if hands-on | Cross-surface → `.skeleton/customize/grill.md`; unresolved branches → [grill](../grill/SKILL.md) |
+| Fuzzy intent | Medium | State 2–3 branches + assumption taken; one clarifying question if hands-on | Cross-surface → consumer product evaluation (when present); unresolved branches → [grill](../grill/SKILL.md) |
 | Plan on disk | Medium | [verify.md](planning/verify.md) axis pass inline; list gaps and deferrals | Structural gaps → [second-opinion](../second-opinion/SKILL.md) Stance B |
 | Specific doubt | Medium | Two ranked hypotheses; primary-source read; mini-verdict | Partial + boundary → full [investigate](../investigate/SKILL.md); wide scope → [multi](../multi/SKILL.md) + [parallel-broad.md](../investigate/references/parallel-broad.md) |
 | Before implement (Medium+) | Medium | Branches, deps, falsifier ([grill](../grill/SKILL.md) extract); document open questions | Cross-package → High row |
 | New feature end-to-end | Medium–High | Tracer bullet check — [issues-format.md](planning/issues-format.md) | Multi-domain → [build.md](planning/build.md) Step 3 |
-| TanStack / UI touch | Medium+ | Domain skill extracts inline (keys, invalidation, a11y) | Cross-surface parity → consumer-local UI/components skill via customize |
-| Pre-ship / PR | All | Consumer validate router on touched paths | [modes.md](../code-review/references/modes.md) → [code-review](../code-review/SKILL.md) council; user-facing paths → product-intent via customize |
-| Post-review fix | High | Read prior synthesis; theme batch | Consumer review-fix-loop via customize |
-| Reproducible bug | Medium | § Quality & ops handoff chain | see `.skeleton/customize/investigate.md` |
+| TanStack / UI touch | Medium+ | Domain skill extracts inline (keys, invalidation, a11y) | Cross-surface parity → consumer UI/components skill (when present) |
+| Pre-ship / PR | All | Consumer validate router on touched paths | [modes.md](../code-review/references/modes.md) → [code-review](../code-review/SKILL.md) council; user-facing paths → product-intent (when present) |
+| Post-review fix | High | Read prior synthesis; theme batch | Consumer review-fix-loop (when present) |
+| Reproducible bug | Medium | § Quality & ops handoff chain | Consumer verify/testing + debug (when present) |
 
 ## PR § Routing (hands-off)
 
@@ -99,19 +99,19 @@ Preserved from former [skill-boundaries.md](skill-boundaries.md) — update hand
 
 | Trigger | Route to |
 |---------|----------|
-| Failing test, CI, add/run tests | see `.skeleton/customize/investigate.md` or consumer **testing** skill |
-| Unknown layer, session logs, cross-layer repro | see `.skeleton/customize/investigate.md` or consumer **debug** skill |
+| Failing test, CI, add/run tests | Consumer **testing** / **verify-changes** skill (when present) |
+| Unknown layer, session logs, cross-layer repro | Consumer **debug** skill (when present) |
 | Vague hunch, no repro yet | [investigate](../investigate/SKILL.md) |
 | Passive test-coverage review in council | [code-review](../code-review/SKILL.md) → `correctness` agent |
 | Building a **new feature** end-to-end | Tracer bullets — [issues-format.md](planning/issues-format.md) |
-| Stack won't start, sandbox error | Consumer troubleshooting doc via customize |
-| Prod/k8s logs | Consumer-local **k8s** or observability skill via customize |
+| Stack won't start, sandbox error | Consumer troubleshooting doc (when present) |
+| Prod/k8s logs | Consumer **k8s** or observability skill (when present) |
 
 ### Handoffs
 
-- Reproducible failure with a test → see `.skeleton/customize/investigate.md`
+- Reproducible failure with a test → consumer verify/testing first; add debug when test output is insufficient or layer is unclear.
 - **debug** may hand back to **testing** once repro is instrumented.
-- Reproducible misbehavior with a specific code doubt → **investigate** + see `.skeleton/customize/investigate.md`
+- Reproducible misbehavior with a specific code doubt → **investigate** + consumer verify/testing (+ debug when session logs / layer unclear).
 
 ## Skill extracts (ambient)
 

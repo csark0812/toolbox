@@ -7,13 +7,13 @@ Canonical in-session routing for **crystallize** and **grill** — not a standal
 | Need | Skill |
 |------|-------|
 | Fuzzy idea, no plan yet | **crystallize** |
-| Fuzzy or overloaded domain term | **domain-modeling** — see `.skeleton/customize/crystallize.md` or `grill.md` |
+| Fuzzy or overloaded domain term | Consumer glossary / domain skill (when present) |
 | Pressure-test design before build | **grill** |
 | Still fuzzy after starting grill | **crystallize** |
 | Written plan on disk | **second-opinion** |
 | One concrete code doubt | **investigate** |
-| Reproducible broken behavior | **investigate** + consumer-local verify/testing (+ **debug** if needed) — see `.skeleton/customize/investigate.md` |
-| Scope/thesis scoring | **product-principles** — see `.skeleton/customize/grill.md` or `investigate.md` |
+| Reproducible broken behavior | **investigate** + consumer verify/testing (+ debug when needed) |
+| Scope/thesis scoring | Consumer product evaluation skill (when present) |
 | Serialize to plan / PRD / issues | **crystallize** or **grill** → [planning/build.md](planning/build.md) |
 | Fresh read of written plan | **second-opinion** (fresh read) |
 | Plan rejected or needs pressure-test after review | **grill** (or **crystallize** if intent regressed) |
