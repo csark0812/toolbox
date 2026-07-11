@@ -1,0 +1,4 @@
+# git-crypt: encrypt sensitive personal source material
+personal/raw/** filter=git-crypt diff=git-crypt
+personal/raw/** !filter
+personal/raw/** !diff
