@@ -2,7 +2,7 @@
 
 Public SSOT for team Cursor/Claude agent skills.
 
-Personal skills live in the private [personal-toolbox](https://github.com/csark0812/personal-toolbox) repo.
+Personal skills live in the private [personal-toolbox](https://github.com/csark0812/personal-toolbox) repo. New skills start from the public [skeleton](https://github.com/csark0812/skeleton) template.
 
 ## Install
 

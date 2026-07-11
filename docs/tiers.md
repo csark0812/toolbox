@@ -39,7 +39,7 @@ Private repo. See [personal-toolbox](https://github.com/csark0812/personal-toolb
 
 | Slug | Notes |
 |------|-------|
-| voice | Writing tone; references `raw/` for calibration |
+| voice | Writing tone; references `refs/` for calibration |
 
 Distribution:
 
@@ -53,3 +53,19 @@ npx skills update -g
 Stay in each project's `.claude/skills/` — not synced from toolbox.
 
 PostPrint examples: `k8s`, `tanstack-query`, `tanstack-router`, `brand-design`, `components`, `project-tracking`, `align-commands`
+
+## Skeleton (`skeleton/` → template)
+
+Public starter for new skill repos. See [skeleton](https://github.com/csark0812/skeleton).
+
+| Slug | Notes |
+|------|-------|
+| skill | Example/template skill — rename when copying |
+
+Distribution:
+
+```bash
+npx skills add csark0812/skeleton --skill skill -g --agent cursor claude-code -y
+```
+
+Copy the repo or `skill/` directory when authoring a new skill package.
