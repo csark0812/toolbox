@@ -6,14 +6,19 @@ Personal skills live in the private [personal-toolbox](https://github.com/csark0
 
 ## Install
 
-### npx skills (recommended)
-
-Project-scoped (e.g. applications):
-
 ```bash
-npx skills add https://github.com/csark0812/toolbox/tree/main/team --agent cursor claude-code
-npx skills update -p
+# All team skills, global
+npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code -y
+
+# All team skills, project-scoped
+npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code -y
+
+# Update after push
+npx skills update -g   # global
+npx skills update -p   # project
 ```
+
+Shorthand for `https://github.com/csark0812/toolbox`. The `@` prefix (npm-style scopes) is not supported by the skills CLI — use `csark0812/toolbox`.
 
 ### Vendor into a project repo
 
@@ -40,7 +45,7 @@ npx skills update -p
 | branch-cleanup | Clean merged/stale branches and worktrees |
 | pull-request | PR description from diff |
 
-Also included: `team/references/` (shared planning, routing, dialogue docs).
+Also included: `references/` (shared planning, routing, dialogue docs).
 
 See [docs/tiers.md](docs/tiers.md) for tier assignment rules.
 
@@ -49,17 +54,12 @@ See [docs/tiers.md](docs/tiers.md) for tier assignment rules.
 ```bash
 cd ~/Repositories/toolbox
 git pull
-
-# Option A: update project install
-cd ~/path/to/project && npx skills update -p
-
-# Option B: vendor + commit
-~/Repositories/toolbox/scripts/sync.sh ~/path/to/project
+npx skills update -g
 ```
 
 ## Adding a skill
 
-1. Create `team/<slug>/SKILL.md`
+1. Create `<slug>/SKILL.md`
 2. Add slug to `shared.slugs`
 3. Update `docs/tiers.md`
-4. Push, then `npx skills update -p` or `./scripts/sync.sh` in target projects
+4. Push, then `npx skills update -g` or `./scripts/sync.sh` in target projects

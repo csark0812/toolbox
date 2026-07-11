@@ -2,7 +2,7 @@
 
 Assign each skill to exactly one repo. Update when adding skills.
 
-## Team (`toolbox/team/` → `shared.slugs`)
+## Team (`toolbox/` → `shared.slugs`)
 
 Generic orchestration, planning, quality, workflow — shared across work + side project.
 
@@ -22,25 +22,29 @@ Generic orchestration, planning, quality, workflow — shared across work + side
 | branch-cleanup | Branch hygiene |
 | pull-request | PR description from diff |
 
-Also vendored: `team/references/` → project `references/`
+Also vendored: `references/` → project `references/`
 
 Distribution:
 
-- **npx skills:** `npx skills add https://github.com/csark0812/toolbox/tree/main/team`
-- **Vendor:** `./scripts/sync.sh <project-root>`
+```bash
+npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code -y
+npx skills update -g
+```
 
-## Personal (`personal-toolbox/personal/` → global install)
+Or vendor: `./scripts/sync.sh <project-root>`
+
+## Personal (`personal-toolbox/` → global install)
 
 Private repo. See [personal-toolbox](https://github.com/csark0812/personal-toolbox).
 
 | Slug | Notes |
 |------|-------|
-| voice | Writing tone; references `personal/raw/` for calibration |
+| voice | Writing tone; references `raw/` for calibration |
 
 Distribution:
 
 ```bash
-npx skills add https://github.com/csark0812/personal-toolbox/tree/main/personal --skill voice -g --agent cursor claude-code
+npx skills add csark0812/personal-toolbox --skill voice -g --agent cursor claude-code -y
 npx skills update -g
 ```
 

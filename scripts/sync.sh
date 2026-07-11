@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Vendor team skills from toolbox into a project's .claude/skills/
+# Vendor skills from toolbox into a project's .claude/skills/
 # Usage: ./scripts/sync.sh <project-root> [slugs-file]
 set -euo pipefail
 
@@ -31,9 +31,9 @@ while IFS= read -r slug || [ -n "$slug" ]; do
   slug="$(echo "$slug" | xargs)"
   [ -z "$slug" ] && continue
 
-  src="$HUB/team/$slug"
+  src="$HUB/$slug"
   if [ ! -d "$src" ]; then
-    echo "WARN: team skill not found, skipping: $slug" >&2
+    echo "WARN: skill not found, skipping: $slug" >&2
     continue
   fi
 
@@ -42,8 +42,8 @@ while IFS= read -r slug || [ -n "$slug" ]; do
 done < "$SLUGS_FILE"
 
 # Sync shared references if present
-if [ -d "$HUB/team/references" ]; then
-  rsync -a "$HUB/team/references/" "$DEST/references/"
+if [ -d "$HUB/references" ]; then
+  rsync -a "$HUB/references/" "$DEST/references/"
 fi
 
-echo "Synced $count team skill(s) -> $DEST"
+echo "Synced $count skill(s) -> $DEST"
