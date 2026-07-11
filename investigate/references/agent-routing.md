@@ -68,15 +68,15 @@ Escalation column **links SSOT** — do not duplicate thresholds here.
 | Situation | Tier | Inline invariant (auto) | Escalate to (full) |
 |-----------|------|-------------------------|-------------------|
 | Any code edit | Low+ | Reuse check, [ai-drift.md](../../../docs/developer/ai-drift.md) write-time, `validate:changed` | — |
-| Fuzzy intent | Medium | State 2–3 branches + assumption taken; one clarifying question if hands-on | Cross-surface → [product-principles](../product-principles/SKILL.md); unresolved branches → [grill](../grill/SKILL.md) |
+| Fuzzy intent | Medium | State 2–3 branches + assumption taken; one clarifying question if hands-on | Cross-surface → consumer-local **product-principles**; unresolved branches → [grill](../grill/SKILL.md) |
 | Plan on disk | Medium | [verify.md](planning/verify.md) axis pass inline; list gaps and deferrals | Structural gaps → [second-opinion](../second-opinion/SKILL.md) Stance B |
 | Specific doubt | Medium | Two ranked hypotheses; primary-source read; mini-verdict | Partial + boundary → full [investigate](../investigate/SKILL.md); wide scope → [multi](../multi/SKILL.md) + [parallel-broad.md](../investigate/references/parallel-broad.md) |
 | Before implement (Medium+) | Medium | Branches, deps, falsifier ([grill](../grill/SKILL.md) extract); document open questions | Cross-package → High row |
 | New feature end-to-end | Medium–High | Tracer bullet check — [issues-format.md](planning/issues-format.md) | Multi-domain → [build.md](planning/build.md) Step 3 |
-| TanStack / UI touch | Medium+ | Domain skill extracts inline (keys, invalidation, a11y) | Cross-surface parity → [components](../components/SKILL.md) + [patterns.md](../../../docs/design/patterns.md) |
-| Pre-ship / PR | All | `validate:changed --pre-pr` on touched paths | [modes.md](../code-review/references/modes.md) → [code-review](../code-review/SKILL.md) council; user-facing paths → [product-intent.md](../code-review/references/product-intent.md) |
-| Post-review fix | High | Read prior synthesis; theme batch | [review-fix-loop.md](../../../docs/developer/review-fix-loop.md) contextual Full |
-| Reproducible bug | Medium | § Quality & ops handoff chain | [testing](../testing/SKILL.md) + [debug](../debug/SKILL.md) |
+| TanStack / UI touch | Medium+ | Domain skill extracts inline (keys, invalidation, a11y) | Cross-surface parity → consumer-local UI/components skill via customize |
+| Pre-ship / PR | All | Consumer validate router on touched paths | [modes.md](../code-review/references/modes.md) → [code-review](../code-review/SKILL.md) council; user-facing paths → product-intent via customize |
+| Post-review fix | High | Read prior synthesis; theme batch | Consumer review-fix-loop via customize |
+| Reproducible bug | Medium | § Quality & ops handoff chain | Consumer-local **testing** / **verify-changes** + **debug** via customize |
 
 ## PR § Routing (hands-off)
 
@@ -99,19 +99,19 @@ Preserved from former [skill-boundaries.md](skill-boundaries.md) — update hand
 
 | Trigger | Route to |
 |---------|----------|
-| Failing test, CI, Playwright Inspector (`test:e2e:debug`), add/run tests | [testing](../testing/SKILL.md) |
-| Unknown layer, missing `.cursor/debug-*.log`, compose mount/env, cross-layer repro | [debug](../debug/SKILL.md) |
+| Failing test, CI, add/run tests | Consumer-local **testing** or **verify-changes** skill |
+| Unknown layer, session logs, cross-layer repro | Consumer-local **debug** skill |
 | Vague hunch, no repro yet | [investigate](../investigate/SKILL.md) |
 | Passive test-coverage review in council | [code-review](../code-review/SKILL.md) → `correctness` agent |
 | Building a **new feature** end-to-end | Tracer bullets — [issues-format.md](planning/issues-format.md) |
-| Stack won't start, sandbox error, esbuild 137 | [troubleshooting.md](../../../docs/developer/troubleshooting.md) |
-| Prod/k8s logs | [k8s](../k8s/SKILL.md) · [observability.md](../../../docs/developer/observability.md) |
+| Stack won't start, sandbox error | Consumer troubleshooting doc via customize |
+| Prod/k8s logs | Consumer-local **k8s** or observability skill via customize |
 
 ### Handoffs
 
-- Reproducible failure with a test → **testing** first; add **debug** when test output is insufficient or layer is unclear.
+- Reproducible failure with a test → consumer-local **testing** / **verify-changes** first; add consumer-local **debug** when test output is insufficient or layer is unclear.
 - **debug** may hand back to **testing** once repro is instrumented.
-- Reproducible misbehavior with a specific code doubt → **investigate** + **testing** (+ **debug** when session logs / layer unclear).
+- Reproducible misbehavior with a specific code doubt → **investigate** + consumer-local verify/testing (+ **debug** when session logs / layer unclear).
 
 ## Skill extracts (ambient)
 

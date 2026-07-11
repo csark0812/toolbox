@@ -7,13 +7,13 @@ Canonical in-session routing for **crystallize** and **grill** — not a standal
 | Need | Skill |
 |------|-------|
 | Fuzzy idea, no plan yet | **crystallize** |
-| Fuzzy or overloaded domain term | **domain-modeling** → [docs/domain/glossary.md](../../../docs/domain/glossary.md) |
+| Fuzzy or overloaded domain term | Consumer-local **domain-modeling** skill or glossary via `.skeleton/customize/` |
 | Pressure-test design before build | **grill** |
 | Still fuzzy after starting grill | **crystallize** |
 | Written plan on disk | **second-opinion** |
 | One concrete code doubt | **investigate** |
-| Reproducible broken behavior | **investigate** + **testing** (+ **debug** if session logs / layer unclear) |
-| Scope/thesis scoring | **product-principles** → [product hub (decision framework)](../../../docs/product/README.md) |
+| Reproducible broken behavior | **investigate** + consumer-local **testing** / **verify-changes** (+ consumer-local **debug** if session logs / layer unclear) |
+| Scope/thesis scoring | Consumer-local **product-principles** skill or product hub via `.skeleton/customize/` |
 | Serialize to plan / PRD / issues | **crystallize** or **grill** → [planning/build.md](planning/build.md) |
 | Fresh read of written plan | **second-opinion** (fresh read) |
 | Plan rejected or needs pressure-test after review | **grill** (or **crystallize** if intent regressed) |

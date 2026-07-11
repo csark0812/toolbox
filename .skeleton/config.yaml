@@ -11,17 +11,17 @@ scan:
     - "grill/**"
     - "second-opinion/**"
     - "investigate/**"
-    - "product-principles/**"
-    - "domain-modeling/**"
-    - "testing/**"
-    - "debug/**"
     - "handoff/**"
-    - "branch-cleanup/**"
-    - "pull-request/**"
   exclude:
     - ".skeleton/references/**"
     - "**/references/**"
   banned: []
-  retiredSkills: []
+  retiredSkills:
+    - branch-cleanup
+    - product-principles
+    - testing
+    - pull-request
+    - domain-modeling
+    - debug
 
 daysUntilStale: 180

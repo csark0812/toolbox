@@ -2,7 +2,7 @@
 
 Diff-only review cannot infer **intentional** UX removals. This reference is SSOT for how review and PR description share product context.
 
-PR authors: [describe.md](../../pull-request/references/describe.md) § Product intent / non-regressions.
+PR authors: consumer-local **pull-request** skill § Product intent / non-regressions (via `.skeleton/customize/`).
 Review dispatch: [task-prompt-review.md](task-prompt-review.md) § Product intent overlay.
 
 ## When to load product intent

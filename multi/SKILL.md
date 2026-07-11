@@ -207,3 +207,7 @@ More than 10 members — split into multiple `multi` runs.
 ## Output format
 
 Follow [references/output-schema.md](references/output-schema.md). Consolidated runs use [references/output-format.md](references/output-format.md).
+
+## Consumer bindings
+
+Consumer recipe index, council agent paths, and agent-workflows pointers inject via `.skeleton/customize/multi.md` on skill read. Do not edit synced copies in place.

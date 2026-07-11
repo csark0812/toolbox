@@ -25,7 +25,7 @@ Goal: **crystallization**, not resolution. Follow the thread; don't steer toward
 5. **Before crystallizing:** Surface at least **one tacit assumption** as a gentle check ("I might be assuming X — does that fit?") **or** **one branch gently tested** — don't offer the final block until that exchange happened (unless the user asks to skip ahead).
 6. **Follow energy, not logic.** If the user lights up on a tangent, go there.
 7. **Don't solve.** Avoid proposing solutions, architectures, or implementations unless explicitly asked.
-8. **Sharpen domain terms** against [`docs/domain/glossary.md`](../../../docs/domain/glossary.md) as they resolve — feed **domain-modeling**; dialogue does not own the glossary.
+8. **Sharpen domain terms** against the consumer glossary (project-local **domain-modeling** skill or `.skeleton/customize/`) as they resolve — dialogue does not own the glossary.
 9. **Crystallize when ready.** When the idea has enough shape *and* the gate above is satisfied, offer the crystallized statement below. Confirm with **AskQuestion** when possible.
 
 ## Question cadence
@@ -55,5 +55,9 @@ Follow [output-schema.md](references/output-schema.md). End with this block when
 - Fresh read of a plan on disk → **second-opinion**
 - One concrete code doubt → **investigate**
 - PRD or structured plan → [planning/build.md](references/planning/build.md)
-- Linear / tracking → `project-tracking` (project-local skill — see [docs/tiers.md](../docs/tiers.md))
+- Linear / tracking → consumer-local **project-tracking** skill (see [docs/tiers.md](../docs/tiers.md))
 ```
+
+## Consumer bindings
+
+Project overrides inject via `.skeleton/customize/crystallize.md` on skill read. Do not edit synced copies in place.

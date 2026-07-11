@@ -1,12 +1,12 @@
 # Review Modes
 
-`pr` and `merge` diff/base → [`pull-request` shared.md](../../pull-request/references/shared.md). Agent selection → [agent-selection.md](agent-selection.md).
+`pr` and `merge` diff/base → [shared.md](shared.md). Agent selection → [agent-selection.md](agent-selection.md).
 
 ---
 
 ## `pr`
 
-**Diff:** [shared.md](../../pull-request/references/shared.md) · **Depth:** Thorough
+**Diff:** [shared.md](shared.md) · **Depth:** Thorough
 
 **Escalate to Full** if any: auth/payments/privacy/security; API/schema changes; **>10 code files or >600 code lines** touching shared modules/boundaries/persistence (`apps/`, `tspackages/` — **exclude** `docs/`, `.claude/skills/`, `AGENTS.md` from counts); **>20 code files or >1200 code lines** (same exclusion); weak/missing tests on risky paths. Record escalation in synthesis header per [output.md](output.md) § Status line (`Escalation: Stayed Thorough` or `Promoted to Full` + reason).
 
@@ -74,7 +74,7 @@ Agent budget table: [agent-selection.md](agent-selection.md).
 
 ## `merge`
 
-**Diff:** [shared.md](../../pull-request/references/shared.md) base + `git diff <base>...<head>` · **Depth:** Thorough
+**Diff:** [shared.md](shared.md) base + `git diff <base>...<head>` · **Depth:** Thorough
 
 **Overlay:** Semantic conflicts beyond git merge? Feature complete vs spec?
 

@@ -38,6 +38,10 @@ If unclear: ask whether they want a **fresh read** (outsider assumptions) or a *
 
 **Ambient routing:** inline axis pass on artifacts → [agent-routing.md](references/agent-routing.md) § Plan on disk; full Stance A/B remains user-invoked.
 
+## Consumer bindings
+
+Plan artifact paths (`.cursor/plans/`, ClickUp tasks, etc.) inject via `.skeleton/customize/second-opinion.md` on skill read. Do not edit synced copies in place.
+
 ## Output format
 
 Follow [references/output-schema.md](references/output-schema.md). End with this block when the review pass is complete:

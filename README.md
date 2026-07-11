@@ -11,11 +11,14 @@ Personal skills live in the private [personal-toolbox](https://github.com/csark0
 ## Install
 
 ```bash
-# All team skills, global
+# All team skills (7 slugs), global
 npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code -y
 
-# All team skills, project-scoped (commit .claude/skills/ or .agents/skills/)
+# All team skills, project-scoped (commit .claude/skills/ or .cursor/skills/)
 npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code --copy -y
+
+# Explicit slug list
+npx skills add csark0812/toolbox --skill multi,code-review,crystallize,grill,second-opinion,investigate,handoff --agent cursor claude-code --copy -y
 
 # Update after push
 npx skills update -g   # global
@@ -34,7 +37,7 @@ npm install -D @csark0812/skeleton
 npx skeleton init --skills
 
 # 2. Team skills (global or project-scoped)
-npx skills add csark0812/toolbox --skill '*' -a cursor claude-code --copy -y
+npx skills add csark0812/toolbox --skill multi,code-review,crystallize,grill,second-opinion,investigate,handoff -a cursor claude-code --copy -y
 ```
 
 After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton audit self` to verify.
@@ -54,23 +57,17 @@ Each skill is self-contained: shared reference docs are generated copies under `
 
 ## Skills
 
-| Slug               | Purpose                                      |
-| ------------------ | -------------------------------------------- |
-| multi              | Parallel subagent orchestration kernel       |
-| code-review        | Multi-lens code review with council dispatch |
-| crystallize        | Fuzzy idea → shaped intent                   |
-| grill              | Pressure-test design before implementation   |
-| second-opinion     | Written plan review                          |
-| investigate        | Confirm/refute a code or approach hunch      |
-| product-principles | Product philosophy and build evaluation      |
-| domain-modeling    | Domain glossary discipline                   |
-| testing            | Write, fix, and run tests                    |
-| debug              | Cross-layer bug localization                 |
-| handoff            | Compact session handoff                      |
-| branch-cleanup     | Clean merged/stale branches and worktrees    |
-| pull-request       | PR description from diff                     |
+| Slug           | Purpose                                      |
+| -------------- | -------------------------------------------- |
+| multi          | Parallel subagent orchestration kernel       |
+| code-review    | Multi-lens code review with council dispatch |
+| crystallize    | Fuzzy idea → shaped intent                   |
+| grill          | Pressure-test design before implementation   |
+| second-opinion | Written plan review                          |
+| investigate    | Confirm/refute a code or approach hunch      |
+| handoff        | Compact session handoff                      |
 
-See [docs/tiers.md](docs/tiers.md) for tier assignment rules.
+Consumer-local skills (testing, debug, pull-request, product-principles, etc.) stay in each project — see [docs/tiers.md](docs/tiers.md).
 
 ## Daily workflow
 
@@ -88,4 +85,4 @@ npx skills update -g
 4. `npm run validate:changed -- --staged`
 5. Push → CI green → `npx skills update -g`
 
-Inter-toolbox links use relative paths (`../multi/SKILL.md`). Project-local skills (`k8s`, `components`, etc.) must not use `/SKILL.md` links — see [docs/tiers.md](docs/tiers.md). Consumer doc paths (`docs/developer/…`) are Phase 3 link migration.
+Inter-toolbox links use relative paths (`../multi/SKILL.md`). Project-local skills must not use `/SKILL.md` links from toolbox — see [docs/tiers.md](docs/tiers.md).

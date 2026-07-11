@@ -49,6 +49,6 @@ When scope or intent comes up — enough to flag misalignment, not a full gate p
 - **Trust and periphery** — Trusted core or periphery? Expanding scope without a JTBD?
 - **Cross-surface behavior** — Consistent flows are a product feature; divergence needs a researcher/job rationale, not PR convenience.
 
-Full scoring → **product-principles** + [product hub (decision framework)](../../../docs/product/README.md).
+Full scoring → consumer-local **product-principles** skill or product hub via `.skeleton/customize/`.
 
 For routing to other skills, see [dialogue-handoffs.md](dialogue-handoffs.md).
