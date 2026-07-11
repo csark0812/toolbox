@@ -30,6 +30,8 @@ git clone git@github.com:csark0812/toolbox.git ~/Repositories/toolbox
 ~/Repositories/toolbox/scripts/bootstrap.sh
 ```
 
+Personal skills symlink to `~/.agents/skills/` (Cursor) and `~/.claude/skills/` (Claude Code).
+
 ## Daily workflow
 
 Edit skills in this repo, then propagate:

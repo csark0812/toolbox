@@ -32,7 +32,23 @@ git-crypt unlock || {
   exit 1
 }
 
-npx skills add "$DIR/personal" -g -a cursor -a claude-code -s '*' -y
-npx skills list -g
+git-crypt unlock || {
+  echo "git-crypt unlock failed. Import GPG key first:" >&2
+  echo "  gpg --import /path/to/toolbox-gpg-secret.asc" >&2
+  echo "See docs/gpg-second-machine.md" >&2
+  exit 1
+}
+
+# Symlink personal skills (live updates on git pull; npx skills copies for local paths)
+mkdir -p "$HOME/.agents/skills" "$HOME/.claude/skills"
+for skill_dir in "$DIR"/personal/*/; do
+  [ -f "${skill_dir}SKILL.md" ] || continue
+  slug="$(basename "$skill_dir")"
+  [ "$slug" = "raw" ] && continue
+  rm -rf "$HOME/.agents/skills/$slug"
+  ln -sfn "$skill_dir" "$HOME/.agents/skills/$slug"
+  ln -sfn "$HOME/.agents/skills/$slug" "$HOME/.claude/skills/$slug"
+  echo "Linked $slug -> $skill_dir"
+done
 
 echo "Toolbox ready at $DIR"
