@@ -24,6 +24,34 @@ npx skills update -p   # project
 
 Shorthand for `https://github.com/csark0812/toolbox`. The `@` prefix (npm-style scopes) is not supported by the skills CLI — use `csark0812/toolbox`.
 
+## In a consumer repo
+
+Two steps: skeleton validates the repo's docs/skills perimeter; toolbox supplies the skills.
+
+```bash
+# 1. SSOT audit harness (once per project)
+npm install -D @csark0812/skeleton
+npx skeleton init --skills
+
+# 2. Team skills (global or project-scoped)
+npx skills add csark0812/toolbox --skill '*' -a cursor claude-code -y
+# or vendor a copy into the project:
+./scripts/sync.sh ~/path/to/project
+```
+
+After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton audit self` to verify.
+
+### Roles
+
+| Piece | Role |
+| ----- | ---- |
+| **toolbox** (this repo) | Skill source SSOT — what skills exist and how they're written |
+| **skeleton** | Docs/skill registry linter — validates links, banners, and scan perimeter |
+| **`.skeleton/customize/`** | Project-specific skill overrides (injected via IDE hooks on read) |
+| **`sync.sh`** | Vendors a copy of toolbox skills into `.claude/skills/` — does not replace `skeleton init` |
+
+Do not edit synced `SKILL.md` files in consumer projects — override in `.skeleton/customize/<slug>.md` instead. See [skeleton customize docs](https://github.com/csark0812/skeleton/blob/main/docs/developer/customize.md).
+
 ### Vendor into a project repo
 
 ```bash

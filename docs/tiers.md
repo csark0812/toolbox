@@ -28,7 +28,23 @@ Generic orchestration, planning, quality, workflow — shared across work + side
 
 Also vendored: `references/` → project `references/`
 
-Distribution:
+### Consumer setup
+
+Skeleton and toolbox are complementary — init skeleton first, then install skills:
+
+```bash
+npm install -D @csark0812/skeleton
+npx skeleton init --skills
+npx skills add csark0812/toolbox --skill '*' -a cursor claude-code -y
+# or: ./scripts/sync.sh <project-root>
+```
+
+- **toolbox** — skill content SSOT (this repo)
+- **skeleton** — validates docs, registries, and skill links in the consumer project
+- **`.skeleton/customize/`** — project overrides; hooks inject on skill read
+- **`sync.sh`** — vendor copy into `.claude/skills/`; does not replace skeleton init
+
+Distribution (skills only):
 
 ```bash
 npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code -y

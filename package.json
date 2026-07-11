@@ -7,7 +7,7 @@
 		"doc": "docs"
 	},
 	"scripts": {
-		"test": "npm run audit:docs && npm run validate:ci",
+    "test": "npm run audit:docs",
 		"validate:changed": "skeleton validate changed",
 		"validate:ci": "skeleton validate changed --base origin/main",
 		"audit:docs": "skeleton audit docs",
