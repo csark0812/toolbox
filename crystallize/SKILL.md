@@ -25,7 +25,7 @@ Goal: **crystallization**, not resolution. Follow the thread; don't steer toward
 5. **Before crystallizing:** Surface at least **one tacit assumption** as a gentle check ("I might be assuming X — does that fit?") **or** **one branch gently tested** — don't offer the final block until that exchange happened (unless the user asks to skip ahead).
 6. **Follow energy, not logic.** If the user lights up on a tangent, go there.
 7. **Don't solve.** Avoid proposing solutions, architectures, or implementations unless explicitly asked.
-8. **Sharpen domain terms** against the consumer glossary as they resolve — dialogue does not own the glossary.
+8. **Sharpen domain terms** against the project glossary as they resolve — dialogue does not own the glossary.
 9. **Crystallize when ready.** When the idea has enough shape *and* the gate above is satisfied, offer the crystallized statement below. Confirm with **AskQuestion** when possible.
 
 ## Question cadence

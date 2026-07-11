@@ -16,9 +16,9 @@
 
 **Promoted to Full → fix-loop applies.** Deliver findings in chat per [output.md](output.md). See [review-fix-loop.md](../../../../docs/developer/review-fix-loop.md).
 
-**Overlay:** Reviewer-ready? Breaking changes, regressions, missing contract updates? Load [product-intent.md](product-intent.md) when diff removes/relocates user-facing actions — do not file regressions that match PR intent or surface design SSOT.
+**Overlay:** Reviewer-ready? Breaking changes, regressions, missing contract updates?
 
-**Emphasis:** shared-util regression; OpenAPI client regen; missing tests; PR vs implementation match. Path boosts: query/cache → `correctness`; backend → `api`; UI → `ux`; `apps/extension/` → product-intent overlay + `ux`.
+**Emphasis:** shared-util regression; OpenAPI client regen; missing tests; PR vs implementation match. Path boosts: query/cache → `correctness`; backend → `api`; UI → `ux`.
 
 ### Depth contract for `review vs main`
 

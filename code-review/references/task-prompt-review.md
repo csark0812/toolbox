@@ -54,21 +54,6 @@ Filing gate — apply [code-review-quality-gates.md](../../../../docs/developer/
 - Every Action must answer "How would this happen to a real user?" Include starting state, user action, runtime condition, and visible failure. If the path is only a code possibility without a plausible user trigger, mark Needs confirmation or do not file.
 ```
 
-## Product intent overlay
-
-When diff paths match [product-intent.md](product-intent.md) § When to load, append to **every** review member prompt **and** the coordinator dispatch plan:
-
-```
-Product intent overlay:
-1. Read surface design SSOT for changed paths (see product-intent.md § Surface design SSOT)
-2. If PR exists: extract ## Product intent / non-regressions from gh pr view --json body
-3. If prior synthesis in thread/PR: include wontfix + product-intent themes
-4. Do NOT file regression findings that match declared product intent unless code contradicts it
-5. Cite wontfix theme when verifying known intentional changes
-```
-
-Extension POS-267+ standing non-regressions: [product-intent.md](product-intent.md) § Extension.
-
 ## Baseline invariant checklist overlay
 
 When fix-loop baseline applies **and** diff touches extension embed/popup/background or `tspackages/query` history/mutations, append to coordinator plan and each member prompt:
@@ -105,7 +90,6 @@ Depth: Full · Agents: 5 (unchanged — do not downgrade because prior pass mark
 Diff: git diff main...HEAD (whole branch scope)
 
 Context rules (filing — depth unchanged): [review-fix-loop.md](../../../../docs/developer/review-fix-loop.md) § Contextual Full re-review
-Product intent + wontfix themes honored ([product-intent.md](product-intent.md))
 
 Task: Fresh independent review on full diff. Apply context rules when writing findings — do NOT skip reading because prior synthesis marked themes fixed.
 

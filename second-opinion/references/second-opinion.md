@@ -38,14 +38,6 @@ Briefly, where relevant — a short honest line in **Scope / complexity** or **G
 - Should the plan add a **milestone** for boundary or orchestration work before or alongside feature work?
 - **Local change** vs **staged or ground-up** — cite [dialogue-contract.md](dialogue-contract.md) patterns when naming the call.
 
-### Product fit (brief)
-
-Synced with [dialogue-contract.md](dialogue-contract.md) § Product checks — plan-review depth here; do not duplicate bullets.
-
-When the plan touches scope, trust, or cross-surface behavior — flag misalignment; do not substitute for [product hub (decision framework)](../../../../docs/product/README.md) unless the user asks for a full gate pass.
-
-Full scoring → consumer product evaluation skill when present.
-
 ### Analysis framework
 
 Cover all of these, briefly. Skip sections where there is genuinely nothing to flag.

@@ -39,16 +39,4 @@ When code shape comes up — flag misalignment; do not prescribe a rewrite unles
 - **Orchestration gap** — pure logic unit-tested; bugs in wiring or call order → test orchestration or move it behind a testable boundary.
 - **Tight coupling** — changes in A force changes in B → interface + invert dependency, or merge if cohesion is high.
 
-## Product checks (brief)
-
-Synced with [second-opinion/references/second-opinion.md](../second-opinion/references/second-opinion.md) (Stance A) — **SSOT for pattern definitions**; consumers cite sections, do not copy bullets.
-
-When scope or intent comes up — enough to flag misalignment, not a full gate pass.
-
-- **Scope and premises** — What are we assuming about the researcher and JTBD? Does this preserve or dilute "context is the product"?
-- **Trust and periphery** — Trusted core or periphery? Expanding scope without a JTBD?
-- **Cross-surface behavior** — Consistent flows are a product feature; divergence needs a researcher/job rationale, not PR convenience.
-
-Full scoring → consumer product evaluation skill when present.
-
 For routing to other skills, see [dialogue-handoffs.md](dialogue-handoffs.md).

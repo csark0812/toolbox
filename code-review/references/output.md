@@ -96,7 +96,7 @@ Host `pushState`/`replaceState` updates `url`, but `panelMode` is never reset. A
 
 **Description** — 1–4 sentences: starting state → user action → runtime condition → visible failure/impact. Answer "How would this happen to a real user?" No filler, no agent attribution.
 
-**Needs confirmation** — append to location line: `` · Needs confirmation `` when reachability or product intent is unproven **and** not covered by [product-intent.md](product-intent.md) or PR `## Product intent / non-regressions`.
+**Needs confirmation** — append to location line: `` · Needs confirmation `` when reachability or intentional UX change is unproven **and** not covered by a PR intent section when one exists.
 
 Missing tests alone ≠ an Action item unless tied to reachable production risk — route to **Deferred** (`test inventory · <path>`). In default mode, untested risky path without a named reachable failure = **do not file** ([merge-blockers.md](merge-blockers.md)). Hardening Action bar requires passing [worth-doing gate](../../../../docs/developer/code-review-quality-gates.md#worth-doing-gate-synthesis), not merely "real trigger somewhere."
 

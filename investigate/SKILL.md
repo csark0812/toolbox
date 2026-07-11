@@ -26,9 +26,9 @@ Not for: written plan review ([`second-opinion`](../second-opinion/SKILL.md)), f
 - Multiple independent **web research** topics → [parallel-research.md](references/parallel-research.md) via **multi**.
 - Mixed/contested evidence or explicit stress-test request → [parallel-perspective.md](references/parallel-perspective.md) via **multi** (not the default single-pass path).
 
-## Structural and product checks
+## Structural checks
 
-When evidence touches structure or product scope, apply [dialogue-contract.md](references/dialogue-contract.md) § Structural checks and § Product checks — name the spectrum in **What to do next** (localized change vs staged / ground-up). Full product gate → consumer product evaluation skill when present.
+When evidence touches structure, apply [dialogue-contract.md](references/dialogue-contract.md) § Structural checks — name the spectrum in **What to do next** (localized change vs staged / ground-up).
 
 ## Protocol
 

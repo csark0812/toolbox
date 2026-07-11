@@ -28,12 +28,12 @@ If unclear: ask whether they want a **fresh read** (outsider assumptions) or a *
 - Dialogue without a plan artifact → **crystallize** or **grill**
 - Author a new plan from intent → **crystallize** or **grill** → [../references/planning/build.md](references/planning/build.md)
 - Single code-path hunch with evidence → **investigate**
-- Stance dispatch, structural and product checks → [references/second-opinion.md](references/second-opinion.md)
+- Stance dispatch and structural checks → [references/second-opinion.md](references/second-opinion.md)
 
 ## Stance and repo
 
 - **Primary-source-first:** Skim 2–4 primary sources the plan cites — code files, docs, data, or prior decisions; do not ask the user for paths that appear in the plan (for **Stance A**; **Stance B** follows verify.md locate step).
-- For structural “worth deepening?” and product fit, use the checklists in [references/second-opinion.md](references/second-opinion.md) — brief, not a second full pass. Broad codebase sweeps → [parallel-explore.md](references/planning/parallel-explore.md). Stance A escalation: small plan → single pass; large plan → [parallel-plan-evidence.md](references/parallel-plan-evidence.md); contested/high-stakes → [parallel-perspective.md](references/parallel-perspective.md).
+- For structural “worth deepening?”, use the checklists in [references/second-opinion.md](references/second-opinion.md) — brief, not a second full pass. Broad codebase sweeps → [parallel-explore.md](references/planning/parallel-explore.md). Stance A escalation: small plan → single pass; large plan → [parallel-plan-evidence.md](references/parallel-plan-evidence.md); contested/high-stakes → [parallel-perspective.md](references/parallel-perspective.md).
 - If the user's need is only dialogue (no plan file), use **crystallize** or **grill**. If they need a verdict on a **single** suspicion, use **investigate**. To **author** a new plan from intent, use **crystallize** or **grill** → [../references/planning/build.md](references/planning/build.md).
 
 **Ambient routing:** inline axis pass on artifacts → [agent-routing.md](references/agent-routing.md) § Plan on disk; full Stance A/B remains user-invoked.

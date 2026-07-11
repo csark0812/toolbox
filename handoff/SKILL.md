@@ -25,7 +25,7 @@ Not for: routing between skills mid-task ([`agent-routing.md`](references/agent-
 1. **Confirm scope.** Ask what the next session must pick up (implement, review, investigate, plan revision) if unclear.
 2. **Gather from the thread** — original ask, decisions, work done, current state, open questions, blockers. Do not invent progress.
 3. **Collect artifact pointers** — paths and URLs only; never paste full bodies into the handoff file:
-   - PRDs — cite path strings only; locate via consumer product hub (customize)
+   - PRDs — cite path strings only (e.g. `docs/prds/` or project PRD index)
    - Plans under consumer plan path (e.g. `.cursor/plans/*.plan.md`)
    - Issue URLs (Linear, ClickUp, etc.), GitHub PR URLs
    - Git branch name, commit SHAs, and commit messages (one line each)
@@ -83,7 +83,7 @@ Write this structure to the handoff file (fill every section; use `—` or `none
 | Kind | Path or URL |
 |------|-------------|
 | Plan | consumer plan path |
-| PRD | path from product hub index |
+| PRD | project PRD path (e.g. `docs/prds/`) |
 | Issue | [issue URL] |
 | PR | [GitHub PR URL] |
 | Commits | `abc1234` — message |

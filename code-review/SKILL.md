@@ -28,13 +28,12 @@ Not for: PR description/body (consumer-local **pull-request** skill), Cursor `/r
 | Thorough/Full gates | Consumer quality-gates doc (when present) |
 | AI drift | Consumer ai-drift doc (when present) |
 | Large-branch fix-loop | Consumer review-fix-loop doc (when present) |
-| Product intent / non-regressions | [references/product-intent.md](references/product-intent.md) |
 
 ## Workflow
 
 1. **Mode + depth + fix-loop** — explicit or auto-detect mode ([modes.md](references/modes.md)). Apply pr/merge escalation. Check fix-loop eligibility via consumer customize. **Filing mode:** default **merge-blockers only** ([merge-blockers.md](references/merge-blockers.md)) unless user said include improvements / full audit / hardening pass / polish / test inventory / exhaustive triggers. Record depth in synthesis header per [output.md](references/output.md) § Status line.
 2. **Diff** — per modes.md (`pr`/`merge` → [shared.md](references/shared.md)).
-3. **Council dispatch** — parallel council per [council-dispatch.md](references/council-dispatch.md) ([`multi`](../multi/SKILL.md) kernel for spawn mechanics) → [synthesis.md](references/synthesis.md) → [output.md](references/output.md). **Mandatory before spawn:** append [task-prompt-review.md](references/task-prompt-review.md) § Default filing overlay to **every** member prompt (and coordinator plan). Missing overlay = incomplete dispatch. When diff removes/relocates user-facing actions, load [product-intent.md](references/product-intent.md) and include overlay in member prompts ([task-prompt-review.md](references/task-prompt-review.md) § Product intent overlay).
+3. **Council dispatch** — parallel council per [council-dispatch.md](references/council-dispatch.md) ([`multi`](../multi/SKILL.md) kernel for spawn mechanics) → [synthesis.md](references/synthesis.md) → [output.md](references/output.md). **Mandatory before spawn:** append [task-prompt-review.md](references/task-prompt-review.md) § Default filing overlay to **every** member prompt (and coordinator plan). Missing overlay = incomplete dispatch.
 4. **Chat handoff** — when fix-loop applies: if fix pass, end with session handoff per consumer customize. Re-review must include **Baseline contradictions** when prior synthesis exists.
 
 **Order when fix-loop applies:** council → synthesis → chat findings → handoff if fix pass → end turn.
