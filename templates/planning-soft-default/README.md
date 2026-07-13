@@ -1,8 +1,3 @@
-<!-- skeleton: generated-reference
-source: .skeleton/references/planning/soft-default/README.md
-redundancy: intentional
--->
-
 # Planning playbooks (shared references)
 
 **Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file — open the consumer planning SSOT instead.
@@ -48,7 +43,7 @@ Planning orchestrates work; it does **not** replace other skills:
 | **second-opinion**          | Fresh read before finalize; or **verify stance** for axis checklist on a written artifact.                                                                                                                                                  |
 | **investigate**             | One concrete code-path hunch → evidence (`build.md` Step 5).                                                                                                                                                                                |
 | **multi**                   | Parallel surface exploration — [parallel-explore.md](parallel-explore.md) (`build.md` Step 3); large plan evidence — [parallel-plan-evidence.md](../../../../second-opinion/references/parallel-plan-evidence.md) (second-opinion Stance A) |
-| **project-tracking**        | Branch, draft PR, Closes, Linear state **after** a plan exists and you’re starting work (`verify.md` Step 5).                                                                                                                               |
+| **Optional tracker skill**  | Branch, draft PR, Closes / issue-tracker state **after** a plan exists and you’re starting work (`verify.md` Step 5), if the consumer ships one.                                                                                            |
 | **code-review**             | Holistic PR / implementation review **after** code exists; AI drift / hygiene on staged/unstaged (consumer AI-drift doc / customize).                                                                                                       |
 
 Structural checks in plans → **second-opinion** ([second-opinion.md](../../../../second-opinion/references/second-opinion.md)).

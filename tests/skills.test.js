@@ -58,11 +58,18 @@ describe('toolbox skill SSOT', () => {
     }
   })
 
-  it('soft-default planning appendix keeps docs/prds recipes', () => {
-    const sample = join(root, 'crystallize/references/planning/soft-default/prd-format.md')
-    expect(existsSync(sample)).toBe(true)
-    const body = readFileSync(sample, 'utf8')
+  it('soft-default recipes stay out of skill trees (canonical + templates only)', () => {
+    const planningSkills = ['crystallize', 'grill', 'handoff', 'second-opinion']
+    for (const slug of planningSkills) {
+      expect(existsSync(join(root, slug, 'references/planning/soft-default'))).toBe(false)
+    }
+    const canonical = join(root, '.skeleton/references/planning/soft-default/prd-format.md')
+    const pack = join(root, 'templates/planning-soft-default/prd-format.md')
+    expect(existsSync(canonical)).toBe(true)
+    expect(existsSync(pack)).toBe(true)
+    const body = readFileSync(canonical, 'utf8')
     expect(body).toMatch(/Opt-in soft-default recipe/)
     expect(body).toMatch(/docs\/prds\//)
+    expect(body).not.toMatch(/POS-12/)
   })
 })

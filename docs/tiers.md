@@ -22,7 +22,7 @@ Generic orchestration, planning, and dialogue — intended for any consumer proj
 
 Shared reference docs live in `.skeleton/references/` and are materialized into each skill's `references/` directory via `skeleton references sync`.
 
-**Planning:** skill-local `references/planning/*.md` are fail-loud stubs. Opt-in Linear / `docs/prds/` recipes live under `references/planning/soft-default/` — enable via [`templates/soft-default-planning.md`](../templates/soft-default-planning.md) only when the consumer has no planning docs remap.
+**Planning:** skill-local `references/planning/*.md` are fail-loud stubs. Soft-default recipes are **not** in skill trees — enable via [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md) only when the consumer has no planning docs remap.
 
 ### Consumer setup
 

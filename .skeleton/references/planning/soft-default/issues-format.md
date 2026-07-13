@@ -77,7 +77,7 @@ Each issue description should include:
 6. **Create blocked issues** — Set `blockedBy` using recorded IDs.
 7. **Output** — List created issue IDs/links with the blocking graph summarized.
 
-**After creation:** hand off to **project-tracking** (`start` mode) for branch, draft PR, and Closes linking when someone picks up an issue.
+**After creation:** hand off to the consumer’s optional tracker / issue-workflow skill (branch, draft PR, Closes linking) when someone picks up an issue.
 
 ## Output Summary Format
 
@@ -86,13 +86,13 @@ Each issue description should include:
 
 | Issue | ID | Blocked by |
 |---|---|---|
-| Display score badge on source card | POS-120 | — |
-| Score sorting in source list | POS-121 | POS-120 |
-| Score filter in source list | POS-122 | POS-120 |
-| Score analytics endpoint | POS-123 | POS-121, POS-122 |
+| Add status badge on list row | ISSUE-1 | — |
+| Sort list by status | ISSUE-2 | ISSUE-1 |
+| Filter list by status | ISSUE-3 | ISSUE-1 |
+| Status analytics endpoint | ISSUE-4 | ISSUE-2, ISSUE-3 |
 
-Blocking graph: POS-120 → POS-121, POS-122 → POS-123
-Immediately startable: POS-120
+Blocking graph: ISSUE-1 → ISSUE-2, ISSUE-3 → ISSUE-4
+Immediately startable: ISSUE-1
 ```
 
 ## Common Mistakes

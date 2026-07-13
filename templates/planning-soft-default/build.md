@@ -1,8 +1,3 @@
-<!-- skeleton: generated-reference
-source: .skeleton/references/planning/soft-default/build.md
-redundancy: intentional
--->
-
 # Build (execution planning)
 
 **Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file — open the consumer planning SSOT instead.
@@ -99,7 +94,7 @@ After the first question batch, evaluate whether a mode shift would help:
 
 Never shift without offering. User decides.
 
-See also [README.md](README.md) (Peripheral skills) for **project-tracking**, **code-review**, **multi** ([parallel-explore.md](parallel-explore.md)).
+See also [README.md](README.md) (Peripheral skills) for optional tracker skills, **code-review**, **multi** ([parallel-explore.md](parallel-explore.md)).
 
 ## Step 6: Sketch modules (PRD output only)
 

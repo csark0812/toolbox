@@ -8,7 +8,7 @@
 
 **Diff:** [shared.md](shared.md) · **Depth:** Thorough
 
-**Escalate to Full** if any: auth/payments/privacy/security; API/schema changes; **>10 code files or >600 code lines** touching shared modules/boundaries/persistence (`apps/`, shared packages — **exclude** `docs/`, `.claude/skills/`, `AGENTS.md` from counts); **>20 code files or >1200 code lines** (same exclusion); weak/missing tests on risky paths. Record escalation in synthesis header per [output.md](output.md) § Status line (`Escalation: Stayed Thorough` or `Promoted to Full` + reason).
+**Escalate to Full** if any: auth/payments/privacy/security; API/schema changes; **>10 code files or >600 code lines** touching shared modules/boundaries/persistence (app packages, shared libraries — **exclude** `docs/`, skill trees, agent entry files from counts); **>20 code files or >1200 code lines** (same exclusion); weak/missing tests on risky paths. Record escalation in synthesis header per [output.md](output.md) § Status line (`Escalation: Stayed Thorough` or `Promoted to Full` + reason).
 
 **Mixed PR** (product code + docs-only agent-workflow edits): default **Thorough** (4 agents) unless auth/security/API-schema paths hit.
 

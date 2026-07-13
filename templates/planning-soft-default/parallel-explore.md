@@ -1,8 +1,3 @@
-<!-- skeleton: generated-reference
-source: .skeleton/references/planning/soft-default/parallel-explore.md
-redundancy: intentional
--->
-
 # Parallel Explore
 
 **Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file — open the consumer planning SSOT instead.

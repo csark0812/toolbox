@@ -94,7 +94,7 @@ After the first question batch, evaluate whether a mode shift would help:
 
 Never shift without offering. User decides.
 
-See also [README.md](README.md) (Peripheral skills) for **project-tracking**, **code-review**, **multi** ([parallel-explore.md](parallel-explore.md)).
+See also [README.md](README.md) (Peripheral skills) for optional tracker skills, **code-review**, **multi** ([parallel-explore.md](parallel-explore.md)).
 
 ## Step 6: Sketch modules (PRD output only)
 

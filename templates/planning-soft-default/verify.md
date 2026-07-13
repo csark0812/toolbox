@@ -1,8 +1,3 @@
-<!-- skeleton: generated-reference
-source: .skeleton/references/planning/soft-default/verify.md
-redundancy: intentional
--->
-
 # Verify (completeness)
 
 **Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file — open the consumer planning SSOT instead.
@@ -108,7 +103,7 @@ After the report:
 
 - Gaps in assumptions → "Want a **grill** pass on the assumptions, or a **second-opinion** (fresh read) on the plan text first?"
 - Significant scope gaps → "Want to run [build.md](build.md) to fill these in?"
-- Ready to build → "Want to kick off **project-tracking** to start work?"
+- Ready to build → "Want to kick off your tracker / issue-workflow skill to start work?"
 - Before commit → **code-review** staged (includes AI drift hygiene)
 
 See [README.md](README.md) (Peripheral skills) for **investigate**, **code-review**, and **multi** ([parallel-explore.md](parallel-explore.md)).

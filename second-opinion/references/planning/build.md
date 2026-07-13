@@ -9,7 +9,7 @@ redundancy: intentional
 
 **Portable stub (incomplete):** Toolbox ships only this baseline. **Do not execute planning recipes from this file.**
 
-Consumer projects must map this path via customize (`shared-agent-references` / `docs/.../planning/` or equivalent). Remapping consumers open their planning SSOT — never Linear / `docs/prds/` soft-defaults from the skill tree.
+Consumer projects must map this path via customize (`shared-agent-references` / `docs/.../planning/` or equivalent). Remapping consumers open their planning SSOT — never Linear / `docs/prds/` soft-defaults (binder + customize pack only for bare consumers).
 
 ## What this file is for
 
@@ -23,8 +23,6 @@ Consumer projects must map this path via customize (`shared-agent-references` / 
 
 ## Bare consumers (no planning remap)
 
-Only when customize does **not** remap this path, open the opt-in soft-default recipe:
+Only when customize does **not** remap this path: copy toolbox `templates/planning-soft-default/` to `.skeleton/customize/planning-soft-default/`, copy `templates/soft-default-planning.md` to `.skeleton/customize/soft-default-planning.md`, and list that basename in `customize.alwaysInclude`. Soft-default recipes are **not** shipped inside portable skill trees.
 
-- [build.md](soft-default/build.md)
-
-Do not treat soft-default as authoritative when a consumer remap exists.
+Do not invent Linear / `docs/prds/` work from this stub without that binder. Do not treat soft-default as authoritative when a consumer remap exists.

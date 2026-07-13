@@ -70,9 +70,9 @@ Each skill is self-contained: shared reference docs are generated copies under `
 
 ### Planning references (fail-loud vs soft-default)
 
-Synced `references/planning/*.md` files are **fail-loud stubs** — do not execute Linear / `docs/prds/` recipes from them.
+Synced skill-tree `references/planning/*.md` files are **fail-loud stubs** — do not execute Linear / `docs/prds/` recipes from them. Soft-default recipe trees are **not** shipped inside portable skill trees.
 
-Full portable baselines live under `references/planning/soft-default/` (canonical: `.skeleton/references/planning/soft-default/`). Bare consumers with **no** planning remap can opt in by copying [`templates/soft-default-planning.md`](templates/soft-default-planning.md) to `.skeleton/customize/soft-default-planning.md` and listing it in `customize.alwaysInclude`. Remapping consumers must omit that binder and map planning paths to project docs instead.
+Canonical recipes live under `.skeleton/references/planning/soft-default/` and are packaged for bare consumers as [`templates/planning-soft-default/`](templates/planning-soft-default/) plus the binder [`templates/soft-default-planning.md`](templates/soft-default-planning.md). Opt in by copying the pack to `.skeleton/customize/planning-soft-default/`, the binder to `.skeleton/customize/soft-default-planning.md`, and listing that basename in `customize.alwaysInclude`. Remapping consumers must omit that binder and map planning paths to project docs instead.
 
 ## Skills
 
