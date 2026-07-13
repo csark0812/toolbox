@@ -2,22 +2,29 @@
 
 **Source of truth for** team Cursor/Claude agent skills.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-11 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
 
-Public SSOT for team Cursor/Claude agent skills.
+Public SSOT for reusable Cursor/Claude agent skills.
 
-Personal skills live in the private [personal-toolbox](https://github.com/csark0812/personal-toolbox) repo. New skills start from the public [skeleton](https://github.com/csark0812/skeleton) template.
+New skill packages can start from the public [skeleton](https://github.com/csark0812/skeleton) template. Personal or org-private skills stay outside this repo.
+
+Requires **Node ≥ 22**. Contributor cold-start: [AGENTS.md](AGENTS.md).
 
 ## Install
+
+Install destinations (skills CLI):
+
+| Agent | Project-scoped | Global |
+| ----- | -------------- | ------ |
+| Cursor | `.agents/skills/` | `~/.cursor/skills/` |
+| Claude Code | `.claude/skills/` | `~/.claude/skills/` |
+| Codex | `.agents/skills/` | `~/.codex/skills/` |
 
 ```bash
 # All team skills (7 slugs), global
 npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code -y
 
-# All team skills, project-scoped (commit .claude/skills/ or .cursor/skills/)
-npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code --copy -y
-
-# All team skills listed in consumer skills-lock (resync replaces every lock key)
+# All team skills, project-scoped (commit under .agents/skills/ and/or .claude/skills/)
 npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code --copy -y
 
 # Core dialogue/review set (subset)
@@ -29,6 +36,8 @@ npx skills update -p   # project
 ```
 
 Shorthand for `https://github.com/csark0812/toolbox`. The `@` prefix (npm-style scopes) is not supported by the skills CLI — use `csark0812/toolbox`.
+
+Symlink installs keep a canonical copy under `.agents/skills/` with agent-specific links elsewhere. Prefer `--copy` when committing skills into a consumer repo.
 
 ## In a consumer repo
 
@@ -51,7 +60,7 @@ After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton a
 | --------------------------- | ------------------------------------------------------------------------- |
 | **toolbox** (this repo)     | Skill source SSOT — what skills exist and how they're written             |
 | **skeleton**                | Docs/skill registry linter — validates links, banners, and scan perimeter |
-| **`.skeleton/customize/`**  | Project-specific skill overrides (injected via IDE hooks on read)         |
+| **`.skeleton/customize/`**  | Project-specific skill overrides (injected via IDE hooks on read) — **consumer repos only**, not present in this tree |
 | **`.skeleton/references/`** | Canonical shared reference docs — copied into each skill at build time    |
 
 Do not edit synced `SKILL.md` files in consumer projects — override in `.skeleton/customize/<slug>.md` instead. See [skeleton customize docs](https://github.com/csark0812/skeleton/blob/main/docs/developer/customize.md).
@@ -75,17 +84,30 @@ Consumer projects may lock additional slugs (`debug`, `testing`, `product-princi
 ## Daily workflow
 
 ```bash
-cd ~/Repositories/toolbox
+cd ~/Repositories/toolbox   # or your local clone path
 git pull
 npx skills update -g
 ```
 
+## Contributor bootstrap
+
+```bash
+# Node ≥ 22 (see package.json engines)
+npm ci
+npm test
+```
+
+`npm test` runs `references:check`, hub + skills audits, and `validate:ci`. That is the real skill gate.
+
 ## Adding a skill
 
-1. Create `<slug>/SKILL.md`
-2. Update `docs/tiers.md`
-3. If linking shared refs, use `../references/...` in source — `npm run references:sync` materializes copies
-4. `npm run validate:changed -- --staged`
-5. Push → CI green → `npx skills update -g`
+1. `npm ci` (needs `@csark0812/skeleton` for audit/CLI scripts)
+2. Create `<slug>/SKILL.md`
+3. Update `docs/tiers.md` and `.skeleton/registry.md` / scan include as needed
+4. If sharing refs: edit `.skeleton/references/…`, link with `../references/...` in skill source, then `npm run references:sync` and `npm run references:check`
+5. Stage changes (`git add`), then `npm test` (preferred) or `npm run audit:skills && npm run validate:ci`
+6. Push → CI green → `npx skills update -g`
+
+**Validation honesty:** path-scoped `npm run validate:changed -- <skill-path>` barely checks skill bodies — skills suite rules are global. Rely on `npm test` / CI for skill edits. Hub docs (`README.md`, `docs/*`) are fine under `validate:changed`.
 
 Inter-toolbox links use relative paths (`../multi/SKILL.md`). Project-local skills must not use `/SKILL.md` links from toolbox — see [docs/tiers.md](docs/tiers.md).

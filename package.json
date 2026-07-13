@@ -3,13 +3,16 @@
 	"version": "1.0.0",
 	"description": "Public SSOT for team Cursor/Claude agent skills.",
 	"main": "index.js",
+	"engines": {
+		"node": ">=22"
+	},
 	"directories": {
 		"doc": "docs"
 	},
 	"scripts": {
 		"references:sync": "skeleton references sync",
 		"references:check": "skeleton references check",
-		"audit:hub": "skeleton audit docs --paths=README.md,docs",
+		"audit:hub": "skeleton audit docs --paths=README.md,AGENTS.md,docs",
 		"audit:docs": "skeleton audit docs",
 		"audit:skills": "skeleton audit skills",
 		"audit:self": "skeleton audit self",

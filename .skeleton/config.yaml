@@ -3,6 +3,7 @@
 scan:
   include:
     - "README.md"
+    - "AGENTS.md"
     - "docs/**"
     - ".skeleton/registry.md"
     - "multi/**"

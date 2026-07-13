@@ -2,13 +2,13 @@
 
 **Source of truth for** skill tier assignment across the agent harness ecosystem.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-11 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
 
-Assign each skill to exactly one repo. Update when adding skills.
+Assign each skill to exactly one place. Update when adding skills.
 
 ## Team (`toolbox/`)
 
-Generic orchestration, planning, and dialogue — shared across PostPrint, Popl, and other consumers.
+Generic orchestration, planning, and dialogue — intended for any consumer project.
 
 | Slug           | Notes                                      |
 | -------------- | ------------------------------------------ |
@@ -36,7 +36,7 @@ npx skills add csark0812/toolbox --skill multi,code-review,crystallize,grill,sec
 - **skeleton** — validates docs, registries, and skill links in the consumer project
 - **`.skeleton/customize/`** — project overrides; hooks inject on skill read
 
-**Popl notes:** skills install to `.cursor/skills/`; customize stubs for ClickUp, `verify-changes`, mobile council agents.
+Install destinations: Cursor project → `.agents/skills/` (global → `~/.cursor/skills/`); Claude Code project → `.claude/skills/`. Put project-specific customize stubs and council overlays in the consumer repo, not here.
 
 Distribution:
 
@@ -47,26 +47,11 @@ npx skills update -g
 
 ## Consumer-local only (NOT in toolbox)
 
-Stay in each project's skill directory — not synced from toolbox.
+Stay in each project's skill directory — not synced from toolbox. Typical examples: product domain skills, deployment/ops playbooks, framework or stack helpers, issue-tracker or PR conventions, design-system skills.
 
-**PostPrint examples:** `branch-cleanup`, `product-principles`, `testing`, `pull-request`, `domain-modeling`, `debug`, `k8s`, `tanstack-query`, `tanstack-router`, `brand-design`, `components`, `project-tracking`, `align-commands`
+## Personal / private skills
 
-**Popl examples:** `ota-update`, `release-notes`, `qa-plan`, `debugging-devices`, `verify-changes`, `address-comments`, `project-tracking`, `pull-request`, `branch-cleanup`
-
-## Personal (`personal-toolbox/` → global install)
-
-Private repo. See [personal-toolbox](https://github.com/csark0812/personal-toolbox).
-
-| Slug  | Notes                                            |
-| ----- | ------------------------------------------------ |
-| voice | Writing tone; references `refs/` for calibration |
-
-Distribution:
-
-```bash
-npx skills add csark0812/personal-toolbox --skill voice -g --agent cursor claude-code -y
-npx skills update -g
-```
+Individual preferences and private skills live outside this public repo (often a separate private skills package + global `skills add`). Do not publish them here.
 
 ## Skeleton (`skeleton/` → SSOT audit CLI)
 
