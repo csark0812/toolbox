@@ -1,62 +1,25 @@
-# Parallel Explore
+# Parallel explore
 
-**Portable soft-default (consumer remaps apply):** Toolbox ships Linear / `docs/prds/` baselines for consumers with **no** remap. **STOP:** If the consumer remaps this path via customize (`shared-agent-references` / docs), **do not execute the steps below** — open the consumer planning SSOT only. Do not treat `docs/prds/` or path examples below as authoritative when remapped.
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
 
-Blast-radius mapping and subsystem discovery. Uses [`multi`](../../../multi/SKILL.md) kernel — [non-negotiables](../../../multi/SKILL.md#non-negotiables), [task-prompt.md](../../../multi/references/task-prompt.md), [member-schema.md](../../../multi/references/member-schema.md).
+**Portable stub (incomplete):** Toolbox ships only this baseline. **Do not execute planning recipes from this file.**
 
-Profile: `manual` or `repo`.
+Consumer projects must map this path via customize (`shared-agent-references` / `docs/.../planning/` or equivalent). Remapping consumers open their planning SSOT — never Linear / `docs/prds/` soft-defaults from the skill tree.
 
-## When to use
+## What this file is for
 
-- Planning a feature and need surface-level structure across domains ([`build.md`](build.md) Step 3)
-- Grill branch depends on repo facts — explore before asking the user
-- Second-opinion Stance A needs a broad codebase sweep beyond 2–4 cited files
+- Keeps relative `references/planning/parallel-explore.md` links resolvable in standalone toolbox clones.
+- Points agents at consumer override when customize / alwaysInclude injects.
 
-## When to skip
+## If you only have this stub
 
-- Single-component change; paths already in context from this session
-- User wants one authoritative pass
-- Target is one file or hook — use direct read or **investigate**
+1. Open the consumer planning SSOT named by `.skeleton/customize/` (often `shared-agent-references.md` / alwaysInclude).
+2. Do **not** invent Linear issues or write `docs/prds/` from this stub.
 
-## Members (2–4)
+## Bare consumers (no planning remap)
 
-Split by **domain**, not file:
+Only when customize does **not** remap this path, open the opt-in soft-default recipe:
 
-| Slice            | Subagent  | Tier | Example                                      |
-| ---------------- | --------- | ---- | -------------------------------------------- |
-| Backend / API    | `explore` | Fast | backend / API domain package (or equivalent) |
-| Client data + UI | `explore` | Fast | client data layer + UI routes                |
-| Shared packages  | `explore` | Fast | shared packages / UI kit paths               |
+- [parallel-explore.md](soft-default/parallel-explore.md)
 
-Optional: score council agents on `task_paths[]` from the plan — spawn `architecture` or `correctness` only when cited paths match and `dispatch.contexts` includes `repo`. Path matching → [agent-discovery.md](../../../multi/references/agent-discovery.md).
-
-## Dispatch plan template
-
-```markdown
-Task: [explore goal — e.g. "map auth touchpoints for scoring feature"]
-Classification: explore
-Source of truth: repo
-Goal: coverage
-
-Selected members:
-
-- explore · tier=Fast · model=[cheapest] · stance=n/a: [backend slice]
-- explore · tier=Fast · model=[cheapest] · stance=n/a: [client slice]
-
-Why these members: independent domains; no cross-member dependencies
-Synthesis plan: merge scope maps; flag overlaps and blast-radius gaps
-```
-
-Compose prompts per [task-prompt.md](../../../multi/references/task-prompt.md).
-
-## Synthesis
-
-1. Merge non-overlapping structure maps per domain.
-2. Surface **blast radius** — what the plan did not cite but is affected.
-3. Preserve conflicts (e.g. two members disagree on ownership).
-4. Output → [multi output-format.md](../../../multi/references/output-format.md).
-
-## Handoff
-
-- Planning continues in **build** / **grill** with exploration context.
-- Second-opinion author writes final Stance A sections — multi supplies evidence, not the opinion shape.
+Do not treat soft-default as authoritative when a consumer remap exists.

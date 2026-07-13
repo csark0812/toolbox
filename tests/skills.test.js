@@ -43,4 +43,26 @@ describe('toolbox skill SSOT', () => {
     }
     expect(dirs).not.toContain('apps')
   })
+
+  it('planning top-level refs are fail-loud stubs (no docs/prds bodies)', () => {
+    const planningSkills = ['crystallize', 'grill', 'handoff', 'second-opinion']
+    for (const slug of planningSkills) {
+      const dir = join(root, slug, 'references/planning')
+      if (!existsSync(dir)) continue
+      for (const name of readdirSync(dir)) {
+        if (!name.endsWith('.md')) continue
+        const body = readFileSync(join(dir, name), 'utf8')
+        expect(body).toMatch(/Portable stub \(incomplete\)/)
+        expect(body).not.toMatch(/^Save to `docs\/prds\//m)
+      }
+    }
+  })
+
+  it('soft-default planning appendix keeps docs/prds recipes', () => {
+    const sample = join(root, 'crystallize/references/planning/soft-default/prd-format.md')
+    expect(existsSync(sample)).toBe(true)
+    const body = readFileSync(sample, 'utf8')
+    expect(body).toMatch(/Opt-in soft-default recipe/)
+    expect(body).toMatch(/docs\/prds\//)
+  })
 })

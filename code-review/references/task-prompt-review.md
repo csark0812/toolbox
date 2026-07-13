@@ -8,6 +8,8 @@ Orchestrated by [`code-review`](../SKILL.md) via [`multi`](../../multi/SKILL.md)
 
 **Consumer overlays:** Consumers keep product-intent, filing-gate → quality-gates, baseline, and contextual Full overlay _prose_ in project docs / customize — not in this portable file. See [council-dispatch.md](council-dispatch.md) § Overlays.
 
+**Mandatory consumer overlay gate:** If the consumer remaps overlays via customize / project docs, **load that consumer overlay SSOT before** Filing gate, product-intent, Baseline, or Contextual Full. This file's thinned portable sections are **not** sufficient when a consumer remap exists — do not stop here.
+
 ## Review overlay (always — toolbox)
 
 Include in the coordinator dispatch plan before spawning:

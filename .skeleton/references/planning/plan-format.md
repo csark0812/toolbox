@@ -1,73 +1,25 @@
-# CreatePlan Output Format
+# Plan Format
 
-**Portable soft-default (consumer remaps apply):** Toolbox ships Linear / `docs/prds/` baselines for consumers with **no** remap. **STOP:** If the consumer remaps this path via customize (`shared-agent-references` / docs), **do not execute the steps below** — open the consumer planning SSOT only. Do not treat `docs/prds/` or path examples below as authoritative when remapped.
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
 
-Use the `CreatePlan` tool to generate the plan artifact. Fill the template below, then run the self-check before submitting.
+**Portable stub (incomplete):** Toolbox ships only this baseline. **Do not execute planning recipes from this file.**
 
-## Template
+Consumer projects must map this path via customize (`shared-agent-references` / `docs/.../planning/` or equivalent). Remapping consumers open their planning SSOT — never Linear / `docs/prds/` soft-defaults from the skill tree.
 
-```
-# [Task Name]
+## What this file is for
 
-## What this is
-[Feature | Refactor | Cleanup | Bug fix | Architecture] — one sentence describing the goal
+- Keeps relative `references/planning/plan-format.md` links resolvable in standalone toolbox clones.
+- Points agents at consumer override when customize / alwaysInclude injects.
 
-## Scope
-In: [bullet list of what's included]
-Out: [bullet list of what's explicitly excluded — even if obvious]
+## If you only have this stub
 
-## Phases
+1. Open the consumer planning SSOT named by `.skeleton/customize/` (often `shared-agent-references.md` / alwaysInclude).
+2. Do **not** invent Linear issues or write `docs/prds/` from this stub.
 
-### Phase 1: [Name]
-- [ ] [Specific action] — [file or directory path]
-- [ ] [Specific action] — [file or directory path]
+## Bare consumers (no planning remap)
 
-### Phase 2: [Name — blocked by Phase 1]
-- [ ] [Specific action] — [file or directory path]
+Only when customize does **not** remap this path, open the opt-in soft-default recipe:
 
-## Blast radius
-- [What shared code this touches and how it's accounted for in the plan]
-- [Or: "Contained — only affects [specific area]"]
+- [plan-format.md](soft-default/plan-format.md)
 
-## Risks & unknowns
-- [Risk]: [mitigation or "flag for investigation during Phase N"]
-- [Unknown]: [what needs to be confirmed before/during implementation]
-- [Or: "None identified"]
-
-## Verification
-- [How to confirm each phase is complete]
-- [Specific test cases or behaviors to verify]
-```
-
-## Self-Check
-
-Run through this before submitting the plan. Fix anything that fails.
-
-**Todos:**
-
-- [ ] Every todo cites a specific file path or directory — not just "implement X"
-- [ ] No todo is vague enough that two different implementations would satisfy it
-- [ ] Phase ordering respects dependencies (blocked tasks come later, stated as "blocked by Phase N")
-- [ ] Each phase has a clear completion criterion
-
-**Scope:**
-
-- [ ] "Out" section exists and names at least one thing, even if obvious
-- [ ] Acceptance criteria or success condition is stated somewhere
-
-**Blast radius:**
-
-- [ ] Shared packages or infra touched by the plan are named
-- [ ] If shared packages are touched, consuming apps are mentioned
-- [ ] If backend API changes, frontend client regeneration is noted
-
-**Risks:**
-
-- [ ] If there are unknowns (root cause not confirmed, external dependency not ready), they are listed
-- [ ] If risks section is empty, that is an intentional statement — confirm it's correct
-
-## Notes
-
-- Plans with 8+ todos should be split into phases with clear handoffs
-- A todo that requires resolving an unknown before it can be executed should be sequenced after a "confirm/investigate" todo
-- `CreatePlan` name should be short and slug-style: `add-source-scoring`, not "Plan to Add Scoring to the Source System"
+Do not treat soft-default as authoritative when a consumer remap exists.

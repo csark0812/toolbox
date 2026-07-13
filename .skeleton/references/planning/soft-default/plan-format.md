@@ -1,11 +1,6 @@
-<!-- skeleton: generated-reference
-source: .skeleton/references/planning/plan-format.md
-redundancy: intentional
--->
-
 # CreatePlan Output Format
 
-**Portable soft-default (consumer remaps apply):** Toolbox ships Linear / `docs/prds/` baselines for consumers with **no** remap. **STOP:** If the consumer remaps this path via customize (`shared-agent-references` / docs), **do not execute the steps below** — open the consumer planning SSOT only. Do not treat `docs/prds/` or path examples below as authoritative when remapped.
+**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file — open the consumer planning SSOT instead.
 
 Use the `CreatePlan` tool to generate the plan artifact. Fill the template below, then run the self-check before submitting.
 

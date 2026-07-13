@@ -1,11 +1,11 @@
 <!-- skeleton: generated-reference
-source: .skeleton/references/planning/parallel-explore.md
+source: .skeleton/references/planning/soft-default/parallel-explore.md
 redundancy: intentional
 -->
 
 # Parallel Explore
 
-**Portable soft-default (consumer remaps apply):** Toolbox ships Linear / `docs/prds/` baselines for consumers with **no** remap. **STOP:** If the consumer remaps this path via customize (`shared-agent-references` / docs), **do not execute the steps below** — open the consumer planning SSOT only. Do not treat `docs/prds/` or path examples below as authoritative when remapped.
+**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file — open the consumer planning SSOT instead.
 
 Blast-radius mapping and subsystem discovery. Uses [`multi`](../../../multi/SKILL.md) kernel — [non-negotiables](../../../multi/SKILL.md#non-negotiables), [task-prompt.md](../../../multi/references/task-prompt.md), [member-schema.md](../../../multi/references/member-schema.md).
 

@@ -1,62 +1,25 @@
-# Parallel Gather
+# Parallel gather
 
-**Portable soft-default (consumer remaps apply):** Toolbox ships Linear / `docs/prds/` baselines for consumers with **no** remap. **STOP:** If the consumer remaps this path via customize (`shared-agent-references` / docs), **do not execute the steps below** — open the consumer planning SSOT only. Do not treat `docs/prds/` or path examples below as authoritative when remapped.
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
 
-Multi-source collection from independent sources of truth. Uses [`multi`](../../../multi/SKILL.md) kernel — [non-negotiables](../../../multi/SKILL.md#non-negotiables), [task-prompt.md](../../../multi/references/task-prompt.md), [member-schema.md](../../../multi/references/member-schema.md).
+**Portable stub (incomplete):** Toolbox ships only this baseline. **Do not execute planning recipes from this file.**
 
-Profile: `manual` or `repo` (web topics → `research` via [parallel-research.md](../../../investigate/references/parallel-research.md)).
+Consumer projects must map this path via customize (`shared-agent-references` / `docs/.../planning/` or equivalent). Remapping consumers open their planning SSOT — never Linear / `docs/prds/` soft-defaults from the skill tree.
 
-## When to use
+## What this file is for
 
-- Need facts from **multiple independent sources** (repo areas, doc hubs, config files) without overlap
-- Planning step requires collecting constraints from separate SSOT files before synthesis
-- User asks to "gather" context across domains in parallel
+- Keeps relative `references/planning/parallel-gather.md` links resolvable in standalone toolbox clones.
+- Points agents at consumer override when customize / alwaysInclude injects.
 
-## When to skip
+## If you only have this stub
 
-- Single file or hub already in context — read directly
-- Blast-radius mapping across subsystems — use [parallel-explore.md](parallel-explore.md)
-- Independent web topics — use [parallel-research.md](../../../investigate/references/parallel-research.md)
+1. Open the consumer planning SSOT named by `.skeleton/customize/` (often `shared-agent-references.md` / alwaysInclude).
+2. Do **not** invent Linear issues or write `docs/prds/` from this stub.
 
-## Members (2–4)
+## Bare consumers (no planning remap)
 
-Split by **source of truth**, not perspective:
+Only when customize does **not** remap this path, open the opt-in soft-default recipe:
 
-| Slice             | Subagent  | Tier | Example                                  |
-| ----------------- | --------- | ---- | ---------------------------------------- |
-| Doc / policy SSOT | `explore` | Fast | consumer validation / SSOT registry docs |
-| Code area A       | `explore` | Fast | service / domain package paths           |
-| Code area B       | `explore` | Fast | client data layer paths                  |
+- [parallel-gather.md](soft-default/parallel-gather.md)
 
-Each member collects from its slice only — no cross-slice inference until synthesis.
-
-## Dispatch plan template
-
-```markdown
-Task: [gather goal — e.g. "collect auth + validation constraints for MCP change"]
-Classification: gather
-Source of truth: repo
-Goal: coverage
-
-Selected members:
-
-- explore · tier=Fast · model=[cheapest] · stance=n/a: [doc/policy slice]
-- explore · tier=Fast · model=[cheapest] · stance=n/a: [backend slice]
-
-Why these members: independent sources; no cross-member dependencies
-Synthesis plan: merge fact lists; flag conflicts between sources
-```
-
-Compose prompts per [task-prompt.md](../../../multi/references/task-prompt.md).
-
-## Synthesis
-
-1. Merge non-overlapping facts per source.
-2. Surface **conflicts** between sources (two SSOTs disagree).
-3. Preserve source attribution (path per fact).
-4. Output → [multi output-format.md](../../../multi/references/output-format.md).
-
-## Handoff
-
-- Planning continues in **build** / **grill** / **second-opinion** with gathered facts.
-- Does not produce verdicts — use **investigate** after gather if a specific doubt remains.
+Do not treat soft-default as authoritative when a consumer remap exists.

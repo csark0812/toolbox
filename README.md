@@ -68,6 +68,12 @@ Do not edit synced `SKILL.md` files in consumer projects — override in `.skele
 
 Each skill is self-contained: shared reference docs are generated copies under `{slug}/references/` with provenance headers. Edit canonical files in `.skeleton/references/`, then run `npm run references:sync`.
 
+### Planning references (fail-loud vs soft-default)
+
+Synced `references/planning/*.md` files are **fail-loud stubs** — do not execute Linear / `docs/prds/` recipes from them.
+
+Full portable baselines live under `references/planning/soft-default/` (canonical: `.skeleton/references/planning/soft-default/`). Bare consumers with **no** planning remap can opt in by copying [`templates/soft-default-planning.md`](templates/soft-default-planning.md) to `.skeleton/customize/soft-default-planning.md` and listing it in `customize.alwaysInclude`. Remapping consumers must omit that binder and map planning paths to project docs instead.
+
 ## Skills
 
 | Slug           | Purpose                                      |

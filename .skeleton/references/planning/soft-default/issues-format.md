@@ -1,11 +1,6 @@
-<!-- skeleton: generated-reference
-source: .skeleton/references/planning/issues-format.md
-redundancy: intentional
--->
-
 # Linear Issues Output Format
 
-**Portable soft-default (consumer remaps apply):** Toolbox ships Linear / `docs/prds/` baselines for consumers with **no** remap. **STOP:** If the consumer remaps this path via customize (`shared-agent-references` / docs), **do not execute the steps below** — open the consumer planning SSOT only. Do not treat `docs/prds/` or path examples below as authoritative when remapped.
+**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file — open the consumer planning SSOT instead.
 
 Break a plan or PRD into independently grabbable Linear issues. Each issue is a vertical slice — independently testable and executable without waiting for other issues (except explicit blockers).
 
