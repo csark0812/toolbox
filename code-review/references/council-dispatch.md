@@ -25,7 +25,6 @@ Synthesis plan: council synthesis per synthesis.md → output.md
    - § Default filing overlay (always unless improvements mode)
    - § Review overlay (mode, depth, diff)
    - § Filing gate overlay (Thorough+)
-   - § Product intent overlay (when paths match)
    - § Baseline invariant checklist (when fix-loop baseline applies)
    - § Contextual Full re-review overlay (when prior Action findings exist)
 
