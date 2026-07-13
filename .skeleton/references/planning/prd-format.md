@@ -1,6 +1,6 @@
 # PRD Output Format
 
-**Portable soft-default (consumer remaps apply):** Toolbox ships Linear / `docs/prds/` baselines. **If the consumer remaps this path** via customize (`shared-agent-references` / docs), **load the consumer SSOT instead** — do not treat `docs/prds/` or path examples below as authoritative for that consumer.
+**Portable soft-default (consumer remaps apply):** Toolbox ships Linear / `docs/prds/` baselines for consumers with **no** remap. **STOP:** If the consumer remaps this path via customize (`shared-agent-references` / docs), **do not execute the steps below** — open the consumer planning SSOT only. Do not treat `docs/prds/` or path examples below as authoritative when remapped.
 
 Save to `docs/prds/<feature-slug>.md`. Create the directory if it doesn't exist.
 

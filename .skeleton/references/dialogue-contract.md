@@ -20,7 +20,7 @@ Invariants shared by dialogue modes (crystallize / grill). Full Product checks a
 3. **Anti-premature closure** — Do not ship exit artifacts until that mode’s exit tests are met.
 4. **Concise turns** — Short mirrors and questions; sessions may run many turns.
 
-**If you only have this stub:** open the consumer dialogue-contract SSOT (customize / alwaysInclude) before applying Product checks or product-principles ambient gates.
+**If you only have this stub:** open the consumer dialogue-contract SSOT (customize / alwaysInclude) before applying Product checks or consumer product ambient gates.
 
 ## Related
 

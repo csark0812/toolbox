@@ -9,7 +9,7 @@ redundancy: intentional
 
 **Portable stub (incomplete):** Toolbox ships only this baseline. **Do not treat the tables below as a full consumer routing matrix.**
 
-Consumer projects must map this path via customize (`shared-agent-references` / `docs/.../agent-routing.md` or equivalent). Full Pre-ship (`validate:changed --pre-pr`, product-intent), fuzzy → product-principles, Quality & ops (testing/debug pairing), and TanStack/UI rows live in the **consumer SSOT**, not here.
+Consumer projects must map this path via customize (`shared-agent-references` / `docs/.../agent-routing.md` or equivalent). Full Pre-ship (validator command, product-intent), fuzzy → consumer product skill, Quality & ops (test/debug pairing), and stack/UI rows live in the **consumer SSOT**, not here.
 
 ## What this file is for
 

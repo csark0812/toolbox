@@ -4,7 +4,7 @@ Operational skills that produce user-facing results should follow this baseline.
 
 ## Triggers (frontmatter)
 
-- **Strong:** concrete situation + artifact ("fix CI failure", "wire TanStack Query domain X").
+- **Strong:** concrete situation + artifact ("fix CI failure", "wire domain X").
 - **Weak:** generic "help with code" — route via project entry doc or skills index.
 - **Not this skill:** list explicit handoffs to adjacent skills when boundaries overlap.
 
