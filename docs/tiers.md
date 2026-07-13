@@ -29,7 +29,7 @@ Skeleton and toolbox are complementary — init skeleton first, then install ski
 ```bash
 npm install -D @csark0812/skeleton
 npx skeleton init --skills
-npx skills add csark0812/toolbox --skill multi,code-review,crystallize,grill,second-opinion,investigate,handoff -a cursor claude-code --copy -y
+npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion investigate handoff -a cursor claude-code codex --copy -y
 ```
 
 - **toolbox** — skill content SSOT (this repo)

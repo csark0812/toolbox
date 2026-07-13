@@ -21,14 +21,15 @@ Install destinations (skills CLI):
 | Codex | `.agents/skills/` | `~/.codex/skills/` |
 
 ```bash
-# All team skills (7 slugs), global
-npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code -y
+# All team skills (7 slugs), global — Cursor, Claude Code, and Codex
+npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex -y
 
 # All team skills, project-scoped (commit under .agents/skills/ and/or .claude/skills/)
-npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code --copy -y
+# Codex shares `.agents/skills/` with Cursor project installs.
+npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code codex --copy -y
 
-# Core dialogue/review set (subset)
-npx skills add csark0812/toolbox --skill multi,code-review,crystallize,grill,second-opinion,investigate,handoff --agent cursor claude-code --copy -y
+# Core dialogue/review set (subset) — space-separated skill names (not commas)
+npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion investigate handoff --agent cursor claude-code codex --copy -y
 
 # Update after push
 npx skills update -g   # global
@@ -49,7 +50,7 @@ npm install -D @csark0812/skeleton
 npx skeleton init --skills
 
 # 2. Team skills (global or project-scoped)
-npx skills add csark0812/toolbox --skill multi,code-review,crystallize,grill,second-opinion,investigate,handoff -a cursor claude-code --copy -y
+npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion investigate handoff -a cursor claude-code codex --copy -y
 ```
 
 After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton audit self` to verify.
@@ -95,7 +96,10 @@ npx skills update -g
 # Node ≥ 22 (see package.json engines)
 npm ci
 npm test
-pre-commit install   # once per clone — runs npm test on commit
+
+# Optional local hooks (install the tool once per machine, then per clone)
+# brew install pre-commit   # or: pipx install pre-commit
+pre-commit install          # runs npm test on commit
 ```
 
 `npm test` / `npm run check` runs `references:check`, hub + skills audits, and `validate:ci`. That is the real skill gate (also the pre-commit hook). `npm ci` pulls `@csark0812/skeleton` from the registry; for local dogfood only: `npm install ../skeleton` (do not commit the link).
