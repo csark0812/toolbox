@@ -1,5 +1,7 @@
 # Planning playbooks (shared references)
 
+**Portable soft-default (consumer remaps apply):** Toolbox ships Linear / `docs/prds/` baselines. **If the consumer remaps this path** via customize (`shared-agent-references` / docs), **load the consumer SSOT instead** — do not treat `docs/prds/` or path examples below as authoritative for that consumer.
+
 Execution planning and **completeness verify** live here as **reference docs**, not as a standalone invocable skill. Use the right **entry skill**, then open the matching playbook.
 
 ## Files

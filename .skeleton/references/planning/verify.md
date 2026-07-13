@@ -1,5 +1,7 @@
 # Verify (completeness)
 
+**Portable soft-default (consumer remaps apply):** Toolbox ships Linear / `docs/prds/` baselines. **If the consumer remaps this path** via customize (`shared-agent-references` / docs), **load the consumer SSOT instead** — do not treat `docs/prds/` or path examples below as authoritative for that consumer.
+
 Completeness check on an existing plan, PRD, or issue set. Does not rewrite — flags gaps and suggests specific additions.
 
 Plan type and axis weighting — see [README.md](README.md) (Completeness axes). For the same artifact, **second-opinion (fresh read)** is a different stance (premise pass + outsider critique); use **this doc** for the axis checklist / readiness report.

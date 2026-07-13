@@ -29,7 +29,7 @@ dispatch:
     required_from: standard   # always spawn when depth >= this (review only)
   path_trigger: true       # also spawn when paths/keywords match
   paths:                   # prefix match on task paths
-    - apps/backend/
+    - <backend-or-api-root>/
   path_globs:              # glob match (e.g. **/*.tsx)
     - "**/*.tsx"
   keywords:                # case-insensitive match in diff or plan body
@@ -56,7 +56,7 @@ Shared helpers for entry-skill recipes that score agents:
 
 Coordinator reads plan/PRD file and collects:
 
-- Backtick paths (`apps/...`, `tspackages/...`, `docs/...`)
+- Backtick paths (`<app-or-package>/...`, `docs/...``)
 - Markdown links to repo files
 - Explicit "see `path`" citations
 

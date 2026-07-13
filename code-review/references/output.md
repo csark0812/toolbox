@@ -81,7 +81,7 @@ One block per **Action** issue, severity descending (critical → high → mediu
 ```markdown
 ## Reset panelMode on host navigation
 
-`apps/extension/entrypoints/embed/App.tsx:71-85` · Severity: high · Scope: ship-blocker
+`<app>/path/to/File.tsx:71-85` · Severity: high · Scope: ship-blocker
 
 <details>
 <summary>Description</summary>

@@ -1,5 +1,7 @@
 # Parallel Explore
 
+**Portable soft-default (consumer remaps apply):** Toolbox ships Linear / `docs/prds/` baselines. **If the consumer remaps this path** via customize (`shared-agent-references` / docs), **load the consumer SSOT instead** — do not treat `docs/prds/` or path examples below as authoritative for that consumer.
+
 Blast-radius mapping and subsystem discovery. Uses [`multi`](../../../multi/SKILL.md) kernel — [non-negotiables](../../../multi/SKILL.md#non-negotiables), [task-prompt.md](../../../multi/references/task-prompt.md), [member-schema.md](../../../multi/references/member-schema.md).
 
 Profile: `manual` or `repo`.
@@ -22,8 +24,8 @@ Split by **domain**, not file:
 
 | Slice | Subagent | Tier | Example |
 | --- | --- | --- | --- |
-| Backend / API | `explore` | Fast | `apps/backend/<domain>/` or equivalent |
-| Client data + UI | `explore` | Fast | `apps/client/src/hooks/data/`, routes |
+| Backend / API | `explore` | Fast | backend / API domain package (or equivalent) |
+| Client data + UI | `explore` | Fast | client data layer + UI routes |
 | Shared packages | `explore` | Fast | shared packages / UI kit paths |
 
 Optional: score council agents on `task_paths[]` from the plan — spawn `architecture` or `correctness` only when cited paths match and `dispatch.contexts` includes `repo`. Path matching → [agent-discovery.md](../../../multi/references/agent-discovery.md).

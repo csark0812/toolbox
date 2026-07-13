@@ -5,6 +5,8 @@ redundancy: intentional
 
 # CreatePlan Output Format
 
+**Portable soft-default (consumer remaps apply):** Toolbox ships Linear / `docs/prds/` baselines. **If the consumer remaps this path** via customize (`shared-agent-references` / docs), **load the consumer SSOT instead** — do not treat `docs/prds/` or path examples below as authoritative for that consumer.
+
 Use the `CreatePlan` tool to generate the plan artifact. Fill the template below, then run the self-check before submitting.
 
 ## Template

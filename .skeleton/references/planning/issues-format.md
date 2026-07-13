@@ -1,5 +1,7 @@
 # Linear Issues Output Format
 
+**Portable soft-default (consumer remaps apply):** Toolbox ships Linear / `docs/prds/` baselines. **If the consumer remaps this path** via customize (`shared-agent-references` / docs), **load the consumer SSOT instead** — do not treat `docs/prds/` or path examples below as authoritative for that consumer.
+
 Break a plan or PRD into independently grabbable Linear issues. Each issue is a vertical slice — independently testable and executable without waiting for other issues (except explicit blockers).
 
 ## Vertical Slice Principle

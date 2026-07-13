@@ -1,5 +1,7 @@
 # Parallel Gather
 
+**Portable soft-default (consumer remaps apply):** Toolbox ships Linear / `docs/prds/` baselines. **If the consumer remaps this path** via customize (`shared-agent-references` / docs), **load the consumer SSOT instead** — do not treat `docs/prds/` or path examples below as authoritative for that consumer.
+
 Multi-source collection from independent sources of truth. Uses [`multi`](../../../multi/SKILL.md) kernel — [non-negotiables](../../../multi/SKILL.md#non-negotiables), [task-prompt.md](../../../multi/references/task-prompt.md), [member-schema.md](../../../multi/references/member-schema.md).
 
 Profile: `manual` or `repo` (web topics → `research` via [parallel-research.md](../../../investigate/references/parallel-research.md)).
@@ -23,8 +25,8 @@ Split by **source of truth**, not perspective:
 | Slice | Subagent | Tier | Example |
 | --- | --- | --- | --- |
 | Doc / policy SSOT | `explore` | Fast | consumer validation / SSOT registry docs |
-| Code area A | `explore` | Fast | `apps/<service>/<domain>/` or equivalent |
-| Code area B | `explore` | Fast | `apps/client/src/hooks/data/` |
+| Code area A | `explore` | Fast | service / domain package paths |
+| Code area B | `explore` | Fast | client data layer paths |
 
 Each member collects from its slice only — no cross-slice inference until synthesis.
 
