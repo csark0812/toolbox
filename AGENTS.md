@@ -15,6 +15,14 @@ npm ci
 npm test
 ```
 
+Once per clone, install git hooks:
+
+```bash
+pre-commit install
+```
+
+`npm ci` installs `@csark0812/skeleton` from the npm registry (see `package-lock.json`). For local skeleton dogfood only: `npm install ../skeleton` — do not commit that link.
+
 ## Layout
 
 - Flat skills: `<slug>/SKILL.md` (e.g. `multi/SKILL.md`)
@@ -25,13 +33,13 @@ npm test
 
 | Change | Command |
 | ------ | ------- |
-| Hub docs (`README.md`, `docs/**`) | `npm run validate:changed -- <path>` |
+| Hub docs (`README.md`, `docs/**`) | `npm run validate:changed -- <path>` (or `npm run validate -- <path>`) |
 | Shared refs | `npm run references:sync` then `npm run references:check` |
 | Skill bodies / unsure | `npm test` (or `npm run audit:skills` + `npm run validate:ci`) |
 
-Path-scoped `validate:changed` on skill trees is a **weak/no-op** for skill-body rules (skills suite rules are global). Do not treat a green skills path as full coverage.
+Path-scoped `validate:changed` on skill trees is a **weak/no-op** for skill-body rules (skills suite rules are global). Do not treat a green skills path as full coverage. Pre-commit runs `npm test` so local hooks match the skill gate.
 
-`npm test` = `references:check` + `audit:hub` + `audit:skills` + `validate:ci`. That is the skill gate. Optional deeper pass: `npm run audit:self` (full self suite; not required by `test` because hub+skills+CI already cover the shipping perimeter).
+`npm test` / `npm run check` = `references:check` + `audit:hub` + `audit:skills` + `validate:ci`. That is the skill gate. `npm run lint` = hub + skills audits. Optional deeper pass: `npm run audit:self` (full self suite; not required by `test` because hub+skills+CI already cover the shipping perimeter).
 
 ## Install destinations (consumers)
 
@@ -39,5 +47,6 @@ Path-scoped `validate:changed` on skill trees is a **weak/no-op** for skill-body
 | ----- | ------- | ------ |
 | Cursor | `.agents/skills/` | `~/.cursor/skills/` |
 | Claude Code | `.claude/skills/` | `~/.claude/skills/` |
+| Codex | `.agents/skills/` | `~/.codex/skills/` |
 
 See [README](README.md) · [tiers](docs/tiers.md) · `package.json` scripts.

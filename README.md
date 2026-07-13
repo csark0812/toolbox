@@ -84,7 +84,7 @@ Consumer projects may lock additional slugs (`debug`, `testing`, `product-princi
 ## Daily workflow
 
 ```bash
-cd ~/Repositories/toolbox   # or your local clone path
+cd /path/to/toolbox   # your local clone
 git pull
 npx skills update -g
 ```
@@ -95,9 +95,10 @@ npx skills update -g
 # Node ≥ 22 (see package.json engines)
 npm ci
 npm test
+pre-commit install   # once per clone — runs npm test on commit
 ```
 
-`npm test` runs `references:check`, hub + skills audits, and `validate:ci`. That is the real skill gate.
+`npm test` / `npm run check` runs `references:check`, hub + skills audits, and `validate:ci`. That is the real skill gate (also the pre-commit hook). `npm ci` pulls `@csark0812/skeleton` from the registry; for local dogfood only: `npm install ../skeleton` (do not commit the link).
 
 ## Adding a skill
 

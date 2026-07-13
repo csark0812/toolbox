@@ -16,9 +16,12 @@
 		"audit:docs": "skeleton audit docs",
 		"audit:skills": "skeleton audit skills",
 		"audit:self": "skeleton audit self",
+		"lint": "npm run audit:hub && npm run audit:skills",
 		"validate:changed": "skeleton validate changed",
+		"validate": "npm run validate:changed",
 		"validate:ci": "skeleton validate changed --base origin/main",
-		"test": "npm run references:check && npm run audit:hub && npm run audit:skills && npm run validate:ci"
+		"test": "npm run references:check && npm run audit:hub && npm run audit:skills && npm run validate:ci",
+		"check": "npm test"
 	},
 	"repository": {
 		"type": "git",
@@ -32,6 +35,6 @@
 	},
 	"homepage": "https://github.com/csark0812/toolbox#readme",
 	"devDependencies": {
-		"@csark0812/skeleton": "^1.1.0"
+		"@csark0812/skeleton": "^1.1.2"
 	}
 }

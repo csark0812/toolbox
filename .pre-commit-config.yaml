@@ -1,8 +1,8 @@
 repos:
   - repo: local
     hooks:
-      - id: skeleton-validate-staged
-        name: skeleton validate changed (staged)
-        entry: npm run validate:changed -- --staged
+      - id: toolbox-npm-test
+        name: toolbox npm test (skill gate)
+        entry: npm test
         language: system
         pass_filenames: false
