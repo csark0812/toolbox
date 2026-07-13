@@ -8,11 +8,11 @@ Match the **scannable finding-block shape** for **Action** items — short imper
 
 ## Output tiers
 
-| Tier | Chat |
-|------|------|
-| **Action** | Primary body — finding blocks |
-| **Noted** | **Noted (out of PR scope)** tail — one line each |
-| **Deferred** | **Deferred improvements** tail — one line each |
+| Tier         | Chat                                             |
+| ------------ | ------------------------------------------------ |
+| **Action**   | Primary body — finding blocks                    |
+| **Noted**    | **Noted (out of PR scope)** tail — one line each |
+| **Deferred** | **Deferred improvements** tail — one line each   |
 
 ## Status line
 
@@ -58,11 +58,11 @@ No findings in scope.
 
 ### Dual zero lines (Thorough vs Full exit)
 
-| Line | When | Merge-ready? |
-|------|------|--------------|
+| Line                          | When                                                                                                        | Merge-ready?        |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------- |
 | `No merge-blockers in scope.` | Default filing; Full fix-loop **exit** pass; any `pr` review in merge-blockers mode with zero ship-blockers | Yes (fix-loop exit) |
-| `No action items in scope.` | Worth-doing gate filtered all council observations; Noted/Deferred may remain | Context-dependent |
-| `No findings in scope.` | Thorough/small PR, **no fix-loop** | Yes (small PR) |
+| `No action items in scope.`   | Worth-doing gate filtered all council observations; Noted/Deferred may remain                               | Context-dependent   |
+| `No findings in scope.`       | Thorough/small PR, **no fix-loop**                                                                          | Yes (small PR)      |
 
 Both zero merge-blocker lines mean "nothing blocking merge **for this pass type**." Do not treat first Full baseline `No merge-blockers` as exit — baseline with open Action themes is not merge-ready.
 
@@ -96,7 +96,7 @@ Host `pushState`/`replaceState` updates `url`, but `panelMode` is never reset. A
 
 **Description** — 1–4 sentences: starting state → user action → runtime condition → visible failure/impact. Answer "How would this happen to a real user?" No filler, no agent attribution.
 
-**Needs confirmation** — append to location line: `` · Needs confirmation `` when reachability or intentional UX change is unproven **and** not covered by a PR intent section when one exists.
+**Needs confirmation** — append to location line: `· Needs confirmation` when reachability or intentional UX change is unproven **and** not covered by a PR intent section when one exists.
 
 Missing tests alone ≠ an Action item unless tied to reachable production risk — route to **Deferred** (`test inventory · <path>`). In default mode, untested risky path without a named reachable failure = **do not file** ([merge-blockers.md](merge-blockers.md)). Hardening Action bar requires passing consumer worth-doing gate / customize, not merely "real trigger somewhere."
 
@@ -122,7 +122,7 @@ Not a todo list — context for deferral, not implied merge work.
 
 Polish, test inventory, closed-theme minor edges, refactor out of PR scope. Use on **baseline and re-review** when applicable. One line per item.
 
-Schema: `` `path` or topic — test inventory · <gap> `` or `` <topic> · <area> ``
+Schema: `` `path` or topic — test inventory · <gap> `` or `<topic> · <area>`
 
 ```markdown
 ## Deferred improvements
@@ -137,12 +137,12 @@ Do not append as Action findings. Do not block fix-loop exit.
 
 Use only when they add decision value. Keep each section to bullets or one short paragraph.
 
-| Section | When |
-|---------|------|
-| **Baseline contradictions** | Re-review pass when prior synthesis exists — required |
-| **Open questions** | Product or backend assumptions block Action severity |
-| **Testing gaps** | Residual coverage not already in Deferred tail |
-| **Change summary** | User asked for overview, or first review on a large PR — max 3 sentences |
+| Section                     | When                                                                     |
+| --------------------------- | ------------------------------------------------------------------------ |
+| **Baseline contradictions** | Re-review pass when prior synthesis exists — required                    |
+| **Open questions**          | Product or backend assumptions block Action severity                     |
+| **Testing gaps**            | Residual coverage not already in Deferred tail                           |
+| **Change summary**          | User asked for overview, or first review on a large PR — max 3 sentences |
 
 Omit **Change summary** by default. Do not restate Action items in tail sections.
 
@@ -153,17 +153,17 @@ Required when prior Action findings existed before the pass. Full rules → cons
 ```markdown
 ## Baseline contradictions
 
-| Theme | Prior synthesis | Fresh Full | Action |
-|-------|-----------------|------------|--------|
-| host-navigation-lifecycle | fixed | Same root_cause still broken in App.tsx | Reopen — partial fix |
+| Theme                     | Prior synthesis | Fresh Full                              | Action               |
+| ------------------------- | --------------- | --------------------------------------- | -------------------- |
+| host-navigation-lifecycle | fixed           | Same root_cause still broken in App.tsx | Reopen — partial fix |
 ```
 
 ## Scope (Action items)
 
-| Scope | File when | Blocks exit? |
-|-------|-----------|--------------|
-| **ship-blocker** | User-visible wrong behavior, data loss, auth on reachable path | Yes |
-| **hardening** | In-scope edge with real trigger **and** passes worth-doing gate | Yes if medium+ and theme open |
+| Scope            | File when                                                       | Blocks exit?                  |
+| ---------------- | --------------------------------------------------------------- | ----------------------------- |
+| **ship-blocker** | User-visible wrong behavior, data loss, auth on reachable path  | Yes                           |
+| **hardening**    | In-scope edge with real trigger **and** passes worth-doing gate | Yes if medium+ and theme open |
 
 **improvement** scope → **Deferred** tail, not Action blocks.
 
@@ -171,12 +171,12 @@ Severity = user harm if shipped. Scope = whether this pass must act on **Action*
 
 ## Severity
 
-| Level | Bar |
-|-------|-----|
-| **critical** | Data loss, security exposure, core path total break |
-| **high** | Core action fails for meaningful segment; bad state propagation; high-probability production regression |
-| **medium** | Non-core regression, moderate edge-case mismatch, narrow blast radius |
-| **low** | Rare/low-impact edge; contained scope |
+| Level        | Bar                                                                                                     |
+| ------------ | ------------------------------------------------------------------------------------------------------- |
+| **critical** | Data loss, security exposure, core path total break                                                     |
+| **high**     | Core action fails for meaningful segment; bad state propagation; high-probability production regression |
+| **medium**   | Non-core regression, moderate edge-case mismatch, narrow blast radius                                   |
+| **low**      | Rare/low-impact edge; contained scope                                                                   |
 
 Adjust: raise if common trigger and retries can't heal; lower if guards make trigger improbable. Never raise for complexity alone.
 

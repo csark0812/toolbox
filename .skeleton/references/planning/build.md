@@ -8,26 +8,26 @@ Plan type sets **axis weighting** — see [README.md](README.md) (Completeness a
 
 ## Step 1: Ingest Input
 
-| Source | Action |
-|---|---|
-| Linear card URL or ID | Fetch via MCP `get_issue`. Extract: title, description, acceptance criteria, labels (bug/feature). |
-| PRD file path | Read `docs/prds/<slug>.md`. If unclear, search `docs/prds/`. |
-| PRD URL | Fetch and read. |
-| Raw description | Proceed directly. |
-| "Write a PRD for X" | Treat as raw description; default output will be PRD doc. |
-| "Break this into issues" | Locate PRD first (path, URL, or search `docs/prds/`); default output will be Linear issues. |
+| Source                   | Action                                                                                             |
+| ------------------------ | -------------------------------------------------------------------------------------------------- |
+| Linear card URL or ID    | Fetch via MCP `get_issue`. Extract: title, description, acceptance criteria, labels (bug/feature). |
+| PRD file path            | Read `docs/prds/<slug>.md`. If unclear, search `docs/prds/`.                                       |
+| PRD URL                  | Fetch and read.                                                                                    |
+| Raw description          | Proceed directly.                                                                                  |
+| "Write a PRD for X"      | Treat as raw description; default output will be PRD doc.                                          |
+| "Break this into issues" | Locate PRD first (path, URL, or search `docs/prds/`); default output will be Linear issues.        |
 
 ## Step 2: Detect Plan Type
 
 Infer from input. State the detected type before asking questions.
 
-| Type | Signals |
-|---|---|
-| Feature | New capability, user-facing, "add", "build", "implement" |
-| Refactor | Internal improvement, no behavior change, "clean up", "restructure" |
-| Cleanup | Removal, dead code, migration, "remove", "delete", "migrate" |
-| Bug fix | Broken behavior, "fix", "broken", "not working", error description |
-| Architecture | Cross-cutting structural change, "redesign", "move to", "split" |
+| Type         | Signals                                                             |
+| ------------ | ------------------------------------------------------------------- |
+| Feature      | New capability, user-facing, "add", "build", "implement"            |
+| Refactor     | Internal improvement, no behavior change, "clean up", "restructure" |
+| Cleanup      | Removal, dead code, migration, "remove", "delete", "migrate"        |
+| Bug fix      | Broken behavior, "fix", "broken", "not working", error description  |
+| Architecture | Cross-cutting structural change, "redesign", "move to", "split"     |
 
 Plan type sets axis weighting — see [README.md](README.md) (Completeness axes).
 
@@ -46,6 +46,7 @@ For code plans: follow [parallel-explore.md](parallel-explore.md) via **multi** 
 Goal: enough context to ask grounded questions and detect blast radius early. Do not go deep — surface-level structure is enough.
 
 Examples:
+
 - "Add scoring to sources" → explore shared query package, client data hooks, backend scoring endpoints, UI score components
 - "Fix auth bug" → explore client auth flows and backend auth views
 
@@ -56,22 +57,27 @@ Ask in batches of 2–3. Stop when the plan can be written confidently. Skip que
 **Continuing from grill:** skip re-asking points already settled in the dialogue; use this step only for gaps the artifact still needs.
 
 ### Scope batch (always ask for features)
+
 - What is the one thing this plan must accomplish?
 - What's explicitly out of scope — what could someone reasonably assume is included but isn't?
 
 ### Gaps batch (always ask)
+
 - Are there phases this needs that aren't obvious from the description?
 - What part of this could be harder or more involved than it looks?
 
 ### Blast radius batch (ask when shared code is involved)
+
 - What shared code, packages, or infra does this touch?
 - Who else depends on the things being changed?
 
 ### Bug-specific
+
 - Is the root cause confirmed, or is this a hypothesis?
 - What's the correct behavior after the fix?
 
 ### Constraint batch (ask when relevant)
+
 - Any files or interfaces that must NOT change?
 - Any partial-delivery or MVP-slice constraints?
 
@@ -79,12 +85,12 @@ Ask in batches of 2–3. Stop when the plan can be written confidently. Skip que
 
 After the first question batch, evaluate whether a mode shift would help:
 
-| Signal | Action |
-|---|---|
-| Idea is still vague or contradictory | "This might benefit from a quick **crystallize** pass — want to shift there?" |
-| Assumptions in the description are questionable | "Some of these assumptions might be worth a **grill** pass — want to run that?" |
-| Plan looks nearly complete; you want a fresh read of the *written* plan | "Want a **second-opinion** (fresh read) pass on the plan before I finalize?" |
-| Specific doubt about a code path or structure | Optional: "Want **investigate** to sanity-check that hunch with evidence first?" |
+| Signal                                                                  | Action                                                                           |
+| ----------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Idea is still vague or contradictory                                    | "This might benefit from a quick **crystallize** pass — want to shift there?"    |
+| Assumptions in the description are questionable                         | "Some of these assumptions might be worth a **grill** pass — want to run that?"  |
+| Plan looks nearly complete; you want a fresh read of the _written_ plan | "Want a **second-opinion** (fresh read) pass on the plan before I finalize?"     |
+| Specific doubt about a code path or structure                           | Optional: "Want **investigate** to sanity-check that hunch with evidence first?" |
 
 Never shift without offering. User decides.
 
@@ -114,14 +120,14 @@ Be specific. If something is unaddressed, name it — don't just flag "blast rad
 
 Ask: "What output format?" — or infer from context if clear.
 
-| If user said... | Default output |
-|---|---|
-| "help me plan" / general | Ask: CreatePlan, PRD, or issues? |
-| "write a PRD" | PRD doc |
-| "break into issues" / "create tickets" | Linear issues |
-| "plan how to implement" | CreatePlan |
-| Linear card provided, solo work implied | CreatePlan |
-| Linear card provided, team execution implied | PRD + issues |
+| If user said...                              | Default output                   |
+| -------------------------------------------- | -------------------------------- |
+| "help me plan" / general                     | Ask: CreatePlan, PRD, or issues? |
+| "write a PRD"                                | PRD doc                          |
+| "break into issues" / "create tickets"       | Linear issues                    |
+| "plan how to implement"                      | CreatePlan                       |
+| Linear card provided, solo work implied      | CreatePlan                       |
+| Linear card provided, team execution implied | PRD + issues                     |
 
 Multiple outputs can be generated in one pass. Generate them sequentially.
 

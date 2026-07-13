@@ -2,20 +2,20 @@
 
 scan:
   include:
-    - "README.md"
-    - "AGENTS.md"
-    - "docs/**"
-    - ".skeleton/registry.md"
-    - "multi/**"
-    - "code-review/**"
-    - "crystallize/**"
-    - "grill/**"
-    - "second-opinion/**"
-    - "investigate/**"
-    - "handoff/**"
+    - 'README.md'
+    - 'AGENTS.md'
+    - 'docs/**'
+    - '.skeleton/registry.md'
+    - 'multi/**'
+    - 'code-review/**'
+    - 'crystallize/**'
+    - 'grill/**'
+    - 'second-opinion/**'
+    - 'investigate/**'
+    - 'handoff/**'
   exclude:
-    - ".skeleton/references/**"
-    - "**/references/**"
+    - '.skeleton/references/**'
+    - '**/references/**'
   banned: []
   retiredSkills:
     - branch-cleanup

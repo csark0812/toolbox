@@ -23,10 +23,12 @@ The slug should be lowercase and hyphenated: `source-scoring`, `auth-refresh`, `
 ## Scope
 
 **In scope:**
+
 - [Specific capability or behavior included]
 - [...]
 
 **Out of scope:**
+
 - [Thing that could be assumed as included but isn't]
 - [...]
 
@@ -53,24 +55,29 @@ The slug should be lowercase and hyphenated: `source-scoring`, `auth-refresh`, `
 ## Writing Guidelines
 
 **Problem section:**
+
 - Name the user or role experiencing the problem
 - Be specific about the gap — not "users need X" but "users currently cannot X when Y"
 - One paragraph maximum
 
 **Scope:**
+
 - Out-of-scope section is required. If everything is in scope, list adjacent features that could be confused as included.
 - Scope should be specific enough that two engineers reading it would scope the work the same way.
 
 **User stories:**
+
 - Keep to the behaviors that matter — 2–5 stories max for most features
 - Avoid implementation language in user stories ("As a user, I want the API to return...") — describe the user goal
 
 **Acceptance criteria:**
+
 - Each criterion must be independently testable: someone should be able to say "pass" or "fail"
 - Cover the main success path + at least one failure/edge case
 - Mirror the user stories — every story should have at least one criterion
 
 **Modules:**
+
 - List only modules that change or are created — not unchanged dependencies
 - Include the file path or package name so this serves as a map for implementation
 

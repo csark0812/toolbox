@@ -22,10 +22,10 @@ Default **investigate** stays single-target, single-pass — use this recipe onl
 
 Same target — adversarial stances:
 
-| Slice | Subagent | Stance |
-| --- | --- | --- |
-| Strongest case for the hunch | `generalPurpose` | `steelman` — assume the hunch is real; build the strongest case |
-| Mechanism that prevents it | `generalPurpose` | `skeptic` — assume it's a non-issue; find what prevents the problem |
+| Slice                        | Subagent         | Stance                                                              |
+| ---------------------------- | ---------------- | ------------------------------------------------------------------- |
+| Strongest case for the hunch | `generalPurpose` | `steelman` — assume the hunch is real; build the strongest case     |
+| Mechanism that prevents it   | `generalPurpose` | `skeptic` — assume it's a non-issue; find what prevents the problem |
 
 Use distinct models when enum allows.
 
@@ -38,6 +38,7 @@ Source of truth: [repo | plan | docs | data]
 Goal: coverage
 
 Selected members:
+
 - generalPurpose · tier=Standard · model=[slug A] · stance=steelman: strongest case for hunch
 - generalPurpose · tier=Standard · model=[slug B] · stance=skeptic: mechanism that prevents or refutes
 

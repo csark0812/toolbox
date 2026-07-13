@@ -10,15 +10,15 @@ Assign each skill to exactly one place. Update when adding skills.
 
 Generic orchestration, planning, and dialogue — intended for any consumer project.
 
-| Slug           | Notes                                      |
-| -------------- | ------------------------------------------ |
-| multi          | Parallel subagent kernel                   |
+| Slug           | Notes                                        |
+| -------------- | -------------------------------------------- |
+| multi          | Parallel subagent kernel                     |
 | code-review    | Council review + fix-loop (customize roster) |
-| crystallize    | Fuzzy idea → artifact                      |
-| grill          | Pressure-test design                       |
-| second-opinion | Plan review                                |
-| investigate    | Code hunch / web research                  |
-| handoff        | Session handoff                            |
+| crystallize    | Fuzzy idea → artifact                        |
+| grill          | Pressure-test design                         |
+| second-opinion | Plan review                                  |
+| investigate    | Code hunch / web research                    |
+| handoff        | Session handoff                              |
 
 Shared reference docs live in `.skeleton/references/` and are materialized into each skill's `references/` directory via `skeleton references sync`.
 
@@ -36,12 +36,12 @@ npx skills add csark0812/toolbox --skill multi code-review crystallize grill sec
 - **skeleton** — validates docs, registries, and skill links in the consumer project
 - **`.skeleton/customize/`** — project overrides; hooks inject on skill read
 
-Install destinations: Cursor project → `.agents/skills/` (global → `~/.cursor/skills/`); Claude Code project → `.claude/skills/`. Put project-specific customize stubs and council overlays in the consumer repo, not here.
+Install destinations: Cursor project → `.agents/skills/` (global → `~/.cursor/skills/`); Claude Code project → `.claude/skills/` (global → `~/.claude/skills/`); Codex project → `.agents/skills/` (global → `~/.codex/skills/`). Put project-specific customize stubs and council overlays in the consumer repo, not here.
 
 Distribution:
 
 ```bash
-npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code -y
+npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex -y
 npx skills update -g
 ```
 

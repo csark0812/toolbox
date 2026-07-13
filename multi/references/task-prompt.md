@@ -23,12 +23,12 @@ Constraints:
 
 ## Job types
 
-| Job | Sub-task focus |
-| --- | --- |
-| `explore` | Area, subsystem, or artifact to map |
-| `gather` | Single source of truth to collect |
-| `research` | Independent web topic |
-| `mixed` | One slice per member; no cross-member dependencies |
+| Job        | Sub-task focus                                     |
+| ---------- | -------------------------------------------------- |
+| `explore`  | Area, subsystem, or artifact to map                |
+| `gather`   | Single source of truth to collect                  |
+| `research` | Independent web topic                              |
+| `mixed`    | One slice per member; no cross-member dependencies |
 
 Job recipes → entry skill references (injected via project customize on skill read).
 

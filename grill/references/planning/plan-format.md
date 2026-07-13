@@ -49,21 +49,25 @@ Out: [bullet list of what's explicitly excluded — even if obvious]
 Run through this before submitting the plan. Fix anything that fails.
 
 **Todos:**
+
 - [ ] Every todo cites a specific file path or directory — not just "implement X"
 - [ ] No todo is vague enough that two different implementations would satisfy it
 - [ ] Phase ordering respects dependencies (blocked tasks come later, stated as "blocked by Phase N")
 - [ ] Each phase has a clear completion criterion
 
 **Scope:**
+
 - [ ] "Out" section exists and names at least one thing, even if obvious
 - [ ] Acceptance criteria or success condition is stated somewhere
 
 **Blast radius:**
+
 - [ ] Shared packages or infra touched by the plan are named
 - [ ] If shared packages are touched, consuming apps are mentioned
 - [ ] If backend API changes, frontend client regeneration is noted
 
 **Risks:**
+
 - [ ] If there are unknowns (root cause not confirmed, external dependency not ready), they are listed
 - [ ] If risks section is empty, that is an intentional statement — confirm it's correct
 

@@ -2,9 +2,9 @@
 
 Work on a **written** plan, PRD, or issue set — not Socratic explore. Pick a **stance**:
 
-| Stance | When | Where |
-|--------|------|--------|
-| **A — Fresh read** | Plan you had **no part** in creating; you want premise challenge + structured critique | This doc, below |
+| Stance                      | When                                                                                                                                               | Where                                    |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| **A — Fresh read**          | Plan you had **no part** in creating; you want premise challenge + structured critique                                                             | This doc, below                          |
 | **B — Completeness verify** | "Verify my plan", "did I miss anything", readiness on `.plan.md` / `docs/prds/` / issues; **axis checklist**, fixed report shape, does not rewrite | [planning/verify.md](planning/verify.md) |
 
 **Both:** If you want outsider critique **and** the axis checklist, run **A then B**, or **B then A** if premises are already settled.
@@ -26,7 +26,7 @@ You are reviewing a plan you had no part in creating. Approach it fresh — no d
 3. **Pre-review assumption pass (before the full writeup).** Extract **3–6 implicit premises** the plan depends on (goals, constraints, owners, timelines, tech choices, “this API already works,” etc.). **Invite the user to confirm or correct** the **top 2–3** that would invalidate the review if wrong — short, invitational questions, not a cross-exam. If you cannot reach the user synchronously, present the premise list first and either pause for answers or label the rest of the opinion **provisional** until they respond.
 4. **Analyze and respond** — apply the framework below, incorporating what the user confirmed or corrected.
 
-**Blocking:** Do not present the full structured **Output Format** sections as final until critical premises are at least **surfaced** and the user has had a chance to react — *or* they've told you to proceed without. If you must ship in one shot, lead with **## Premises (please confirm or correct)** and keep the rest explicitly provisional.
+**Blocking:** Do not present the full structured **Output Format** sections as final until critical premises are at least **surfaced** and the user has had a chance to react — _or_ they've told you to proceed without. If you must ship in one shot, lead with **## Premises (please confirm or correct)** and keep the rest explicitly provisional.
 
 ### Structural deepening and scope
 

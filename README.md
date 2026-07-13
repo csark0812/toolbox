@@ -8,17 +8,17 @@ Public SSOT for reusable Cursor/Claude agent skills.
 
 New skill packages can start from the public [skeleton](https://github.com/csark0812/skeleton) template. Personal or org-private skills stay outside this repo.
 
-Requires **Node ≥ 22**. Contributor cold-start: [AGENTS.md](AGENTS.md).
+Requires **Node ≥ 22**. Contributor cold-start: [AGENTS.md](AGENTS.md). No runtime environment variables are required (see `.env.example`).
 
 ## Install
 
 Install destinations (skills CLI):
 
-| Agent | Project-scoped | Global |
-| ----- | -------------- | ------ |
-| Cursor | `.agents/skills/` | `~/.cursor/skills/` |
+| Agent       | Project-scoped    | Global              |
+| ----------- | ----------------- | ------------------- |
+| Cursor      | `.agents/skills/` | `~/.cursor/skills/` |
 | Claude Code | `.claude/skills/` | `~/.claude/skills/` |
-| Codex | `.agents/skills/` | `~/.codex/skills/` |
+| Codex       | `.agents/skills/` | `~/.codex/skills/`  |
 
 ```bash
 # All team skills (7 slugs), global — Cursor, Claude Code, and Codex
@@ -57,12 +57,12 @@ After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton a
 
 ### Roles
 
-| Piece                       | Role                                                                      |
-| --------------------------- | ------------------------------------------------------------------------- |
-| **toolbox** (this repo)     | Skill source SSOT — what skills exist and how they're written             |
-| **skeleton**                | Docs/skill registry linter — validates links, banners, and scan perimeter |
+| Piece                       | Role                                                                                                                  |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| **toolbox** (this repo)     | Skill source SSOT — what skills exist and how they're written                                                         |
+| **skeleton**                | Docs/skill registry linter — validates links, banners, and scan perimeter                                             |
 | **`.skeleton/customize/`**  | Project-specific skill overrides (injected via IDE hooks on read) — **consumer repos only**, not present in this tree |
-| **`.skeleton/references/`** | Canonical shared reference docs — copied into each skill at build time    |
+| **`.skeleton/references/`** | Canonical shared reference docs — copied into each skill at build time                                                |
 
 Do not edit synced `SKILL.md` files in consumer projects — override in `.skeleton/customize/<slug>.md` instead. See [skeleton customize docs](https://github.com/csark0812/skeleton/blob/main/docs/developer/customize.md).
 
@@ -95,14 +95,14 @@ npx skills update -g
 ```bash
 # Node ≥ 22 (see package.json engines)
 npm ci
-npm test
+npm run check
 
 # Optional local hooks (install the tool once per machine, then per clone)
 # brew install pre-commit   # or: pipx install pre-commit
 pre-commit install          # runs npm test on commit
 ```
 
-`npm test` / `npm run check` runs `references:check`, hub + skills audits, and `validate:ci`. That is the real skill gate (also the pre-commit hook). `npm ci` pulls `@csark0812/skeleton` from the registry; for local dogfood only: `npm install ../skeleton` (do not commit the link).
+`npm run check` / `npm start` runs format, lint, typecheck, vitest unit fixtures, `references:check`, hub + skills audits, and `validate:ci` (matches CI). `npm test` is the skill gate subset (unit + audits + validate:ci). `npm ci` pulls `@csark0812/skeleton` from the registry; for local dogfood only: `npm install ../skeleton` (do not commit the link).
 
 ## Adding a skill
 

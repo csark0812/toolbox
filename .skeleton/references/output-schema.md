@@ -12,11 +12,11 @@ Operational skills that produce user-facing results should follow this baseline.
 
 Before running a skill that needs external tools, verify or state fallback:
 
-| Tool | Typical use | If missing |
-|------|-------------|------------|
-| Docker | backend dev/test, integration tests | Scope to file lint/typecheck; say backend verify blocked |
-| `gh` | PR/issue workflows | File output only; skip `gh pr edit` when `gh` missing |
-| Issue tracker MCP | issue `start`/`finish` | Fail on `start`; warn on `finish` |
+| Tool              | Typical use                         | If missing                                               |
+| ----------------- | ----------------------------------- | -------------------------------------------------------- |
+| Docker            | backend dev/test, integration tests | Scope to file lint/typecheck; say backend verify blocked |
+| `gh`              | PR/issue workflows                  | File output only; skip `gh pr edit` when `gh` missing    |
+| Issue tracker MCP | issue `start`/`finish`              | Fail on `start`; warn on `finish`                        |
 
 ## Final response shape
 

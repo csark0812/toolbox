@@ -22,11 +22,11 @@ Profile: `manual` or `repo` (web topics → `research` via [parallel-research.md
 
 Split by **source of truth**, not perspective:
 
-| Slice | Subagent | Tier | Example |
-| --- | --- | --- | --- |
+| Slice             | Subagent  | Tier | Example                                  |
+| ----------------- | --------- | ---- | ---------------------------------------- |
 | Doc / policy SSOT | `explore` | Fast | consumer validation / SSOT registry docs |
-| Code area A | `explore` | Fast | service / domain package paths |
-| Code area B | `explore` | Fast | client data layer paths |
+| Code area A       | `explore` | Fast | service / domain package paths           |
+| Code area B       | `explore` | Fast | client data layer paths                  |
 
 Each member collects from its slice only — no cross-slice inference until synthesis.
 
@@ -39,6 +39,7 @@ Source of truth: repo
 Goal: coverage
 
 Selected members:
+
 - explore · tier=Fast · model=[cheapest] · stance=n/a: [doc/policy slice]
 - explore · tier=Fast · model=[cheapest] · stance=n/a: [backend slice]
 

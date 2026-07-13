@@ -19,14 +19,14 @@ Not for: PR description/body authoring (separate skill), Cursor `/review-bugbot`
 
 ## Quick reference
 
-| Need | Reference |
-|---|---|
-| Modes, diff, depth, escalation | [references/modes.md](references/modes.md) |
-| Default filing (merge-blockers) | [references/merge-blockers.md](references/merge-blockers.md) |
-| Council dispatch + spawn | [references/council-dispatch.md](references/council-dispatch.md) · [`multi`](../multi/SKILL.md) kernel |
-| Agent selection | [references/agent-selection.md](references/agent-selection.md) |
-| Review synthesis | [references/synthesis.md](references/synthesis.md) |
-| Output | [references/output.md](references/output.md) — scannable finding-block shape (not Cursor `bugbot` subagent) |
+| Need                            | Reference                                                                                                   |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Modes, diff, depth, escalation  | [references/modes.md](references/modes.md)                                                                  |
+| Default filing (merge-blockers) | [references/merge-blockers.md](references/merge-blockers.md)                                                |
+| Council dispatch + spawn        | [references/council-dispatch.md](references/council-dispatch.md) · [`multi`](../multi/SKILL.md) kernel      |
+| Agent selection                 | [references/agent-selection.md](references/agent-selection.md)                                              |
+| Review synthesis                | [references/synthesis.md](references/synthesis.md)                                                          |
+| Output                          | [references/output.md](references/output.md) — scannable finding-block shape (not Cursor `bugbot` subagent) |
 
 ## Workflow
 

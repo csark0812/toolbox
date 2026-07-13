@@ -80,12 +80,12 @@ Write this structure to the handoff file (fill every section; use `—` or `none
 
 ## Artifacts (reference only — do not duplicate)
 
-| Kind | Path or URL |
-|------|-------------|
-| Plan | [path] |
-| PRD | [path] |
-| Issue | [issue URL] |
-| PR | [GitHub PR URL] |
+| Kind    | Path or URL         |
+| ------- | ------------------- |
+| Plan    | [path]              |
+| PRD     | [path]              |
+| Issue   | [issue URL]         |
+| PR      | [GitHub PR URL]     |
 | Commits | `abc1234` — message |
 
 ## Suggested skills (next session)

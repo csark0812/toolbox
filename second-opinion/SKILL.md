@@ -17,14 +17,15 @@ Not for: dialogue without a plan ([`crystallize`](../crystallize/SKILL.md), [`gr
 
 ## Stances
 
-| Stance | Trigger | Recipe |
-|--------|---------|--------|
-| **A — Fresh read** | Someone else's plan; premise challenge + critique | [references/second-opinion.md](references/second-opinion.md) (Stance A) |
-| **B — Completeness verify** | "Verify my plan", readiness, axis pass without rewriting | [../references/planning/verify.md](references/planning/verify.md) |
+| Stance                      | Trigger                                                  | Recipe                                                                  |
+| --------------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------- |
+| **A — Fresh read**          | Someone else's plan; premise challenge + critique        | [references/second-opinion.md](references/second-opinion.md) (Stance A) |
+| **B — Completeness verify** | "Verify my plan", readiness, axis pass without rewriting | [../references/planning/verify.md](references/planning/verify.md)       |
 
 If unclear: ask whether they want a **fresh read** (outsider assumptions) or a **completeness checklist** (verify).
 
 **Does not own:**
+
 - Dialogue without a plan artifact → **crystallize** or **grill**
 - Author a new plan from intent → **crystallize** or **grill** → [../references/planning/build.md](references/planning/build.md)
 - Single code-path hunch with evidence → **investigate**
@@ -53,8 +54,10 @@ Follow [references/output-schema.md](references/output-schema.md). End with this
 **Artifact:** [path or title]
 
 ### Findings
+
 - [Critical gap or assumption — or "No material gaps"]
 
 ### Recommended next steps
+
 - [Concrete action: implement, revise plan, pressure-test → **grill**, serialize → planning/build.md, investigate code path → **investigate**]
 ```

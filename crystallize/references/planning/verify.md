@@ -13,12 +13,12 @@ Plan type and axis weighting — see [README.md](README.md) (Completeness axes).
 
 ## Step 1: Locate the Artifact
 
-| Input | Action |
-|---|---|
-| `.plan.md` path | Read the file |
-| `docs/prds/*.md` path | Read the file |
+| Input                     | Action                                                               |
+| ------------------------- | -------------------------------------------------------------------- |
+| `.plan.md` path           | Read the file                                                        |
+| `docs/prds/*.md` path     | Read the file                                                        |
 | "My plan" / no path given | Check `.cursor/plans/` for recent `.plan.md` files; ask if ambiguous |
-| Linear issue set | Ask for the project or issue IDs |
+| Linear issue set          | Ask for the project or issue IDs                                     |
 
 ## Step 2: Detect Plan Type
 
@@ -35,6 +35,7 @@ Work through each axis. For each finding, state the specific gap and a concrete 
 ### Axis 1: Scope
 
 **What to check:**
+
 - Is there an explicit "out of scope" section? If not, what could reasonably be assumed as included but probably isn't?
 - Are the acceptance criteria or success conditions stated?
 - Does the plan's scope match the triggering input (Linear card, description, PRD)?
@@ -48,6 +49,7 @@ Work through each axis. For each finding, state the specific gap and a concrete 
 ### Axis 2: Gaps
 
 **What to check:**
+
 - Are there phases or steps that are non-obvious but required?
 - Is there missing infrastructure work (migrations, schema changes, config updates) that code changes depend on?
 - Are tests mentioned? For non-trivial changes, test coverage should appear in the plan.
@@ -63,6 +65,7 @@ Work through each axis. For each finding, state the specific gap and a concrete 
 **Question:** What else does this decision touch or depend on?
 
 **What to check:**
+
 - What shared code, packages, or interfaces does this change? Are they all mentioned?
 - Does the plan account for consumers of the changed code? (callers, dependents in other packages/apps)
 - For shared package changes: all consuming apps noted?
@@ -94,6 +97,7 @@ Work through each axis. For each finding, state the specific gap and a concrete 
 ```
 
 **Readiness signals:**
+
 - **Needs work** — A scope gap, missing phase, or unaddressed blast radius item would derail implementation
 - **Mostly there** — Minor gaps; implementer can proceed but should keep these in mind
 - **Ready to build** — All three axes covered; plan is executable as-is
@@ -101,6 +105,7 @@ Work through each axis. For each finding, state the specific gap and a concrete 
 ## Step 5: Offer Next Steps
 
 After the report:
+
 - Gaps in assumptions → "Want a **grill** pass on the assumptions, or a **second-opinion** (fresh read) on the plan text first?"
 - Significant scope gaps → "Want to run [build.md](build.md) to fill these in?"
 - Ready to build → "Want to kick off **project-tracking** to start work?"

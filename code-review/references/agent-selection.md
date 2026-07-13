@@ -6,24 +6,24 @@ Mechanical discovery → [multi agent-discovery.md](../../multi/references/agent
 
 ## Input
 
-| Field | Source |
-| --- | --- |
-| Profile | `review` (always for this doc) |
+| Field          | Source                                                       |
+| -------------- | ------------------------------------------------------------ |
+| Profile        | `review` (always for this doc)                               |
 | Scoring inputs | diff paths, diff keywords, `depth` from [modes.md](modes.md) |
-| Budget | depth table (below) |
-| Paths | diff stat / `git diff --name-only` / explicit diff file list |
-| Text | diff body for keyword scoring |
+| Budget         | depth table (below)                                          |
+| Paths          | diff stat / `git diff --name-only` / explicit diff file list |
+| Text           | diff body for keyword scoring                                |
 
 ## Depth order and budget
 
 Depth ranks: `quick` < `standard` < `thorough` < `full`.
 
-| Depth | Member budget |
-| --- | --- |
-| Quick | 1 |
-| Standard | 2 |
-| Thorough | 4 |
-| Full | 5 |
+| Depth    | Member budget |
+| -------- | ------------- |
+| Quick    | 1             |
+| Standard | 2             |
+| Thorough | 4             |
+| Full     | 5             |
 
 Budget expands to fit all **required** agents (never drop a required member to save slots).
 

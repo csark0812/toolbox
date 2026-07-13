@@ -22,10 +22,10 @@ Default Stance A stays single-pass — use this recipe only for contested/high-s
 
 Same plan text — adversarial stances:
 
-| Slice | Subagent | Stance |
-| --- | --- | --- |
+| Slice                       | Subagent         | Stance                                                                      |
+| --------------------------- | ---------------- | --------------------------------------------------------------------------- |
 | Strongest case for the plan | `generalPurpose` | `defend` — assume premises are right; build the strongest case for the plan |
-| Where the plan breaks | `generalPurpose` | `attack` — assume it's flawed; find where it breaks |
+| Where the plan breaks       | `generalPurpose` | `attack` — assume it's flawed; find where it breaks                         |
 
 Use distinct models when enum allows.
 
@@ -38,6 +38,7 @@ Source of truth: plan
 Goal: coverage
 
 Selected members:
+
 - generalPurpose · tier=Standard · model=[slug A] · stance=defend: strongest case for plan
 - generalPurpose · tier=Standard · model=[slug B] · stance=attack: flaws, gaps, risky assumptions
 

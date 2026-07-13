@@ -24,11 +24,11 @@
 
 `review vs main` on a branch → mode `pr`, diff `main...HEAD` (whole branch). Depth is **calibrated**, not always Full.
 
-| Condition | Depth | Council agents | Diff scope |
-|-----------|-------|----------------|------------|
-| Default (no escalation triggers below) | **Thorough** | 4 | Whole branch |
-| Auth/security/API/schema; >10 files or >600 lines on shared paths; >20 files or >1200 lines; weak tests on risky paths | **Full** (escalated) | 5 | Whole branch |
-| Fix-loop pass 2+ (prior Action findings in thread/PR) | **Full** (contextual re-review) | 5 | Whole branch |
+| Condition                                                                                                              | Depth                           | Council agents | Diff scope   |
+| ---------------------------------------------------------------------------------------------------------------------- | ------------------------------- | -------------- | ------------ |
+| Default (no escalation triggers below)                                                                                 | **Thorough**                    | 4              | Whole branch |
+| Auth/security/API/schema; >10 files or >600 lines on shared paths; >20 files or >1200 lines; weak tests on risky paths | **Full** (escalated)            | 5              | Whole branch |
+| Fix-loop pass 2+ (prior Action findings in thread/PR)                                                                  | **Full** (contextual re-review) | 5              | Whole branch |
 
 Agent budget table: [agent-selection.md](agent-selection.md).
 

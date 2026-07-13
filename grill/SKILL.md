@@ -40,7 +40,7 @@ Repeat until no unresolved branches remain.
 
 - Every significant design choice made explicitly
 - Dependencies between decisions resolved in order
-- No major "what if X doesn't hold?" questions unanswered *with the user*
+- No major "what if X doesn't hold?" questions unanswered _with the user_
 - User can describe the plan without ambiguity (or accepts documented open questions)
 
 If almost there, **ask the next question** instead of summarizing prematurely.
@@ -62,9 +62,11 @@ Follow [output-schema.md](references/output-schema.md). End with this block when
 - [Decision 2]: [What was decided and why]
 
 ## Open questions (deferred)
+
 - [Anything explicitly punted]
 
 ## Next step
+
 - Ready to implement → [planning/build.md](references/planning/build.md) (then [code-review](../code-review/SKILL.md) once code exists)
 - Written plan for external read → [second-opinion](../second-opinion/SKILL.md)
 - One concrete code doubt → [investigate](../investigate/SKILL.md)

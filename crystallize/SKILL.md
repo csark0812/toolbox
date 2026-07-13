@@ -19,14 +19,14 @@ Goal: **crystallization**, not resolution. Follow the thread; don't steer toward
 ## Protocol
 
 1. **Listen first.** Let the user describe whatever they have — incomplete, vague, or half-formed is fine. Don't ask for clarity before they've spoken.
-2. **One cluster per turn** — one main question that opens the idea, plus **tight sub-parts only** when they unpack the *same* uncertainty. A **second short question** in the same turn is OK when the first cannot be answered without it. No unrelated question dumps. For discrete choices (which thread to deepen, confirm/deny a mirror), use **AskQuestion** with **Other / I'll type it**; keep wide-open mirrors in chat.
+2. **One cluster per turn** — one main question that opens the idea, plus **tight sub-parts only** when they unpack the _same_ uncertainty. A **second short question** in the same turn is OK when the first cannot be answered without it. No unrelated question dumps. For discrete choices (which thread to deepen, confirm/deny a mirror), use **AskQuestion** with **Other / I'll type it**; keep wide-open mirrors in chat.
 3. **Reflect before asking.** Briefly mirror what you heard; validate uncertainty: "So part of this might still be fuzzy, but it sounds like…"
 4. **Exhaust the branch.** Chain another question on the same branch before moving on. If an answer is **thin**, say so and ask which meaning fits.
 5. **Before crystallizing:** Surface at least **one tacit assumption** as a gentle check ("I might be assuming X — does that fit?") **or** **one branch gently tested** — don't offer the final block until that exchange happened (unless the user asks to skip ahead).
 6. **Follow energy, not logic.** If the user lights up on a tangent, go there.
 7. **Don't solve.** Avoid proposing solutions, architectures, or implementations unless explicitly asked.
 8. **Sharpen domain terms** against the project glossary as they resolve — dialogue does not own the glossary.
-9. **Crystallize when ready.** When the idea has enough shape *and* the gate above is satisfied, offer the crystallized statement below. Confirm with **AskQuestion** when possible.
+9. **Crystallize when ready.** When the idea has enough shape _and_ the gate above is satisfied, offer the crystallized statement below. Confirm with **AskQuestion** when possible.
 
 ## Question cadence
 
@@ -48,9 +48,11 @@ Follow [output-schema.md](references/output-schema.md). End with this block when
 [2–4 sentence statement from the user's perspective. Reads like: "You're trying to X, because Y. The key tension is Z."]
 
 ## What remains open
+
 - [Unresolved branches]
 
 ## Possible next steps
+
 - Pressure-test the design → **grill** skill
 - Fresh read of a plan on disk → **second-opinion**
 - One concrete code doubt → **investigate**

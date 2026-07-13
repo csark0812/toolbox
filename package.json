@@ -1,51 +1,56 @@
 {
-	"name": "toolbox",
-	"version": "1.0.0",
-	"description": "Public SSOT for team Cursor/Claude agent skills.",
-	"engines": {
-		"node": ">=22"
-	},
-	"directories": {
-		"doc": "docs"
-	},
-	"scripts": {
-		"references:sync": "skeleton references sync",
-		"references:check": "skeleton references check",
-		"audit:hub": "skeleton audit docs --paths=README.md,AGENTS.md,docs",
-		"audit:docs": "skeleton audit docs",
-		"audit:skills": "skeleton audit skills",
-		"audit:self": "skeleton audit self",
-		"audit:deps": "npm audit --omit=dev",
-		"build": "npm run references:sync",
-		"format": "prettier --write .",
-		"format:check": "prettier --check .",
-		"lint": "eslint .",
-		"test:unit": "vitest run",
-		"test:coverage": "vitest run --coverage",
-		"validate:changed": "skeleton validate changed",
-		"validate": "npm run validate:changed",
-		"validate:ci": "skeleton validate changed --base origin/main",
-		"test": "npm run test:unit && npm run references:check && npm run audit:hub && npm run audit:skills && npm run validate:ci",
-		"check": "npm test"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/csark0812/toolbox.git"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/csark0812/toolbox/issues"
-	},
-	"homepage": "https://github.com/csark0812/toolbox#readme",
-	"devDependencies": {
-		"@csark0812/skeleton": "^1.1.3",
-		"@eslint/js": "^9.39.2",
-		"@eslint/markdown": "^7.5.1",
-		"eslint": "^9.39.2",
-		"marksman": "^0.0.1",
-		"prettier": "^3.7.4",
-		"vitest": "^4.0.18"
-	}
+  "name": "toolbox",
+  "version": "1.0.0",
+  "description": "Public SSOT for team Cursor/Claude agent skills.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "references:sync": "skeleton references sync",
+    "references:check": "skeleton references check",
+    "audit:hub": "skeleton audit docs --paths=README.md,AGENTS.md,docs",
+    "audit:docs": "skeleton audit docs",
+    "audit:skills": "skeleton audit skills",
+    "audit:self": "skeleton audit self",
+    "audit:deps": "npm audit --omit=dev",
+    "build": "npm run references:sync",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "validate:changed": "skeleton validate changed",
+    "validate": "npm run validate:changed",
+    "validate:ci": "skeleton validate changed --base origin/main",
+    "test": "npm run test:unit && npm run references:check && npm run audit:hub && npm run audit:skills && npm run validate:ci",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm test",
+    "start": "npm run check",
+    "dev": "npm run check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csark0812/toolbox.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/csark0812/toolbox/issues"
+  },
+  "homepage": "https://github.com/csark0812/toolbox#readme",
+  "devDependencies": {
+    "@csark0812/skeleton": "^1.1.2",
+    "@eslint/js": "^9.39.2",
+    "@eslint/markdown": "^7.5.1",
+    "@types/node": "^22.15.21",
+    "eslint": "^9.39.2",
+    "prettier": "^3.7.4",
+    "typescript": "^5.8.3",
+    "vitest": "^4.0.18"
+  }
 }

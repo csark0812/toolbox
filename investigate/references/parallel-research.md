@@ -20,8 +20,8 @@ Profile: `web` — skip council agent scoring.
 
 ## Members (1 per topic)
 
-| Slice | Subagent | Tier |
-| --- | --- | --- |
+| Slice   | Subagent                              | Tier     |
+| ------- | ------------------------------------- | -------- |
 | Topic A | `docs-researcher` or `generalPurpose` | Standard |
 | Topic B | `docs-researcher` or `generalPurpose` | Standard |
 
@@ -36,6 +36,7 @@ Source of truth: web
 Goal: coverage
 
 Selected members:
+
 - docs-researcher · tier=Standard · model=composer-2.5-fast · stance=n/a: [topic A — specific query]
 - docs-researcher · tier=Standard · model=[alternate mid slug] · stance=n/a: [topic B]
 

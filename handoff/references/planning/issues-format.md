@@ -14,11 +14,13 @@ Break a plan or PRD into independently grabbable Linear issues. Each issue is a 
 Every issue must be a **tracer bullet**: the thinnest end-to-end slice that solves one specific case, touching all layers required (API + query + UI, or backend + frontend, etc.).
 
 **Horizontal slicing is wrong:**
+
 - ❌ "Build the API layer for scoring"
 - ❌ "Build all UI components for scoring"
 - ❌ "Write all tests for scoring"
 
 **Vertical slicing is right:**
+
 - ✅ "Display score badge on source card — API endpoint + query + badge component"
 - ✅ "Score sorting in source list — sort param + query update + list UI"
 
@@ -29,6 +31,7 @@ Each slice should have a clear, user-observable pass/fail: either the thing work
 Identify which issues must complete before others can start. Unblocked issues can be picked up in parallel immediately.
 
 Draw the blocking graph before creating issues:
+
 ```
 [Issue A] ──blocks──► [Issue B]
 [Issue A] ──blocks──► [Issue C]

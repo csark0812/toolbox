@@ -31,7 +31,7 @@ When evidence touches structure, apply [dialogue-contract.md](references/dialogu
 
 ## Protocol
 
-1. **Target-clarification chain.** Ask **short, invitational** questions until you know *where* to look. Iterate until the target is concrete enough that "read the code" is purposeful — dimension by dimension if needed: approach vs. UX vs. naming vs. placement vs. performance vs. data integrity vs. structure? If the user can only gesture at the discomfort, stay with one branch ("Is it closer to behavior or to structure?") before widening. **Do not start deep investigation** until the suspicion is specific enough that files or a subsystem are plausible — *unless* the user explicitly asks you to fish broadly, in which case use [parallel-broad.md](references/parallel-broad.md) via **multi** and say you're doing a wider pass and why.
+1. **Target-clarification chain.** Ask **short, invitational** questions until you know _where_ to look. Iterate until the target is concrete enough that "read the code" is purposeful — dimension by dimension if needed: approach vs. UX vs. naming vs. placement vs. performance vs. data integrity vs. structure? If the user can only gesture at the discomfort, stay with one branch ("Is it closer to behavior or to structure?") before widening. **Do not start deep investigation** until the suspicion is specific enough that files or a subsystem are plausible — _unless_ the user explicitly asks you to fish broadly, in which case use [parallel-broad.md](references/parallel-broad.md) via **multi** and say you're doing a wider pass and why.
 2. **Read the primary material** — the actual code, the actual source document, or the actual dataset. Don't respond based on the description alone.
 3. **Form 2–4 ranked, falsifiable hypotheses** before gathering evidence. Each in the form: "If `<X>` is the cause, then `<evidence Y>` should show `<Z>`." Rank by plausibility.
 4. **Find evidence for and against** — look for both. Don't confirm-bias toward the hunch.
@@ -45,11 +45,11 @@ When evidence touches structure, apply [dialogue-contract.md](references/dialogu
 
 **Citation format by domain (additive):**
 
-| Domain | Citation |
-|--------|----------|
-| Code | `file:line` (mandatory for code hunches) |
-| Docs / web | `URL#section` or quoted passage |
-| Research claims | Specific data point or quoted source |
+| Domain          | Citation                                 |
+| --------------- | ---------------------------------------- |
+| Code            | `file:line` (mandatory for code hunches) |
+| Docs / web      | `URL#section` or quoted passage          |
+| Research claims | Specific data point or quoted source     |
 
 ## Principles
 

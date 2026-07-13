@@ -21,23 +21,23 @@ Each `.claude/agents/*.md` file may declare:
 
 ```yaml
 dispatch:
-  kind: council          # council | skip — skip = never auto-dispatch
-  contexts: [review, repo, plan]   # default [review] when omitted
-  priority: 90             # tie-breaker when filling optional slots (higher first)
+  kind: council # council | skip — skip = never auto-dispatch
+  contexts: [review, repo, plan] # default [review] when omitted
+  priority: 90 # tie-breaker when filling optional slots (higher first)
   depth:
     eligible: [standard, thorough, full]
-    required_from: standard   # always spawn when depth >= this (review only)
-  path_trigger: true       # also spawn when paths/keywords match
-  paths:                   # prefix match on task paths
+    required_from: standard # always spawn when depth >= this (review only)
+  path_trigger: true # also spawn when paths/keywords match
+  paths: # prefix match on task paths
     - <backend-or-api-root>/
-  path_globs:              # glob match (e.g. **/*.tsx)
-    - "**/*.tsx"
-  keywords:                # case-insensitive match in diff or plan body
+  path_globs: # glob match (e.g. **/*.tsx)
+    - '**/*.tsx'
+  keywords: # case-insensitive match in diff or plan body
     - openapi
   model:
-    default: standard      # fast | standard | premium
+    default: standard # fast | standard | premium
     premium_when: [thorough_or_full, ...]
-  stances: [lens_id, ...]  # pick one per member for perspective diversity
+  stances: [lens_id, ...] # pick one per member for perspective diversity
 ```
 
 **Legacy agents** without `dispatch:` — treat as `kind: council`, `contexts: [review]`, tier `standard`.

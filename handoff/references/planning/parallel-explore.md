@@ -27,11 +27,11 @@ Profile: `manual` or `repo`.
 
 Split by **domain**, not file:
 
-| Slice | Subagent | Tier | Example |
-| --- | --- | --- | --- |
-| Backend / API | `explore` | Fast | backend / API domain package (or equivalent) |
-| Client data + UI | `explore` | Fast | client data layer + UI routes |
-| Shared packages | `explore` | Fast | shared packages / UI kit paths |
+| Slice            | Subagent  | Tier | Example                                      |
+| ---------------- | --------- | ---- | -------------------------------------------- |
+| Backend / API    | `explore` | Fast | backend / API domain package (or equivalent) |
+| Client data + UI | `explore` | Fast | client data layer + UI routes                |
+| Shared packages  | `explore` | Fast | shared packages / UI kit paths               |
 
 Optional: score council agents on `task_paths[]` from the plan — spawn `architecture` or `correctness` only when cited paths match and `dispatch.contexts` includes `repo`. Path matching → [agent-discovery.md](../../../multi/references/agent-discovery.md).
 
@@ -44,6 +44,7 @@ Source of truth: repo
 Goal: coverage
 
 Selected members:
+
 - explore · tier=Fast · model=[cheapest] · stance=n/a: [backend slice]
 - explore · tier=Fast · model=[cheapest] · stance=n/a: [client slice]
 

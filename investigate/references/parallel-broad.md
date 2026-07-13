@@ -21,11 +21,11 @@ Default **investigate** stays single-target — use this recipe only on explicit
 
 Split by subsystem:
 
-| Slice | Subagent | Tier |
-| --- | --- | --- |
-| Area A (e.g. client) | `explore` or `generalPurpose` | Fast |
+| Slice                 | Subagent                      | Tier |
+| --------------------- | ----------------------------- | ---- |
+| Area A (e.g. client)  | `explore` or `generalPurpose` | Fast |
 | Area B (e.g. backend) | `explore` or `generalPurpose` | Fast |
-| Shared / integration | `explore` | Fast |
+| Shared / integration  | `explore`                     | Fast |
 
 Optional: score council agents on known paths — prefer `correctness` for mutation/cache paths if `contexts` includes `repo`. Path matching → [agent-discovery.md](../../multi/references/agent-discovery.md).
 
@@ -38,6 +38,7 @@ Source of truth: repo
 Goal: coverage
 
 Selected members:
+
 - explore · tier=Fast · model=[cheapest] · stance=n/a: [client slice — hypothesis to test]
 - explore · tier=Fast · model=[cheapest] · stance=n/a: [backend slice]
 

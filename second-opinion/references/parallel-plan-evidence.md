@@ -20,11 +20,11 @@ Stance B (verify / axis checklist) stays sequential — do not use this recipe.
 
 ## Members (2–3)
 
-| Slice | Focus | Subagent | Notes |
-| --- | --- | --- | --- |
-| Premises + scope | Implicit goals, in/out of scope, acceptance criteria | `generalPurpose` + stance `premises` | Plan text only |
-| Dependencies + blast radius | Ordering, hidden deps, structural work | `architecture` if HOST + `contexts` includes `plan`; else `generalPurpose` + stance `blast_radius` | Score on cited paths via [agent-discovery.md](../../multi/references/agent-discovery.md) |
-| Cited code skim | Validate plan claims against 2–4 top cited files | `explore` | Fast tier |
+| Slice                       | Focus                                                | Subagent                                                                                           | Notes                                                                                    |
+| --------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Premises + scope            | Implicit goals, in/out of scope, acceptance criteria | `generalPurpose` + stance `premises`                                                               | Plan text only                                                                           |
+| Dependencies + blast radius | Ordering, hidden deps, structural work               | `architecture` if HOST + `contexts` includes `plan`; else `generalPurpose` + stance `blast_radius` | Score on cited paths via [agent-discovery.md](../../multi/references/agent-discovery.md) |
+| Cited code skim             | Validate plan claims against 2–4 top cited files     | `explore`                                                                                          | Fast tier                                                                                |
 
 Extract `task_paths[]` from plan citations before scoring council agents.
 
@@ -37,6 +37,7 @@ Source of truth: plan
 Goal: coverage
 
 Selected members:
+
 - generalPurpose · tier=Standard · model=composer-2.5-fast · stance=premises: premises + scope pass
 - architecture · tier=Standard · model=[alternate] · stance=blast_radius: dependencies + structural gaps (if available)
 - explore · tier=Fast · model=[cheapest] · stance=n/a: skim [cited paths]

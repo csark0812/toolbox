@@ -8,12 +8,12 @@
 
 File **only merge-blockers** — bugs that would **surface in production** and need fixing before merge.
 
-| File | Do not file (default) |
-|------|------------------------|
-| Reachable wrong user-visible behavior | Test inventory / "add test for X" without a reachable untested bug |
-| Data loss or corruption on a real path | Docs-only gaps (unless missing security policy blocks deploy) |
-| Auth / OAuth / security exploit on a reachable path | Refactor, dedup, module placement, architecture nits |
-| Core product action fails for a meaningful user segment | UX copy polish, loading-state micro-edges, a11y polish |
+| File                                                        | Do not file (default)                                                             |
+| ----------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| Reachable wrong user-visible behavior                       | Test inventory / "add test for X" without a reachable untested bug                |
+| Data loss or corruption on a real path                      | Docs-only gaps (unless missing security policy blocks deploy)                     |
+| Auth / OAuth / security exploit on a reachable path         | Refactor, dedup, module placement, architecture nits                              |
+| Core product action fails for a meaningful user segment     | UX copy polish, loading-state micro-edges, a11y polish                            |
 | High-probability production regression with a named trigger | RFC/spec compliance with no known client break (note in Open questions if unsure) |
 
 **Registry + synthesis:** `scope: ship-blocker` only. Do not append `hardening` or `improvement` rows unless improvements mode is active.
@@ -34,9 +34,9 @@ Activate when the user says any of: **include improvements**, **improvements too
 
 Then also file:
 
-| `scope` | File when |
-|---------|-----------|
-| **hardening** | Real edge trigger → broken behavior; would affect production under plausible conditions |
+| `scope`         | File when                                                                                  |
+| --------------- | ------------------------------------------------------------------------------------------ |
+| **hardening**   | Real edge trigger → broken behavior; would affect production under plausible conditions    |
 | **improvement** | Refactor, test inventory, docs, architecture — use Deferred improvements tail on re-review |
 
 Record in synthesis header: `Filing: merge-blockers + improvements` (or `Filing: exhaustive`).
