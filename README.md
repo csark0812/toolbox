@@ -17,7 +17,10 @@ npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code -y
 # All team skills, project-scoped (commit .claude/skills/ or .cursor/skills/)
 npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code --copy -y
 
-# Explicit slug list
+# All team skills listed in consumer skills-lock (resync replaces every lock key)
+npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code --copy -y
+
+# Core dialogue/review set (subset)
 npx skills add csark0812/toolbox --skill multi,code-review,crystallize,grill,second-opinion,investigate,handoff --agent cursor claude-code --copy -y
 
 # Update after push
@@ -67,7 +70,7 @@ Each skill is self-contained: shared reference docs are generated copies under `
 | investigate    | Confirm/refute a code or approach hunch      |
 | handoff        | Compact session handoff                      |
 
-Consumer-local skills (testing, debug, pull-request, product-principles, etc.) stay in each project — see [docs/tiers.md](docs/tiers.md).
+Consumer projects may lock additional slugs (`debug`, `testing`, `product-principles`, …) — **every lock key is replaced on resync**. Portable `references/` copies are stubs; consumers map to project docs via `.skeleton/customize/` + `customize.alwaysInclude`. See [docs/tiers.md](docs/tiers.md).
 
 ## Daily workflow
 

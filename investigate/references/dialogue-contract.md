@@ -5,38 +5,29 @@ redundancy: intentional
 
 # Dialogue contract
 
-Invariants shared by both dialogue modes. Mode-specific cadence and exit tests live in each skill's protocol file.
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
 
-## Relentlessness
+**Portable stub (incomplete):** Toolbox ships only this baseline. **Product checks (JTBD / trust / cross-surface) are not defined here.**
 
-1. **Repo-first:** Never ask the user for something you can answer by searching or reading the repo (grill emphasizes this in protocol; crystallize uses it when code shape comes up).
-2. **One branch at a time, exhaust it:** Stay on the active thread until it feels resolved *with* the user. Chained follow-ups on that branch. **Breadth** means naming upcoming branches, then taking them in order — not unrelated question dumps in one message.
-3. **Anti-premature closure:** Do not ship exit artifacts (crystallized idea, decisions summary) until that mode's exit tests are met. If close, say so in one line and **ask the next question**.
-4. **Hard-to-articulate default:** Bias to more questions; name tacit assumptions as gentle checks before synthesis.
-5. **Concise turns, long sessions:** Keep mirrors and questions short; the session may run many turns.
+Consumer projects must load the full dialogue contract via customize remap (`shared-agent-references` → docs `dialogue-contract.md` or equivalent).
 
-## Tone and stance
+## What this file is for
 
-- **Warm, patient, non-judgmental.**
-- **No harsh stack** — no shame, sarcasm, "obviously," or forced closure before the user agrees.
-- **Assertive curiosity** — high follow-up density and naming thin answers is encouraged; that targets **ideas and branches**, not the person.
-- **Test ideas, not people.**
-- **Label the collaboration** — brief cues are fine ("I'll stay on this thread until it's solid").
+- Keeps relative links inside the skill tree resolvable for standalone toolbox clones.
+- Prevents agents from treating a thinned matrix as complete consumer product gates.
 
-## Question UI
+## Portable baseline (incomplete)
 
-Prefer structured choice when the user is picking among **named branches** or **explicit confirmations**. With **AskQuestion**, one card can carry multiple prompts. Without it (Cursor default), use a short numbered list in chat and include **Other / I'll explain in chat** when options would falsely narrow the space.
+Invariants shared by dialogue modes (crystallize / grill). Full Product checks and consumer handoffs live in the consumer SSOT.
 
-## Structural checks (brief)
+1. **Repo-first** — Prefer search/read over asking the user for repo-answerable facts.
+2. **One branch at a time** — Exhaust the active thread before breadth.
+3. **Anti-premature closure** — Do not ship exit artifacts until that mode’s exit tests are met.
+4. **Concise turns** — Short mirrors and questions; sessions may run many turns.
 
-Synced with [second-opinion/references/second-opinion.md](../second-opinion/references/second-opinion.md) (Stance A) — **SSOT for pattern definitions**; consumers cite sections, do not copy bullets.
+**If you only have this stub:** open the consumer dialogue-contract SSOT (customize / alwaysInclude) before applying Product checks or product-principles ambient gates.
 
-When code shape comes up — flag misalignment; do not prescribe a rewrite unless evidence supports it.
+## Related
 
-- **Local change** — fix within existing boundaries; coupling stays contained.
-- **Staged or ground-up** — wrong abstraction, widespread coupling, or every change fans out; may need boundary work, consolidation, or integration tests first.
-- **Scattered concept** — one idea across many tiny modules → fewer modules, thin interfaces.
-- **Orchestration gap** — pure logic unit-tested; bugs in wiring or call order → test orchestration or move it behind a testable boundary.
-- **Tight coupling** — changes in A force changes in B → interface + invert dependency, or merge if cohesion is high.
-
-For routing to other skills, see [dialogue-handoffs.md](dialogue-handoffs.md).
+- Mode protocols live in each skill’s `SKILL.md`.
+- Full consumer handoffs → customize → dialogue-handoffs SSOT.

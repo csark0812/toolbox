@@ -1,22 +1,14 @@
 # Task Prompt — Review Overlays
 
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+
 Review-specific member prompt overlays. Generic template → [multi task-prompt.md](../../multi/references/task-prompt.md).
 
 Orchestrated by [`code-review`](../SKILL.md) via [`multi`](../../multi/SKILL.md) kernel + [council-dispatch.md](council-dispatch.md).
 
-## Default filing overlay (always)
+**Consumer overlays:** PostPrint (and other consumers) keep product-intent, filing-gate → quality-gates, baseline, and contextual Full overlay _prose_ in project docs / customize — not in this portable file. See [council-dispatch.md](council-dispatch.md) § Overlays.
 
-**Non-negotiable:** Append to **coordinator dispatch plan** and **every** member Task `prompt` unless user explicitly requested improvements mode ([merge-blockers.md](merge-blockers.md)). Coordinator must verify each spawned member prompt includes this block before synthesis — if any member lacks it, re-spawn or append before merging findings.
-
-```
-Default filing: merge-blockers only
-- File ONLY scope: ship-blocker — reachable production bugs (wrong behavior, data loss, auth/security on path)
-- Do NOT file: test inventory, docs gaps, refactor, architecture nits, UX polish, RFC gaps without reachable client break
-- Council depth unchanged — still read whole diff; narrow what you FILE
-- Improvements mode only if user said: include improvements, full audit, hardening pass, polish, test inventory, or exhaustive triggers
-```
-
-## Review overlay
+## Review overlay (always — toolbox)
 
 Include in the coordinator dispatch plan before spawning:
 
@@ -43,61 +35,25 @@ Apply your [agent-name] lens (map depth: Quick→quick, Standard→standard, Tho
 
 Synthesis → [synthesis.md](synthesis.md) then [output.md](output.md).
 
-## Filing gate overlay
+## Default filing overlay (portable optional)
 
-Append to **every** review member prompt and the coordinator dispatch plan (Thorough+):
-
-```
-Filing gate — apply consumer worth-doing gate / customize § Action bar before filing.
-- Member output: Action findings under "### Action"; optional Noted candidates under "### Noted candidates" (one line each).
-- Coordinator demotes failed Action candidates to Noted or Deferred tails at synthesis.
-- Every Action must answer "How would this happen to a real user?" Include starting state, user action, runtime condition, and visible failure. If the path is only a code possibility without a plausible user trigger, mark Needs confirmation or do not file.
-```
-
-## Baseline invariant checklist overlay
-
-When fix-loop baseline applies **and** diff touches extension/worker surfaces or shared query history/mutations, append to coordinator plan and each member prompt:
+When the consumer has **not** supplied a fuller Default filing overlay, append:
 
 ```
-Fix-loop: baseline (Full + invariant checklist)
-
-Before filing findings, verify applicable checklist rows:
-| Checklist item | Example root_cause |
-| URL parity (read = write = cache = ingest keys) | history-url-key-migration |
-| Nullish fallback semantics (what does falsy mean?) | popup-nullish-coalesce |
-| closePanel vs togglePanel at all call sites | panel-close-semantics |
-| Async stale-state on navigation during in-flight work | save-stale-async |
-| Read-before-write: prefetch/cache failure must not block write | read-before-write |
-| Dedup guards survive reset/retry/destination change | save-retry-history-dedup |
-
-Synthesis rules:
-- Default: merge-blockers only — ship-blocker rows only ([merge-blockers.md](merge-blockers.md))
-- Merge same-theme high/medium symptoms into ONE primary finding per root_cause (variants → description bullets, not sibling blocks)
-- invariant required on all high/medium themes at baseline
-- scope: ship-blocker at baseline (unless improvements mode)
+Default filing: merge-blockers only
+- File ONLY scope: ship-blocker — reachable production bugs (wrong behavior, data loss, auth/security on path)
+- Do NOT file: test inventory, docs gaps, refactor, architecture nits, UX polish, RFC gaps without reachable client break
+- Council depth unchanged — still read whole diff; narrow what you FILE
+- Improvements mode only if user said: include improvements, full audit, hardening pass, polish, test inventory, or exhaustive triggers
 ```
 
-Full lifecycle: consumer review-fix-loop / customize.
+Prefer the consumer overlay SSOT when customize / project docs define one.
 
-## Contextual Full re-review overlay
+## Pointer — consumer overlays
 
-When **prior Action findings exist in thread or PR** (fix-loop pass 2+), run **Full** council (5 agents) on the whole diff, then compare to prior synthesis. Append to coordinator plan and each member prompt:
+After the Review overlay (and portable Default filing if used), append **consumer overlays** when present:
 
-```
-Fix-loop: contextual Full re-review
-Prior synthesis: <from chat thread or PR review comment — paste summary or link>
-Depth: Full · Agents: 5 (unchanged — do not downgrade because prior pass marked themes fixed)
-Diff: git diff main...HEAD (whole branch scope)
+- Named by `.skeleton/customize/code-review.md` (and `alwaysInclude` shared refs)
+- Typically: Default filing (consumer wording), Filing gate, Product intent, Baseline checklist, Contextual Full re-review, path boosts, Needs confirmation
 
-Context rules (filing — depth unchanged): consumer review-fix-loop / customize § Contextual Full re-review
-
-Task: Fresh independent review on full diff. Apply context rules when writing findings — do NOT skip reading because prior synthesis marked themes fixed.
-
-Coordinator after synthesis: baseline comparison (consumer review-fix-loop / customize § Baseline comparison); output Baseline contradictions section ([output.md](output.md))
-```
-
-Full lifecycle: consumer review-fix-loop / customize.
-
-## Re-review overlay (deprecated name)
-
-Same as [Contextual Full re-review overlay](#contextual-full-re-review-overlay) above. Older prompts may say "re-review overlay" — use contextual Full rules.
+Do **not** hardcode consumer repo paths in this toolbox file.

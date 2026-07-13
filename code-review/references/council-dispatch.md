@@ -15,18 +15,17 @@ Source of truth: diff
 Goal: [coverage / perspectives per depth]
 
 Selected members:
+
 - [agent] · tier=[tier] · model=[slug] · stance=[id]: [lens sub-task]
 
 Why these members: [from agent-selection availability log]
 Synthesis plan: council synthesis per synthesis.md → output.md
 ```
 
-4. **Overlays** — append to dispatch plan and **every** member Task `prompt` per [task-prompt-review.md](task-prompt-review.md):
-   - § Default filing overlay (always unless improvements mode)
-   - § Review overlay (mode, depth, diff)
-   - § Filing gate overlay (Thorough+)
-   - § Baseline invariant checklist (when fix-loop baseline applies)
-   - § Contextual Full re-review overlay (when prior Action findings exist)
+4. **Overlays** — append to dispatch plan and **every** member Task `prompt`:
+   1. **Generic Review overlay** (always) — [task-prompt-review.md](task-prompt-review.md) § Review overlay (mode, depth, diff).
+   2. **Portable Default filing** — [task-prompt-review.md](task-prompt-review.md) § Default filing overlay, **unless** the consumer overlay SSOT replaces it.
+   3. **Consumer overlays** — when `.skeleton/customize/code-review.md` (or project docs it names) provides a fuller overlay set, append those sections (Default filing, Filing gate, Product intent, Baseline, Contextual Full, path boosts, Needs confirmation). Prefer consumer SSOT over portable stubs when both exist.
 
 5. **Spawn** — one Task per selected agent in parallel. Compose base prompt per [multi task-prompt.md](../../multi/references/task-prompt.md); append review overlays. Set or omit `model` per [multi model assignment](../../multi/SKILL.md#model-assignment) (Auto parent → inherit; named parent → explicit slugs; usage-limit failures → Auto retry).
 
@@ -34,10 +33,11 @@ Synthesis plan: council synthesis per synthesis.md → output.md
 
 ## Checklist before synthesis
 
-- [ ] Every member prompt includes Default filing overlay
+- [ ] Every member prompt includes Default filing overlay (consumer or portable)
+- [ ] Every member prompt includes Review overlay (mode/depth/diff)
 - [ ] Availability log recorded in dispatch plan
 - [ ] All planned Task calls completed (or valid skip documented)
-- [ ] Thorough+ prompts include Filing gate overlay
+- [ ] Consumer overlays loaded when customize / project docs require them (Thorough+ Filing gate, product-intent when paths match, contextual Full when prior Action findings exist)
 
 ## Related
 
