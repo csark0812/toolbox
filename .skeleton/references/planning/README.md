@@ -42,6 +42,6 @@ Planning orchestrates work; it does **not** replace other skills:
 | **investigate** | One concrete code-path hunch → evidence (`build.md` Step 5). |
 | **multi** | Parallel surface exploration — [parallel-explore.md](parallel-explore.md) (`build.md` Step 3); large plan evidence — [parallel-plan-evidence.md](../../second-opinion/references/parallel-plan-evidence.md) (second-opinion Stance A) |
 | **project-tracking** | Branch, draft PR, Closes, Linear state **after** a plan exists and you’re starting work (`verify.md` Step 5). |
-| **code-review** | Holistic PR / implementation review **after** code exists; AI drift on staged/unstaged ([ai-drift.md](../../../../docs/developer/ai-drift.md)). |
+| **code-review** | Holistic PR / implementation review **after** code exists; AI drift / hygiene on staged/unstaged (consumer AI-drift doc / customize). |
 
 Structural checks in plans → **second-opinion** ([second-opinion.md](../../second-opinion/references/second-opinion.md)).

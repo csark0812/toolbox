@@ -22,8 +22,8 @@ Split by **source of truth**, not perspective:
 
 | Slice | Subagent | Tier | Example |
 | --- | --- | --- | --- |
-| Doc / policy SSOT | `explore` | Fast | `docs/developer/validation.md`, `ssot-registry.md` |
-| Code area A | `explore` | Fast | `apps/backend/postprint/<domain>/` |
+| Doc / policy SSOT | `explore` | Fast | consumer validation / SSOT registry docs |
+| Code area A | `explore` | Fast | `apps/<service>/<domain>/` or equivalent |
 | Code area B | `explore` | Fast | `apps/client/src/hooks/data/` |
 
 Each member collects from its slice only — no cross-slice inference until synthesis.

@@ -1,6 +1,6 @@
 # Review output
 
-Extends [`output-schema`](output-schema.md). Synthesis via [synthesis.md](synthesis.md) ends here. Worth-doing gate → [code-review-quality-gates.md](../../../../docs/developer/code-review-quality-gates.md) § Worth-doing gate.
+Extends [`output-schema`](output-schema.md). Synthesis via [synthesis.md](synthesis.md) ends here. Worth-doing gate → consumer worth-doing gate / customize.
 
 **Default filing:** Merge-blockers only — [merge-blockers.md](merge-blockers.md). Unless the user opted into improvements mode, file **only** `scope: ship-blocker` (reachable production bugs). Do not file test inventory, docs gaps, refactor, or polish.
 
@@ -98,7 +98,7 @@ Host `pushState`/`replaceState` updates `url`, but `panelMode` is never reset. A
 
 **Needs confirmation** — append to location line: `` · Needs confirmation `` when reachability or intentional UX change is unproven **and** not covered by a PR intent section when one exists.
 
-Missing tests alone ≠ an Action item unless tied to reachable production risk — route to **Deferred** (`test inventory · <path>`). In default mode, untested risky path without a named reachable failure = **do not file** ([merge-blockers.md](merge-blockers.md)). Hardening Action bar requires passing [worth-doing gate](../../../../docs/developer/code-review-quality-gates.md#worth-doing-gate-synthesis), not merely "real trigger somewhere."
+Missing tests alone ≠ an Action item unless tied to reachable production risk — route to **Deferred** (`test inventory · <path>`). In default mode, untested risky path without a named reachable failure = **do not file** ([merge-blockers.md](merge-blockers.md)). Hardening Action bar requires passing consumer worth-doing gate / customize, not merely "real trigger somewhere."
 
 ## Noted (out of PR scope)
 
@@ -148,7 +148,7 @@ Omit **Change summary** by default. Do not restate Action items in tail sections
 
 ## Baseline contradictions (re-review only)
 
-Required when prior Action findings existed before the pass. Full rules → [review-fix-loop.md § Baseline comparison](../../../../docs/developer/review-fix-loop.md#baseline-comparison).
+Required when prior Action findings existed before the pass. Full rules → consumer review-fix-loop / customize § Baseline comparison.
 
 ```markdown
 ## Baseline contradictions

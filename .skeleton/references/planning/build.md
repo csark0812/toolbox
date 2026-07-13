@@ -44,8 +44,8 @@ For code plans: follow [parallel-explore.md](parallel-explore.md) via **multi** 
 Goal: enough context to ask grounded questions and detect blast radius early. Do not go deep — surface-level structure is enough.
 
 Examples:
-- "Add scoring to sources" → explore `tspackages/query/`, `apps/client/src/hooks/data/`, `apps/backend/` scoring endpoints, `tspackages/ui/` score components
-- "Fix auth bug" → explore `apps/client/src/` auth flows, `apps/backend/` auth views
+- "Add scoring to sources" → explore shared query package, client data hooks, backend scoring endpoints, UI score components
+- "Fix auth bug" → explore client auth flows and backend auth views
 
 ## Step 4: Targeted Questions
 

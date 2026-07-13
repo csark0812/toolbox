@@ -7,10 +7,10 @@ Review-specific synthesis after council members return. Generic multi synthesis 
 After members return:
 
 1. Merge findings that agree; state once with the highest shared confidence.
-2. **Apply worth-doing gate** ([code-review-quality-gates.md](../../../../docs/developer/code-review-quality-gates.md) § Worth-doing gate) — demote failures to **Noted** or **Deferred** tails; never Action blocks.
+2. **Apply worth-doing gate** (consumer worth-doing gate / customize) — demote failures to **Noted** or **Deferred** tails; never Action blocks.
 3. Only **Action** items (ship-blocker or in-scope hardening) get severity and scope in synthesis.
 4. Preserve conflicts among Action candidates; do not flatten them away.
 5. On high-risk contradiction among Action items, spawn a neutral tiebreaker at **Premium** tier or escalate to the user.
 6. Write consolidated report per [output.md](output.md).
 
-Fix-loop baseline comparison and **Baseline contradictions** section → [review-fix-loop.md](../../../../docs/developer/review-fix-loop.md) § Baseline comparison.
+Fix-loop baseline comparison and **Baseline contradictions** section → consumer review-fix-loop / customize § Baseline comparison.

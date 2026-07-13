@@ -53,7 +53,7 @@ Run through this before submitting the plan. Fix anything that fails.
 
 **Blast radius:**
 - [ ] Shared packages or infra touched by the plan are named
-- [ ] If `tspackages/` is touched, consuming apps are mentioned
+- [ ] If shared packages are touched, consuming apps are mentioned
 - [ ] If backend API changes, frontend client regeneration is noted
 
 **Risks:**

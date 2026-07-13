@@ -41,5 +41,5 @@ Synthesis plan: council synthesis per synthesis.md → output.md
 
 ## Related
 
-- Council walkthrough → [`docs/developer/agent-workflows.md`](../../../../docs/developer/agent-workflows.md) § Council agents
-- Fix-loop re-review → [review-fix-loop.md](../../../../docs/developer/review-fix-loop.md) § Contextual Full re-review
+- Council walkthrough → consumer agent-workflows doc (`.skeleton/customize/code-review.md`)
+- Fix-loop re-review → consumer review-fix-loop doc (customize) § Contextual Full re-review

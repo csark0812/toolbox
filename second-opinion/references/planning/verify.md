@@ -63,7 +63,7 @@ Work through each axis. For each finding, state the specific gap and a concrete 
 **What to check:**
 - What shared code, packages, or interfaces does this change? Are they all mentioned?
 - Does the plan account for consumers of the changed code? (callers, dependents in other packages/apps)
-- For `tspackages/` changes: all consuming apps noted?
+- For shared package changes: all consuming apps noted?
 - For backend API changes: frontend client regeneration noted?
 - For database schema changes: migrations noted?
 - What other decisions, surfaces, or prior commitments does this affect?

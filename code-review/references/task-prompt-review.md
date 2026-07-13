@@ -48,7 +48,7 @@ Synthesis → [synthesis.md](synthesis.md) then [output.md](output.md).
 Append to **every** review member prompt and the coordinator dispatch plan (Thorough+):
 
 ```
-Filing gate — apply [code-review-quality-gates.md](../../../../docs/developer/code-review-quality-gates.md) § Action bar before filing.
+Filing gate — apply consumer worth-doing gate / customize § Action bar before filing.
 - Member output: Action findings under "### Action"; optional Noted candidates under "### Noted candidates" (one line each).
 - Coordinator demotes failed Action candidates to Noted or Deferred tails at synthesis.
 - Every Action must answer "How would this happen to a real user?" Include starting state, user action, runtime condition, and visible failure. If the path is only a code possibility without a plausible user trigger, mark Needs confirmation or do not file.
@@ -56,7 +56,7 @@ Filing gate — apply [code-review-quality-gates.md](../../../../docs/developer/
 
 ## Baseline invariant checklist overlay
 
-When fix-loop baseline applies **and** diff touches extension embed/popup/background or `tspackages/query` history/mutations, append to coordinator plan and each member prompt:
+When fix-loop baseline applies **and** diff touches extension/worker surfaces or shared query history/mutations, append to coordinator plan and each member prompt:
 
 ```
 Fix-loop: baseline (Full + invariant checklist)
@@ -77,7 +77,7 @@ Synthesis rules:
 - scope: ship-blocker at baseline (unless improvements mode)
 ```
 
-Full lifecycle: [review-fix-loop.md](../../../../docs/developer/review-fix-loop.md).
+Full lifecycle: consumer review-fix-loop / customize.
 
 ## Contextual Full re-review overlay
 
@@ -89,14 +89,14 @@ Prior synthesis: <from chat thread or PR review comment — paste summary or lin
 Depth: Full · Agents: 5 (unchanged — do not downgrade because prior pass marked themes fixed)
 Diff: git diff main...HEAD (whole branch scope)
 
-Context rules (filing — depth unchanged): [review-fix-loop.md](../../../../docs/developer/review-fix-loop.md) § Contextual Full re-review
+Context rules (filing — depth unchanged): consumer review-fix-loop / customize § Contextual Full re-review
 
 Task: Fresh independent review on full diff. Apply context rules when writing findings — do NOT skip reading because prior synthesis marked themes fixed.
 
-Coordinator after synthesis: baseline comparison ([review-fix-loop.md](../../../../docs/developer/review-fix-loop.md) § Baseline comparison); output Baseline contradictions section ([output.md](output.md))
+Coordinator after synthesis: baseline comparison (consumer review-fix-loop / customize § Baseline comparison); output Baseline contradictions section ([output.md](output.md))
 ```
 
-Full lifecycle: [review-fix-loop.md](../../../../docs/developer/review-fix-loop.md).
+Full lifecycle: consumer review-fix-loop / customize.
 
 ## Re-review overlay (deprecated name)
 

@@ -22,9 +22,9 @@ Split by **domain**, not file:
 
 | Slice | Subagent | Tier | Example |
 | --- | --- | --- | --- |
-| Backend / API | `explore` | Fast | `apps/backend/postprint/<domain>/` |
+| Backend / API | `explore` | Fast | `apps/backend/<domain>/` or equivalent |
 | Client data + UI | `explore` | Fast | `apps/client/src/hooks/data/`, routes |
-| Shared packages | `explore` | Fast | `tspackages/query/`, `@postprint/ui` |
+| Shared packages | `explore` | Fast | shared packages / UI kit paths |
 
 Optional: score council agents on `task_paths[]` from the plan — spawn `architecture` or `correctness` only when cited paths match and `dispatch.contexts` includes `repo`. Path matching → [agent-discovery.md](../../multi/references/agent-discovery.md).
 

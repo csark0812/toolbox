@@ -2,7 +2,7 @@
 
 **SSOT:** Which finding **categories** to file by default on review (merge-blockers vs improvements mode). Edit here; cite from [output.md](output.md), [SKILL.md](../SKILL.md), [task-prompt-review.md](task-prompt-review.md).
 
-**Per-finding Action bar** (introduced/reachable/behavior delta/PR-aligned → Action vs Noted/Deferred) → [code-review-quality-gates.md](../../../../docs/developer/code-review-quality-gates.md) § Worth-doing gate. Apply **both**: this doc sets filing breadth; worth-doing gate filters individual findings at synthesis.
+**Per-finding Action bar** (introduced/reachable/behavior delta/PR-aligned → Action vs Noted/Deferred) → consumer worth-doing gate / customize. Apply **both**: this doc sets filing breadth; worth-doing gate filters individual findings at synthesis.
 
 ## Default (no extra keywords)
 
