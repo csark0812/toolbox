@@ -6,6 +6,10 @@ disable-model-invocation: true
 
 # Crystallize
 
+**Source of truth for** Socratic idea crystallization.
+
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+
 Shape a half-formed idea through dialogue. Before the first turn, read [dialogue-contract.md](references/dialogue-contract.md) (shared behavior) and [dialogue-handoffs.md](references/dialogue-handoffs.md) (routing).
 
 Goal: **crystallization**, not resolution. Follow the thread; don't steer toward a conclusion. Incomplete or vague input is normal.

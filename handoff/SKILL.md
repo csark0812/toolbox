@@ -6,6 +6,10 @@ disable-model-invocation: true
 
 # Handoff
 
+**Source of truth for** session context transfer into a fresh chat.
+
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+
 Compact and transfer context when a long session (grill → plan → implement → review) must continue in a **fresh chat**. Every other skill assumes one continuous context window — this fills that gap.
 
 **Write handoff docs to `_agent/handoffs/` only** — gitignored, inside the workspace so `@`-reference works. Do not create files under committed doc trees or plan locations.

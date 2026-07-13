@@ -5,6 +5,10 @@ description: Parallel subagent orchestration kernel — spawn invariants, model 
 
 # Multi
 
+**Source of truth for** parallel subagent orchestration.
+
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+
 Parallel independent subagents via the host **Task** tool (Cursor: **Subagent**). **Orchestration kernel only** — entry skills own job recipes and domain-specific synthesis.
 
 ## When to Use

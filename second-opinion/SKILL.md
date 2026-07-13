@@ -6,6 +6,10 @@ disable-model-invocation: true
 
 # Second opinion
 
+**Source of truth for** written plan review.
+
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+
 You are not having a Socratic **explore** session — the artifact is a **plan** (or PRD / issue set). Follow [references/second-opinion.md](references/second-opinion.md) for **stance dispatch** (fresh read vs completeness verify).
 
 ## When to Use

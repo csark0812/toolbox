@@ -44,9 +44,9 @@ pre-commit install
 | Style (md/yaml)                   | `npm run lint` + `npm run format:check`                          |
 | Shared `src/` TypeScript          | `npm run typecheck`                                              |
 
-Path-scoped `validate:changed` on skill trees is a **weak/no-op** for skill-body rules (skills suite rules are global). Do not treat a green skills path as full coverage — use `npm test` / `npm run check`. Pre-commit runs `npm test` so local hooks match the skill gate.
+Path-scoped `validate:changed` on skill-only paths exits non-zero and redirects to `audit skills` / `audit self` (skill-body rules are global; path-scoped coverage is empty). Use `npm test` / `npm run check` for skill edits. Pre-commit runs `npm test` so local hooks match the skill gate.
 
-`npm test` = unit fixtures + `references:check` + `audit:hub` + `audit:skills` + `validate:ci`. `npm run check` / `npm start` also runs format, lint, and typecheck (CI + First hour). Optional deeper pass: `npm run audit:self`.
+`npm test` = unit fixtures + `references:check` + `audit:hub` + `audit:skills` + `validate:ci`. `npm run check` / `npm start` also runs format, lint, and typecheck (CI + First hour). Optional deeper pass: `npm run audit:self` (docs + skills; registered `SKILL.md` rows need Source of truth banner + doc-meta). Skill-path redirect needs `@csark0812/skeleton` ≥ 1.1.3.
 
 ## Install destinations (consumers)
 

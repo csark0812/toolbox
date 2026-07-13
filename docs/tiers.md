@@ -57,18 +57,4 @@ Individual preferences and private skills live outside this public repo (often a
 
 ## Skeleton (`skeleton/` → SSOT audit CLI)
 
-Published npm package for docs/skill registry validation. See [skeleton](https://github.com/csark0812/skeleton).
-
-| Slug     | Notes                                     |
-| -------- | ----------------------------------------- |
-| skeleton | SSOT audit CLI skill — installed via init |
-
-Consumer setup:
-
-```bash
-npm install -D @csark0812/skeleton
-npx skeleton init --skills
-npx skeleton audit self
-```
-
-Copy `skeleton/` from the repo when authoring a new skill package from the template.
+Published npm package for docs/skill registry validation. See [skeleton](https://github.com/csark0812/skeleton). The package skill lives in the skeleton repo (`skeleton/SKILL.md`); do not expect a `skeleton/` tree inside this toolbox checkout.

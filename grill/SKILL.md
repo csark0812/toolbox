@@ -6,6 +6,10 @@ disable-model-invocation: true
 
 # Grill
 
+**Source of truth for** design-tree alignment before implementation.
+
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+
 Pressure-test a design before code. Before the first turn, read [dialogue-contract.md](references/dialogue-contract.md) (shared behavior) and [dialogue-handoffs.md](references/dialogue-handoffs.md) (routing).
 
 Shared understanding before implementation. **Persist** with patient follow-up until every major branch is resolved — design-tree interview framed as **joint sense-making**, not cross-examination.
