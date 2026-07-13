@@ -5,6 +5,8 @@ description: Multi-lens code review for PR, commit, unstaged, staged, merge, and
 
 # Code review
 
+**SSOT:** Portable council code-review workflow kernel. Consumer overlays via `.skeleton/customize/code-review.md`.
+
 References: [council-dispatch.md](references/council-dispatch.md) · [agent-selection.md](references/agent-selection.md). Ambient routing extract → [agent-routing.md](references/agent-routing.md) § Pre-ship / PR.
 
 ## When to Use

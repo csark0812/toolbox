@@ -1,8 +1,8 @@
 # Parallel Gather
 
-Multi-source collection from independent sources of truth. Uses [`multi`](../../multi/SKILL.md) kernel — [non-negotiables](../../multi/SKILL.md#non-negotiables), [task-prompt.md](../../multi/references/task-prompt.md), [member-schema.md](../../multi/references/member-schema.md).
+Multi-source collection from independent sources of truth. Uses [`multi`](../../../multi/SKILL.md) kernel — [non-negotiables](../../../multi/SKILL.md#non-negotiables), [task-prompt.md](../../../multi/references/task-prompt.md), [member-schema.md](../../../multi/references/member-schema.md).
 
-Profile: `manual` or `repo` (web topics → `research` via [parallel-research.md](../../investigate/references/parallel-research.md)).
+Profile: `manual` or `repo` (web topics → `research` via [parallel-research.md](../../../investigate/references/parallel-research.md)).
 
 ## When to use
 
@@ -14,7 +14,7 @@ Profile: `manual` or `repo` (web topics → `research` via [parallel-research.md
 
 - Single file or hub already in context — read directly
 - Blast-radius mapping across subsystems — use [parallel-explore.md](parallel-explore.md)
-- Independent web topics — use [parallel-research.md](../../investigate/references/parallel-research.md)
+- Independent web topics — use [parallel-research.md](../../../investigate/references/parallel-research.md)
 
 ## Members (2–4)
 
@@ -44,14 +44,14 @@ Why these members: independent sources; no cross-member dependencies
 Synthesis plan: merge fact lists; flag conflicts between sources
 ```
 
-Compose prompts per [task-prompt.md](../../multi/references/task-prompt.md).
+Compose prompts per [task-prompt.md](../../../multi/references/task-prompt.md).
 
 ## Synthesis
 
 1. Merge non-overlapping facts per source.
 2. Surface **conflicts** between sources (two SSOTs disagree).
 3. Preserve source attribution (path per fact).
-4. Output → [multi output-format.md](../../multi/references/output-format.md).
+4. Output → [multi output-format.md](../../../multi/references/output-format.md).
 
 ## Handoff
 

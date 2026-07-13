@@ -1,3 +1,8 @@
+<!-- skeleton: generated-reference
+source: .skeleton/references/planning/README.md
+redundancy: intentional
+-->
+
 # Planning playbooks (shared references)
 
 Execution planning and **completeness verify** live here as **reference docs**, not as a standalone invocable skill. Use the right **entry skill**, then open the matching playbook.

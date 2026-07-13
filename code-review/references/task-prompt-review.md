@@ -6,7 +6,7 @@ Review-specific member prompt overlays. Generic template → [multi task-prompt.
 
 Orchestrated by [`code-review`](../SKILL.md) via [`multi`](../../multi/SKILL.md) kernel + [council-dispatch.md](council-dispatch.md).
 
-**Consumer overlays:** PostPrint (and other consumers) keep product-intent, filing-gate → quality-gates, baseline, and contextual Full overlay _prose_ in project docs / customize — not in this portable file. See [council-dispatch.md](council-dispatch.md) § Overlays.
+**Consumer overlays:** Consumers keep product-intent, filing-gate → quality-gates, baseline, and contextual Full overlay _prose_ in project docs / customize — not in this portable file. See [council-dispatch.md](council-dispatch.md) § Overlays.
 
 ## Review overlay (always — toolbox)
 
