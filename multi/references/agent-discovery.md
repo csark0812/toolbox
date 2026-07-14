@@ -65,10 +65,11 @@ Pass as `task_paths[]` to entry-skill scoring.
 ## Model tier from agent metadata
 
 1. Apply [multi parent-aware routing](../SKILL.md#parent-aware-routing) first: parent on Auto → inherit Auto (omit `model`) unless the user named a slug; skip tier→slug mapping for that member.
-2. When the parent is **not** on Auto: start at `dispatch.model.default`.
-3. Map tier to slug per [multi explicit routing](../SKILL.md#explicit-routing-parent-not-on-auto): **Standard → `composer-2.5-fast`**, **Fast → cheapest enum slug**, **Premium → deepest enum slug**.
-4. Escalate to **premium** when `premium_when` signals match the task or global rules apply.
-5. On usage-limit start/stop failures → [multi usage-limit retry](../SKILL.md#usage-limit-retry).
+2. If usage-constrained (user out of credits, or a prior member hit usage/rate/quota limits) → [multi Reach Auto](../SKILL.md#reach-auto); skip tier→slug mapping.
+3. When the parent is **not** on Auto and usage-constrained mode is off: start at `dispatch.model.default`.
+4. Map tier to slug per [multi explicit routing](../SKILL.md#explicit-routing-parent-not-on-auto): **Standard → `composer-2.5-fast`**, **Fast → cheapest enum slug**, **Premium → deepest enum slug**.
+5. Escalate to **premium** when `premium_when` signals match the task or global rules apply.
+6. On usage-limit start/stop failures → [multi usage-limit retry](../SKILL.md#usage-limit-retry).
 
 ## Availability log (required in dispatch plan)
 

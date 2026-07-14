@@ -29,7 +29,7 @@ Synthesis plan: council synthesis per synthesis.md → output.md
    4. **Contextual Full ledger overlay** — [task-prompt-review.md](task-prompt-review.md) § Contextual Full ledger overlay whenever prior Action findings exist.
    5. **Consumer overlays** — when skill-read injection provided a fuller overlay set, append those sections (Default filing, Filing gate, Product intent, Baseline, Contextual Full, path boosts, Needs confirmation). Prefer injected consumer overlays over portable stubs when both exist; consumer context may extend but must not remove ledger reconciliation or the portable exit gate.
 
-5. **Spawn** — one Task per selected agent in parallel. Compose base prompt per [multi task-prompt.md](../../multi/references/task-prompt.md); append review overlays. Set or omit `model` per [multi model assignment](../../multi/SKILL.md#model-assignment) (Auto parent → inherit; named parent → explicit slugs; usage-limit failures → Auto retry).
+5. **Spawn** — one Task per selected agent in parallel. Compose base prompt per [multi task-prompt.md](../../multi/references/task-prompt.md); append review overlays. Set or omit `model` per [multi model assignment](../../multi/SKILL.md#model-assignment) (Auto parent → inherit; named parent → explicit slugs; usage/credit failures → [Reach Auto](../../multi/SKILL.md#reach-auto), not “omit model” under a named parent).
 
 6. **Synthesize** — [synthesis.md](synthesis.md) → [output.md](output.md).
 

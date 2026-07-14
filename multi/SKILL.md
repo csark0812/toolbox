@@ -7,7 +7,7 @@ description: Parallel subagent orchestration kernel — spawn invariants, model 
 
 **Source of truth for** parallel subagent orchestration.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-14 -->
 
 Parallel independent subagents via the host **Task** tool (Cursor: **Subagent**). **Orchestration kernel only** — entry skills own job recipes and domain-specific synthesis.
 
@@ -37,7 +37,7 @@ When this skill applies (user attached `multi`, an entry skill invokes parallel 
 3. **Forbidden rationalizations** — Do not skip spawns because you already read the repo, expect overlapping findings, want lower latency, or want to save tokens.
 4. **Valid skips** — Omit parallel spawns only when: the user declines or asks for a single pass; the job matches [Fit check](#fit-check); the host cannot run `Task`; or only one member was planned.
 
-**Model routing:** Apply [Model assignment](#model-assignment) per member. Parent on Auto → inherit Auto unless the user named a model. Parent not on Auto → set explicit `model` slugs. On usage-limit start/stop failures → [Usage-limit retry](#usage-limit-retry).
+**Model routing:** Apply [Model assignment](#model-assignment) per member. Parent on Auto → inherit Auto unless the user named a model. Parent not on Auto → set explicit `model` slugs. On usage-limit / credit exhaustion → [Usage-limit retry](#usage-limit-retry) (omit `model` is **not** Auto unless the parent is already Auto).
 
 ## Fit check
 
@@ -84,7 +84,7 @@ Why these members: [brief justification]
 Synthesis plan: [how outputs will be merged or adjudicated]
 ```
 
-3. **Spawn** — one Task per member in parallel. Compose prompts per [task-prompt.md](references/task-prompt.md). Set or omit `model` per [Model assignment](#model-assignment). On usage-limit failures → [Usage-limit retry](#usage-limit-retry).
+3. **Spawn** — one Task per member in parallel. Compose prompts per [task-prompt.md](references/task-prompt.md). Set or omit `model` per [Model assignment](#model-assignment). On usage/credit failures → [Usage-limit retry](#usage-limit-retry).
 
 Member planning defaults:
 
@@ -136,11 +136,21 @@ Detect whether the **parent chat** is on host **Auto** (auto model selection) or
 | **Named** (not Auto)            | Set explicit `model` per [Explicit routing](#explicit-routing-parent-not-on-auto) | Use tier → slug tables below.                                                      |
 | User named a model for a member | That slug (must be in enum)                                                       | Overrides both Auto inherit and tier defaults.                                     |
 
-**How to inherit Auto on Task:** Prefer **omitting** `model` so the host inherits the parent. Pass `model=auto` only if the current host Task enum accepts it; do not invent `auto` when it is not in the enum.
+**How to get Auto on Task:**
 
-Record `Parent model: Auto | <named>` in the dispatch plan. When inheriting, log `model=inherit-auto`.
+| Situation                                         | Member `model`                                                                 |
+| ------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Parent is **Auto**                                | **Omit** `model` (inherits parent Auto). Log `model=inherit-auto`.             |
+| Parent is **named**, but Task enum includes `auto` | Pass `model=auto` (only when the slug is in the current enum).                 |
+| Parent is **named**, and `auto` is **not** in enum | You **cannot** reach Auto via Task. Omit `model` only inherits the named parent. |
 
-A dedicated routing table for informed per-slice model choice may replace or refine [Explicit routing](#explicit-routing-parent-not-on-auto) later — until then, use the tier tables below when the parent is not on Auto.
+Do **not** invent `auto` when it is absent from the enum. Do **not** treat “omit `model`” as Auto when the parent is on a named model — that still bills/uses the parent’s named model.
+
+Record `Parent model: Auto | <named>` in the dispatch plan.
+
+**Usage-constrained mode:** If the user says they are out of credits / on usage limits, or the first member fails for that reason, route **all** members (remaining + retries) via [Reach Auto](#reach-auto) below — do not keep assigning paid/API slugs from the tier tables.
+
+A dedicated routing table for informed per-slice model choice may replace or refine [Explicit routing](#explicit-routing-parent-not-on-auto) later — until then, use the tier tables below when the parent is not on Auto and usage-constrained mode is off.
 
 ### Explicit routing (parent not on Auto)
 
@@ -170,15 +180,25 @@ Per-agent tier defaults → agent dispatch config + judgment above.
 
 If `N ≥ 2` parallel members share the same `subagent_type` and the parent is **not** on Auto, assign distinct models **within the same tier** unless the user wants uniformity or the host has only one viable model. **Do not escalate tier just to diversify.** When the parent is on Auto, skip model diversity — diversify prompts/stances instead.
 
+### Reach Auto
+
+Use this whenever members must run on host Auto (usage-constrained mode, or a usage-limit retry):
+
+1. If parent is **Auto** → omit `model` (inherit). Log `model=inherit-auto`.
+2. Else if Task enum includes `auto` → pass `model=auto`. Log `model=auto — usage/rate limit`.
+3. Else → **stop assigning named/paid slugs**. Tell the user that Auto still works for them only when the **parent chat** is on Auto (or when the host exposes `auto` in the Task enum), and ask them to switch the parent to Auto and re-run failed members. Do not claim a retry “used Auto” if you only omitted `model` under a named parent.
+
 ### Usage-limit retry
 
-If a member **could not start**, was **stopped**, or returned an error because of **usage limits**, **rate limits**, or **quota exhaustion** on the chosen model:
+If a member **could not start**, was **stopped**, or returned an error because of **usage limits**, **rate limits**, **quota exhaustion**, or **credit exhaustion** on the chosen model:
 
-1. Retry that **same** member once with host Auto: omit `model` (or `model=auto` only if the enum accepts it).
-2. Keep the same `subagent_type`, prompt, and stance.
+1. Enter **usage-constrained mode** for the rest of this `multi` run.
+2. Retry that **same** member once via [Reach Auto](#reach-auto). Keep the same `subagent_type`, prompt, and stance.
 3. Apply whether the failure came from the Task tool (pre-start) or from the member after start.
-4. Log the retry in the dispatch plan (`retried with inherit-auto — usage/rate limit`).
-5. If the Auto retry also fails, document the failure and continue with remaining members — do not invent that member's output.
+4. Re-route any **not-yet-started** members via Reach Auto as well (do not spawn more paid/API slugs after the first usage failure).
+5. Log the retry/re-route in the dispatch plan (`retried/routed via Reach Auto — usage/rate limit`).
+6. If Reach Auto is blocked (named parent and no `auto` in enum), stop and ask the user to switch the parent chat to Auto; do not burn further named-model attempts.
+7. If an Auto retry also fails, document the failure and continue with remaining reachable members — do not invent that member's output.
 
 ## Agent count
 
