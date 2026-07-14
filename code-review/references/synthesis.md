@@ -12,16 +12,20 @@ After members return:
 3. On pass 2+, reconcile every candidate against the prior ledger before
    deciding it is new: incomplete fix, same-invariant variant, genuinely new
    invariant, or non-blocking observation.
-4. For every genuinely new Action theme on pass 2+, include a one-line
+4. Same invariant + new edge on pass 2+ **extends** the existing `theme_id`
+   (reopen / incomplete closure). Do not file a fresh sibling theme for an
+   adjacent hole.
+5. For every genuinely new Action theme on pass 2+, include a one-line
    `Prior-pass miss:` explanation in the finding description.
-5. Apply the applicable invariant matrix and check affected contract surfaces
-   before marking a theme closed.
-6. **Apply worth-doing gate** (consumer worth-doing gate / customize) — demote failures to **Noted** or **Deferred** tails; never Action blocks.
-7. Only **Action** items (ship-blocker or in-scope hardening) get severity and scope in synthesis.
-8. Preserve conflicts among Action candidates; do not flatten them away.
-9. On high-risk contradiction among Action items, spawn a neutral tiebreaker at **Premium** tier or escalate to the user.
-10. Update the ledger, hotspot review status, test evidence, and validation
-    evidence per [fix-loop-ledger.md](fix-loop-ledger.md).
-11. Write consolidated report per [output.md](output.md).
+6. Before marking a theme closed, apply the applicable invariant matrix, check
+   affected contract surfaces, and record **variant coverage checked** per
+   [fix-loop-ledger.md](fix-loop-ledger.md) § Variant coverage before closure.
+7. **Apply worth-doing gate** (consumer worth-doing gate / customize) — demote failures to **Noted** or **Deferred** tails; never Action blocks.
+8. Only **Action** items (ship-blocker or in-scope hardening) get severity and scope in synthesis.
+9. Preserve conflicts among Action candidates; do not flatten them away.
+10. On high-risk contradiction among Action items, spawn a neutral tiebreaker at **Premium** tier or escalate to the user.
+11. Update the ledger, hotspot review status, variant-coverage notes, test
+    evidence, and validation evidence per [fix-loop-ledger.md](fix-loop-ledger.md).
+12. Write consolidated report per [output.md](output.md).
 
 Fix-loop baseline comparison and **Baseline contradictions** section → consumer review-fix-loop / customize § Baseline comparison. Consumer rules may add context but cannot weaken stable theme identity or the portable exit gate.

@@ -76,7 +76,7 @@ One block per **Action** issue, severity descending (critical → high → mediu
 
 **Cross-turn references (fix-loop):** cite the stable `theme_id` from [fix-loop-ledger.md](fix-loop-ledger.md). Titles and locations may change without creating a new theme.
 
-**Re-review:** classify every candidate as incomplete fix, same-invariant variant, genuinely new invariant, or non-blocking. Do not append sibling blocks for minor edges on **closed** themes. A genuinely new Action theme on pass 2+ must include `Prior-pass miss: <why this blocker class escaped earlier invariant/contract coverage>.`
+**Re-review:** classify every candidate as incomplete fix, same-invariant variant, genuinely new invariant, or non-blocking. Same invariant + new edge extends the existing `theme_id` (incomplete prior closure) — never a fresh sibling for an adjacent hole. Do not append sibling blocks for minor edges on **closed** themes. A genuinely new Action theme on pass 2+ must include `Prior-pass miss: <why this blocker class escaped earlier invariant/contract coverage>.`
 
 ```markdown
 ## Reset panelMode on host navigation
@@ -142,6 +142,7 @@ only when they add decision value. Keep each section concise.
 | --------------------------- | ------------------------------------------------------------------------ |
 | **Baseline contradictions** | Re-review pass when prior synthesis exists — required                    |
 | **Fix-loop ledger**         | Every fix-loop handoff and contextual Full synthesis — required          |
+| **Closure evidence**        | Closing a theme that spanned 2+ passes — required (may live in ledger)   |
 | **Exit evidence**           | Contextual Full pass that claims merge-ready — required                  |
 | **Open questions**          | Product or backend assumptions block Action severity                     |
 | **Testing gaps**            | Residual coverage not already in Deferred tail                           |
@@ -167,6 +168,25 @@ Required whenever a review has entered a fix loop. Use the schema in
 [fix-loop-ledger.md](fix-loop-ledger.md) and carry the full current ledger in
 the chat handoff. Do not reset closed themes between passes.
 
+## Closure evidence (repeated themes)
+
+When a theme was open across two or more passes, or when closing after a
+narrow fix, include compact closure evidence in the ledger handoff (and in Exit
+evidence when claiming merge-ready):
+
+```markdown
+### Closure · `theme-id`
+
+- Variants checked: <matrix rows covered / N/A reasons>
+- Regression evidence: <test path or why impossible>
+- Validation: <command + result>
+- Hotspot review: <files/subsystems + who reviewed>
+```
+
+Missing **variants checked** means the theme is not closed — reopen or leave
+`open`. See [fix-loop-ledger.md](fix-loop-ledger.md) § Variant coverage before
+closure.
+
 ## Exit evidence
 
 Before writing `Merge-ready`, `final blockers`, or equivalent, report:
@@ -174,7 +194,7 @@ Before writing `Merge-ready`, `final blockers`, or equivalent, report:
 - Open/reopened ledger themes: none.
 - Baseline contradictions: none.
 - Repeated hotspots and who reviewed them holistically.
-- Regression evidence for each repeated Action theme.
+- For each repeated Action theme: variants checked + regression evidence.
 - Authoritative repository validation command and result.
 
 If validation was not run or any exit-gate row is unknown, state that and do not

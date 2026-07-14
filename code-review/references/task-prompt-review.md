@@ -89,9 +89,13 @@ Depth: Full; diff: whole branch
 
 Read the whole diff independently, then reconcile every candidate:
 1. Same theme, incomplete fix → reopen existing theme_id.
-2. Same invariant, new variant → add evidence to the existing theme.
+2. Same invariant, new variant → add evidence to the existing theme (prior closure incomplete).
 3. Genuinely new invariant → create a theme_id and explain in one line why prior passes missed this blocker class.
 4. No reachable production failure → Noted/Deferred under filing rules.
+
+For every theme marked closed or newly fixed, ask: what other variants of this
+invariant would fail if this fix is too narrow? Check fix-loop-ledger.md
+§ Variant coverage before closure and the applicable matrix rows.
 
 Identify files/subsystems changed in 2+ fix passes and review those hotspots holistically.
 Do not claim merge-ready or "final blockers" unless fix-loop-ledger.md § Exit gate passes.
