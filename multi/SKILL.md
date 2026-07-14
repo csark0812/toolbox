@@ -203,4 +203,4 @@ Follow [references/output-schema.md](references/output-schema.md). Consolidated 
 
 ## Consumer bindings
 
-Project recipe index and council agent paths inject via `.skeleton/customize/multi.md` on skill read. Do not edit synced copies in place.
+Project recipe index and council agent paths arrive as project-specific injected context on skill read. Do not edit synced copies in place.

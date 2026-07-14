@@ -30,7 +30,7 @@ Constraints:
 | `research` | Independent web topic                              |
 | `mixed`    | One slice per member; no cross-member dependencies |
 
-Job recipes → entry skill references (injected via project customize on skill read).
+Job recipes → entry skill references (arrive as project-specific injected context on skill read).
 
 ## Perspective diversity
 

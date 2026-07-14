@@ -4,7 +4,7 @@
 
 **Portable stub (incomplete):** Toolbox ships only this baseline. **Product checks (JTBD / trust / cross-surface) are not defined here.**
 
-Consumer projects must load the full dialogue contract via customize remap (`shared-agent-references` → docs `dialogue-contract.md` or equivalent).
+Consumer projects remap the full dialogue contract through hook-injected customize / alwaysInclude context (`shared-agent-references` → docs `dialogue-contract.md` or equivalent).
 
 ## What this file is for
 
@@ -20,9 +20,9 @@ Invariants shared by dialogue modes (crystallize / grill). Full Product checks a
 3. **Anti-premature closure** — Do not ship exit artifacts until that mode’s exit tests are met.
 4. **Concise turns** — Short mirrors and questions; sessions may run many turns.
 
-**If you only have this stub:** open the consumer dialogue-contract SSOT (customize / alwaysInclude) before applying Product checks or consumer product ambient gates.
+**If you only have this stub:** prefer the hook-injected dialogue-contract context when skill read provided it before applying Product checks or consumer product ambient gates.
 
 ## Related
 
 - Mode protocols live in each skill’s `SKILL.md`.
-- Full consumer handoffs → customize → dialogue-handoffs SSOT.
+- Full consumer handoffs → hook-injected dialogue-handoffs SSOT.

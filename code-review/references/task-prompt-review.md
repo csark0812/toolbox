@@ -6,9 +6,9 @@ Review-specific member prompt overlays. Generic template → [multi task-prompt.
 
 Orchestrated by [`code-review`](../SKILL.md) via [`multi`](../../multi/SKILL.md) kernel + [council-dispatch.md](council-dispatch.md).
 
-**Consumer overlays:** Consumers keep product-intent, filing-gate → quality-gates, baseline, and contextual Full overlay _prose_ in project docs / customize — not in this portable file. See [council-dispatch.md](council-dispatch.md) § Overlays.
+**Consumer overlays:** Consumers keep product-intent, filing-gate → quality-gates, baseline, and contextual Full overlay _prose_ in project-injected context — not in this portable file. See [council-dispatch.md](council-dispatch.md) § Overlays.
 
-**Mandatory consumer overlay gate:** If the consumer remaps overlays via customize / project docs, **load that consumer overlay SSOT before** Filing gate, product-intent, Baseline, or Contextual Full. This file's thinned portable sections are **not** sufficient when a consumer remap exists — do not stop here.
+**Mandatory consumer overlay gate:** When skill-read injection provided consumer overlays, prefer that overlay set for Filing gate, product-intent, Baseline, or Contextual Full. This file's thinned portable sections are **not** sufficient when injected overlays exist — do not stop here.
 
 ## Review overlay (always — toolbox)
 
@@ -66,13 +66,13 @@ Default filing: merge-blockers only
 - Improvements mode only if user said: include improvements, full audit, hardening pass, polish, test inventory, or exhaustive triggers
 ```
 
-Prefer the consumer overlay SSOT when customize / project docs define one.
+Prefer the injected consumer overlay set when skill read provided one.
 
 ## Pointer — consumer overlays
 
-After the Review overlay (and portable Default filing if used), append **consumer overlays** when present:
+After the Review overlay (and portable Default filing if used), append **injected consumer overlays** when present:
 
-- Named by `.skeleton/customize/code-review.md` (and `alwaysInclude` shared refs)
+- Arrives via skill-read customization / alwaysInclude injection
 - Typically: Default filing (consumer wording), Filing gate, Product intent, Baseline checklist, Contextual Full re-review, path boosts, Needs confirmation
 
 Do **not** hardcode consumer repo paths in this toolbox file.

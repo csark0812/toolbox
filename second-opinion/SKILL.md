@@ -45,7 +45,7 @@ If unclear: ask whether they want a **fresh read** (outsider assumptions) or a *
 
 ## Consumer bindings
 
-Plan artifact paths (`.cursor/plans/`, ClickUp tasks, etc.) inject via `.skeleton/customize/second-opinion.md` on skill read. Do not edit synced copies in place.
+Plan artifact paths (`.cursor/plans/`, ClickUp tasks, etc.) arrive as project-specific injected context on skill read. Do not edit synced copies in place.
 
 ## Output format
 

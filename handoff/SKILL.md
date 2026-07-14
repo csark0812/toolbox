@@ -117,4 +117,4 @@ After writing, tell the user:
 
 ## Consumer bindings
 
-Project overrides inject via `.skeleton/customize/handoff.md` on skill read. Do not edit synced copies in place.
+Project-specific injected context is appended on skill read. Do not edit synced copies in place.

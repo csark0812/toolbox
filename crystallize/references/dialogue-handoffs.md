@@ -5,7 +5,7 @@ redundancy: intentional
 
 # Dialogue handoffs
 
-Canonical in-session routing for **crystallize** and **grill** — not a standalone skill. Cold-start routing lives in [agent-routing.md](agent-routing.md) (portable stub; consumers may override via customize); exit blocks in mode protocols are user-facing deliverables that mirror this table.
+Canonical in-session routing for **crystallize** and **grill** — not a standalone skill. Cold-start routing lives in [agent-routing.md](agent-routing.md) (portable stub; consumers may override via hook-injected context); exit blocks in mode protocols are user-facing deliverables that mirror this table.
 
 ## Which skill
 

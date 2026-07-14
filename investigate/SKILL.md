@@ -90,4 +90,4 @@ Follow [output-schema.md](references/output-schema.md). End with this block when
 
 ## Consumer bindings
 
-Project overrides inject via `.skeleton/customize/investigate.md` on skill read. Do not edit synced copies in place.
+Project-specific injected context is appended on skill read. Do not edit synced copies in place.

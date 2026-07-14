@@ -4,12 +4,12 @@
 
 **Portable stub (incomplete):** Toolbox ships only this baseline. **Do not treat the tables below as a full consumer routing matrix.**
 
-Consumer projects must map this path via customize (`shared-agent-references` / `docs/.../agent-routing.md` or equivalent). Full Pre-ship (validator command, product-intent), fuzzy → consumer product skill, Quality & ops (test/debug pairing), and stack/UI rows live in the **consumer SSOT**, not here.
+Consumer projects remap this path through hook-injected customize / alwaysInclude context (`shared-agent-references` / project `agent-routing` docs or equivalent). Full Pre-ship (validator command, product-intent), fuzzy → consumer product skill, Quality & ops (test/debug pairing), and stack/UI rows live in the **consumer SSOT**, not here.
 
 ## What this file is for
 
 - Keeps relative links inside the skill tree resolvable for standalone toolbox clones.
-- Points agents at consumer override when customize / alwaysInclude injects.
+- Points agents at the hook-injected consumer routing SSOT when present.
 
 ## Portable baseline (incomplete)
 
@@ -20,8 +20,8 @@ Consumer projects must map this path via customize (`shared-agent-references` / 
 | Holistic PR / ship review | code-review             |
 | Plan artifact review      | second-opinion          |
 
-**If you only have this stub:** open the consumer `agent-routing` SSOT named by `.skeleton/customize/shared-agent-references.md` (or project `AGENTS.md`) before applying Pre-ship, Quality & ops, or product escalations.
+**If you only have this stub:** prefer the hook-injected consumer routing context when skill read provided it (or project `AGENTS.md`) before applying Pre-ship, Quality & ops, or product escalations.
 
 ## Related
 
-- Consumer dialogue handoffs and planning live outside this stub — follow customize redirects.
+- Consumer dialogue handoffs and planning live outside this stub — follow hook-injected redirects.

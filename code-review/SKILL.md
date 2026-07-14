@@ -9,7 +9,7 @@ description: Multi-lens code review for PR, commit, unstaged, staged, merge, and
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
 
-Consumer overlays via `.skeleton/customize/code-review.md`.
+Consumer overlays arrive as project-specific injected context on skill read.
 
 References: [council-dispatch.md](references/council-dispatch.md) · [agent-selection.md](references/agent-selection.md). Ambient routing extract → [agent-routing.md](references/agent-routing.md) § Pre-ship / PR.
 
@@ -37,7 +37,7 @@ Not for: PR description/body authoring (separate skill), Cursor `/review-bugbot`
 
 1. **Mode + depth + fix-loop** — explicit or auto-detect mode ([modes.md](references/modes.md)). Apply pr/merge escalation. When prior Action findings exist, reconstruct and carry the stable-theme ledger from [fix-loop-ledger.md](references/fix-loop-ledger.md); derive applicable invariant-matrix rows before dispatch. **Filing mode:** default **merge-blockers only** ([merge-blockers.md](references/merge-blockers.md)) unless user said include improvements / full audit / hardening pass / polish / test inventory / exhaustive triggers. Record depth in synthesis header per [output.md](references/output.md) § Status line.
 2. **Diff** — per modes.md (`pr`/`merge` → [shared.md](references/shared.md)).
-3. **Council dispatch** — parallel council per [council-dispatch.md](references/council-dispatch.md) ([`multi`](../multi/SKILL.md) kernel for spawn mechanics) → [synthesis.md](references/synthesis.md) → [output.md](references/output.md). **Mandatory before spawn:** append [task-prompt-review.md](references/task-prompt-review.md) § Default filing overlay to **every** member prompt (and coordinator plan). If customize remaps overlays, **load the consumer overlay SSOT first** (Filing gate / product-intent / Baseline / Contextual Full) — portable `task-prompt-review.md` thinned sections are not sufficient alone. Missing overlay = incomplete dispatch.
+3. **Council dispatch** — parallel council per [council-dispatch.md](references/council-dispatch.md) ([`multi`](../multi/SKILL.md) kernel for spawn mechanics) → [synthesis.md](references/synthesis.md) → [output.md](references/output.md). **Mandatory before spawn:** append [task-prompt-review.md](references/task-prompt-review.md) § Default filing overlay to **every** member prompt (and coordinator plan). When consumer overlay context was injected on skill read, prefer that overlay set (Filing gate / product-intent / Baseline / Contextual Full) over portable `task-prompt-review.md` thinned sections alone. Missing injected overlay when one is configured = incomplete dispatch.
 4. **Chat handoff** — when fix-loop applies: if fix pass, end with the updated ledger, validation evidence, and hotspot list. Re-review must reconcile every candidate to a stable theme and include **Baseline contradictions** when prior synthesis exists.
 
 **Order when fix-loop applies:** council → synthesis → chat findings → handoff if fix pass → end turn.
@@ -48,7 +48,7 @@ Not for: PR description/body authoring (separate skill), Cursor `/review-bugbot`
 
 ## Consumer bindings
 
-Project overrides inject via `.skeleton/customize/code-review.md` on skill read. Do not edit synced copies in place.
+Project-specific injected context is appended on skill read. Do not edit synced copies in place.
 
 **Fix implementation:** User "address all" / "fix all" / "yes" to ship-blockers → read prior synthesis and ledger before coding; implement invariant-complete theme batches; add regression evidence; run the repo’s authoritative validation lane; end with the updated ledger and hotspot handoff.
 
