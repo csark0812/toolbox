@@ -72,16 +72,16 @@ Optional one-line scope may precede the header. In improvements mode, include sc
 
 One block per **Action** issue, severity descending (critical → high → medium → low). **Noted** and **Deferred** never use finding blocks.
 
-**Fix-loop baseline:** merge duplicates and shared `root_cause` into **one block** per high/medium theme — mandatory, not optional. Variants are description bullets inside the block, not sibling blocks.
+**Fix-loop baseline:** merge duplicates and shared invariants into **one block** per high/medium theme — mandatory, not optional. Assign a stable kebab-case `theme_id`; variants are description bullets inside the block, not sibling blocks.
 
-**Cross-turn references (fix-loop):** cite **theme** (`root_cause`), **imperative title**, or **`path:line`** from prior synthesis — not numbered finding IDs.
+**Cross-turn references (fix-loop):** cite the stable `theme_id` from [fix-loop-ledger.md](fix-loop-ledger.md). Titles and locations may change without creating a new theme.
 
-**Re-review:** do not append sibling blocks for minor edges on **closed** themes — note under existing theme or Deferred improvements tail.
+**Re-review:** classify every candidate as incomplete fix, same-invariant variant, genuinely new invariant, or non-blocking. Do not append sibling blocks for minor edges on **closed** themes. A genuinely new Action theme on pass 2+ must include `Prior-pass miss: <why this blocker class escaped earlier invariant/contract coverage>.`
 
 ```markdown
 ## Reset panelMode on host navigation
 
-`<app>/path/to/File.tsx:71-85` · Severity: high · Scope: ship-blocker
+`<app>/path/to/File.tsx:71-85` · Theme: `host-navigation-lifecycle` · Severity: high · Scope: ship-blocker
 
 <details>
 <summary>Description</summary>
@@ -92,7 +92,7 @@ Host `pushState`/`replaceState` updates `url`, but `panelMode` is never reset. A
 
 **Title** — short imperative phrase (what to fix or what's wrong). Not `**[High]**` prefixes.
 
-**Location line** — `` `path/to/file.ts:line` `` or `` `path:start-end` `` · Severity: critical|high|medium|low · Scope: ship-blocker|hardening (lowercase severity; scope required for Action items).
+**Location line** — `` `path/to/file.ts:line` `` or `` `path:start-end` `` · Theme: `stable-theme-id` · Severity: critical|high|medium|low · Scope: ship-blocker|hardening (lowercase severity; theme, severity, and scope required for Action items).
 
 **Description** — 1–4 sentences: starting state → user action → runtime condition → visible failure/impact. Answer "How would this happen to a real user?" No filler, no agent attribution.
 
@@ -133,13 +133,16 @@ Schema: `` `path` or topic — test inventory · <gap> `` or `<topic> · <area>`
 
 Do not append as Action findings. Do not block fix-loop exit.
 
-## Optional tail sections
+## Tail sections
 
-Use only when they add decision value. Keep each section to bullets or one short paragraph.
+Required rows below must appear in their stated lifecycle; use optional rows
+only when they add decision value. Keep each section concise.
 
 | Section                     | When                                                                     |
 | --------------------------- | ------------------------------------------------------------------------ |
 | **Baseline contradictions** | Re-review pass when prior synthesis exists — required                    |
+| **Fix-loop ledger**         | Every fix-loop handoff and contextual Full synthesis — required          |
+| **Exit evidence**           | Contextual Full pass that claims merge-ready — required                  |
 | **Open questions**          | Product or backend assumptions block Action severity                     |
 | **Testing gaps**            | Residual coverage not already in Deferred tail                           |
 | **Change summary**          | User asked for overview, or first review on a large PR — max 3 sentences |
@@ -157,6 +160,25 @@ Required when prior Action findings existed before the pass. Full rules → cons
 | ------------------------- | --------------- | --------------------------------------- | -------------------- |
 | host-navigation-lifecycle | fixed           | Same root_cause still broken in App.tsx | Reopen — partial fix |
 ```
+
+## Fix-loop ledger
+
+Required whenever a review has entered a fix loop. Use the schema in
+[fix-loop-ledger.md](fix-loop-ledger.md) and carry the full current ledger in
+the chat handoff. Do not reset closed themes between passes.
+
+## Exit evidence
+
+Before writing `Merge-ready`, `final blockers`, or equivalent, report:
+
+- Open/reopened ledger themes: none.
+- Baseline contradictions: none.
+- Repeated hotspots and who reviewed them holistically.
+- Regression evidence for each repeated Action theme.
+- Authoritative repository validation command and result.
+
+If validation was not run or any exit-gate row is unknown, state that and do not
+claim merge-ready even when no Action findings were filed.
 
 ## Scope (Action items)
 

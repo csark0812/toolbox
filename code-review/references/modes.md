@@ -14,7 +14,7 @@
 
 **Thorough optional skip:** when diff has a clear single theme and no placement/boundary change, coordinator may omit `architecture` from optional slots — log in dispatch plan.
 
-**Promoted to Full → fix-loop applies.** Deliver findings in chat per [output.md](output.md). See consumer review-fix-loop / customize.
+**Promoted to Full → fix-loop applies.** Deliver findings in chat per [output.md](output.md) and initialize the stable-theme ledger in [fix-loop-ledger.md](fix-loop-ledger.md). Consumer review-fix-loop/customize may extend this lifecycle.
 
 **Overlay:** Reviewer-ready? Breaking changes, regressions, missing contract updates?
 
@@ -32,11 +32,11 @@
 
 Agent budget table: [agent-selection.md](agent-selection.md).
 
-**Contextual filing ≠ shallow read.** On re-review, filing rules restrict what gets **appended** (no sibling blocks on closed themes except contradictions; improvements → Deferred tail). Council still runs **Full** on the **whole diff** — do not skip reading because prior synthesis marked themes fixed. See consumer review-fix-loop / customize § Contextual Full re-review.
+**Contextual filing ≠ shallow read.** On re-review, filing rules restrict what gets **appended** (no sibling blocks on closed themes except contradictions; improvements → Deferred tail). Council still runs **Full** on the **whole diff**, reconciles every candidate to the prior ledger, applies the invariant matrix, and holistically reviews files/subsystems changed in two or more fix passes.
 
 **Depth regression:** If escalation triggers match Full but synthesis says Thorough, treat as incomplete depth — re-run at Full or record why triggers did not apply.
 
-**Merge gate:** Exit contextual Full re-review with no merge-blockers — not "zero findings on first Full baseline." See consumer review-fix-loop / customize § Merge-ready (human gate).
+**Merge gate:** Exit contextual Full re-review only when the [portable exit gate](fix-loop-ledger.md#exit-gate) passes — not merely when a pass reports zero findings. Consumer rules may strengthen but not weaken this gate.
 
 **Default filing:** merge-blockers only — [merge-blockers.md](merge-blockers.md). Say `include improvements` for polish, tests, refactor.
 

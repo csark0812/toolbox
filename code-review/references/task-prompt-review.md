@@ -37,6 +37,23 @@ Apply your [agent-name] lens (map depth: Quick→quick, Standard→standard, Tho
 
 Synthesis → [synthesis.md](synthesis.md) then [output.md](output.md).
 
+## Invariant overlay (Thorough+)
+
+Append to the coordinator plan and every Thorough/Full member prompt:
+
+```
+Invariant review:
+- State the behavioral invariant for each candidate before filing it.
+- Derive the applicable input/contract rows from fix-loop-ledger.md § Invariant matrix.
+- Inspect every affected contract surface, not only the reported example.
+- Merge symptoms and edge variants under one root invariant.
+- Default filing remains merge-blockers only; the matrix broadens inspection, not filing.
+```
+
+For path, routing, source-rewrite, contract, state/persistence, or
+auth/permission changes, include the matching portable matrix dimensions from
+[fix-loop-ledger.md](fix-loop-ledger.md).
+
 ## Default filing overlay (portable optional)
 
 When the consumer has **not** supplied a fuller Default filing overlay, append:
@@ -59,3 +76,25 @@ After the Review overlay (and portable Default filing if used), append **consume
 - Typically: Default filing (consumer wording), Filing gate, Product intent, Baseline checklist, Contextual Full re-review, path boosts, Needs confirmation
 
 Do **not** hardcode consumer repo paths in this toolbox file.
+
+## Contextual Full ledger overlay (pass 2+)
+
+When prior Action findings exist, append to the coordinator plan and every
+member prompt in addition to any consumer overlay:
+
+```
+Fix-loop: contextual Full re-review
+Prior synthesis + ledger: <paste current stable-theme ledger>
+Depth: Full; diff: whole branch
+
+Read the whole diff independently, then reconcile every candidate:
+1. Same theme, incomplete fix → reopen existing theme_id.
+2. Same invariant, new variant → add evidence to the existing theme.
+3. Genuinely new invariant → create a theme_id and explain in one line why prior passes missed this blocker class.
+4. No reachable production failure → Noted/Deferred under filing rules.
+
+Identify files/subsystems changed in 2+ fix passes and review those hotspots holistically.
+Do not claim merge-ready or "final blockers" unless fix-loop-ledger.md § Exit gate passes.
+```
+
+The whole-diff read stays fresh; theme identity and closure state do not reset.
