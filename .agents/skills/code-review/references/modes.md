@@ -8,7 +8,7 @@
 
 **Diff:** [shared.md](shared.md) · **Depth:** Thorough
 
-**Escalate to Full** if any: auth/payments/privacy/security; API/schema changes; **>10 code files or >600 code lines** touching shared modules/boundaries/persistence (app packages, shared libraries — **exclude** `docs/`, skill trees, agent entry files from counts); **>20 code files or >1200 code lines** (same exclusion); weak/missing tests on risky paths. Record escalation in synthesis header per [output.md](output.md) § Status line (`Escalation: Stayed Thorough` or `Promoted to Full` + reason).
+**Escalate to Full** if any: auth/payments/privacy/security; API/schema changes; **>10 code files or >600 code lines** touching shared modules/boundaries/persistence (app packages, shared libraries — **exclude** `docs/`, skill trees, agent entry files from counts); **>20 code files or >1200 code lines** (same exclusion); weak/missing tests on risky paths. Record escalation in synthesis header per [output.md](output.md) § Status line (`Escalation: Stayed Thorough` / `Promoted to Full` / `Stayed targeted contextual` / `Promoted to Full contextual` + reason).
 
 **Mixed PR** (product code + docs-only agent-workflow edits): default **Thorough** (4 agents) unless auth/security/API-schema paths hit.
 
@@ -26,19 +26,48 @@
 
 `review vs main` on a branch → mode `pr`, diff `main...HEAD` (whole branch). Depth is **calibrated**, not always Full.
 
-| Condition                                                                                                              | Depth                           | Council agents | Diff scope   |
-| ---------------------------------------------------------------------------------------------------------------------- | ------------------------------- | -------------- | ------------ |
-| Default (no escalation triggers below)                                                                                 | **Thorough**                    | 4              | Whole branch |
-| Auth/security/API/schema; >10 files or >600 lines on shared paths; >20 files or >1200 lines; weak tests on risky paths | **Full** (escalated)            | 5              | Whole branch |
-| Fix-loop pass 2+ (prior Action findings in thread/PR)                                                                  | **Full** (contextual re-review) | 5              | Whole branch |
+| Condition                                                                                                              | Depth                              | Council agents | Diff scope                          |
+| ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | -------------- | ----------------------------------- |
+| Default (no escalation triggers below)                                                                                 | **Thorough**                       | 4              | Whole branch                        |
+| Auth/security/API/schema; >10 files or >600 lines on shared paths; >20 files or >1200 lines; weak tests on risky paths | **Full** (escalated)               | 5              | Whole branch                        |
+| Fix-loop pass 2+ · `closure-re-review` (diff only prior themes)                                                        | **Standard** (targeted contextual) | 2 (or Quick 1) | Whole branch + theme sweep surfaces |
+| Fix-loop pass 2+ · Full promotion triggers (below)                                                                     | **Full** (contextual re-review)    | 5              | Whole branch                        |
 
 Agent budget table: [agent-selection.md](agent-selection.md).
 
-**Contextual filing ≠ shallow read.** On re-review, filing rules restrict what gets **appended** (no sibling blocks on closed themes except contradictions; improvements → Deferred tail). Council still runs **Full** on the **whole diff**, reconciles every candidate to the prior ledger, applies the invariant matrix, and holistically reviews files/subsystems changed in two or more fix passes.
+### Contextual re-review
 
-**Depth regression:** If escalation triggers match Full but synthesis says Thorough, treat as incomplete depth — re-run at Full or record why triggers did not apply.
+Pass 2+ is **not** an automatic Full council. After [anti-thrash preflight](../SKILL.md#anti-thrash-preflight), choose a lane:
 
-**Merge gate:** Exit contextual Full re-review only when the [portable exit gate](fix-loop-ledger.md#exit-gate) passes — not merely when a pass reports zero findings. Consumer rules may strengthen but not weaken this gate.
+**Prefer targeted contextual re-review** (`closure-re-review`) when all are true:
+
+- A stable-theme ledger exists from a prior pass.
+- The latest diff only touches prior themes and their [sweep surfaces](fix-loop-ledger.md#same-invariant-sweep).
+- No unresolved baseline contradictions.
+- Scope did not materially expand (no new subsystems / public-contract surfaces outside the ledger).
+
+Targeted lane rules:
+
+- Depth default **Standard** (2 members). Use **Quick** (1) only when a single theme’s hotspot needs independent scrutiny and the coordinator already completed the invariant + matrix sweep.
+- Coordinator reconstructs the ledger, runs hotspot reads, and verifies each open/reopened theme’s sweep plan before synthesizing.
+- Filing stays contextual: no sibling Action blocks for adjacent holes on an existing theme — extend / reopen that `theme_id`.
+- Synthesis header must include `Pass: targeted contextual` and one line why the pass stayed targeted.
+
+**Promote to Full contextual re-review** when any:
+
+- Ledger missing or corrupted.
+- Unresolved baseline contradictions.
+- Diff introduces new subsystems, boundaries, auth/security/API/schema paths, or other Full escalation triggers.
+- Prior pass hit a [thrash signal](fix-loop-ledger.md#thrash-signal) and still lacks a completed same-invariant sweep.
+- User explicitly asked for Full / exhaustive / include improvements on this re-review.
+
+Full contextual lane still reads the **whole** branch diff, reconciles every candidate to the prior ledger, applies the invariant matrix, and holistically reviews multi-pass hotspots. Header: `Pass: Full contextual` + promotion reason.
+
+**Contextual filing ≠ shallow read.** Targeted or Full, filing rules restrict what gets **appended** (no sibling blocks on closed themes except contradictions; improvements → Deferred tail). Do not waive member Task spawns; calibrate the budget instead.
+
+**Depth regression:** If Full promotion triggers match but synthesis stays targeted/Thorough without recording why, treat as incomplete depth — re-run at Full or record the carve-out.
+
+**Merge gate:** Exit any contextual re-review (targeted or Full) only when the [portable exit gate](fix-loop-ledger.md#exit-gate) passes — not merely when a pass reports zero findings. Consumer rules may strengthen but not weaken this gate.
 
 **Default filing:** merge-blockers only — [merge-blockers.md](merge-blockers.md). Say `include improvements` for polish, tests, refactor.
 

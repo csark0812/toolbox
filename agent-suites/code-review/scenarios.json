@@ -1,6 +1,6 @@
 {
   "name": "code-review",
-  "description": "Portable code-review skill conformance: modes, depth, filing, and no-commit behavior",
+  "description": "Portable code-review skill conformance: modes, depth, filing, anti-thrash re-review, and no-commit behavior",
   "defaults": {
     "host": "replay",
     "profile": "cursor",
@@ -72,6 +72,34 @@
         "mustNot": ["git commit"],
         "judge": [
           "The review escalates to Full depth with an auth/security-related reason and files or clearly discusses merge-blockers"
+        ]
+      }
+    },
+    {
+      "name": "pr: anti-thrash targeted contextual",
+      "prompt": "Re-review the PR diff for agent-suites/fixtures/sample-app/src/redirect.ts (main...HEAD) after fixes. Prior Action finding theme_id `query-preservation` is in the ledger (open: relative redirects dropped query strings). Diff only touches that theme. Run anti-thrash preflight and prefer targeted contextual re-review over another Full council. Default merge-blocker filing. Review only; no edits.\n\nRequired: header includes `Pass: targeted contextual` and `Stayed targeted contextual`; reconstruct ledger; do not invent a sibling Action theme.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-closure.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-targeted-contextual.json",
+      "rubric": {
+        "reviewDepth": "standard",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "Promoted to Full contextual", "Pass: Full contextual"],
+        "judge": [
+          "The re-review stays targeted contextual after anti-thrash preflight, reconstructs the prior theme ledger, and does not reflexively run another Full council or file a sibling Action theme"
+        ]
+      }
+    },
+    {
+      "name": "pr: anti-thrash signal collapse",
+      "prompt": "Review the PR diff for agent-suites/fixtures/sample-app/src/redirect.ts (main...HEAD). Two adjacent blocker candidates exist in the same ownership/path family (query dropped vs absolute target accepted). Apply the thrash signal: stop filing separate Action symptoms and collapse into one theme with a same-invariant sweep. Default merge-blocker filing. Review only; no edits.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-commit.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-signal.json",
+      "rubric": {
+        "reviewDepth": "thorough",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit"],
+        "judge": [
+          "The review applies the thrash signal, collapses adjacent same-family blockers into one theme_id with an explicit same-invariant sweep, and does not file sibling Action blocks for each edge"
         ]
       }
     }

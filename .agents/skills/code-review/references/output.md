@@ -22,7 +22,7 @@ Match the **scannable finding-block shape** for **Action** items — short imper
 Review · pr · Full · Escalation: Promoted to Full (auth/security, 40 files) · Filing: merge-blockers only
 ```
 
-Format: `Review · {mode} · {depth} · Escalation: {Stayed Thorough|Promoted to Full} ({brief reason})`. Optional: `Filing: merge-blockers only` (default) or `Filing: merge-blockers + improvements` when user opted in — [merge-blockers.md](merge-blockers.md). Missing escalation line on a `pr` review = **incomplete turn**. Depth regression: if Full triggers in [modes.md](modes.md) apply but header says Thorough, fix depth before ending the turn.
+Format: `Review · {mode} · {depth} · Escalation: {Stayed Thorough|Promoted to Full|Stayed targeted contextual|Promoted to Full contextual} ({brief reason})`. Optional: `Pass: targeted contextual` / `Pass: Full contextual` on fix-loop re-reviews; `Filing: merge-blockers only` (default) or `Filing: merge-blockers + improvements` when user opted in — [merge-blockers.md](merge-blockers.md). Missing escalation line on a `pr` review = **incomplete turn**. Depth regression: if Full triggers in [modes.md](modes.md) apply but header says Thorough/targeted without a recorded carve-out, fix depth before ending the turn.
 
 **Findings count line** (second line):
 
@@ -76,7 +76,7 @@ One block per **Action** issue, severity descending (critical → high → mediu
 
 **Cross-turn references (fix-loop):** cite the stable `theme_id` from [fix-loop-ledger.md](fix-loop-ledger.md). Titles and locations may change without creating a new theme.
 
-**Re-review:** classify every candidate as incomplete fix, same-invariant variant, genuinely new invariant, or non-blocking. Same invariant + new edge extends the existing `theme_id` (incomplete prior closure) — never a fresh sibling for an adjacent hole. Do not append sibling blocks for minor edges on **closed** themes. A genuinely new Action theme on pass 2+ must include `Prior-pass miss: <why this blocker class escaped earlier invariant/contract coverage>.`
+**Re-review:** classify every candidate as incomplete fix, same-invariant variant, genuinely new invariant, or non-blocking. Same invariant + new edge extends the existing `theme_id` (incomplete prior closure) — never a fresh sibling for an adjacent hole. Do not append sibling blocks for minor edges on **closed** themes. A genuinely new Action theme on pass 2+ must include `Prior-pass miss: <why this blocker class escaped earlier invariant/contract coverage>.` Header must record `Pass: targeted contextual` or `Pass: Full contextual` with reason.
 
 ```markdown
 ## Reset panelMode on host navigation
@@ -141,9 +141,9 @@ only when they add decision value. Keep each section concise.
 | Section                     | When                                                                     |
 | --------------------------- | ------------------------------------------------------------------------ |
 | **Baseline contradictions** | Re-review pass when prior synthesis exists — required                    |
-| **Fix-loop ledger**         | Every fix-loop handoff and contextual Full synthesis — required          |
+| **Fix-loop ledger**         | Every fix-loop handoff and contextual re-review synthesis — required     |
 | **Closure evidence**        | Closing a theme that spanned 2+ passes — required (may live in ledger)   |
-| **Exit evidence**           | Contextual Full pass that claims merge-ready — required                  |
+| **Exit evidence**           | Contextual re-review pass that claims merge-ready — required             |
 | **Open questions**          | Product or backend assumptions block Action severity                     |
 | **Testing gaps**            | Residual coverage not already in Deferred tail                           |
 | **Change summary**          | User asked for overview, or first review on a large PR — max 3 sentences |

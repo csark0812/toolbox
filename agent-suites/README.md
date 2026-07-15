@@ -7,7 +7,7 @@ Toolbox agent suites are portable conformance checks for public skills. They use
 Toolbox owns generic skill-contract behavior:
 
 - `routing`: Low hands-on routing, hands-off PR routing blocks, and delegation to `grill` / `crystallize`.
-- `code-review`: review mode detection, depth selection, merge-blocker default filing, and no-commit review behavior.
+- `code-review`: review mode detection, depth selection, merge-blocker default filing, anti-thrash / contextual re-review convergence, and no-commit review behavior.
 
 Consumer repos own integration dogfood suites for local product paths, rules, validation commands, and private docs. For example, PostPrint scenarios that mention `apps/client/**`, `apps/backend/**`, product auth/session code, council overlays, or PostPrint `validate:changed` stay in `PostPrint/applications`.
 

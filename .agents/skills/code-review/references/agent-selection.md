@@ -18,16 +18,16 @@ Mechanical discovery → [multi agent-discovery.md](../../multi/references/agent
 
 Depth ranks: `quick` < `standard` < `thorough` < `full`.
 
-| Depth    | Member budget |
-| -------- | ------------- |
-| Quick    | 1             |
-| Standard | 2             |
-| Thorough | 4             |
-| Full     | 5             |
+| Depth    | Member budget | Notes                                           |
+| -------- | ------------- | ----------------------------------------------- |
+| Quick    | 1             | Targeted single-theme hotspot only              |
+| Standard | 2             | Default for targeted contextual re-review       |
+| Thorough | 4             | Default first `pr` / `merge`                    |
+| Full     | 5             | Escalated baseline or Full contextual re-review |
 
 Budget expands to fit all **required** agents (never drop a required member to save slots).
 
-**Spawn count = |SELECTED|.** Every SELECTED agent gets one Task/Subagent call ([council-dispatch.md](council-dispatch.md)). Budget and optional-slot omits change who is SELECTED — they never authorize zero-member solo synthesis.
+**Spawn count = |SELECTED|.** Every SELECTED agent gets one Task/Subagent call ([council-dispatch.md](council-dispatch.md)). Budget and optional-slot omits change who is SELECTED — they never authorize zero-member solo synthesis. Targeted contextual re-review calibrates to Quick/Standard; it does not waive spawn.
 
 ## Selection algorithm
 
