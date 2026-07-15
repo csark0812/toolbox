@@ -2,9 +2,28 @@
 
 **Source of truth for** agent cold-start in this repo.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-15 -->
 
 Public team skills SSOT. Markdown skills + skeleton audits — not a TypeScript app. No runtime env vars required (see `.env.example`).
+
+## Routing announce (before tools)
+
+Full contracts: [`.skeleton/references/agent-routing.md`](.skeleton/references/agent-routing.md). Do **not** search the repo for that file before announcing — use this section (or the injected harness contract).
+
+- **Hands-on:** first assistant line includes the tier, e.g. `Low — …` / `Medium — …` / `Tier: low — …`.
+- **Hands-off (PR create/update/draft):** always **Medium** (or High if scope warrants) — never Low. First output is exactly:
+
+```markdown
+## Routing
+
+- **Tier:** Low | Medium | High
+- **Signals:** …
+- **Invariant applied:** …
+- **Escalations:** none | …
+- **Open questions:** none | …
+```
+
+No tools, file edits, or other prose until the announce is done. PR-text-only asks stay documentation-only.
 
 ## First hour
 
