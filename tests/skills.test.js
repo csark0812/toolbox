@@ -182,7 +182,9 @@ describe('toolbox skill SSOT', () => {
 
     expect(council).toMatch(/## Hard gate \(before any review report\)/)
     expect(council).toMatch(/Spawn \(mandatory\)/)
-    expect(council).toMatch(/Skipping this step and writing findings yourself is a \*\*violation\*\*/)
+    expect(council).toMatch(
+      /Skipping this step and writing findings yourself is a \*\*violation\*\*/,
+    )
     expect(council).toMatch(/One Task\/Subagent completed per SELECTED member/)
     expect(council).not.toMatch(/or valid skip documented/)
 
