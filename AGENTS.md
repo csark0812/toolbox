@@ -50,7 +50,7 @@ Path-scoped `validate:changed` on skill-only paths exits non-zero and redirects 
 
 `npm test` = unit fixtures + `references:check` + `audit:hub` + `audit:skills` + `validate:ci`. `npm run check` / `npm start` also runs format, lint, and typecheck (CI + First hour). Optional deeper pass: `npm run audit:self` (docs + skills; registered `SKILL.md` rows need Source of truth banner + doc-meta). Skill-path redirect needs `@csark0812/skeleton` ≥ 1.1.3.
 
-`npm run agent:test` runs replay-based portable conformance suites for public toolbox skills. These scripts currently invoke the published `@post-print/agent-test` CLI through Bun because its built ESM imports are not Node-compatible yet. `npm run agent:test:live` uses Cursor SDK dogfood in isolated worktrees and requires `CURSOR_API_KEY`. Keep consumer/product-specific suites (for example PostPrint app paths, private docs, and repo validation commands) in the consumer repo.
+`npm run agent:test` runs replay-based portable conformance suites for public toolbox skills. `npm run agent:test:live` uses Cursor SDK dogfood in isolated worktrees and requires `CURSOR_API_KEY`. Keep consumer/product-specific suites (for example PostPrint app paths, private docs, and repo validation commands) in the consumer repo.
 
 ## Install destinations (consumers)
 

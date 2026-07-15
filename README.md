@@ -115,7 +115,6 @@ pre-commit install          # runs npm test on commit
 Portable agent conformance lives under [`agent-suites/`](agent-suites/). Replay mode is credential-free:
 
 ```bash
-# Requires Bun while @post-print/agent-test's published ESM uses extensionless imports.
 npm run agent:test
 ```
 
