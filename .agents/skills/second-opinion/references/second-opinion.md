@@ -9,7 +9,7 @@ Work on a **written** plan, PRD, or issue set — not Socratic explore. Pick a *
 
 **Both:** If you want outsider critique **and** the axis checklist, run **A then B**, or **B then A** if premises are already settled.
 
-**Not in scope for either stance:** security/compliance review (use **security** agent or [`docs/security/audit.md`](../../../../docs/security/audit.md)), reproducible broken behavior (**investigate** + **testing** + **debug** when layer or session logs unclear). For broad proactive codebase sweeps, use [parallel-explore.md](planning/parallel-explore.md).
+**Not in scope for either stance:** security/compliance review (use the **security** agent), reproducible broken behavior (**investigate** + **testing** + **debug** when layer or session logs unclear). For broad proactive codebase sweeps, use [parallel-explore.md](planning/parallel-explore.md).
 
 **Stance A escalation tiers:** default single-pass (small plan) → coverage evidence-gather via [parallel-plan-evidence.md](parallel-plan-evidence.md) (large plan) → perspective adversarial via [parallel-perspective.md](parallel-perspective.md) (contested/high-stakes, on request).
 
