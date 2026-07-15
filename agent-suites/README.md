@@ -18,7 +18,7 @@ Consumer repos own integration dogfood suites for local product paths, rules, va
 npm run agent:test
 ```
 
-Replay mode is the default and does not require live credentials. Install dependencies with `npm ci` and ensure Bun is available. The published `@post-print/agent-test` CLI currently needs Bun for its built ESM imports; keep this workaround local to the `agent:test` scripts until the package ships Node-compatible import specifiers.
+Replay mode is the default and does not require live credentials. Install dependencies with `npm ci`. The `@post-print/agent-test` CLI runs under Node ≥ 22.
 
 ```bash
 npm run agent:test:live
