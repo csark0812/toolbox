@@ -1,0 +1,16 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Medium — fuzzy intent needs crystallizing before implementation.\n\nUsing crystallize: I hear the half-formed goal as \"make expired auth feel recoverable and trustworthy instead of surprising.\" You might be assuming the right answer is a modal, but the product shape may be clearer status, preserved work, and a direct re-auth path.\n\nA sharper target: when auth expires, the sample app should explain what happened, preserve user input, and offer one obvious way to continue."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["crystallize"],
+  "routing": {
+    "tier": "medium",
+    "signals": ["fuzzy product intent"]
+  },
+  "artifacts": {}
+}

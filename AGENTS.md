@@ -30,6 +30,7 @@ pre-commit install
 - Flat skills: `<slug>/SKILL.md` (e.g. `multi/SKILL.md`)
 - Shared module: `src/expected-skills.ts` (canonical slug list; `npm run typecheck`)
 - Tests: `tests/`
+- Agent conformance suites: `agent-suites/` (`npm run agent:test`)
 - Canonical shared refs: `.skeleton/references/` → `npm run references:sync` → `{slug}/references/`
 - Hub taxonomy: `docs/tiers.md`, `.skeleton/registry.md`
 - This clone ships team skills + skeleton config. Agent preference packs (`.cursor/` / `.claude/` prefs) live elsewhere — see [tiers](docs/tiers.md).
@@ -41,12 +42,15 @@ pre-commit install
 | Hub docs (`README.md`, `docs/**`) | `npm run validate:changed -- <path>`                             |
 | Shared refs                       | `npm run references:sync` then `npm run references:check`        |
 | Skill bodies / unsure             | `npm run check` (or `npm test` / `audit:skills` + `validate:ci`) |
+| Agent suite scenarios             | `npm run agent:test` (replay)                                    |
 | Style (md/yaml)                   | `npm run lint` + `npm run format:check`                          |
 | Shared `src/` TypeScript          | `npm run typecheck`                                              |
 
 Path-scoped `validate:changed` on skill-only paths exits non-zero and redirects to `audit skills` / `audit self` (skill-body rules are global; path-scoped coverage is empty). Use `npm test` / `npm run check` for skill edits. Pre-commit runs `npm test` so local hooks match the skill gate.
 
 `npm test` = unit fixtures + `references:check` + `audit:hub` + `audit:skills` + `validate:ci`. `npm run check` / `npm start` also runs format, lint, and typecheck (CI + First hour). Optional deeper pass: `npm run audit:self` (docs + skills; registered `SKILL.md` rows need Source of truth banner + doc-meta). Skill-path redirect needs `@csark0812/skeleton` ≥ 1.1.3.
+
+`npm run agent:test` runs replay-based portable conformance suites for public toolbox skills. These scripts currently invoke the published `@post-print/agent-test` CLI through Bun because its built ESM imports are not Node-compatible yet. `npm run agent:test:live` uses Cursor SDK dogfood in isolated worktrees and requires `CURSOR_API_KEY`. Keep consumer/product-specific suites (for example PostPrint app paths, private docs, and repo validation commands) in the consumer repo.
 
 ## Install destinations (consumers)
 

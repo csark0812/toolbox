@@ -1,0 +1,63 @@
+{
+  "name": "routing",
+  "description": "Portable routing and dialogue conformance for low-touch edits, hands-off PR routing, grill, and crystallize",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "low: single-file fix",
+      "prompt": "Fix the redirect helper in agent-suites/fixtures/sample-app/src/redirect.ts so it keeps query strings intact. Keep it hands-on and run the smallest useful validation.",
+      "replayTrace": "agent-suites/routing/fixtures/replays/low-single-file-fix.json",
+      "rubric": {
+        "tier": "low",
+        "handsOnRouting": true,
+        "mustRun": ["npm run validate:changed"],
+        "judge": [
+          "The agent treats the task as Low routing and performs a direct, scoped edit with focused validation"
+        ]
+      }
+    },
+    {
+      "name": "medium: grill pressure-test",
+      "prompt": "Before implementation, pressure-test this design: the sample form should optimistically submit and then reconcile server validation errors.",
+      "replayTrace": "agent-suites/routing/fixtures/replays/medium-grill.json",
+      "rubric": {
+        "tier": "medium",
+        "handsOnRouting": true,
+        "mustInvokeSkill": ["grill"],
+        "judge": [
+          "The agent uses grill-style pressure testing with concrete risks and branches before implementation"
+        ]
+      }
+    },
+    {
+      "name": "medium: crystallize fuzzy idea",
+      "prompt": "I have a fuzzy idea: make our sample app feel more trustworthy when auth expires, but I am not sure what the actual product shape is.",
+      "replayTrace": "agent-suites/routing/fixtures/replays/medium-crystallize.json",
+      "rubric": {
+        "tier": "medium",
+        "handsOnRouting": true,
+        "mustInvokeSkill": ["crystallize"],
+        "judge": [
+          "The agent mirrors the fuzzy intent, identifies assumptions, and shapes the idea before proposing implementation"
+        ]
+      }
+    },
+    {
+      "name": "medium: pr routing block",
+      "prompt": "Draft a PR description for the sample form changes. Include a routing block first and do not edit files.",
+      "replayTrace": "agent-suites/routing/fixtures/replays/medium-pr-routing-block.json",
+      "rubric": {
+        "tier": "medium",
+        "routingBlock": true,
+        "mustNot": ["git commit"],
+        "judge": [
+          "The response starts with a hands-off routing block before the PR description and avoids file edits"
+        ]
+      }
+    }
+  ]
+}

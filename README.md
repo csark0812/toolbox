@@ -110,6 +110,23 @@ pre-commit install          # runs npm test on commit
 
 `npm run check` / `npm start` runs format, lint, typecheck, vitest unit fixtures, `references:check`, hub + skills audits, and `validate:ci` (matches CI). `npm test` is the skill gate subset (unit + audits + validate:ci). `npm ci` pulls `@csark0812/skeleton` from the registry; for local dogfood only: `npm install ../skeleton` (do not commit the link).
 
+### Agent suites
+
+Portable agent conformance lives under [`agent-suites/`](agent-suites/). Replay mode is credential-free:
+
+```bash
+# Requires Bun while @post-print/agent-test's published ESM uses extensionless imports.
+npm run agent:test
+```
+
+Live dogfood uses the installed `@cursor/sdk` in isolated worktrees. Copy `.env.example` to `.env`, set `CURSOR_API_KEY`, then run:
+
+```bash
+npm run agent:test:live
+```
+
+Toolbox owns generic skill-contract behavior (`code-review`, routing, `grill`, `crystallize`). Consumer repos keep product-specific integration suites that mention local app paths, private docs, custom validation commands, or repo-specific overlays.
+
 ## Adding a skill
 
 1. `npm ci` (needs `@csark0812/skeleton` for audit/CLI scripts)

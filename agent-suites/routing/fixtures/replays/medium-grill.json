@@ -1,0 +1,16 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Medium — design pressure-test before implementation.\n\nInvoking the grill skill to pressure-test the optimistic submit plan.\n\n1. Branch 1 - optimistic success first: fastest UI, but it may hide server validation until after the user trusts the success state.\n2. Branch 2 - optimistic pending first: clearer state machine, but it needs a reconciliation path for late validation errors.\n3. Branch 3 - server-confirmed success only: safest, but it may feel slow unless loading feedback is crisp.\n\nRecommendation: use a submitting state first, then reconcile success or field-level error from the server response."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["grill"],
+  "routing": {
+    "tier": "medium",
+    "signals": ["design pressure-test"]
+  },
+  "artifacts": {}
+}

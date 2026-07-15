@@ -1,0 +1,15 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Review · commit · Standard · redirect\n\n**Depth:** Standard\n\nUsing code-review for the latest commit touching `agent-suites/fixtures/sample-app/src/redirect.ts`.\n\n## Review synthesis\nThe commit preserves the redirect helper scope. No merge-blocking findings found in this replay fixture."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [
+    "git show --stat HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts",
+    "git show HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"
+  ],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

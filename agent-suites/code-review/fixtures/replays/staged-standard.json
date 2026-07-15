@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Review · staged · Standard · redirect\n\n**Depth:** Standard\n\nFollowing the code-review skill for a structured staged-change review.\n\n## Findings\nNo merge-blocking issues found.\n\n## Review synthesis\nThe change is scoped to the redirect helper and does not require edits from the reviewer."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": ["git diff --staged -- agent-suites/fixtures/sample-app/src/redirect.ts"],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

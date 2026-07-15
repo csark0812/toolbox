@@ -1,0 +1,15 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "## Routing\n\n**Tier:** medium\n**Signals:** PR description drafting, no file edits, hands-off output contract.\n\n## Summary\n\n- Update sample form handling so submit state and server validation reconciliation are explicit.\n- Keep the fixture scope local to `agent-suites/fixtures/sample-app/src/form.tsx`.\n\n## Test Plan\n\n- `npm run agent:test -- --suite code-review`\n- `npm run validate:changed -- agent-suites/fixtures/sample-app/src/form.tsx`"
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "routing": {
+    "tier": "medium",
+    "signals": ["PR description", "hands-off"]
+  },
+  "artifacts": {}
+}

@@ -1,0 +1,11 @@
+diff --git a/agent-suites/fixtures/sample-app/src/redirect.ts b/agent-suites/fixtures/sample-app/src/redirect.ts
+index fb77419..0f629ae 100644
+--- a/agent-suites/fixtures/sample-app/src/redirect.ts
++++ b/agent-suites/fixtures/sample-app/src/redirect.ts
+@@ -8,5 +8,5 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
+     return '/dashboard'
+   }
+
+-  return target.split('?')[0] ?? '/dashboard'
++  return target
+ }

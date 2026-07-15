@@ -1,0 +1,26 @@
+diff --git a/agent-suites/fixtures/sample-app/src/auth.ts b/agent-suites/fixtures/sample-app/src/auth.ts
+index a5bf7f3..d9d01b3 100644
+--- a/agent-suites/fixtures/sample-app/src/auth.ts
++++ b/agent-suites/fixtures/sample-app/src/auth.ts
+@@ -3,10 +3,20 @@ export interface Session {
+   expiresAt: number
+ }
+
++const sessionByToken = new Map<string, Session>()
++
++export function rememberSession(token: string, session: Session): void {
++  sessionByToken.set(token, session)
++}
++
++export function sessionForToken(token: string): Session | undefined {
++  return sessionByToken.get(token)
++}
++
+ export function isSessionActive(session: Session | undefined, now = Date.now()): boolean {
+   if (!session) {
+     return false
+   }
+
+-  return session.expiresAt > now
++  return session.expiresAt >= now
+ }

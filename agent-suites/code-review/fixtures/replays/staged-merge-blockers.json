@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Review · staged · Standard · redirect\n\n**Depth:** Standard\n\nUsing the code-review skill with default merge-blocker filing only.\n\n## Review synthesis\nNo merge-blocking findings found in `agent-suites/fixtures/sample-app/src/redirect.ts`. The reviewed scope is small and path-limited, and this pass intentionally omits polish and test-inventory findings."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": ["git diff --staged -- agent-suites/fixtures/sample-app/src/redirect.ts"],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

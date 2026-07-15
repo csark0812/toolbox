@@ -1,0 +1,26 @@
+diff --git a/agent-suites/fixtures/sample-app/src/form.tsx b/agent-suites/fixtures/sample-app/src/form.tsx
+index 50eb6ee..d81db12 100644
+--- a/agent-suites/fixtures/sample-app/src/form.tsx
++++ b/agent-suites/fixtures/sample-app/src/form.tsx
+@@ -6,6 +6,13 @@ export interface SampleFormState {
+   error?: string
+ }
+
++export function optimisticSubmit(state: SampleFormState): SampleFormState {
++  return {
++    ...state,
++    status: 'success',
++  }
++}
++
+ export function nextSubmitState(state: SampleFormState, serverError?: string): SampleFormState {
+   if (serverError) {
+     return {
+@@ -18,6 +25,7 @@ export function nextSubmitState(state: SampleFormState, serverError?: string): S
+   return {
+     ...state,
+     status: 'success',
++    email: state.email.trim(),
+     error: undefined,
+   }
+ }

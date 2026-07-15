@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Review · pr · Full · sample-auth\n\n**Depth:** Full\n\nUsing code-review and escalating because the diff touches auth/session handling.\n\n## Findings\nAction: merge-blocker — validate token/session lifecycle before shipping. The sample diff introduces shared session lookup state and changes expiry boundary behavior, which is security-sensitive.\n\n## Review synthesis\nFull depth is appropriate for auth/session review."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": ["git diff main...HEAD -- agent-suites/fixtures/sample-app/src/auth.ts"],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

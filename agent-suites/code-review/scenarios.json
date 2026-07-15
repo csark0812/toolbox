@@ -1,0 +1,79 @@
+{
+  "name": "code-review",
+  "description": "Portable code-review skill conformance: modes, depth, filing, and no-commit behavior",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "staged: merge-blockers only",
+      "prompt": "Review my staged changes in agent-suites/fixtures/sample-app/src/redirect.ts with default merge-blocker filing only. Review only; do not edit files or commit.",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/staged-merge-blockers.json",
+      "rubric": {
+        "reviewDepth": "standard",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["Action: test inventory", "git commit"],
+        "judge": [
+          "The review uses default merge-blocker filing and does not file test-inventory or polish findings under Action"
+        ]
+      }
+    },
+    {
+      "name": "staged: standard structured",
+      "prompt": "Review my staged changes in agent-suites/fixtures/sample-app/src/redirect.ts before I open a PR. Do not edit files; review only.",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/staged-standard.json",
+      "rubric": {
+        "reviewDepth": "standard",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit"],
+        "judge": [
+          "The transcript contains a structured code review for the requested file without editing files"
+        ]
+      }
+    },
+    {
+      "name": "commit: standard depth",
+      "prompt": "Review the latest commit that touches agent-suites/fixtures/sample-app/src/redirect.ts. Default merge-blocker filing. Review only; no edits or commits.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-commit.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/commit-standard.json",
+      "rubric": {
+        "reviewDepth": "standard",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit"],
+        "judge": [
+          "The agent reviewed a commit or equivalent diff and produced a Standard-depth synthesis"
+        ]
+      }
+    },
+    {
+      "name": "pr: thorough default",
+      "prompt": "Review the PR diff for agent-suites/fixtures/sample-app/src/form.tsx only (main...HEAD). Client-only UI: Thorough depth, do not promote to Full. Default merge-blocker filing. Review only; no edits.\n\nRequired synthesis header: `Review · pr · Thorough · sample-form` and **Depth:** Thorough.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/form-pr.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thorough-default.json",
+      "rubric": {
+        "reviewDepth": "thorough",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "Promoted to Full"],
+        "judge": [
+          "The review declares Thorough depth, not Full escalation, for this client-only PR scope"
+        ]
+      }
+    },
+    {
+      "name": "pr: auth promotes full",
+      "prompt": "Review the PR diff for auth/session handling in agent-suites/fixtures/sample-app/src/auth.ts. Apply depth and escalation rules from the code-review skill. Review only; no edits.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/auth-pr.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-auth-full.json",
+      "rubric": {
+        "reviewDepth": "full",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit"],
+        "judge": [
+          "The review escalates to Full depth with an auth/security-related reason and files or clearly discusses merge-blockers"
+        ]
+      }
+    }
+  ]
+}
