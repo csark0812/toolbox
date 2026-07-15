@@ -16,6 +16,9 @@ scan:
   exclude:
     - '.skeleton/references/**'
     - '**/references/**'
+    # Install mirrors for Cursor/Codex — SSOT is flat <slug>/; do not treat as registry rows.
+    - '.agents/skills/**'
+    - '.claude/skills/**'
   banned: []
   retiredSkills:
     - branch-cleanup

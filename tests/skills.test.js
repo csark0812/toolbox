@@ -200,6 +200,12 @@ describe('toolbox skill SSOT', () => {
     expect(multi).toMatch(/and no entry skill already invoked parallel dispatch/)
   })
 
+  it('excludes install-mirror skill trees from scan perimeter (registry SSOT is flat)', () => {
+    const config = readFileSync(join(root, '.skeleton/config.yaml'), 'utf8')
+    expect(config).toMatch(/\.agents\/skills\/\*\*/)
+    expect(config).toMatch(/\.claude\/skills\/\*\*/)
+  })
+
   it('code-review anti-thrash guard calibrates re-review instead of reflex Full councils', () => {
     const skill = readFileSync(join(root, 'code-review/SKILL.md'), 'utf8')
     const modes = readFileSync(join(root, 'code-review/references/modes.md'), 'utf8')
