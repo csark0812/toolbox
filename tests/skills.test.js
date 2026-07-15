@@ -99,4 +99,71 @@ describe('toolbox skill SSOT', () => {
     expect(planEvidence).toMatch(/model=inherit-auto/)
     expect(planEvidence).not.toMatch(/model=composer-2\.5-fast/)
   })
+
+  it('Auto-parent model inheritance is a fail-closed pre-spawn invariant', () => {
+    const skill = readFileSync(join(root, 'multi/SKILL.md'), 'utf8')
+    const routing = readFileSync(join(root, 'multi/references/model-routing.md'), 'utf8')
+    const discovery = readFileSync(join(root, 'multi/references/agent-discovery.md'), 'utf8')
+    const taskPrompt = readFileSync(join(root, 'multi/references/task-prompt.md'), 'utf8')
+    const council = readFileSync(join(root, 'code-review/references/council-dispatch.md'), 'utf8')
+    const perspectiveInvestigate = readFileSync(
+      join(root, 'investigate/references/parallel-perspective.md'),
+      'utf8',
+    )
+    const perspectiveSecond = readFileSync(
+      join(root, 'second-opinion/references/parallel-perspective.md'),
+      'utf8',
+    )
+    const broad = readFileSync(join(root, 'investigate/references/parallel-broad.md'), 'utf8')
+
+    // Canonical invariant + precedence
+    expect(skill).toMatch(/Parent model = Auto.*no user model override/s)
+    expect(skill).toMatch(/Routing precedence \(canonical order\)/)
+    expect(skill).toMatch(/Pre-spawn model-routing gate/)
+    expect(skill).toMatch(/Fail closed \(do not spawn\)/)
+    expect(skill).toMatch(/Plan vs tool syntax/)
+    expect(skill).toMatch(/User model overrides/)
+    expect(skill).toMatch(/model=\[inherit-auto \| slug\]/)
+    expect(skill).toMatch(/Explicit routing \(named parent only\)/)
+
+    // inherit-auto is a sentinel, not a slug; examples live in model-routing.
+    expect(skill).toMatch(/dispatch-plan sentinel only/)
+    expect(routing).toMatch(/Correct — Auto parent/)
+    expect(routing).toMatch(/tier=Premium · model=inherit-auto/)
+    expect(routing).toMatch(/Incorrect — Auto parent with an explicit slug/)
+    expect(routing).toMatch(/model=gpt-5\.3-codex-high-fast/)
+    expect(routing).toMatch(/Correct — named parent/)
+    expect(routing).toMatch(/Correct — explicit user override/)
+    expect(routing).toMatch(/User model overrides: reviewer=gpt-5\.3-codex-high-fast/)
+    expect(routing).toMatch(/Correct — usage-limit retry/)
+    expect(routing).toMatch(/Task\/Subagent\(/)
+    expect(routing).toMatch(/There is \*\*no\*\* `model` argument/)
+
+    // Fail-closed contradictions
+    expect(skill).toMatch(/Plan says `Parent model: Auto` but any member has an explicit slug/)
+    expect(skill).toMatch(
+      /Plan says `model=inherit-auto` but the generated Task\/Subagent call contains a `model` property/,
+    )
+
+    // Entry/auxiliary docs reference the kernel instead of redefining the gate.
+    expect(council).toMatch(/Parent model: \[Auto \| <named model>\]/)
+    expect(council).toMatch(/model=\[inherit-auto \| slug\]/)
+    expect(council).toMatch(/inherit-auto` means \*\*omit\*\* the Task\/Subagent `model` argument/)
+    expect(council).toMatch(/Review dispatch does not redefine that gate/)
+    expect(council).not.toMatch(/## Checklist before spawn/)
+    expect(council).not.toMatch(/model=\[slug\]/)
+    expect(discovery).toMatch(/tier metadata.*not spawn instructions/s)
+    expect(discovery).toMatch(/Tier→slug mapping is only for the named-parent branch/)
+    expect(discovery).toMatch(/Parent model: \[Auto \| <named model>\]/)
+    expect(taskPrompt).toMatch(/plan `model=inherit-auto` → omit the tool `model` argument/)
+
+    // Related entry recipes reconciled away from forced slugs
+    expect(perspectiveInvestigate).toMatch(/model=\[inherit-auto \| slug\]/)
+    expect(perspectiveInvestigate).not.toMatch(/model=\[slug A\]/)
+    expect(perspectiveSecond).toMatch(/model=\[inherit-auto \| slug\]/)
+    expect(perspectiveSecond).not.toMatch(/model=\[slug A\]/)
+    expect(broad).toMatch(/model=\[inherit-auto \| slug\]/)
+    expect(broad).not.toMatch(/model=\[cheapest\]/)
+    expect(broad).toMatch(/Parent model: \[Auto \| <named model>\]/)
+  })
 })

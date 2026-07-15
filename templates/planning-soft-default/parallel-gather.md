@@ -37,11 +37,13 @@ Task: [gather goal — e.g. "collect auth + validation constraints for MCP chang
 Classification: gather
 Source of truth: repo
 Goal: coverage
+Parent model: [Auto | <named model>]
+User model overrides: [none | member=slug, …]
 
 Selected members:
 
-- explore · tier=Fast · model=[cheapest] · stance=n/a: [doc/policy slice]
-- explore · tier=Fast · model=[cheapest] · stance=n/a: [backend slice]
+- explore · tier=Fast · model=[inherit-auto | slug] · stance=n/a: [doc/policy slice]
+- explore · tier=Fast · model=[inherit-auto | slug] · stance=n/a: [backend slice]
 
 Why these members: independent sources; no cross-member dependencies
 Synthesis plan: merge fact lists; flag conflicts between sources

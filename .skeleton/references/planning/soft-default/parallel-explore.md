@@ -37,11 +37,13 @@ Task: [explore goal — e.g. "map auth touchpoints for scoring feature"]
 Classification: explore
 Source of truth: repo
 Goal: coverage
+Parent model: [Auto | <named model>]
+User model overrides: [none | member=slug, …]
 
 Selected members:
 
-- explore · tier=Fast · model=[cheapest] · stance=n/a: [backend slice]
-- explore · tier=Fast · model=[cheapest] · stance=n/a: [client slice]
+- explore · tier=Fast · model=[inherit-auto | slug] · stance=n/a: [backend slice]
+- explore · tier=Fast · model=[inherit-auto | slug] · stance=n/a: [client slice]
 
 Why these members: independent domains; no cross-member dependencies
 Synthesis plan: merge scope maps; flag overlaps and blast-radius gaps

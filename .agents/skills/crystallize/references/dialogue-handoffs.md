@@ -1,0 +1,33 @@
+<!-- skeleton: generated-reference
+source: .skeleton/references/dialogue-handoffs.md
+redundancy: intentional
+-->
+
+# Dialogue handoffs
+
+Canonical in-session routing for **crystallize** and **grill** — not a standalone skill. Cold-start routing lives in [agent-routing.md](agent-routing.md) (portable stub; consumers may override via hook-injected context); exit blocks in mode protocols are user-facing deliverables that mirror this table.
+
+## Which skill
+
+| Need                                              | Skill                                                                  |
+| ------------------------------------------------- | ---------------------------------------------------------------------- |
+| Fuzzy idea, no plan yet                           | **crystallize**                                                        |
+| Pressure-test design before build                 | **grill**                                                              |
+| Still fuzzy after starting grill                  | **crystallize**                                                        |
+| Written plan on disk                              | **second-opinion**                                                     |
+| One concrete code doubt                           | **investigate**                                                        |
+| Reproducible broken behavior                      | **investigate**                                                        |
+| Serialize to plan / PRD / issues                  | **crystallize** or **grill** → [planning/build.md](planning/build.md)  |
+| Fresh read of written plan                        | **second-opinion** (fresh read)                                        |
+| Plan rejected or needs pressure-test after review | **grill** (or **crystallize** if intent regressed)                     |
+| Completeness verify on plan/PRD                   | **second-opinion** (verify) → [planning/verify.md](planning/verify.md) |
+
+Structural ambient checks during dialogue → [dialogue-contract.md](dialogue-contract.md).
+
+Mid-task and implement routing → [agent-routing.md](agent-routing.md).
+
+## Execution planning exit
+
+When dialogue has produced enough clarity to serialize work (CreatePlan, PRD, issues), follow [planning/build.md](planning/build.md) and templates in [planning/](planning/) as needed.
+
+**Continuing from grill:** skip re-asking points already settled in dialogue ([planning/build.md](planning/build.md), Step 4).
