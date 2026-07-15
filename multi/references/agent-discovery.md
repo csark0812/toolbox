@@ -64,11 +64,11 @@ Pass as `task_paths[]` to entry-skill scoring.
 
 ## Model tier from agent metadata
 
-1. Apply [multi parent-aware routing](../SKILL.md#parent-aware-routing) first: parent on Auto → inherit Auto (omit `model`) unless the user named a slug; skip tier→slug mapping for that member.
+1. Apply [multi parent-aware routing](../SKILL.md#parent-aware-routing-auto-first) first: prefer Auto (`inherit-auto` or `model=auto`). Record `Auto reachable` and `Host supports` (Task model enum) in the dispatch plan before any explicit slug.
 2. If usage-constrained (user out of credits, or a prior member hit usage/rate/quota limits) → [multi Reach Auto](../SKILL.md#reach-auto); skip tier→slug mapping.
-3. When the parent is **not** on Auto and usage-constrained mode is off: start at `dispatch.model.default`.
-4. Map tier to slug per [multi explicit routing](../SKILL.md#explicit-routing-parent-not-on-auto): **Standard → `composer-2.5-fast`**, **Fast → cheapest enum slug**, **Premium → deepest enum slug**.
-5. Escalate to **premium** when `premium_when` signals match the task or global rules apply.
+3. If Auto is unreachable for a cost-controlled `N ≥ 2` run → stop and ask the user to switch the parent to Auto; do not silent-spend on API-pool slugs.
+4. When an explicit model is unavoidable: start at `dispatch.model.default`, then map via [model-routing.md](model-routing.md) — Cursor cost first, cheapest good enough, then most appropriate escalation for the slice. **Never** default Standard to `composer-2.5-fast` or any `*-fast` in parallel.
+5. Escalate to **premium** when `premium_when` signals match the task or global rules apply — still choose the most appropriate stronger model (see strength cards), not the highest-priced enum entry.
 6. On usage-limit start/stop failures → [multi usage-limit retry](../SKILL.md#usage-limit-retry).
 
 ## Availability log (required in dispatch plan)
@@ -79,6 +79,9 @@ Before spawning, log:
 Profile: [review / repo / plan / manual / web — from entry-skill recipe]
 Discovered: [all agent names from .claude/agents/]
 Host supports: [subagent_type enum]
+Host model enum: [Task model enum — never invent slugs]
+Auto reachable: [inherit-auto | model=auto | no]
+Billing pool: [first-party | API | mixed]
 Available: [intersection after context filter]
 Depth: [depth or n/a] · Budget: [N or n/a]
 
@@ -86,6 +89,8 @@ Required: [agent — reason]
 Optional selected: [agent — score, matched paths/keywords]
 Skipped: [agent — not eligible | wrong context | below threshold | not in HOST]
 Fallbacks: [built-in type chosen when council agent unavailable]
+Explicit model slugs used: [none | slug + slice-fit reason + cost note]
+Fast variants used: [none | slug + explicit latency reason]
 ```
 
 ## Adding a new council agent

@@ -72,4 +72,31 @@ describe('toolbox skill SSOT', () => {
     expect(body).toMatch(/docs\/prds\//)
     expect(body).not.toMatch(/POS-12/)
   })
+
+  it('multi model routing is Auto-first and does not default parallel Standard to composer-2.5-fast', () => {
+    const skill = readFileSync(join(root, 'multi/SKILL.md'), 'utf8')
+    const routing = readFileSync(join(root, 'multi/references/model-routing.md'), 'utf8')
+    const research = readFileSync(join(root, 'investigate/references/parallel-research.md'), 'utf8')
+    const planEvidence = readFileSync(
+      join(root, 'second-opinion/references/parallel-plan-evidence.md'),
+      'utf8',
+    )
+
+    expect(existsSync(join(root, 'multi/references/model-routing.md'))).toBe(true)
+    expect(skill).toMatch(/model-routing\.md/)
+    expect(skill).toMatch(/cheapest good enough/i)
+    expect(skill).toMatch(/Anti-fast \(parallel\)/)
+    expect(skill).not.toMatch(/Standard → `composer-2\.5-fast`/)
+    expect(skill).not.toMatch(/Preferred slug\s+\|\s+`composer-2\.5-fast`/)
+
+    expect(routing).toMatch(/inherit-auto/)
+    expect(routing).toMatch(/Example dispatches \(validation\)/)
+    expect(routing).toMatch(/Auto reachable: no/)
+    expect(routing).toMatch(/Do not use.*\*-fast/)
+
+    expect(research).toMatch(/model=inherit-auto/)
+    expect(research).not.toMatch(/model=composer-2\.5-fast/)
+    expect(planEvidence).toMatch(/model=inherit-auto/)
+    expect(planEvidence).not.toMatch(/model=composer-2\.5-fast/)
+  })
 })

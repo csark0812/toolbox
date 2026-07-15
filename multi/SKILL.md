@@ -23,6 +23,7 @@ Skip when: one agent suffices, work is sequential, or user wants a single pass �
 | Need                         | Where                                                          |
 | ---------------------------- | -------------------------------------------------------------- |
 | Must-spawn invariants        | [Non-negotiables](#non-negotiables)                            |
+| Model routing (cost + fit)   | [references/model-routing.md](references/model-routing.md)     |
 | Generic task prompt          | [references/task-prompt.md](references/task-prompt.md)         |
 | Per-member output shape      | [references/member-schema.md](references/member-schema.md)     |
 | Generic consolidated report  | [references/output-format.md](references/output-format.md)     |
@@ -37,7 +38,7 @@ When this skill applies (user attached `multi`, an entry skill invokes parallel 
 3. **Forbidden rationalizations** — Do not skip spawns because you already read the repo, expect overlapping findings, want lower latency, or want to save tokens.
 4. **Valid skips** — Omit parallel spawns only when: the user declines or asks for a single pass; the job matches [Fit check](#fit-check); the host cannot run `Task`; or only one member was planned.
 
-**Model routing:** Apply [Model assignment](#model-assignment) per member. Parent on Auto → inherit Auto unless the user named a model. Parent not on Auto → set explicit `model` slugs. On usage-limit / credit exhaustion → [Usage-limit retry](#usage-limit-retry) (omit `model` is **not** Auto unless the parent is already Auto).
+**Model routing:** Apply [Model assignment](#model-assignment) and [model-routing.md](references/model-routing.md) per member. Default path is **Auto** (cheapest good enough). Explicit slugs only when Auto is unreachable or slice shape requires escalation — then pick the **most appropriate** stronger model, considering Cursor cost (first-party vs API pool, effort, throughput `fast`). On usage-limit / credit exhaustion → [Usage-limit retry](#usage-limit-retry) (omit `model` is **not** Auto unless the parent is already Auto).
 
 ## Fit check
 
@@ -75,6 +76,12 @@ Source of truth: [web / repo / plan]
 Goal: [coverage / perspectives / both]
 
 Parent model: [Auto | <named model>]
+Auto reachable: [inherit-auto | model=auto | no]
+Host supports: [Task model enum values checked]
+Billing pool: [first-party | API | mixed]
+Explicit model slugs used: [none | slug + slice-fit reason + cost note]
+Fast variants used: [none | slug + explicit latency reason]
+
 Selected members:
 
 - [subagent_type] · tier=[Fast|Standard|Premium] · model=[inherit-auto | slug] · stance=[id or n/a]: [sub-task and expected output]
@@ -105,7 +112,7 @@ After members return:
 
 1. Merge findings that agree; state once with the highest shared confidence.
 2. Preserve conflicts — do not flatten disagreements.
-3. High-stakes contradiction → Premium tiebreaker Task or escalate to the user.
+3. High-stakes contradiction → single sequential tiebreaker per [model-routing.md](references/model-routing.md) (prefer Auto, else most appropriate stronger model) or escalate to the user.
 4. Write one consolidated report per [output-format.md](references/output-format.md).
 
 Domain-specific synthesis (review filing, investigate verdicts, second-opinion sections) → entry skill recipe.
@@ -124,69 +131,81 @@ Log skipped council agents and chosen fallbacks in the [availability log](refere
 
 ## Model assignment
 
-Use the Task tool's allowed `model` enum from the current host. Never invent slugs.
+Use the Task tool's allowed `model` enum from the current host. Never invent slugs. Full cost model, strength cards, and escalation matrix → [model-routing.md](references/model-routing.md).
 
-### Parent-aware routing
+**Optimize for cheapest good enough** — not most capable by default.
+
+### Parent-aware routing (Auto first)
 
 Detect whether the **parent chat** is on host **Auto** (auto model selection) or a **named** model.
 
-| Parent                          | Initial member `model`                                                            | Notes                                                                              |
-| ------------------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| **Auto**                        | **Omit** `model` (inherit parent Auto)                                            | Do **not** pass explicit paid/API slugs. User-named model for a member still wins. |
-| **Named** (not Auto)            | Set explicit `model` per [Explicit routing](#explicit-routing-parent-not-on-auto) | Use tier → slug tables below.                                                      |
-| User named a model for a member | That slug (must be in enum)                                                       | Overrides both Auto inherit and tier defaults.                                     |
+| Parent                          | Initial member `model`                 | Notes                                                                                              |
+| ------------------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **Auto**                        | **Omit** `model` (inherit parent Auto) | Default for all normal members. User-named model for a member still wins.                          |
+| **Named**, enum includes `auto` | Pass `model=auto` for normal members   | Log `model=auto`. Explicit slugs only for justified escalation.                                    |
+| **Named**, no `auto` in enum    | **Cannot reach Auto**                  | For cost-controlled `N ≥ 2`, **stop** and ask user to switch parent to Auto — do not silent-spend. |
+| User named a model for a member | That slug (must be in enum)            | Overrides Auto inherit and cost routing; record override in dispatch plan.                         |
 
 **How to get Auto on Task:**
 
-| Situation                                         | Member `model`                                                                 |
-| ------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Parent is **Auto**                                | **Omit** `model` (inherits parent Auto). Log `model=inherit-auto`.             |
-| Parent is **named**, but Task enum includes `auto` | Pass `model=auto` (only when the slug is in the current enum).                 |
+| Situation                                          | Member `model`                                                                   |
+| -------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Parent is **Auto**                                 | **Omit** `model` (inherits parent Auto). Log `model=inherit-auto`.               |
+| Parent is **named**, but Task enum includes `auto` | Pass `model=auto` (only when the slug is in the current enum).                   |
 | Parent is **named**, and `auto` is **not** in enum | You **cannot** reach Auto via Task. Omit `model` only inherits the named parent. |
 
 Do **not** invent `auto` when it is absent from the enum. Do **not** treat “omit `model`” as Auto when the parent is on a named model — that still bills/uses the parent’s named model.
 
-Record `Parent model: Auto | <named>` in the dispatch plan.
+Record in the dispatch plan: `Parent model`, `Auto reachable`, `Host supports`, `Billing pool`, `Explicit model slugs used`, `Fast variants used`.
 
-**Usage-constrained mode:** If the user says they are out of credits / on usage limits, or the first member fails for that reason, route **all** members (remaining + retries) via [Reach Auto](#reach-auto) below — do not keep assigning paid/API slugs from the tier tables.
+**Usage-constrained mode:** If the user says they are out of credits / on usage limits, or the first member fails for that reason, route **all** members (remaining + retries) via [Reach Auto](#reach-auto) below — do not keep assigning paid/API slugs.
 
-A dedicated routing table for informed per-slice model choice may replace or refine [Explicit routing](#explicit-routing-parent-not-on-auto) later — until then, use the tier tables below when the parent is not on Auto and usage-constrained mode is off.
+### Explicit routing (only when Auto is unavailable or escalation is justified)
 
-### Explicit routing (parent not on Auto)
+When Auto is unreachable **and** the user accepts explicit spend (or a slice has a documented capability need Auto cannot cover), route per [model-routing.md](references/model-routing.md):
 
-**Routing priority:** (1) **Composer 2.5** (`composer-2.5-fast`) for Standard-tier slices when in the enum. (2) **Cheapest** enum slugs for Fast/mechanical work. (3) **Premium** slugs only when the slice needs heavy reasoning.
+1. **Cursor cost first** — prefer first-party pool over API pool; never use throughput `fast` in `N ≥ 2` unless the user explicitly wants latency for that member.
+2. **Cheapest good enough** — lowest-cost enum option still likely to succeed for the slice.
+3. **Most appropriate escalation** — if cheaper paths are likely to fail, escalate to the strength card that matches the slice (Sonnet for adjudication, Sol for architecture, Codex for long tool-driven implementation, etc.) — **not** the most expensive enum entry by default.
+4. **Effort ≠ fast** — raise reasoning effort for harder single-member work; do not buy `*-fast` for intelligence.
 
-#### Tiers
+#### Tier labels (planning only)
 
-| Tier         | Slice needs                                                                         | Preferred slug                                   | Escalate when                                            |
-| ------------ | ----------------------------------------------------------------------------------- | ------------------------------------------------ | -------------------------------------------------------- |
-| **Fast**     | Mechanical search, file discovery, repo mapping, narrow gather                      | Cheapest slug in enum                            | Cross-file integration or judgment calls needed          |
-| **Standard** | Moderate reasoning, explore follow-ups, web research                                | `composer-2.5-fast` when present; else mid slugs | High-stakes contradictions or user asks for deepest pass |
-| **Premium**  | Architecture blast radius, synthesis tiebreakers, explicit deepest-analysis request | Deepest slug in enum                             | —                                                        |
+Tier labels still appear in dispatch plans and agent `dispatch.model.default` metadata. Map them through cost + fit, not hardcoded fast defaults:
 
-**Pick a slug:** (1) User named a model in enum → use it. (2) Classify enum values into Fast / Standard / Premium. (3) Choose the **lowest** tier that fits. (4) Standard → `composer-2.5-fast` first.
+| Tier         | Slice needs                                                                         | Routing intent                                                      | Escalate when                                                         |
+| ------------ | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **Fast**     | Mechanical search, file discovery, repo mapping, narrow gather                      | Auto / cheapest non-fast good enough                                | Cross-file integration or judgment calls needed                       |
+| **Standard** | Moderate reasoning, explore follow-ups, web research                                | Auto first; else cheapest mid fit per strength cards                | Conflicting sources, ambiguous adjudication, or deeper synthesis need |
+| **Premium**  | Architecture blast radius, synthesis tiebreakers, explicit deepest-analysis request | Auto first; else **most appropriate** stronger model for that slice | —                                                                     |
+
+**Pick a slug:** (1) User named a model in enum → use it. (2) Prefer Auto per parent-aware table. (3) Else choose cheapest good enough per [model-routing.md](references/model-routing.md). (4) Escalate only for documented slice-fit + cost note.
 
 #### By job type
 
-| Job                  | Default tier | Preferred slug      | Escalate when                                    |
-| -------------------- | ------------ | ------------------- | ------------------------------------------------ |
-| `explore` / `gather` | Fast         | Cheapest in enum    | Cross-file integration or architectural judgment |
-| `research` (web)     | Standard     | `composer-2.5-fast` | Conflicting sources or policy/legal ambiguity    |
-| `mixed`              | Per slice    | Per tier table      | —                                                |
+| Job                  | Default tier | Routing intent                      | Escalate when                                    |
+| -------------------- | ------------ | ----------------------------------- | ------------------------------------------------ |
+| `explore` / `gather` | Fast         | Auto / cheapest non-fast            | Cross-file integration or architectural judgment |
+| `research` (web)     | Standard     | Auto first                          | Conflicting sources or policy/legal ambiguity    |
+| `mixed`              | Per slice    | Per slice shape in model-routing.md | —                                                |
 
-Per-agent tier defaults → agent dispatch config + judgment above.
+Per-agent tier defaults → agent dispatch config + [model-routing.md](references/model-routing.md).
 
 #### Diversity
 
-If `N ≥ 2` parallel members share the same `subagent_type` and the parent is **not** on Auto, assign distinct models **within the same tier** unless the user wants uniformity or the host has only one viable model. **Do not escalate tier just to diversify.** When the parent is on Auto, skip model diversity — diversify prompts/stances instead.
+Never escalate price or choose `fast` just to diversify. Diversify prompts and/or stances first. When the parent is on Auto, shared Auto across members is expected. If `N ≥ 2` share the same `subagent_type` under a named parent with explicit models already justified, prefer distinct models **within similar cost** only when the user wants diversity — **do not escalate tier just to diversify.**
+
+### Anti-fast (parallel)
+
+For `N ≥ 2`, do **not** pass `*-fast` or high-fast bundles unless the user explicitly requests lower latency for that member. High-fast slugs are sequential escalations only. See [model-routing.md](references/model-routing.md).
 
 ### Reach Auto
 
-Use this whenever members must run on host Auto (usage-constrained mode, or a usage-limit retry):
+Use this as the **default** model path for normal members, and whenever members must run on host Auto (usage-constrained mode, or a usage-limit retry):
 
 1. If parent is **Auto** → omit `model` (inherit). Log `model=inherit-auto`.
-2. Else if Task enum includes `auto` → pass `model=auto`. Log `model=auto — usage/rate limit`.
-3. Else → **stop assigning named/paid slugs**. Tell the user that Auto still works for them only when the **parent chat** is on Auto (or when the host exposes `auto` in the Task enum), and ask them to switch the parent to Auto and re-run failed members. Do not claim a retry “used Auto” if you only omitted `model` under a named parent.
+2. Else if Task enum includes `auto` → pass `model=auto`. Log `model=auto` (add `— usage/rate limit` on retries).
+3. Else → **stop assigning named/paid slugs** for cost-controlled runs. Tell the user that Auto still works for them only when the **parent chat** is on Auto (or when the host exposes `auto` in the Task enum), and ask them to switch the parent to Auto and re-run failed members. Do not claim a retry “used Auto” if you only omitted `model` under a named parent.
 
 ### Usage-limit retry
 

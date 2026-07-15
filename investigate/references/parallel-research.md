@@ -25,7 +25,7 @@ Profile: `web` — skip council agent scoring.
 | Topic A | `docs-researcher` or `generalPurpose` | Standard |
 | Topic B | `docs-researcher` or `generalPurpose` | Standard |
 
-Use distinct models when `N ≥ 2` and enum allows.
+Prefer Auto for all topics (`inherit-auto` or `model=auto` if enum supports it). Explicit model slugs require slice-fit + Cursor cost justification per [model-routing.md](../../multi/references/model-routing.md). Do not use `*-fast` in parallel. Diversify via distinct prompts/stances, not price.
 
 ## Dispatch plan template
 
@@ -35,10 +35,17 @@ Classification: research
 Source of truth: web
 Goal: coverage
 
+Parent model: [Auto | <named>]
+Auto reachable: [inherit-auto | model=auto | no]
+Host supports: [Task model enum]
+Billing pool: [first-party | API | mixed]
+Explicit model slugs used: none
+Fast variants used: none
+
 Selected members:
 
-- docs-researcher · tier=Standard · model=composer-2.5-fast · stance=n/a: [topic A — specific query]
-- docs-researcher · tier=Standard · model=[alternate mid slug] · stance=n/a: [topic B]
+- docs-researcher · tier=Standard · model=inherit-auto · stance=n/a: [topic A — specific query]
+- docs-researcher · tier=Standard · model=inherit-auto · stance=n/a: [topic B]
 
 Synthesis plan: merge facts; flag conflicting sources; cite URLs
 ```
@@ -49,5 +56,5 @@ Fallback: `docs-researcher` unavailable → `generalPurpose` with "web research"
 
 1. State each topic's answer once with source links.
 2. Flag conflicts between sources — do not flatten.
-3. High-stakes contradiction → Premium tiebreaker or ask user.
+3. High-stakes contradiction → sequential tiebreaker per [model-routing.md](../../multi/references/model-routing.md) or ask user.
 4. Output → [multi output-format.md](../../multi/references/output-format.md).

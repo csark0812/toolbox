@@ -36,14 +36,23 @@ Classification: mixed
 Source of truth: plan
 Goal: coverage
 
+Parent model: [Auto | <named>]
+Auto reachable: [inherit-auto | model=auto | no]
+Host supports: [Task model enum]
+Billing pool: [first-party | API | mixed]
+Explicit model slugs used: none
+Fast variants used: none
+
 Selected members:
 
-- generalPurpose · tier=Standard · model=composer-2.5-fast · stance=premises: premises + scope pass
-- architecture · tier=Standard · model=[alternate] · stance=blast_radius: dependencies + structural gaps (if available)
-- explore · tier=Fast · model=[cheapest] · stance=n/a: skim [cited paths]
+- generalPurpose · tier=Standard · model=inherit-auto · stance=premises: premises + scope pass
+- architecture · tier=Standard · model=inherit-auto · stance=blast_radius: dependencies + structural gaps (if available)
+- explore · tier=Fast · model=inherit-auto · stance=n/a: skim [cited paths]
 
 Synthesis plan: merge member reports; coordinator writes final Stance A sections
 ```
+
+Prefer Auto for all members. Explicit model slugs require slice-fit + Cursor cost justification per [model-routing.md](../../multi/references/model-routing.md). Do not use `*-fast` in parallel.
 
 Compose prompts per [task-prompt.md](../../multi/references/task-prompt.md).
 
