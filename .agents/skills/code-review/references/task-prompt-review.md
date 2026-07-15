@@ -1,6 +1,6 @@
 # Task Prompt — Review Overlays
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-15 -->
 
 Review-specific member prompt overlays. Generic template → [multi task-prompt.md](../../multi/references/task-prompt.md).
 
@@ -16,7 +16,8 @@ Include in the coordinator dispatch plan before spawning:
 
 ```
 Mode: <mode>
-Depth: <depth>  # after escalation per modes.md
+Depth: <depth>  # after escalation / anti-thrash calibration per modes.md
+Pass class: <first-baseline | closure-re-review | new-scope-review | fix-implementation>
 Selected agents: <from agent-selection>
 Diff source: <command from modes.md>
 Mode overlay: "<overlay from modes.md>"
@@ -37,9 +38,10 @@ Apply your [agent-name] lens (map depth: Quick→quick, Standard→standard, Tho
 
 Synthesis → [synthesis.md](synthesis.md) then [output.md](output.md).
 
-## Invariant overlay (Thorough+)
+## Invariant overlay (Thorough+ and contextual re-review)
 
-Append to the coordinator plan and every Thorough/Full member prompt:
+Append to the coordinator plan and every Thorough/Full member prompt, and to
+every targeted contextual re-review member prompt:
 
 ```
 Invariant review:
@@ -47,6 +49,8 @@ Invariant review:
 - Derive the applicable input/contract rows from fix-loop-ledger.md § Invariant matrix.
 - Inspect every affected contract surface, not only the reported example.
 - Merge symptoms and edge variants under one root invariant.
+- Ask: what sibling variants would fail if the current fix is too narrow?
+  Return those under the same theme_id — do not invent adjacent sibling Action themes.
 - Default filing remains merge-blockers only; the matrix broadens inspection, not filing.
 ```
 
@@ -77,28 +81,35 @@ After the Review overlay (and portable Default filing if used), append **injecte
 
 Do **not** hardcode consumer repo paths in this toolbox file.
 
-## Contextual Full ledger overlay (pass 2+)
+## Contextual ledger overlay (pass 2+)
 
 When prior Action findings exist, append to the coordinator plan and every
-member prompt in addition to any consumer overlay:
+member prompt in addition to any consumer overlay. Use the matching depth lane:
 
 ```
-Fix-loop: contextual Full re-review
+Fix-loop: contextual re-review
+Pass lane: <targeted contextual | Full contextual>
 Prior synthesis + ledger: <paste current stable-theme ledger>
-Depth: Full; diff: whole branch
+Sweep plans: <paste Sweep · theme-id blocks>
+Depth: <Standard|Quick|Full>; diff: whole branch + sweep surfaces
 
-Read the whole diff independently, then reconcile every candidate:
+Read the assigned scope independently, then reconcile every candidate:
 1. Same theme, incomplete fix → reopen existing theme_id.
 2. Same invariant, new variant → add evidence to the existing theme (prior closure incomplete).
 3. Genuinely new invariant → create a theme_id and explain in one line why prior passes missed this blocker class.
 4. No reachable production failure → Noted/Deferred under filing rules.
 
+Reject fresh Action blocks for adjacent variants unless the root invariant differs.
 For every theme marked closed or newly fixed, ask: what other variants of this
 invariant would fail if this fix is too narrow? Check fix-loop-ledger.md
-§ Variant coverage before closure and the applicable matrix rows.
+§ Same-invariant sweep, § Variant coverage before closure, and the applicable matrix rows.
+
+Thrash signal: if 2+ blockers share a subsystem/theme family, stop filing symptoms and perform a holistic invariant audit under one theme_id.
 
 Identify files/subsystems changed in 2+ fix passes and review those hotspots holistically.
 Do not claim merge-ready or "final blockers" unless fix-loop-ledger.md § Exit gate passes.
 ```
 
-The whole-diff read stays fresh; theme identity and closure state do not reset.
+Theme identity and closure state do not reset between passes. Targeted lane still
+reconciles against prior-theme risk on the whole branch; Full lane revisits the
+entire branch when promotion triggers match.

@@ -199,4 +199,62 @@ describe('toolbox skill SSOT', () => {
     expect(multi).toMatch(/docs-only.*single theme/s)
     expect(multi).toMatch(/and no entry skill already invoked parallel dispatch/)
   })
+
+  it('excludes install-mirror skill trees from scan perimeter (registry SSOT is flat)', () => {
+    const config = readFileSync(join(root, '.skeleton/config.yaml'), 'utf8')
+    expect(config).toMatch(/\.agents\/skills\/\*\*/)
+    expect(config).toMatch(/\.claude\/skills\/\*\*/)
+  })
+
+  it('code-review anti-thrash guard calibrates re-review instead of reflex Full councils', () => {
+    const skill = readFileSync(join(root, 'code-review/SKILL.md'), 'utf8')
+    const modes = readFileSync(join(root, 'code-review/references/modes.md'), 'utf8')
+    const ledger = readFileSync(join(root, 'code-review/references/fix-loop-ledger.md'), 'utf8')
+    const council = readFileSync(join(root, 'code-review/references/council-dispatch.md'), 'utf8')
+    const synthesis = readFileSync(join(root, 'code-review/references/synthesis.md'), 'utf8')
+    const prompt = readFileSync(join(root, 'code-review/references/task-prompt-review.md'), 'utf8')
+    const output = readFileSync(join(root, 'code-review/references/output.md'), 'utf8')
+    const selection = readFileSync(join(root, 'code-review/references/agent-selection.md'), 'utf8')
+
+    expect(skill).toMatch(/## Anti-thrash preflight/)
+    expect(skill).toMatch(/closure-re-review/)
+    expect(skill).toMatch(/new-scope-review/)
+    expect(skill).toMatch(/Thrash signal/)
+    expect(skill).toMatch(/targeted contextual re-review/)
+    expect(skill).toMatch(/never zero/)
+
+    expect(modes).toMatch(/### Contextual re-review/)
+    expect(modes).toMatch(/Prefer targeted contextual re-review/)
+    expect(modes).toMatch(/Promote to Full contextual re-review/)
+    expect(modes).toMatch(/Pass: targeted contextual/)
+    expect(modes).toMatch(/Stayed targeted contextual/)
+    expect(modes).not.toMatch(
+      /Fix-loop pass 2\+ \(prior Action findings in thread\/PR\)\s+\| \*\*Full\*\* \(contextual re-review\)/,
+    )
+
+    expect(ledger).toMatch(/## Same-invariant sweep/)
+    expect(ledger).toMatch(/## Thrash signal/)
+    expect(ledger).toMatch(/## Repeated-review guard/)
+    expect(ledger).toMatch(/Two or more Action blockers/)
+
+    expect(council).toMatch(/Pass class:/)
+    expect(council).toMatch(/Why this council size:/)
+    expect(council).toMatch(/Thrash signal:/)
+    expect(council).toMatch(/Anti-thrash preflight completed/)
+
+    expect(synthesis).toMatch(/Reject adjacent-variant Action blocks/)
+    expect(synthesis).toMatch(/thrash signal/)
+    expect(synthesis).toMatch(/targeted contextual/)
+
+    expect(prompt).toMatch(/## Contextual ledger overlay/)
+    expect(prompt).toMatch(/sibling variants would fail/)
+    expect(prompt).toMatch(/Thrash signal:/)
+    expect(prompt).not.toMatch(/## Contextual Full ledger overlay/)
+
+    expect(output).toMatch(/Stayed targeted contextual/)
+    expect(output).toMatch(/Pass: targeted contextual/)
+
+    expect(selection).toMatch(/Default for targeted contextual re-review/)
+    expect(selection).toMatch(/does not waive spawn/)
+  })
 })

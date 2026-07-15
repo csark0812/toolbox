@@ -1,0 +1,27 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Review · pr · Standard · Escalation: Stayed targeted contextual (closure-re-review; diff only touches prior theme `query-preservation`) · Pass: targeted contextual · Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: prior Action findings exist for `query-preservation`. Classified as closure-re-review. Ledger reconstructed; no unresolved contradictions; scope did not expand. Preferring targeted contextual re-review (Standard, 2 members) instead of another Full baseline council.\n\n## Findings\nNo merge-blockers in scope.\n\n## Baseline contradictions\n\n| Theme | Prior synthesis | Fresh evidence | Action |\n| --- | --- | --- | --- |\n| query-preservation | open — query string dropped | Fix preserves `?` and `#` suffixes; sweep checked empty, relative, absolute-reject paths | close |\n\n## Fix-loop ledger\n\n| theme_id | invariant | surfaces | state | closure evidence | contradiction |\n| --- | --- | --- | --- | --- | --- |\n| query-preservation | login redirect keeps path + query when target is a same-origin relative path | runtime, tests | closed | negative empty/abs/relative variants checked; seed fix returns full relative target | none |\n\n### Sweep · `query-preservation`\n\n- Symbols / APIs: `nextUrlAfterLogin`\n- Config / schema fields: n/a\n- Docs / CLI / help surfaces: n/a\n- Tests / fixtures: agent-suites sample redirect seed\n- Matrix rows: empty, relative, absolute-reject\n\n## Review synthesis\nPass stayed targeted contextual because the diff only closes the prior theme."
+    }
+  ],
+  "toolCalls": [
+    {
+      "name": "Task",
+      "arguments": {
+        "description": "correctness closure lens",
+        "prompt": "Fix-loop: contextual re-review\nPass lane: targeted contextual\nPrior synthesis + ledger: theme_id query-preservation open\nSweep plans: nextUrlAfterLogin empty/relative/absolute\nDepth: Standard"
+      }
+    },
+    {
+      "name": "Task",
+      "arguments": {
+        "description": "api contract lens",
+        "prompt": "Fix-loop: contextual re-review\nPass lane: targeted contextual\nReject fresh Action blocks for adjacent variants unless the root invariant differs.\nThrash signal: none"
+      }
+    }
+  ],
+  "shellCommands": ["git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}
