@@ -6,6 +6,7 @@ scan:
     - 'AGENTS.md'
     - 'docs/**'
     - '.skeleton/registry.md'
+    - 'agent-suites/README.md'
     - 'multi/**'
     - 'code-review/**'
     - 'crystallize/**'

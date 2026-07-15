@@ -54,8 +54,7 @@ describe('toolbox skill SSOT', () => {
       'planning/verify.md',
       'planning/parallel-explore.md',
     ]
-    const raw =
-      'https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/'
+    const raw = 'https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/'
     for (const slug of EXPECTED_SKILLS) {
       for (const rel of ambient) {
         expect(existsSync(join(root, slug, 'references', rel))).toBe(false)

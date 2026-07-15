@@ -4,6 +4,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import process from 'node:process'
 import { describe, expect, it } from 'vitest'
 
 const root = join(import.meta.dirname, '..')
@@ -23,7 +24,7 @@ function rawUrl(ref) {
 }
 
 async function fetchText(url) {
-  const res = await fetch(url)
+  const res = await globalThis.fetch(url)
   return { status: res.status, text: await res.text() }
 }
 
@@ -32,10 +33,7 @@ describe('github ambient refs validation (T1/T6)', () => {
     // Prefer a published tip; fall back to main if this SHA is not on GitHub yet.
     const sha = process.env.GITHUB_AMBIENT_REF_SHA ?? 'e8f6519d9c737f55ba71c16932e1a8cf06d3acc6'
     const primary = await fetchText(rawUrl(sha))
-    const used =
-      primary.status === 200
-        ? primary
-        : await fetchText(rawUrl('main'))
+    const used = primary.status === 200 ? primary : await fetchText(rawUrl('main'))
 
     expect(used.status).toBe(200)
     expect(used.text).toContain(MARKERS.h1)

@@ -6,11 +6,11 @@
 
 ## Documentation
 
-| Topic                        | Canonical file                                                      |
-| ---------------------------- | ------------------------------------------------------------------- |
-| Package overview             | [README.md](../README.md)                                           |
-| Agent cold-start             | [AGENTS.md](../AGENTS.md)                                           |
-| Skill tiers                  | [tiers.md](../docs/tiers.md)                                        |
+| Topic                        | Canonical file                                                                 |
+| ---------------------------- | ------------------------------------------------------------------------------ |
+| Package overview             | [README.md](../README.md)                                                      |
+| Agent cold-start             | [AGENTS.md](../AGENTS.md)                                                      |
+| Skill tiers                  | [tiers.md](../docs/tiers.md)                                                   |
 | GitHub ambient refs validate | [github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md) |
 
 ## Skills

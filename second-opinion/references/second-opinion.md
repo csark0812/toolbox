@@ -2,14 +2,14 @@
 
 Work on a **written** plan, PRD, or issue set — not Socratic explore. Pick a **stance**:
 
-| Stance                      | When                                                                                                                                               | Where                                    |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| **A — Fresh read**          | Plan you had **no part** in creating; you want premise challenge + structured critique                                                             | This doc, below                          |
-| **B — Completeness verify** | "Verify my plan", "did I miss anything", readiness on `.plan.md` / `docs/prds/` / issues; **axis checklist**, fixed report shape, does not rewrite | [planning/verify.md](planning/verify.md) |
+| Stance                      | When                                                                                                                                               | Where                                                                                                         |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| **A — Fresh read**          | Plan you had **no part** in creating; you want premise challenge + structured critique                                                             | This doc, below                                                                                               |
+| **B — Completeness verify** | "Verify my plan", "did I miss anything", readiness on `.plan.md` / `docs/prds/` / issues; **axis checklist**, fixed report shape, does not rewrite | [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) |
 
 **Both:** If you want outsider critique **and** the axis checklist, run **A then B**, or **B then A** if premises are already settled.
 
-**Not in scope for either stance:** security/compliance review (use the **security** agent), reproducible broken behavior (**investigate** + **testing** + **debug** when layer or session logs unclear). For broad proactive codebase sweeps, use [parallel-explore.md](planning/parallel-explore.md).
+**Not in scope for either stance:** security/compliance review (use the **security** agent), reproducible broken behavior (**investigate** + **testing** + **debug** when layer or session logs unclear). For broad proactive codebase sweeps, use [parallel-explore.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/parallel-explore.md).
 
 **Stance A escalation tiers:** default single-pass (small plan) → coverage evidence-gather via [parallel-plan-evidence.md](parallel-plan-evidence.md) (large plan) → perspective adversarial via [parallel-perspective.md](parallel-perspective.md) (contested/high-stakes, on request).
 
@@ -30,13 +30,13 @@ You are reviewing a plan you had no part in creating. Approach it fresh — no d
 
 ### Structural deepening and scope
 
-Synced with [dialogue-contract.md](dialogue-contract.md) § Structural checks — plan-review depth here; do not duplicate bullets; update dialogue-contract if patterns change.
+Synced with [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) § Structural checks — plan-review depth here; do not duplicate bullets; update dialogue-contract if patterns change.
 
 Briefly, where relevant — a short honest line in **Scope / complexity** or **Gaps**, not a second full audit:
 
 - Does the plan **under-** or **over-** state structural / boundary work (consolidation, module moves, integration tests, coupling)?
 - Should the plan add a **milestone** for boundary or orchestration work before or alongside feature work?
-- **Local change** vs **staged or ground-up** — cite [dialogue-contract.md](dialogue-contract.md) patterns when naming the call.
+- **Local change** vs **staged or ground-up** — cite [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) patterns when naming the call.
 
 ### Analysis framework
 

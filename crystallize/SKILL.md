@@ -60,7 +60,7 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 - Pressure-test the design → **grill** skill
 - Fresh read of a plan on disk → **second-opinion**
 - One concrete code doubt → **investigate**
-- PRD or structured plan → [planning/build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md)
+- PRD or structured plan → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md)
 ```
 
 ## Consumer bindings

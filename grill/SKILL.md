@@ -71,7 +71,7 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 
 ## Next step
 
-- Ready to implement → [planning/build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md) (then [code-review](../code-review/SKILL.md) once code exists)
+- Ready to implement → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md) (then [code-review](../code-review/SKILL.md) once code exists)
 - Written plan for external read → [second-opinion](../second-opinion/SKILL.md)
 - One concrete code doubt → [investigate](../investigate/SKILL.md)
 - Still fuzzy on intent → **crystallize** skill

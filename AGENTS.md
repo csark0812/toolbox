@@ -56,14 +56,14 @@ pre-commit install
 
 ## Validation
 
-| Change                            | Run                                                              |
-| --------------------------------- | ---------------------------------------------------------------- |
-| Hub docs (`README.md`, `docs/**`) | `npm run validate:changed -- <path>`                             |
+| Change                            | Run                                                                                   |
+| --------------------------------- | ------------------------------------------------------------------------------------- |
+| Hub docs (`README.md`, `docs/**`) | `npm run validate:changed -- <path>`                                                  |
 | Ambient shared refs               | Edit `.skeleton/references/`; skill bodies already point at raw GitHub URLs on `main` |
-| Skill bodies / unsure             | `npm run check` (or `npm test` / `audit:skills` + `validate:ci`) |
-| Agent suite scenarios             | `npm run agent:test` (replay)                                    |
-| Style (md/yaml)                   | `npm run lint` + `npm run format:check`                          |
-| Shared `src/` TypeScript          | `npm run typecheck`                                              |
+| Skill bodies / unsure             | `npm run check` (or `npm test` / `audit:skills` + `validate:ci`)                      |
+| Agent suite scenarios             | `npm run agent:test` (replay)                                                         |
+| Style (md/yaml)                   | `npm run lint` + `npm run format:check`                                               |
+| Shared `src/` TypeScript          | `npm run typecheck`                                                                   |
 
 Path-scoped `validate:changed` on skill-only paths exits non-zero and redirects to `audit skills` / `audit self` (skill-body rules are global; path-scoped coverage is empty). Use `npm test` / `npm run check` for skill edits. Pre-commit runs `npm test` so local hooks match the skill gate.
 

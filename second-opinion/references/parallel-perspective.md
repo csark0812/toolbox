@@ -15,7 +15,7 @@ Default Stance A stays single-pass — use this recipe only for contested/high-s
 
 - Small plan — coordinator reads plan + cited primary sources in one pass ([second-opinion.md](second-opinion.md))
 - Large plan needing coverage split only — [parallel-plan-evidence.md](parallel-plan-evidence.md)
-- Completeness verify (Stance B) → [verify.md](planning/verify.md)
+- Completeness verify (Stance B) → [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md)
 - Dialogue without plan artifact → **crystallize** / **grill**
 
 ## Members (2)

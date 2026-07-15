@@ -2,7 +2,7 @@
 
 **Source of truth for** team Cursor/Claude agent skills.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-15 -->
 
 Public SSOT for reusable Cursor/Claude agent skills.
 
@@ -62,7 +62,7 @@ After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton a
 | **toolbox** (this repo)     | Skill source SSOT — what skills exist and how they're written                                                         |
 | **skeleton**                | Docs/skill registry linter — validates links, banners, and scan perimeter                                             |
 | **`.skeleton/customize/`**  | Project-specific skill overrides (injected via IDE hooks on read) — **consumer repos only**, not present in this tree |
-| **`.skeleton/references/`** | Canonical ambient reference docs — skills link via GitHub raw URLs (not copied into each skill)              |
+| **`.skeleton/references/`** | Canonical ambient reference docs — skills link via GitHub raw URLs (not copied into each skill)                       |
 
 Do not edit synced `SKILL.md` files in consumer projects — override in `.skeleton/customize/<slug>.md` instead. See [skeleton customize docs](https://github.com/csark0812/skeleton/blob/main/docs/developer/customize.md).
 

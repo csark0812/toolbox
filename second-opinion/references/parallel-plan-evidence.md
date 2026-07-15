@@ -15,7 +15,7 @@ Stance B (verify / axis checklist) stays sequential — do not use this recipe.
 ## When to skip
 
 - Small plan — coordinator reads plan + 2–4 cited files in one pass ([second-opinion.md](second-opinion.md))
-- User wants completeness verify (Stance B) → [verify.md](planning/verify.md)
+- User wants completeness verify (Stance B) → [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md)
 - Dialogue without plan artifact → **crystallize** / **grill**
 
 ## Members (2–3)
