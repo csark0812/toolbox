@@ -10,7 +10,7 @@ export default [
       '.claude/**',
       '.cursor/**',
       'dist/**',
-      // Generated skill materializations of .skeleton/references/
+      // Skill-local references/ (not ambient GitHub SSOT)
       '*/references/**',
     ],
   },

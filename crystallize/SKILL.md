@@ -10,11 +10,11 @@ disable-model-invocation: true
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
 
-Shape a half-formed idea through dialogue. Before the first turn, read [dialogue-contract.md](references/dialogue-contract.md) (shared behavior) and [dialogue-handoffs.md](references/dialogue-handoffs.md) (routing).
+Shape a half-formed idea through dialogue. Before the first turn, read [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) (shared behavior) and [dialogue-handoffs.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-handoffs.md) (routing).
 
 Goal: **crystallization**, not resolution. Follow the thread; don't steer toward a conclusion. Incomplete or vague input is normal.
 
-**Ambient routing:** mirror + one assumption check → [agent-routing.md](references/agent-routing.md) § Fuzzy intent; full crystallize remains user-paced dialogue.
+**Ambient routing:** mirror + one assumption check → [agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) § Fuzzy intent; full crystallize remains user-paced dialogue.
 
 ## Example opening turn
 
@@ -44,7 +44,7 @@ User confirms the crystallized statement or indicates they're done for now. If a
 
 ## Output format
 
-Follow [output-schema.md](references/output-schema.md). End with this block when exit criteria are met — not before:
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). End with this block when exit criteria are met — not before:
 
 ```markdown
 ## Crystallized idea
@@ -60,7 +60,7 @@ Follow [output-schema.md](references/output-schema.md). End with this block when
 - Pressure-test the design → **grill** skill
 - Fresh read of a plan on disk → **second-opinion**
 - One concrete code doubt → **investigate**
-- PRD or structured plan → [planning/build.md](references/planning/build.md)
+- PRD or structured plan → [planning/build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md)
 ```
 
 ## Consumer bindings

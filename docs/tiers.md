@@ -2,7 +2,7 @@
 
 **Source of truth for** skill tier assignment across the agent harness ecosystem.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-15 -->
 
 Assign each skill to exactly one place. Update when adding skills.
 
@@ -20,9 +20,7 @@ Generic orchestration, planning, and dialogue — intended for any consumer proj
 | investigate    | Code hunch / web research                    |
 | handoff        | Session handoff                              |
 
-Shared reference docs live in `.skeleton/references/` and are materialized into each skill's `references/` directory via `skeleton references sync`.
-
-**Planning:** skill-local `references/planning/*.md` are fail-loud stubs. Soft-default recipes are **not** in skill trees — enable via [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md) only when the consumer has no planning docs remap.
+Shared ambient refs live in [`.skeleton/references/`](../.skeleton/references/) and are opened from skills via GitHub raw URLs (network required). See [github-ambient-refs-validation.md](github-ambient-refs-validation.md). Soft-default planning recipes stay out of skill trees — enable via [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md) only when the consumer has no planning docs remap.
 
 ### Consumer setup
 

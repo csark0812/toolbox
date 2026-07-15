@@ -8,7 +8,7 @@ Consumer projects remap this path through hook-injected customize / alwaysInclud
 
 ## What this file is for
 
-- Keeps relative links inside the skill tree resolvable for standalone toolbox clones.
+- Canonical ambient SSOT for skills — opened via GitHub raw URLs from installed skill bodies.
 - Defines the portable **hands-on** / **hands-off** announce contracts live dogfood and agents must follow before tools.
 - Points agents at the hook-injected consumer routing SSOT when present.
 

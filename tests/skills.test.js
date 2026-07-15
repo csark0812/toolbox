@@ -44,18 +44,29 @@ describe('toolbox skill SSOT', () => {
     expect(dirs).not.toContain('apps')
   })
 
-  it('planning top-level refs are fail-loud stubs (no docs/prds bodies)', () => {
-    const planningSkills = ['crystallize', 'grill', 'handoff', 'second-opinion']
-    for (const slug of planningSkills) {
-      const dir = join(root, slug, 'references/planning')
-      if (!existsSync(dir)) continue
-      for (const name of readdirSync(dir)) {
-        if (!name.endsWith('.md')) continue
-        const body = readFileSync(join(dir, name), 'utf8')
-        expect(body).toMatch(/Portable stub \(incomplete\)/)
-        expect(body).not.toMatch(/^Save to `docs\/prds\//m)
+  it('ambient refs are remote SSOT (no per-skill generated copies)', () => {
+    const ambient = [
+      'agent-routing.md',
+      'dialogue-contract.md',
+      'dialogue-handoffs.md',
+      'output-schema.md',
+      'planning/build.md',
+      'planning/verify.md',
+      'planning/parallel-explore.md',
+    ]
+    const raw =
+      'https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/'
+    for (const slug of EXPECTED_SKILLS) {
+      for (const rel of ambient) {
+        expect(existsSync(join(root, slug, 'references', rel))).toBe(false)
+      }
+      const skill = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
+      // Skills that mention ambient contracts must link to GitHub raw, not local copies.
+      if (skill.includes('agent-routing') || skill.includes('dialogue-contract')) {
+        expect(skill).toContain(raw)
       }
     }
+    expect(existsSync(join(root, '.skeleton/references/agent-routing.md'))).toBe(true)
   })
 
   it('soft-default recipes stay out of skill trees (canonical + templates only)', () => {

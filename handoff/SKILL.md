@@ -22,7 +22,7 @@ Compact and transfer context when a long session (grill → plan → implement �
 - Mid fix-loop when context is exhausted but work continues
 - User explicitly asks to "hand off", "compact context", or "prepare for a new session"
 
-Not for: routing between skills mid-task ([`agent-routing.md`](references/agent-routing.md) · [`dialogue-handoffs.md`](references/dialogue-handoffs.md)), authoring a plan ([`references/planning/build.md`](references/planning/build.md)), or consumer fix-loop chat handoff blocks only — use **handoff** when the next session needs full session context, not just fix-loop state.
+Not for: routing between skills mid-task ([`agent-routing.md`](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) · [`dialogue-handoffs.md`](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-handoffs.md)), authoring a plan ([`references/planning/build.md`](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md)), or consumer fix-loop chat handoff blocks only — use **handoff** when the next session needs full session context, not just fix-loop state.
 
 ## Protocol
 
@@ -42,7 +42,7 @@ Not for: routing between skills mid-task ([`agent-routing.md`](references/agent-
    - Do not commit; `_agent/` should be in `.gitignore`
 6. **Tell the user the path.** End the turn with the **repo-relative path** (and absolute if helpful) so they can `@`-reference it in the next session.
 
-**Suggested skills:** derive from [agent-routing.md](references/agent-routing.md) — match session state to tier/situation row; list escalate-to skills first, then inline extracts if still Medium.
+**Suggested skills:** derive from [agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) — match session state to tier/situation row; list escalate-to skills first, then inline extracts if still Medium.
 
 ## Principles
 
@@ -94,7 +94,7 @@ Write this structure to the handoff file (fill every section; use `—` or `none
 
 ## Suggested skills (next session)
 
-From [agent-routing.md](references/agent-routing.md) — tier/situation match; invoke **escalate-to** skills first:
+From [agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) — tier/situation match; invoke **escalate-to** skills first:
 
 1. **[skill-name]** — [situation row + why]
 2. **[skill-name]** — [follow-on]
