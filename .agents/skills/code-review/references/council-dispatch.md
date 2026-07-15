@@ -2,6 +2,16 @@
 
 End-to-end parallel council review. Spawn mechanics → [`multi`](../../multi/SKILL.md) non-negotiables. Entry → [`code-review`](../SKILL.md) workflow steps 1–2 (mode, depth, diff, fix-loop).
 
+## Hard gate (before any review report)
+
+1. Read [`multi` Non-negotiables](../../multi/SKILL.md#non-negotiables) this turn (Fit check does **not** apply — code-review already chose council).
+2. Select members for the depth budget, then issue **one Task/Subagent call per selected member**.
+3. Only after those calls complete → [synthesis.md](synthesis.md) → [output.md](output.md).
+
+**Forbidden:** Solo `Review · …` synthesis because the diff is docs/skills/agent-infra, “single theme,” already inspected via coordinator tools, latency, or tokens. Coordinator `Read` / `Grep` / `Shell` is not a council.
+
+**Valid member omit:** Only [modes.md](modes.md) § Optional architecture slot (log in plan) or a [`multi` valid skip](../../multi/SKILL.md#non-negotiables) that still leaves the remaining SELECTED members spawned. User decline / host cannot run Task → say so and **stop** (no fabricated report).
+
 ## Workflow
 
 1. **Inputs from code-review** — mode, depth (after escalation per [modes.md](modes.md)), diff, filing mode, fix-loop state.
@@ -34,19 +44,21 @@ Synthesis plan: council synthesis per synthesis.md → output.md
    5. **Consumer overlays** — when skill-read injection provided a fuller overlay set, append those sections (Default filing, Filing gate, Product intent, Baseline, Contextual Full, path boosts, Needs confirmation). Prefer injected consumer overlays over portable stubs when both exist; consumer context may extend but must not remove ledger reconciliation or the portable exit gate.
 
 5. **Pre-spawn model-routing gate** — run [multi Pre-spawn model-routing gate](../../multi/SKILL.md#pre-spawn-model-routing-gate) and [Fail closed](../../multi/SKILL.md#fail-closed-do-not-spawn) **before** any Task/Subagent call. Review dispatch does not redefine that gate; it only supplies review members and overlays.
-6. **Spawn** — one Task per selected agent in parallel. Compose base prompt per [multi task-prompt.md](../../multi/references/task-prompt.md); append review overlays. Apply [multi model assignment](../../multi/SKILL.md#model-assignment): `model=inherit-auto` in the plan means omit `model` on the tool call; an explicit slug is allowed only when the multi gate says it is.
+6. **Spawn (mandatory)** — one Task per selected agent in parallel. Compose base prompt per [multi task-prompt.md](../../multi/references/task-prompt.md); append review overlays. Apply [multi model assignment](../../multi/SKILL.md#model-assignment): `model=inherit-auto` in the plan means omit `model` on the tool call; an explicit slug is allowed only when the multi gate says it is. Skipping this step and writing findings yourself is a **violation**.
 
-7. **Synthesize** — [synthesis.md](synthesis.md) → [output.md](output.md).
+7. **Synthesize** — only after step 6 completes → [synthesis.md](synthesis.md) → [output.md](output.md).
 
 ## Checklist before synthesis
 
+- [ ] [`multi` Non-negotiables](../../multi/SKILL.md#non-negotiables) read this turn
 - [ ] Every member prompt includes Default filing overlay (consumer or portable)
 - [ ] Every member prompt includes Review overlay (mode/depth/diff)
 - [ ] Thorough+ prompts include the invariant overlay and applicable matrix dimensions
 - [ ] Pass 2+ prompts include the current stable-theme ledger and reconciliation rules
 - [ ] Availability log recorded in dispatch plan
-- [ ] All planned Task calls completed (or valid skip documented)
+- [ ] One Task/Subagent completed per SELECTED member (architecture optional-slot omit logged if used)
 - [ ] Injected consumer overlays applied when present (Thorough+ Filing gate, product-intent when paths match, contextual Full when prior Action findings exist)
+- [ ] No review report written if zero members ran
 
 ## Related
 

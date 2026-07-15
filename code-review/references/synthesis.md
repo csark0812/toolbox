@@ -2,7 +2,9 @@
 
 Review-specific synthesis after council members return. Generic multi synthesis → [multi synthesis gate](../../multi/SKILL.md#synthesis-gate).
 
-**Prerequisite:** At least one completed `Task` per planned council member (unless valid skips in [multi non-negotiables](../../multi/SKILL.md#non-negotiables)). If no members ran, do not fabricate a review report.
+**Hard gate:** Do not write a `Review · …` findings report until **every SELECTED council member** has a completed host Task/Subagent run ([council-dispatch.md](council-dispatch.md) § Hard gate). Coordinator tool use is not a substitute. If spawn failed, the host cannot run Task, or the user declined council — say so and **stop**; do not emit synthesis-shaped output.
+
+**Prerequisite:** One completed `Task` per SELECTED member (architecture optional-slot omit from [modes.md](modes.md) is the only member-level omit that still counts as a full council when the remaining SELECTED members ran). Broader “valid skips” → [multi non-negotiables](../../multi/SKILL.md#non-negotiables); Fit check does not apply under code-review.
 
 After members return:
 

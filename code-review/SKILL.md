@@ -37,7 +37,15 @@ Not for: PR description/body authoring (separate skill), Cursor `/review-bugbot`
 
 1. **Mode + depth + fix-loop** — explicit or auto-detect mode ([modes.md](references/modes.md)). Apply pr/merge escalation. When prior Action findings exist, reconstruct and carry the stable-theme ledger from [fix-loop-ledger.md](references/fix-loop-ledger.md); derive applicable invariant-matrix rows before dispatch. **Filing mode:** default **merge-blockers only** ([merge-blockers.md](references/merge-blockers.md)) unless user said include improvements / full audit / hardening pass / polish / test inventory / exhaustive triggers. Record depth in synthesis header per [output.md](references/output.md) § Status line.
 2. **Diff** — per modes.md (`pr`/`merge` → [shared.md](references/shared.md)).
-3. **Council dispatch** — parallel council per [council-dispatch.md](references/council-dispatch.md) ([`multi`](../multi/SKILL.md) kernel for spawn mechanics) → [synthesis.md](references/synthesis.md) → [output.md](references/output.md). **Mandatory before spawn:** append [task-prompt-review.md](references/task-prompt-review.md) § Default filing overlay to **every** member prompt (and coordinator plan). When consumer overlay context was injected on skill read, prefer that overlay set (Filing gate / product-intent / Baseline / Contextual Full) over portable `task-prompt-review.md` thinned sections alone. Missing injected overlay when one is configured = incomplete dispatch.
+3. **Council dispatch (mandatory spawn)** — parallel council per [council-dispatch.md](references/council-dispatch.md) ([`multi`](../multi/SKILL.md) kernel) → [synthesis.md](references/synthesis.md) → [output.md](references/output.md).
+
+   **Hard rules (do not skip):**
+   - Issue **one host Task/Subagent call per selected member** (depth budget: Quick 1 / Standard 2 / Thorough 4 / Full 5). Coordinator `Read` / `Grep` / `Shell` is **not** a substitute for member runs.
+   - Before writing any review report this turn: read [`multi` Non-negotiables](../multi/SKILL.md#non-negotiables) and [synthesis.md](references/synthesis.md). If no planned Task completed, **stop** — do not fabricate a `Review · …` report.
+   - Docs / skills / agent-infra / “single theme” diffs do **not** waive council. Escalation path exclusions only affect Full promotion counts, not Thorough spawn.
+   - [`multi` Fit check](../multi/SKILL.md#fit-check) does **not** apply once this skill is running — this entry skill already chose parallel council.
+   - **Mandatory before spawn:** append [task-prompt-review.md](references/task-prompt-review.md) § Default filing overlay to **every** member prompt (and coordinator plan). When consumer overlay context was injected on skill read, prefer that overlay set (Filing gate / product-intent / Baseline / Contextual Full) over portable `task-prompt-review.md` thinned sections alone. Missing injected overlay when one is configured = incomplete dispatch.
+
 4. **Chat handoff** — when fix-loop applies: if fix pass, end with the updated ledger, validation evidence, and hotspot list. Re-review must reconcile every candidate to a stable theme and include **Baseline contradictions** when prior synthesis exists.
 
 **Order when fix-loop applies:** council → synthesis → chat findings → handoff if fix pass → end turn.

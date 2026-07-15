@@ -12,7 +12,9 @@
 
 **Mixed PR** (product code + docs-only agent-workflow edits): default **Thorough** (4 agents) unless auth/security/API-schema paths hit.
 
-**Thorough optional skip:** when diff has a clear single theme and no placement/boundary change, coordinator may omit `architecture` from optional slots — log in dispatch plan.
+**Docs / skills / agent-infra:** Excluding those paths from Full escalation **counts** does **not** waive council. Thorough still spawns **4** members; Full still spawns **5**. Solo coordinator review is never authorized by path theme.
+
+**Optional architecture slot (not a council skip):** when the diff has a clear single theme and no placement/boundary change, the coordinator may omit `architecture` from **optional** slots — log that omit in the dispatch plan. This never zeros the depth budget and never authorizes writing a review report without Task/Subagent member runs.
 
 **Promoted to Full → fix-loop applies.** Deliver findings in chat per [output.md](output.md) and initialize the stable-theme ledger in [fix-loop-ledger.md](fix-loop-ledger.md). Consumer review-fix-loop/customize may extend this lifecycle.
 

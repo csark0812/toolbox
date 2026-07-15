@@ -27,6 +27,8 @@ Depth ranks: `quick` < `standard` < `thorough` < `full`.
 
 Budget expands to fit all **required** agents (never drop a required member to save slots).
 
+**Spawn count = |SELECTED|.** Every SELECTED agent gets one Task/Subagent call ([council-dispatch.md](council-dispatch.md)). Budget and optional-slot omits change who is SELECTED — they never authorize zero-member solo synthesis.
+
 ## Selection algorithm
 
 Run [agent-discovery](../../multi/references/agent-discovery.md) steps 1–2, then:

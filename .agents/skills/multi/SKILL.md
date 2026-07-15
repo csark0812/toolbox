@@ -35,8 +35,8 @@ When this skill applies (user attached `multi`, an entry skill invokes parallel 
 
 1. **Spawn real members** — Use the host **Task** tool once per planned member with chosen `subagent_type` and model per [Model assignment](#model-assignment). Parallel `read_file` / `grep` / other tools are **not** substitutes for member runs.
 2. **Synthesis runs after members** — The [synthesis gate](#synthesis-gate) merges member outputs. Writing a consolidated report **without** running those `Task` calls first is a **violation**, not an optimization.
-3. **Forbidden rationalizations** — Do not skip spawns because you already read the repo, expect overlapping findings, want lower latency, or want to save tokens.
-4. **Valid skips** — Omit parallel spawns only when: the user declines or asks for a single pass; the job matches [Fit check](#fit-check); the host cannot run `Task`; or only one member was planned.
+3. **Forbidden rationalizations** — Do not skip spawns because you already read the repo, expect overlapping findings, want lower latency, want to save tokens, or the diff is “docs-only,” “skills/agent-infra,” or “single theme.”
+4. **Valid skips** — Omit parallel spawns only when: the user declines or asks for a single pass; the job matches [Fit check](#fit-check) **and no entry skill already invoked parallel dispatch**; the host cannot run `Task`; or only one member was planned.
 
 **Model routing:** Apply [Model assignment](#model-assignment) and [model-routing.md](references/model-routing.md) per member. **Invariant:** `Parent model = Auto` + no user model override ⇒ every Task/Subagent call **omits** the `model` property. Tier labels (Fast/Standard/Premium) never select a slug under an Auto parent. Explicit slugs only for (1) a user-named member model in the host enum, or (2) named-parent tier routing after Auto is ruled out. On usage-limit / credit exhaustion → [Usage-limit retry](#usage-limit-retry).
 
@@ -45,6 +45,8 @@ When this skill applies (user attached `multi`, an entry skill invokes parallel 
 **Use multi** when members are independent and parallel work improves coverage, speed, or confidence — e.g. multi-source gathering, broad exploration, orthogonal research topics, or mixed gather passes.
 
 **Skip multi** when the task fits one agent, work is sequential, members would duplicate without adding confidence, or the user wants a single authoritative pass.
+
+**Entry-skill carve-out:** When `code-review` (or another entry skill) already invoked parallel dispatch / council, Fit check does **not** apply. Do not re-litigate “one agent suffices.” Follow that skill’s member budget and [Non-negotiables](#non-negotiables).
 
 ## Dispatch modes
 

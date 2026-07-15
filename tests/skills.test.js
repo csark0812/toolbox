@@ -166,4 +166,35 @@ describe('toolbox skill SSOT', () => {
     expect(broad).not.toMatch(/model=\[cheapest\]/)
     expect(broad).toMatch(/Parent model: \[Auto \| <named model>\]/)
   })
+
+  it('code-review forbids solo synthesis without council Task spawns', () => {
+    const skill = readFileSync(join(root, 'code-review/SKILL.md'), 'utf8')
+    const council = readFileSync(join(root, 'code-review/references/council-dispatch.md'), 'utf8')
+    const synthesis = readFileSync(join(root, 'code-review/references/synthesis.md'), 'utf8')
+    const modes = readFileSync(join(root, 'code-review/references/modes.md'), 'utf8')
+    const multi = readFileSync(join(root, 'multi/SKILL.md'), 'utf8')
+
+    expect(skill).toMatch(/Council dispatch \(mandatory spawn\)/)
+    expect(skill).toMatch(/one host Task\/Subagent call per selected member/)
+    expect(skill).toMatch(/do not fabricate a `Review · …` report/)
+    expect(skill).toMatch(/do \*\*not\*\* waive council/)
+    expect(skill).toMatch(/Fit check.*does \*\*not\*\* apply/s)
+
+    expect(council).toMatch(/## Hard gate \(before any review report\)/)
+    expect(council).toMatch(/Spawn \(mandatory\)/)
+    expect(council).toMatch(/Skipping this step and writing findings yourself is a \*\*violation\*\*/)
+    expect(council).toMatch(/One Task\/Subagent completed per SELECTED member/)
+    expect(council).not.toMatch(/or valid skip documented/)
+
+    expect(synthesis).toMatch(/Hard gate/)
+    expect(synthesis).toMatch(/do not emit synthesis-shaped output/)
+
+    expect(modes).toMatch(/Optional architecture slot \(not a council skip\)/)
+    expect(modes).toMatch(/does \*\*not\*\* waive council/)
+    expect(modes).not.toMatch(/\*\*Thorough optional skip:\*\*/)
+
+    expect(multi).toMatch(/Entry-skill carve-out/)
+    expect(multi).toMatch(/docs-only.*single theme/s)
+    expect(multi).toMatch(/and no entry skill already invoked parallel dispatch/)
+  })
 })
