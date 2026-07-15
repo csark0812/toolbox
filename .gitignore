@@ -3,6 +3,8 @@
 node_modules/
 .cursor/
 .claude/
+# Install mirrors — flat <slug>/ is SSOT; consumers may commit their own .agents/skills/
+.agents/
 coverage/
 .env
 .env.*

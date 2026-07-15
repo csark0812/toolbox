@@ -20,7 +20,7 @@ For when something feels wrong but the user can't fully articulate it yet, or th
 - Narrow a vague unease into confirm/refute with citable primary-source evidence
 - Parallel web research on independent topics (via **multi**)
 
-Not for: written plan review ([`second-opinion`](../second-opinion/SKILL.md)), fuzzy ideation ([`crystallize`](../crystallize/SKILL.md)). Ambient extract → [agent-routing.md](references/agent-routing.md) § Specific doubt.
+Not for: written plan review ([`second-opinion`](../second-opinion/SKILL.md)), fuzzy ideation ([`crystallize`](../crystallize/SKILL.md)). Ambient extract → [agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) § Specific doubt.
 
 ## Stance and routing
 
@@ -31,7 +31,7 @@ Not for: written plan review ([`second-opinion`](../second-opinion/SKILL.md)), f
 
 ## Structural checks
 
-When evidence touches structure, apply [dialogue-contract.md](references/dialogue-contract.md) § Structural checks — name the spectrum in **What to do next** (localized change vs staged / ground-up).
+When evidence touches structure, apply [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) § Structural checks — name the spectrum in **What to do next** (localized change vs staged / ground-up).
 
 ## Protocol
 
@@ -64,7 +64,7 @@ When evidence touches structure, apply [dialogue-contract.md](references/dialogu
 
 ## Output format
 
-Follow [output-schema.md](references/output-schema.md). End with this block when the clarification chain (when needed) and evidence pass are complete — not before. If the hunch is still too vague, **ask the next narrowing question** instead of forcing a verdict.
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). End with this block when the clarification chain (when needed) and evidence pass are complete — not before. If the hunch is still too vague, **ask the next narrowing question** instead of forcing a verdict.
 
 ```markdown
 ## Hunch: [one-line restatement]

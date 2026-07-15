@@ -8,7 +8,7 @@ Consumer projects remap this path through hook-injected customize / alwaysInclud
 
 ## What this file is for
 
-- Keeps relative `references/planning/README.md` links resolvable in standalone toolbox clones.
+- Fail-loud portable stub — planning index for ambient refs.
 - Points agents at the hook-injected consumer planning SSOT when present.
 
 ## If you only have this stub

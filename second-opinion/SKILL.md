@@ -21,27 +21,27 @@ Not for: dialogue without a plan ([`crystallize`](../crystallize/SKILL.md), [`gr
 
 ## Stances
 
-| Stance                      | Trigger                                                  | Recipe                                                                  |
-| --------------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------- |
-| **A — Fresh read**          | Someone else's plan; premise challenge + critique        | [references/second-opinion.md](references/second-opinion.md) (Stance A) |
-| **B — Completeness verify** | "Verify my plan", readiness, axis pass without rewriting | [../references/planning/verify.md](references/planning/verify.md)       |
+| Stance                      | Trigger                                                  | Recipe                                                                                                        |
+| --------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| **A — Fresh read**          | Someone else's plan; premise challenge + critique        | [references/second-opinion.md](references/second-opinion.md) (Stance A)                                       |
+| **B — Completeness verify** | "Verify my plan", readiness, axis pass without rewriting | [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) |
 
 If unclear: ask whether they want a **fresh read** (outsider assumptions) or a **completeness checklist** (verify).
 
 **Does not own:**
 
 - Dialogue without a plan artifact → **crystallize** or **grill**
-- Author a new plan from intent → **crystallize** or **grill** → [../references/planning/build.md](references/planning/build.md)
+- Author a new plan from intent → **crystallize** or **grill** → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md)
 - Single code-path hunch with evidence → **investigate**
 - Stance dispatch and structural checks → [references/second-opinion.md](references/second-opinion.md)
 
 ## Stance and repo
 
 - **Primary-source-first:** Skim 2–4 primary sources the plan cites — code files, docs, data, or prior decisions; do not ask the user for paths that appear in the plan (for **Stance A**; **Stance B** follows verify.md locate step).
-- For structural “worth deepening?”, use the checklists in [references/second-opinion.md](references/second-opinion.md) — brief, not a second full pass. Broad codebase sweeps → [parallel-explore.md](references/planning/parallel-explore.md). Stance A escalation: small plan → single pass; large plan → [parallel-plan-evidence.md](references/parallel-plan-evidence.md); contested/high-stakes → [parallel-perspective.md](references/parallel-perspective.md).
-- If the user's need is only dialogue (no plan file), use **crystallize** or **grill**. If they need a verdict on a **single** suspicion, use **investigate**. To **author** a new plan from intent, use **crystallize** or **grill** → [../references/planning/build.md](references/planning/build.md).
+- For structural “worth deepening?”, use the checklists in [references/second-opinion.md](references/second-opinion.md) — brief, not a second full pass. Broad codebase sweeps → [parallel-explore.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/parallel-explore.md). Stance A escalation: small plan → single pass; large plan → [parallel-plan-evidence.md](references/parallel-plan-evidence.md); contested/high-stakes → [parallel-perspective.md](references/parallel-perspective.md).
+- If the user's need is only dialogue (no plan file), use **crystallize** or **grill**. If they need a verdict on a **single** suspicion, use **investigate**. To **author** a new plan from intent, use **crystallize** or **grill** → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md).
 
-**Ambient routing:** inline axis pass on artifacts → [agent-routing.md](references/agent-routing.md) § Plan on disk; full Stance A/B remains user-invoked.
+**Ambient routing:** inline axis pass on artifacts → [agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) § Plan on disk; full Stance A/B remains user-invoked.
 
 ## Consumer bindings
 
@@ -49,7 +49,7 @@ Plan artifact paths (`.cursor/plans/`, ClickUp tasks, etc.) arrive as project-sp
 
 ## Output format
 
-Follow [references/output-schema.md](references/output-schema.md). End with this block when the review pass is complete:
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). End with this block when the review pass is complete:
 
 ```markdown
 ## Second opinion summary

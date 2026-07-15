@@ -2,7 +2,7 @@
 
 **Source of truth for** team Cursor/Claude agent skills.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-15 -->
 
 Public SSOT for reusable Cursor/Claude agent skills.
 
@@ -62,15 +62,15 @@ After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton a
 | **toolbox** (this repo)     | Skill source SSOT — what skills exist and how they're written                                                         |
 | **skeleton**                | Docs/skill registry linter — validates links, banners, and scan perimeter                                             |
 | **`.skeleton/customize/`**  | Project-specific skill overrides (injected via IDE hooks on read) — **consumer repos only**, not present in this tree |
-| **`.skeleton/references/`** | Canonical shared reference docs — copied into each skill at build time                                                |
+| **`.skeleton/references/`** | Canonical ambient reference docs — skills link via GitHub raw URLs (not copied into each skill)                       |
 
 Do not edit synced `SKILL.md` files in consumer projects — override in `.skeleton/customize/<slug>.md` instead. See [skeleton customize docs](https://github.com/csark0812/skeleton/blob/main/docs/developer/customize.md).
 
-Each skill is self-contained: shared reference docs are generated copies under `{slug}/references/` with provenance headers. Edit canonical files in `.skeleton/references/`, then run `npm run references:sync`.
+Ambient shared refs live once under [`.skeleton/references/`](.skeleton/references/). Skill bodies open them via `raw.githubusercontent.com/csark0812/toolbox/main/...` (network required). Validation: [docs/github-ambient-refs-validation.md](docs/github-ambient-refs-validation.md). Skill-local refs (unique to one skill) stay under `{slug}/references/`.
 
 ### Planning references (fail-loud vs soft-default)
 
-Synced skill-tree `references/planning/*.md` files are **fail-loud stubs** — do not execute Linear / `docs/prds/` recipes from them. Soft-default recipe trees are **not** shipped inside portable skill trees.
+Fail-loud planning stubs live under `.skeleton/references/planning/*.md` and are linked from skills via GitHub raw URLs — do not execute Linear / `docs/prds/` recipes from them. Soft-default recipe trees are **not** shipped inside portable skill trees.
 
 Canonical recipes live under `.skeleton/references/planning/soft-default/` and are packaged for bare consumers as [`templates/planning-soft-default/`](templates/planning-soft-default/) plus the binder [`templates/soft-default-planning.md`](templates/soft-default-planning.md). Opt in by copying the pack to `.skeleton/customize/planning-soft-default/`, the binder to `.skeleton/customize/soft-default-planning.md`, and listing that basename in `customize.alwaysInclude`. Remapping consumers must omit that binder and map planning paths to project docs instead.
 
@@ -86,7 +86,7 @@ Canonical recipes live under `.skeleton/references/planning/soft-default/` and a
 | investigate    | Confirm/refute a code or approach hunch      |
 | handoff        | Compact session handoff                      |
 
-Consumer projects may lock additional slugs (`debug`, `testing`, `product-principles`, …) — **every lock key is replaced on resync**. Portable `references/` copies are stubs; consumers map to project docs via `.skeleton/customize/` + `customize.alwaysInclude`. See [docs/tiers.md](docs/tiers.md).
+Consumer projects may lock additional slugs (`debug`, `testing`, `product-principles`, …) — **every lock key is replaced on resync**. Ambient shared refs are remote (GitHub); skill-local `references/` stay skill-specific. Consumers remap project docs via `.skeleton/customize/` + `customize.alwaysInclude`. See [docs/tiers.md](docs/tiers.md).
 
 ## Daily workflow
 
@@ -108,7 +108,7 @@ npm run check
 pre-commit install          # runs npm test on commit
 ```
 
-`npm run check` / `npm start` runs format, lint, typecheck, vitest unit fixtures, `references:check`, hub + skills audits, and `validate:ci` (matches CI). `npm test` is the skill gate subset (unit + audits + validate:ci). `npm ci` pulls `@csark0812/skeleton` from the registry; for local dogfood only: `npm install ../skeleton` (do not commit the link).
+`npm run check` / `npm start` runs format, lint, typecheck, vitest unit fixtures, hub + skills audits, and `validate:ci` (matches CI). `npm test` is the skill gate subset (unit + audits + validate:ci). `npm ci` pulls `@csark0812/skeleton` from the registry; for local dogfood only: `npm install ../skeleton` (do not commit the link).
 
 ### Agent suites
 
@@ -132,7 +132,7 @@ Toolbox owns generic skill-contract behavior (`code-review`, routing, `grill`, `
 1. `npm ci` (needs `@csark0812/skeleton` for audit/CLI scripts)
 2. Create `<slug>/SKILL.md`
 3. Update `docs/tiers.md` and `.skeleton/registry.md` / scan include as needed
-4. If sharing refs: edit `.skeleton/references/…`, link with `../references/...` in skill source, then `npm run references:sync` and `npm run references:check`
+4. If sharing ambient refs: edit `.skeleton/references/…`, link from the skill with a GitHub raw URL (`https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/…`)
 5. Stage changes (`git add`), then `npm test` (preferred) or `npm run audit:skills && npm run validate:ci`
 6. Push → CI green → `npx skills update -g`
 

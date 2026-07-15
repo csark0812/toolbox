@@ -8,7 +8,7 @@ Consumer projects remap the full dialogue contract through hook-injected customi
 
 ## What this file is for
 
-- Keeps relative links inside the skill tree resolvable for standalone toolbox clones.
+- Canonical ambient SSOT for skills — opened via GitHub raw URLs from installed skill bodies.
 - Prevents agents from treating a thinned matrix as complete consumer product gates.
 
 ## Portable baseline (incomplete)

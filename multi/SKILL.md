@@ -290,7 +290,7 @@ More than 10 members — split into multiple `multi` runs.
 
 ## Output format
 
-Follow [references/output-schema.md](references/output-schema.md). Consolidated runs use [references/output-format.md](references/output-format.md).
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Consolidated runs use [references/output-format.md](references/output-format.md).
 
 ## Consumer bindings
 

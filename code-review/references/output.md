@@ -1,6 +1,6 @@
 # Review output
 
-Extends [`output-schema`](output-schema.md). Synthesis via [synthesis.md](synthesis.md) ends here. Worth-doing gate → consumer worth-doing gate / customize.
+Extends [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Synthesis via [synthesis.md](synthesis.md) ends here. Worth-doing gate → consumer worth-doing gate / customize.
 
 **Default filing:** Merge-blockers only — [merge-blockers.md](merge-blockers.md). Unless the user opted into improvements mode, file **only** `scope: ship-blocker` (reachable production bugs). Do not file test inventory, docs gaps, refactor, or polish.
 
