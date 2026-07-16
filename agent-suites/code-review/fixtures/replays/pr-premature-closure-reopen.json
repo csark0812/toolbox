@@ -1,0 +1,33 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Review · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; premature closure detected) · Pass: targeted contextual · Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: recovered ledger from `REVIEW_LEDGER.md`. Prior pass marked `query-preservation` closed after fixing example E1 (query string) only. Fresh evidence: hash variant E2 still fails — `#fragment` dropped by `split('#')[0]` partial fix. **Premature closure** — reopening same `theme_id`, not inventing sibling theme.\n\n## Findings\n\n### Complete query-preservation invariant (hash variant unfixed)\n\n`agent-suites/fixtures/sample-app/src/redirect.ts:11-13` · Theme: `query-preservation` · Severity: high · Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nPrior closure fixed query example E1 only. Hash variant E2 still fails: `/path?x=1#frag` loses `#frag`. Same invariant — extend/reopen `query-preservation`; do not file a sibling Action theme.\n\n</details>\n\n## Baseline contradictions\n\n| Theme | Prior synthesis | Fresh evidence | Action |\n| --- | --- | --- | --- |\n| query-preservation | closed (E1 query only) | Hash still dropped — premature closure | Reopen — variant E2 unfixed |\n\n## Fix-loop ledger\n\n| theme_id | invariant | surfaces | state | closure evidence | contradiction |\n| --- | --- | --- | --- | --- | --- |\n| query-preservation | login redirect keeps path + query + hash for same-origin relative paths | runtime, tests | reopened | E1 fixed; E2 hash variant unchecked — premature closure | none |\n\n### Sweep · `query-preservation`\n\n- Matrix rows: relative+query (checked), hash-preservation (failed E2), absolute-reject (pending)\n\n## Review synthesis\nReopened same theme_id after premature closure. Exit gate not satisfied."
+    }
+  ],
+  "toolCalls": [
+    {
+      "name": "Read",
+      "arguments": {
+        "path": "REVIEW_LEDGER.md"
+      }
+    },
+    {
+      "name": "Task",
+      "arguments": {
+        "description": "correctness reopen lens",
+        "prompt": "Fix-loop: contextual re-review\nLedger recovery source: REVIEW_LEDGER.md\nPremature closure: reopen same theme_id query-preservation\nReject sibling Action themes for hash variant E2.\nDepth: Standard"
+      }
+    },
+    {
+      "name": "Task",
+      "arguments": {
+        "description": "api lens",
+        "prompt": "Same invariant new edge extends existing theme_id — do not invent theme_id Y."
+      }
+    }
+  ],
+  "shellCommands": ["git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

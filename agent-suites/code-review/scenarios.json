@@ -1,6 +1,6 @@
 {
   "name": "code-review",
-  "description": "Portable code-review skill conformance: modes, depth, filing, anti-thrash re-review, and no-commit behavior",
+  "description": "Portable code-review skill conformance: modes, depth, filing, anti-thrash re-review (bare re-review, size carve-out, premature closure, thrash reopen), and no-commit behavior",
   "defaults": {
     "host": "replay",
     "profile": "cursor",
@@ -100,6 +100,73 @@
         "mustNot": ["git commit"],
         "judge": [
           "The review applies the thrash signal, collapses adjacent same-family blockers into one theme_id with an explicit same-invariant sweep, and does not file sibling Action blocks for each edge"
+        ]
+      }
+    },
+    {
+      "name": "pr: bare re-review stays targeted",
+      "prompt": "review vs main\n\nDefault merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff, recover any prior fix-loop state from the branch (REVIEW_LEDGER.md, git log, PR if present), read the code-review skill, then produce the review. Do not stop at the announce.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/bare-re-review.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-bare-re-review-targeted.json",
+      "rubric": {
+        "reviewDepth": "standard",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": [
+          "git commit",
+          "Promoted to Full",
+          "Promoted to Full contextual",
+          "Pass: Full contextual",
+          "Pass class: first-baseline"
+        ],
+        "judge": [
+          "The re-review classifies closure-re-review (not first-baseline), recovers the ledger from REVIEW_LEDGER.md or branch artifacts without an in-message ledger, stays targeted contextual, and does not invent a sibling Action theme"
+        ]
+      }
+    },
+    {
+      "name": "pr: large branch narrow fix stays targeted",
+      "prompt": "review vs main\n\nDefault merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and recover fix-loop state from the branch. Do not stop at the announce.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/large-branch-narrow-fix.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-large-branch-targeted.json",
+      "rubric": {
+        "reviewDepth": "standard",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "Promoted to Full contextual", "Pass: Full contextual"],
+        "judge": [
+          "Despite a large whole-branch diff surface, the re-review stays targeted contextual for closure-re-review and explicitly records that whole-branch size thresholds were not used to Full-promote"
+        ]
+      }
+    },
+    {
+      "name": "pr: premature closure reopens same theme",
+      "prompt": "Re-review the branch diff (main...HEAD) after fixes. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — recover ledger from REVIEW_LEDGER.md, read the diff and code-review skill, then produce the review. Do not stop at the announce.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/premature-closure-reopen.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-premature-closure-reopen.json",
+      "rubric": {
+        "reviewDepth": "standard",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "final blockers"],
+        "judge": [
+          "The re-review detects premature closure, reopens the same theme_id query-preservation for adjacent variant E2, includes Baseline contradictions, does not invent a sibling theme_id, and does not claim the exit gate passed"
+        ]
+      }
+    },
+    {
+      "name": "pr: thrash reopen forces sweep before more Action",
+      "prompt": "review vs main\n\nDefault merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — recover ledger from REVIEW_LEDGER.md, read the diff and code-review skill, then produce the review. Do not stop at the announce.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/thrash-reopen-sweep.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-reopen-sweep.json",
+      "rubric": {
+        "reviewDepth": "standard",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": [
+          "git commit",
+          "Promoted to Full contextual",
+          "Pass: Full contextual",
+          "final blockers"
+        ],
+        "judge": [
+          "The re-review applies thrash signal for a reopened theme, requires same-invariant sweep completion, collapses adjacent edges under one theme_id, avoids Full symptom-hunting language, and does not file a second Action theme in the same family"
         ]
       }
     }

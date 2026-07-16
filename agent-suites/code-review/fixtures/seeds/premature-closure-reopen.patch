@@ -1,0 +1,38 @@
+diff --git a/REVIEW_LEDGER.md b/REVIEW_LEDGER.md
+new file mode 100644
+index 0000000..e7f8g9h
+--- /dev/null
++++ b/REVIEW_LEDGER.md
+@@ -0,0 +1,19 @@
++# Review fix-loop ledger
++
++| theme_id | invariant | surfaces | state | closure evidence | contradiction |
++| --- | --- | --- | --- | --- | --- |
++| query-preservation | login redirect keeps path + query + hash for same-origin relative paths; rejects absolute/scheme-relative | runtime, tests | closed | query string preserved for `/path?x=1` example only | none |
++
++### Sweep · `query-preservation`
++
++- Symbols / APIs: `nextUrlAfterLogin`
++- Matrix rows checked: relative+query only (premature — hash and absolute-reject not verified)
++
++### Closure · `query-preservation`
++
++- Variants checked: relative+query only
++- Regression evidence: manual example E1 only
++
++## Handoff
++
++Prior pass marked theme closed after fixing query example E1.
+diff --git a/agent-suites/fixtures/sample-app/src/redirect.ts b/agent-suites/fixtures/sample-app/src/redirect.ts
+index fb77419..c3d4e5f 100644
+--- a/agent-suites/fixtures/sample-app/src/redirect.ts
++++ b/agent-suites/fixtures/sample-app/src/redirect.ts
+@@ -8,5 +8,7 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
+     return '/dashboard'
+   }
+
+-  return target.split('?')[0] ?? '/dashboard'
++  // Partial fix: preserves query but still drops hash (variant E2 unfixed).
++  const withoutHash = target.split('#')[0]
++  return withoutHash ?? '/dashboard'
+ }

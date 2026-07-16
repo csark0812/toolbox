@@ -1,0 +1,36 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Review · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; whole-branch size ignored) · Pass: targeted contextual · Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: recovered ledger from `REVIEW_LEDGER.md`. Whole branch `main...HEAD` exceeds file-count Full thresholds (12+ scaffold modules + redirect), but latest fix commit only touches `redirect.ts` for prior theme `query-preservation`. Classified as closure-re-review. Size thresholds MUST NOT alone promote to Full — staying targeted contextual.\n\n## Findings\nNo merge-blockers in scope.\n\n## Baseline contradictions\n\n| Theme | Prior synthesis | Fresh evidence | Action |\n| --- | --- | --- | --- |\n| query-preservation | open | Narrow fix preserves query/hash and rejects absolute targets | close |\n\n## Fix-loop ledger\n\n| theme_id | invariant | surfaces | state | closure evidence | contradiction |\n| --- | --- | --- | --- | --- | --- |\n| query-preservation | login redirect keeps safe same-origin relative targets with query/hash | runtime, tests | closed | sweep checked empty, relative+query, absolute-reject | none |\n\n### Sweep · `query-preservation`\n\n- Symbols / APIs: `nextUrlAfterLogin`\n- Matrix rows: empty, relative+query, absolute-reject\n\n## Review synthesis\nLarge branch surface ignored for Full promotion; latest commit scope drove targeted lane."
+    }
+  ],
+  "toolCalls": [
+    {
+      "name": "Read",
+      "arguments": {
+        "path": "REVIEW_LEDGER.md"
+      }
+    },
+    {
+      "name": "Task",
+      "arguments": {
+        "description": "correctness targeted closure",
+        "prompt": "Fix-loop: contextual re-review\nPass lane: targeted contextual\nLedger recovery source: REVIEW_LEDGER.md\nWhole-branch size ignored for closure-re-review.\nDepth: Standard"
+      }
+    },
+    {
+      "name": "Task",
+      "arguments": {
+        "description": "api lens",
+        "prompt": "Reject sibling Action themes. Pass class: closure-re-review."
+      }
+    }
+  ],
+  "shellCommands": [
+    "git diff main...HEAD --stat",
+    "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"
+  ],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

@@ -1,0 +1,219 @@
+diff --git a/REVIEW_LEDGER.md b/REVIEW_LEDGER.md
+new file mode 100644
+index 0000000..d4e5f6a
+--- /dev/null
++++ b/REVIEW_LEDGER.md
+@@ -0,0 +1,17 @@
++# Review fix-loop ledger
++
++| theme_id | invariant | surfaces | state | closure evidence | contradiction |
++| --- | --- | --- | --- | --- | --- |
++| query-preservation | login redirect keeps path + query when target is a same-origin relative path | runtime, tests | open | prior Full pass; narrow fix in progress | none |
++
++### Sweep · `query-preservation`
++
++- Symbols / APIs: `nextUrlAfterLogin`
++- Config / schema fields: n/a
++- Docs / CLI / help surfaces: n/a
++- Tests / fixtures: redirect seed
++- Matrix rows: empty, relative+query, absolute-reject
++
++## Handoff
++
++Branch has large scaffold surface; latest commit only touches redirect.ts for theme closure.
+diff --git a/agent-suites/fixtures/sample-app/src/modules/mod01.ts b/agent-suites/fixtures/sample-app/src/modules/mod01.ts
+new file mode 100644
+index 0000000..1111111
+--- /dev/null
++++ b/agent-suites/fixtures/sample-app/src/modules/mod01.ts
+@@ -0,0 +1,9 @@
++export function scaffold01(input: string): string {
++  return input.trim().toLowerCase()
++}
++
++export function scaffold01Hash(input: string): number {
++  let h = 0
++  for (const c of input) h = (h * 31 + c.charCodeAt(0)) | 0
++  return h
++}
+diff --git a/agent-suites/fixtures/sample-app/src/modules/mod02.ts b/agent-suites/fixtures/sample-app/src/modules/mod02.ts
+new file mode 100644
+index 0000000..2222222
+--- /dev/null
++++ b/agent-suites/fixtures/sample-app/src/modules/mod02.ts
+@@ -0,0 +1,9 @@
++export function scaffold02(input: string): string {
++  return input.trim().toUpperCase()
++}
++
++export function scaffold02Hash(input: string): number {
++  let h = 0
++  for (const c of input) h = (h * 37 + c.charCodeAt(0)) | 0
++  return h
++}
+diff --git a/agent-suites/fixtures/sample-app/src/modules/mod03.ts b/agent-suites/fixtures/sample-app/src/modules/mod03.ts
+new file mode 100644
+index 0000000..3333333
+--- /dev/null
++++ b/agent-suites/fixtures/sample-app/src/modules/mod03.ts
+@@ -0,0 +1,9 @@
++export function scaffold03(input: string): string {
++  return input.replace(/\s+/g, '-')
++}
++
++export function scaffold03Hash(input: string): number {
++  let h = 0
++  for (const c of input) h = (h * 41 + c.charCodeAt(0)) | 0
++  return h
++}
+diff --git a/agent-suites/fixtures/sample-app/src/modules/mod04.ts b/agent-suites/fixtures/sample-app/src/modules/mod04.ts
+new file mode 100644
+index 0000000..4444444
+--- /dev/null
++++ b/agent-suites/fixtures/sample-app/src/modules/mod04.ts
+@@ -0,0 +1,9 @@
++export function scaffold04(input: string): string {
++  return input.slice(0, 64)
++}
++
++export function scaffold04Hash(input: string): number {
++  let h = 0
++  for (const c of input) h = (h * 43 + c.charCodeAt(0)) | 0
++  return h
++}
+diff --git a/agent-suites/fixtures/sample-app/src/modules/mod05.ts b/agent-suites/fixtures/sample-app/src/modules/mod05.ts
+new file mode 100644
+index 0000000..5555555
+--- /dev/null
++++ b/agent-suites/fixtures/sample-app/src/modules/mod05.ts
+@@ -0,0 +1,9 @@
++export function scaffold05(input: string): string {
++  return input.padStart(8, '0')
++}
++
++export function scaffold05Hash(input: string): number {
++  let h = 0
++  for (const c of input) h = (h * 47 + c.charCodeAt(0)) | 0
++  return h
++}
+diff --git a/agent-suites/fixtures/sample-app/src/modules/mod06.ts b/agent-suites/fixtures/sample-app/src/modules/mod06.ts
+new file mode 100644
+index 0000000..6666666
+--- /dev/null
++++ b/agent-suites/fixtures/sample-app/src/modules/mod06.ts
+@@ -0,0 +1,9 @@
++export function scaffold06(input: string): string {
++  return input.padEnd(8, '0')
++}
++
++export function scaffold06Hash(input: string): number {
++  let h = 0
++  for (const c of input) h = (h * 53 + c.charCodeAt(0)) | 0
++  return h
++}
+diff --git a/agent-suites/fixtures/sample-app/src/modules/mod07.ts b/agent-suites/fixtures/sample-app/src/modules/mod07.ts
+new file mode 100644
+index 0000000..7777777
+--- /dev/null
++++ b/agent-suites/fixtures/sample-app/src/modules/mod07.ts
+@@ -0,0 +1,9 @@
++export function scaffold07(input: string): string {
++  return input.split('').reverse().join('')
++}
++
++export function scaffold07Hash(input: string): number {
++  let h = 0
++  for (const c of input) h = (h * 59 + c.charCodeAt(0)) | 0
++  return h
++}
+diff --git a/agent-suites/fixtures/sample-app/src/modules/mod08.ts b/agent-suites/fixtures/sample-app/src/modules/mod08.ts
+new file mode 100644
+index 0000000..8888888
+--- /dev/null
++++ b/agent-suites/fixtures/sample-app/src/modules/mod08.ts
+@@ -0,0 +1,9 @@
++export function scaffold08(input: string): string {
++  return input.replace(/[^a-z0-9]/gi, '')
++}
++
++export function scaffold08Hash(input: string): number {
++  let h = 0
++  for (const c of input) h = (h * 61 + c.charCodeAt(0)) | 0
++  return h
++}
+diff --git a/agent-suites/fixtures/sample-app/src/modules/mod09.ts b/agent-suites/fixtures/sample-app/src/modules/mod09.ts
+new file mode 100644
+index 0000000..9999999
+--- /dev/null
++++ b/agent-suites/fixtures/sample-app/src/modules/mod09.ts
+@@ -0,0 +1,9 @@
++export function scaffold09(input: string): string {
++  return input.normalize('NFKC')
++}
++
++export function scaffold09Hash(input: string): number {
++  let h = 0
++  for (const c of input) h = (h * 67 + c.charCodeAt(0)) | 0
++  return h
++}
+diff --git a/agent-suites/fixtures/sample-app/src/modules/mod10.ts b/agent-suites/fixtures/sample-app/src/modules/mod10.ts
+new file mode 100644
+index 0000000..aaaaaaa
+--- /dev/null
++++ b/agent-suites/fixtures/sample-app/src/modules/mod10.ts
+@@ -0,0 +1,9 @@
++export function scaffold10(input: string): string {
++  return input.replace(/\u200b/g, '')
++}
++
++export function scaffold10Hash(input: string): number {
++  let h = 0
++  for (const c of input) h = (h * 71 + c.charCodeAt(0)) | 0
++  return h
++}
+diff --git a/agent-suites/fixtures/sample-app/src/modules/mod11.ts b/agent-suites/fixtures/sample-app/src/modules/mod11.ts
+new file mode 100644
+index 0000000..bbbbbbb
+--- /dev/null
++++ b/agent-suites/fixtures/sample-app/src/modules/mod11.ts
+@@ -0,0 +1,9 @@
++export function scaffold11(input: string): string {
++  return input.trim().replace(/\s{2,}/g, ' ')
++}
++
++export function scaffold11Hash(input: string): number {
++  let h = 0
++  for (const c of input) h = (h * 73 + c.charCodeAt(0)) | 0
++  return h
++}
+diff --git a/agent-suites/fixtures/sample-app/src/modules/mod12.ts b/agent-suites/fixtures/sample-app/src/modules/mod12.ts
+new file mode 100644
+index 0000000..ccccccc
+--- /dev/null
++++ b/agent-suites/fixtures/sample-app/src/modules/mod12.ts
+@@ -0,0 +1,9 @@
++export function scaffold12(input: string): string {
++  return input.toWellFormed()
++}
++
++export function scaffold12Hash(input: string): number {
++  let h = 0
++  for (const c of input) h = (h * 79 + c.charCodeAt(0)) | 0
++  return h
++}
+diff --git a/agent-suites/fixtures/sample-app/src/redirect.ts b/agent-suites/fixtures/sample-app/src/redirect.ts
+index fb77419..82b60db 100644
+--- a/agent-suites/fixtures/sample-app/src/redirect.ts
++++ b/agent-suites/fixtures/sample-app/src/redirect.ts
+@@ -8,5 +8,10 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
+     return '/dashboard'
+   }
+
+-  return target.split('?')[0] ?? '/dashboard'
++  // Narrow fix: preserve query/hash for safe relative paths only.
++  if (target.startsWith('//') || target.includes('://')) {
++    return '/dashboard'
++  }
++
++  return target
+ }
