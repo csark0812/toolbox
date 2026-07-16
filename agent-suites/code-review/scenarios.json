@@ -150,7 +150,7 @@
     },
     {
       "name": "pr: premature closure reopens same theme",
-      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` was marked closed after fixing query-only (E1). Re-review after that fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` was marked closed after fixing query-only (E1). Re-review after that fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.\n\nRequired: emit a full `Review \u00b7 \u2026` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/premature-closure-reopen.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-premature-closure-reopen.json",
       "rubric": {
@@ -205,7 +205,7 @@
     },
     {
       "name": "pr: commit-stack thrash without ledger file",
-      "prompt": "review vs main\n\nTip micro-fix trail on classify.ts after a Full Action pass on Theme: `reply-parse-misclassification`. Re-review. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.",
+      "prompt": "review vs main\n\nTip micro-fix trail on classify.ts after a Full Action pass on Theme: `reply-parse-misclassification`. Re-review. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.\n\nRequired: emit a full `Review \u00b7 \u2026` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/commit-stack-no-ledger.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-commit-stack-no-ledger.json",
       "rubric": {
