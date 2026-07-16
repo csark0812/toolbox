@@ -77,7 +77,7 @@
     },
     {
       "name": "pr: anti-thrash targeted contextual",
-      "prompt": "Re-review the PR diff for agent-suites/fixtures/sample-app/src/redirect.ts (main...HEAD) after fixes. Prior Action finding theme_id `query-preservation` is in the ledger (open: relative redirects dropped query strings). Diff only touches that theme. Run anti-thrash preflight and prefer targeted contextual re-review over another Full council. Default merge-blocker filing. Review only; no edits.\n\nRequired: header includes `Pass: targeted contextual` and `Stayed targeted contextual`; reconstruct ledger; do not invent a sibling Action theme.",
+      "prompt": "Re-review the PR diff for agent-suites/fixtures/sample-app/src/redirect.ts (main...HEAD) after fixes. Prior Action finding theme_id `query-preservation` is in the ledger (open: relative redirects dropped query strings). Diff only touches that theme. Run anti-thrash preflight and prefer targeted contextual re-review over another Full council. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill, then produce the review. Do not stop at the announce.\n\nRequired: header includes `Pass: targeted contextual` and `Stayed targeted contextual`; reconstruct ledger; do not invent a sibling Action theme.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-closure.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-targeted-contextual.json",
       "rubric": {
@@ -91,7 +91,7 @@
     },
     {
       "name": "pr: anti-thrash signal collapse",
-      "prompt": "Review the PR diff for agent-suites/fixtures/sample-app/src/redirect.ts (main...HEAD). Two adjacent blocker candidates exist in the same ownership/path family (query dropped vs absolute target accepted). Apply the thrash signal: stop filing separate Action symptoms and collapse into one theme with a same-invariant sweep. Default merge-blocker filing. Review only; no edits.",
+      "prompt": "Review the PR diff for agent-suites/fixtures/sample-app/src/redirect.ts (main...HEAD). Two adjacent blocker candidates exist in the same ownership/path family (query dropped vs absolute target accepted). Apply the thrash signal: stop filing separate Action symptoms and collapse into one theme with a same-invariant sweep. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill, then produce the review. Do not stop at the announce.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-commit.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-signal.json",
       "rubric": {

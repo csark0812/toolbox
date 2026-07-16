@@ -23,7 +23,7 @@ Full contracts: [`.skeleton/references/agent-routing.md`](.skeleton/references/a
 - **Open questions:** none | …
 ```
 
-No tools, file edits, or other prose until the announce is done. PR-text-only asks stay documentation-only.
+No tools, file edits, or other prose until the announce is done. **Then continue the task** (diff review, investigation, PR draft, etc.) — announce is not the end of the turn. Only **PR-text-only** asks (write/update PR body with no repo investigation) stay documentation-only with no tools. Review-only / no-edits still means: use tools to read diffs and skills, then write the review.
 
 ## First hour
 

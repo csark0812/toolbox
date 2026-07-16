@@ -45,7 +45,7 @@ Mandatory when creating, updating, or drafting a PR. Tier is at least **Medium**
 - **Open questions:** none | …
 ```
 
-Then continue with Summary / Test plan (or equivalent). No file edits when the user asked for PR text only.
+**Then continue the task** — announce is not the end of the turn. For PR drafts: Summary / Test plan (or equivalent). For review / investigation asks: use tools to gather diffs and skill contracts, then deliver the review. No file edits when the user asked for PR text only or review-only; review-only still requires tools for read-only investigation.
 
 ## Portable baseline (incomplete)
 

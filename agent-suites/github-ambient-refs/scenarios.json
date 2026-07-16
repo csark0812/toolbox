@@ -1,6 +1,6 @@
 {
   "name": "github-ambient-refs",
-  "description": "Live dogfood: can an agent open ambient refs via GitHub raw URLs? Replay cannot prove fetch \u2014 scenarios are live-only (skip: true for default CI replay).",
+  "description": "Live dogfood: can an agent open ambient refs via GitHub raw URLs? Replay cannot prove fetch — scenarios are live-only (skip: true for default CI replay). replayTrace paths are required so isolated live runs can stage traces for the parent judge.",
   "defaults": {
     "host": "replay",
     "profile": "cursor",
@@ -11,6 +11,7 @@
       "name": "T2: fetch remote agent-routing and quote markers",
       "skip": true,
       "prompt": "Do not use any local file under .skeleton/references/ or */references/agent-routing.md. Open this URL with a network fetch tool (not local Read): https://raw.githubusercontent.com/csark0812/toolbox/e8f6519d9c737f55ba71c16932e1a8cf06d3acc6/.skeleton/references/agent-routing.md\n\nQuote the exact H1 and the first **Portable stub** sentence. End with a line exactly: REMOTE_AMBIENT_OK",
+      "replayTrace": "agent-suites/github-ambient-refs/fixtures/replays/t2-fetch.json",
       "rubric": {
         "must": ["Agent ambient routing", "Portable stub", "REMOTE_AMBIENT_OK"],
         "mustNot": ["File not found"],
@@ -23,6 +24,7 @@
       "name": "T2-skill: follow GitHub link in fixture skill",
       "skip": true,
       "prompt": "Read agent-suites/github-ambient-refs/fixtures/remote-ambient-probe/SKILL.md and follow its ambient-ref instruction exactly. Do not open local .skeleton/references copies.",
+      "replayTrace": "agent-suites/github-ambient-refs/fixtures/replays/t2-skill.json",
       "rubric": {
         "must": ["Agent ambient routing", "REMOTE_AMBIENT_OK"],
         "judge": [

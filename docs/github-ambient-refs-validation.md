@@ -19,11 +19,11 @@ Ship link migration only if **T1 + T2** pass on a supported host. **T2 hard-fail
 | T2       | Agent follows URL in prompt        | **PASS**            | Live Cursor SDK (`2026-07-15`): suite scenario quoted remote markers + `REMOTE_AMBIENT_OK`     |
 | T2-skill | Agent follows URL in fixture skill | **PASS**            | Live Cursor SDK (`2026-07-15`): followed fixture `SKILL.md` GitHub URL                         |
 
-Replay scenarios under `agent-suites/github-ambient-refs` stay `skip: true` (replay cannot prove network fetch). Re-run live:
+Replay scenarios under `agent-suites/github-ambient-refs` stay `skip: true` (replay cannot prove network fetch). Each scenario needs a `replayTrace` path so isolated live runs can stage traces for the parent judge. Re-run live:
 
 ```bash
 # Set skip: false on the scenario(s), then:
-npm run agent:test:live -- --suite github-ambient-refs
+npm run agent:test:live -- --suite github-ambient-refs --keep-recordings
 ```
 
 ## Manual checklist
