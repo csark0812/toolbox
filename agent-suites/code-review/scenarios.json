@@ -184,7 +184,7 @@
     },
     {
       "name": "pr: parser premature closure refuses closed",
-      "prompt": "review vs main\n\nPrior Action finding Theme: `reply-parse-misclassification` was marked closed after fixing whole-text `[\"yes\"]` only. Re-review after that fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `reply-parse-misclassification` was marked closed after fixing whole-text `[\"yes\"]` only. Re-review after that fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.\n\nRequired: emit a full `Review \u00b7 \u2026` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/parser-premature-closure.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-parser-premature-closure.json",
       "rubric": {
@@ -226,7 +226,7 @@
     },
     {
       "name": "pr: green exit deletes leftover ledger",
-      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` is closed with complete variants; tip is the complete fix. Expect a green exit gate. Delete leftover `_agent/review/REVIEW_LEDGER.md` if present. Findings-first (no Continuity line, no theme table). Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` is closed with complete variants; tip is the complete fix. Expect a green exit gate. Delete leftover `_agent/review/REVIEW_LEDGER.md` if present. Findings-first (no Continuity line, no theme table). Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.\n\nRequired: emit a full `Review \u00b7 \u2026` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/green-cleanup-leftover-ledger.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-green-cleanup-leftover.json",
       "rubric": {
