@@ -2,35 +2,37 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Review · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; recovered ledger from _agent/review/REVIEW_LEDGER.md) · Pass: targeted contextual · Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: bare `review vs main` with no in-message ledger. Recovered stable-theme ledger from `_agent/review/REVIEW_LEDGER.md` at branch tip. Recent review-fix commit touches only prior theme `query-preservation`. Classified as closure-re-review — not first-baseline. Preferring targeted contextual re-review (Standard, 2 members) instead of another Full baseline council.\n\n## Findings\nNo merge-blockers in scope.\n\n## Baseline contradictions\n\n| Theme | Prior synthesis | Fresh evidence | Action |\n| --- | --- | --- | --- |\n| query-preservation | open — query string dropped | Fix preserves `?` and `#` suffixes; sweep checked empty, relative, absolute-reject paths | close |\n\n## Fix-loop ledger\n\n| theme_id | invariant | surfaces | state | closure evidence | contradiction |\n| --- | --- | --- | --- | --- | --- |\n| query-preservation | login redirect keeps path + query when target is a same-origin relative path | runtime, tests | closed | negative empty/abs/relative variants checked; fix returns full relative target | none |\n\n### Sweep · `query-preservation`\n\n- Symbols / APIs: `nextUrlAfterLogin`\n- Matrix rows: empty, relative+query, absolute-reject\n\n## Review synthesis\nPass stayed targeted contextual after recovering ledger outside chat. No sibling Action theme filed."
+      "content": "Review \u00b7 pr \u00b7 Standard \u00b7 Pass class: closure-re-review \u00b7 Escalation: Stayed targeted contextual (closure-re-review; commit-stack archaeology) \u00b7 Pass: targeted contextual \u00b7 Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: bare `review vs main`. Tip micro-fix trail on `redirect.ts` after a Full Action pass \u2014 provisional theme `query-preservation` via commit-stack archaeology. Classified closure-re-review. Targeted contextual (Standard, 2 members).\n\n## Findings\nNo merge-blockers in scope.\n\n## Review synthesis\nExit gate green \u2014 findings-first output; no Continuity footer; no theme table. No sibling Action theme filed."
     }
   ],
   "toolCalls": [
     {
-      "name": "Read",
+      "name": "Shell",
       "arguments": {
-        "path": "_agent/review/REVIEW_LEDGER.md"
+        "command": "git log -8 --oneline -- agent-suites/fixtures/sample-app/src/redirect.ts"
       }
     },
     {
       "name": "Task",
       "arguments": {
         "description": "correctness closure lens",
-        "prompt": "Fix-loop: contextual re-review\nLedger recovery source: _agent/review/REVIEW_LEDGER.md\nPass lane: targeted contextual\nPrior synthesis + ledger: theme_id query-preservation open\nReject sibling Action themes for adjacent variants.\nDepth: Standard"
+        "prompt": "Fix-loop: contextual re-review\nTheme recovery source: commit-stack archaeology\nPass lane: targeted contextual\nPrior themes: theme_id query-preservation\nUser output: findings-first; Continuity one-liner only if open.\nReject sibling Action themes.\nDepth: Standard"
       }
     },
     {
       "name": "Task",
       "arguments": {
         "description": "api contract lens",
-        "prompt": "Fix-loop: contextual re-review\nPass lane: targeted contextual\nPass class: closure-re-review\nReject fresh Action blocks for adjacent variants unless the root invariant differs."
+        "prompt": "Pass class: closure-re-review\nReject fresh Action blocks for adjacent variants unless the root invariant differs."
       }
     }
   ],
   "shellCommands": [
     "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts",
-    "git log -3 --oneline"
+    "git log -8 --oneline -- agent-suites/fixtures/sample-app/src/redirect.ts"
   ],
-  "skillsInvoked": ["code-review"],
+  "skillsInvoked": [
+    "code-review"
+  ],
   "artifacts": {}
 }

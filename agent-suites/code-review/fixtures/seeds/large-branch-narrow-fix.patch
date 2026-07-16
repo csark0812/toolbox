@@ -1,26 +1,3 @@
-diff --git a/_agent/review/REVIEW_LEDGER.md b/_agent/review/REVIEW_LEDGER.md
-new file mode 100644
-index 0000000..d4e5f6a
---- /dev/null
-+++ b/_agent/review/REVIEW_LEDGER.md
-@@ -0,0 +1,17 @@
-+# Review fix-loop ledger
-+
-+| theme_id | invariant | surfaces | state | closure evidence | contradiction |
-+| --- | --- | --- | --- | --- | --- |
-+| query-preservation | login redirect keeps path + query when target is a same-origin relative path | runtime, tests | open | prior Full pass; narrow fix in progress | none |
-+
-+### Sweep · `query-preservation`
-+
-+- Symbols / APIs: `nextUrlAfterLogin`
-+- Config / schema fields: n/a
-+- Docs / CLI / help surfaces: n/a
-+- Tests / fixtures: redirect seed
-+- Matrix rows: empty, relative+query, absolute-reject
-+
-+## Handoff
-+
-+Branch has large scaffold surface; latest commit only touches redirect.ts for theme closure.
 diff --git a/agent-suites/fixtures/sample-app/src/modules/mod01.ts b/agent-suites/fixtures/sample-app/src/modules/mod01.ts
 new file mode 100644
 index 0000000..1111111
@@ -202,15 +179,15 @@ index 0000000..ccccccc
 +  return h
 +}
 diff --git a/agent-suites/fixtures/sample-app/src/redirect.ts b/agent-suites/fixtures/sample-app/src/redirect.ts
-index fb77419..82b60db 100644
 --- a/agent-suites/fixtures/sample-app/src/redirect.ts
 +++ b/agent-suites/fixtures/sample-app/src/redirect.ts
-@@ -8,5 +8,10 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
+@@ -8,5 +8,11 @@
      return '/dashboard'
    }
-
+ 
 -  return target.split('?')[0] ?? '/dashboard'
-+  // Narrow fix: preserve query/hash for safe relative paths only.
++  // Narrow tip for theme query-preservation (commit-stack archaeology).
++  // Large scaffold surface — whole-branch size must not Full-promote.
 +  if (target.startsWith('//') || target.includes('://')) {
 +    return '/dashboard'
 +  }

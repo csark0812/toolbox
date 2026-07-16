@@ -2,21 +2,21 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Review · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; whole-branch size ignored) · Pass: targeted contextual · Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: recovered ledger from `_agent/review/REVIEW_LEDGER.md`. Whole branch `main...HEAD` exceeds file-count Full thresholds (12+ scaffold modules + redirect), but latest fix commit only touches `redirect.ts` for prior theme `query-preservation`. Classified as closure-re-review. Size thresholds MUST NOT alone promote to Full — staying targeted contextual.\n\n## Findings\nNo merge-blockers in scope.\n\n## Baseline contradictions\n\n| Theme | Prior synthesis | Fresh evidence | Action |\n| --- | --- | --- | --- |\n| query-preservation | open | Narrow fix preserves query/hash and rejects absolute targets | close |\n\n## Fix-loop ledger\n\n| theme_id | invariant | surfaces | state | closure evidence | contradiction |\n| --- | --- | --- | --- | --- | --- |\n| query-preservation | login redirect keeps safe same-origin relative targets with query/hash | runtime, tests | closed | sweep checked empty, relative+query, absolute-reject | none |\n\n### Sweep · `query-preservation`\n\n- Symbols / APIs: `nextUrlAfterLogin`\n- Matrix rows: empty, relative+query, absolute-reject\n\n## Review synthesis\nLarge branch surface ignored for Full promotion; latest commit scope drove targeted lane."
+      "content": "Review \u00b7 pr \u00b7 Standard \u00b7 Pass class: closure-re-review \u00b7 Escalation: Stayed targeted contextual (closure-re-review; whole-branch size ignored) \u00b7 Pass: targeted contextual \u00b7 Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: tip only touches `redirect.ts` for theme `query-preservation` while whole branch is large. Size thresholds ignored for closure-re-review.\n\n## Findings\nNo merge-blockers in scope.\n\n## Review synthesis\nLarge branch surface ignored for Full promotion. Exit gate green \u2014 no Continuity footer, no theme table."
     }
   ],
   "toolCalls": [
     {
-      "name": "Read",
+      "name": "Shell",
       "arguments": {
-        "path": "_agent/review/REVIEW_LEDGER.md"
+        "command": "git diff main...HEAD --stat"
       }
     },
     {
       "name": "Task",
       "arguments": {
         "description": "correctness targeted closure",
-        "prompt": "Fix-loop: contextual re-review\nPass lane: targeted contextual\nLedger recovery source: _agent/review/REVIEW_LEDGER.md\nWhole-branch size ignored for closure-re-review.\nDepth: Standard"
+        "prompt": "Fix-loop: contextual re-review\nPass lane: targeted contextual\nTheme recovery source: commit-stack archaeology\nWhole-branch size ignored.\nUser output: findings-first.\nDepth: Standard"
       }
     },
     {
@@ -31,6 +31,8 @@
     "git diff main...HEAD --stat",
     "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"
   ],
-  "skillsInvoked": ["code-review"],
+  "skillsInvoked": [
+    "code-review"
+  ],
   "artifacts": {}
 }

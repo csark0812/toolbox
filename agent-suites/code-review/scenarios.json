@@ -1,6 +1,6 @@
 {
   "name": "code-review",
-  "description": "Portable code-review skill conformance: modes, depth, filing, anti-thrash re-review (bare re-review, size carve-out, premature closure, thrash reopen), and no-commit behavior",
+  "description": "Portable code-review skill conformance: modes, depth, filing, findings-first anti-thrash (archaeology, Continuity footer, opt-in show ledger, green leftover cleanup), and no-commit behavior",
   "defaults": {
     "host": "replay",
     "profile": "cursor",
@@ -49,7 +49,7 @@
     },
     {
       "name": "pr: thorough default",
-      "prompt": "Review the PR diff for agent-suites/fixtures/sample-app/src/form.tsx only (main...HEAD). Client-only UI: Thorough depth, do not promote to Full. Default merge-blocker filing. Review only; no edits.\n\nRequired synthesis header: `Review · pr · Thorough · sample-form` and **Depth:** Thorough.",
+      "prompt": "Review the PR diff for agent-suites/fixtures/sample-app/src/form.tsx only (main...HEAD). Client-only UI: Thorough depth, do not promote to Full. Default merge-blocker filing. Review only; no edits.\n\nRequired synthesis header: `Review \u00b7 pr \u00b7 Thorough \u00b7 sample-form` and **Depth:** Thorough.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/form-pr.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thorough-default.json",
       "rubric": {
@@ -77,21 +77,26 @@
     },
     {
       "name": "pr: anti-thrash targeted contextual",
-      "prompt": "Re-review the PR diff for agent-suites/fixtures/sample-app/src/redirect.ts (main...HEAD) after fixes. Prior Action finding theme_id `query-preservation` is in the ledger (open: relative redirects dropped query strings). Diff only touches that theme. Run anti-thrash preflight and prefer targeted contextual re-review over another Full council. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill, then produce the review. Do not stop at the announce.\n\nRequired: header includes `Pass: targeted contextual` and `Stayed targeted contextual`; reconstruct ledger; do not invent a sibling Action theme.",
+      "prompt": "Re-review the PR diff for agent-suites/fixtures/sample-app/src/redirect.ts (main...HEAD) after fixes. Prior Action finding theme_id `query-preservation` is in the ledger (open: relative redirects dropped query strings). Diff only touches that theme. Run anti-thrash preflight and prefer targeted contextual re-review over another Full council. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill, then produce the review. Do not stop at the announce.\n\nRequired: header includes `Pass: targeted contextual` and `Stayed targeted contextual`; reconstruct ledger; do not invent a sibling Action theme.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-closure.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-targeted-contextual.json",
       "rubric": {
         "reviewDepth": "standard",
         "mustInvokeSkill": ["code-review"],
-        "mustNot": ["git commit", "Promoted to Full contextual", "Pass: Full contextual"],
+        "mustNot": [
+          "git commit",
+          "Promoted to Full contextual",
+          "Pass: Full contextual",
+          "## Fix-loop"
+        ],
         "judge": [
-          "The re-review stays targeted contextual after anti-thrash preflight, reconstructs the prior theme ledger, and does not reflexively run another Full council or file a sibling Action theme"
+          "The re-review stays targeted contextual after anti-thrash preflight, reconstructs prior themes, uses findings-first output without a Fix-loop theme table, and does not invent a sibling Action theme"
         ]
       }
     },
     {
       "name": "pr: anti-thrash signal collapse",
-      "prompt": "Review the PR diff for agent-suites/fixtures/sample-app/src/redirect.ts (main...HEAD). Two adjacent blocker candidates exist in the same ownership/path family (query dropped vs absolute target accepted). Apply the thrash signal: stop filing separate Action symptoms and collapse into one theme with a same-invariant sweep. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill, then produce the review. Do not stop at the announce.",
+      "prompt": "Review the PR diff for agent-suites/fixtures/sample-app/src/redirect.ts (main...HEAD). Two adjacent blocker candidates exist in the same ownership/path family (query dropped vs absolute target accepted). Apply the thrash signal: stop filing separate Action symptoms and collapse into one theme with a same-invariant sweep. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill, then produce the review. Do not stop at the announce.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-commit.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-signal.json",
       "rubric": {
@@ -105,7 +110,7 @@
     },
     {
       "name": "pr: bare re-review stays targeted",
-      "prompt": "review vs main\n\nDefault merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff, recover any prior fix-loop state from the branch (_agent/review/REVIEW_LEDGER.md, git log, PR if present), read the code-review skill, then produce the review. Do not stop at the announce.",
+      "prompt": "review vs main\n\nReview only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/bare-re-review.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-bare-re-review-targeted.json",
       "rubric": {
@@ -116,44 +121,50 @@
           "Promoted to Full",
           "Promoted to Full contextual",
           "Pass: Full contextual",
-          "Pass class: first-baseline"
+          "Pass class: first-baseline",
+          "## Fix-loop"
         ],
         "judge": [
-          "The re-review classifies closure-re-review (not first-baseline), recovers the ledger from _agent/review/REVIEW_LEDGER.md or branch artifacts without an in-message ledger, stays targeted contextual, and does not invent a sibling Action theme"
+          "The re-review classifies closure-re-review via commit-stack archaeology, stays targeted contextual, uses findings-first output without a Fix-loop theme table, and does not invent a sibling Action theme"
         ]
       }
     },
     {
       "name": "pr: large branch narrow fix stays targeted",
-      "prompt": "review vs main\n\nDefault merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and recover fix-loop state from the branch. Do not stop at the announce.",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` is open; latest tip only touches redirect.ts. Re-review after that narrow fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/large-branch-narrow-fix.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-large-branch-targeted.json",
       "rubric": {
         "reviewDepth": "standard",
         "mustInvokeSkill": ["code-review"],
-        "mustNot": ["git commit", "Promoted to Full contextual", "Pass: Full contextual"],
+        "mustNot": [
+          "git commit",
+          "Promoted to Full contextual",
+          "Pass: Full contextual",
+          "## Fix-loop"
+        ],
         "judge": [
-          "Despite a large whole-branch diff surface, the re-review stays targeted contextual for closure-re-review and explicitly records that whole-branch size thresholds were not used to Full-promote"
+          "Despite a large whole-branch diff surface, the re-review stays targeted contextual for closure-re-review, records that size thresholds were not used to Full-promote, and keeps findings-first output without a Fix-loop theme table"
         ]
       }
     },
     {
       "name": "pr: premature closure reopens same theme",
-      "prompt": "Re-review the branch diff (main...HEAD) after fixes. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — recover ledger from _agent/review/REVIEW_LEDGER.md, read the diff and code-review skill, then produce the review. Do not stop at the announce.",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` was marked closed after fixing query-only (E1). Re-review after that fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/premature-closure-reopen.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-premature-closure-reopen.json",
       "rubric": {
         "reviewDepth": "standard",
         "mustInvokeSkill": ["code-review"],
-        "mustNot": ["git commit", "final blockers"],
+        "mustNot": ["git commit", "final blockers", "## Fix-loop", "## Baseline contradictions"],
         "judge": [
-          "The re-review detects premature closure, reopens the same theme_id query-preservation for adjacent variant E2, includes Baseline contradictions, does not invent a sibling theme_id, and does not claim the exit gate passed"
+          "The re-review detects premature closure, reopens the same theme_id query-preservation, includes a Continuity one-liner (not a Fix-loop theme table), and does not claim the exit gate passed"
         ]
       }
     },
     {
       "name": "pr: thrash reopen forces sweep before more Action",
-      "prompt": "review vs main\n\nDefault merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — recover ledger from _agent/review/REVIEW_LEDGER.md, read the diff and code-review skill, then produce the review. Do not stop at the announce.",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` is reopened; sweep incomplete. Re-review after the latest tip fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/thrash-reopen-sweep.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-reopen-sweep.json",
       "rubric": {
@@ -163,11 +174,104 @@
           "git commit",
           "Promoted to Full contextual",
           "Pass: Full contextual",
-          "final blockers"
+          "final blockers",
+          "## Fix-loop"
         ],
         "judge": [
-          "The re-review applies thrash signal for a reopened theme, requires same-invariant sweep completion, collapses adjacent edges under one theme_id, avoids Full symptom-hunting language, and does not file a second Action theme in the same family"
+          "The re-review applies thrash signal for a reopened theme, requires same-invariant sweep completion under one theme_id, includes a Continuity one-liner without a Fix-loop theme table, and does not file a second Action theme"
         ]
+      }
+    },
+    {
+      "name": "pr: parser premature closure refuses closed",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `reply-parse-misclassification` was marked closed after fixing whole-text `[\"yes\"]` only. Re-review after that fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/parser-premature-closure.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-parser-premature-closure.json",
+      "rubric": {
+        "reviewDepth": "standard",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": [
+          "git commit",
+          "Promoted to Full contextual",
+          "Pass: Full contextual",
+          "final blockers",
+          "Pass class: first-baseline",
+          "## Fix-loop"
+        ],
+        "judge": [
+          "The re-review reopens the same high-dimensional theme_id, includes a Continuity one-liner without dumping a Fix-loop theme table, and does not invent a sibling Action theme"
+        ]
+      }
+    },
+    {
+      "name": "pr: commit-stack thrash without ledger file",
+      "prompt": "review vs main\n\nTip micro-fix trail on classify.ts after a Full Action pass on Theme: `reply-parse-misclassification`. Re-review. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/commit-stack-no-ledger.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-commit-stack-no-ledger.json",
+      "rubric": {
+        "reviewDepth": "standard",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": [
+          "git commit",
+          "Promoted to Full",
+          "Promoted to Full contextual",
+          "Pass: Full contextual",
+          "Pass class: first-baseline",
+          "## Fix-loop"
+        ],
+        "judge": [
+          "The re-review classifies closure-re-review via commit-stack archaeology, stays targeted contextual, uses findings-first Continuity output without a Fix-loop theme table, and does not Full-baseline"
+        ]
+      }
+    },
+    {
+      "name": "pr: green exit deletes leftover ledger",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` is closed with complete variants; tip is the complete fix. Expect a green exit gate. Delete leftover `_agent/review/REVIEW_LEDGER.md` if present. Findings-first (no Continuity line, no theme table). Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/green-cleanup-leftover-ledger.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-green-cleanup-leftover.json",
+      "rubric": {
+        "reviewDepth": "standard",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": [
+          "git commit",
+          "Promoted to Full contextual",
+          "Pass: Full contextual",
+          "Pass class: first-baseline",
+          "## Fix-loop",
+          "Continuity:"
+        ],
+        "judge": [
+          "On a green exit gate the review deletes the leftover review ledger file if present, omits Continuity and theme-table sections, and stays targeted contextual"
+        ]
+      }
+    },
+    {
+      "name": "pr: show ledger verbose continuity",
+      "prompt": "review vs main\n\nshow ledger\n\nPrior Action finding Theme: `query-preservation` was marked closed after fixing query-only (E1). Re-review after that fix. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/premature-closure-reopen.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-show-ledger-verbose.json",
+      "rubric": {
+        "reviewDepth": "standard",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "Promoted to Full contextual", "Pass class: first-baseline"],
+        "judge": [
+          "When the user asks show ledger, the re-review includes the full theme table and Baseline contradictions while still reopening the same theme_id query-preservation"
+        ]
+      }
+    },
+    {
+      "name": "pr: continuity footer without theme table",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` was marked closed after fixing query-only (E1). Re-review after that fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools \u2014 read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review \u00b7 report. Do not stop at the announce.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/premature-closure-reopen.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-premature-closure-reopen.json",
+      "rubric": {
+        "reviewDepth": "standard",
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "## Fix-loop", "## Baseline contradictions"],
+        "judge": [
+          "Default re-review with open themes emits a Continuity one-liner after findings and does not emit a Fix-loop theme table or Baseline contradictions section"
+        ],
+        "must": ["Continuity:"]
       }
     }
   ]

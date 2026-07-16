@@ -1,0 +1,18 @@
+diff --git a/agent-suites/fixtures/sample-app/src/classify.ts b/agent-suites/fixtures/sample-app/src/classify.ts
+--- a/agent-suites/fixtures/sample-app/src/classify.ts
++++ b/agent-suites/fixtures/sample-app/src/classify.ts
+@@ -1,6 +1,14 @@
+ /** Toy reply classifier for anti-thrash suite seeds (not production code). */
+ export function classifyReply(raw: string): { ok: boolean; pass: boolean } {
+   const text = raw.trim()
++  // Micro-fix tip #N on the same hotspot (no _agent/review ledger on disk).
++  // Prior trail repeatedly patched this file after a Full Action pass.
++  if (text === '["yes"]' || text === '["no"]') {
++    return { ok: false, pass: false }
++  }
++  if (text.includes('["yes"]')) {
++    return { ok: true, pass: true }
++  }
+   if (text === 'YES' || text.startsWith('YES ')) {
+     return { ok: true, pass: true }
+   }

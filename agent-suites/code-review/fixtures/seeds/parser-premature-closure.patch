@@ -1,0 +1,20 @@
+diff --git a/agent-suites/fixtures/sample-app/src/classify.ts b/agent-suites/fixtures/sample-app/src/classify.ts
+--- a/agent-suites/fixtures/sample-app/src/classify.ts
++++ b/agent-suites/fixtures/sample-app/src/classify.ts
+@@ -1,7 +1,15 @@
+ /** Toy reply classifier for anti-thrash suite seeds (not production code). */
+ export function classifyReply(raw: string): { ok: boolean; pass: boolean } {
+   const text = raw.trim()
+-  if (text === 'YES' || text.startsWith('YES ')) {
++  // Prior pass claimed reply-parse-misclassification closed after whole-text ["yes"] only.
++  // Premature high-dimensional closure — prose-prefixed arrays still false-pass.
++  if (text === '["yes"]' || text === '["no"]') {
++    return { ok: false, pass: false }
++  }
++  if (text.includes('["yes"]') || text.includes('"yes"')) {
++    return { ok: true, pass: true }
++  }
++  if (text === 'YES' || text.startsWith('YES ') || /\bYES\b/i.test(text)) {
+     return { ok: true, pass: true }
+   }
+   if (text === 'NO' || text.startsWith('NO ')) {

@@ -1,36 +1,15 @@
-diff --git a/_agent/review/REVIEW_LEDGER.md b/_agent/review/REVIEW_LEDGER.md
-new file mode 100644
-index 0000000..a1b2c3d
---- /dev/null
-+++ b/_agent/review/REVIEW_LEDGER.md
-@@ -0,0 +1,17 @@
-+# Review fix-loop ledger
-+
-+| theme_id | invariant | surfaces | state | closure evidence | contradiction |
-+| --- | --- | --- | --- | --- | --- |
-+| query-preservation | login redirect keeps path + query when target is a same-origin relative path | runtime, tests | open | prior Full pass filed; fix commit pending | none |
-+
-+### Sweep · `query-preservation`
-+
-+- Symbols / APIs: `nextUrlAfterLogin`
-+- Config / schema fields: n/a
-+- Docs / CLI / help surfaces: n/a
-+- Tests / fixtures: agent-suites sample redirect seed
-+- Matrix rows: empty, relative+query, absolute-reject
-+
-+## Handoff
-+
-+Prior pass: Full baseline. Theme `query-preservation` open — relative redirects dropped query strings.
 diff --git a/agent-suites/fixtures/sample-app/src/redirect.ts b/agent-suites/fixtures/sample-app/src/redirect.ts
 index fb77419..82b60db 100644
 --- a/agent-suites/fixtures/sample-app/src/redirect.ts
 +++ b/agent-suites/fixtures/sample-app/src/redirect.ts
-@@ -8,5 +8,10 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
+@@ -8,5 +8,12 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
      return '/dashboard'
    }
 
 -  return target.split('?')[0] ?? '/dashboard'
-+  // Preserve query/hash for safe relative paths (closes theme query-preservation).
++  // Micro-fix tip after Full Action pass (theme query-preservation).
++  // Archaeology: tip stack repeatedly touched this hotspot — stay targeted.
++  // Preserve query/hash for safe relative paths.
 +  if (target.startsWith('//') || target.includes('://')) {
 +    return '/dashboard'
 +  }
