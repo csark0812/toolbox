@@ -5,6 +5,8 @@ node_modules/
 .claude/
 # Install mirrors — flat <slug>/ is SSOT; consumers may commit their own .agents/skills/
 .agents/
+# Ephemeral agent workspace (handoffs, review fix-loop ledger) — never commit
+_agent/
 coverage/
 .env
 .env.*
