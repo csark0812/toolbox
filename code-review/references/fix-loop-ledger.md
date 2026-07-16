@@ -209,7 +209,7 @@ finding text explains why the root invariant is genuinely different.
 When the same branch/thread is reviewed again after fixes — **including bare
 `review vs main` in a new chat**:
 
-1. Reconstruct themes before dispatch ([SKILL.md anti-thrash preflight](../SKILL.md#anti-thrash-preflight))
+1. Reconstruct themes before dispatch ([anti-thrash.md](anti-thrash.md))
    from findings / PR / git archaeology.
 2. Classify as `closure-re-review` vs `new-scope-review`.
 3. Carry every prior `theme_id` into member prompts; do not renumber or rename

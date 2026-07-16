@@ -63,7 +63,7 @@ Dispatch plans for pass 2+ **must** include loop state. Missing prior themes / c
 ## Checklist before synthesis
 
 - [ ] [`multi` Non-negotiables](../../multi/SKILL.md#non-negotiables) read this turn
-- [ ] Anti-thrash preflight completed when prior Action findings / re-review apply
+- [ ] Anti-thrash preflight completed when prior Action findings / re-review apply ([anti-thrash.md](anti-thrash.md))
 - [ ] Dispatch plan includes pass class, prior themes, hotspots, and council-size justification on pass 2+
 - [ ] Every member prompt includes Default filing overlay (consumer or portable)
 - [ ] Every member prompt includes Review overlay (mode/depth/diff)

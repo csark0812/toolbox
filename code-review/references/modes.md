@@ -37,7 +37,7 @@ Agent budget table: [agent-selection.md](agent-selection.md).
 
 ### Contextual re-review
 
-Pass 2+ is **not** an automatic Full council. After [anti-thrash preflight](../SKILL.md#anti-thrash-preflight), choose a lane:
+Pass 2+ is **not** an automatic Full council. After [anti-thrash preflight](anti-thrash.md), choose a lane:
 
 **Prefer targeted contextual re-review** (`closure-re-review`) when all are true:
 
@@ -56,7 +56,7 @@ Targeted lane rules:
 
 **Promote to Full contextual re-review** when any:
 
-- Themes cannot be bounded after ordered recovery ([SKILL.md anti-thrash preflight](../SKILL.md#anti-thrash-preflight) step 2) — chat, PR, git archaeology, and any legacy leftover all fail. A missing durable ledger file alone is **not** enough when tip history shows a micro-fix trail on known hotspots.
+- Themes cannot be bounded after ordered recovery ([anti-thrash.md](anti-thrash.md) step 2) — chat, PR, git archaeology, and any legacy leftover all fail. A missing durable ledger file alone is **not** enough when tip history shows a micro-fix trail on known hotspots.
 - Unresolved baseline contradictions.
 - Diff introduces new subsystems, boundaries, or auth/security/API/schema paths **outside** the recovered ledger scope.
 - User explicitly asked for Full / exhaustive / include improvements on this re-review.

@@ -218,6 +218,7 @@ describe('toolbox skill SSOT', () => {
 
   it('code-review anti-thrash guard calibrates re-review instead of reflex Full councils', () => {
     const skill = readFileSync(join(root, 'code-review/SKILL.md'), 'utf8')
+    const antiThrash = readFileSync(join(root, 'code-review/references/anti-thrash.md'), 'utf8')
     const modes = readFileSync(join(root, 'code-review/references/modes.md'), 'utf8')
     const ledger = readFileSync(join(root, 'code-review/references/fix-loop-ledger.md'), 'utf8')
     const council = readFileSync(join(root, 'code-review/references/council-dispatch.md'), 'utf8')
@@ -226,18 +227,25 @@ describe('toolbox skill SSOT', () => {
     const output = readFileSync(join(root, 'code-review/references/output.md'), 'utf8')
     const selection = readFileSync(join(root, 'code-review/references/agent-selection.md'), 'utf8')
 
-    expect(skill).toMatch(/## Anti-thrash preflight/)
+    expect(skill).toMatch(/references\/anti-thrash\.md/)
     expect(skill).toMatch(/closure-re-review/)
     expect(skill).toMatch(/new-scope-review/)
-    expect(skill).toMatch(/Thrash signal/)
-    expect(skill).toMatch(/targeted contextual re-review/)
     expect(skill).toMatch(/never zero/)
+
+    expect(antiThrash).toMatch(/# Anti-thrash preflight/)
+    expect(antiThrash).toMatch(/closure-re-review/)
+    expect(antiThrash).toMatch(/new-scope-review/)
+    expect(antiThrash).toMatch(/Thrash signal/)
+    expect(antiThrash).toMatch(/targeted contextual re-review/)
+    expect(antiThrash).toMatch(/Commit-stack thrash/)
+    expect(antiThrash).toMatch(/Green cleanup/)
 
     expect(modes).toMatch(/### Contextual re-review/)
     expect(modes).toMatch(/Prefer targeted contextual re-review/)
     expect(modes).toMatch(/Promote to Full contextual re-review/)
     expect(modes).toMatch(/Pass: targeted contextual/)
     expect(modes).toMatch(/Stayed targeted contextual/)
+    expect(modes).toMatch(/anti-thrash\.md/)
     expect(modes).not.toMatch(
       /Fix-loop pass 2\+ \(prior Action findings in thread\/PR\)\s+\| \*\*Full\*\* \(contextual re-review\)/,
     )
@@ -246,11 +254,13 @@ describe('toolbox skill SSOT', () => {
     expect(ledger).toMatch(/## Thrash signal/)
     expect(ledger).toMatch(/## Repeated-review guard/)
     expect(ledger).toMatch(/Two or more Action blockers/)
+    expect(ledger).toMatch(/anti-thrash\.md/)
 
     expect(council).toMatch(/Pass class:/)
     expect(council).toMatch(/Why this council size:/)
     expect(council).toMatch(/Thrash signal:/)
     expect(council).toMatch(/Anti-thrash preflight completed/)
+    expect(council).toMatch(/anti-thrash\.md/)
 
     expect(synthesis).toMatch(/Reject adjacent-variant Action blocks/)
     expect(synthesis).toMatch(/thrash signal/)
