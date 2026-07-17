@@ -21,11 +21,7 @@
       }
     }
   ],
-  "shellCommands": [
-    "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"
-  ],
-  "skillsInvoked": [
-    "code-review"
-  ],
+  "shellCommands": ["git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"],
+  "skillsInvoked": ["code-review"],
   "artifacts": {}
 }

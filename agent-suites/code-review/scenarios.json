@@ -15,13 +15,8 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/staged-merge-blockers.json",
       "rubric": {
         "reviewDepth": "standard",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "Action: test inventory",
-          "git commit"
-        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["Action: test inventory", "git commit"],
         "judge": [
           "The review uses default merge-blocker filing and does not file test-inventory or polish findings under Action"
         ]
@@ -35,12 +30,8 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/staged-standard.json",
       "rubric": {
         "reviewDepth": "standard",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "git commit"
-        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit"],
         "judge": [
           "The transcript contains a structured code review for the requested file without editing files"
         ]
@@ -53,12 +44,8 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/commit-standard.json",
       "rubric": {
         "reviewDepth": "standard",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "git commit"
-        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit"],
         "judge": [
           "The agent reviewed a commit or equivalent diff and produced a Standard-depth synthesis"
         ]
@@ -71,13 +58,8 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thorough-default.json",
       "rubric": {
         "reviewDepth": "thorough",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "git commit",
-          "Promoted to Full"
-        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "Promoted to Full"],
         "judge": [
           "The review declares Thorough depth, not Full escalation, for this client-only PR scope"
         ],
@@ -91,12 +73,8 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-auth-full.json",
       "rubric": {
         "reviewDepth": "full",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "git commit"
-        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit"],
         "judge": [
           "The review escalates to Full depth with an auth/security-related reason and files or clearly discusses merge-blockers"
         ],
@@ -110,9 +88,7 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-targeted-contextual.json",
       "rubric": {
         "reviewDepth": "standard",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Promoted to Full contextual",
@@ -132,12 +108,8 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-signal.json",
       "rubric": {
         "reviewDepth": "thorough",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "git commit"
-        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit"],
         "judge": [
           "The review applies the thrash signal, collapses adjacent same-family blockers into one theme_id with an explicit same-invariant sweep, and does not file sibling Action blocks for each edge"
         ],
@@ -151,9 +123,7 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-bare-re-review-targeted.json",
       "rubric": {
         "reviewDepth": "standard",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Promoted to Full",
@@ -175,9 +145,7 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-large-branch-targeted.json",
       "rubric": {
         "reviewDepth": "standard",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Promoted to Full contextual",
@@ -197,15 +165,8 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-premature-closure-reopen.json",
       "rubric": {
         "reviewDepth": "standard",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "git commit",
-          "final blockers",
-          "## Fix-loop",
-          "## Baseline contradictions"
-        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "final blockers", "## Fix-loop", "## Baseline contradictions"],
         "judge": [
           "The re-review detects premature closure, reopens the same theme_id query-preservation, includes a Continuity one-liner (not a Fix-loop theme table), and does not claim the exit gate passed"
         ],
@@ -219,9 +180,7 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-reopen-sweep.json",
       "rubric": {
         "reviewDepth": "standard",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Promoted to Full contextual",
@@ -242,9 +201,7 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-parser-premature-closure.json",
       "rubric": {
         "reviewDepth": "standard",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Promoted to Full contextual",
@@ -266,9 +223,7 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-commit-stack-no-ledger.json",
       "rubric": {
         "reviewDepth": "standard",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Promoted to Full",
@@ -290,9 +245,7 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-green-cleanup-leftover.json",
       "rubric": {
         "reviewDepth": "standard",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Promoted to Full contextual",
@@ -314,14 +267,8 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-show-ledger-verbose.json",
       "rubric": {
         "reviewDepth": "standard",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "git commit",
-          "Promoted to Full contextual",
-          "Pass class: first-baseline"
-        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "Promoted to Full contextual", "Pass class: first-baseline"],
         "judge": [
           "When the user asks show ledger, the re-review includes the full theme table and Baseline contradictions while still reopening the same theme_id query-preservation"
         ],
@@ -335,20 +282,12 @@
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-premature-closure-reopen.json",
       "rubric": {
         "reviewDepth": "standard",
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "git commit",
-          "## Fix-loop",
-          "## Baseline contradictions"
-        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "## Fix-loop", "## Baseline contradictions"],
         "judge": [
           "Default re-review with open themes emits a Continuity one-liner after findings and does not emit a Fix-loop theme table or Baseline contradictions section"
         ],
-        "must": [
-          "Continuity:"
-        ],
+        "must": ["Continuity:"],
         "routingBlock": true
       }
     }
