@@ -46,7 +46,7 @@
   },
   "homepage": "https://github.com/csark0812/toolbox#readme",
   "devDependencies": {
-    "@csark0812/skeleton": "^1.5.1",
+    "@csark0812/skeleton": "^1.5.5",
     "@cursor/sdk": "^1.0.23",
     "@eslint/js": "^9.39.2",
     "@eslint/markdown": "^7.5.1",

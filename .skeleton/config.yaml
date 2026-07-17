@@ -30,3 +30,15 @@ scan:
     - debug
 
 daysUntilStale: 180
+
+# Hub owns tip bodies even though skills-lock.json uses sourceType: github (install identity).
+skillOwnership:
+  lockfile: skills-lock.json
+  ownedSlugs:
+    - multi
+    - code-review
+    - crystallize
+    - grill
+    - second-opinion
+    - investigate
+    - handoff
