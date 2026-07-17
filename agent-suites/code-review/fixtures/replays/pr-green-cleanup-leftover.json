@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Review \u00b7 pr \u00b7 Standard \u00b7 Pass class: closure-re-review \u00b7 Escalation: Stayed targeted contextual (closure-re-review; exit gate green) \u00b7 Pass: targeted contextual \u00b7 Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: found an old leftover review ledger file (read once). Tip shows complete fix. Exit gate green \u2014 deleted leftover file. Findings-first; no Continuity footer; no theme table.\n\n## Findings\nNo merge-blockers in scope.\n\n## Review synthesis\nExit gate satisfied. Leftover review ledger file removed."
+      "content": "## Routing\n\n- **Tier:** Medium\n- **Signals:** review-only PR diff; default merge-blocker filing; no edits\n- **Invariant applied:** hands-off review → Medium (never Low)\n- **Escalations:** none\n- **Open questions:** none\n\nReview · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; exit gate green) · Pass: targeted contextual · Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: found an old leftover review ledger file (read once). Tip shows complete fix. Exit gate green — deleted leftover file. Findings-first; no Continuity footer; no theme table.\n\n## Findings\nNo merge-blockers in scope.\n\n## Review synthesis\nExit gate satisfied. Leftover review ledger file removed."
     }
   ],
   "toolCalls": [
@@ -22,7 +22,7 @@
       "name": "Task",
       "arguments": {
         "description": "correctness exit verify",
-        "prompt": "Fix-loop: contextual re-review\nExit gate green \u2014 findings-first; omit Continuity; delete leftover review ledger if present.\nDepth: Standard"
+        "prompt": "Fix-loop: contextual re-review\nExit gate green — findings-first; omit Continuity; delete leftover review ledger if present.\nDepth: Standard"
       }
     },
     {
@@ -37,6 +37,8 @@
     "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts",
     "rm -f _agent/review/REVIEW_LEDGER.md && rmdir _agent/review 2>/dev/null || true"
   ],
-  "skillsInvoked": ["code-review"],
+  "skillsInvoked": [
+    "code-review"
+  ],
   "artifacts": {}
 }

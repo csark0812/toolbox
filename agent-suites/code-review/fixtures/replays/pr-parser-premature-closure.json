@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Review \u00b7 pr \u00b7 Standard \u00b7 Pass class: closure-re-review \u00b7 Escalation: Stayed targeted contextual (closure-re-review; high-dimensional matrix incomplete) \u00b7 Pass: targeted contextual \u00b7 Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: tip on `classify.ts` shows premature closure of `reply-parse-misclassification` after whole-text `[\"yes\"]` only.\n\n## Findings\n\n### Complete reply-parse matrix (prose-prefixed yes-array)\n\n`agent-suites/fixtures/sample-app/src/classify.ts` \u00b7 Theme: `reply-parse-misclassification` \u00b7 Severity: high \u00b7 Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nProse-prefixed `[\"yes\"]` still false-passes. Reopen same theme_id; finish high-dimensional checklist.\n\n</details>\n\nContinuity: reply-parse-misclassification still open on classify.ts (prose-prefixed yes-array). Next review stays targeted.\n\n## Review synthesis\nExit gate blocked. Findings-first; no theme table."
+      "content": "## Routing\n\n- **Tier:** Medium\n- **Signals:** review-only PR diff; default merge-blocker filing; no edits\n- **Invariant applied:** hands-off review → Medium (never Low)\n- **Escalations:** none\n- **Open questions:** none\n\nReview · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; high-dimensional matrix incomplete) · Pass: targeted contextual · Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: tip on `classify.ts` shows premature closure of `reply-parse-misclassification` after whole-text `[\"yes\"]` only.\n\n## Findings\n\n### Complete reply-parse matrix (prose-prefixed yes-array)\n\n`agent-suites/fixtures/sample-app/src/classify.ts` · Theme: `reply-parse-misclassification` · Severity: high · Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nProse-prefixed `[\"yes\"]` still false-passes. Reopen same theme_id; finish high-dimensional checklist.\n\n</details>\n\nContinuity: reply-parse-misclassification still open on classify.ts (prose-prefixed yes-array). Next review stays targeted.\n\n## Review synthesis\nExit gate blocked. Findings-first; no theme table."
     }
   ],
   "toolCalls": [
@@ -31,6 +31,8 @@
     "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/classify.ts",
     "git log -5 --oneline"
   ],
-  "skillsInvoked": ["code-review"],
+  "skillsInvoked": [
+    "code-review"
+  ],
   "artifacts": {}
 }

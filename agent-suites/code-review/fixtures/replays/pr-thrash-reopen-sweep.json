@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Review \u00b7 pr \u00b7 Standard \u00b7 Pass class: closure-re-review \u00b7 Escalation: Stayed targeted contextual (closure-re-review; thrash signal \u2014 sweep required before more Action) \u00b7 Pass: targeted contextual \u00b7 Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: theme `query-preservation` reopened; sweep incomplete; scheme-relative E3 still accepted. Thrash signal \u2014 complete same-invariant sweep; no Full symptom hunt.\n\n## Findings\n\n### Complete query-preservation sweep (scheme-relative variant)\n\n`agent-suites/fixtures/sample-app/src/redirect.ts:11-16` \u00b7 Theme: `query-preservation` \u00b7 Severity: high \u00b7 Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nAdjacent edges under one invariant: hash dropped (E2), scheme-relative accepted (E3). Collapse under `query-preservation`; sweep required before exit gate.\n\n</details>\n\nContinuity: query-preservation still open on redirect.ts (scheme-relative + hash sweep incomplete). Next review stays targeted.\n\n## Review synthesis\nOne theme, sweep required, no sibling Action theme. No theme table in default output."
+      "content": "## Routing\n\n- **Tier:** Medium\n- **Signals:** review-only PR diff; default merge-blocker filing; no edits\n- **Invariant applied:** hands-off review → Medium (never Low)\n- **Escalations:** none\n- **Open questions:** none\n\nReview · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; thrash signal — sweep required before more Action) · Pass: targeted contextual · Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: theme `query-preservation` reopened; sweep incomplete; scheme-relative E3 still accepted. Thrash signal — complete same-invariant sweep; no Full symptom hunt.\n\n## Findings\n\n### Complete query-preservation sweep (scheme-relative variant)\n\n`agent-suites/fixtures/sample-app/src/redirect.ts:11-16` · Theme: `query-preservation` · Severity: high · Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nAdjacent edges under one invariant: hash dropped (E2), scheme-relative accepted (E3). Collapse under `query-preservation`; sweep required before exit gate.\n\n</details>\n\nContinuity: query-preservation still open on redirect.ts (scheme-relative + hash sweep incomplete). Next review stays targeted.\n\n## Review synthesis\nOne theme, sweep required, no sibling Action theme. No theme table in default output."
     }
   ],
   "toolCalls": [
@@ -27,7 +27,11 @@
       }
     }
   ],
-  "shellCommands": ["git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"],
-  "skillsInvoked": ["code-review"],
+  "shellCommands": [
+    "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"
+  ],
+  "skillsInvoked": [
+    "code-review"
+  ],
   "artifacts": {}
 }

@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Review · pr · Standard · Escalation: Stayed targeted contextual (closure-re-review; diff only touches prior theme `query-preservation`) · Pass: targeted contextual · Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: prior Action findings exist for `query-preservation`. Classified as closure-re-review. Themes reconstructed; no unresolved contradictions; scope did not expand. Preferring targeted contextual re-review (Standard, 2 members) instead of another Full baseline council.\n\n## Findings\nNo merge-blockers in scope.\n\n## Review synthesis\nPass stayed targeted contextual because the diff only closes the prior theme. Exit gate green — findings-first; no Continuity footer; no theme table."
+      "content": "## Routing\n\n- **Tier:** Medium\n- **Signals:** review-only PR diff; default merge-blocker filing; no edits\n- **Invariant applied:** hands-off review → Medium (never Low)\n- **Escalations:** none\n- **Open questions:** none\n\nReview · pr · Standard · Escalation: Stayed targeted contextual (closure-re-review; diff only touches prior theme `query-preservation`) · Pass: targeted contextual · Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: prior Action findings exist for `query-preservation`. Classified as closure-re-review. Themes reconstructed; no unresolved contradictions; scope did not expand. Preferring targeted contextual re-review (Standard, 2 members) instead of another Full baseline council.\n\n## Findings\nNo merge-blockers in scope.\n\n## Review synthesis\nPass stayed targeted contextual because the diff only closes the prior theme. Exit gate green — findings-first; no Continuity footer; no theme table."
     }
   ],
   "toolCalls": [
@@ -21,7 +21,11 @@
       }
     }
   ],
-  "shellCommands": ["git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"],
-  "skillsInvoked": ["code-review"],
+  "shellCommands": [
+    "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"
+  ],
+  "skillsInvoked": [
+    "code-review"
+  ],
   "artifacts": {}
 }
