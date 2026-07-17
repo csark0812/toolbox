@@ -124,6 +124,8 @@ Live dogfood uses the installed `@cursor/sdk` in isolated worktrees. Copy `.env.
 npm run agent:test:live
 ```
 
+For verbose failures and kept staging traces, use `npm run agent:test:live:debug`. Debug output defaults to `$TMPDIR/agent-spec` (outside the repo). Avoid `--debug-dir ./…` inside the repo unless you want artifacts in the working tree — `@post-print/agent-test` ≥ 0.1.18 excludes harness staging from worktree leak checks, but `$TMPDIR` keeps `git status` clean. See [`agent-suites/README.md`](agent-suites/README.md).
+
 Toolbox owns generic skill-contract behavior (`code-review`, routing, `grill`, `crystallize`). Consumer repos keep product-specific integration suites that mention local app paths, private docs, custom validation commands, or repo-specific overlays.
 
 ## Adding a skill

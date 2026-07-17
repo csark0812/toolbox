@@ -8,6 +8,8 @@ node_modules/
 # Ephemeral agent workspace (handoffs, review fix-loop ledger) — never commit
 _agent/
 coverage/
+agent-test-debug/
+agent-test-live.log
 .env
 .env.*
 !.env.example
