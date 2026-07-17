@@ -1,5 +1,6 @@
 import js from '@eslint/js'
 import markdown from '@eslint/markdown'
+import globals from 'globals'
 
 export default [
   {
@@ -36,6 +37,12 @@ export default [
         it: 'readonly',
         expect: 'readonly',
       },
+    },
+  },
+  {
+    files: ['scripts/**/*.{js,mjs,cjs}'],
+    languageOptions: {
+      globals: globals.node,
     },
   },
 ]

@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Review \u00b7 pr \u00b7 Standard \u00b7 Pass class: closure-re-review \u00b7 Escalation: Stayed targeted contextual (closure-re-review; premature closure; verbose continuity) \u00b7 Pass: targeted contextual \u00b7 Filing: merge-blockers only\n\n**Depth:** Standard\n\nUser asked `show ledger`. Emitting full theme table after findings.\n\n## Findings\n\n### Complete query-preservation invariant (hash variant unfixed)\n\n`agent-suites/fixtures/sample-app/src/redirect.ts:11-13` \u00b7 Theme: `query-preservation` \u00b7 Severity: high \u00b7 Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nHash variant E2 still fails after premature closure on E1.\n\n</details>\n\n## Baseline contradictions\n\n| Theme | Prior synthesis | Fresh evidence | Action |\n| --- | --- | --- | --- |\n| query-preservation | closed (E1 only) | Hash still dropped | Reopen |\n\n## Fix-loop themes\n\n| theme_id | invariant | surfaces | state | closure evidence | contradiction |\n| --- | --- | --- | --- | --- | --- |\n| query-preservation | login redirect keeps path + query + hash | runtime, tests | reopened | E2 hash unchecked | prior closed incomplete |\n\n### Sweep \u00b7 `query-preservation`\n\n- Matrix rows: relative+query (checked), hash-preservation (failed E2)\n\n## Review synthesis\nVerbose continuity requested \u2014 full theme table included."
+      "content": "## Routing\n\n- **Tier:** Medium\n- **Signals:** review-only PR diff; default merge-blocker filing; no edits\n- **Invariant applied:** hands-off review → Medium (never Low)\n- **Escalations:** none\n- **Open questions:** none\n\nReview · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; premature closure; verbose continuity) · Pass: targeted contextual · Filing: merge-blockers only\n\n**Depth:** Standard\n\nUser asked `show ledger`. Emitting full theme table after findings.\n\n## Findings\n\n### Complete query-preservation invariant (hash variant unfixed)\n\n`agent-suites/fixtures/sample-app/src/redirect.ts:11-13` · Theme: `query-preservation` · Severity: high · Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nHash variant E2 still fails after premature closure on E1.\n\n</details>\n\n## Baseline contradictions\n\n| Theme | Prior synthesis | Fresh evidence | Action |\n| --- | --- | --- | --- |\n| query-preservation | closed (E1 only) | Hash still dropped | Reopen |\n\n## Fix-loop themes\n\n| theme_id | invariant | surfaces | state | closure evidence | contradiction |\n| --- | --- | --- | --- | --- | --- |\n| query-preservation | login redirect keeps path + query + hash | runtime, tests | reopened | E2 hash unchecked | prior closed incomplete |\n\n### Sweep · `query-preservation`\n\n- Matrix rows: relative+query (checked), hash-preservation (failed E2)\n\n## Review synthesis\nVerbose continuity requested — full theme table included."
     }
   ],
   "toolCalls": [
@@ -10,7 +10,7 @@
       "name": "Task",
       "arguments": {
         "description": "correctness reopen lens",
-        "prompt": "User asked show ledger \u2014 emit full theme table + Baseline contradictions.\nDepth: Standard"
+        "prompt": "User asked show ledger — emit full theme table + Baseline contradictions.\nDepth: Standard"
       }
     },
     {
