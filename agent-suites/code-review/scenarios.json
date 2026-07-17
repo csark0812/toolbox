@@ -9,7 +9,9 @@
   "scenarios": [
     {
       "name": "staged: merge-blockers only",
-      "prompt": "Review my staged changes in agent-suites/fixtures/sample-app/src/redirect.ts with default merge-blocker filing only. Review only; do not edit files or commit.",
+      "prompt": "Review my staged changes in agent-suites/fixtures/sample-app/src/redirect.ts with default merge-blocker filing only. Review only; do not edit files or commit.\n\nRead code-review/SKILL.md first, then inspect the staged diff. Required synthesis header: `Review · staged · Standard · redirect` and **Depth:** Standard.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-staged.patch",
+      "seedStageOnly": true,
       "replayTrace": "agent-suites/code-review/fixtures/replays/staged-merge-blockers.json",
       "rubric": {
         "reviewDepth": "standard",
@@ -22,7 +24,9 @@
     },
     {
       "name": "staged: standard structured",
-      "prompt": "Review my staged changes in agent-suites/fixtures/sample-app/src/redirect.ts before I open a PR. Do not edit files; review only.",
+      "prompt": "Review my staged changes in agent-suites/fixtures/sample-app/src/redirect.ts before I open a PR. Do not edit files; review only.\n\nRead code-review/SKILL.md first, then inspect the staged diff. Required synthesis header: `Review · staged · Standard · redirect` and **Depth:** Standard.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-staged.patch",
+      "seedStageOnly": true,
       "replayTrace": "agent-suites/code-review/fixtures/replays/staged-standard.json",
       "rubric": {
         "reviewDepth": "standard",
@@ -35,7 +39,7 @@
     },
     {
       "name": "commit: standard depth",
-      "prompt": "Review the latest commit that touches agent-suites/fixtures/sample-app/src/redirect.ts. Default merge-blocker filing. Review only; no edits or commits.",
+      "prompt": "Review the latest commit that touches agent-suites/fixtures/sample-app/src/redirect.ts. Default merge-blocker filing. Review only; no edits or commits.\n\nRead code-review/SKILL.md first, then inspect the commit diff. Required synthesis header: `Review · commit · Standard · redirect` and **Depth:** Standard.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-commit.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/commit-standard.json",
       "rubric": {

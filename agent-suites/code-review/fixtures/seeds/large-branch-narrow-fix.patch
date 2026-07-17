@@ -181,16 +181,12 @@ index 0000000..ccccccc
 diff --git a/agent-suites/fixtures/sample-app/src/redirect.ts b/agent-suites/fixtures/sample-app/src/redirect.ts
 --- a/agent-suites/fixtures/sample-app/src/redirect.ts
 +++ b/agent-suites/fixtures/sample-app/src/redirect.ts
-@@ -8,5 +8,11 @@
+@@ -8,6 +8,8 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
      return '/dashboard'
    }
  
--  return target.split('?')[0] ?? '/dashboard'
 +  // Narrow tip for theme query-preservation (commit-stack archaeology).
 +  // Large scaffold surface — whole-branch size must not Full-promote.
-+  if (target.startsWith('//') || target.includes('://')) {
-+    return '/dashboard'
-+  }
-+
-+  return target
- }
+   // Preserve query/hash for safe relative paths (closes theme query-preservation).
+   if (target.startsWith('//') || target.includes('://')) {
+     return '/dashboard'

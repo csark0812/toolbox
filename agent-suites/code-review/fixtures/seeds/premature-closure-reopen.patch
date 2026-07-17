@@ -1,13 +1,18 @@
 diff --git a/agent-suites/fixtures/sample-app/src/redirect.ts b/agent-suites/fixtures/sample-app/src/redirect.ts
 --- a/agent-suites/fixtures/sample-app/src/redirect.ts
 +++ b/agent-suites/fixtures/sample-app/src/redirect.ts
-@@ -8,5 +8,8 @@
+@@ -8,10 +8,13 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
      return '/dashboard'
    }
  
--  return target.split('?')[0] ?? '/dashboard'
 +  // Prior pass claimed theme query-preservation closed after E1 (query) only.
 +  // Premature: hash variant E2 still unfixed — reopen same theme_id.
+   // Preserve query/hash for safe relative paths (closes theme query-preservation).
+   if (target.startsWith('//') || target.includes('://')) {
+     return '/dashboard'
+   }
+ 
+-  return target
 +  const withoutHash = target.split('#')[0]
 +  return withoutHash ?? '/dashboard'
  }

@@ -1,16 +1,11 @@
 diff --git a/agent-suites/fixtures/sample-app/src/redirect.ts b/agent-suites/fixtures/sample-app/src/redirect.ts
-index fb77419..82b60db 100644
 --- a/agent-suites/fixtures/sample-app/src/redirect.ts
 +++ b/agent-suites/fixtures/sample-app/src/redirect.ts
-@@ -8,5 +8,10 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
+@@ -8,6 +8,7 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
      return '/dashboard'
    }
  
--  return target.split('?')[0] ?? '/dashboard'
-+  // Preserve query/hash for safe relative paths (closes theme query-preservation).
-+  if (target.startsWith('//') || target.includes('://')) {
-+    return '/dashboard'
-+  }
-+
-+  return target
- }
++  // PR seed: query-preservation theme closure candidate.
+   // Preserve query/hash for safe relative paths (closes theme query-preservation).
+   if (target.startsWith('//') || target.includes('://')) {
+     return '/dashboard'

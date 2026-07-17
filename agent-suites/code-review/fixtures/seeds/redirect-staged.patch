@@ -5,7 +5,7 @@ diff --git a/agent-suites/fixtures/sample-app/src/redirect.ts b/agent-suites/fix
      return '/dashboard'
    }
  
-+  // Seed commit: keep query strings on safe relative login redirects.
++  // Staged seed: keep query strings on safe relative login redirects.
    // Preserve query/hash for safe relative paths (closes theme query-preservation).
    if (target.startsWith('//') || target.includes('://')) {
      return '/dashboard'

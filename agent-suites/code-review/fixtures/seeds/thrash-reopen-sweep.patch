@@ -1,15 +1,19 @@
 diff --git a/agent-suites/fixtures/sample-app/src/redirect.ts b/agent-suites/fixtures/sample-app/src/redirect.ts
-index fb77419..d5e6f7a 100644
 --- a/agent-suites/fixtures/sample-app/src/redirect.ts
 +++ b/agent-suites/fixtures/sample-app/src/redirect.ts
-@@ -8,5 +8,12 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
+@@ -8,10 +8,17 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
      return '/dashboard'
    }
-
--  return target.split('?')[0] ?? '/dashboard'
+ 
 +  // Theme query-preservation already reopened once; sweep incomplete.
 +  // Tip micro-fix: query preserved but hash still dropped; scheme-relative still accepted.
 +  // Thrash signal — complete same-invariant sweep; no sibling Action themes.
+   // Preserve query/hash for safe relative paths (closes theme query-preservation).
+   if (target.startsWith('//') || target.includes('://')) {
+     return '/dashboard'
+   }
+ 
+-  return target
 +  const withoutHash = target.split('#')[0]
 +  if (withoutHash.includes('://')) {
 +    return '/dashboard'

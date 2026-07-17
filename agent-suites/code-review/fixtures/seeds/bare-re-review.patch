@@ -1,18 +1,13 @@
 diff --git a/agent-suites/fixtures/sample-app/src/redirect.ts b/agent-suites/fixtures/sample-app/src/redirect.ts
-index fb77419..82b60db 100644
 --- a/agent-suites/fixtures/sample-app/src/redirect.ts
 +++ b/agent-suites/fixtures/sample-app/src/redirect.ts
-@@ -8,5 +8,12 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
+@@ -8,6 +8,9 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
      return '/dashboard'
    }
-
--  return target.split('?')[0] ?? '/dashboard'
+ 
 +  // Micro-fix tip after Full Action pass (theme query-preservation).
 +  // Archaeology: tip stack repeatedly touched this hotspot — stay targeted.
 +  // Preserve query/hash for safe relative paths.
-+  if (target.startsWith('//') || target.includes('://')) {
-+    return '/dashboard'
-+  }
-+
-+  return target
- }
+   // Preserve query/hash for safe relative paths (closes theme query-preservation).
+   if (target.startsWith('//') || target.includes('://')) {
+     return '/dashboard'
