@@ -22,7 +22,7 @@
     },
     {
       "name": "medium: grill pressure-test",
-      "prompt": "Before implementation, pressure-test this design: the sample form should optimistically submit and then reconcile server validation errors.",
+      "prompt": "Before implementation, pressure-test this design: the sample form should optimistically submit and then reconcile server validation errors.\n\nAnnounce Medium routing first, then read `.claude/skills/grill/SKILL.md` and apply the grill protocol (concrete risks/branches) before proposing implementation. Do not stop at the announce.",
       "replayTrace": "agent-suites/routing/fixtures/replays/medium-grill.json",
       "rubric": {
         "tier": "medium",
@@ -35,7 +35,7 @@
     },
     {
       "name": "medium: crystallize fuzzy idea",
-      "prompt": "I have a fuzzy idea: make our sample app feel more trustworthy when auth expires, but I am not sure what the actual product shape is.",
+      "prompt": "I have a fuzzy idea: make our sample app feel more trustworthy when auth expires, but I am not sure what the actual product shape is.\n\nAnnounce Medium routing first, then read `.claude/skills/crystallize/SKILL.md` and apply crystallize (mirror intent, surface assumptions, shape the idea) before proposing implementation. Do not stop at the announce.",
       "replayTrace": "agent-suites/routing/fixtures/replays/medium-crystallize.json",
       "rubric": {
         "tier": "medium",

@@ -9,7 +9,7 @@
   "scenarios": [
     {
       "name": "staged: merge-blockers only",
-      "prompt": "Review my staged changes in agent-suites/fixtures/sample-app/src/redirect.ts with default merge-blocker filing only. Review only; do not edit files or commit.\n\nRead code-review/SKILL.md first, then inspect the staged diff. Required synthesis header: `Review · staged · Standard · redirect` and **Depth:** Standard.",
+      "prompt": "Review my staged changes in agent-suites/fixtures/sample-app/src/redirect.ts with default merge-blocker filing only. Review only; do not edit files or commit.\n\nRead `.claude/skills/code-review/SKILL.md` first, then inspect the staged diff. Required synthesis header: `Review · staged · Standard · redirect` and **Depth:** Standard.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-staged.patch",
       "seedStageOnly": true,
       "replayTrace": "agent-suites/code-review/fixtures/replays/staged-merge-blockers.json",
@@ -24,7 +24,7 @@
     },
     {
       "name": "staged: standard structured",
-      "prompt": "Review my staged changes in agent-suites/fixtures/sample-app/src/redirect.ts before I open a PR. Do not edit files; review only.\n\nRead code-review/SKILL.md first, then inspect the staged diff. Required synthesis header: `Review · staged · Standard · redirect` and **Depth:** Standard.",
+      "prompt": "Review my staged changes in agent-suites/fixtures/sample-app/src/redirect.ts before I open a PR. Do not edit files; review only.\n\nRead `.claude/skills/code-review/SKILL.md` first, then inspect the staged diff. Required synthesis header: `Review · staged · Standard · redirect` and **Depth:** Standard.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-staged.patch",
       "seedStageOnly": true,
       "replayTrace": "agent-suites/code-review/fixtures/replays/staged-standard.json",
@@ -39,7 +39,7 @@
     },
     {
       "name": "commit: standard depth",
-      "prompt": "Review the latest commit that touches agent-suites/fixtures/sample-app/src/redirect.ts. Default merge-blocker filing. Review only; no edits or commits.\n\nRead code-review/SKILL.md first, then inspect the commit diff. Required synthesis header: `Review · commit · Standard · redirect` and **Depth:** Standard.",
+      "prompt": "Review the latest commit that touches agent-suites/fixtures/sample-app/src/redirect.ts. Default merge-blocker filing. Review only; no edits or commits.\n\nRead `.claude/skills/code-review/SKILL.md` first, then inspect the commit diff. Required synthesis header: `Review · commit · Standard · redirect` and **Depth:** Standard.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-commit.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/commit-standard.json",
       "rubric": {
@@ -53,7 +53,7 @@
     },
     {
       "name": "pr: thorough default",
-      "prompt": "Review the PR diff for agent-suites/fixtures/sample-app/src/form.tsx only (main...HEAD). Client-only UI: Thorough depth, do not promote to Full. Default merge-blocker filing. Review only; no edits.\n\nRequired synthesis header: `Review · pr · Thorough · sample-form` and **Depth:** Thorough.",
+      "prompt": "Review the PR diff for agent-suites/fixtures/sample-app/src/form.tsx only (main...HEAD). Client-only UI: Thorough depth, do not promote to Full. Default merge-blocker filing. Review only; no edits.\n\nRequired synthesis header: `Review · pr · Thorough · sample-form` and **Depth:** Thorough.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md` (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/form-pr.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thorough-default.json",
       "rubric": {
@@ -68,7 +68,7 @@
     },
     {
       "name": "pr: auth promotes full",
-      "prompt": "Review the PR diff for auth/session handling in agent-suites/fixtures/sample-app/src/auth.ts. Apply depth and escalation rules from the code-review skill. Review only; no edits.",
+      "prompt": "Review the PR diff for auth/session handling in agent-suites/fixtures/sample-app/src/auth.ts. Apply depth and escalation rules from the code-review skill. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md` (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/auth-pr.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-auth-full.json",
       "rubric": {
@@ -83,7 +83,7 @@
     },
     {
       "name": "pr: anti-thrash targeted contextual",
-      "prompt": "Re-review the PR diff for agent-suites/fixtures/sample-app/src/redirect.ts (main...HEAD) after fixes. Prior Action finding theme_id `query-preservation` is in the ledger (open: relative redirects dropped query strings). Diff only touches that theme. Run anti-thrash preflight and prefer targeted contextual re-review over another Full council. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill, then produce the review. Do not stop at the announce.\n\nRequired: header includes `Pass: targeted contextual` and `Stayed targeted contextual`; reconstruct ledger; do not invent a sibling Action theme.",
+      "prompt": "Re-review the PR diff for agent-suites/fixtures/sample-app/src/redirect.ts (main...HEAD) after fixes. Prior Action finding theme_id `query-preservation` is in the ledger (open: relative redirects dropped query strings). Diff only touches that theme. Run anti-thrash preflight and prefer targeted contextual re-review over another Full council. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md` (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Header must include `Pass: targeted contextual` and `Stayed targeted contextual`; reconstruct ledger; do not invent a sibling Action theme. Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-closure.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-targeted-contextual.json",
       "rubric": {
@@ -103,7 +103,7 @@
     },
     {
       "name": "pr: anti-thrash signal collapse",
-      "prompt": "Review the PR diff for agent-suites/fixtures/sample-app/src/redirect.ts (main...HEAD). Two adjacent blocker candidates exist in the same ownership/path family (query dropped vs absolute target accepted). Apply the thrash signal: stop filing separate Action symptoms and collapse into one theme with a same-invariant sweep. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill, then produce the review. Do not stop at the announce.",
+      "prompt": "Review the PR diff for agent-suites/fixtures/sample-app/src/redirect.ts (main...HEAD). Two adjacent blocker candidates exist in the same ownership/path family (query dropped vs absolute target accepted). Apply the thrash signal: stop filing separate Action symptoms and collapse into one theme with a same-invariant sweep. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md` (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-commit.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-signal.json",
       "rubric": {
@@ -118,7 +118,7 @@
     },
     {
       "name": "pr: bare re-review stays targeted",
-      "prompt": "review vs main\n\nReview only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.",
+      "prompt": "review vs main\n\nReview only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md` (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/bare-re-review.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-bare-re-review-targeted.json",
       "rubric": {
@@ -140,7 +140,7 @@
     },
     {
       "name": "pr: large branch narrow fix stays targeted",
-      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` is open; latest tip only touches redirect.ts. Re-review after that narrow fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` is open; latest tip only touches redirect.ts. Re-review after that narrow fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md` (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/large-branch-narrow-fix.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-large-branch-targeted.json",
       "rubric": {
@@ -160,7 +160,7 @@
     },
     {
       "name": "pr: premature closure reopens same theme",
-      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` was marked closed after fixing query-only (E1). Re-review after that fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` was marked closed after fixing query-only (E1). Re-review after that fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md` (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/premature-closure-reopen.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-premature-closure-reopen.json",
       "rubric": {
@@ -175,7 +175,7 @@
     },
     {
       "name": "pr: thrash reopen forces sweep before more Action",
-      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` is reopened; sweep incomplete. Re-review after the latest tip fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` is reopened; sweep incomplete. Re-review after the latest tip fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md` (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/thrash-reopen-sweep.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-reopen-sweep.json",
       "rubric": {
@@ -196,7 +196,7 @@
     },
     {
       "name": "pr: parser premature closure refuses closed",
-      "prompt": "review vs main\n\nPrior Action finding Theme: `reply-parse-misclassification` was marked closed after fixing whole-text `[\"yes\"]` only. Re-review after that fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `reply-parse-misclassification` was marked closed after fixing whole-text `[\"yes\"]` only. Re-review after that fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md` (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/parser-premature-closure.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-parser-premature-closure.json",
       "rubric": {
@@ -218,7 +218,7 @@
     },
     {
       "name": "pr: commit-stack thrash without ledger file",
-      "prompt": "review vs main\n\nTip micro-fix trail on classify.ts after a Full Action pass on Theme: `reply-parse-misclassification`. Re-review. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
+      "prompt": "review vs main\n\nTip micro-fix trail on classify.ts after a Full Action pass on Theme: `reply-parse-misclassification`. Re-review. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md` (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/commit-stack-no-ledger.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-commit-stack-no-ledger.json",
       "rubric": {
@@ -240,7 +240,7 @@
     },
     {
       "name": "pr: green exit deletes leftover ledger",
-      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` is closed with complete variants; tip is the complete fix. Expect a green exit gate. Delete leftover `_agent/review/REVIEW_LEDGER.md` if present. Findings-first (no Continuity line, no theme table). Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` is closed with complete variants; tip is the complete fix. Expect a green exit gate. Delete leftover `_agent/review/REVIEW_LEDGER.md` if present. Findings-first (no Continuity line, no theme table). Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md` (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/green-cleanup-leftover-ledger.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-green-cleanup-leftover.json",
       "rubric": {
@@ -262,7 +262,7 @@
     },
     {
       "name": "pr: show ledger verbose continuity",
-      "prompt": "review vs main\n\nshow ledger\n\nPrior Action finding Theme: `query-preservation` was marked closed after fixing query-only (E1). Re-review after that fix. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.",
+      "prompt": "review vs main\n\nshow ledger\n\nPrior Action finding Theme: `query-preservation` was marked closed after fixing query-only (E1). Re-review after that fix. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md` (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/premature-closure-reopen.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-show-ledger-verbose.json",
       "rubric": {
@@ -277,7 +277,7 @@
     },
     {
       "name": "pr: continuity footer without theme table",
-      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` was marked closed after fixing query-only (E1). Re-review after that fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and code-review skill (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.",
+      "prompt": "review vs main\n\nPrior Action finding Theme: `query-preservation` was marked closed after fixing query-only (E1). Re-review after that fix. Default merge-blocker filing. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md` (including output.md findings-first Continuity rules), then produce the Review · report. Do not stop at the announce.\n\nRequired: emit a full `Review · …` report (header, Findings, synthesis). Do not end the turn after Routing alone.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/premature-closure-reopen.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-premature-closure-reopen.json",
       "rubric": {
