@@ -31,8 +31,6 @@
     "git log -8 --oneline -- agent-suites/fixtures/sample-app/src/classify.ts",
     "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/classify.ts"
   ],
-  "skillsInvoked": [
-    "code-review"
-  ],
+  "skillsInvoked": ["code-review"],
   "artifacts": {}
 }

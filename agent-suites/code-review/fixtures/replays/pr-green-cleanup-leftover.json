@@ -37,8 +37,6 @@
     "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts",
     "rm -f _agent/review/REVIEW_LEDGER.md && rmdir _agent/review 2>/dev/null || true"
   ],
-  "skillsInvoked": [
-    "code-review"
-  ],
+  "skillsInvoked": ["code-review"],
   "artifacts": {}
 }

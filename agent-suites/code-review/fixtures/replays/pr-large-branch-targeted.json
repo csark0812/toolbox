@@ -31,8 +31,6 @@
     "git diff main...HEAD --stat",
     "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"
   ],
-  "skillsInvoked": [
-    "code-review"
-  ],
+  "skillsInvoked": ["code-review"],
   "artifacts": {}
 }
