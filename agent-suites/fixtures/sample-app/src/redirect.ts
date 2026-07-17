@@ -8,5 +8,10 @@ export function nextUrlAfterLogin(rawTarget: string | undefined): string {
     return '/dashboard'
   }
 
-  return target.split('?')[0] ?? '/dashboard'
+  // Preserve query/hash for safe relative paths (closes theme query-preservation).
+  if (target.startsWith('//') || target.includes('://')) {
+    return '/dashboard'
+  }
+
+  return target
 }
