@@ -37,6 +37,6 @@ npm run agent:test:live:debug
 | Do                                                                  | Avoid                                                                                                                               |
 | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | `npm run agent:test:live:debug`                                     | `tee agent-test-live.log` in repo root (shows up in `git status`)                                                                   |
-| `--debug-dir "$TMPDIR/agent-test-debug"` when you need a fixed path | `--debug-dir ./agent-test-debug` inside the repo (clutters `git status`; pre-0.1.17 caused false `worktree_leak` on first scenario) |
+| `--debug-dir "$TMPDIR/agent-test-debug"` when you need a fixed path | `--debug-dir ./agent-test-debug` inside the repo (clutters `git status`; pre-0.1.18 caused false `worktree_leak` on first scenario) |
 
-Live runs already use **git worktree isolation** for agent edits (`$TMPDIR/agent-harness-wt-…`). The worktree leak guard watches your **caller checkout** (where you ran npm). Harness staging under `--debug-dir` is excluded from that check as of `@post-print/agent-test` 0.1.17; prefer `$TMPDIR` anyway.
+Live runs already use **git worktree isolation** for agent edits (`$TMPDIR/agent-harness-wt-…`). The worktree leak guard watches your **caller checkout** (where you ran npm). Harness staging under `--debug-dir` is excluded from that check as of `@post-print/agent-test` 0.1.18; prefer `$TMPDIR` anyway.
