@@ -72,7 +72,7 @@ State branches, deps, and a falsifier (grill extract); full **grill** when unres
 
 ### Plan on disk
 
-Inline axis pass on the artifact; escalate to **second-opinion** for structural gaps.
+Inline axis pass on the artifact; escalate to **second-opinion** (staged debate) for structural gaps.
 
 ### Pre-ship / PR
 

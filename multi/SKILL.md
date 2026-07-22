@@ -7,7 +7,7 @@ description: Parallel subagent orchestration kernel — spawn invariants, model 
 
 **Source of truth for** parallel subagent orchestration.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-14 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
 
 Parallel independent subagents via the host **Task** tool (Cursor: **Subagent**). **Orchestration kernel only** — entry skills own job recipes and domain-specific synthesis.
 
@@ -24,6 +24,7 @@ Skip when: one agent suffices, work is sequential, or user wants a single pass �
 | ---------------------------- | -------------------------------------------------------------- |
 | Must-spawn invariants        | [Non-negotiables](#non-negotiables)                            |
 | Model routing (cost + fit)   | [references/model-routing.md](references/model-routing.md)     |
+| Adversarial / staged debate  | [references/adversarial.md](references/adversarial.md)         |
 | Generic task prompt          | [references/task-prompt.md](references/task-prompt.md)         |
 | Per-member output shape      | [references/member-schema.md](references/member-schema.md)     |
 | Generic consolidated report  | [references/output-format.md](references/output-format.md)     |
@@ -52,8 +53,11 @@ When this skill applies (user attached `multi`, an entry skill invokes parallel 
 
 - **Coverage** — Split by source, subsystem, domain, or artifact. Example: one member maps data flow, another maps call sites.
 - **Perspective** — Same material, distinct stance. Model diversity alone is not enough if prompts are identical.
+- **Adversarial** — Specialization of Perspective: kill mandates, context asymmetry, convergent/divergent synthesis. Full recipe → [adversarial.md](references/adversarial.md).
+  - **Parallel** — one wave; independent members (code-review always; investigate when contested).
+  - **Staged debate** (`Goal: adversarial-staged`) — wave 1 attackers → wave 2 defender who may receive coordinator-composed wave-1 briefs. Allowed sequential exception to same-wave isolation; not live inter-member chat.
 
-**Hard rule:** Never run parallel members with identical model plus identical prompt. When all members inherit Auto, diversify via distinct prompts and/or stances — shared Auto is expected.
+**Hard rule:** Never run parallel members with identical model plus identical prompt. When all members inherit Auto, diversify via distinct prompts and/or stances — shared Auto is expected. Adversarial cross-model diversity → [adversarial.md](references/adversarial.md) § Model routing overlay (named parent or user request only; never escalate tier just to diversify).
 
 ## Workflow
 
@@ -63,8 +67,8 @@ Load the entry skill's recipe when one applies; otherwise plan manually:
 
 - Job type: `research` | `explore` | `gather` | `mixed`
 - Source of truth: `web` | `repo` | `plan`
-- Goal: coverage | perspectives | both
-- Independence: if members need each other's output, this is sequential — do not use `multi`
+- Goal: coverage | perspectives | adversarial | adversarial-staged | both
+- Independence: if members in the **same wave** need each other's output, that is sequential — do not parallel-spawn them. **Exception:** staged debate ([adversarial.md](references/adversarial.md) § B) runs wave 2 after wave 1 with coordinator-composed briefs.
 
 ### 2. Plan and spawn
 
@@ -75,7 +79,7 @@ Load the entry skill's recipe when one applies; otherwise plan manually:
 Task: [What the user asked]
 Classification: [research / explore / gather / mixed]
 Source of truth: [web / repo / plan]
-Goal: [coverage / perspectives / both]
+Goal: [coverage / perspectives / adversarial / adversarial-staged / both]
 
 Parent model: [Auto | <named model>]
 User model overrides: [none | member=slug, …]
@@ -247,6 +251,8 @@ Per-agent tier defaults → agent dispatch config + [model-routing.md](reference
 
 Never escalate price, choose `fast`, or override Auto just to diversify. Diversify prompts and/or stances first. When the parent is on Auto, shared Auto across members is expected and correct. If `N ≥ 2` share the same `subagent_type` under a named parent with explicit models already justified, prefer distinct models **within the same tier / similar cost** only when the user wants diversity — **do not escalate tier just to diversify.**
 
+**Adversarial carve-out:** For `Goal: adversarial` / `adversarial-staged`, distinct same-tier family slugs are allowed when the user requests cross-model / different models, or under a named parent when diversity is wanted — see [adversarial.md](references/adversarial.md) § Model routing overlay. Under an Auto parent with no user override, still `inherit-auto` (omit `model`).
+
 ### Anti-fast (parallel)
 
 For `N ≥ 2`, do **not** pass `*-fast` or high-fast bundles unless the user explicitly requests lower latency for that member. High-fast slugs are sequential escalations only (named parent or user override). See [model-routing.md](references/model-routing.md).
@@ -284,8 +290,8 @@ More than 10 members — split into multiple `multi` runs.
 ## Limitations
 
 - 10 member maximum
-- Members work independently; no inter-member communication
-- Best for parallel independent work, not sequential workflows
+- Same-wave members work independently; no inter-member communication (staged debate wave 2 may receive coordinator-composed wave-1 briefs — [adversarial.md](references/adversarial.md))
+- Best for parallel independent work, not sequential workflows (except adversarial-staged)
 - Startup overhead makes it wasteful for tiny tasks
 
 ## Output format

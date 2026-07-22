@@ -1,8 +1,8 @@
 # Parallel Perspective Investigate
 
-Adversarial stress-test when evidence is mixed or the user explicitly asks. Uses [`multi`](../../multi/SKILL.md) kernel — [non-negotiables](../../multi/SKILL.md#non-negotiables), [task-prompt.md](../../multi/references/task-prompt.md), [member-schema.md](../../multi/references/member-schema.md).
+Adversarial stress-test when evidence is mixed or the user explicitly asks. Uses [`multi`](../../multi/SKILL.md) kernel — [non-negotiables](../../multi/SKILL.md#non-negotiables), [adversarial.md](../../multi/references/adversarial.md) § Parallel, [task-prompt.md](../../multi/references/task-prompt.md), [member-schema.md](../../multi/references/member-schema.md).
 
-Profile: `mixed`.
+Profile: `mixed`. Goal: `adversarial`.
 
 Default **investigate** stays single-target, single-pass — use this recipe only when evidence is genuinely contested or the user requests a stress test.
 
@@ -20,14 +20,14 @@ Default **investigate** stays single-target, single-pass — use this recipe onl
 
 ## Members (2)
 
-Same target — adversarial stances:
+Same target — adversarial stances (kill mandates):
 
 | Slice                        | Subagent         | Stance                                                              |
 | ---------------------------- | ---------------- | ------------------------------------------------------------------- |
-| Strongest case for the hunch | `generalPurpose` | `steelman` — assume the hunch is real; build the strongest case     |
-| Mechanism that prevents it   | `generalPurpose` | `skeptic` — assume it's a non-issue; find what prevents the problem |
+| Strongest case for the hunch | `generalPurpose` | `steelman` / `attacker` — assume the hunch is real; build the strongest case |
+| Mechanism that prevents it   | `generalPurpose` | `skeptic` / `refuter` — assume it's a non-issue; find what prevents the problem |
 
-Use distinct stances. Under an Auto parent, share `inherit-auto` (omit tool `model`); diversify via prompts/stances, not slugs. Distinct explicit models only under a named parent (same tier) or recorded user overrides.
+Use distinct stances. Under an Auto parent, share `inherit-auto` (omit tool `model`); diversify via prompts/stances, not slugs. Distinct explicit models only under a named parent (same tier), user cross-model request, or recorded user overrides — [adversarial.md](../../multi/references/adversarial.md) § Model routing overlay.
 
 ## Dispatch plan template
 
@@ -35,7 +35,7 @@ Use distinct stances. Under an Auto parent, share `inherit-auto` (omit tool `mod
 Task: Perspective investigate — [one-line hunch]
 Classification: mixed
 Source of truth: [repo | plan | docs | data]
-Goal: coverage
+Goal: adversarial
 Parent model: [Auto | <named model>]
 User model overrides: [none | member=slug, …]
 
@@ -44,12 +44,12 @@ Selected members:
 - generalPurpose · tier=Standard · model=[inherit-auto | slug] · stance=steelman: strongest case for hunch
 - generalPurpose · tier=Standard · model=[inherit-auto | slug] · stance=skeptic: mechanism that prevents or refutes
 
-Synthesis plan: preserve conflicts per multi synthesis gate; verdict per investigate schema if evidence allows
+Synthesis plan: preserve conflicts per multi + adversarial synthesis; tag convergent/divergent; verdict per investigate schema if evidence allows
 ```
 
 ## Synthesis
 
-1. Merge findings per [multi synthesis gate](../../multi/SKILL.md#synthesis-gate) — **preserve conflicts; do not flatten disagreements.**
+1. Merge findings per [multi synthesis gate](../../multi/SKILL.md#synthesis-gate) and [adversarial.md](../../multi/references/adversarial.md) — **preserve conflicts; do not flatten disagreements.** Tag `convergent` vs `divergent`.
 2. State both sides if genuinely split rather than averaging into "it's complicated."
 3. Write **investigate** verdict — Confirmed / Refuted / Partial — when primary material supports one; if stances remain split, say so explicitly in verdict reasoning.
 4. Output follows **investigate** skill final shape; use [multi output-format.md](../../multi/references/output-format.md) sections only as supporting detail.

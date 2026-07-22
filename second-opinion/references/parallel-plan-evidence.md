@@ -1,48 +1,39 @@
-# Parallel Plan Evidence
+# Parallel plan evidence
 
-Parallel evidence gathering for **second-opinion Stance A** (fresh read). Uses [`multi`](../../multi/SKILL.md) kernel — [non-negotiables](../../multi/SKILL.md#non-negotiables), [task-prompt.md](../../multi/references/task-prompt.md), [member-schema.md](../../multi/references/member-schema.md).
+Optional **pre-wave** evidence gathering for **second-opinion** before staged debate. Uses [`multi`](../../multi/SKILL.md) kernel — [non-negotiables](../../multi/SKILL.md#non-negotiables), [task-prompt.md](../../multi/references/task-prompt.md), [member-schema.md](../../multi/references/member-schema.md).
 
 Profile: `plan`.
 
-Stance B (verify / axis checklist) stays sequential — do not use this recipe.
+Default second-opinion always runs [adversarial-debate.md](adversarial-debate.md). Use this recipe only when the artifact is large and attackers/defender would otherwise lack cited paths — gather **feeds** wave-2 defender context and/or thin path hints in wave-1 packs. **Not** a substitute for debate.
 
 ## When to use
 
-- Large `.plan.md`, PRD, or issue set (> ~150 lines or many cited paths)
-- Plan spans multiple subsystems and single-pass skim risks missed dependencies
-- User attached **multi** with second-opinion Stance A
+- Large plan / PRD / issue set where cited primary sources are many
+- User attached **multi** with second-opinion and the artifact needs coverage split first
 
 ## When to skip
 
-- Small plan — coordinator reads plan + 2–4 cited files in one pass ([second-opinion.md](second-opinion.md))
-- User wants completeness verify (Stance B) → [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md)
+- Small plan — go straight to [adversarial-debate.md](adversarial-debate.md)
 - Dialogue without plan artifact → **crystallize** / **grill**
+- Completeness axes alone → still run second-opinion debate (`completeness` attacker loads verify.md); do not use this file as “Stance B”
 
-## Members (2–3)
+## Members (coverage split)
 
-| Slice                       | Focus                                                | Subagent                                                                                           | Notes                                                                                    |
-| --------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Premises + scope            | Implicit goals, in/out of scope, acceptance criteria | `generalPurpose` + stance `premises`                                                               | Plan text only                                                                           |
-| Dependencies + blast radius | Ordering, hidden deps, structural work               | `architecture` if HOST + `contexts` includes `plan`; else `generalPurpose` + stance `blast_radius` | Score on cited paths via [agent-discovery.md](../../multi/references/agent-discovery.md) |
-| Cited code skim             | Validate plan claims against 2–4 top cited files     | `explore`                                                                                          | Fast tier                                                                                |
-
-Extract `task_paths[]` from plan citations before scoring council agents.
+| Slice | Focus | Prefer | Fallback |
+| ----- | ----- | ------ | -------- |
+| Premises + scope | Implicit goals, in/out of scope, acceptance criteria | `generalPurpose` + stance `premises` | Plan text only |
+| Dependencies + blast radius | Ordering, hidden deps, structural work | `architecture` if HOST + `contexts` includes `plan`; else `generalPurpose` + stance `blast_radius` | Score on cited paths via [agent-discovery.md](../../multi/references/agent-discovery.md) |
+| Cited paths skim | Primary sources named in the plan | `explore` | `generalPurpose` |
 
 ## Dispatch plan template
 
 ```markdown
-Task: Second-opinion Stance A — parallel evidence for [plan path]
-Classification: mixed
+Task: Second-opinion — parallel evidence for [plan path]
+Classification: gather
 Source of truth: plan
 Goal: coverage
-
-Parent model: [Auto | <named>]
+Parent model: [Auto | <named model>]
 User model overrides: [none | member=slug, …]
-Auto reachable: [inherit-auto | model=auto | no]
-Host supports: [Task model enum]
-Billing pool: [first-party | API | mixed]
-Explicit model slugs used: none
-Fast variants used: none
 
 Selected members:
 
@@ -50,21 +41,18 @@ Selected members:
 - architecture · tier=Standard · model=inherit-auto · stance=blast_radius: dependencies + structural gaps (if available)
 - explore · tier=Fast · model=inherit-auto · stance=n/a: skim [cited paths]
 
-Synthesis plan: merge member reports; coordinator writes final Stance A sections
+Synthesis plan: merge member reports into wave-2 defender context / thin path list; then run adversarial-debate.md
 ```
 
-Prefer Auto for all members. Explicit model slugs require slice-fit + Cursor cost justification per [model-routing.md](../../multi/references/model-routing.md). Do not use `*-fast` in parallel.
-
-Compose prompts per [task-prompt.md](../../multi/references/task-prompt.md).
+Under an Auto parent, omit tool `model` (`inherit-auto`).
 
 ## Synthesis
 
-1. Merge member [member-schema](../../multi/references/member-schema.md) reports.
-2. **Coordinator** (second-opinion author) writes final output per [second-opinion.md](second-opinion.md) — Premises, What's solid, Gaps, etc.
-3. Multi supplies evidence; it does not replace the opinion structure.
-4. Surface premise list for user confirmation before final sections when not already settled.
+1. Merge member [member-schema](../../multi/references/member-schema.md) reports per [multi synthesis gate](../../multi/SKILL.md#synthesis-gate).
+2. Feed into [adversarial-debate.md](adversarial-debate.md) Wave 2 (and optional thin path hints for Wave 1) — do **not** skip debate.
+3. Final opinion shape → [second-opinion.md](second-opinion.md) after debate.
 
 ## Handoff
 
-- Gaps found → user may run **verify** stance or **build** to fill in.
-- Code hunch from cited skim → **investigate** on one target.
+- Always continue to staged debate.
+- Gaps found after debate → user may revise plan or **build**.

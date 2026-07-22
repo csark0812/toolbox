@@ -4,7 +4,7 @@
 
 Completeness check on an existing plan, PRD, or issue set. Does not rewrite — flags gaps and suggests specific additions.
 
-Plan type and axis weighting — see [README.md](README.md) (Completeness axes). For the same artifact, **second-opinion (fresh read)** is a different stance (premise pass + outsider critique); use **this doc** for the axis checklist / readiness report.
+Plan type and axis weighting — see [README.md](README.md) (Completeness axes). This file is the **axis checklist body** loaded by the second-opinion **completeness** attacker. Full second-opinion always pairs premises attack + this checklist + a defender — do not treat this doc as a separate “verify stance.”
 
 ## Step 1: Locate the Artifact
 
@@ -101,7 +101,7 @@ Work through each axis. For each finding, state the specific gap and a concrete 
 
 After the report:
 
-- Gaps in assumptions → "Want a **grill** pass on the assumptions, or a **second-opinion** (fresh read) on the plan text first?"
+- Gaps in assumptions → "Want a **grill** pass on the assumptions, or a **second-opinion** on the plan text?"
 - Significant scope gaps → "Want to run [build.md](build.md) to fill these in?"
 - Ready to build → "Want to kick off your tracker / issue-workflow skill to start work?"
 - Before commit → **code-review** staged (includes AI drift hygiene)

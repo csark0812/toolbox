@@ -1,58 +1,57 @@
 # Second opinion
 
-Work on a **written** plan, PRD, or issue set — not Socratic explore. Pick a **stance**:
+**Source of truth for** unified written-artifact second opinion (no Stance A/B).
 
-| Stance                      | When                                                                                                                                               | Where                                                                                                         |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| **A — Fresh read**          | Plan you had **no part** in creating; you want premise challenge + structured critique                                                             | This doc, below                                                                                               |
-| **B — Completeness verify** | "Verify my plan", "did I miss anything", readiness on `.plan.md` / `docs/prds/` / issues; **axis checklist**, fixed report shape, does not rewrite | [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) |
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
 
-**Both:** If you want outsider critique **and** the axis checklist, run **A then B**, or **B then A** if premises are already settled.
+Work on a **written** plan, PRD, or issue set — not Socratic explore. Always run **staged adversarial debate** via [`multi`](../multi/SKILL.md) — recipe [adversarial-debate.md](adversarial-debate.md) + [`multi` adversarial.md](../multi/references/adversarial.md) § Staged debate.
 
-**Not in scope for either stance:** security/compliance review (use the **security** agent), reproducible broken behavior (**investigate** + **testing** + **debug** when layer or session logs unclear). For broad proactive codebase sweeps, use [parallel-explore.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/parallel-explore.md).
+Former “fresh read” and “completeness verify” are **Wave-1 subagent roles** (`premises` + `completeness`), not user-chosen modes. Do not ask which stance to run.
 
-**Stance A escalation tiers:** default single-pass (small plan) → coverage evidence-gather via [parallel-plan-evidence.md](parallel-plan-evidence.md) (large plan) → perspective adversarial via [parallel-perspective.md](parallel-perspective.md) (contested/high-stakes, on request).
+**Not in scope:** security/compliance review (use the **security** agent), reproducible broken behavior (**investigate** + **testing** + **debug** when layer or session logs unclear). For broad proactive codebase sweeps, use [parallel-explore.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/parallel-explore.md).
 
 ---
 
-## Stance A: Fresh read
+## Workflow
 
-You are reviewing a plan you had no part in creating. Approach it fresh — no deference to prior decisions.
+1. **Locate the artifact** — `.cursor/plans/*.plan.md`, `docs/prds/`, issue set, or ask for the path.
+2. **Optional pre-wave gather** — large plans only: [parallel-plan-evidence.md](parallel-plan-evidence.md). Feeds wave-2 context / thin path hints — **not** a substitute for debate.
+3. **Premise surface (coordinator, before or with synthesis)** — extract **3–6** implicit premises; invite the user to confirm/correct the top 2–3 when unsettled. If shipping in one shot, lead with **## Premises (please confirm or correct)** and label the rest provisional.
+4. **Wave 1 — spawn two fresh-context attackers** (parallel Task/Subagent) per [adversarial-debate.md](adversarial-debate.md):
+   - `premises` — outsider premise / goal / constraint attack
+   - `completeness` — axis readiness attack (verify.md overlay as kill mandate)
+5. **Wave 2 — spawn one related-context defender** after both attackers return: `defend` with artifact + 2–4 cited primary sources + structured attacker briefs.
+6. **Synthesize** — one unified report (sections below). Tag claims `attacker-convergent` / `attacker-divergent` / `defended` / `conceded`.
 
-### Workflow
+**Hard gate:** Do not emit the final second-opinion report until **both waves** have completed Task runs. Coordinator-only critique is a **violation**.
 
-1. **Read the plan file** — find it via `.cursor/plans/*.plan.md` or ask the user for the path or description.
-2. **Read supporting context** — skim the 2–4 most relevant primary sources the plan cites — code files, docs, data, or prior research/decisions. Don't read everything; the plan should cite them.
-3. **Pre-review assumption pass (before the full writeup).** Extract **3–6 implicit premises** the plan depends on (goals, constraints, owners, timelines, tech choices, “this API already works,” etc.). **Invite the user to confirm or correct** the **top 2–3** that would invalidate the review if wrong — short, invitational questions, not a cross-exam. If you cannot reach the user synchronously, present the premise list first and either pause for answers or label the rest of the opinion **provisional** until they respond.
-4. **Analyze and respond** — apply the framework below, incorporating what the user confirmed or corrected.
-
-**Blocking:** Do not present the full structured **Output Format** sections as final until critical premises are at least **surfaced** and the user has had a chance to react — _or_ they've told you to proceed without. If you must ship in one shot, lead with **## Premises (please confirm or correct)** and keep the rest explicitly provisional.
+If the user only asks “did I miss anything” or only “outsider read,” still run **both** attackers. Emphasis may weight synthesis, not spawn count.
 
 ### Structural deepening and scope
 
-Synced with [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) § Structural checks — plan-review depth here; do not duplicate bullets; update dialogue-contract if patterns change.
+Synced with [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) § Structural checks — brief honest line in **Scope / complexity** or **Gaps**, not a second full audit:
 
-Briefly, where relevant — a short honest line in **Scope / complexity** or **Gaps**, not a second full audit:
+- Does the plan **under-** or **over-** state structural / boundary work?
+- Should the plan add a **milestone** for boundary or orchestration work?
+- **Local change** vs **staged or ground-up** — cite dialogue-contract patterns when naming the call.
 
-- Does the plan **under-** or **over-** state structural / boundary work (consolidation, module moves, integration tests, coupling)?
-- Should the plan add a **milestone** for boundary or orchestration work before or alongside feature work?
-- **Local change** vs **staged or ground-up** — cite [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) patterns when naming the call.
+### Analysis framework (coordinator synthesis)
 
-### Analysis framework
+Cover all of these, briefly, using debate outcomes. Skip sections with nothing to flag.
 
-Cover all of these, briefly. Skip sections where there is genuinely nothing to flag.
+**What's solid** — name 2–3 things the plan gets right (often from defender concessions / defended claims). Be specific, not flattering.
 
-**What's solid** — name 2–3 things the plan gets right. Be specific, not flattering.
+**Gaps** — missing steps, unaddressed cases, or work the plan assumes will "just happen" (completeness attacker + unrebutted premises).
 
-**Gaps** — missing steps, unaddressed cases, or work the plan assumes will "just happen."
+**Hidden dependencies** — unordered prerequisites.
 
-**Hidden dependencies** — steps that must complete before others can start, but aren't ordered or noted as such.
+**Risky assumptions** — treated-as-given that could be wrong.
 
-**Risky assumptions** — things the plan treats as given that could easily be wrong (env config, external APIs, backward compat, test coverage, etc.).
+**Scope / complexity** — undersized vs oversized; structural notes when relevant.
 
-**Scope / complexity** — is the plan undersized (misses real work) or oversized (gold-plating)? Name which.
+**Axis / readiness** — scope, gaps, sequencing findings from the completeness attacker that survive or are conceded.
 
-**Concrete suggestions** — for each issue raised, give the specific change to the plan. Don't just identify problems.
+**Concrete suggestions** — for each issue, the specific plan change.
 
 ### Output format
 
@@ -62,6 +61,10 @@ Cover all of these, briefly. Skip sections where there is genuinely nothing to f
 - [Premise 1]
 - [Premise 2]
 - ...
+
+## Debate tags (brief)
+
+- [claim]: attacker-convergent | attacker-divergent | defended | conceded
 
 ## What's solid
 ...
@@ -78,6 +81,9 @@ Cover all of these, briefly. Skip sections where there is genuinely nothing to f
 ## Scope / complexity
 [Include structural / deepening notes here when the lens applies — one short paragraph or bullets, not a full audit.]
 
+## Axis / readiness
+[Completeness-axis survivors after defender rebuttal]
+
 ## Recommended additions to the plan
 - ...
 ```
@@ -89,3 +95,4 @@ Cover all of these, briefly. Skip sections where there is genuinely nothing to f
 - If the plan is genuinely complete, say so — don't manufacture criticism.
 - Flag things the original author likely overlooked because they were too close to the problem.
 - **Tone:** Direct on the work; never harsh toward the person holding the plan.
+- Preserve unresolved attacker/defender conflict — do not flatten into false consensus.

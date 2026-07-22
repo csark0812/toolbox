@@ -1,8 +1,8 @@
 # Task Prompt — Review Overlays
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-15 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
 
-Review-specific member prompt overlays. Generic template → [multi task-prompt.md](../../multi/references/task-prompt.md).
+Review-specific member prompt overlays. Generic template → [multi task-prompt.md](../../multi/references/task-prompt.md). Adversarial kernel → [multi adversarial.md](../../multi/references/adversarial.md).
 
 Orchestrated by [`code-review`](../SKILL.md) via [`multi`](../../multi/SKILL.md) kernel + [council-dispatch.md](council-dispatch.md).
 
@@ -21,6 +21,7 @@ Pass class: <first-baseline | closure-re-review | new-scope-review | fix-impleme
 Selected agents: <from agent-selection>
 Diff source: <command from modes.md>
 Mode overlay: "<overlay from modes.md>"
+Goal: adversarial
 ```
 
 Append to each member Task `prompt`:
@@ -37,6 +38,21 @@ Apply your [agent-name] lens (map depth: Quick→quick, Standard→standard, Tho
 ```
 
 Synthesis → [synthesis.md](synthesis.md) then [output.md](output.md).
+
+## Adversarial overlay (always — toolbox)
+
+Append to the coordinator plan and **every** member Task `prompt` (including `refuter`):
+
+```
+Adversarial review (always on):
+- Kill mandate: break ship confidence in your assigned lens — do not rubber-stamp.
+- If stance=refuter: kill weak/false findings; find mechanisms that prevent the alleged failure.
+- Context asymmetry: evaluate the diff + requirements only — do not assume parent-chat conclusions.
+- Return Disposition: promote | kill | concede, Kill rationale, Evidence (see multi/references/adversarial.md).
+- Do not invent other members' conclusions.
+```
+
+Cross-model / different-models only when the user asks or named-parent diversity applies — [adversarial.md](../../multi/references/adversarial.md) § Model routing overlay.
 
 ## Invariant overlay (Thorough+ and contextual re-review)
 

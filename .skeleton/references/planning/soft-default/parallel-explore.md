@@ -10,7 +10,7 @@ Profile: `manual` or `repo`.
 
 - Planning a feature and need surface-level structure across domains ([`build.md`](build.md) Step 3)
 - Grill branch depends on repo facts — explore before asking the user
-- Second-opinion Stance A needs a broad codebase sweep beyond 2–4 cited files
+- Second-opinion needs a broad codebase sweep beyond 2–4 cited files
 
 ## When to skip
 
@@ -61,4 +61,4 @@ Compose prompts per [task-prompt.md](../../../../multi/references/task-prompt.md
 ## Handoff
 
 - Planning continues in **build** / **grill** with exploration context.
-- Second-opinion author writes final Stance A sections — multi supplies evidence, not the opinion shape.
+- Second-opinion author writes final sections after staged debate — multi supplies evidence, not the opinion shape.

@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 **Source of truth for** Socratic idea crystallization.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
 
 Shape a half-formed idea through dialogue. Before the first turn, read [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) (shared behavior) and [dialogue-handoffs.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-handoffs.md) (routing).
 
@@ -58,7 +58,8 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 ## Possible next steps
 
 - Pressure-test the design → **grill** skill
-- Fresh read of a plan on disk → **second-opinion**
+- Written plan pressure-test → **second-opinion** (staged debate)
+- Fresh adversarial pass without a plan file → **multi** adversarial
 - One concrete code doubt → **investigate**
 - PRD or structured plan → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md)
 ```

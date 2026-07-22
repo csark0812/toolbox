@@ -9,12 +9,12 @@ Execution planning and **completeness verify** live here as **reference docs**, 
 | File                                 | Purpose                                                         | Usual entry                                                                             |
 | ------------------------------------ | --------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | [build.md](build.md)                 | Guided planning from scratch → CreatePlan / PRD / Linear issues | **crystallize** or **grill** (after dialogue), or directly when intent is already clear |
-| [verify.md](verify.md)               | Three-axis completeness pass on an existing plan / PRD / issues | **second-opinion** (verify stance)                                                      |
+| [verify.md](verify.md)               | Three-axis completeness checklist (loaded by second-opinion completeness attacker) | **second-opinion** (staged debate)                                                  |
 | [plan-format.md](plan-format.md)     | CreatePlan template + self-check                                | After `build.md` when output is todos                                                   |
 | [prd-format.md](prd-format.md)       | PRD template for `docs/prds/`                                   | After `build.md` when output is a PRD                                                   |
 | [issues-format.md](issues-format.md) | Vertical-slice Linear issues                                    | After `build.md` when output is issues                                                  |
 
-**Fresh read of someone else’s plan** (premise pass + critique, not the axis checklist) → **second-opinion** skill, [second-opinion reference](../../../../second-opinion/references/second-opinion.md).
+**Written plan review** (premises + completeness + defender) → **second-opinion** skill, [second-opinion reference](../../../../second-opinion/references/second-opinion.md).
 
 ## Completeness axes
 
@@ -40,9 +40,9 @@ Planning orchestrates work; it does **not** replace other skills:
 | Skill                       | When                                                                                                                                                                                                                                        |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **crystallize** / **grill** | When intent or assumptions are still fuzzy (`build.md` Step 5).                                                                                                                                                                             |
-| **second-opinion**          | Fresh read before finalize; or **verify stance** for axis checklist on a written artifact.                                                                                                                                                  |
+| **second-opinion**          | Written artifact review via staged debate (premises + completeness attackers, then defender).                                                                                                                                               |
 | **investigate**             | One concrete code-path hunch → evidence (`build.md` Step 5).                                                                                                                                                                                |
-| **multi**                   | Parallel surface exploration — [parallel-explore.md](parallel-explore.md) (`build.md` Step 3); large plan evidence — [parallel-plan-evidence.md](../../../../second-opinion/references/parallel-plan-evidence.md) (second-opinion Stance A) |
+| **multi**                   | Parallel surface exploration — [parallel-explore.md](parallel-explore.md) (`build.md` Step 3); optional large-plan evidence — [parallel-plan-evidence.md](../../../../second-opinion/references/parallel-plan-evidence.md) before debate |
 | **Optional tracker skill**  | Branch, draft PR, Closes / issue-tracker state **after** a plan exists and you’re starting work (`verify.md` Step 5), if the consumer ships one.                                                                                            |
 | **code-review**             | Holistic PR / implementation review **after** code exists; AI drift / hygiene on staged/unstaged (consumer AI-drift doc / customize).                                                                                                       |
 

@@ -89,7 +89,7 @@ After the first question batch, evaluate whether a mode shift would help:
 | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | Idea is still vague or contradictory                                    | "This might benefit from a quick **crystallize** pass — want to shift there?"    |
 | Assumptions in the description are questionable                         | "Some of these assumptions might be worth a **grill** pass — want to run that?"  |
-| Plan looks nearly complete; you want a fresh read of the _written_ plan | "Want a **second-opinion** (fresh read) pass on the plan before I finalize?"     |
+| Plan looks nearly complete; you want a review of the _written_ plan | "Want a **second-opinion** pass on the plan before I finalize?"     |
 | Specific doubt about a code path or structure                           | Optional: "Want **investigate** to sanity-check that hunch with evidence first?" |
 
 Never shift without offering. User decides.

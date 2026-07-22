@@ -13,9 +13,8 @@ Canonical in-session routing for **crystallize** and **grill** — not a standal
 | One concrete code doubt                           | **investigate**                                                        |
 | Reproducible broken behavior                      | **investigate**                                                        |
 | Serialize to plan / PRD / issues                  | **crystallize** or **grill** → [planning/build.md](planning/build.md)  |
-| Fresh read of written plan                        | **second-opinion** (fresh read)                                        |
+| Fresh read / completeness on written plan         | **second-opinion** (staged debate — premises + completeness)           |
 | Plan rejected or needs pressure-test after review | **grill** (or **crystallize** if intent regressed)                     |
-| Completeness verify on plan/PRD                   | **second-opinion** (verify) → [planning/verify.md](planning/verify.md) |
 
 Structural ambient checks during dialogue → [dialogue-contract.md](dialogue-contract.md).
 

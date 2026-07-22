@@ -29,6 +29,8 @@ Budget expands to fit all **required** agents (never drop a required member to s
 
 **Spawn count = |SELECTED|.** Every SELECTED agent gets one Task/Subagent call ([council-dispatch.md](council-dispatch.md)). Budget and optional-slot omits change who is SELECTED — they never authorize zero-member solo synthesis. Targeted contextual re-review calibrates to Quick/Standard; it does not waive spawn.
 
+**Adversarial refuter (budget ≥ 2):** After scoring, reserve one SELECTED slot as `refuter` — prefer replacing the lowest-scored **optional** agent; never drop a required agent. Quick stays single lens with attacker kill mandate. See [council-dispatch.md](council-dispatch.md) and [adversarial.md](../../multi/references/adversarial.md).
+
 ## Selection algorithm
 
 Run [agent-discovery](../../multi/references/agent-discovery.md) steps 1–2, then:

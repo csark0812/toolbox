@@ -8,7 +8,7 @@ Review-specific synthesis after council members return. Generic multi synthesis 
 
 After members return:
 
-1. Merge findings that agree; state once with the highest shared confidence.
+1. Merge findings that agree; state once with the highest shared confidence. Tag each Action candidate `convergent` (2+ independent members) or `divergent` (1) per [adversarial.md](../../multi/references/adversarial.md).
 2. Group all symptoms and edge variants by root invariant. One invariant gets
    one stable `theme_id` and one Action block.
 3. On pass 2+, reconcile every candidate against the prior ledger before
@@ -28,12 +28,13 @@ After members return:
    [thrash signal](fix-loop-ledger.md#thrash-signal): collapse to one theme and
    require a holistic sweep instead of shipping multiple symptom blocks.
 8. **Apply worth-doing gate** (consumer worth-doing gate / customize) — demote failures to **Noted** or **Deferred** tails; never Action blocks.
-9. Only **Action** items (ship-blocker or in-scope hardening) get severity and scope in synthesis.
+9. Only **Action** items (ship-blocker or in-scope hardening) get severity and scope in synthesis. **Divergent** ship-blocker candidates need stronger primary evidence (`file:line` / repro) or demote — do not treat single-member agreement as proof.
 10. Preserve conflicts among Action candidates; do not flatten them away.
 11. On high-risk contradiction among Action items, spawn a neutral tiebreaker at **Premium** tier (still parent-aware: Auto parent → `inherit-auto` / omit `model`; named parent → explicit Premium slug per multi routing) or escalate to the user.
 12. Update the ledger, hotspot review status, sweep-plan results, variant-coverage notes, test
     evidence, and validation evidence per [fix-loop-ledger.md](fix-loop-ledger.md).
 13. Write consolidated report per [output.md](output.md). Header must state
+    `Dispatch: adversarial` (add `cross-model` when that carve-out ran),
     `Pass class:` (`first-baseline` | `closure-re-review` | `new-scope-review`),
     whether the pass stayed **targeted contextual** or promoted to **Full
     contextual**, with reason (including whole-branch size carve-out when

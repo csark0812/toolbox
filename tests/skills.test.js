@@ -120,10 +120,11 @@ describe('toolbox skill SSOT', () => {
       join(root, 'investigate/references/parallel-perspective.md'),
       'utf8',
     )
-    const perspectiveSecond = readFileSync(
-      join(root, 'second-opinion/references/parallel-perspective.md'),
+    const adversarialDebate = readFileSync(
+      join(root, 'second-opinion/references/adversarial-debate.md'),
       'utf8',
     )
+    const adversarialKernel = readFileSync(join(root, 'multi/references/adversarial.md'), 'utf8')
     const broad = readFileSync(join(root, 'investigate/references/parallel-broad.md'), 'utf8')
 
     // Canonical invariant + precedence
@@ -135,6 +136,8 @@ describe('toolbox skill SSOT', () => {
     expect(skill).toMatch(/User model overrides/)
     expect(skill).toMatch(/model=\[inherit-auto \| slug\]/)
     expect(skill).toMatch(/Explicit routing \(named parent only\)/)
+    expect(skill).toMatch(/Adversarial/)
+    expect(skill).toMatch(/adversarial-staged/)
 
     // inherit-auto is a sentinel, not a slug; examples live in model-routing.
     expect(skill).toMatch(/dispatch-plan sentinel only/)
@@ -160,18 +163,27 @@ describe('toolbox skill SSOT', () => {
     expect(council).toMatch(/model=\[inherit-auto \| slug\]/)
     expect(council).toMatch(/inherit-auto` means \*\*omit\*\* the Task\/Subagent `model` argument/)
     expect(council).toMatch(/Review dispatch does not redefine that gate/)
+    expect(council).toMatch(/Goal: adversarial/)
     expect(council).not.toMatch(/## Checklist before spawn/)
     expect(council).not.toMatch(/model=\[slug\]/)
     expect(discovery).toMatch(/tier metadata.*not spawn instructions/s)
     expect(discovery).toMatch(/Tier→slug mapping is only for the named-parent branch/)
     expect(discovery).toMatch(/Parent model: \[Auto \| <named model>\]/)
     expect(taskPrompt).toMatch(/plan `model=inherit-auto` → omit the tool `model` argument/)
+    expect(taskPrompt).toMatch(/adversarial\.md/)
 
     // Related entry recipes reconciled away from forced slugs
     expect(perspectiveInvestigate).toMatch(/model=\[inherit-auto \| slug\]/)
     expect(perspectiveInvestigate).not.toMatch(/model=\[slug A\]/)
-    expect(perspectiveSecond).toMatch(/model=\[inherit-auto \| slug\]/)
-    expect(perspectiveSecond).not.toMatch(/model=\[slug A\]/)
+    expect(perspectiveInvestigate).toMatch(/Goal: adversarial/)
+    expect(adversarialDebate).toMatch(/model=\[inherit-auto \| slug\]/)
+    expect(adversarialDebate).not.toMatch(/model=\[slug A\]/)
+    expect(adversarialDebate).toMatch(/Goal: adversarial-staged/)
+    expect(adversarialDebate).toMatch(/stance=premises/)
+    expect(adversarialDebate).toMatch(/stance=completeness/)
+    expect(adversarialDebate).toMatch(/stance=defend/)
+    expect(adversarialKernel).toMatch(/Staged debate/)
+    expect(adversarialKernel).toMatch(/Context asymmetry/)
     expect(broad).toMatch(/model=\[inherit-auto \| slug\]/)
     expect(broad).not.toMatch(/model=\[cheapest\]/)
     expect(broad).toMatch(/Parent model: \[Auto \| <named model>\]/)
@@ -184,7 +196,8 @@ describe('toolbox skill SSOT', () => {
     const modes = readFileSync(join(root, 'code-review/references/modes.md'), 'utf8')
     const multi = readFileSync(join(root, 'multi/SKILL.md'), 'utf8')
 
-    expect(skill).toMatch(/Council dispatch \(mandatory spawn\)/)
+    expect(skill).toMatch(/Council dispatch \(mandatory spawn/)
+    expect(skill).toMatch(/always adversarial/)
     expect(skill).toMatch(/one host Task\/Subagent call per selected member/)
     expect(skill).toMatch(/do not fabricate a `Review · …` report/)
     expect(skill).toMatch(/do \*\*not\*\* waive council/)
@@ -192,6 +205,8 @@ describe('toolbox skill SSOT', () => {
 
     expect(council).toMatch(/## Hard gate \(before any review report\)/)
     expect(council).toMatch(/Spawn \(mandatory\)/)
+    expect(council).toMatch(/Goal: adversarial/)
+    expect(council).toMatch(/Adversarial overlay/)
     expect(council).toMatch(
       /Skipping this step and writing findings yourself is a \*\*violation\*\*/,
     )

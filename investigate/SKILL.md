@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 **Source of truth for** evidence-based hunch verification.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
 
 For when something feels wrong but the user can't fully articulate it yet, or they have a **specific** doubt about a code path, approach, claim, or conclusion. The goal is to narrow the hunch, then **confirm** or **refute** with evidence. Do not manufacture problems if the hunch is unfounded. **Narrow the unease together** — not doubting the user's instincts.
 

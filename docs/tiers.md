@@ -2,7 +2,7 @@
 
 **Source of truth for** skill tier assignment across the agent harness ecosystem.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-15 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
 
 Assign each skill to exactly one place. Update when adding skills.
 
@@ -16,7 +16,7 @@ Generic orchestration, planning, and dialogue — intended for any consumer proj
 | code-review    | Council review + fix-loop (customize roster) |
 | crystallize    | Fuzzy idea → artifact                        |
 | grill          | Pressure-test design                         |
-| second-opinion | Plan review                                  |
+| second-opinion | Unified plan review (staged debate)          |
 | investigate    | Code hunch / web research                    |
 | handoff        | Session handoff                              |
 

@@ -19,21 +19,21 @@ Match the **scannable finding-block shape** for **Action** items — short imper
 **Required header** (first line of every `pr` / `merge` synthesis, including zero-findings):
 
 ```markdown
-Review · pr · Full · Pass class: first-baseline · Escalation: Promoted to Full (auth/security, 40 files) · Filing: merge-blockers only
+Review · pr · Full · Pass class: first-baseline · Escalation: Promoted to Full (auth/security, 40 files) · Dispatch: adversarial · Filing: merge-blockers only
 ```
 
-Format: `Review · {mode} · {depth} · Pass class: {first-baseline|closure-re-review|new-scope-review} · Escalation: {Stayed Thorough|Promoted to Full|Stayed targeted contextual|Promoted to Full contextual} ({brief reason})`. Required on every `pr` / `merge` review that ran anti-thrash preflight. Optional: `Pass: targeted contextual` / `Pass: Full contextual` on fix-loop re-reviews; `Filing: merge-blockers only` (default) or `Filing: merge-blockers + improvements` when user opted in — [merge-blockers.md](merge-blockers.md). Missing escalation line on a `pr` review = **incomplete turn**. Depth regression: if Full triggers in [modes.md](modes.md) apply but header says Thorough/targeted without a recorded carve-out, fix depth before ending the turn.
+Format: `Review · {mode} · {depth} · Pass class: {first-baseline|closure-re-review|new-scope-review} · Escalation: {Stayed Thorough|Promoted to Full|Stayed targeted contextual|Promoted to Full contextual} ({brief reason}) · Dispatch: adversarial[ · cross-model]`. Required on every `pr` / `merge` review that ran anti-thrash preflight. `Dispatch: adversarial` is **always** present (council is always adversarial). Add `cross-model` only when the adversarial model carve-out ran. Optional: `Pass: targeted contextual` / `Pass: Full contextual` on fix-loop re-reviews; `Filing: merge-blockers only` (default) or `Filing: merge-blockers + improvements` when user opted in — [merge-blockers.md](merge-blockers.md). Missing escalation line on a `pr` review = **incomplete turn**. Missing `Dispatch: adversarial` = **incomplete turn**. Depth regression: if Full triggers in [modes.md](modes.md) apply but header says Thorough/targeted without a recorded carve-out, fix depth before ending the turn.
 
 **Closure re-review size carve-out example:**
 
 ```markdown
-Review · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; whole-branch size ignored) · Pass: targeted contextual · Filing: merge-blockers only
+Review · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; whole-branch size ignored) · Pass: targeted contextual · Dispatch: adversarial · Filing: merge-blockers only
 ```
 
 **Commit-stack / missing-ledger carve-out example:**
 
 ```markdown
-Review · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; commit-stack archaeology; whole-branch size ignored) · Pass: targeted contextual · Filing: merge-blockers only
+Review · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; commit-stack archaeology; whole-branch size ignored) · Pass: targeted contextual · Dispatch: adversarial · Filing: merge-blockers only
 ```
 
 **Findings count line** (second line):

@@ -1,16 +1,18 @@
 ---
 name: second-opinion
-description: Written plan review — fresh read (Stance A) or completeness verify (Stance B). Not for dialogue without a plan artifact or a single code-path hunch.
+description: Written plan / PRD / issue-set review via staged adversarial subagents — premises attack + completeness attack, then a related-context defender. Not for dialogue without a plan artifact or a single code-path hunch.
 disable-model-invocation: true
 ---
 
 # Second opinion
 
-**Source of truth for** written plan review.
+**Source of truth for** written plan review via staged multi debate.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
 
-You are not having a Socratic **explore** session — the artifact is a **plan** (or PRD / issue set). Follow [references/second-opinion.md](references/second-opinion.md) for **stance dispatch** (fresh read vs completeness verify).
+You are not having a Socratic **explore** session — the artifact is a **plan** (or PRD / issue set). Follow [references/second-opinion.md](references/second-opinion.md). Dispatch → [references/adversarial-debate.md](references/adversarial-debate.md) + [`multi` adversarial.md](../multi/references/adversarial.md) § Staged debate.
+
+**No Stance A/B.** Outsider premise critique and completeness/axis readiness always run **in tandem** as Wave-1 subagent roles. Do not ask “fresh read or verify?”
 
 ## When to Use
 
@@ -19,29 +21,20 @@ You are not having a Socratic **explore** session — the artifact is a **plan**
 
 Not for: dialogue without a plan ([`crystallize`](../crystallize/SKILL.md), [`grill`](../grill/SKILL.md)), single code-path hunch ([`investigate`](../investigate/SKILL.md)).
 
-## Stances
-
-| Stance                      | Trigger                                                  | Recipe                                                                                                        |
-| --------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| **A — Fresh read**          | Someone else's plan; premise challenge + critique        | [references/second-opinion.md](references/second-opinion.md) (Stance A)                                       |
-| **B — Completeness verify** | "Verify my plan", readiness, axis pass without rewriting | [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) |
-
-If unclear: ask whether they want a **fresh read** (outsider assumptions) or a **completeness checklist** (verify).
-
-**Does not own:**
+## Does not own
 
 - Dialogue without a plan artifact → **crystallize** or **grill**
 - Author a new plan from intent → **crystallize** or **grill** → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md)
 - Single code-path hunch with evidence → **investigate**
-- Stance dispatch and structural checks → [references/second-opinion.md](references/second-opinion.md)
+- Protocol + output sections → [references/second-opinion.md](references/second-opinion.md)
 
 ## Stance and repo
 
-- **Primary-source-first:** Skim 2–4 primary sources the plan cites — code files, docs, data, or prior decisions; do not ask the user for paths that appear in the plan (for **Stance A**; **Stance B** follows verify.md locate step).
-- For structural “worth deepening?”, use the checklists in [references/second-opinion.md](references/second-opinion.md) — brief, not a second full pass. Broad codebase sweeps → [parallel-explore.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/parallel-explore.md). Stance A escalation: small plan → single pass; large plan → [parallel-plan-evidence.md](references/parallel-plan-evidence.md); contested/high-stakes → [parallel-perspective.md](references/parallel-perspective.md).
-- If the user's need is only dialogue (no plan file), use **crystallize** or **grill**. If they need a verdict on a **single** suspicion, use **investigate**. To **author** a new plan from intent, use **crystallize** or **grill** → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md).
+- **Primary-source-first for the defender wave:** Wave 2 receives 2–4 primary sources the plan cites — code files, docs, data, or prior decisions; do not ask the user for paths that appear in the plan. Wave 1 attackers get the **artifact only** (context asymmetry).
+- Structural “worth deepening?” → brief notes in synthesis per [second-opinion.md](references/second-opinion.md). Broad codebase sweeps → [parallel-explore.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/parallel-explore.md). Large artifacts may optionally pre-gather via [parallel-plan-evidence.md](references/parallel-plan-evidence.md) — gather is not a substitute for debate.
+- Completeness axes checklist body → [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) as the **completeness attacker overlay**, not a separate skill stance.
 
-**Ambient routing:** inline axis pass on artifacts → [agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) § Plan on disk; full Stance A/B remains user-invoked.
+**Ambient routing:** inline axis pass on artifacts → [agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) § Plan on disk; full second-opinion remains user-invoked.
 
 ## Consumer bindings
 
@@ -49,13 +42,13 @@ Plan artifact paths (`.cursor/plans/`, ClickUp tasks, etc.) arrive as project-sp
 
 ## Output format
 
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). End with this block when the review pass is complete:
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). End with this block when both debate waves and synthesis are complete:
 
 ```markdown
 ## Second opinion summary
 
-**Stance:** A (fresh read) | B (completeness verify)
 **Artifact:** [path or title]
+**Dispatch:** adversarial-staged
 
 ### Findings
 

@@ -2,6 +2,8 @@
 
 `pr` and `merge` diff/base → [shared.md](shared.md). Agent selection → [agent-selection.md](agent-selection.md).
 
+**Adversarial framing** is the default council dispatch shape for every mode below — not a separate diff-source mode. Depth / diff still come from this file; kill mandates + convergent/divergent synthesis → [council-dispatch.md](council-dispatch.md) and [`multi` adversarial.md](../../multi/references/adversarial.md).
+
 ---
 
 ## `pr`
