@@ -1,24 +1,60 @@
-import { readdir, readFile, stat } from 'node:fs/promises'
+import { access, readdir, readFile, stat } from 'node:fs/promises'
 import { basename, join } from 'node:path'
 
-/** Band-neutral key for full vs transfer arm comparison. */
-export function normalizeScenarioName(name) {
-  return name
-    .replace(/^(outcome|transfer)[:-]\s*/i, '')
-    .replace(/-[a-f0-9]{8}$/i, '')
-    .replace(/-/g, ' ')
-    .trim()
-    .toLowerCase()
+export const PARITY_COMPARE_PAIR = 'investigate-outcomes:investigate-transfer'
+export const OUTCOMES_SUITE = 'investigate-outcomes'
+export const TRANSFER_SUITE = 'investigate-transfer'
+
+/** Paths agent-test writes under a compare-out directory. */
+export function compareReportPaths(outDir) {
+  return {
+    html: join(outDir, 'compare-report.html'),
+    md: join(outDir, 'compare-report.md'),
+    json: join(outDir, 'compare-report.json'),
+    suiteReports: {
+      outcomes: join(outDir, `${OUTCOMES_SUITE}.suite-report.json`),
+      transfer: join(outDir, `${TRANSFER_SUITE}.suite-report.json`),
+    },
+  }
 }
 
-/** Total tokens from result row usage (agent + judge or total). */
-export function totalTokensFromRow(row) {
-  const usage = row?.usage
-  if (usage?.total?.totalTokens != null) return usage.total.totalTokens
-  const agent = row?.agentUsage?.totalTokens ?? usage?.agent?.totalTokens
-  const judge = row?.judgeUsage?.totalTokens ?? usage?.judge?.totalTokens
-  if (agent != null || judge != null) return (agent ?? 0) + (judge ?? 0)
-  return null
+/** Summarize paired token usage from a SuiteCompareReport JSON object. */
+export function costFromCompareReport(report) {
+  let outcomesSum = 0
+  let outcomesCount = 0
+  let transferSum = 0
+  let transferCount = 0
+  for (const row of report.paired ?? []) {
+    if (row.a?.totalTokens != null) {
+      outcomesSum += row.a.totalTokens
+      outcomesCount++
+    }
+    if (row.b?.totalTokens != null) {
+      transferSum += row.b.totalTokens
+      transferCount++
+    }
+  }
+  return {
+    full: {
+      totalTokens: outcomesCount > 0 ? outcomesSum : null,
+      scenarioCount: outcomesCount,
+    },
+    none: {
+      totalTokens: transferCount > 0 ? transferSum : null,
+      scenarioCount: transferCount,
+    },
+    deltaTokens:
+      outcomesCount > 0 && transferCount > 0 ? transferSum - outcomesSum : null,
+  }
+}
+
+async function pathExists(path) {
+  try {
+    await access(path)
+    return true
+  } catch {
+    return false
+  }
 }
 
 export async function listSessionDirs(sessionsParent) {
@@ -42,6 +78,33 @@ export async function newestSessionAfter(sessionsParent, known = new Set()) {
   const sessions = await listSessionDirs(sessionsParent)
   const fresh = sessions.filter((s) => !known.has(s.path))
   return fresh.at(-1) ?? null
+}
+
+/** Newest session containing both investigate-outcomes and investigate-transfer debug trees. */
+export async function findParitySession(sessionsParent) {
+  const sessions = await listSessionDirs(sessionsParent)
+  for (let i = sessions.length - 1; i >= 0; i--) {
+    const session = sessions[i]
+    const hasOutcomes = await pathExists(join(session.path, OUTCOMES_SUITE))
+    const hasTransfer = await pathExists(join(session.path, TRANSFER_SUITE))
+    if (hasOutcomes && hasTransfer) return session
+  }
+  return sessions.at(-1) ?? null
+}
+
+/** Newest eval-reports run dir that already has suite-report JSON dumps. */
+export async function findLatestSuiteReports(evalReportsRoot) {
+  const runs = await listSessionDirs(evalReportsRoot)
+  for (let i = runs.length - 1; i >= 0; i--) {
+    const paths = compareReportPaths(runs[i].path)
+    if (
+      (await pathExists(paths.suiteReports.outcomes)) &&
+      (await pathExists(paths.suiteReports.transfer))
+    ) {
+      return { outDir: runs[i].path, paths }
+    }
+  }
+  return null
 }
 
 export async function collectResults(sessionRoot) {
@@ -87,7 +150,6 @@ export async function collectResults(sessionRoot) {
               suite,
               scenario,
               compareId,
-              norm: compareId ?? normalizeScenarioName(scenario),
               pass,
               skipped: Boolean(raw.skipped),
               durationMs: raw.durationMs ?? raw.duration ?? null,
@@ -117,42 +179,6 @@ export async function findFailedDebugBundles(sessionRoot) {
   return [...rows.values()].filter((r) => r.failed && r.debugDir).map((r) => r.debugDir)
 }
 
-export function mergeRowsByKey(leftRows, rightRows, leftLabel, rightLabel) {
-  const keys = new Set([...leftRows.keys(), ...rightRows.keys()])
-  return [...keys].sort().map((key) => {
-    const left = leftRows.get(key)
-    const right = rightRows.get(key)
-    const scenario = left?.scenario ?? right?.scenario ?? key.split('::')[1] ?? key
-    const suite = left?.suite ?? right?.suite ?? key.split('::')[0] ?? ''
-    return {
-      suite,
-      scenario,
-      norm: normalizeScenarioName(scenario),
-      [leftLabel]: left,
-      [rightLabel]: right,
-    }
-  })
-}
-
-export function mergeRowsByNorm(leftRows, rightRows, leftLabel, rightLabel) {
-  const leftByNorm = new Map()
-  for (const row of leftRows.values()) {
-    leftByNorm.set(row.norm ?? normalizeScenarioName(row.scenario), row)
-  }
-  const rightByNorm = new Map()
-  for (const row of rightRows.values()) {
-    rightByNorm.set(row.norm ?? normalizeScenarioName(row.scenario), row)
-  }
-  const norms = [...new Set([...leftByNorm.keys(), ...rightByNorm.keys()])].sort()
-  return norms.map((norm) => {
-    const left = leftByNorm.get(norm)
-    const right = rightByNorm.get(norm)
-    return {
-      suite: [left?.suite, right?.suite].filter(Boolean).join(' / ') || '—',
-      scenario: left?.scenario ?? right?.scenario ?? norm,
-      norm,
-      [leftLabel]: left,
-      [rightLabel]: right,
-    }
-  })
+export async function readCompareReportJson(jsonPath) {
+  return JSON.parse(await readFile(jsonPath, 'utf8'))
 }

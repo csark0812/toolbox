@@ -14,7 +14,7 @@ npx agent-test --doctor
 npm run agent:test:evidence-parity
 ```
 
-**One command** runs the discriminating cadence: `investigate-outcomes` (full) → `investigate-transfer` (none) → optional `diagnose-outcomes` + `organization-ablations` → compare report → evolution-note proposals for failures. Writes `_agent/evidence-runs/<id>/manifest.json`. Exits non-zero when any scenario fails (for triage, not CI by default).
+**One command** runs the discriminating cadence: `agent-test --compare-pairs investigate-outcomes:investigate-transfer` → optional `diagnose-outcomes` + `organization-ablations` → evolution-note proposals for failures. Writes `_agent/evidence-runs/<id>/manifest.json` and compare HTML/MD/JSON under `_agent/eval-reports/<id>/`. Exits non-zero when any scenario fails (for triage, not CI by default).
 
 Scenarios that pass on both arms (ceiling) live in `investigate-outcomes-ceiling` / `investigate-transfer-ceiling` — replay CI only, not this command.
 
@@ -24,8 +24,8 @@ Scenarios that pass on both arms (ceiling) live in `investigate-outcomes-ceiling
 # Faster: investigate transfer only, no diagnose/ablations
 npm run agent:test:evidence-parity -- --no-diagnose --no-ablations
 
-# Re-compare + propose from an existing debug staging dir
-npm run agent:test:evidence-parity -- --compare-only --debug-dir "$TMPDIR/toolbox-evidence-<id>"
+# Re-render compare from prior suite-report JSON (no live spend)
+npm run agent:test:evidence-parity -- --compare-only
 ```
 
 Outcome and ablation suites must **not** set `"skip": true` (that skips live too). Only [`github-ambient-refs`](../agent-suites/github-ambient-refs/) uses `skip` for replay CI.
@@ -44,41 +44,21 @@ npm run agent:test:evidence-parity
 
 **Manual steps** (same pipeline the orchestrator runs):
 
-1. **Skill-on (full)** — with debug on failures:
+1. **Evidence parity (compare-pairs)** — one live invocation runs both arms and writes compare artifacts:
 
    ```bash
-   npm run agent:test:outcomes -- --debug
+   npm run sync:claude-skills && agent-test --suites-dir agent-suites --live --debug \
+     --compare-pairs investigate-outcomes:investigate-transfer \
+     --compare-out "_agent/eval-reports/$(date -u +%Y-%m-%dT%H-%M-%S)"
    ```
 
-   Or investigate only:
-
-   ```bash
-   npm run sync:claude-skills && agent-test --suites-dir agent-suites --suite investigate-outcomes --live --debug
-   ```
-
-2. **Skill-off (none)** — transfer band:
-
-   ```bash
-   npm run agent:test:transfer -- --debug
-   ```
-
-3. **Organization ablations** (optional, same session discipline):
+2. **Organization ablations** (optional, same session discipline):
 
    ```bash
    npm run agent:test:ablations -- --debug
    ```
 
-4. **Compare** — two debug session roots (or use orchestrator output):
-
-   ```bash
-   node scripts/compare-agent-runs.mjs \
-     --left  "$TMPDIR/agent-spec/sessions/<full-session-id>" \
-     --right "$TMPDIR/agent-spec/sessions/<none-session-id>" \
-     --left-label full \
-     --right-label none
-   ```
-
-   Writes `compare-report.html`, `compare-report.md`, and `compare-report.json` under `_agent/eval-reports/<run-id>/` (gitignored). Pairing uses `compareId` then band-neutral scenario name via agent-test `writeCompareReport`. The evidence-parity manifest links the HTML path as `report` and MD as `reportMd`.
+Compare output lands in `_agent/eval-reports/<run-id>/` as `compare-report.html`, `.md`, and `.json`, plus `investigate-outcomes.suite-report.json` and `investigate-transfer.suite-report.json`. Pairing uses `compareId` then band-neutral scenario name (agent-test native). The evidence-parity manifest links the HTML path as `report` and MD as `reportMd`.
 
 ## Equal-budget discipline
 

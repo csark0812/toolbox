@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * One-shot evidence-parity cadence:
- *   sync skills → investigate-outcomes (full) → investigate-transfer (none)
- *   → optional diagnose + ablations → compare report → propose evolution notes
+ *   sync skills → agent-test --compare-pairs investigate-outcomes:investigate-transfer
+ *   → optional diagnose + ablations → propose evolution notes
  *
  * Does NOT edit SKILL.md — human Keep / Reject / Defer only.
  *
@@ -15,7 +15,7 @@
  *   --no-diagnose     skip diagnose-outcomes
  *   --no-ablations    skip organization-ablations
  *   --no-propose      skip evolution-note autofill
- *   --compare-only    skip live runs; need prior sessions under --debug-dir
+ *   --compare-only    re-render compare from prior suite-report JSON (no live runs)
  */
 import { spawnSync } from 'node:child_process'
 import { mkdir, writeFile } from 'node:fs/promises'
@@ -23,15 +23,20 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
+  PARITY_COMPARE_PAIR,
+  compareReportPaths,
+  costFromCompareReport,
   findFailedDebugBundles,
-  listSessionDirs,
+  findLatestSuiteReports,
+  findParitySession,
   newestSessionAfter,
+  readCompareReportJson,
 } from './lib/agent-test-artifacts.mjs'
-import { writeComparisonReport } from './lib/compare-agent-runs-core.mjs'
 import { proposeFromDebugDir } from './lib/propose-skill-evolution-core.mjs'
 
 const root = join(fileURLToPath(import.meta.url), '..', '..')
 const agentTestBin = join(root, 'node_modules', '.bin', 'agent-test')
+const evalReportsRoot = join(root, '_agent', 'eval-reports')
 
 function parseArgs(argv) {
   const out = {
@@ -81,12 +86,40 @@ function syncSkills() {
   if (result.status !== 0) process.exit(result.status ?? 1)
 }
 
+async function resolveCompareInputs({ compareOnly, debugParent, runReportDir }) {
+  if (!compareOnly) return null
+
+  const latest = await findLatestSuiteReports(evalReportsRoot)
+  if (latest) {
+    return {
+      a: latest.paths.suiteReports.outcomes,
+      b: latest.paths.suiteReports.transfer,
+    }
+  }
+
+  const sessionsParent = join(debugParent, 'sessions')
+  const paritySession = await findParitySession(sessionsParent)
+  if (paritySession) {
+    const sessionCompare = compareReportPaths(join(paritySession.path, 'compare'))
+    return {
+      a: sessionCompare.suiteReports.outcomes,
+      b: sessionCompare.suiteReports.transfer,
+      paritySession: paritySession.path,
+    }
+  }
+
+  console.error(
+    'compare-only needs suite-report JSON from a prior parity run under _agent/eval-reports/<run-id>/',
+  )
+  process.exit(1)
+}
+
 async function main() {
   const args = parseArgs(process.argv)
   if (args.help) {
     console.log(`Usage: npm run agent:test:evidence-parity [-- flags]
 
-Automates: outcomes (full) + transfer (none) + compare + propose notes.
+Automates: compare-pairs (outcomes vs transfer) + optional diagnose/ablations + propose notes.
 Requires CURSOR_API_KEY in the environment (source .env first).
 
 Flags:
@@ -94,7 +127,7 @@ Flags:
   --no-diagnose     skip diagnose-outcomes
   --no-ablations    skip organization-ablations
   --no-propose      skip evolution-note autofill
-  --compare-only    skip live runs (sessions must exist under --debug-dir)
+  --compare-only    re-render compare from prior suite-report JSON (no live runs)
   --debug-dir PATH  staging parent (default: $TMPDIR/toolbox-evidence-<ts>)`)
     process.exit(0)
   }
@@ -108,12 +141,16 @@ Flags:
   const debugParent =
     args.debugDir || join(tmpdir(), `toolbox-evidence-${runId}`)
   const sessionsParent = join(debugParent, 'sessions')
+  const runReportDir = join(evalReportsRoot, runId)
+  const reportPaths = compareReportPaths(runReportDir)
   const manifestDir = join(root, '_agent', 'evidence-runs', runId)
   await mkdir(manifestDir, { recursive: true })
+  await mkdir(runReportDir, { recursive: true })
 
   const manifest = {
     startedAt: new Date().toISOString(),
     debugParent,
+    comparePair: PARITY_COMPARE_PAIR,
     sessions: {},
     report: null,
     proposals: [],
@@ -139,31 +176,21 @@ Flags:
   if (!args.compareOnly) {
     syncSkills()
 
-    run('investigate-outcomes (skills: full)', [
+    run('evidence-parity compare-pairs', [
       ...baseAgentArgs,
-      '--suite',
-      'investigate-outcomes',
+      '--compare-pairs',
+      PARITY_COMPARE_PAIR,
+      '--compare-out',
+      runReportDir,
     ])
-    const fullSession = await newestSessionAfter(sessionsParent, knownSessions)
-    if (!fullSession) {
-      console.error('No session directory found after investigate-outcomes')
-      process.exit(1)
-    }
-    knownSessions.add(fullSession.path)
-    manifest.sessions.full = fullSession.path
 
-    run('investigate-transfer (skills: none)', [
-      ...baseAgentArgs,
-      '--suite',
-      'investigate-transfer',
-    ])
-    const noneSession = await newestSessionAfter(sessionsParent, knownSessions)
-    if (!noneSession) {
-      console.error('No session directory found after investigate-transfer')
+    const paritySession = await newestSessionAfter(sessionsParent, knownSessions)
+    if (!paritySession) {
+      console.error('No session directory found after compare-pairs run')
       process.exit(1)
     }
-    knownSessions.add(noneSession.path)
-    manifest.sessions.none = noneSession.path
+    knownSessions.add(paritySession.path)
+    manifest.sessions.parity = paritySession.path
 
     if (args.diagnose) {
       run('diagnose-outcomes (skills: full)', [
@@ -191,70 +218,72 @@ Flags:
       }
     }
   } else {
-    const sessions = await listSessionDirs(sessionsParent)
-    if (sessions.length < 2) {
-      console.error('--compare-only needs at least two session dirs under', sessionsParent)
-      process.exit(1)
-    }
-    manifest.sessions.full = sessions.at(-2).path
-    manifest.sessions.none = sessions.at(-1).path
+    const compareInputs = await resolveCompareInputs({
+      compareOnly: true,
+      debugParent,
+      runReportDir,
+    })
+    run('agent-test compare (replay)', [
+      '--suites-dir',
+      'agent-suites',
+      'compare',
+      '--a',
+      compareInputs.a,
+      '--b',
+      compareInputs.b,
+      '--compare-out',
+      runReportDir,
+    ])
   }
 
-  const runReportDir = join(root, '_agent', 'eval-reports', runId)
-  const report = await writeComparisonReport({
-    repoRoot: root,
-    left: manifest.sessions.full,
-    right: manifest.sessions.none,
-    leftLabel: 'full',
-    rightLabel: 'none',
-    reportDir: runReportDir,
-  })
-  manifest.report = report.reportPath
-  manifest.reportMd = report.reportMdPath
-  manifest.reportJson = report.reportJsonPath
-  manifest.suiteReports = {
-    full: report.aDumpPath,
-    none: report.bDumpPath,
+  const paritySession =
+    manifest.sessions.parity ??
+    (await findParitySession(sessionsParent))?.path ??
+    null
+  if (paritySession) {
+    manifest.sessions.parity = paritySession
   }
-  manifest.cost = {
-    full: {
-      totalTokens: report.leftTokenStats?.sum ?? null,
-      scenarioCount: report.leftTokenStats?.count ?? 0,
-    },
-    none: {
-      totalTokens: report.rightTokenStats?.sum ?? null,
-      scenarioCount: report.rightTokenStats?.count ?? 0,
-    },
-    deltaTokens:
-      report.leftTokenStats?.sum != null && report.rightTokenStats?.sum != null
-        ? report.rightTokenStats.sum - report.leftTokenStats.sum
-        : null,
-  }
-  console.log(`\nCompare report (HTML): ${report.reportPath}`)
-  console.log(`Compare report (MD): ${report.reportMdPath}`)
 
-  if (args.propose) {
+  const compareReport = await readCompareReportJson(reportPaths.json)
+  manifest.report = reportPaths.html
+  manifest.reportMd = reportPaths.md
+  manifest.reportJson = reportPaths.json
+  manifest.suiteReports = reportPaths.suiteReports
+  manifest.cost = costFromCompareReport(compareReport)
+  console.log(`\nCompare report (HTML): ${reportPaths.html}`)
+  console.log(`Compare report (MD): ${reportPaths.md}`)
+  console.log(`Paired scenarios: ${compareReport.summary?.pairedCount ?? 0}`)
+
+  if (args.propose && paritySession) {
     const debugDirs = new Set()
-    for (const sessionPath of Object.values(manifest.sessions)) {
+    for (const dir of await findFailedDebugBundles(paritySession)) {
+      debugDirs.add(dir)
+    }
+    for (const sessionPath of [manifest.sessions.diagnose, manifest.sessions.ablations]) {
       if (!sessionPath) continue
       for (const dir of await findFailedDebugBundles(sessionPath)) {
         debugDirs.add(dir)
       }
     }
-    const proposalTs = runId
     for (const debugDir of debugDirs) {
       const { outPath } = await proposeFromDebugDir(debugDir, {
         repoRoot: root,
-        ts: proposalTs,
+        ts: runId,
       })
       manifest.proposals.push(outPath)
       console.log(`Proposed: ${outPath}`)
     }
   }
 
-  const fullFails = (await findFailedDebugBundles(manifest.sessions.full)).length
-  const noneFails = (await findFailedDebugBundles(manifest.sessions.none)).length
-  manifest.failures = fullFails + noneFails
+  manifest.failures = paritySession
+    ? (await findFailedDebugBundles(paritySession)).length
+    : 0
+  if (manifest.sessions.diagnose) {
+    manifest.failures += (await findFailedDebugBundles(manifest.sessions.diagnose)).length
+  }
+  if (manifest.sessions.ablations) {
+    manifest.failures += (await findFailedDebugBundles(manifest.sessions.ablations)).length
+  }
   manifest.finishedAt = new Date().toISOString()
 
   const manifestPath = join(manifestDir, 'manifest.json')
@@ -263,7 +292,9 @@ Flags:
   console.log(`Debug staging: ${debugParent}`)
 
   if (manifest.failures > 0) {
-    console.log(`\n⚠ ${manifest.failures} failed scenario bundle(s) — triage proposals under _agent/skill-evolution/`)
+    console.log(
+      `\n⚠ ${manifest.failures} failed scenario bundle(s) — triage proposals under _agent/skill-evolution/`,
+    )
     process.exit(1)
   }
   console.log('\n✓ Evidence parity run complete (no failures)')

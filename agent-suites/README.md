@@ -73,7 +73,7 @@ Live outcome band for `investigate-outcomes` and `diagnose-outcomes`. Requires `
 npm run agent:test:transfer
 ```
 
-Live transfer band: `investigate-outcomes` (`skills: full`) then `investigate-transfer` (`skills: none`). Compare debug sessions with `node scripts/compare-agent-runs.mjs` — or run the full automated cadence:
+Live transfer band via native compare: `agent-test --compare-pairs investigate-outcomes:investigate-transfer` (or the full automated cadence):
 
 ```bash
 npm run agent:test:evidence-parity
