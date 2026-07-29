@@ -4,13 +4,14 @@ Toolbox agent suites are portable conformance checks for public skills. They use
 
 ## Suite bands
 
-| Band             | Purpose                                                           | CI default                    | Command                                |
-| ---------------- | ----------------------------------------------------------------- | ----------------------------- | -------------------------------------- |
-| **Contract**     | Process gates — did the agent follow the skill protocol?          | Replay (`npm run agent:test`) | `agent-test --suites-dir agent-suites` |
-| **Outcome**      | Task settlement — did the agent reach the right verdict / loop?   | Stub replay (no judge)        | `npm run agent:test:outcomes` (live)   |
-| **Transfer**     | Same judges as outcome with `skills: none` (null baseline)        | Stub replay (no judge)        | `npm run agent:test:transfer` (live)   |
-| **Ablation**     | Organization arms — primary vs council, fit-check vs forced spawn | Stub replay (no judge)        | `npm run agent:test:ablations` (live)  |
-| **Ambient live** | Network fetch of GitHub raw ambient refs                          | Skipped (`skip: true`)        | `npm run agent:test:live`              |
+| Band             | Purpose                                                                        | CI default                    | Command                                |
+| ---------------- | ------------------------------------------------------------------------------ | ----------------------------- | -------------------------------------- |
+| **Contract**     | Process gates — did the agent follow the skill protocol?                       | Replay (`npm run agent:test`) | `agent-test --suites-dir agent-suites` |
+| **Outcome**      | Task settlement — did the agent reach the right verdict / loop?                | Stub replay (no judge)        | `npm run agent:test:outcomes` (live)   |
+| **Transfer**     | Same judges as outcome with `skills: none` (null baseline; hunch-only prompts) | Stub replay (no judge)        | `npm run agent:test:transfer` (live)   |
+| **Ceiling**      | Scenarios that pass on both arms — replay CI only, not evidence-parity         | Stub replay (no judge)        | `npm run agent:test` only              |
+| **Ablation**     | Organization arms — primary vs council, fit-check vs forced spawn              | Stub replay (no judge)        | `npm run agent:test:ablations` (live)  |
+| **Ambient live** | Network fetch of GitHub raw ambient refs                                       | Skipped (`skip: true`)        | `npm run agent:test:live`              |
 
 Contract suites use golden `replayTrace` JSON. Outcome and ablation suites ship placeholder traces for live staging and stub replay in CI; the LLM judge runs only under `--live`.
 
@@ -36,8 +37,8 @@ Toolbox owns generic skill-contract behavior:
 - `multi`: Fit check — name single-pass rival before `N ≥ 2`; skip when independence fails.
 - `second-opinion`: staged debate with claim anchoring; unanchored kills tagged `drift`.
 - `investigate`: discriminating kill tests; leave dead patches after 2–3 no-signal reads.
-- `investigate-outcomes`: live settlement of founded/unfounded hunches (see `fixtures/debug-app/`).
-- `investigate-transfer`: same settlement judges with `skills: none` — compare via [docs/evidence-parity.md](../docs/evidence-parity.md).
+- `investigate-outcomes` / `investigate-transfer`: discriminating evidence-parity band (2 scenarios). **Manual live cadence only** (not part of `npm run check`).
+- `investigate-outcomes-ceiling` / `investigate-transfer-ceiling`: ceiling scenarios (replay CI only).
 - `crystallize`: alternate problem frame before crystallized output.
 - `tdd`: seam confirmation before the first test; red-green slice discipline.
 - `diagnose`: entry gate — no repro means no hypotheses; route to investigate or get a repro.

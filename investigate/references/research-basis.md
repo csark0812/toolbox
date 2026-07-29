@@ -37,3 +37,11 @@ After 2–3 primary reads with no confirmatory or disconfirmatory signal, **leav
 External claims need source class and independent corroboration where possible; conflicting independents stay visible in the verdict.
 
 **Confidence:** Moderate for web/docs; high for in-repo `file:line` requirements on code hunches.
+
+## Evidence parity (`debug-app` outcome band)
+
+On the portable `debug-app` live outcome band (3× repeats on the original four scenarios, same model, July 2026): **4/4 settlement pass on both `skills: full` and `skills: none`**. No judge-visible lift for loading the skill file. Token delta was inconsistent across runs.
+
+After hardening the null arm and adding three harder scenarios (7 total), two repeats showed **7/7 full vs 5/7 none**. Consistent separation on **fix-invention under patch pressure** (skill-on holds verdict-without-patch gate; skill-off ships fix / skips verdict format). Five scenarios still passed on both arms — moved to `investigate-*-ceiling` suites (replay CI only).
+
+**Confidence for transfer:** **Moderate** for fix-invention verdict gate under fix pressure; **low** for general investigate transfer on `debug-app` fixtures.

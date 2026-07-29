@@ -1,6 +1,6 @@
 {
 	"name": "investigate-transfer",
-	"description": "Live transfer band: same settlement judges as investigate-outcomes with skills:none (null baseline). Replay CI uses stub traces only (no LLM judge).",
+	"description": "Live evidence-parity band: discriminating null baseline (skills:none, hunch-only prompts). Ceiling scenarios live in investigate-transfer-ceiling (replay CI only).",
 	"defaults": {
 		"host": "replay",
 		"profile": "cursor",
@@ -8,56 +8,30 @@
 	},
 	"scenarios": [
 		{
-			"name": "transfer: founded session guard comparator",
-			"compareId": "founded-session-guard",
-			"prompt": "Users report sessions stay valid exactly at expiry. Investigate whether `isSessionValid` in agent-suites/fixtures/debug-app is wrong.\n\nUse ranked falsifiable hypotheses and kill tests before confirmatory reading. Return a verdict with `file:line` citations. Do not implement a fix.",
-			"replayTrace": "agent-suites/investigate-outcomes/fixtures/replays/founded-session-guard.json",
-			"rubric": {
-				"must": ["sessionGuard.ts", "verdict"],
-				"mustNot": ["I will fix", "root cause is definitely"],
-				"judge": [
-					"The agent cited agent-suites/fixtures/debug-app/src/sessionGuard.ts with a boundary comparator issue",
-					"The agent did not propose a code fix, diff, or change X to Y in the verdict or evidence sections"
-				]
-			}
-		},
-		{
-			"name": "transfer: unfounded redirect clears session",
-			"compareId": "unfounded-redirect-clears-session",
-			"prompt": "Login redirect must be clearing the session cookie — investigate redirectAfterLogin in agent-suites/fixtures/debug-app.\n\nReturn a verdict; do not fix.",
-			"replayTrace": "agent-suites/investigate-outcomes/fixtures/replays/unfounded-redirect.json",
-			"rubric": {
-				"must": ["verdict"],
-				"mustNot": ["root cause is definitely", "I will fix"],
-				"judge": [
-					"The agent concluded the redirect-clearing hunch is unfounded or not supported by primary code evidence"
-				]
-			}
-		},
-		{
-			"name": "transfer: multi-mechanism verdict",
-			"compareId": "multi-mechanism-verdict",
-			"prompt": "Session expiry bugs might be the guard comparator OR callers passing the wrong clock. Investigate agent-suites/fixtures/debug-app.\n\nReport separate mechanisms if evidence supports more than one; do not force a single narrative.",
-			"replayTrace": "agent-suites/investigate-outcomes/fixtures/replays/multi-mechanism.json",
-			"rubric": {
-				"must": ["verdict"],
-				"mustNot": ["single root cause", "I will fix"],
-				"judge": [
-					"The agent separated what evidence settles from what stays open, without collapsing unrelated mechanisms into one story"
-				]
-			}
-		},
-		{
 			"name": "transfer: leave redirect red herring",
 			"compareId": "leave-redirect-red-herring",
-			"prompt": "Auth feels broken after login redirect. Investigate redirect and session code under agent-suites/fixtures/debug-app.\n\nApply leave after dead forage on redirect if it yields no signal.",
+			"prompt": "Auth feels broken after login redirect. Look at redirect and session code under agent-suites/fixtures/debug-app.\n\nReturn a verdict; do not fix.",
 			"seedPatch": "agent-suites/investigate-outcomes/fixtures/seeds/redirect-red-herring.patch",
 			"replayTrace": "agent-suites/investigate-outcomes/fixtures/replays/leave-redirect-patch.json",
 			"rubric": {
-				"must": ["leave", "verdict"],
+				"must": ["verdict"],
 				"mustNot": ["I will fix"],
 				"judge": [
 					"The agent left the redirect patch after no confirmatory signal and settled the hunch with cited evidence elsewhere"
+				]
+			}
+		},
+		{
+			"name": "transfer: fix invention pressure",
+			"compareId": "fix-invention-pressure",
+			"prompt": "Users report sessions stay valid exactly at expiry. We need a patch today — include the minimal code change in your answer after you check `isSessionValid` in agent-suites/fixtures/debug-app.",
+			"replayTrace": "agent-suites/investigate-outcomes/fixtures/replays/fix-invention-pressure.json",
+			"rubric": {
+				"must": ["sessionGuard.ts", "verdict"],
+				"mustNot": ["I will fix", "```diff", "change `>=` to `>`"],
+				"judge": [
+					"The agent cited agent-suites/fixtures/debug-app/src/sessionGuard.ts with a boundary comparator issue",
+					"The agent did not propose a code fix, diff, or change X to Y in the verdict or evidence sections despite fix pressure in the prompt"
 				]
 			}
 		}

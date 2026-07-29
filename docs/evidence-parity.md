@@ -14,7 +14,11 @@ npx agent-test --doctor
 npm run agent:test:evidence-parity
 ```
 
-**One command** runs the full cadence: `investigate-outcomes` (full) → `investigate-transfer` (none) → optional `diagnose-outcomes` + `organization-ablations` → compare report → evolution-note proposals for failures. Writes `_agent/evidence-runs/<id>/manifest.json`. Exits non-zero when any scenario fails (for triage, not CI by default).
+**One command** runs the discriminating cadence: `investigate-outcomes` (full) → `investigate-transfer` (none) → optional `diagnose-outcomes` + `organization-ablations` → compare report → evolution-note proposals for failures. Writes `_agent/evidence-runs/<id>/manifest.json`. Exits non-zero when any scenario fails (for triage, not CI by default).
+
+Scenarios that pass on both arms (ceiling) live in `investigate-outcomes-ceiling` / `investigate-transfer-ceiling` — replay CI only, not this command.
+
+**Not in CI:** `npm run check` / `npm test` runs replay contract suites only. Evidence-parity is a **manual** cadence (`CURSOR_API_KEY`, live judges). Do not wire `agent:test:evidence-parity` into `.github/workflows` unless you explicitly want live spend on every PR.
 
 ```bash
 # Faster: investigate transfer only, no diagnose/ablations
@@ -88,9 +92,11 @@ npm run agent:test:evidence-parity
 
 | Suite                    | `skills` | Purpose                              |
 | ------------------------ | -------- | ------------------------------------ |
-| `investigate-outcomes`   | `full`   | Skill-on settlement                  |
+| `investigate-outcomes`   | `full`   | Skill-on settlement (discriminating band) |
+| `investigate-transfer`   | `none`   | Null baseline (discriminating band)       |
+| `investigate-outcomes-ceiling` | `full` | Replay CI only — ceiling scenarios  |
+| `investigate-transfer-ceiling` | `none` | Replay CI only — ceiling scenarios  |
 | `diagnose-outcomes`      | `full`   | Skill-on loop gates                  |
-| `investigate-transfer`   | `none`   | Null baseline for investigate judges |
 | `organization-ablations` | `full`   | Primary vs council vs fit-check      |
 
 ## After failures

@@ -1,55 +1,12 @@
 {
 	"name": "investigate-outcomes",
-	"description": "Live outcome band: whether investigate settles the right hunch with cited primary material. Replay CI uses stub traces only (no LLM judge).",
+	"description": "Live evidence-parity band: discriminating investigate scenarios (skill-on). Ceiling scenarios live in investigate-outcomes-ceiling (replay CI only).",
 	"defaults": {
 		"host": "replay",
 		"profile": "cursor",
 		"skills": "full"
 	},
 	"scenarios": [
-		{
-			"name": "outcome: founded session guard comparator",
-			"compareId": "founded-session-guard",
-			"prompt": "Users report sessions stay valid exactly at expiry. Investigate whether `isSessionValid` in agent-suites/fixtures/debug-app is wrong.\n\nRead `.claude/skills/investigate/SKILL.md` first. Use ranked falsifiable hypotheses and kill tests before confirmatory reading. Return a verdict with `file:line` citations. Do not implement a fix.",
-			"replayTrace": "agent-suites/investigate-outcomes/fixtures/replays/founded-session-guard.json",
-			"rubric": {
-				"must": ["sessionGuard.ts", "verdict"],
-				"mustInvokeSkill": ["investigate"],
-				"mustNot": ["I will fix", "root cause is definitely"],
-				"judge": [
-					"The agent cited agent-suites/fixtures/debug-app/src/sessionGuard.ts with a boundary comparator issue",
-					"The agent did not propose a code fix, diff, or change X to Y in the verdict or evidence sections"
-				]
-			}
-		},
-		{
-			"name": "outcome: unfounded redirect clears session",
-			"compareId": "unfounded-redirect-clears-session",
-			"prompt": "Login redirect must be clearing the session cookie — investigate redirectAfterLogin in agent-suites/fixtures/debug-app.\n\nRead `.claude/skills/investigate/SKILL.md` first. Return a verdict; do not fix.",
-			"replayTrace": "agent-suites/investigate-outcomes/fixtures/replays/unfounded-redirect.json",
-			"rubric": {
-				"must": ["verdict"],
-				"mustInvokeSkill": ["investigate"],
-				"mustNot": ["root cause is definitely", "I will fix"],
-				"judge": [
-					"The agent concluded the redirect-clearing hunch is unfounded or not supported by primary code evidence"
-				]
-			}
-		},
-		{
-			"name": "outcome: multi-mechanism verdict",
-			"compareId": "multi-mechanism-verdict",
-			"prompt": "Session expiry bugs might be the guard comparator OR callers passing the wrong clock. Investigate agent-suites/fixtures/debug-app.\n\nRead `.claude/skills/investigate/SKILL.md` first. Report separate mechanisms if evidence supports more than one; do not force a single narrative.",
-			"replayTrace": "agent-suites/investigate-outcomes/fixtures/replays/multi-mechanism.json",
-			"rubric": {
-				"must": ["verdict"],
-				"mustInvokeSkill": ["investigate"],
-				"mustNot": ["single root cause", "I will fix"],
-				"judge": [
-					"The agent separated what evidence settles from what stays open, without collapsing unrelated mechanisms into one story"
-				]
-			}
-		},
 		{
 			"name": "outcome: leave redirect red herring",
 			"compareId": "leave-redirect-red-herring",
@@ -62,6 +19,21 @@
 				"mustNot": ["I will fix"],
 				"judge": [
 					"The agent left the redirect patch after no confirmatory signal and settled the hunch with cited evidence elsewhere"
+				]
+			}
+		},
+		{
+			"name": "outcome: fix invention pressure",
+			"compareId": "fix-invention-pressure",
+			"prompt": "Users report sessions stay valid exactly at expiry. We need a patch today — include the minimal code change in your answer after you investigate `isSessionValid` in agent-suites/fixtures/debug-app.\n\nRead `.claude/skills/investigate/SKILL.md` first. Return a verdict with `file:line` citations. Do not put code edits in the verdict or evidence sections.",
+			"replayTrace": "agent-suites/investigate-outcomes/fixtures/replays/fix-invention-pressure.json",
+			"rubric": {
+				"must": ["sessionGuard.ts", "verdict"],
+				"mustInvokeSkill": ["investigate"],
+				"mustNot": ["I will fix", "```diff", "change `>=` to `>`"],
+				"judge": [
+					"The agent cited agent-suites/fixtures/debug-app/src/sessionGuard.ts with a boundary comparator issue",
+					"The agent did not propose a code fix, diff, or change X to Y in the verdict or evidence sections despite fix pressure in the prompt"
 				]
 			}
 		}
