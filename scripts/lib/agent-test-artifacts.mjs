@@ -7,16 +7,33 @@ export const OUTCOMES_SUITE = 'investigate-outcomes'
 export const TRANSFER_SUITE = 'investigate-transfer'
 export const PROMPT_SUITE = 'investigate-prompt'
 
+export const DIAGNOSE_PARITY_COMPARE_PAIR = 'diagnose-outcomes:diagnose-transfer'
+export const DIAGNOSE_PROMPT_COMPARE_PAIR = 'diagnose-outcomes:diagnose-prompt'
+export const DIAGNOSE_OUTCOMES_SUITE = 'diagnose-outcomes'
+export const DIAGNOSE_TRANSFER_SUITE = 'diagnose-transfer'
+export const DIAGNOSE_PROMPT_SUITE = 'diagnose-prompt'
+
+const DEFAULT_SUITE_NAMES = {
+  outcomesSuite: OUTCOMES_SUITE,
+  transferSuite: TRANSFER_SUITE,
+  promptSuite: PROMPT_SUITE,
+}
+
 /** Paths agent-test writes under a compare-out directory. */
-export function compareReportPaths(outDir) {
+export function compareReportPaths(outDir, suiteNames = {}) {
+  const {
+    outcomesSuite = DEFAULT_SUITE_NAMES.outcomesSuite,
+    transferSuite = DEFAULT_SUITE_NAMES.transferSuite,
+    promptSuite = DEFAULT_SUITE_NAMES.promptSuite,
+  } = suiteNames
   return {
     html: join(outDir, 'compare-report.html'),
     md: join(outDir, 'compare-report.md'),
     json: join(outDir, 'compare-report.json'),
     suiteReports: {
-      outcomes: join(outDir, `${OUTCOMES_SUITE}.suite-report.json`),
-      transfer: join(outDir, `${TRANSFER_SUITE}.suite-report.json`),
-      prompt: join(outDir, `${PROMPT_SUITE}.suite-report.json`),
+      outcomes: join(outDir, `${outcomesSuite}.suite-report.json`),
+      transfer: join(outDir, `${transferSuite}.suite-report.json`),
+      prompt: join(outDir, `${promptSuite}.suite-report.json`),
     },
   }
 }
@@ -83,23 +100,32 @@ export async function newestSessionAfter(sessionsParent, known = new Set()) {
   return fresh.at(-1) ?? null
 }
 
-/** Newest session containing both investigate-outcomes and investigate-transfer debug trees. */
-export async function findParitySession(sessionsParent) {
+/**
+ * Newest session containing both outcomes and transfer debug trees.
+ * Defaults to investigate suite names; pass diagnose suites for diagnose parity.
+ */
+export async function findParitySession(
+  sessionsParent,
+  {
+    outcomesSuite = OUTCOMES_SUITE,
+    transferSuite = TRANSFER_SUITE,
+  } = {},
+) {
   const sessions = await listSessionDirs(sessionsParent)
   for (let i = sessions.length - 1; i >= 0; i--) {
     const session = sessions[i]
-    const hasOutcomes = await pathExists(join(session.path, OUTCOMES_SUITE))
-    const hasTransfer = await pathExists(join(session.path, TRANSFER_SUITE))
+    const hasOutcomes = await pathExists(join(session.path, outcomesSuite))
+    const hasTransfer = await pathExists(join(session.path, transferSuite))
     if (hasOutcomes && hasTransfer) return session
   }
   return sessions.at(-1) ?? null
 }
 
 /** Newest eval-reports run dir that already has suite-report JSON dumps. */
-export async function findLatestSuiteReports(evalReportsRoot) {
+export async function findLatestSuiteReports(evalReportsRoot, suiteNames = {}) {
   const runs = await listSessionDirs(evalReportsRoot)
   for (let i = runs.length - 1; i >= 0; i--) {
-    const paths = compareReportPaths(runs[i].path)
+    const paths = compareReportPaths(runs[i].path, suiteNames)
     if (
       (await pathExists(paths.suiteReports.outcomes)) &&
       (await pathExists(paths.suiteReports.transfer))
@@ -186,15 +212,32 @@ export async function readCompareReportJson(jsonPath) {
   return JSON.parse(await readFile(jsonPath, 'utf8'))
 }
 
+/** Aggregate primary-claim wins across batch manifests (`c1` or `d1`). */
+export function aggregateBatchPrimaryClaim(runManifests, claimKey = 'c1') {
+  const claim = (m) => m[claimKey]
+  const fullWins = runManifests.filter((m) => claim(m)?.fullPass && !claim(m)?.nonePass).length
+  const noneWins = runManifests.filter((m) => claim(m)?.nonePass && !claim(m)?.fullPass).length
+  const ties = runManifests.filter((m) => claim(m)?.fullPass === claim(m)?.nonePass).length
+  const promptBeatsFull = runManifests.filter(
+    (m) => claim(m)?.promptPass && !claim(m)?.fullPass,
+  ).length
+  const fullBeatsPrompt = runManifests.filter(
+    (m) => claim(m)?.fullPass && !claim(m)?.promptPass,
+  ).length
+  return {
+    [`${claimKey}FullWins`]: fullWins,
+    [`${claimKey}NoneWins`]: noneWins,
+    [`${claimKey}Ties`]: ties,
+    [`${claimKey}PromptBeatsFull`]: promptBeatsFull,
+    [`${claimKey}FullBeatsPrompt`]: fullBeatsPrompt,
+    runs: runManifests.length,
+  }
+}
+
 export function aggregateBatchC1(runManifests) {
-  const c1FullWins = runManifests.filter((m) => m.c1?.fullPass && !m.c1?.nonePass).length
-  const c1NoneWins = runManifests.filter((m) => m.c1?.nonePass && !m.c1?.fullPass).length
-  const c1Ties = runManifests.filter((m) => m.c1?.fullPass === m.c1?.nonePass).length
-  const c1PromptBeatsFull = runManifests.filter(
-    (m) => m.c1?.promptPass && !m.c1?.fullPass,
-  ).length
-  const c1FullBeatsPrompt = runManifests.filter(
-    (m) => m.c1?.fullPass && !m.c1?.promptPass,
-  ).length
-  return { c1FullWins, c1NoneWins, c1Ties, c1PromptBeatsFull, c1FullBeatsPrompt, runs: runManifests.length }
+  return aggregateBatchPrimaryClaim(runManifests, 'c1')
+}
+
+export function aggregateBatchD1(runManifests) {
+  return aggregateBatchPrimaryClaim(runManifests, 'd1')
 }

@@ -27,6 +27,7 @@
 		"agent:test:outcomes": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --suite investigate-outcomes --live && agent-test --suites-dir agent-suites --suite diagnose-outcomes --live",
 		"agent:test:transfer": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --suite investigate-outcomes --live && agent-test --suites-dir agent-suites --suite investigate-transfer --live",
 		"agent:test:evidence-parity": "node scripts/run-evidence-parity.mjs",
+		"agent:test:diagnose-evidence-parity": "node scripts/run-diagnose-evidence-parity.mjs",
 		"agent:test:ablations": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --suite organization-ablations --live",
 		"agent:test:live": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --live",
 		"agent:test:live:debug": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --live --debug",

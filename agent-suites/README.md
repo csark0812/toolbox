@@ -43,7 +43,8 @@ Toolbox owns generic skill-contract behavior:
 - `crystallize`: alternate problem frame before crystallized output.
 - `tdd`: seam confirmation before the first test; red-green slice discipline.
 - `diagnose`: entry gate — no repro means no hypotheses; route to investigate or get a repro.
-- `diagnose-outcomes`: live tight-loop construction before hypothesizing.
+- `diagnose-outcomes` / `diagnose-transfer` / `diagnose-prompt`: discriminating evidence-parity band (2 scenarios: `no-repro-refuse`, `loop-before-cause`). **Manual live cadence only** — `npm run agent:test:diagnose-evidence-parity` (not part of `npm run check`). Independent of investigate parity.
+- `diagnose-outcomes-ceiling`: ceiling scenario (tight loop; replay CI only).
 - `domain-model`: entry gate — no stated decision means no ADR; route to grill or crystallize.
 - `prototype`: declare design question + mode before writing throwaway code.
 - `grill`: falsifier recorded before leaving a decision node.
@@ -80,7 +81,13 @@ Live transfer band via native compare: `agent-test --compare-pairs investigate-o
 npm run agent:test:evidence-parity
 ```
 
-See [docs/evidence-parity.md](../docs/evidence-parity.md).
+Investigate discriminating band. See [docs/evidence-parity.md](../docs/evidence-parity.md).
+
+```bash
+npm run agent:test:diagnose-evidence-parity
+```
+
+Diagnose discriminating band (outcomes vs transfer + prompt baseline). Manual cadence only — not wired to CI.
 
 ```bash
 npm run agent:test:ablations

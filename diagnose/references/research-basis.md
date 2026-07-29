@@ -22,6 +22,20 @@ No on-demand red signal → no hypotheses. The tight loop must be red-capable, d
 - ReAct / tool-feedback loops — environment observation refines action (Yao et al., 2023).
 - Reasoner–verifier–refiner taxonomy in LLM reasoning surveys (arXiv:2504.09037).
 
+## Evidence parity
+
+Live skill-on vs skill-off transfer for diagnose is measured with `npm run agent:test:diagnose-evidence-parity` (manual cadence; see [docs/evidence-parity.md](../../docs/evidence-parity.md)).
+
+| ID  | Claim                                               |
+| --- | --------------------------------------------------- |
+| D1  | No-repro gate — refuse hypotheses without a signal  |
+| D2  | Loop before cause — red test before production edit |
+| D3  | Tight loop construction (ceiling band)              |
+
+**Confidence:** TBD until N≥3 same-model repeats where `full` majority-beats `none` on D1 and `full` beats the prompt baseline.
+
+**Does not transfer:** Placeholder until live parity data exists — do not claim skill lift from contract replay alone.
+
 ## Handoff to TDD
 
 Diagnostic instrument ≠ regression spec; [`tdd`](../tdd/SKILL.md) locks the seam after the mechanism is understood.

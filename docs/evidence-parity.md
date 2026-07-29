@@ -25,6 +25,27 @@ Do not score “investigate quality” as one number. Split claims:
 - **Keep (narrow):** C1 `full` majority-beats `none` **and** `full` beats `prompt`; claim only verdict-without-patch under fix pressure.
 - **Invest more:** hygiene flips prior inversion but N&lt;3, judge/locus disagree, or confounds remain.
 
+## Claims under test (diagnose)
+
+Do not score “diagnose quality” as one number. Split claims:
+
+| ID  | Claim                                                                                        | Keep/remove gate                                            |
+| --- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| D1  | No-repro gate — without a failing signal, agent refuses to hypothesize (repro / investigate) | **Primary** — only D1 can earn Keep-narrow                  |
+| D2  | Loop before cause — names/runs a red test command before stating cause or editing production | Secondary corroboration                                     |
+| D3  | Tight loop construction — loop is red-capable, deterministic, fast (seconds) on debug-app    | Secondary / ceiling candidate (`diagnose-outcomes-ceiling`) |
+
+**Bar to stay first-class:** N≥3 same-model repeats where `full` majority-beats `none` on D1 **and** `full` beats the **prompt** baseline (skill file ≠ pasted rules).
+
+**Falsifiers (summary):**
+
+- **Remove:** D1 `full` never majority-beats `none` after hygiene.
+- **Demote:** D1 `full` > `none` but `prompt` matches `full` on all repeats (gate is prompt-teachable).
+- **Keep (narrow):** D1 `full` majority-beats `none` **and** `full` beats `prompt`; claim only “no repro → no hypotheses”.
+- **Invest more:** direction flips, judge/locus disagree, or confounds remain.
+
+Investigate and diagnose parity are **independent manual cadences** — separate commands, manifests, and report dirs.
+
 ## Preflight
 
 ```bash
@@ -51,6 +72,15 @@ npm run agent:test:evidence-parity -- --no-diagnose --no-ablations --repeats 3
 
 # Re-render compare from prior suite-report JSON (no live spend)
 npm run agent:test:evidence-parity -- --compare-only
+
+# Diagnose parity (independent cadence; no investigate suites; ablations off by default)
+npm run agent:test:diagnose-evidence-parity
+
+# Diagnose: transfer only (skip prompt baseline)
+npm run agent:test:diagnose-evidence-parity -- --no-prompt
+
+# Diagnose: N≥3 repeats
+npm run agent:test:diagnose-evidence-parity -- --repeats 3
 ```
 
 Outcome and ablation suites must **not** set `"skip": true` (that skips live too). Only [`github-ambient-refs`](../agent-suites/github-ambient-refs/) uses `skip` for replay CI.
@@ -94,17 +124,25 @@ The shared `debug-app` fixture plants **two** session bugs (`sessionGuard.ts` `>
 - `fix-invention-guard-only.patch` — C1 symptom (“valid exactly at expiry”)
 - `leave-redirect-guard-only.patch` — redirect comment + guard-only cookie path
 
-Dual-bug `debug-app` stays for `investigate-*-ceiling` and `diagnose-outcomes`.
+Dual-bug `debug-app` stays for `investigate-*-ceiling` and diagnose ceiling / D2.
+
+### Fixture hygiene (diagnose)
+
+- **D1 (no-repro):** no production seed — agent should not touch code; judge checks refusal, not locus file.
+- **D2 (loop-before-cause):** dual-bug `debug-app` is OK if the judge checks **ordering** (test before fix), not which bug file the agent names. Optional later: a guard-only seed if cookie forage confounds D2.
+- **D3 (tight loop):** lives in `diagnose-outcomes-ceiling` (replay CI only) — likely passes both arms once the model runs tests.
+- **Null-arm answer-key hygiene:** `diagnose-transfer` / `diagnose-prompt` apply `null-arm-hygiene.patch`, which deletes on-disk `diagnose/**`, diagnose suite trees present in **HEAD**, and `docs/evidence-parity.md` from the live worktree. Without this, agents with `skills: none` forage `diagnose/SKILL.md` and answer-key JSON and parrot the gate (false `none` PASS). Scenario display names stay opaque (`session hunch A/B`); keep `compareId` stable. Outcomes arm keeps the files (skill-on). The seed is built from **committed** blobs (`node scripts/regenerate-diagnose-null-arm-hygiene.mjs`) — regenerate after committing suite/doc/skill edits, or live `git apply` fails.
 
 ### Metrics beyond judge pass rate
 
-| Metric                                  | Role                                                   |
-| --------------------------------------- | ------------------------------------------------------ |
-| Judge + `must` / `mustNot`              | Primary settlement                                     |
-| Correct locus (`sessionGuard.ts` on C1) | Primary co-metric                                      |
-| `usage.total` tokens (Δ full−none)      | Secondary budget                                       |
-| Human transcript spot-check             | Required on direction-flip or judge pass + wrong locus |
-| Wall time                               | Tertiary                                               |
+| Metric                                       | Role                                                   |
+| -------------------------------------------- | ------------------------------------------------------ |
+| Judge + `must` / `mustNot`                   | Primary settlement                                     |
+| Correct locus (`sessionGuard.ts` on C1)      | Primary co-metric (investigate)                        |
+| Ordering evidence (test output before cause) | D2 co-metric (diagnose)                                |
+| `usage.total` tokens (Δ full−none)           | Secondary budget                                       |
+| Human transcript spot-check                  | Required on direction-flip or judge pass + wrong locus |
+| Wall time                                    | Tertiary                                               |
 
 ## Equal-budget discipline
 
@@ -122,8 +160,13 @@ Dual-bug `debug-app` stays for `investigate-*-ceiling` and `diagnose-outcomes`.
 | `investigate-prompt`           | `none`   | Prompt-instructed verdict-gate baseline   |
 | `investigate-outcomes-ceiling` | `full`   | Replay CI only — ceiling scenarios        |
 | `investigate-transfer-ceiling` | `none`   | Replay CI only — ceiling scenarios        |
-| `diagnose-outcomes`            | `full`   | Skill-on loop gates                       |
+| `diagnose-outcomes`            | `full`   | Skill-on discriminating band (D1/D2)      |
+| `diagnose-transfer`            | `none`   | Hunch-only null baseline (discriminating) |
+| `diagnose-prompt`              | `none`   | Prompt-instructed entry-gate baseline     |
+| `diagnose-outcomes-ceiling`    | `full`   | Replay CI only — ceiling (D3)             |
 | `organization-ablations`       | `full`   | Primary vs council vs fit-check           |
+
+Diagnose compare artifacts land under `_agent/eval-reports/diagnose-<id>/` with `diagnose-outcomes.suite-report.json` / `diagnose-transfer.suite-report.json` / `diagnose-prompt.suite-report.json`. Manifests under `_agent/evidence-runs/diagnose-<id>/manifest.json` record the D1 pass matrix (`full` vs `none` vs `prompt`).
 
 ## After failures
 
