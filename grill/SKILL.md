@@ -21,7 +21,7 @@ Shared understanding before implementation. **Persist** with patient follow-up u
 
 1. **Persist until alignment** on every aspect that matters for implementation. Don't imply the user should already have all answers.
 2. **Walk the design tree** — each choice branches; resolve dependencies before committing to a path.
-3. **Facts vs decisions** — if a *fact* can be found by exploring the environment (repo, tools, docs), look it up rather than asking. *Decisions* are the user's — put each one to them and wait for the answer.
+3. **Facts vs decisions** — if a _fact_ can be found by exploring the environment (repo, tools, docs), look it up rather than asking. _Decisions_ are the user's — put each one to them and wait for the answer.
 4. **One decision per turn.** Ask one decision question, then **wait**. Asking multiple questions at once is bewildering. Chained follow-ups on the **same branch** only **after** the user answers. When branches are explicit, prefer **AskQuestion** for that single choice (always include **Other / I'll type it**); mirror/context in prose above the card.
 5. **Provisional recommendation** — for every decision question, state your recommended branch and one-line why. Frame it as a default to react to, not the correct answer. Invite pushback; silence is not acceptance.
 6. **Consider-the-opposite / falsifier** — after the user engages the recommendation (accepts or chooses another branch), surface what would show that branch was the wrong bet before leaving the node.
