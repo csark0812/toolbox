@@ -1,6 +1,8 @@
 # Model Routing
 
-Cost-aware model selection for [`multi`](../SKILL.md). Optimize for **cheapest good enough**, not most capable by default. Escalate only when slice shape or evidence requires it — and then to the **most appropriate** stronger model, not the most expensive one.
+Cost-aware model selection for [`multi`](../SKILL.md). Optimize for **cheapest good enough**, not most capable by default. Prefer cheaper / Auto paths for almost all parallel members. Escalate only when slice shape or evidence requires it — and then to the **most appropriate** stronger model, not the most expensive one.
+
+**Heavy bar (Premium / strongest slugs):** Reserve for genuinely heavy work — e.g. multi-thousand-line or Broad+ reviews, architecture spanning multiple subsystems with large blast radius, high-stakes adjudication after cheaper paths fail, or an explicit deepest-analysis request. Ordinary reviews, single-subsystem judgment, moderate research conflict, and typical explore/gather stay Fast or Standard.
 
 Inspect the current host Task `model` enum before every dispatch. Never invent slugs.
 
@@ -61,41 +63,43 @@ High-fast bundles (`gpt-5.3-codex-high-fast`, `cursor-grok-4.5-high-fast`) are *
 Effort guidance:
 
 - **Low** — mechanical lookup, narrow gather, classification
-- **Medium** — default for parallel members that need some reasoning
-- **High** — single-member adjudication, complex debugging, harder architecture
-- **Xhigh/max** — sequential escalation only when stakes justify it
+- **Medium** — default for parallel members that need some reasoning; ordinary reviews and moderate research
+- **High** — single-member adjudication after conflict, complex debugging, multi-subsystem architecture (still prefer mid-tier models unless the heavy bar is met)
+- **Xhigh/max** — sequential escalation only for genuinely heavy slices (multi-thousand-line / Broad+ review, multi-subsystem blast radius, explicit deepest-analysis) when stakes justify it
 
 ## Strength cards
 
 When a slice needs more than Auto, assign the most appropriate stronger model.
 
-| Model / path                          | Best at                                                                                      | Weak / caveats                                                              | Escalate here when                                                                |
-| ------------------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| **Auto**                              | Cost-efficient routing; balances intelligence, cost, reliability (Cursor primary docs)       | No fixed public bench profile; unreachable from named parent without `auto` | Default for all normal slices                                                     |
-| **Regular Composer 2.5**              | Cursor-native long-horizon coding; complex instructions; strong cost/task                    | Often absent from Task enum; coding-specialized                             | Repo/coding delegate when Auto unavailable and regular Composer is selectable     |
-| **`composer-2.5-fast`**               | Same intelligence as regular Composer, lower latency                                         | ≈6× token price; wasteful in parallel batches                               | Interactive `N = 1` only, with explicit latency justification                     |
-| **Grok 4.5 (non-fast)**               | Coding, agentic/terminal work; first-party pool when exposed                                 | High-fast bundles expensive; not frontier on every SWE bench                | Terminal-heavy first-party work when Auto unavailable and non-fast Grok exists    |
-| **`cursor-grok-4.5-high-fast`**       | Strong terminal/agentic when bundled high+fast is worth cost                                 | Expensive high-fast; poor parallel default                                  | Sequential terminal/debug escalation only                                         |
-| **`gpt-5.6-luna-*`** (if exposed)     | Cheapest GPT-5.6 tier; high-volume lower-stakes work                                         | Weaker than Sol on hardest coding/reasoning                                 | Cheap API fallback for mechanical/low-stakes when Auto unavailable                |
-| **`gpt-5.6-terra-medium`**            | Balanced GPT-5.6; moderate reasoning and coding-agent performance                            | Weaker than Sol on hard review; not always Pareto-best vs Luna/Sol          | Moderate integration/synthesis when cheaper paths likely insufficient             |
-| **`claude-sonnet-5-thinking-medium`** | Agentic follow-through; brownfield debug; adjudication; tool/terminal use                    | API-pool cost; below Opus on hardest science/reasoning                      | Conflicting members, ambiguous adjudication, sustained agentic explore            |
-| **`gpt-5.3-codex-high-fast`**         | Long agentic coding; terminal; interactive steering; computer-use loops                      | Expensive high-fast; weaker than Sonnet on some repo-reasoning benches      | Sequential long-horizon implementation/debug when cheaper coding paths fail       |
-| **`gpt-5.6-sol-medium`**              | Hardest GPT-5.6 reasoning; coding-agent index leader; polish for knowledge/architecture work | Highest GPT-5.6 cost; overkill for mechanical slices                        | Architecture blast radius, synthesis tiebreaker, deepest-analysis request         |
-| **`kimi-k2.7-code`**                  | Long-horizon coding; 256K context; MCP/tool workflows                                        | Thinking always on; vendor-heavy benches; not cheapest mechanical worker    | Large-context coding, open-weight, or Kimi tool workflows when cheaper paths fail |
+| Model / path                          | Best at                                                                                      | Weak / caveats                                                              | Escalate here when                                                                                                                                           |
+| ------------------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Auto**                              | Cost-efficient routing; balances intelligence, cost, reliability (Cursor primary docs)       | No fixed public bench profile; unreachable from named parent without `auto` | Default for all normal slices                                                                                                                                |
+| **Regular Composer 2.5**              | Cursor-native long-horizon coding; complex instructions; strong cost/task                    | Often absent from Task enum; coding-specialized                             | Repo/coding delegate when Auto unavailable and regular Composer is selectable                                                                                |
+| **`composer-2.5-fast`**               | Same intelligence as regular Composer, lower latency                                         | ≈6× token price; wasteful in parallel batches                               | Interactive `N = 1` only, with explicit latency justification                                                                                                |
+| **Grok 4.5 (non-fast)**               | Coding, agentic/terminal work; first-party pool when exposed                                 | High-fast bundles expensive; not frontier on every SWE bench                | Terminal-heavy first-party work when Auto unavailable and non-fast Grok exists                                                                               |
+| **`cursor-grok-4.5-high-fast`**       | Strong terminal/agentic when bundled high+fast is worth cost                                 | Expensive high-fast; poor parallel default                                  | Sequential terminal/debug escalation only                                                                                                                    |
+| **`gpt-5.6-luna-*`** (if exposed)     | Cheapest GPT-5.6 tier; high-volume lower-stakes work                                         | Weaker than Sol on hardest coding/reasoning                                 | Cheap API fallback for mechanical/low-stakes when Auto unavailable                                                                                           |
+| **`gpt-5.6-terra-medium`**            | Balanced GPT-5.6; moderate reasoning and coding-agent performance                            | Weaker than Sol on hard review; not always Pareto-best vs Luna/Sol          | Moderate integration/synthesis when cheaper paths likely insufficient                                                                                        |
+| **`claude-sonnet-5-thinking-medium`** | Agentic follow-through; brownfield debug; adjudication; tool/terminal use                    | API-pool cost; below Opus on hardest science/reasoning                      | Conflicting members, ambiguous adjudication, sustained agentic explore                                                                                       |
+| **`gpt-5.3-codex-high-fast`**         | Long agentic coding; terminal; interactive steering; computer-use loops                      | Expensive high-fast; weaker than Sonnet on some repo-reasoning benches      | Sequential long-horizon implementation/debug when cheaper coding paths fail                                                                                  |
+| **`gpt-5.6-sol-medium`**              | Hardest GPT-5.6 reasoning; coding-agent index leader; polish for knowledge/architecture work | Highest GPT-5.6 cost; overkill for mechanical and ordinary Standard slices  | Heavy bar only: multi-thousand-line / Broad+ review, multi-subsystem blast radius, high-stakes tiebreaker after cheaper paths fail, deepest-analysis request |
+| **`kimi-k2.7-code`**                  | Long-horizon coding; 256K context; MCP/tool workflows                                        | Thinking always on; vendor-heavy benches; not cheapest mechanical worker    | Large-context coding, open-weight, or Kimi tool workflows when cheaper paths fail                                                                            |
 
 ## Escalation by slice shape
 
 Use after Auto is ruled out or explicitly declined.
 
-| Slice shape                       | Cheapest likely fit              | Most appropriate escalation                                                  |
-| --------------------------------- | -------------------------------- | ---------------------------------------------------------------------------- |
-| Mechanical explore/gather         | Auto                             | Luna / cheapest exposed API only if Auto unavailable and user accepts spend  |
-| Repo map / coding delegate        | Auto → regular Composer 2.5      | Sonnet 5 medium (harder brownfield); Codex (long tool-driven implementation) |
-| Web/docs research                 | Auto                             | Mid-tier API or Sonnet only if synthesis/conflict risk is material           |
-| Terminal-heavy work               | Auto → first-party Grok non-fast | Grok high-fast or Codex as sequential escalation only                        |
-| Conflicting member outputs        | Single tiebreaker; Auto first    | Sonnet 5 medium for adjudication; Sol for architecture-level contradiction   |
-| Architecture blast radius         | Single sequential member         | Sol medium                                                                   |
-| Long-horizon implementation/debug | Auto or regular Composer         | Codex high-fast only if cheaper coding paths fail and user accepts cost      |
+| Slice shape                                 | Cheapest likely fit              | Most appropriate escalation                                                                              |
+| ------------------------------------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Mechanical explore/gather                   | Auto                             | Luna / cheapest exposed API only if Auto unavailable and user accepts spend                              |
+| Repo map / coding delegate                  | Auto → regular Composer 2.5      | Sonnet 5 medium (harder brownfield); Codex (long tool-driven implementation)                             |
+| Ordinary review / single-subsystem judgment | Auto → mid-tier (Terra / Sonnet) | Stay Standard; do **not** jump to Sol/Premium                                                            |
+| Multi-thousand-line / Broad+ review         | Auto first                       | Sol (or strongest appropriate) only when volume + stakes meet the heavy bar; otherwise Sonnet/Terra      |
+| Web/docs research                           | Auto                             | Mid-tier API or Sonnet only if synthesis/conflict risk is material                                       |
+| Terminal-heavy work                         | Auto → first-party Grok non-fast | Grok high-fast or Codex as sequential escalation only                                                    |
+| Conflicting member outputs                  | Single tiebreaker; Auto first    | Sonnet 5 medium for adjudication; Sol only for architecture-level contradiction that meets the heavy bar |
+| Multi-subsystem architecture blast radius   | Single sequential member         | Sol medium (heavy bar); single-subsystem architecture stays Standard / Sonnet                            |
+| Long-horizon implementation/debug           | Auto or regular Composer         | Codex high-fast only if cheaper coding paths fail and user accepts cost                                  |
 
 ## Diversity
 
@@ -104,6 +108,8 @@ Never escalate price or choose `fast` just to diversify. Diversify prompts and/o
 ## Anti-patterns
 
 - Premium / Sol / Codex for mechanical grep or narrow file discovery
+- Premium / Sol for ordinary reviews, small/medium diffs, or single-subsystem architecture that Standard can handle
+- Labeling a slice Premium because the job is “important” without meeting the heavy bar (volume, multi-subsystem blast radius, or explicit deepest-analysis)
 - `composer-2.5-fast` (or any `*-fast`) as the default for parallel Standard members
 - High-fast bundles in `N ≥ 2` parallel dispatch
 - Inventing `auto`, `composer-2.5`, or bracket forms absent from the host enum
@@ -131,7 +137,7 @@ Fast variants used: none
 
 Selected members:
 
-- reviewer · tier=Premium · model=inherit-auto · stance=correctness
+- reviewer · tier=Premium · model=inherit-auto · stance=correctness: Broad+ multi-thousand-line review (heavy bar)
 - docs-researcher · tier=Standard · model=inherit-auto · stance=n/a: topic A
 - explore · tier=Fast · model=inherit-auto · stance=n/a: repo map for cited APIs
 ```
@@ -145,7 +151,7 @@ Task/Subagent(
 )
 ```
 
-There is **no** `model` argument, even though a member’s metadata says Premium. Expected: omit `model` on all Tasks; no `*-fast`; no API slugs.
+There is **no** `model` argument, even though a member’s metadata says Premium. Expected: omit `model` on all Tasks; no `*-fast`; no API slugs. Ordinary (non-heavy) reviewers should be `tier=Standard`, not Premium.
 
 ### B. Incorrect — Auto parent with an explicit slug
 

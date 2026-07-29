@@ -7,7 +7,7 @@ description: Parallel subagent orchestration kernel — spawn invariants, model 
 
 **Source of truth for** parallel subagent orchestration.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
 Parallel independent subagents via the host **Task** tool (Cursor: **Subagent**). **Orchestration kernel only** — entry skills own job recipes and domain-specific synthesis.
 
@@ -143,7 +143,7 @@ Log skipped council agents and chosen fallbacks in the [availability log](refere
 
 Use the Task tool's allowed `model` enum from the current host. Never invent slugs. Full cost model, strength cards, and escalation matrix → [model-routing.md](references/model-routing.md).
 
-**Optimize for cheapest good enough** — not most capable by default.
+**Optimize for cheapest good enough** — not most capable by default. Prefer Fast/Standard (or Auto inherit) for the vast majority of slices. Reserve **Premium** / strongest named-parent slugs for genuinely heavy work only — see tier table and [model-routing.md](references/model-routing.md).
 
 ### Routing precedence (canonical order)
 
@@ -229,21 +229,21 @@ Under an **Auto** parent, do **not** enter this branch for normal members — in
 
 Tier labels still appear in dispatch plans and agent `dispatch.model.default` metadata. They describe slice difficulty for **named-parent** routing only. Under an Auto parent, keep the tier label for planning/logging but set `model=inherit-auto` and omit the tool argument.
 
-| Tier         | Slice needs                                                                         | Named-parent routing intent                                         | Escalate when (named parent only)                                     |
-| ------------ | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| **Fast**     | Mechanical search, file discovery, repo mapping, narrow gather                      | Auto / cheapest non-fast good enough                                | Cross-file integration or judgment calls needed                       |
-| **Standard** | Moderate reasoning, explore follow-ups, web research                                | Auto first; else cheapest mid fit per strength cards                | Conflicting sources, ambiguous adjudication, or deeper synthesis need |
-| **Premium**  | Architecture blast radius, synthesis tiebreakers, explicit deepest-analysis request | Auto first; else **most appropriate** stronger model for that slice | —                                                                     |
+| Tier         | Slice needs                                                                                                                                                                    | Named-parent routing intent                                         | Escalate when (named parent only)                                                                |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| **Fast**     | Mechanical search, file discovery, repo mapping, narrow gather                                                                                                                 | Auto / cheapest non-fast good enough                                | Cross-file integration or judgment calls needed                                                  |
+| **Standard** | Moderate reasoning, explore follow-ups, web research, ordinary reviews, single-subsystem architecture, most synthesis                                                          | Auto first; else cheapest mid fit per strength cards                | Conflicting sources, ambiguous adjudication, or deeper synthesis that still fits mid-tier models |
+| **Premium**  | Only genuinely heavy slices: multi-thousand-line / Broad+ reviews, multi-subsystem architecture blast radius, high-stakes synthesis tiebreakers, explicit deepest-analysis ask | Auto first; else **most appropriate** stronger model for that slice | — (do **not** label ordinary reviews, small diffs, or single-file judgment as Premium)           |
 
 **Pick a slug:** follow [Routing precedence](#routing-precedence-canonical-order). Tier→slug mapping runs only on the named-parent branch.
 
 #### By job type
 
-| Job                  | Default tier | Routing intent                      | Escalate when (named parent)                     |
-| -------------------- | ------------ | ----------------------------------- | ------------------------------------------------ |
-| `explore` / `gather` | Fast         | Auto / cheapest non-fast            | Cross-file integration or architectural judgment |
-| `research` (web)     | Standard     | Auto first                          | Conflicting sources or policy/legal ambiguity    |
-| `mixed`              | Per slice    | Per slice shape in model-routing.md | —                                                |
+| Job                  | Default tier | Routing intent                      | Escalate when (named parent)                                                            |
+| -------------------- | ------------ | ----------------------------------- | --------------------------------------------------------------------------------------- |
+| `explore` / `gather` | Fast         | Auto / cheapest non-fast            | Cross-file integration or architectural judgment (still Standard unless Premium-heavy)  |
+| `research` (web)     | Standard     | Auto first                          | Conflicting sources or policy/legal ambiguity (Premium only if stakes + volume justify) |
+| `mixed`              | Per slice    | Per slice shape in model-routing.md | Premium only when a slice meets the heavy bar above                                     |
 
 Per-agent tier defaults → agent dispatch config + [model-routing.md](references/model-routing.md).
 
