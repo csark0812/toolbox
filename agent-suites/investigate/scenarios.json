@@ -1,24 +1,24 @@
 {
-	"name": "investigate",
-	"description": "Portable investigate conformance: discriminating checks and leave after dead forage",
-	"defaults": {
-		"host": "replay",
-		"profile": "cursor",
-		"skills": "full"
-	},
-	"scenarios": [
-		{
-			"name": "dead patch: leave and re-rank",
-			"prompt": "I think auth redirect is clearing the session. Investigate.\n\nRead `.claude/skills/investigate/SKILL.md` first. Use ranked hypos, discriminating kill tests, and leave when forage yields no signal.",
-			"replayTrace": "agent-suites/investigate/fixtures/replays/leave-after-forage.json",
-			"rubric": {
-				"must": ["leave", "kill test", "verdict"],
-				"mustInvokeSkill": ["investigate"],
-				"mustNot": ["root cause is definitely", "I will fix"],
-				"judge": [
-					"The agent invoked investigate, ran discriminating kill tests, left a dead patch, and returned a cited verdict without fixing"
-				]
-			}
-		}
-	]
+  "name": "investigate",
+  "description": "Portable investigate conformance: discriminating checks and leave after dead forage",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "dead patch: leave and re-rank",
+      "prompt": "I think auth redirect is clearing the session. Investigate.\n\nRead `.claude/skills/investigate/SKILL.md` first. Use ranked hypos, discriminating kill tests, and leave when forage yields no signal.",
+      "replayTrace": "agent-suites/investigate/fixtures/replays/leave-after-forage.json",
+      "rubric": {
+        "must": ["leave", "kill test", "verdict"],
+        "mustInvokeSkill": ["investigate"],
+        "mustNot": ["root cause is definitely", "I will fix"],
+        "judge": [
+          "The agent invoked investigate, ran discriminating kill tests, left a dead patch, and returned a cited verdict without fixing"
+        ]
+      }
+    }
+  ]
 }

@@ -1,24 +1,24 @@
 {
-	"name": "second-opinion",
-	"description": "Portable second-opinion conformance: claim anchoring and drift tagging in debate synthesis",
-	"defaults": {
-		"host": "replay",
-		"profile": "cursor",
-		"skills": "full"
-	},
-	"scenarios": [
-		{
-			"name": "debate: anchor kills tag drift",
-			"prompt": "Second opinion on our auth rollout plan at docs/plans/auth.plan.md.\n\nRead `.claude/skills/second-opinion/SKILL.md` first. Run staged debate; anchor attacker kills to plan sections; tag unanchored claims as drift.",
-			"replayTrace": "agent-suites/second-opinion/fixtures/replays/claim-anchoring-drift.json",
-			"rubric": {
-				"must": ["drift", "anchor", "adversarial-staged"],
-				"mustInvokeSkill": ["second-opinion"],
-				"mustNot": ["manufacture criticism"],
-				"judge": [
-					"The agent invoked second-opinion, anchored kills to plan sections, and tagged unanchored critique as drift not convergent"
-				]
-			}
-		}
-	]
+  "name": "second-opinion",
+  "description": "Portable second-opinion conformance: claim anchoring and drift tagging in debate synthesis",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "debate: anchor kills tag drift",
+      "prompt": "Second opinion on our auth rollout plan at docs/plans/auth.plan.md.\n\nRead `.claude/skills/second-opinion/SKILL.md` first. Run staged debate; anchor attacker kills to plan sections; tag unanchored claims as drift.",
+      "replayTrace": "agent-suites/second-opinion/fixtures/replays/claim-anchoring-drift.json",
+      "rubric": {
+        "must": ["drift", "anchor", "adversarial-staged"],
+        "mustInvokeSkill": ["second-opinion"],
+        "mustNot": ["manufacture criticism"],
+        "judge": [
+          "The agent invoked second-opinion, anchored kills to plan sections, and tagged unanchored critique as drift not convergent"
+        ]
+      }
+    }
+  ]
 }

@@ -1,24 +1,24 @@
 {
-	"name": "crystallize",
-	"description": "Portable crystallize conformance: alternate problem frame before crystallized output",
-	"defaults": {
-		"host": "replay",
-		"profile": "cursor",
-		"skills": "full"
-	},
-	"scenarios": [
-		{
-			"name": "fuzzy intent: alternate frame required",
-			"prompt": "We need better onboarding for engineers — it's fuzzy. Crystallize the idea with me.\n\nRead `.claude/skills/crystallize/SKILL.md` first. Name one alternate problem frame before the crystallized block.",
-			"replayTrace": "agent-suites/crystallize/fixtures/replays/alternate-frame-gate.json",
-			"rubric": {
-				"must": ["Alternate frame", "Crystallized idea"],
-				"mustInvokeSkill": ["crystallize"],
-				"mustNot": ["let's implement", "architecture"],
-				"judge": [
-					"The agent invoked crystallize, named an alternate problem frame, and produced a crystallized idea without jumping to solutions"
-				]
-			}
-		}
-	]
+  "name": "crystallize",
+  "description": "Portable crystallize conformance: alternate problem frame before crystallized output",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "fuzzy intent: alternate frame required",
+      "prompt": "We need better onboarding for engineers — it's fuzzy. Crystallize the idea with me.\n\nRead `.claude/skills/crystallize/SKILL.md` first. Name one alternate problem frame before the crystallized block.",
+      "replayTrace": "agent-suites/crystallize/fixtures/replays/alternate-frame-gate.json",
+      "rubric": {
+        "must": ["Alternate frame", "Crystallized idea"],
+        "mustInvokeSkill": ["crystallize"],
+        "mustNot": ["let's implement", "architecture"],
+        "judge": [
+          "The agent invoked crystallize, named an alternate problem frame, and produced a crystallized idea without jumping to solutions"
+        ]
+      }
+    }
+  ]
 }

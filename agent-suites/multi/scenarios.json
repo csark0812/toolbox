@@ -1,24 +1,24 @@
 {
-	"name": "multi",
-	"description": "Portable multi skill conformance: Fit check requires single-pass rival before N≥2",
-	"defaults": {
-		"host": "replay",
-		"profile": "cursor",
-		"skills": "full"
-	},
-	"scenarios": [
-		{
-			"name": "sequential repo map: skip parallel",
-			"prompt": "Map how auth works in our sample app. Use multi to spawn parallel agents.\n\nRead `.claude/skills/multi/SKILL.md` first. The task is one coherent repo slice — no independent sources.",
-			"replayTrace": "agent-suites/multi/fixtures/replays/fit-check-skip.json",
-			"rubric": {
-				"must": ["single-pass", "skip"],
-				"mustInvokeSkill": ["multi"],
-				"mustNot": ["Task(", "subagent", "spawn 2", "spawn two"],
-				"judge": [
-					"The agent invoked multi, named a single-pass rival, and skipped parallel spawn because independence failed"
-				]
-			}
-		}
-	]
+  "name": "multi",
+  "description": "Portable multi skill conformance: Fit check requires single-pass rival before N≥2",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "sequential repo map: skip parallel",
+      "prompt": "Map how auth works in our sample app. Use multi to spawn parallel agents.\n\nRead `.claude/skills/multi/SKILL.md` first. The task is one coherent repo slice — no independent sources.",
+      "replayTrace": "agent-suites/multi/fixtures/replays/fit-check-skip.json",
+      "rubric": {
+        "must": ["single-pass", "skip"],
+        "mustInvokeSkill": ["multi"],
+        "mustNot": ["Task(", "subagent", "spawn 2", "spawn two"],
+        "judge": [
+          "The agent invoked multi, named a single-pass rival, and skipped parallel spawn because independence failed"
+        ]
+      }
+    }
+  ]
 }
