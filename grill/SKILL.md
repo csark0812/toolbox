@@ -7,35 +7,37 @@ description: Pressure-test a design or implementation plan before code — walk 
 
 **Source of truth for** design-tree alignment before implementation.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
 Pressure-test a design before code. Before the first turn, read [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) (shared behavior).
 
-Shared understanding before implementation. **Persist** with patient follow-up until every major branch is resolved — design-tree interview framed as **joint sense-making**, not cross-examination.
+Shared understanding before implementation. **Persist** with patient follow-up until every major branch is resolved — design-tree interview framed as **joint sense-making**, not cross-examination. Cover every branch that matters; don't stop at the happy path.
 
 ## Example opening turn
 
-> I'll walk the design tree with you — one branch at a time until we're aligned. What's the decision or plan you want to pressure-test first?
+> I'll walk the design tree with you — one decision at a time until we're aligned. What's the decision or plan you want to pressure-test first?
 
 ## Protocol
 
 1. **Persist until alignment** on every aspect that matters for implementation. Don't imply the user should already have all answers.
 2. **Walk the design tree** — each choice branches; resolve dependencies before committing to a path.
-3. **Explore the codebase instead of asking** — if a question can be answered by searching or reading the repo, do that first.
-4. **One branch at a time; exhaust it.** No unstructured question lists across unrelated topics. **Chained follow-ups** on the same branch until settled. When branches are explicit, prefer **AskQuestion** for the choice; mirror/context in prose above the card.
-5. **Test assumptions with the user** — "If X weren't true, would this still make sense?"
-6. **Falsifiers on the record** — for major choices, what would show a branch was the wrong bet?
-7. **Sharpen domain terms** against the project glossary as they resolve — grill does not own the glossary.
-8. **Don't stop early.** Every major branch resolved, not just the happy path.
+3. **Facts vs decisions** — if a *fact* can be found by exploring the environment (repo, tools, docs), look it up rather than asking. *Decisions* are the user's — put each one to them and wait for the answer.
+4. **One decision per turn.** Ask one decision question, then **wait**. Asking multiple questions at once is bewildering. Chained follow-ups on the **same branch** only **after** the user answers. When branches are explicit, prefer **AskQuestion** for that single choice (always include **Other / I'll type it**); mirror/context in prose above the card.
+5. **Provisional recommendation** — for every decision question, state your recommended branch and one-line why. Frame it as a default to react to, not the correct answer. Invite pushback; silence is not acceptance.
+6. **Consider-the-opposite / falsifier** — after the user engages the recommendation (accepts or chooses another branch), surface what would show that branch was the wrong bet before leaving the node.
+7. **Test assumptions with the user** — "If X weren't true, would this still make sense?"
+8. **Sharpen domain terms** against the project glossary as they resolve — grill does not own the glossary (no ADR or glossary writes).
+9. **Don't stop early.** Every major branch resolved, not just the happy path.
+10. **Hard no-act** — do not implement, scaffold, or run [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md) until **When to stop** criteria are met and the user confirms shared understanding (or explicitly asks to skip grill and build).
 
 ## Design tree
 
 At each decision node:
 
 - What are the branches here?
-- Which branch are we taking, and why?
+- Which branch are we taking, and why? (Include your provisional recommendation.)
 - What does that branch depend on? (Resolve those first.)
-- What would show this branch was the wrong bet?
+- What would show this branch was the wrong bet? (Consider-the-opposite before moving on.)
 
 Repeat until no unresolved branches remain.
 
@@ -44,7 +46,9 @@ Repeat until no unresolved branches remain.
 - Every significant design choice made explicitly
 - Dependencies between decisions resolved in order
 - No major "what if X doesn't hold?" questions unanswered _with the user_
+- **Silent-topic scan** done — if failure modes, constraints, ownership, rollback, or NFR tradeoffs never came up, ask one targeted question or confirm they are intentionally out of scope
 - User can describe the plan without ambiguity (or accepts documented open questions)
+- User confirms shared understanding (unless they explicitly skip ahead)
 
 If almost there, **ask the next question** instead of summarizing prematurely.
 
