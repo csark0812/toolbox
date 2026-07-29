@@ -211,11 +211,16 @@ describe('toolbox skill SSOT', () => {
     expect(escalation).toMatch(/Primary/)
     expect(escalation).toMatch(/Targeted specialists/)
     expect(escalation).toMatch(/Council/)
+    expect(escalation).toMatch(/Fit check timing/)
+    expect(escalation).toMatch(/entry-skill carve-out/)
+    expect(escalation).not.toMatch(/Fit check ON/)
 
     expect(council).toMatch(/escalation only/)
     expect(council).toMatch(/Primary path/)
     expect(council).toMatch(/without.*member Tasks/)
-    expect(council).toMatch(/Fit check/)
+    expect(council).toMatch(/entry-skill carve-out/)
+    expect(council).toMatch(/do not.*re-run Fit check/i)
+    expect(council).not.toMatch(/run \[`multi` Fit check\]/)
 
     expect(synthesis).toMatch(/Primary-only/)
     expect(synthesis).toMatch(/Escalated hard gate/)

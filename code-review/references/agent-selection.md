@@ -23,7 +23,7 @@ Depth ranks: `quick` < `standard` < `thorough` < `full`.
 | Depth    | Member budget | Typical use                                                     |
 | -------- | ------------- | --------------------------------------------------------------- |
 | Quick    | 1             | Single hotspot on re-review; primary could not settle one theme |
-| Standard | 2             | Targeted specialists (cap 3 with Fit check — prefer Standard 2) |
+| Standard | 2             | Targeted specialists (cap 3; carve-out — prefer Standard 2)     |
 | Thorough | 4             | User-requested deep council on cross-cutting surface            |
 | Full     | 5             | Explicit council / exhaustive council / unresolved multi-domain |
 

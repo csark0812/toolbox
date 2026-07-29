@@ -4,13 +4,13 @@ Parallel council when [escalation.md](escalation.md) places the run on **Targete
 
 ## Hard gate (escalated runs only)
 
-1. Read [`multi` Non-negotiables](../../multi/SKILL.md#non-negotiables) and run [`multi` Fit check](../../multi/SKILL.md#fit-check) this turn.
+1. Read [`multi` Non-negotiables](../../multi/SKILL.md#non-negotiables). Honor the [`multi` entry-skill carve-out](../../multi/SKILL.md#fit-check) — escalation is already decided; **do not** re-run Fit check to skip spawns.
 2. Select members per [agent-selection.md](agent-selection.md); issue **one Task/Subagent call per selected member**.
 3. Only after those calls complete → [synthesis.md](synthesis.md) → [output.md](output.md).
 
 **Primary path:** coordinator may write `Review · …` after direct inspection **without** member Tasks — authorized default per [review.md](review.md).
 
-**Forbidden on escalated runs:** fabricating member reports; skipping spawn after choosing escalation.
+**Forbidden on escalated runs:** fabricating member reports; skipping spawn after choosing escalation; using Fit check to waive SELECTED members.
 
 **Valid member omit:** lowest-scored optional lens when budget requires; log in plan. User decline / host cannot run Task → say so and **stop**.
 
@@ -50,7 +50,7 @@ Pass 2+ must include loop state. `closure-re-review` without prior themes / just
 
 ## Checklist before synthesis (escalated)
 
-- [ ] Fit check passed
+- [ ] Entry-skill carve-out honored (no Fit-check waiver of SELECTED members)
 - [ ] Anti-thrash completed when re-review applies
 - [ ] One Task per SELECTED member (or stop — no fabricated report)
 - [ ] Primary validated specialist output before Action filing
