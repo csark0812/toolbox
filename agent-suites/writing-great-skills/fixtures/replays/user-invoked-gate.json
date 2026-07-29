@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using the **writing-great-skills** skill.\n\nFor a skill you only ever type by name — and that other skills must not auto-reach — make it **user-invoked**:\n\n- Set `disable-model-invocation: true` in frontmatter.\n- Keep `description` human-facing (short summary; strip trigger lists meant for model auto-fire).\n\nThat drops **context load** (the description is not always in the window) and spends **cognitive load** on you as the index. Model-invocation is only worth it when the agent must fire the skill on its own or another skill must reach it."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["writing-great-skills"],
+  "artifacts": {}
+}

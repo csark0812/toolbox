@@ -6,11 +6,7 @@
     }
   ],
   "toolCalls": [],
-  "shellCommands": [
-    "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/auth.ts"
-  ],
-  "skillsInvoked": [
-    "code-review"
-  ],
+  "shellCommands": ["git diff main...HEAD -- agent-suites/fixtures/sample-app/src/auth.ts"],
+  "skillsInvoked": ["code-review"],
   "artifacts": {}
 }

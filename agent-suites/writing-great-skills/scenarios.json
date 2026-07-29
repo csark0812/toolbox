@@ -1,0 +1,24 @@
+{
+  "name": "writing-great-skills",
+  "description": "Portable writing-great-skills conformance: user-only skills stay user-invoked",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "user-only: recommend disable-model-invocation",
+      "prompt": "I'm adding a skill I will only ever type by name myself — other skills should not auto-reach it. How should I set invocation?\n\nRead `.claude/skills/writing-great-skills/SKILL.md` first. Answer from that skill; do not author a full SKILL.md body.",
+      "replayTrace": "agent-suites/writing-great-skills/fixtures/replays/user-invoked-gate.json",
+      "rubric": {
+        "must": ["disable-model-invocation", "user-invoked"],
+        "mustInvokeSkill": ["writing-great-skills"],
+        "mustNot": ["omit `disable-model-invocation`", "keep it model-invoked"],
+        "judge": [
+          "The agent invoked writing-great-skills and recommended user-invoked mechanics (disable-model-invocation: true) for a hand-only skill"
+        ]
+      }
+    }
+  ]
+}

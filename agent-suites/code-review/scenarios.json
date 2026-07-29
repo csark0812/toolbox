@@ -14,17 +14,9 @@
       "seedStageOnly": true,
       "replayTrace": "agent-suites/code-review/fixtures/replays/staged-merge-blockers.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "Action: test inventory",
-          "git commit",
-          "Reviewer: council"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["Action: test inventory", "git commit", "Reviewer: council"],
         "judge": [
           "The review uses default merge-blocker filing, primary reviewer only, and does not file test-inventory or polish findings under Action"
         ]
@@ -37,16 +29,9 @@
       "seedStageOnly": true,
       "replayTrace": "agent-suites/code-review/fixtures/replays/staged-standard.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "git commit",
-          "Reviewer: council"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "Reviewer: council"],
         "judge": [
           "The transcript contains a structured primary code review for the requested file without editing files or spawning council"
         ]
@@ -58,16 +43,9 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-commit.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/commit-standard.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "git commit",
-          "Reviewer: council"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "Reviewer: council"],
         "judge": [
           "The agent reviewed a commit diff with primary reviewer and produced a structured synthesis"
         ]
@@ -79,17 +57,9 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/form-pr.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thorough-default.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "git commit",
-          "Reviewer: council",
-          "Promoted to Full"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "Reviewer: council", "Promoted to Full"],
         "judge": [
           "The review stays primary on a small scoped UI diff and does not escalate to council"
         ]
@@ -101,16 +71,9 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/auth-pr.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-auth-full.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "git commit",
-          "Reviewer: council"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "Reviewer: council"],
         "judge": [
           "The review deepens primary attention on auth/session, files or discusses merge-blockers, and does not mandate council spawn"
         ]
@@ -122,12 +85,8 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-closure.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-targeted-contextual.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -146,16 +105,9 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-commit.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-signal.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "git commit",
-          "Reviewer: council"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "Reviewer: council"],
         "judge": [
           "The review applies the thrash signal, collapses adjacent same-family blockers into one theme_id with an explicit same-invariant sweep, and does not file sibling Action blocks for each edge"
         ]
@@ -167,12 +119,8 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/bare-re-review.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-bare-re-review-targeted.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -193,12 +141,8 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/large-branch-narrow-fix.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-large-branch-targeted.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -217,12 +161,8 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/premature-closure-reopen.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-premature-closure-reopen.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "final blockers",
@@ -241,12 +181,8 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/thrash-reopen-sweep.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-reopen-sweep.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -266,12 +202,8 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/parser-premature-closure.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-parser-premature-closure.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -292,12 +224,8 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/commit-stack-no-ledger.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-commit-stack-no-ledger.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -318,12 +246,8 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/green-cleanup-leftover-ledger.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-green-cleanup-leftover.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -344,12 +268,8 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/premature-closure-reopen.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-show-ledger-verbose.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
+        "must": ["Reviewer: primary"],
+        "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -367,19 +287,9 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/premature-closure-reopen.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-premature-closure-reopen.json",
       "rubric": {
-        "must": [
-          "Reviewer: primary",
-          "Continuity:"
-        ],
-        "mustInvokeSkill": [
-          "code-review"
-        ],
-        "mustNot": [
-          "git commit",
-          "## Fix-loop",
-          "## Baseline contradictions",
-          "Reviewer: council"
-        ],
+        "must": ["Reviewer: primary", "Continuity:"],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "## Fix-loop", "## Baseline contradictions", "Reviewer: council"],
         "judge": [
           "Default re-review with open themes emits a Continuity one-liner after findings and does not emit a Fix-loop theme table or Baseline contradictions section"
         ]

@@ -6,11 +6,7 @@
     }
   ],
   "toolCalls": [],
-  "shellCommands": [
-    "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/form.tsx"
-  ],
-  "skillsInvoked": [
-    "code-review"
-  ],
+  "shellCommands": ["git diff main...HEAD -- agent-suites/fixtures/sample-app/src/form.tsx"],
+  "skillsInvoked": ["code-review"],
   "artifacts": {}
 }

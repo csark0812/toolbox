@@ -19,11 +19,11 @@ Default second-opinion always runs [adversarial-debate.md](adversarial-debate.md
 
 ## Members (coverage split)
 
-| Slice | Focus | Prefer | Fallback |
-| ----- | ----- | ------ | -------- |
-| Premises + scope | Implicit goals, in/out of scope, acceptance criteria | `generalPurpose` + stance `premises` | Plan text only |
-| Dependencies + blast radius | Ordering, hidden deps, structural work | `architecture` if HOST + `contexts` includes `plan`; else `generalPurpose` + stance `blast_radius` | Score on cited paths via [agent-discovery.md](../../multi/references/agent-discovery.md) |
-| Cited paths skim | Primary sources named in the plan | `explore` | `generalPurpose` |
+| Slice                       | Focus                                                | Prefer                                                                                             | Fallback                                                                                 |
+| --------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Premises + scope            | Implicit goals, in/out of scope, acceptance criteria | `generalPurpose` + stance `premises`                                                               | Plan text only                                                                           |
+| Dependencies + blast radius | Ordering, hidden deps, structural work               | `architecture` if HOST + `contexts` includes `plan`; else `generalPurpose` + stance `blast_radius` | Score on cited paths via [agent-discovery.md](../../multi/references/agent-discovery.md) |
+| Cited paths skim            | Primary sources named in the plan                    | `explore`                                                                                          | `generalPurpose`                                                                         |
 
 ## Dispatch plan template
 

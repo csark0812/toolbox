@@ -20,17 +20,17 @@ Former Stance A (fresh read) and Stance B (completeness) are **Wave-1 member rol
 
 ### Wave 1 (parallel, fresh context — artifact only)
 
-| Slice | Subagent | Stance | Mandate |
-| ----- | -------- | ------ | ------- |
-| Outsider premises | `generalPurpose` | `premises` | Break confidence on implicit goals, constraints, premises |
-| Axis readiness | `generalPurpose` | `completeness` | Kill-mandate pass on [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) three axes (scope / gaps / sequencing) |
+| Slice             | Subagent         | Stance         | Mandate                                                                                                                                                                   |
+| ----------------- | ---------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Outsider premises | `generalPurpose` | `premises`     | Break confidence on implicit goals, constraints, premises                                                                                                                 |
+| Axis readiness    | `generalPurpose` | `completeness` | Kill-mandate pass on [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) three axes (scope / gaps / sequencing) |
 
 Under an Auto parent, share `inherit-auto` (omit tool `model`); diversify via stances. Distinct explicit models only under named parent (same tier), user cross-model request, or recorded overrides — [adversarial.md](../../multi/references/adversarial.md) § Model routing overlay.
 
 ### Wave 2 (sequential, related context)
 
-| Slice | Subagent | Stance | Mandate |
-| ----- | -------- | ------ | ------- |
+| Slice    | Subagent         | Stance   | Mandate                                                     |
+| -------- | ---------------- | -------- | ----------------------------------------------------------- |
 | Steelman | `generalPurpose` | `defend` | Rebut, narrow, or concede each attacker claim with evidence |
 
 Context pack = artifact + 2–4 cited primary sources (+ optional pre-wave gather) + **structured briefs** of both attacker reports.

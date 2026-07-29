@@ -2,7 +2,7 @@
 
 **Source of truth for** agent cold-start in this repo.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-15 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
 Public team skills SSOT. Markdown skills + skeleton audits — not a TypeScript app. No runtime env vars required (see `.env.example`).
 

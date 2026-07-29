@@ -28,8 +28,8 @@ npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex
 # Codex shares `.agents/skills/` with Cursor project installs.
 npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code codex --copy -y
 
-# Core dialogue/review set (subset) — space-separated skill names (not commas)
-npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion investigate handoff --agent cursor claude-code codex --copy -y
+# Core dialogue/build set (subset) — space-separated skill names (not commas)
+npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion investigate diagnose tdd prototype domain-model handoff writing-great-skills --agent cursor claude-code codex --copy -y
 
 # Update after push
 npx skills update -g   # global
@@ -50,7 +50,7 @@ npm install -D @csark0812/skeleton
 npx skeleton init --skills
 
 # 2. Team skills (global or project-scoped)
-npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion investigate handoff -a cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion investigate diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
 ```
 
 After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton audit self` to verify.

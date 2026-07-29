@@ -1,24 +1,24 @@
 {
-	"name": "tdd",
-	"description": "Portable tdd skill conformance: seam confirmation before first test, red-green slice discipline",
-	"defaults": {
-		"host": "replay",
-		"profile": "cursor",
-		"skills": "full"
-	},
-	"scenarios": [
-		{
-			"name": "seams: confirm before first test",
-			"prompt": "Use TDD to add a `normalizePath` helper in agent-suites/fixtures/sample-app/src/redirect.ts that preserves query strings on relative paths.\n\nRead `.claude/skills/tdd/SKILL.md` first. Before writing any test, name the seams and ask me to confirm them. Do not write a failing test until I confirm.",
-			"replayTrace": "agent-suites/tdd/fixtures/replays/seams-confirm.json",
-			"rubric": {
-				"must": ["seam", "confirm"],
-				"mustInvokeSkill": ["tdd"],
-				"mustNot": ["expect(", "it(", "test(", "describe("],
-				"judge": [
-					"The agent invoked tdd, named public seams, and asked for user confirmation before authoring any test code"
-				]
-			}
-		}
-	]
+  "name": "tdd",
+  "description": "Portable tdd skill conformance: seam confirmation before first test, red-green slice discipline",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "seams: confirm before first test",
+      "prompt": "Use TDD to add a `normalizePath` helper in agent-suites/fixtures/sample-app/src/redirect.ts that preserves query strings on relative paths.\n\nRead `.claude/skills/tdd/SKILL.md` first. Before writing any test, name the seams and ask me to confirm them. Do not write a failing test until I confirm.",
+      "replayTrace": "agent-suites/tdd/fixtures/replays/seams-confirm.json",
+      "rubric": {
+        "must": ["seam", "confirm"],
+        "mustInvokeSkill": ["tdd"],
+        "mustNot": ["expect(", "it(", "test(", "describe("],
+        "judge": [
+          "The agent invoked tdd, named public seams, and asked for user confirmation before authoring any test code"
+        ]
+      }
+    }
+  ]
 }

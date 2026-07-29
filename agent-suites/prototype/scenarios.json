@@ -1,0 +1,30 @@
+{
+	"name": "prototype",
+	"description": "Portable prototype skill conformance: declare question + mode before writing code",
+	"defaults": {
+		"host": "replay",
+		"profile": "cursor",
+		"skills": "full"
+	},
+	"scenarios": [
+		{
+			"name": "up front: question and mode before code",
+			"prompt": "Prototype auth for our sample app.\n\nRead `.claude/skills/prototype/SKILL.md` first. Do not write any code until you have stated the design question and mode.",
+			"replayTrace": "agent-suites/prototype/fixtures/replays/question-mode-gate.json",
+			"rubric": {
+				"must": ["question", "mode", "throwaway"],
+				"mustInvokeSkill": ["prototype"],
+				"mustNot": [
+					"```ts",
+					"```tsx",
+					"```js",
+					"export function",
+					"export const"
+				],
+				"judge": [
+					"The agent invoked prototype, stated a design question and throwaway/keep-skeleton mode, and did not write implementation code before those were clear"
+				]
+			}
+		}
+	]
+}

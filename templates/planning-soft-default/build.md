@@ -85,12 +85,12 @@ Ask in batches of 2–3. Stop when the plan can be written confidently. Skip que
 
 After the first question batch, evaluate whether a mode shift would help:
 
-| Signal                                                                  | Action                                                                           |
-| ----------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| Idea is still vague or contradictory                                    | "This might benefit from a quick **crystallize** pass — want to shift there?"    |
-| Assumptions in the description are questionable                         | "Some of these assumptions might be worth a **grill** pass — want to run that?"  |
-| Plan looks nearly complete; you want a review of the _written_ plan | "Want a **second-opinion** pass on the plan before I finalize?"     |
-| Specific doubt about a code path or structure                           | Optional: "Want **investigate** to sanity-check that hunch with evidence first?" |
+| Signal                                                              | Action                                                                           |
+| ------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Idea is still vague or contradictory                                | "This might benefit from a quick **crystallize** pass — want to shift there?"    |
+| Assumptions in the description are questionable                     | "Some of these assumptions might be worth a **grill** pass — want to run that?"  |
+| Plan looks nearly complete; you want a review of the _written_ plan | "Want a **second-opinion** pass on the plan before I finalize?"                  |
+| Specific doubt about a code path or structure                       | Optional: "Want **investigate** to sanity-check that hunch with evidence first?" |
 
 Never shift without offering. User decides.
 
