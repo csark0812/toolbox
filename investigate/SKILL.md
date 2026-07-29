@@ -1,6 +1,6 @@
 ---
 name: investigate
-description: Narrow a specific hunch about code, approach, or claim — then confirm or refute with evidence and a verdict (Confirmed / Refuted / Partial) with citable primary-source references. Find and verdict only, not the fix. Use when there is a concrete doubt to test. Not a written plan review (second-opinion) or open-ended ideation (crystallize).
+description: Narrow a specific hunch about code, approach, or claim — then confirm or refute with evidence and a verdict (Confirmed / Refuted / Partial) plus a one- or two-line explanation, with citable primary-source references. Find and verdict only, not the fix. Use when there is a concrete doubt to test. Not a written plan review (second-opinion) or open-ended ideation (crystallize).
 ---
 
 # Investigate
@@ -47,7 +47,7 @@ Follow [framework.md](references/framework.md). Summary:
 5. **Forage or leave** — follow scent (callers, tests, citations, error sites). If 2–3 reads yield no confirmatory or disconfirmatory signal, leave the patch, re-rank hypos, and may switch material class (e.g. repo → docs → repo).
 6. **Locate enough to cite** — verdict needs domain-appropriate citations; for behavioral code hunches, narrow to a citable locus, then stop. Do not implement the fix here.
 7. **When evidence is external** — lateral check and source class before Confirmed/Partial; conflicting independents → Partial or [parallel-perspective.md](references/parallel-perspective.md). Multi-topic gather without a single hunch → [parallel-research.md](references/parallel-research.md), then back into this loop if a specific claim remains.
-8. **Return a verdict** — Confirmed, Refuted, or Partial. Always cite specific locations in the primary material.
+8. **Return a verdict** — Confirmed, Refuted, or Partial, plus a one- or two-line explanation of why. Always cite specific locations in the primary material.
 
 ## Evidence standard
 
@@ -81,16 +81,14 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 
 **Verdict:** Confirmed | Refuted | Partial
 
+[1–2 lines. Plain-language why the verdict is what it is. If partial, separate what's real from what isn't.]
+
 ### Evidence
 
 [path/to/file.ts:line] — [what this shows and why it matters]
 [path/to/file.ts:line] — [supporting or contradicting evidence]
 
 (For non-code targets, use the domain-appropriate citation from Evidence standard — e.g. `docs/foo.md#section` or a quoted passage.)
-
-### Verdict reasoning
-
-[2–3 sentences. Explain exactly why the verdict is what it is. If partial, separate what's real from what isn't.]
 
 ### What to do next
 

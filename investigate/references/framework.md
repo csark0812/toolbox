@@ -2,7 +2,7 @@
 
 One loop for code, docs, data, and research claims. Phases may weave — repo read → external claim check → back to code (or reverse). Do not announce a "track" to the user; apply the same loop to whatever primary material is in play.
 
-Uses the **investigate** verdict: Confirmed | Refuted | Partial. **Find and verdict only** through the evidence pass — not the fix. After the verdict, hand off or exit find-only as below.
+Uses the **investigate** verdict: Confirmed | Refuted | Partial plus a one- or two-line explanation. **Find and verdict only** through the evidence pass — not the fix. After the verdict, hand off or exit find-only as below.
 
 ## Loop
 
@@ -12,7 +12,7 @@ Uses the **investigate** verdict: Confirmed | Refuted | Partial. **Find and verd
 4. **Primary material** — read the actual code, document, dataset, or cited source.
 5. **Forage or leave** — follow scent; if 2–3 reads yield no signal, leave the patch and re-rank (may switch material class).
 6. **Re-enter** when new leads appear (weave allowed).
-7. **Verdict** — citable locus + Confirmed / Refuted / Partial.
+7. **Verdict** — citable locus + Confirmed / Refuted / Partial + one- or two-line explanation.
 
 ```mermaid
 flowchart LR
