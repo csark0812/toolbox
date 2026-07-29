@@ -57,5 +57,6 @@ Synthesis plan: merge evidence; verdict per investigate schema (Confirmed / Refu
 ## Handoff
 
 - Verdict Refuted / narrow → close or single-target **investigate**
-- Reproducible bug → **testing**
-- Reproducible bug needing session logs (NDJSON, compose mount) → **debug**
+- Reproducible bug → consumer **testing** when installed; else consumer routing / `AGENTS.md`
+- Reproducible bug needing session logs (NDJSON, compose mount) → consumer **debug** when installed; else consumer routing / `AGENTS.md`
+- User explicitly asks to fix after the verdict → exit investigate find-only; follow that request or the named consumer skill

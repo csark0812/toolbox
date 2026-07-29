@@ -48,14 +48,15 @@ Selected members:
 - docs-researcher · tier=Standard · model=inherit-auto · stance=n/a: [topic A — specific query]
 - docs-researcher · tier=Standard · model=inherit-auto · stance=n/a: [topic B]
 
-Synthesis plan: merge facts; flag conflicting sources; cite URLs
+Synthesis plan: merge facts; flag source class per claim; flag conflicting sources; cite URLs; preserve conflicts
 ```
 
 Fallback: `docs-researcher` unavailable → `generalPurpose` with "web research" in sub-task.
 
 ## Synthesis
 
-1. State each topic's answer once with source links.
+1. State each topic's answer once with source links and **source class** (primary vs secondary, official vs commentary).
 2. Flag conflicts between sources — do not flatten.
-3. High-stakes contradiction → sequential tiebreaker per [model-routing.md](../../multi/references/model-routing.md) or ask user.
-4. Output → [multi output-format.md](../../multi/references/output-format.md).
+3. High-stakes claims need **lateral corroboration** (who else says this?) before treating as settled; unresolved conflict → note explicitly or hand a specific claim back to **investigate**.
+4. High-stakes contradiction → sequential tiebreaker per [model-routing.md](../../multi/references/model-routing.md) or ask user.
+5. Output → [multi output-format.md](../../multi/references/output-format.md).

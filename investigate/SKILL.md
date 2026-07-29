@@ -1,6 +1,6 @@
 ---
 name: investigate
-description: Narrow a hunch about code, approach, or claim, then confirm or refute with evidence and a verdict (Confirmed / Refuted / Partial) with citable primary-source references. Not a written plan review (second-opinion) or open-ended ideation (crystallize).
+description: Narrow a hunch about code, approach, or claim — or a research/claim doubt — then confirm or refute with evidence and a verdict (Confirmed / Refuted / Partial) with citable primary-source references. Find and verdict only, not the fix. Not a written plan review (second-opinion) or open-ended ideation (crystallize).
 disable-model-invocation: true
 ---
 
@@ -8,15 +8,18 @@ disable-model-invocation: true
 
 **Source of truth for** evidence-based hunch verification.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
 For when something feels wrong but the user can't fully articulate it yet, or they have a **specific** doubt about a code path, approach, claim, or conclusion. The goal is to narrow the hunch, then **confirm** or **refute** with evidence. Do not manufacture problems if the hunch is unfounded. **Narrow the unease together** — not doubting the user's instincts.
+
+**Find and verdict only** through the evidence pass — locate the issue or settle the claim with citable evidence. Do not implement the fix, run full repro/repair loops, or "make it green" while investigating. After the verdict, **What to do next** points at fix work via consumer **testing** / **debug** when those skills are installed; otherwise prefer hook-injected consumer routing or project `AGENTS.md` (Quality & ops). If the user explicitly asks to implement, repro, or fix after the verdict, **stop applying find-only constraints** and follow that request (or the named consumer skill).
 
 **Primary-source-first** after the target is clear: read the actual code, the actual source document, or the actual data — never secondhand description or memory.
 
 ## When to Use
 
 - Specific doubt about a code path, approach, claim, or conclusion
+- Research or claim hunch that needs confirm/refute with citable primary-source evidence
 - Narrow a vague unease into confirm/refute with citable primary-source evidence
 - Parallel web research on independent topics (via **multi**)
 
@@ -25,7 +28,8 @@ Not for: written plan review ([`second-opinion`](../second-opinion/SKILL.md)), f
 ## Stance and routing
 
 - If they have a **plan file** to critique, use **second-opinion**.
-- For **fuzzy** thinking and no specific code target yet, **crystallize** can precede this skill.
+- For **fuzzy** thinking and no specific target yet, **crystallize** can precede this skill.
+- One investigation framework for repo and external material — phases may weave code → research → code. Full loop and domain moves → [framework.md](references/framework.md).
 - Multiple independent **web research** topics → [parallel-research.md](references/parallel-research.md) via **multi**.
 - Mixed/contested evidence or explicit stress-test request → [parallel-perspective.md](references/parallel-perspective.md) via **multi** (not the default single-pass path).
 
@@ -35,11 +39,16 @@ When evidence touches structure, apply [dialogue-contract.md](https://raw.github
 
 ## Protocol
 
-1. **Target-clarification chain.** Ask **short, invitational** questions until you know _where_ to look. Iterate until the target is concrete enough that "read the code" is purposeful — dimension by dimension if needed: approach vs. UX vs. naming vs. placement vs. performance vs. data integrity vs. structure? If the user can only gesture at the discomfort, stay with one branch ("Is it closer to behavior or to structure?") before widening. **Do not start deep investigation** until the suspicion is specific enough that files or a subsystem are plausible — _unless_ the user explicitly asks you to fish broadly, in which case use [parallel-broad.md](references/parallel-broad.md) via **multi** and say you're doing a wider pass and why.
-2. **Read the primary material** — the actual code, the actual source document, or the actual dataset. Don't respond based on the description alone.
-3. **Form 2–4 ranked, falsifiable hypotheses** before gathering evidence. Each in the form: "If `<X>` is the cause, then `<evidence Y>` should show `<Z>`." Rank by plausibility.
-4. **Find evidence for and against** — look for both. Don't confirm-bias toward the hunch.
-5. **Return a verdict** — confirmed, refuted, or partially confirmed (mixed evidence). Always cite specific locations in the primary material.
+Follow [framework.md](references/framework.md). Summary:
+
+1. **Target-clarification chain.** Ask **short, invitational** questions until you know _where_ to look. Iterate until the target is concrete enough that reading primary material is purposeful — dimension by dimension if needed: approach vs. UX vs. naming vs. placement vs. performance vs. data integrity vs. structure? If the user can only gesture at the discomfort, stay with one branch ("Is it closer to behavior or to structure?") before widening. **Do not start deep investigation** until the suspicion is specific enough that files, a subsystem, or a primary source is plausible — _unless_ the user explicitly asks you to fish broadly, in which case use [parallel-broad.md](references/parallel-broad.md) via **multi** and say you're doing a wider pass and why.
+2. **Form 2–4 ranked, falsifiable hypotheses** before gathering evidence. Prefer mechanism/model hypos over situation guesses. For code: "If `<X>` is the cause, then `<Y>` at `file:line` should show `<Z>`." For claims: "If `<X>` is true, then primary source should show `<Z>`."
+3. **Disconfirm-first** — for each ranked hypo, name the cheapest evidence that would *kill* it; gather that before confirmatory reads.
+4. **Read primary material** — actual code, docs, data, or cited sources. Tool rankings or "likely file" lists are not evidence.
+5. **Forage or leave** — follow scent (callers, tests, citations, error sites). If 2–3 reads yield no confirmatory or disconfirmatory signal, leave the patch, re-rank hypos, and may switch material class (e.g. repo → docs → repo).
+6. **Locate enough to cite** — verdict needs domain-appropriate citations; for behavioral code hunches, narrow to a citable locus, then stop. Do not implement the fix here.
+7. **When evidence is external** — lateral check and source class before Confirmed/Partial; conflicting independents → Partial or [parallel-perspective.md](references/parallel-perspective.md). Multi-topic gather without a single hunch → [parallel-research.md](references/parallel-research.md), then back into this loop if a specific claim remains.
+8. **Return a verdict** — Confirmed, Refuted, or Partial. Always cite specific locations in the primary material.
 
 ## Evidence standard
 
@@ -61,6 +70,8 @@ When evidence touches structure, apply [dialogue-contract.md](https://raw.github
 - Cite exact locations — `file:line` for code; domain-appropriate equivalents for non-code targets. Vague conclusions are not useful.
 - If you can't find the relevant primary material, say so and ask for better context before concluding.
 - If the hunch is partially right, treat confirmed and refuted parts separately — don't average them into "it's complicated."
+- Do not treat automated rankings or localization hints as a verdict — read the primary material.
+- Do not stop at a single narrative root cause when evidence supports multiple mechanisms.
 
 ## Output format
 
@@ -84,7 +95,7 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 
 ### What to do next
 
-- [Concrete next action: fix, monitor, ignore, investigate further, or hand off to crystallize/grill → planning/build.md / second-opinion]
+- [Concrete next action: fix → consumer testing/debug when installed, else consumer routing / AGENTS.md; monitor; ignore; investigate further; or hand off to crystallize/grill → planning/build.md / second-opinion]
 - [If structural: localized change vs staged / ground-up work — one line, tied to evidence]
 ```
 
