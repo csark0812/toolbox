@@ -1,6 +1,6 @@
 # Registry
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-15 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
 **Source of truth for** topic routing in this repo. Edit rows here; edit content in canonical files only.
 
@@ -15,12 +15,13 @@
 
 ## Skills
 
-| Slug           | Canonical file                                        |
-| -------------- | ----------------------------------------------------- |
-| multi          | [multi/SKILL.md](../multi/SKILL.md)                   |
-| code-review    | [code-review/SKILL.md](../code-review/SKILL.md)       |
-| crystallize    | [crystallize/SKILL.md](../crystallize/SKILL.md)       |
-| grill          | [grill/SKILL.md](../grill/SKILL.md)                   |
-| second-opinion | [second-opinion/SKILL.md](../second-opinion/SKILL.md) |
-| investigate    | [investigate/SKILL.md](../investigate/SKILL.md)       |
-| handoff        | [handoff/SKILL.md](../handoff/SKILL.md)               |
+| Slug                 | Canonical file                                                    |
+| -------------------- | ----------------------------------------------------------------- |
+| multi                | [multi/SKILL.md](../multi/SKILL.md)                               |
+| code-review          | [code-review/SKILL.md](../code-review/SKILL.md)                   |
+| crystallize          | [crystallize/SKILL.md](../crystallize/SKILL.md)                   |
+| grill                | [grill/SKILL.md](../grill/SKILL.md)                               |
+| second-opinion       | [second-opinion/SKILL.md](../second-opinion/SKILL.md)             |
+| investigate          | [investigate/SKILL.md](../investigate/SKILL.md)                   |
+| handoff              | [handoff/SKILL.md](../handoff/SKILL.md)                           |
+| writing-great-skills | [writing-great-skills/SKILL.md](../writing-great-skills/SKILL.md) |

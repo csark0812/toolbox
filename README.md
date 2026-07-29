@@ -2,7 +2,7 @@
 
 **Source of truth for** team Cursor/Claude agent skills.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-15 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
 Public SSOT for reusable Cursor/Claude agent skills.
 
@@ -21,7 +21,7 @@ Install destinations (skills CLI):
 | Codex       | `.agents/skills/` | `~/.codex/skills/`  |
 
 ```bash
-# All team skills (7 slugs), global — Cursor, Claude Code, and Codex
+# All team skills (8 slugs), global — Cursor, Claude Code, and Codex
 npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex -y
 
 # All team skills, project-scoped (commit under .agents/skills/ and/or .claude/skills/)
@@ -76,15 +76,16 @@ Canonical recipes live under `.skeleton/references/planning/soft-default/` and a
 
 ## Skills
 
-| Slug           | Purpose                                          |
-| -------------- | ------------------------------------------------ |
-| multi          | Parallel subagent orchestration kernel           |
-| code-review    | Primary-first code review; council on escalation |
-| crystallize    | Fuzzy idea → shaped intent                       |
-| grill          | Pressure-test design before implementation       |
-| second-opinion | Written plan review                              |
-| investigate    | Confirm/refute a code or approach hunch          |
-| handoff        | Compact session handoff                          |
+| Slug                 | Purpose                                          |
+| -------------------- | ------------------------------------------------ |
+| multi                | Parallel subagent orchestration kernel           |
+| code-review          | Primary-first code review; council on escalation |
+| crystallize          | Fuzzy idea → shaped intent                       |
+| grill                | Pressure-test design before implementation       |
+| second-opinion       | Written plan review                              |
+| investigate          | Confirm/refute a code or approach hunch          |
+| handoff              | Compact session handoff                          |
+| writing-great-skills | Skill-authoring vocabulary and predictability    |
 
 Consumer projects may lock additional slugs (`debug`, `testing`, `product-principles`, …) — **every lock key is replaced on resync**. Ambient shared refs are remote (GitHub); skill-local `references/` stay skill-specific. Consumers remap project docs via `.skeleton/customize/` + `customize.alwaysInclude`. See [docs/tiers.md](docs/tiers.md).
 

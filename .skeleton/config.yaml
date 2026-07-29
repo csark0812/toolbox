@@ -14,6 +14,7 @@ scan:
     - 'second-opinion/**'
     - 'investigate/**'
     - 'handoff/**'
+    - 'writing-great-skills/**'
   exclude:
     - '.skeleton/references/**'
     - '**/references/**'
@@ -42,3 +43,4 @@ skillOwnership:
     - second-opinion
     - investigate
     - handoff
+    - writing-great-skills

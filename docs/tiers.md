@@ -10,15 +10,16 @@ Assign each skill to exactly one place. Update when adding skills.
 
 Generic orchestration, planning, and dialogue — intended for any consumer project.
 
-| Slug           | Notes                                                                     |
-| -------------- | ------------------------------------------------------------------------- |
-| multi          | Parallel subagent kernel                                                  |
-| code-review    | Primary-first review + fix-loop; council on escalation (customize roster) |
-| crystallize    | Fuzzy idea → artifact                                                     |
-| grill          | Pressure-test design                                                      |
-| second-opinion | Unified plan review (staged debate)                                       |
-| investigate    | Code / claim hunch — find & verdict, not fix                              |
-| handoff        | Session handoff                                                           |
+| Slug                 | Notes                                                                     |
+| -------------------- | ------------------------------------------------------------------------- |
+| multi                | Parallel subagent kernel                                                  |
+| code-review          | Primary-first review + fix-loop; council on escalation (customize roster) |
+| crystallize          | Fuzzy idea → artifact                                                     |
+| grill                | Pressure-test design                                                      |
+| second-opinion       | Unified plan review (staged debate)                                       |
+| investigate          | Code / claim hunch — find & verdict, not fix                              |
+| handoff              | Session handoff                                                           |
+| writing-great-skills | Skill-authoring vocabulary and predictability                             |
 
 Shared ambient refs live in [`.skeleton/references/`](../.skeleton/references/) and are opened from skills via GitHub raw URLs (network required). See [github-ambient-refs-validation.md](github-ambient-refs-validation.md). Soft-default planning recipes stay out of skill trees — enable via [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md) only when the consumer has no planning docs remap.
 

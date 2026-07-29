@@ -19,6 +19,7 @@ const SKILL_SLUGS = [
   'second-opinion',
   'investigate',
   'handoff',
+  'writing-great-skills',
 ]
 
 await mkdir(skillsRoot, { recursive: true })

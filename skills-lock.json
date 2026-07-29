@@ -42,6 +42,12 @@
       "sourceType": "github",
       "skillPath": "second-opinion/SKILL.md",
       "computedHash": "3825b66109bfd4f82a3a9a7361b20c4effe4b7223609fa0447ee64e871504110"
+    },
+    "writing-great-skills": {
+      "source": "csark0812/toolbox",
+      "sourceType": "github",
+      "skillPath": "writing-great-skills/SKILL.md",
+      "computedHash": "49a9979b8b767c3750f22e32130f3ce58086aa7937743213f7217fd43f5e25ba"
     }
   }
 }
