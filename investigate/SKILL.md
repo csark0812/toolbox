@@ -13,6 +13,8 @@ description: Narrow a specific hunch — settle it with primary-source evidence 
 
 **Primary-source-first** after the target is clear: read the actual code, source document, or data.
 
+Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
+
 ## Stance
 
 - Plan file to critique → **second-opinion**
@@ -31,9 +33,9 @@ Follow [framework.md](references/framework.md). Summary:
 
 1. **Target-clarification chain.** Ask **short, invitational** questions until you know _where_ to look. Iterate until the target is concrete enough that reading primary material is purposeful — dimension by dimension if needed. If the user can only gesture at the discomfort, stay with one branch before widening. Start deep investigation only when files, a subsystem, or a primary source is plausible — _unless_ the user explicitly asks you to fish broadly, in which case use [parallel-broad.md](references/parallel-broad.md) via **multi** and say you're doing a wider pass and why.
 2. **Form 2–4 ranked, falsifiable hypotheses** before gathering evidence. Prefer mechanism/model hypos over situation guesses. For code: "If `<X>` is the cause, then `<Y>` at `file:line` should show `<Z>`." For claims: "If `<X>` is true, then primary source should show `<Z>`."
-3. **Disconfirm-first** — for each ranked hypo, name the cheapest evidence that would _kill_ it; gather that before confirmatory reads.
+3. **Discriminating checks** — for each ranked hypo, name the cheapest kill test (strong inference: most information per unit cost). Run top kill tests **before** confirmatory forage.
 4. **Read primary material** — actual code, docs, data, or cited sources. Tool rankings or "likely file" lists are not evidence.
-5. **Forage or leave** — follow scent (callers, tests, citations, error sites). If 2–3 reads yield no confirmatory or disconfirmatory signal, leave the patch, re-rank hypos, and may switch material class (e.g. repo → docs → repo).
+5. **Forage or leave** — follow scent (callers, tests, citations, error sites). **Leave** the patch when 2–3 reads yield no confirmatory or disconfirmatory signal — re-rank hypos and may switch material class (e.g. repo → docs → repo). Leaving is completion, not failure.
 6. **Locate enough to cite** — verdict needs domain-appropriate citations; for behavioral code hunches, narrow to a citable locus, then stop.
 7. **When evidence is external** — lateral check and source class before settling; conflicting independents → say so in the verdict or escalate to [parallel-perspective.md](references/parallel-perspective.md). Multi-topic gather without a single hunch → [parallel-research.md](references/parallel-research.md), then back into this loop if a specific claim remains.
 8. **Return a verdict** — one plain-language settlement (what holds, what doesn't, what stays open). Always cite specific locations in the primary material. If the hunch is unfounded, say so — do not invent problems to validate it. When evidence supports multiple mechanisms, report them separately rather than forcing a single narrative root cause.

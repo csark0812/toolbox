@@ -1,0 +1,12 @@
+{
+	"messages": [
+		{
+			"role": "assistant",
+			"content": "Using **investigate**.\n\n**Hypotheses (ranked):**\n1. Redirect drops session cookie on POST — kill test: read `src/auth.ts` handler for Set-Cookie on error path.\n2. Classifier misroutes auth errors — kill test: trace `classify.ts` return for 401.\n\n**Discriminating check (hypo 1):** `src/auth.ts:42` — no cookie clear on redirect; hypo 1 **killed**.\n\n**Forage:** followed callers to `redirect.ts` — 2 reads, no signal.\n\n**Leave:** leaving redirect patch; re-ranking toward classifier.\n\n**Verdict:** Hunch partially holds — classifier path plausible; redirect path ruled out by kill test at `src/auth.ts:42`."
+		}
+	],
+	"toolCalls": [],
+	"shellCommands": [],
+	"skillsInvoked": ["investigate"],
+	"artifacts": {}
+}

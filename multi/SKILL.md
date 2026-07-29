@@ -22,6 +22,9 @@ Parallel independent subagents via the host **Task** tool (Cursor: **Subagent**)
 | Per-member output shape      | [references/member-schema.md](references/member-schema.md)     |
 | Generic consolidated report  | [references/output-format.md](references/output-format.md)     |
 | Agent discovery (mechanical) | [references/agent-discovery.md](references/agent-discovery.md) |
+| Research basis (calibration) | [references/research-basis.md](references/research-basis.md)   |
+
+Read research basis when calibrating a move or making a research claim. Do not load by habit.
 
 ## Non-negotiables
 
@@ -36,11 +39,13 @@ When this skill applies (user attached `multi`, an entry skill invokes parallel 
 
 ## Fit check
 
+Before planning `N ≥ 2`, name a **single-pass rival**: the same job done by one agent with a deeper primary pass and more tool use in one contiguous context. Spawn parallel members only when slices are **independent** _and_ the rival cannot cover that independence (different sources of truth, kill-mandate asymmetry, or true breadth).
+
 **Use multi** when members are independent and parallel work improves coverage, speed, or confidence — e.g. multi-source gathering, broad exploration, orthogonal research topics, or mixed gather passes.
 
-**Skip multi** when the task fits one agent, work is sequential, members would duplicate without adding confidence, or the user wants a single authoritative pass.
+**Skip multi** when the single-pass rival suffices, work is sequential, members would duplicate without adding confidence, or the user wants a single authoritative pass.
 
-**Entry-skill carve-out:** When `code-review` (or another entry skill) escalated to parallel dispatch / council, Fit check does **not** apply. Do not re-litigate “one agent suffices.” Follow that skill’s member budget and [Non-negotiables](#non-negotiables).
+**Entry-skill carve-out:** When `code-review` (or another entry skill) escalated to parallel dispatch / council, or when `second-opinion` mandates staged debate, Fit check does **not** apply. Do not re-litigate “one agent suffices.” Follow that skill’s member budget and [Non-negotiables](#non-negotiables).
 
 ## Dispatch modes
 
@@ -66,13 +71,14 @@ Load the entry skill's recipe when one applies; otherwise plan manually:
 ### 2. Plan and spawn
 
 1. **Discover** — [agent-discovery.md](references/agent-discovery.md) when council agents may apply; otherwise pick host built-in `subagent_type` values directly.
-2. **Dispatch plan** — write before spawning:
+2. **Dispatch plan** — write before spawning. Include **Single-pass rival** (why one agent + deeper pass is insufficient) unless the entry-skill carve-out applies.
 
 ```markdown
 Task: [What the user asked]
 Classification: [research / explore / gather / mixed]
 Source of truth: [web / repo / plan]
 Goal: [coverage / perspectives / adversarial / adversarial-staged / both]
+Single-pass rival: [one agent + deeper pass — why insufficient, or "entry-skill carve-out"]
 
 Parent model: [Auto | <named model>]
 User model overrides: [none | member=slug, …]

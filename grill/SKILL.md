@@ -11,6 +11,8 @@ description: Pressure-test a design or implementation plan before code — walk 
 
 Pressure-test a design before code. Before the first turn, read [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) (shared behavior).
 
+Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
+
 Shared understanding before implementation. **Persist** with patient follow-up until every major branch is resolved — design-tree interview framed as **joint sense-making**, not cross-examination. Cover every branch that matters, including unhappy paths.
 
 ## Example opening turn
@@ -45,8 +47,9 @@ Repeat until no unresolved branches remain.
 
 - Every significant design choice made explicitly
 - Dependencies between decisions resolved in order
+- **Falsifier recorded** for every decision node before leaving it — what would show the chosen branch was the wrong bet
 - No major "what if X doesn't hold?" questions unanswered _with the user_
-- **Silent-topic scan** done — if failure modes, constraints, ownership, rollback, or NFR tradeoffs never came up, ask one targeted question or confirm they are intentionally out of scope
+- **Silent-topic scan** done — for failure modes, constraints, ownership, rollback, and NFR tradeoffs: each either decided **or** explicitly marked **in scope / out of scope** in the output (no silent skips)
 - User can describe the plan without ambiguity (or accepts documented open questions)
 - User confirms shared understanding (unless they explicitly skip ahead)
 
@@ -70,6 +73,10 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 ## Open questions (deferred)
 
 - [Anything explicitly punted]
+
+## Scope notes (silent-topic scan)
+
+- [Topic]: in scope | out of scope — [one line why, if out of scope]
 
 ## Next step
 

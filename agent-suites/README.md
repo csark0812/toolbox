@@ -7,6 +7,10 @@ Toolbox agent suites are portable conformance checks for public skills. They use
 Toolbox owns generic skill-contract behavior:
 
 - `code-review`: source adapters, surface-size bands, primary-first default with escalation on demand, merge-blocker default filing, anti-thrash / contextual re-review convergence, and no-commit review behavior.
+- `multi`: Fit check — name single-pass rival before `N ≥ 2`; skip when independence fails.
+- `second-opinion`: staged debate with claim anchoring; unanchored kills tagged `drift`.
+- `investigate`: discriminating kill tests; leave dead patches after 2–3 no-signal reads.
+- `crystallize`: alternate problem frame before crystallized output.
 - `tdd`: seam confirmation before the first test; red-green slice discipline.
 - `diagnose`: entry gate — no repro means no hypotheses; route to investigate or get a repro.
 - `domain-model`: entry gate — no stated decision means no ADR; route to grill or crystallize.

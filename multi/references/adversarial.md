@@ -2,7 +2,7 @@
 
 **Source of truth for** adversarial parallel and staged-debate recipes on the [`multi`](../SKILL.md) kernel.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
 Spawn mechanics, Auto-first model routing, and synthesis gate → [`multi` SKILL](../SKILL.md). Member shape → [member-schema.md](member-schema.md). Entry skills own domain overlays and final report shape.
 
@@ -24,6 +24,7 @@ Spawn mechanics, Auto-first model routing, and synthesis gate → [`multi` SKILL
 3. **Kill mandates** — do not ask for generic “critique.” Mandate breaking confidence or killing weak claims.
 4. **One cycle** — one parallel round or one debate cycle (wave1→wave2→synth) unless the user asks for another.
 5. **Empirical preference** — when a claim is falsifiable in-repo, prefer primary evidence / tests over model agreement.
+6. **Claim anchoring** — every kill, promote, or concede must cite an artifact locus (plan section, premise id, `file:line`, diff hunk, or stated acceptance criterion). Off-artifact critiques are **out of mandate** — do not file them as convergent or ship-blocking.
 
 ## Context pack
 
@@ -38,6 +39,7 @@ Constraints:
 
 - Do not assume other members' conclusions.
 - Do not invent parent-chat conclusions.
+- Anchor every kill/promote/concede to an artifact locus (section, premise id, file:line, or criterion).
 - Return only your mandate; coordinator synthesizes.
 
 Output: [member-schema.md](member-schema.md) plus adversarial fields below.
@@ -57,6 +59,10 @@ promote | kill | concede
 ## Kill rationale
 
 [Why this claim should ship-block, be dropped, or be narrowed — or "n/a"]
+
+## Anchor
+
+[Artifact locus: plan § / premise id / file:line / diff hunk / criterion — required for kill or promote]
 
 ## Evidence
 
@@ -129,16 +135,16 @@ Do not collapse to one attacker when the user emphasizes only “did I miss anyt
 
 After both attackers return, spawn **one** member:
 
-| Stance   | Mandate                                                                            |
-| -------- | ---------------------------------------------------------------------------------- |
-| `defend` | Steelman the original; rebut, narrow, or concede each attacker claim with evidence |
+| Stance   | Mandate                                                                                         |
+| -------- | ----------------------------------------------------------------------------------------------- |
+| `defend` | Steelman the original; rebut, narrow, or concede each **anchored** attacker claim with evidence |
 
-Context pack = artifact + 2–4 primary sources the plan cites (or coordinator-gathered related context) + **structured briefs** of both attacker reports (findings / dispositions only — not coordinator synthesis).
+Context pack = artifact + 2–4 primary sources the plan cites (or coordinator-gathered related context) + **structured briefs** of both attacker reports (findings / dispositions / anchors only — not coordinator synthesis). Defender **ignores unanchored kills** unless the coordinator tags them `drift`.
 
 ### Coordinator synthesis
 
 1. One unified report (entry skill shape): critique **and** axis/readiness gaps together.
-2. Tag claims `attacker-convergent` / `attacker-divergent` / `defended` / `conceded`.
+2. Tag claims `attacker-convergent` / `attacker-divergent` / `defended` / `conceded` / `drift` (unanchored attacker claim — do not treat as convergent).
 3. Preserve unresolved conflict.
 4. Premise-confirm with the user when premises are unsettled before treating the opinion as final.
 5. Hard gate: both waves completed before the final report — do not fabricate debate outcomes.

@@ -8,16 +8,16 @@ Uses the **investigate** verdict: a plain-language settlement of what holds, wha
 
 1. **Narrow** until primary material is purposeful (clarification chain in main skill).
 2. **Hypothesize** — 2–4 ranked, falsifiable hypos. Prefer mechanism/model over situation guesses.
-3. **Disconfirm-first** — cheapest evidence that would kill each hypo before confirmatory reads.
+3. **Discriminating checks** — cheapest kill test per hypo, ranked by information per cost; run top kill tests before confirmatory reads.
 4. **Primary material** — read the actual code, document, dataset, or cited source.
-5. **Forage or leave** — follow scent; if 2–3 reads yield no signal, leave the patch and re-rank (may switch material class).
+5. **Forage or leave** — follow scent; after 2–3 reads with no signal, **leave** the patch and re-rank (may switch material class).
 6. **Re-enter** when new leads appear (weave allowed).
 7. **Verdict** — citable locus + plain-language settlement (what holds / doesn't / stays open).
 
 ```mermaid
 flowchart LR
   narrow[Narrow target] --> hypos[Ranked hypos]
-  hypos --> disconfirm[Disconfirm first]
+  hypos --> disconfirm[Discriminating checks]
   disconfirm --> primary[Primary material]
   primary --> forage[Forage or leave]
   primary --> lateral[Lateral read if external]
@@ -59,4 +59,4 @@ flowchart LR
 - Single-cause theater when multiple mechanisms fit the evidence.
 - Implementing the fix during the evidence pass (before verdict / without an explicit post-verdict fix request).
 - Hard-requiring **diagnose** / **tdd** / **testing** / **debug** when absent — fall back to consumer routing or `AGENTS.md`.
-- Heavy hypothesis matrices or formal ACH tables in user-facing output — keep competing hypos + disconfirm-first only.
+- Heavy hypothesis matrices or formal ACH tables in user-facing output — keep competing hypos + discriminating checks only.

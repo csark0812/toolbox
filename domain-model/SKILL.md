@@ -14,6 +14,8 @@ Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) `domain-m
 
 **Process is generic; content is always repo-specific.** This skill writes to project-configured paths (glossary file, ADR directory) — never ships product domain terms in the hub.
 
+Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
+
 ## Entry gate — no decision, no ADR
 
 **Glossary:** term + definition must be stated (by user or prior grill output). If the term is still fuzzy, route to [`grill`](../grill/SKILL.md) or [`crystallize`](../crystallize/SKILL.md).

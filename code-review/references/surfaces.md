@@ -20,7 +20,14 @@ Log in header: `Surface: focused|standard|broad (N files, M loc)` · `Reviewer: 
 | **Standard** | ~200–400 LOC or coherent multi-file change | Full primary evidence pass                        | Only if unresolved after direct inspection                                               |
 | **Broad**    | > ~400 LOC or ≥ ~20 files or multi-theme   | Primary deep + note decomposition / residual risk | _Consider_ Fit-checked specialists; council only on user ask or cross-cutting unresolved |
 
-Anchors: Bosu et al. (usefulness drops ≥ ~20 files); Google small-CL guidance (~100–1000 LOC as judgment, not hard gates). Bands are **guides** — conceptual coherence matters more than LOC alone.
+**Usefulness density (Broad):** Prefer fewer production-reachable merge blockers with locus evidence over long speculative lists — large changesets get cursory review when comment volume rises (Bosu et al.).
+
+Anchors:
+
+- Bosu, A., Greiler, M., & Bird, C. (2015). _Characteristics of Useful Code Reviews: An Empirical Study at Microsoft._ MSR 2015. https://doi.org/10.1109/MSR.2015.21 — usefulness density drops as file count in the changeset rises (≈20+ files as soft guide).
+- Google engineering — small, incremental, complete changesets (~100–1000 LOC as judgment, not hard gates). https://google.github.io/eng-practices/review/developer/cl-small.html
+
+Bands are **guides** — conceptual coherence matters more than LOC alone.
 
 ## User overrides (intensity only)
 

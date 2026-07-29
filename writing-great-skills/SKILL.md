@@ -14,6 +14,8 @@ Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) `writing-
 
 A skill exists to wrangle determinism out of a stochastic system. **Predictability** — the agent taking the same _process_ every run, not producing the same output — is the root virtue; every lever below serves it.
 
+Read [references/research-basis.md](references/research-basis.md) when calibrating authoring claims. Do not load by habit.
+
 **Bold terms** are defined in [`references/glossary.md`](references/glossary.md); look them up there for the full meaning.
 
 ## Invocation

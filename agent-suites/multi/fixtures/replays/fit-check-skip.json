@@ -1,0 +1,12 @@
+{
+	"messages": [
+		{
+			"role": "assistant",
+			"content": "Using the **multi** skill.\n\n**Fit check:** before spawning parallel members, I need a **single-pass rival** — one agent with a deeper primary pass in one context.\n\nFor this job (map auth flow in one service), a single agent can read callers, tests, and handlers sequentially. Members would duplicate the same repo slice without independent sources or kill mandates.\n\n**Decision:** skip multi; run one thorough explore pass instead of `N ≥ 2` Tasks.\n\nIf you need cross-repo or multi-source gather with truly independent slices, say so and I will name why the single-pass rival is insufficient."
+		}
+	],
+	"toolCalls": [],
+	"shellCommands": [],
+	"skillsInvoked": ["multi"],
+	"artifacts": {}
+}

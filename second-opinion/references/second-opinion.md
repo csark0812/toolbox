@@ -2,7 +2,7 @@
 
 **Source of truth for** unified written-artifact second opinion (no Stance A/B).
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
 Work on a **written** plan, PRD, or issue set — not Socratic explore. Always run **staged adversarial debate** via [`multi`](../multi/SKILL.md) — recipe [adversarial-debate.md](adversarial-debate.md) + [`multi` adversarial.md](../multi/references/adversarial.md) § Staged debate.
 
@@ -20,10 +20,12 @@ Former “fresh read” and “completeness verify” are **Wave-1 subagent role
 4. **Wave 1 — spawn two fresh-context attackers** (parallel Task/Subagent) per [adversarial-debate.md](adversarial-debate.md):
    - `premises` — outsider premise / goal / constraint attack
    - `completeness` — axis readiness attack (verify.md overlay as kill mandate)
-5. **Wave 2 — spawn one related-context defender** after both attackers return: `defend` with artifact + 2–4 cited primary sources + structured attacker briefs.
-6. **Synthesize** — one unified report (sections below). Tag claims `attacker-convergent` / `attacker-divergent` / `defended` / `conceded`.
+5. **Wave 2 — spawn one related-context defender** after both attackers return: `defend` with artifact + 2–4 cited primary sources + structured attacker briefs. Defender rebutts **anchored** claims only.
+6. **Synthesize** — one unified report (sections below). Tag claims `attacker-convergent` / `attacker-divergent` / `defended` / `conceded` / `drift` (unanchored attacker claim — not convergent).
 
 **Hard gate:** Do not emit the final second-opinion report until **both waves** have completed Task runs. Coordinator-only critique is a **violation**.
+
+**Claim anchoring:** Wave-1 attackers must map each kill/promote to a plan section or premise id. Synthesis drops unanchored kills from convergent counts or tags them `drift`.
 
 If the user only asks “did I miss anything” or only “outsider read,” still run **both** attackers. Emphasis may weight synthesis, not spawn count.
 
@@ -64,7 +66,7 @@ Cover all of these, briefly, using debate outcomes. Skip sections with nothing t
 
 ## Debate tags (brief)
 
-- [claim]: attacker-convergent | attacker-divergent | defended | conceded
+- [claim]: attacker-convergent | attacker-divergent | defended | conceded | drift
 
 ## What's solid
 ...

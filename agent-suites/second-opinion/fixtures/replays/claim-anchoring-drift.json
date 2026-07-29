@@ -1,0 +1,12 @@
+{
+	"messages": [
+		{
+			"role": "assistant",
+			"content": "Using **second-opinion** with staged debate.\n\n**Wave 1 attacker (premises):** anchored kill — Plan §3 \"Deploy Friday\" assumes zero-downtime deploys, but no rollback step is named (`docs/plans/auth.plan.md` §3).\n\n**Wave 1 attacker (completeness):** anchored kill — Scope axis: no migration path for existing sessions (Plan §2).\n\n**Unanchored critique discarded:** \"the team might be understaffed\" — **drift** (not in artifact); not counted as attacker-convergent.\n\n**Wave 2 defender:** concedes rollback gap; defends Friday deploy with cited CI gate in plan §4.\n\n**Synthesis tags:**\n- Missing rollback: attacker-convergent\n- Session migration: attacker-divergent (premises only)\n- Staffing concern: drift\n\n## Second opinion summary\n\n**Artifact:** docs/plans/auth.plan.md\n**Dispatch:** adversarial-staged"
+		}
+	],
+	"toolCalls": [],
+	"shellCommands": [],
+	"skillsInvoked": ["second-opinion"],
+	"artifacts": {}
+}

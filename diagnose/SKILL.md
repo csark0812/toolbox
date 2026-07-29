@@ -11,7 +11,9 @@ description: Hard-bug diagnosis loop — repro → tighten feedback loop → fix
 
 Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) `diagnosing-bugs` (MIT © 2026 Matt Pocock).
 
-A discipline for hard bugs. **Ordering is the value** — build a **tight** pass/fail signal before hypothesizing. Skip phases only when explicitly justified.
+A discipline for hard bugs. **Ordering is the value** — build a **tight** pass/fail signal before hypothesizing. The loop is the **verifier** (environment oracle); hypotheses serve the loop, not the other way around. Skip phases only when explicitly justified.
+
+Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
 
 ## Entry gate — no loop, no hypotheses
 

@@ -35,6 +35,9 @@ Cursor `/review-bugbot` and `/review-security` stay those shortcuts.
 | Anti-thrash + re-review            | [references/anti-thrash.md](references/anti-thrash.md)                                          |
 | Fix-loop themes                    | [references/fix-loop-ledger.md](references/fix-loop-ledger.md)                                  |
 | Council (escalation only)          | [references/council-dispatch.md](references/council-dispatch.md) · [`multi`](../multi/SKILL.md) |
+| Research basis (calibration)       | [references/research-basis.md](references/research-basis.md)                                    |
+
+Read research basis when calibrating a move or making a research claim. Do not load by habit.
 
 ## Workflow
 

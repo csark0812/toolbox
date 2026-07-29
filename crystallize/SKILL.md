@@ -11,6 +11,8 @@ description: Shape a fuzzy or half-formed idea through Socratic dialogue — cry
 
 Shape a half-formed idea through dialogue. Before the first turn, read [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) (shared behavior).
 
+Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
+
 Goal: **crystallization**, not resolution. Follow the thread; stay with the idea until it has shape. Incomplete or vague input is normal.
 
 ## Example opening turn
@@ -23,7 +25,7 @@ Goal: **crystallization**, not resolution. Follow the thread; stay with the idea
 2. **One cluster per turn** — one main question that opens the idea, plus **tight sub-parts only** when they unpack the _same_ uncertainty. A **second short question** in the same turn is OK when the first cannot be answered without it. No unrelated question dumps. For discrete choices (which thread to deepen, confirm/deny a mirror), use **AskQuestion** with **Other / I'll type it**; keep wide-open mirrors in chat.
 3. **Reflect before asking.** Briefly mirror what you heard; validate uncertainty: "So part of this might still be fuzzy, but it sounds like…"
 4. **Exhaust the branch.** Chain another question on the same branch before moving on. If an answer is **thin**, say so and ask which meaning fits.
-5. **Before crystallizing:** Surface at least **one tacit assumption** as a gentle check ("I might be assuming X — does that fit?") **or** **one branch gently tested** — don't offer the final block until that exchange happened (unless the user asks to skip ahead).
+5. **Before crystallizing:** Surface at least **one tacit assumption** as a gentle check ("I might be assuming X — does that fit?") **or** **one branch gently tested** — and name **one alternate problem frame** ("maybe the real problem is Y") — chosen, discarded, or left open. Don't offer the final block until that exchange happened (unless the user asks to skip ahead).
 6. **Follow energy, not logic.** If the user lights up on a tangent, go there.
 7. **Stay in crystallization** — solutions, architectures, or implementations only when the user explicitly asks.
 8. **Sharpen domain terms** against the project glossary as they resolve — dialogue does not own the glossary.
@@ -47,6 +49,10 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 ## Crystallized idea
 
 [2–4 sentence statement from the user's perspective. Reads like: "You're trying to X, because Y. The key tension is Z."]
+
+## Alternate frame considered
+
+- [One other problem framing — chosen, discarded, or open]
 
 ## What remains open
 

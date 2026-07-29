@@ -11,7 +11,9 @@ description: Test-driven development — build behavior test-first at agreed sea
 
 Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) `tdd` (MIT © 2026 Matt Pocock).
 
-The **red → green** microcycle: one vertical slice at a time. Tests verify behavior through **public interfaces**, not implementation details. Prefer project glossary / `AGENTS.md` for domain vocabulary — no hard `CONTEXT.md` coupling.
+The **red → green** microcycle: one vertical slice at a time. Tests verify behavior through **public interfaces**, not implementation details. This skill does **not** claim TDD improves velocity or defect rates — it enforces test-first discipline at agreed seams. For design learning without production commitment, use [`prototype`](../prototype/SKILL.md).
+
+Prefer project glossary / `AGENTS.md` for domain vocabulary — no hard `CONTEXT.md` coupling.
 
 ## Seams — confirm before the first test
 

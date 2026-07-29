@@ -21,7 +21,7 @@ Also owns mid fix-loop compact when context is exhausted but work continues. Con
 ## Protocol
 
 1. **Confirm scope.** Ask what the next session must pick up (implement, review, investigate, plan revision) if unclear.
-2. **Gather from the thread** — original ask, decisions, work done, current state, open questions, blockers. Do not invent progress.
+2. **Gather from the thread** — original ask, decisions, work done, current state, open questions, blockers, **what failed** (dead ends, rejected approaches), and **what to try next** (pointers only). Do not invent progress.
 3. **Collect artifact pointers** — paths and URLs only; never paste full bodies into the handoff file:
    - PRDs — cite path strings only
    - Plans on disk — cite path strings only
@@ -75,6 +75,14 @@ Write this structure to the handoff file (fill every section; use `—` or `none
 ## Open questions / blockers
 
 - [Item]
+
+## What failed (pointers only)
+
+- [Dead end or rejected approach — path, command, or one-line why it failed]
+
+## What to try next (pointers only)
+
+- [Next probe, test, or branch — not a full plan]
 
 ## Artifacts (reference only — do not duplicate)
 

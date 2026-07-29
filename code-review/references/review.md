@@ -19,6 +19,7 @@ Single primary-first contract for every source adapter ([sources.md](sources.md)
 - Each Action claim needs `path:line`, trigger, impact, and counter-evidence checked.
 - Merge duplicate symptoms under one `theme_id` ([fix-loop-ledger.md](fix-loop-ledger.md)).
 - Prefer no finding over speculation ([merge-blockers.md](merge-blockers.md)).
+- On **Broad** surfaces, maximize **usefulness density** — fewer high-confidence production-reachable blockers with `path:line` evidence beat long low-value lists ([surfaces.md](surfaces.md)).
 
 ## Filing
 
