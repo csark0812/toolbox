@@ -6,6 +6,25 @@
 
 Measure whether toolbox skills improve settlement under transfer — without autonomous skill mutation.
 
+## Claims under test (investigate)
+
+Do not score “investigate quality” as one number. Split claims:
+
+| ID  | Claim                                                                            | Keep/remove gate                                                           |
+| --- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| C1  | Fix-invention verdict gate — cited verdict without patch/diff under fix pressure | **Primary** — only C1 can earn Keep-narrow                                 |
+| C2  | Leave / red-herring — abandon dead patch, settle elsewhere                       | Secondary corroboration only                                               |
+| C3  | General transfer — ceiling scenarios that pass both arms                         | **Out of scope** for keep/remove (`investigate-*-ceiling`, replay CI only) |
+
+**Bar to stay first-class:** after fixture hygiene (guard-only seeds), N≥3 same-model repeats where `full` majority-beats `none` on C1 settlement **and** correct locus (`sessionGuard.ts`), and `full` beats the **prompt** baseline (skill file ≠ pasted rules).
+
+**Falsifiers (summary):**
+
+- **Remove:** C1 `full` never majority-beats `none` after hygiene, or `prompt` ≥ `full` on C1 across majority of runs.
+- **Demote:** C1 `full` > `none` but `prompt` matches `full` on all repeats (verdict-gate in prompt suffices), or weak/unstable lift — shrink install surface; keep routing slug.
+- **Keep (narrow):** C1 `full` majority-beats `none` **and** `full` beats `prompt`; claim only verdict-without-patch under fix pressure.
+- **Invest more:** hygiene flips prior inversion but N&lt;3, judge/locus disagree, or confounds remain.
+
 ## Preflight
 
 ```bash
@@ -14,7 +33,7 @@ npx agent-test --doctor
 npm run agent:test:evidence-parity
 ```
 
-**One command** runs the discriminating cadence: `agent-test --compare-pairs investigate-outcomes:investigate-transfer` → optional `diagnose-outcomes` + `organization-ablations` → evolution-note proposals for failures. Writes `_agent/evidence-runs/<id>/manifest.json` and compare HTML/MD/JSON under `_agent/eval-reports/<id>/`. Exits non-zero when any scenario fails (for triage, not CI by default).
+**One command** runs the discriminating cadence: `agent-test --compare-pairs investigate-outcomes:investigate-transfer` → `investigate-prompt` (prompt baseline) → optional `diagnose-outcomes` + `organization-ablations` → evolution-note proposals for failures. Writes `_agent/evidence-runs/<id>/manifest.json` and compare HTML/MD/JSON under `_agent/eval-reports/<id>/`. Exits non-zero when any scenario fails (for triage, not CI by default).
 
 Scenarios that pass on both arms (ceiling) live in `investigate-outcomes-ceiling` / `investigate-transfer-ceiling` — replay CI only, not this command.
 
@@ -23,6 +42,12 @@ Scenarios that pass on both arms (ceiling) live in `investigate-outcomes-ceiling
 ```bash
 # Faster: investigate transfer only, no diagnose/ablations
 npm run agent:test:evidence-parity -- --no-diagnose --no-ablations
+
+# Skip prompt baseline arm
+npm run agent:test:evidence-parity -- --no-prompt
+
+# N≥3 repeats (same model; writes batch manifest under _agent/evidence-runs/)
+npm run agent:test:evidence-parity -- --no-diagnose --no-ablations --repeats 3
 
 # Re-render compare from prior suite-report JSON (no live spend)
 npm run agent:test:evidence-parity -- --compare-only
@@ -58,7 +83,28 @@ npm run agent:test:evidence-parity
    npm run agent:test:ablations -- --debug
    ```
 
-Compare output lands in `_agent/eval-reports/<run-id>/` as `compare-report.html`, `.md`, and `.json`, plus `investigate-outcomes.suite-report.json` and `investigate-transfer.suite-report.json`. Pairing uses `compareId` then band-neutral scenario name (agent-test native). The evidence-parity manifest links the HTML path as `report` and MD as `reportMd`.
+Compare output lands in `_agent/eval-reports/<run-id>/` as `compare-report.html`, `.md`, and `.json`, plus `investigate-outcomes.suite-report.json`, `investigate-transfer.suite-report.json`, and `investigate-prompt.suite-report.json`. Pairing uses `compareId` then band-neutral scenario name (agent-test native). The evidence-parity manifest links the HTML path as `report` and MD as `reportMd`.
+
+Transfer-arm failures on C1 (full pass, none fail) are **expected discriminating signal** — the orchestrator continues to the prompt arm and still exits non-zero for triage/proposals.
+
+### Fixture hygiene (discriminating band)
+
+The shared `debug-app` fixture plants **two** session bugs (`sessionGuard.ts` `>=`, `sessionCookie.ts` ms→s) for ceiling / diagnose scenarios. The **discriminating** band applies per-scenario seeds so only the guard bug remains:
+
+- `fix-invention-guard-only.patch` — C1 symptom (“valid exactly at expiry”)
+- `leave-redirect-guard-only.patch` — redirect comment + guard-only cookie path
+
+Dual-bug `debug-app` stays for `investigate-*-ceiling` and `diagnose-outcomes`.
+
+### Metrics beyond judge pass rate
+
+| Metric                                  | Role                                                   |
+| --------------------------------------- | ------------------------------------------------------ |
+| Judge + `must` / `mustNot`              | Primary settlement                                     |
+| Correct locus (`sessionGuard.ts` on C1) | Primary co-metric                                      |
+| `usage.total` tokens (Δ full−none)      | Secondary budget                                       |
+| Human transcript spot-check             | Required on direction-flip or judge pass + wrong locus |
+| Wall time                               | Tertiary                                               |
 
 ## Equal-budget discipline
 
@@ -72,7 +118,8 @@ Compare output lands in `_agent/eval-reports/<run-id>/` as `compare-report.html`
 | Suite                          | `skills` | Purpose                                   |
 | ------------------------------ | -------- | ----------------------------------------- |
 | `investigate-outcomes`         | `full`   | Skill-on settlement (discriminating band) |
-| `investigate-transfer`         | `none`   | Null baseline (discriminating band)       |
+| `investigate-transfer`         | `none`   | Hunch-only null baseline (discriminating) |
+| `investigate-prompt`           | `none`   | Prompt-instructed verdict-gate baseline   |
 | `investigate-outcomes-ceiling` | `full`   | Replay CI only — ceiling scenarios        |
 | `investigate-transfer-ceiling` | `none`   | Replay CI only — ceiling scenarios        |
 | `diagnose-outcomes`            | `full`   | Skill-on loop gates                       |

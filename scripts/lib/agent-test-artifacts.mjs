@@ -2,8 +2,10 @@ import { access, readdir, readFile, stat } from 'node:fs/promises'
 import { basename, join } from 'node:path'
 
 export const PARITY_COMPARE_PAIR = 'investigate-outcomes:investigate-transfer'
+export const PROMPT_COMPARE_PAIR = 'investigate-outcomes:investigate-prompt'
 export const OUTCOMES_SUITE = 'investigate-outcomes'
 export const TRANSFER_SUITE = 'investigate-transfer'
+export const PROMPT_SUITE = 'investigate-prompt'
 
 /** Paths agent-test writes under a compare-out directory. */
 export function compareReportPaths(outDir) {
@@ -14,6 +16,7 @@ export function compareReportPaths(outDir) {
     suiteReports: {
       outcomes: join(outDir, `${OUTCOMES_SUITE}.suite-report.json`),
       transfer: join(outDir, `${TRANSFER_SUITE}.suite-report.json`),
+      prompt: join(outDir, `${PROMPT_SUITE}.suite-report.json`),
     },
   }
 }
@@ -181,4 +184,17 @@ export async function findFailedDebugBundles(sessionRoot) {
 
 export async function readCompareReportJson(jsonPath) {
   return JSON.parse(await readFile(jsonPath, 'utf8'))
+}
+
+export function aggregateBatchC1(runManifests) {
+  const c1FullWins = runManifests.filter((m) => m.c1?.fullPass && !m.c1?.nonePass).length
+  const c1NoneWins = runManifests.filter((m) => m.c1?.nonePass && !m.c1?.fullPass).length
+  const c1Ties = runManifests.filter((m) => m.c1?.fullPass === m.c1?.nonePass).length
+  const c1PromptBeatsFull = runManifests.filter(
+    (m) => m.c1?.promptPass && !m.c1?.fullPass,
+  ).length
+  const c1FullBeatsPrompt = runManifests.filter(
+    (m) => m.c1?.fullPass && !m.c1?.promptPass,
+  ).length
+  return { c1FullWins, c1NoneWins, c1Ties, c1PromptBeatsFull, c1FullBeatsPrompt, runs: runManifests.length }
 }

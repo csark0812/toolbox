@@ -4,6 +4,7 @@ import {
   compareReportPaths,
   costFromCompareReport,
   findParitySession,
+  aggregateBatchC1,
 } from '../scripts/lib/agent-test-artifacts.mjs'
 import { mkdtemp, mkdir, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
@@ -18,6 +19,9 @@ describe('compareReportPaths', () => {
     )
     expect(paths.suiteReports.transfer).toBe(
       '/tmp/run-1/investigate-transfer.suite-report.json',
+    )
+    expect(paths.suiteReports.prompt).toBe(
+      '/tmp/run-1/investigate-prompt.suite-report.json',
     )
   })
 })
@@ -58,5 +62,21 @@ describe('findParitySession', () => {
 describe('PARITY_COMPARE_PAIR', () => {
   it('matches evidence-parity suite names', () => {
     expect(PARITY_COMPARE_PAIR).toBe('investigate-outcomes:investigate-transfer')
+  })
+})
+
+describe('aggregateBatchC1', () => {
+  it('counts C1 wins across batch manifests', () => {
+    const agg = aggregateBatchC1([
+      { c1: { fullPass: true, nonePass: false, promptPass: false } },
+      { c1: { fullPass: false, nonePass: true, promptPass: true } },
+      { c1: { fullPass: true, nonePass: true, promptPass: true } },
+    ])
+    expect(agg.c1FullWins).toBe(1)
+    expect(agg.c1NoneWins).toBe(1)
+    expect(agg.c1Ties).toBe(1)
+    expect(agg.c1PromptBeatsFull).toBe(1)
+    expect(agg.c1FullBeatsPrompt).toBe(1)
+    expect(agg.runs).toBe(3)
   })
 })

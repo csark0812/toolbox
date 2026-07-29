@@ -15,17 +15,17 @@
 
 ## Skills
 
-| Slug                 | Canonical file                                                    |
-| -------------------- | ----------------------------------------------------------------- |
-| multi                | [multi/SKILL.md](../multi/SKILL.md)                               |
-| code-review          | [code-review/SKILL.md](../code-review/SKILL.md)                   |
-| crystallize          | [crystallize/SKILL.md](../crystallize/SKILL.md)                   |
-| grill                | [grill/SKILL.md](../grill/SKILL.md)                               |
-| second-opinion       | [second-opinion/SKILL.md](../second-opinion/SKILL.md)             |
-| investigate          | [investigate/SKILL.md](../investigate/SKILL.md)                   |
-| diagnose             | [diagnose/SKILL.md](../diagnose/SKILL.md)                         |
-| tdd                  | [tdd/SKILL.md](../tdd/SKILL.md)                                   |
-| prototype            | [prototype/SKILL.md](../prototype/SKILL.md)                       |
-| domain-model         | [domain-model/SKILL.md](../domain-model/SKILL.md)                 |
-| handoff              | [handoff/SKILL.md](../handoff/SKILL.md)                           |
-| writing-great-skills | [writing-great-skills/SKILL.md](../writing-great-skills/SKILL.md) |
+| Slug                 | Canonical file                                                                                                                |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| multi                | [multi/SKILL.md](../multi/SKILL.md)                                                                                           |
+| code-review          | [code-review/SKILL.md](../code-review/SKILL.md)                                                                               |
+| crystallize          | [crystallize/SKILL.md](../crystallize/SKILL.md)                                                                               |
+| grill                | [grill/SKILL.md](../grill/SKILL.md)                                                                                           |
+| second-opinion       | [second-opinion/SKILL.md](../second-opinion/SKILL.md)                                                                         |
+| investigate          | [investigate/SKILL.md](../investigate/SKILL.md) — optional install; C1 lift vs hunch-only, prompt baseline matches skill file |
+| diagnose             | [diagnose/SKILL.md](../diagnose/SKILL.md)                                                                                     |
+| tdd                  | [tdd/SKILL.md](../tdd/SKILL.md)                                                                                               |
+| prototype            | [prototype/SKILL.md](../prototype/SKILL.md)                                                                                   |
+| domain-model         | [domain-model/SKILL.md](../domain-model/SKILL.md)                                                                             |
+| handoff              | [handoff/SKILL.md](../handoff/SKILL.md)                                                                                       |
+| writing-great-skills | [writing-great-skills/SKILL.md](../writing-great-skills/SKILL.md)                                                             |

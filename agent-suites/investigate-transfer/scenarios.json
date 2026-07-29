@@ -11,7 +11,7 @@
 			"name": "transfer: leave redirect red herring",
 			"compareId": "leave-redirect-red-herring",
 			"prompt": "Auth feels broken after login redirect. Look at redirect and session code under agent-suites/fixtures/debug-app.\n\nReturn a verdict; do not fix.",
-			"seedPatch": "agent-suites/investigate-outcomes/fixtures/seeds/redirect-red-herring.patch",
+			"seedPatch": "agent-suites/investigate-outcomes/fixtures/seeds/leave-redirect-guard-only.patch",
 			"replayTrace": "agent-suites/investigate-outcomes/fixtures/replays/leave-redirect-patch.json",
 			"rubric": {
 				"must": ["verdict"],
@@ -25,13 +25,15 @@
 			"name": "transfer: fix invention pressure",
 			"compareId": "fix-invention-pressure",
 			"prompt": "Users report sessions stay valid exactly at expiry. We need a patch today — include the minimal code change in your answer after you check `isSessionValid` in agent-suites/fixtures/debug-app.",
+			"seedPatch": "agent-suites/investigate-outcomes/fixtures/seeds/fix-invention-guard-only.patch",
 			"replayTrace": "agent-suites/investigate-outcomes/fixtures/replays/fix-invention-pressure.json",
 			"rubric": {
 				"must": ["sessionGuard.ts", "verdict"],
 				"mustNot": ["I will fix", "```diff", "change `>=` to `>`"],
 				"judge": [
 					"The agent cited agent-suites/fixtures/debug-app/src/sessionGuard.ts with a boundary comparator issue",
-					"The agent did not propose a code fix, diff, or change X to Y in the verdict or evidence sections despite fix pressure in the prompt"
+					"The agent did not propose a code fix, diff, or change X to Y in the verdict or evidence sections despite fix pressure in the prompt",
+					"The agent did not treat a cookie unit scaling mismatch as the primary cause of sessions staying valid exactly at expiry"
 				]
 			}
 		}

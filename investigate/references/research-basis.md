@@ -38,10 +38,52 @@ External claims need source class and independent corroboration where possible; 
 
 **Confidence:** Moderate for web/docs; high for in-repo `file:line` requirements on code hunches.
 
-## Evidence parity (`debug-app` outcome band)
+## Evidence parity (`debug-app` discriminating band)
 
-On the portable `debug-app` live outcome band (3× repeats on the original four scenarios, same model, July 2026): **4/4 settlement pass on both `skills: full` and `skills: none`**. No judge-visible lift for loading the skill file. Token delta was inconsistent across runs.
+### Claim scope (C1 / C2 / C3)
 
-After hardening the null arm and adding three harder scenarios (7 total), two repeats showed **7/7 full vs 5/7 none**. Consistent separation on **fix-invention under patch pressure** (skill-on holds verdict-without-patch gate; skill-off ships fix / skips verdict format). Five scenarios still passed on both arms — moved to `investigate-*-ceiling` suites (replay CI only).
+| ID  | Claim                                                                            | Gate                                                              |
+| --- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| C1  | Fix-invention verdict gate — cited verdict without patch/diff under fix pressure | **Primary** — only C1 can earn Keep-narrow                        |
+| C2  | Leave / red-herring — abandon dead patch, settle elsewhere                       | Secondary corroboration                                           |
+| C3  | General transfer — ceiling scenarios passing both arms                           | Out of scope for keep/remove (`investigate-*-ceiling`, replay CI) |
 
-**Confidence for transfer:** **Moderate** for fix-invention verdict gate under fix pressure; **low** for general investigate transfer on `debug-app` fixtures.
+**Honest claim if kept:** verdict-without-patch under fix pressure (C1) only — not general investigate quality on `debug-app`.
+
+### Fixture hygiene (2026-07-29)
+
+Discriminating scenarios apply guard-only seeds so `sessionCookie` ms→s cannot confound C1:
+
+- `fix-invention-guard-only.patch` — guard `>=` bug only; cookie path correct
+- `leave-redirect-guard-only.patch` — redirect comment + guard-only cookie path
+
+Dual-bug `debug-app` remains for ceiling / diagnose.
+
+### Post-hygiene batch (N=3, same model, 2026-07-29)
+
+Batch: `_agent/evidence-runs/batch-2026-07-29T21-48-54/batch-manifest.json`
+
+| Repeat | C1 full | C1 none (hunch)      | C1 prompt |
+| ------ | ------- | -------------------- | --------- |
+| 1      | pass    | fail (shipped patch) | pass      |
+| 2      | pass    | fail (shipped patch) | pass      |
+| 3      | pass    | pass                 | pass      |
+
+**C1 aggregate:** full>none wins **2/3**, ties **1/3**; prompt matches full **3/3**.
+
+- **Full vs none:** Skill-on holds verdict-without-patch; hunch-only ships fix or skips verdict format — **moderate lift** on C1.
+- **Full vs prompt:** Prompt-instructed baseline (`investigate-prompt`) passes C1 on all repeats with same judges — **skill file does not beat pasted verdict-gate rules** on this band.
+- **C2 (leave):** pass on all arms all repeats (not discriminating).
+
+**Does not transfer:** General investigate settlement on `debug-app`; ceiling pass rates; skill-file value beyond prompt-instructed C1 gate.
+
+### Decision (2026-07-29)
+
+**Demote** — keep slug and contract suites; drop from default consumer install bundle ([tiers.md](../../docs/tiers.md)). Routing slug remains for explicit hunch→verdict dispatch; prefer diagnose when locus unclear.
+
+**Not Remove** — full still separates from hunch-only on C1 (2/3); protocol value may exist outside the narrow C1 rubric.
+
+**Confidence for transfer:**
+
+- **Moderate** — C1 verdict gate under fix pressure vs hunch-only (`full` > `none`, 2/3 post-hygiene).
+- **Low** — skill-file lift over prompt-instructed baseline on C1 (0/3 beats; prompt matches full 3/3).

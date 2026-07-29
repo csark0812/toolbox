@@ -1,0 +1,24 @@
+diff --git a/agent-suites/fixtures/debug-app/src/redirect.ts b/agent-suites/fixtures/debug-app/src/redirect.ts
+index 1111111..2222222 100644
+--- a/agent-suites/fixtures/debug-app/src/redirect.ts
++++ b/agent-suites/fixtures/debug-app/src/redirect.ts
+@@ -1,4 +1,6 @@
+ /** Post-login redirect helper — red-herring surface for investigate outcome suites. */
++// NOTE: legacy path cleared session cookie on redirect — verify before blaming redirect.
++
+ export function redirectAfterLogin(rawTarget: string | undefined): string {
+ 	if (!rawTarget?.trim()) {
+ 		return "/dashboard";
+diff --git a/agent-suites/fixtures/debug-app/src/sessionCookie.ts b/agent-suites/fixtures/debug-app/src/sessionCookie.ts
+index 1331143..6b5b03f 100644
+--- a/agent-suites/fixtures/debug-app/src/sessionCookie.ts
++++ b/agent-suites/fixtures/debug-app/src/sessionCookie.ts
+@@ -7,7 +7,6 @@ export function validateSessionCookie(
+ 	now = Date.now(),
+ ): boolean {
+ 	const stored = getStoredExpiry(cookieValue);
+-	// Planted bug: divides millisecond timestamps to seconds before the guard (expects ms).
+-	const expiresAt = Math.floor(stored / 1000);
++	const expiresAt = stored;
+ 	return isSessionValid(expiresAt, now);
+ }
