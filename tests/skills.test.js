@@ -192,6 +192,13 @@ describe('toolbox skill SSOT', () => {
     expect(broad).toMatch(/Parent model: \[Auto \| <named model>\]/)
   })
 
+  it('investigate enforces find-and-verdict-only (no fix in verdict)', () => {
+    const skill = readFileSync(join(root, 'investigate/SKILL.md'), 'utf8')
+    expect(skill).toMatch(/Find and verdict only/)
+    expect(skill).toMatch(/Do not propose code edits, diffs/)
+    expect(skill).toMatch(/Completion gate:.*no code fix/s)
+  })
+
   it('code-review defaults to primary; council only on escalation', () => {
     const skill = readFileSync(join(root, 'code-review/SKILL.md'), 'utf8')
     const council = readFileSync(join(root, 'code-review/references/council-dispatch.md'), 'utf8')

@@ -22,13 +22,28 @@ Toolbox skills are static human SSOT — they do not self-mutate from transcript
    ```bash
    npm run agent:test:outcomes
    ```
+   Full evidence cadence (compare + propose):
+   ```bash
+   npm run agent:test:evidence-parity
+   ```
 2. **Triage** — open the failure bundle under `$TMPDIR/agent-spec/sessions/<id>/` (or `--debug-dir`). Note which rubric clause failed (`must`, `mustNot`, `judge`) and which research-basis claim it maps to.
+
+   Autofill a draft note (does not edit skills):
+
+   ```bash
+   node scripts/propose-skill-evolution.mjs /path/to/<scenario>.debug
+   ```
+
+   Writes `_agent/skill-evolution/<timestamp>-<suite>-<scenario>.md`. Human **Keep / Reject / Defer** before any `SKILL.md` edit.
+
+   Optional LLM patch draft: in a fresh chat, attach the filled note plus `transcript.md` from the debug bundle; ask for suggested `SKILL.md` / `research-basis.md` diffs into `_agent/` only — never auto-merge.
+
 3. **Draft patch** — minimal change to `SKILL.md` and/or `references/research-basis.md`:
    - Sharpen a completion criterion if the agent **prematurely completed**
    - Add a carve-out under **Does not transfer** if the failure falsifies an overclaim
    - Lower **Confidence** if evidence is mixed
 4. **Authoring gate** — apply [`writing-great-skills`](../writing-great-skills/SKILL.md): prune no-ops, positive steering, progressive disclosure.
-5. **Lock** — add or update a **contract** scenario + replay fixture in `agent-suites/<skill>/`. Outcome scenarios stay live-only (`skip: true` in replay CI).
+5. **Lock** — add or update a **contract** scenario + replay fixture in `agent-suites/<skill>/`. Outcome scenarios use stub `replayTrace` for replay CI only (no `skip` — that disables live too).
 6. **Optional vitest lock** — add a string invariant in `tests/skills.test.js` only when the new rule is stable prose that regressions should catch globally.
 7. **Record** — copy [`templates/skill-evolution-note.md`](../templates/skill-evolution-note.md) into `_agent/` or the PR description; bump `last-reviewed` on touched research-basis files.
 
@@ -41,4 +56,5 @@ Toolbox skills are static human SSOT — they do not self-mutate from transcript
 ## Related
 
 - [Agent suites](../agent-suites/README.md) — Contract vs Outcome bands
+- [Evidence parity](evidence-parity.md) — skill-on vs skill-off cadence and compare reports
 - [Skill organization ablations](skill-organization-ablations.md) — compare dispatch arms before reorganizing skills

@@ -9,7 +9,9 @@ description: Narrow a specific hunch — settle it with primary-source evidence 
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
-**Find and verdict only** — locate the issue or settle the claim with citable primary-source evidence. After the verdict, **What to do next** prefers hub **[`diagnose`](../diagnose/SKILL.md)** / **[`tdd`](../tdd/SKILL.md)** when installed; otherwise consumer testing / debug or project `AGENTS.md`. If the user explicitly asks to implement, repro, or fix after the verdict, follow that request (or the named skill).
+**Find and verdict only** — locate the issue or settle the claim with citable primary-source evidence. **Do not propose code edits, diffs, or “change X to Y” in the verdict or evidence sections** unless the user explicitly asked to implement, repro, or fix. Route fixes in **What to do next** (e.g. diagnose / tdd) — do not ship the fix in this pass.
+
+After the verdict, **What to do next** prefers hub **[`diagnose`](../diagnose/SKILL.md)** / **[`tdd`](../tdd/SKILL.md)** when installed; otherwise consumer testing / debug or project `AGENTS.md`. If the user explicitly asks to implement, repro, or fix after the verdict, follow that request (or the named skill).
 
 **Primary-source-first** after the target is clear: read the actual code, source document, or data.
 
@@ -38,7 +40,7 @@ Follow [framework.md](references/framework.md). Summary:
 5. **Forage or leave** — follow scent (callers, tests, citations, error sites). **Leave** the patch when 2–3 reads yield no confirmatory or disconfirmatory signal — re-rank hypos and may switch material class (e.g. repo → docs → repo). Leaving is completion, not failure.
 6. **Locate enough to cite** — verdict needs domain-appropriate citations; for behavioral code hunches, narrow to a citable locus, then stop.
 7. **When evidence is external** — lateral check and source class before settling; conflicting independents → say so in the verdict or escalate to [parallel-perspective.md](references/parallel-perspective.md). Multi-topic gather without a single hunch → [parallel-research.md](references/parallel-research.md), then back into this loop if a specific claim remains.
-8. **Return a verdict** — one plain-language settlement (what holds, what doesn't, what stays open). Always cite specific locations in the primary material. If the hunch is unfounded, say so — do not invent problems to validate it. When evidence supports multiple mechanisms, report them separately rather than forcing a single narrative root cause.
+8. **Return a verdict** — one plain-language settlement (what holds, what doesn't, what stays open). Always cite specific locations in the primary material. If the hunch is unfounded, say so — do not invent problems to validate it. When evidence supports multiple mechanisms, report them separately rather than forcing a single narrative root cause. **Completion gate:** no code fix, patch, or implementation steps in the verdict or evidence — only in **What to do next** when routing onward.
 
 ## Evidence standard
 

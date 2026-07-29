@@ -7,5 +7,5 @@ index 1111111..2222222 100644
 +// NOTE: legacy path cleared session cookie on redirect — verify before blaming redirect.
 +
  export function redirectAfterLogin(rawTarget: string | undefined): string {
-   if (!rawTarget?.trim()) {
-     return '/dashboard'
+ 	if (!rawTarget?.trim()) {
+ 		return "/dashboard";

@@ -8,7 +8,7 @@ Inspired by SkillJuror-style questions: does how skills are **organized** (routi
 
 ## Suite
 
-`agent-suites/organization-ablations/` — live-only (`skip: true` in replay CI).
+`agent-suites/organization-ablations/` — live outcome band with stub replay traces for CI (no `skip` — that disables live too).
 
 ```bash
 npm run agent:test:ablations
@@ -31,6 +31,8 @@ Requires `CURSOR_API_KEY`. Compare runs under the **same model** and similar tok
 - **Fit-check skip** should beat forced parallel spawn on single coherent repo slices.
 
 If an arm consistently fails live while the other passes, open a skill patch via [skill-evolution.md](skill-evolution.md) — do not reorganize skills from one run.
+
+See [evidence-parity.md](evidence-parity.md) for the full skill-on vs skill-off cadence and compare-report workflow.
 
 ## Not measured here
 
