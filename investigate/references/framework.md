@@ -28,30 +28,30 @@ flowchart LR
 
 ## Domain moves (same loop)
 
-| Move | When | How |
-| --- | --- | --- |
-| **Repo forage** | Hunch points at code, config, or in-repo docs | Follow scent: callers, callees, tests, error sites, related types. Prefer dependency slices over whole-file reads when the hunch is localized. |
-| **Locate-to-cite** | Behavioral code hunch | Narrow to `file:line` (or config key, failing path) sufficient for the verdict — then **stop**. Do not bisect-as-repair or implement the fix. |
-| **Lateral read** | Claim depends on web/docs/vendor material | Leave the page quickly; check who else says this; note source class (primary vs secondary, official vs commentary). |
-| **Source class** | Before Confirmed/Partial on non-repo material | State what kind of source supports the claim. Conflicting independents → Partial or parallel-perspective. |
+| Move               | When                                          | How                                                                                                                                            |
+| ------------------ | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Repo forage**    | Hunch points at code, config, or in-repo docs | Follow scent: callers, callees, tests, error sites, related types. Prefer dependency slices over whole-file reads when the hunch is localized. |
+| **Locate-to-cite** | Behavioral code hunch                         | Narrow to `file:line` (or config key, failing path) sufficient for the verdict — then **stop**. Do not bisect-as-repair or implement the fix.  |
+| **Lateral read**   | Claim depends on web/docs/vendor material     | Leave the page quickly; check who else says this; note source class (primary vs secondary, official vs commentary).                            |
+| **Source class**   | Before Confirmed/Partial on non-repo material | State what kind of source supports the claim. Conflicting independents → Partial or parallel-perspective.                                      |
 
 ## When to escalate (multi)
 
-| Situation | Recipe |
-| --- | --- |
-| User asks to fish broadly | [parallel-broad.md](parallel-broad.md) |
+| Situation                                    | Recipe                                                                                    |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| User asks to fish broadly                    | [parallel-broad.md](parallel-broad.md)                                                    |
 | Multiple independent topics, no single hunch | [parallel-research.md](parallel-research.md) — then back here if a specific claim remains |
-| Genuinely mixed or contested evidence | [parallel-perspective.md](parallel-perspective.md) |
+| Genuinely mixed or contested evidence        | [parallel-perspective.md](parallel-perspective.md)                                        |
 
 ## Handoffs (after verdict)
 
-| Next need | Where |
-| --- | --- |
-| Implement the fix, repro, make tests pass | Hub **diagnose** / **tdd** when installed; else consumer **testing** / **debug** or `AGENTS.md` (Quality & ops). |
+| Next need                                       | Where                                                                                                              |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Implement the fix, repro, make tests pass       | Hub **diagnose** / **tdd** when installed; else consumer **testing** / **debug** or `AGENTS.md` (Quality & ops).   |
 | User explicitly asks to fix / repro / implement | **Exit find-only** — stop applying investigate no-fix constraints; follow the request or the named consumer skill. |
-| Still fuzzy on intent | **crystallize** |
-| Written plan to critique | **second-opinion** |
-| Pressure-test design before build | **grill** |
+| Still fuzzy on intent                           | **crystallize**                                                                                                    |
+| Written plan to critique                        | **second-opinion**                                                                                                 |
+| Pressure-test design before build               | **grill**                                                                                                          |
 
 ## Anti-patterns
 

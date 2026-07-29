@@ -22,10 +22,10 @@ Default **investigate** stays single-target, single-pass — use this recipe onl
 
 Same target — adversarial stances (kill mandates):
 
-| Slice                        | Subagent         | Stance                                                              |
-| ---------------------------- | ---------------- | ------------------------------------------------------------------- |
-| Strongest case for the hunch | `generalPurpose` | `steelman` / `attacker` — assume the hunch is real; build the strongest case; try to *kill* skeptic hypos with evidence |
-| Mechanism that prevents it   | `generalPurpose` | `skeptic` / `refuter` — assume it's a non-issue; find what prevents the problem; try to *kill* steelman hypos with evidence |
+| Slice                        | Subagent         | Stance                                                                                                                      |
+| ---------------------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Strongest case for the hunch | `generalPurpose` | `steelman` / `attacker` — assume the hunch is real; build the strongest case; try to _kill_ skeptic hypos with evidence     |
+| Mechanism that prevents it   | `generalPurpose` | `skeptic` / `refuter` — assume it's a non-issue; find what prevents the problem; try to _kill_ steelman hypos with evidence |
 
 Use distinct stances. Under an Auto parent, share `inherit-auto` (omit tool `model`); diversify via prompts/stances, not slugs. Distinct explicit models only under a named parent (same tier), user cross-model request, or recorded user overrides — [adversarial.md](../../multi/references/adversarial.md) § Model routing overlay.
 
