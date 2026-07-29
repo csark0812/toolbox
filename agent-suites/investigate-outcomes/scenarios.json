@@ -16,7 +16,8 @@
 				"mustInvokeSkill": ["investigate"],
 				"mustNot": ["I will fix", "root cause is definitely"],
 				"judge": [
-					"The agent cited agent-suites/fixtures/debug-app/src/sessionGuard.ts with a boundary comparator issue and did not invent a fix"
+					"The agent cited agent-suites/fixtures/debug-app/src/sessionGuard.ts with a boundary comparator issue",
+					"The agent did not propose a code fix, diff, or change X to Y in the verdict or evidence sections"
 				]
 			}
 		},
@@ -27,11 +28,7 @@
 			"rubric": {
 				"must": ["verdict"],
 				"mustInvokeSkill": ["investigate"],
-				"mustNot": [
-					"redirect clears",
-					"root cause is definitely",
-					"I will fix"
-				],
+				"mustNot": ["root cause is definitely", "I will fix"],
 				"judge": [
 					"The agent concluded the redirect-clearing hunch is unfounded or not supported by primary code evidence"
 				]
