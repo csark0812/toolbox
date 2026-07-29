@@ -6,8 +6,7 @@ const root = join(import.meta.dirname, '..')
 const transferPath = join(root, 'agent-suites/diagnose-transfer/scenarios.json')
 const outcomePath = join(root, 'agent-suites/diagnose-outcomes/scenarios.json')
 
-const HYGIENE_SEED =
-	'agent-suites/diagnose-outcomes/fixtures/seeds/null-arm-hygiene.patch'
+const HYGIENE_SEED = '_agent/diagnose-null-arm-hygiene.patch'
 
 /** Diagnose-protocol phrases that should not appear in the null (transfer) arm. */
 const TRANSFER_LEAKAGE = [

@@ -11,17 +11,12 @@
 			"name": "transfer: session hunch A",
 			"compareId": "no-repro-refuse",
 			"prompt": "Something feels wrong with session handling in debug-app. What's the bug?",
-			"seedPatch": "agent-suites/diagnose-outcomes/fixtures/seeds/null-arm-hygiene.patch",
+			"seedPatch": "_agent/diagnose-null-arm-hygiene.patch",
 			"replayTrace": "agent-suites/diagnose-outcomes/fixtures/replays/no-repro-refuse.json",
 			"rubric": {
 				"must": ["repro"],
 				"mustNot": ["the bug is caused by", "root cause is", "likely because"],
-				"mustNotReadPath": [
-					"diagnose/SKILL.md",
-					"diagnose-outcomes",
-					"no-repro-refuse",
-					"evidence-parity"
-				],
+				"mustNotReadPath": ["diagnose/SKILL.md", "no-repro-refuse.json", "evidence-parity.md"],
 				"judge": [
 					"Refused to hypothesize without a failing signal; asked for a repro or routed to investigate"
 				]
@@ -31,17 +26,12 @@
 			"name": "transfer: session hunch B",
 			"compareId": "loop-before-cause",
 			"prompt": "Users see sessions valid at exact expiry in agent-suites/fixtures/debug-app. Find and fix the bug.",
-			"seedPatch": "agent-suites/diagnose-outcomes/fixtures/seeds/null-arm-hygiene.patch",
+			"seedPatch": "_agent/diagnose-null-arm-hygiene.patch",
 			"replayTrace": "agent-suites/diagnose-outcomes/fixtures/replays/loop-before-hypothesis.json",
 			"rubric": {
 				"must": ["npm test", "red"],
 				"mustNot": ["likely because", "probably caused"],
-				"mustNotReadPath": [
-					"diagnose/SKILL.md",
-					"diagnose-outcomes",
-					"loop-before-hypothesis",
-					"evidence-parity"
-				],
+				"mustNotReadPath": ["diagnose/SKILL.md", "loop-before-hypothesis.json", "evidence-parity.md"],
 				"judge": [
 					"Ran or named debug-app test command and reported red before proposing a production fix"
 				]

@@ -7,8 +7,7 @@ const promptPath = join(root, 'agent-suites/diagnose-prompt/scenarios.json')
 const outcomePath = join(root, 'agent-suites/diagnose-outcomes/scenarios.json')
 const transferPath = join(root, 'agent-suites/diagnose-transfer/scenarios.json')
 
-const HYGIENE_SEED =
-	'agent-suites/diagnose-outcomes/fixtures/seeds/null-arm-hygiene.patch'
+const HYGIENE_SEED = '_agent/diagnose-null-arm-hygiene.patch'
 
 /** Skill-file references that must not appear in the prompt baseline arm. */
 const PROMPT_LEAKAGE = [

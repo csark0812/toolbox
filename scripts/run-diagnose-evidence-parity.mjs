@@ -41,6 +41,7 @@ import {
   aggregateBatchD1,
 } from './lib/agent-test-artifacts.mjs'
 import { proposeFromDebugDir } from './lib/propose-skill-evolution-core.mjs'
+import { regenerateDiagnoseNullArmHygieneSeed } from './regenerate-diagnose-null-arm-hygiene.mjs'
 
 const root = join(fileURLToPath(import.meta.url), '..', '..')
 const agentTestBin = join(root, 'node_modules', '.bin', 'agent-test')
@@ -362,6 +363,12 @@ Flags:
 
   if (args.doctor) {
     run('agent-test --doctor', ['--doctor', '--suites-dir', 'agent-suites'])
+  }
+
+  if (!args.compareOnly) {
+    console.log('\n▶ regenerate null-arm hygiene seed (_agent/, gitignored)')
+    const seed = regenerateDiagnoseNullArmHygieneSeed()
+    console.log(`  ${seed.out} (${seed.pathCount} files, ${seed.bytes} bytes)`)
   }
 
   for (let i = 0; i < args.repeats; i++) {
