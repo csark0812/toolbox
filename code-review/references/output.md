@@ -16,27 +16,47 @@ Match the **scannable finding-block shape** for **Action** items — short imper
 
 ## Status line
 
-**Required header** (first line of every `pr` / `merge` synthesis, including zero-findings):
+**Required header** (first line of every review synthesis):
 
 ```markdown
-Review · pr · Full · Pass class: first-baseline · Escalation: Promoted to Full (auth/security, 40 files) · Dispatch: adversarial · Filing: merge-blockers only
+Review · source:branch · Surface: standard (4 files, 186 loc) · Reviewer: primary · Pass class: first-baseline · Filing: merge-blockers only
 ```
 
-Format: `Review · {mode} · {depth} · Pass class: {first-baseline|closure-re-review|new-scope-review} · Escalation: {Stayed Thorough|Promoted to Full|Stayed targeted contextual|Promoted to Full contextual} ({brief reason}) · Dispatch: adversarial[ · cross-model]`. Required on every `pr` / `merge` review that ran anti-thrash preflight. `Dispatch: adversarial` is **always** present (council is always adversarial). Add `cross-model` only when the adversarial model carve-out ran. Optional: `Pass: targeted contextual` / `Pass: Full contextual` on fix-loop re-reviews; `Filing: merge-blockers only` (default) or `Filing: merge-blockers + improvements` when user opted in — [merge-blockers.md](merge-blockers.md). Missing escalation line on a `pr` review = **incomplete turn**. Missing `Dispatch: adversarial` = **incomplete turn**. Depth regression: if Full triggers in [modes.md](modes.md) apply but header says Thorough/targeted without a recorded carve-out, fix depth before ending the turn.
+| Field         | Values                                                                                                        |
+| ------------- | ------------------------------------------------------------------------------------------------------------- |
+| `source:`     | Adapter id from [sources.md](sources.md) (`uncommitted`, `staged-only`, `commit`, `branch`, `pr`, `paths`, …) |
+| `Surface:`    | `focused` \| `standard` \| `broad` + `(N files, M loc)` in scope                                              |
+| `Reviewer:`   | `primary` (default) \| `primary+specialists` \| `council`                                                     |
+| `Pass class:` | When anti-thrash ran: `first-baseline` \| `closure-re-review` \| `new-scope-review` \| `fix-implementation`   |
+| `Pass:`       | On `closure-re-review`: `targeted contextual` (default) or `Full contextual` + reason                         |
+| `Escalation:` | When escalated or carve-out: e.g. `Stayed targeted contextual (closure-re-review; whole-branch size ignored)` |
+| `Filing:`     | `merge-blockers only` (default) or improvements mode per [merge-blockers.md](merge-blockers.md)               |
 
-**Closure re-review size carve-out example:**
+**Primary default example:**
 
 ```markdown
-Review · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; whole-branch size ignored) · Pass: targeted contextual · Dispatch: adversarial · Filing: merge-blockers only
+Review · source:uncommitted · Surface: focused (1 file, 42 loc) · Reviewer: primary · Filing: merge-blockers only
 ```
 
-**Commit-stack / missing-ledger carve-out example:**
+**Closure re-review example:**
 
 ```markdown
-Review · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; commit-stack archaeology; whole-branch size ignored) · Pass: targeted contextual · Dispatch: adversarial · Filing: merge-blockers only
+Review · source:branch · Surface: broad (28 files, 1200 loc) · Reviewer: primary · Pass class: closure-re-review · Escalation: Stayed targeted contextual (whole-branch size ignored) · Pass: targeted contextual · Filing: merge-blockers only
 ```
 
-**Findings count line** (second line):
+Missing `Reviewer:` or `Surface:` = incomplete turn. On escalated runs, log `Escalation reason:` in synthesis when not obvious.
+
+**Review status** (merge-readiness asks only — omit on casual reviews):
+
+Exact strings when user asked merge-ready / ship / equivalent:
+
+| Situation                           | Line                                                     |
+| ----------------------------------- | -------------------------------------------------------- |
+| Clean review, no filed findings     | `No findings in scope.`                                  |
+| Only nonblocking improvements filed | `No merge-blockers in scope.`                            |
+| Open merge-blockers                 | `N merge-blockers · …` (count; do not emit clean signal) |
+
+**Findings count line** (optional second line):
 
 ```markdown
 1 action · 0 ship-blocker · 1 high · 5 noted · 3 deferred
@@ -44,7 +64,7 @@ Review · pr · Standard · Pass class: closure-re-review · Escalation: Stayed 
 
 Format: `N action · N ship-blocker · severity breakdown (high/medium/low on Action only) · N noted · N deferred`
 
-Zero Action ship-blockers (default filing):
+Zero Action ship-blockers (default filing, merge-readiness ask):
 
 ```markdown
 No merge-blockers in scope.
@@ -62,7 +82,7 @@ Improvements mode with zero ship-blockers:
 No merge-blockers in scope · 4 improvement (improvements mode)
 ```
 
-Zero findings on small PR (Thorough, no fix-loop):
+Zero findings on focused/standard pass (no fix-loop, merge-readiness ask):
 
 ```markdown
 No findings in scope.
@@ -70,11 +90,11 @@ No findings in scope.
 
 ### Dual zero lines (Thorough vs Full exit)
 
-| Line                          | When                                                                                                        | Merge-ready?        |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------- |
-| `No merge-blockers in scope.` | Default filing; Full fix-loop **exit** pass; any `pr` review in merge-blockers mode with zero ship-blockers | Yes (fix-loop exit) |
-| `No action items in scope.`   | Worth-doing gate filtered all council observations; Noted/Deferred may remain                               | Context-dependent   |
-| `No findings in scope.`       | Thorough/small PR, **no fix-loop**                                                                          | Yes (small PR)      |
+| Line                          | When                                                                  | Merge-ready?              |
+| ----------------------------- | --------------------------------------------------------------------- | ------------------------- |
+| `No merge-blockers in scope.` | Default filing; zero ship-blockers on merge-readiness ask             | Yes when exit gate passes |
+| `No action items in scope.`   | Worth-doing gate filtered all observations; Noted/Deferred may remain | Context-dependent         |
+| `No findings in scope.`       | Clean pass; no Action items on merge-readiness ask                    | Context-dependent         |
 
 Both zero merge-blocker lines mean "nothing blocking merge **for this pass type**." Do not treat first Full baseline `No merge-blockers` as exit — baseline with open Action themes is not merge-ready.
 
@@ -169,7 +189,7 @@ Default user output is findings-first: header → findings → optional Continui
 Default chat shape (no `show ledger` / `include continuity`):
 
 ```markdown
-Review · pr · Standard · Pass class: closure-re-review · …
+Review · source:branch · Surface: standard (3 files, 90 loc) · Reviewer: primary · Pass class: closure-re-review · …
 
 ## Findings
 

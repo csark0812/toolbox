@@ -2,31 +2,10 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "## Routing\n\n- **Tier:** Medium\n- **Signals:** review-only PR diff; default merge-blocker filing; no edits\n- **Invariant applied:** hands-off review → Medium (never Low)\n- **Escalations:** none\n- **Open questions:** none\n\nReview · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; whole-branch size ignored) · Pass: targeted contextual · Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: tip only touches `redirect.ts` for theme `query-preservation` while whole branch is large. Size thresholds ignored for closure-re-review.\n\n## Findings\nNo merge-blockers in scope.\n\n## Review synthesis\nLarge branch surface ignored for Full promotion. Exit gate green — no Continuity footer, no theme table."
+      "content": "## Routing\n\n- **Tier:** Medium\n- **Signals:** review-only branch diff; default merge-blocker filing; no edits\n- **Invariant applied:** hands-off review → Medium (never Low)\n- **Escalations:** none\n- **Open questions:** none\n\nReview · source:branch · Surface: broad (24 files, 980 loc) · Reviewer: primary · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; whole-branch size ignored) · Pass: targeted contextual · Filing: merge-blockers only\n\nAnti-thrash preflight: tip only touches `redirect.ts` for theme `query-preservation` while whole branch is large. Primary targeted closure — size ignored for council promotion.\n\n## Findings\nNo merge-blockers in scope.\n\n## Review synthesis\nLarge branch surface ignored for council escalation. Exit gate green — no Continuity footer, no theme table."
     }
   ],
-  "toolCalls": [
-    {
-      "name": "Shell",
-      "arguments": {
-        "command": "git diff main...HEAD --stat"
-      }
-    },
-    {
-      "name": "Task",
-      "arguments": {
-        "description": "correctness targeted closure",
-        "prompt": "Fix-loop: contextual re-review\nPass lane: targeted contextual\nTheme recovery source: commit-stack archaeology\nWhole-branch size ignored.\nUser output: findings-first.\nDepth: Standard"
-      }
-    },
-    {
-      "name": "Task",
-      "arguments": {
-        "description": "api lens",
-        "prompt": "Reject sibling Action themes. Pass class: closure-re-review."
-      }
-    }
-  ],
+  "toolCalls": [],
   "shellCommands": [
     "git diff main...HEAD --stat",
     "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"

@@ -1,6 +1,6 @@
 # Shared: Base Branch and Diff
 
-Used by code-review PR/merge modes. PR body generation is a separate authoring skill.
+Used by branch/pr source adapters. PR body generation is a separate authoring skill.
 
 ## Base branch
 

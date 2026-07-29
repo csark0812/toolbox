@@ -1,88 +1,62 @@
-# Council Dispatch
+# Council dispatch (escalation only)
 
-End-to-end parallel **adversarial** council review. Spawn mechanics → [`multi`](../../multi/SKILL.md) non-negotiables. Adversarial framing → [`multi` adversarial.md](../../multi/references/adversarial.md) § Parallel. Entry → [`code-review`](../SKILL.md) workflow steps 1–2 (mode, depth, diff, fix-loop).
+Parallel council when [escalation.md](escalation.md) places the run on **Targeted specialists** or **Council** — not the default primary path. Spawn mechanics → [`multi`](../../multi/SKILL.md) non-negotiables. Procedure default → [review.md](review.md).
 
-**Always on:** every council run uses `Goal: adversarial` — kill mandates, context asymmetry, convergent/divergent synthesis. Not an opt-in. Do not double-run a separate attacker council on top of lenses.
+## Hard gate (escalated runs only)
 
-## Hard gate (before any review report)
-
-1. Read [`multi` Non-negotiables](../../multi/SKILL.md#non-negotiables) this turn (Fit check does **not** apply — code-review already chose council).
-2. Select members for the depth budget, then issue **one Task/Subagent call per selected member**.
+1. Read [`multi` Non-negotiables](../../multi/SKILL.md#non-negotiables) and run [`multi` Fit check](../../multi/SKILL.md#fit-check) this turn.
+2. Select members per [agent-selection.md](agent-selection.md); issue **one Task/Subagent call per selected member**.
 3. Only after those calls complete → [synthesis.md](synthesis.md) → [output.md](output.md).
 
-**Forbidden:** Solo `Review · …` synthesis because the diff is docs/skills/agent-infra, “single theme,” already inspected via coordinator tools, latency, or tokens. Coordinator `Read` / `Grep` / `Shell` is not a council.
+**Primary path:** coordinator may write `Review · …` after direct inspection **without** member Tasks — authorized default per [review.md](review.md).
 
-**Valid member omit:** Only [modes.md](modes.md) § Optional architecture slot (log in plan) or a [`multi` valid skip](../../multi/SKILL.md#non-negotiables) that still leaves the remaining SELECTED members spawned. User decline / host cannot run Task → say so and **stop** (no fabricated report).
+**Forbidden on escalated runs:** fabricating member reports; skipping spawn after choosing escalation.
+
+**Valid member omit:** lowest-scored optional lens when budget requires; log in plan. User decline / host cannot run Task → say so and **stop**.
 
 ## Workflow
 
-1. **Inputs from code-review** — mode, depth (after escalation per [modes.md](modes.md)), diff, filing mode, fix-loop state.
-2. **Select agents** — [agent-selection.md](agent-selection.md) with profile `review` and current `depth`. When budget ≥ 2, reserve **one** SELECTED slot as `refuter` (kill weak/false findings) — prefer replacing the lowest-scored **optional** lens; never drop a required agent. Quick (1) = single lens with attacker kill mandate only.
-3. **Dispatch plan** — write per [multi workflow](../../multi/SKILL.md#workflow) plus review fields:
+1. **Inputs** — source adapter id, surface band, escalation reason, diff, filing mode, fix-loop state ([anti-thrash.md](anti-thrash.md) when applicable).
+2. **Select agents** — [agent-selection.md](agent-selection.md), profile `review`, depth for this escalated run only.
+3. **Dispatch plan** — per [multi workflow](../../multi/SKILL.md#workflow) plus:
 
 ```markdown
-Task: Code review — [mode] at [depth]
+Task: Code review — [source adapter] · [surface band] · escalated
 Classification: review
 Pass class: [first-baseline | fix-implementation | closure-re-review | new-scope-review]
 Source of truth: diff
-Goal: adversarial
-Dispatch: adversarial[ · cross-model]
+Reviewer: primary+specialists | council
+Escalation reason: [user ask | unresolved domain | cross-cutting]
 Parent model: [Auto | <named model>]
-User model overrides: [none | member=slug, …]
 
-Loop state:
-
-- Prior themes: [theme_id list or none]
-- Theme recovery source: [chat findings | PR body | git log | commit-stack archaeology | legacy leftover | none]
-- Last fix commits/files: [SHAs / paths or n/a]
-- Hotspots (2+ passes): [paths or none]
-- Thrash signal: [none | family + sweep required]
-- Why this council size: [targeted Standard/Quick rationale OR Full promotion reason]
-- Refuter slot: [agent or none — Quick]
-
-Selected members:
-
-- [agent] · tier=[tier] · model=[inherit-auto | slug] · stance=[lens_id|refuter]: [kill-mandate sub-task]
-
-Why these members: [from agent-selection availability log]
-Synthesis plan: adversarial council synthesis per synthesis.md → output.md
+Loop state: …
+Selected members: …
+Why these members: …
+Synthesis plan: council synthesis per synthesis.md → output.md
 ```
 
-`inherit-auto` means **omit** the Task/Subagent `model` argument. It is not a model slug. Under an Auto parent, all members inherit Auto unless the user explicitly names a model for a member. Tier labels (including Premium) must not select a slug when `Parent model: Auto`. Cross-model diversity only per [adversarial.md](../../multi/references/adversarial.md) § Model routing overlay.
+Pass 2+ must include loop state. `closure-re-review` without prior themes / justification = incomplete dispatch.
 
-Dispatch plans for pass 2+ **must** include loop state. Missing prior themes / council-size justification on a `closure-re-review` = incomplete dispatch.
+4. **Overlays** — append to **every** member prompt:
+   1. [task-prompt-review.md](task-prompt-review.md) § Review overlay
+   2. Portable Default filing (or consumer overlay)
+   3. Invariant overlay when Thorough+ escalated run or contextual re-review
+   4. Contextual ledger overlay when prior Action findings exist
+   5. Consumer overlays when injected on skill read
 
-4. **Overlays** — append to dispatch plan and **every** member Task `prompt`:
-   1. **Generic Review overlay** (always) — [task-prompt-review.md](task-prompt-review.md) § Review overlay (mode, depth, diff).
-   2. **Adversarial overlay** (always) — [task-prompt-review.md](task-prompt-review.md) § Adversarial overlay.
-   3. **Portable Default filing** — [task-prompt-review.md](task-prompt-review.md) § Default filing overlay, **unless** the consumer overlay SSOT replaces it.
-   4. **Invariant overlay** — [task-prompt-review.md](task-prompt-review.md) § Invariant overlay for Thorough+ reviews **and** for any fix-loop contextual re-review (targeted or Full).
-   5. **Contextual ledger overlay** — [task-prompt-review.md](task-prompt-review.md) § Contextual ledger overlay whenever prior Action findings exist (targeted or Full).
-   6. **Consumer overlays** — when skill-read injection provided a fuller overlay set, append those sections (Default filing, Filing gate, Product intent, Baseline, Contextual Full, path boosts, Needs confirmation). Prefer injected consumer overlays over portable stubs when both exist; consumer context may extend but must not remove ledger reconciliation or the portable exit gate.
+5. **Pre-spawn model-routing gate** — [multi Pre-spawn model-routing gate](../../multi/SKILL.md#pre-spawn-model-routing-gate). Dispatch plans use `Parent model: [Auto | <named model>]` and `model=[inherit-auto | slug]`. `inherit-auto` means **omit** the Task/Subagent `model` argument. Council dispatch does not redefine that gate.
+6. **Spawn** — one Task per SELECTED member in parallel.
+7. **Synthesize** — [synthesis.md](synthesis.md) → [output.md](output.md). Primary validates every specialist finding before filing.
 
-5. **Pre-spawn model-routing gate** — run [multi Pre-spawn model-routing gate](../../multi/SKILL.md#pre-spawn-model-routing-gate) and [Fail closed](../../multi/SKILL.md#fail-closed-do-not-spawn) **before** any Task/Subagent call. Review dispatch does not redefine that gate; it only supplies review members and overlays.
-6. **Spawn (mandatory)** — one Task per selected agent in parallel. Compose base prompt per [multi task-prompt.md](../../multi/references/task-prompt.md); append review + adversarial overlays. Apply [multi model assignment](../../multi/SKILL.md#model-assignment): `model=inherit-auto` in the plan means omit `model` on the tool call; an explicit slug is allowed only when the multi gate says it is. Skipping this step and writing findings yourself is a **violation**.
+## Checklist before synthesis (escalated)
 
-7. **Synthesize** — only after step 6 completes → [synthesis.md](synthesis.md) → [output.md](output.md).
-
-## Checklist before synthesis
-
-- [ ] [`multi` Non-negotiables](../../multi/SKILL.md#non-negotiables) read this turn
-- [ ] Anti-thrash preflight completed when prior Action findings / re-review apply ([anti-thrash.md](anti-thrash.md))
-- [ ] Dispatch plan includes `Goal: adversarial`, pass class, prior themes, hotspots, and council-size justification on pass 2+
-- [ ] Every member prompt includes Adversarial overlay + Default filing overlay (consumer or portable)
-- [ ] Every member prompt includes Review overlay (mode/depth/diff)
-- [ ] Thorough+ **or** contextual re-review prompts include the invariant overlay and applicable matrix dimensions
-- [ ] Pass 2+ prompts include the current stable-theme table (from findings / PR / git archaeology), sweep plans, reconciliation rules, and explicit “reject sibling Action themes for adjacent variants”
-- [ ] Budget ≥ 2 includes a `refuter` slot (or Quick logged as attacker-only)
-- [ ] User-facing synthesis is findings-first (Continuity one-liner if open; full theme table only on `show ledger` / `include continuity`)
-- [ ] Availability log recorded in dispatch plan
-- [ ] One Task/Subagent completed per SELECTED member (architecture optional-slot omit logged if used; targeted Quick/Standard budget logged)
-- [ ] Injected consumer overlays applied when present (Thorough+ Filing gate, product-intent when paths match, contextual ledger when prior Action findings exist)
-- [ ] No review report written if zero members ran
-- [ ] Adjacent variants on pass 2+ extend existing `theme_id`s (no fresh sibling Action blocks without a different-invariant justification)
+- [ ] Fit check passed
+- [ ] Anti-thrash completed when re-review applies
+- [ ] One Task per SELECTED member (or stop — no fabricated report)
+- [ ] Primary validated specialist output before Action filing
+- [ ] Findings-first chat; Continuity one-liner when themes open
 
 ## Related
 
-- Council walkthrough → injected consumer agent-workflows overlay when present
-- Fix-loop re-review → injected consumer review-fix-loop overlay § Contextual Full re-review
+- Default primary path → [review.md](review.md)
+- Legacy mode depth tables → folded into [surfaces.md](surfaces.md) + [escalation.md](escalation.md)

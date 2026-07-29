@@ -2,31 +2,10 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "## Routing\n\n- **Tier:** Medium\n- **Signals:** review-only PR diff; default merge-blocker filing; no edits\n- **Invariant applied:** hands-off review → Medium (never Low)\n- **Escalations:** none\n- **Open questions:** none\n\nReview · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; commit-stack archaeology; whole-branch size ignored) · Pass: targeted contextual · Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: tip micro-fix trail on `classify.ts`. Provisional theme `reply-parse-misclassification`. Staying targeted contextual.\n\n## Findings\n\n### Finish reply-parse sweep on classify hotspot\n\n`agent-suites/fixtures/sample-app/src/classify.ts` · Theme: `reply-parse-misclassification` · Severity: high · Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nNarrow tip patch on the same classifier hotspot. Complete same-invariant matrix before exit gate.\n\n</details>\n\nContinuity: reply-parse-misclassification still open on classify.ts (matrix incomplete). Next review stays targeted.\n\n## Review synthesis\nFindings-first; no theme table. Did not escalate to a Full contextual council."
+      "content": "## Routing\n\n- **Tier:** Medium\n- **Signals:** review-only branch diff; default merge-blocker filing; no edits\n- **Invariant applied:** hands-off review → Medium (never Low)\n- **Escalations:** none\n- **Open questions:** none\n\nReview · source:branch · Surface: focused (1 file, 36 loc) · Reviewer: primary · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; commit-stack archaeology; whole-branch size ignored) · Pass: targeted contextual · Filing: merge-blockers only\n\nAnti-thrash preflight: tip micro-fix trail on `classify.ts`. Provisional theme `reply-parse-misclassification`. Primary targeted closure.\n\n## Findings\n\n### Finish reply-parse sweep on classify hotspot\n\n`agent-suites/fixtures/sample-app/src/classify.ts` · Theme: `reply-parse-misclassification` · Severity: high · Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nNarrow tip patch on the same classifier hotspot. Complete same-invariant matrix before exit gate.\n\n</details>\n\nContinuity: reply-parse-misclassification still open on classify.ts (matrix incomplete). Next review stays targeted.\n\n## Review synthesis\nFindings-first; no theme table. Did not escalate to council."
     }
   ],
-  "toolCalls": [
-    {
-      "name": "Shell",
-      "arguments": {
-        "command": "git log -8 --oneline -- agent-suites/fixtures/sample-app/src/classify.ts"
-      }
-    },
-    {
-      "name": "Task",
-      "arguments": {
-        "description": "correctness hotspot stack",
-        "prompt": "Fix-loop: contextual re-review\nTheme recovery source: commit-stack archaeology\nUser output: findings + Continuity one-liner.\nDepth: Standard"
-      }
-    },
-    {
-      "name": "Task",
-      "arguments": {
-        "description": "api contract lens",
-        "prompt": "Pass class: closure-re-review via commit-stack archaeology. Stay targeted contextual."
-      }
-    }
-  ],
+  "toolCalls": [],
   "shellCommands": [
     "git log -8 --oneline -- agent-suites/fixtures/sample-app/src/classify.ts",
     "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/classify.ts"

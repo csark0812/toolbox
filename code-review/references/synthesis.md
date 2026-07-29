@@ -1,44 +1,20 @@
-# Council Synthesis
+# Council synthesis
 
-Review-specific synthesis after council members return. Generic multi synthesis → [multi synthesis gate](../../multi/SKILL.md#synthesis-gate).
+After **escalated** council members return ([escalation.md](escalation.md)). **Primary-only** passes synthesize directly to [output.md](output.md) without this gate.
 
-**Hard gate:** Do not write a `Review · …` findings report until **every SELECTED council member** has a completed host Task/Subagent run ([council-dispatch.md](council-dispatch.md) § Hard gate). Coordinator tool use is not a substitute. If spawn failed, the host cannot run Task, or the user declined council — say so and **stop**; do not emit synthesis-shaped output.
+**Escalated hard gate:** Do not write council-shaped findings until every SELECTED member has a completed Task run ([council-dispatch.md](council-dispatch.md)). If spawn failed or user declined → stop; do not fabricate output.
 
-**Prerequisite:** One completed `Task` per SELECTED member (architecture optional-slot omit from [modes.md](modes.md) is the only member-level omit that still counts as a full council when the remaining SELECTED members ran). Broader “valid skips” → [multi non-negotiables](../../multi/SKILL.md#non-negotiables); Fit check does not apply under code-review.
+**Primary path:** coordinator synthesis after direct inspection is valid — no member prerequisite.
 
-After members return:
+After members return (escalated):
 
-1. Merge findings that agree; state once with the highest shared confidence. Tag each Action candidate `convergent` (2+ independent members) or `divergent` (1) per [adversarial.md](../../multi/references/adversarial.md).
-2. Group all symptoms and edge variants by root invariant. One invariant gets
-   one stable `theme_id` and one Action block.
-3. On pass 2+, reconcile every candidate against the prior ledger before
-   deciding it is new: incomplete fix, same-invariant variant, genuinely new
-   invariant, or non-blocking observation.
-4. Same invariant + new edge on pass 2+ **extends** the existing `theme_id`
-   (reopen / incomplete closure). Do not file a fresh sibling theme for an
-   adjacent hole. Reject adjacent-variant Action blocks unless the text proves
-   a genuinely different root invariant.
-5. For every genuinely new Action theme on pass 2+, include a one-line
-   `Prior-pass miss:` explanation in the finding description.
-6. Before marking a theme closed, apply the applicable invariant matrix, run
-   the theme’s [sweep plan](fix-loop-ledger.md#same-invariant-sweep), check
-   affected contract surfaces, and record **variant coverage checked** per
-   [fix-loop-ledger.md](fix-loop-ledger.md) § Variant coverage before closure.
-7. If two or more Action candidates share a subsystem / theme family, apply the
-   [thrash signal](fix-loop-ledger.md#thrash-signal): collapse to one theme and
-   require a holistic sweep instead of shipping multiple symptom blocks.
-8. **Apply worth-doing gate** (consumer worth-doing gate / customize) — demote failures to **Noted** or **Deferred** tails; never Action blocks.
-9. Only **Action** items (ship-blocker or in-scope hardening) get severity and scope in synthesis. **Divergent** ship-blocker candidates need stronger primary evidence (`file:line` / repro) or demote — do not treat single-member agreement as proof.
-10. Preserve conflicts among Action candidates; do not flatten them away.
-11. On high-risk contradiction among Action items, spawn a neutral tiebreaker at **Premium** tier (still parent-aware: Auto parent → `inherit-auto` / omit `model`; named parent → explicit Premium slug per multi routing) or escalate to the user.
-12. Update the ledger, hotspot review status, sweep-plan results, variant-coverage notes, test
-    evidence, and validation evidence per [fix-loop-ledger.md](fix-loop-ledger.md).
-13. Write consolidated report per [output.md](output.md). Header must state
-    `Dispatch: adversarial` (add `cross-model` when that carve-out ran),
-    `Pass class:` (`first-baseline` | `closure-re-review` | `new-scope-review`),
-    whether the pass stayed **targeted contextual** or promoted to **Full
-    contextual**, with reason (including whole-branch size carve-out when
-    applicable). Reopen same `theme_id` on premature closure — do not file
-    sibling Action themes for adjacent variants.
+1. Merge agreements; group by root invariant / `theme_id`.
+2. On pass 2+, reconcile every candidate to the prior ledger ([fix-loop-ledger.md](fix-loop-ledger.md)).
+3. Apply thrash collapse — one Action block per invariant family.
+4. **Worth-doing gate** (consumer overlay) — demote to Noted/Deferred.
+5. Primary **validates** every specialist candidate before Action filing; specialist output is evidence, not accepted findings.
+6. Update ledger; write [output.md](output.md) with `Reviewer: primary+specialists` or `Reviewer: council`.
 
-Fix-loop baseline comparison and **Baseline contradictions** section → consumer review-fix-loop / customize § Baseline comparison. Consumer rules may add context but cannot weaken stable theme identity or the portable exit gate.
+Header must include `Surface: …`, `Reviewer: …`, `Pass class:` when anti-thrash ran, and escalation carve-outs for `closure-re-review` ([output.md](output.md)).
+
+Fix-loop baseline → consumer customize when injected; portable exit gate is not weakened.

@@ -1,35 +1,33 @@
-# Agent Selection (Review)
+# Agent selection (escalated council only)
 
-Discover council agents, score against the diff, and select members within a depth budget. **Review profile only.**
+Discover and score council agents when [escalation.md](escalation.md) triggers specialists or council. **Primary-only reviews do not run this doc.**
 
-Mechanical discovery → [multi agent-discovery.md](../../multi/references/agent-discovery.md). Orchestration kernel → [`multi`](../../multi/SKILL.md).
+Mechanical discovery → [multi agent-discovery.md](../../multi/references/agent-discovery.md). Kernel → [`multi`](../../multi/SKILL.md).
 
 ## Input
 
-| Field          | Source                                                       |
-| -------------- | ------------------------------------------------------------ |
-| Profile        | `review` (always for this doc)                               |
-| Scoring inputs | diff paths, diff keywords, `depth` from [modes.md](modes.md) |
-| Budget         | depth table (below)                                          |
-| Paths          | diff stat / `git diff --name-only` / explicit diff file list |
-| Text           | diff body for keyword scoring                                |
+| Field   | Source                                  |
+| ------- | --------------------------------------- |
+| Profile | `review`                                |
+| Scoring | diff paths, keywords, escalated depth   |
+| Budget  | table below — **only after escalation** |
+| Paths   | diff stat / name-only / explicit list   |
+| Text    | diff body                               |
 
-## Depth order and budget
+Surface band → [surfaces.md](surfaces.md) guides primary intensity, not this budget.
+
+## Escalated depth budgets
 
 Depth ranks: `quick` < `standard` < `thorough` < `full`.
 
-| Depth    | Member budget | Notes                                           |
-| -------- | ------------- | ----------------------------------------------- |
-| Quick    | 1             | Targeted single-theme hotspot only              |
-| Standard | 2             | Default for targeted contextual re-review       |
-| Thorough | 4             | Default first `pr` / `merge`                    |
-| Full     | 5             | Escalated baseline or Full contextual re-review |
+| Depth    | Member budget | Typical use                                                     |
+| -------- | ------------- | --------------------------------------------------------------- |
+| Quick    | 1             | Single hotspot on re-review; primary could not settle one theme |
+| Standard | 2             | Targeted specialists (cap 3 with Fit check — prefer Standard 2) |
+| Thorough | 4             | User-requested deep council on cross-cutting surface            |
+| Full     | 5             | Explicit council / exhaustive council / unresolved multi-domain |
 
-Budget expands to fit all **required** agents (never drop a required member to save slots).
-
-**Spawn count = |SELECTED|.** Every SELECTED agent gets one Task/Subagent call ([council-dispatch.md](council-dispatch.md)). Budget and optional-slot omits change who is SELECTED — they never authorize zero-member solo synthesis. Targeted contextual re-review calibrates to Quick/Standard; it does not waive spawn.
-
-**Adversarial refuter (budget ≥ 2):** After scoring, reserve one SELECTED slot as `refuter` — prefer replacing the lowest-scored **optional** agent; never drop a required agent. Quick stays single lens with attacker kill mandate. See [council-dispatch.md](council-dispatch.md) and [adversarial.md](../../multi/references/adversarial.md).
+`Spawn count = |SELECTED|`. Every SELECTED agent gets one Task ([council-dispatch.md](council-dispatch.md)).
 
 ## Selection algorithm
 
@@ -37,34 +35,20 @@ Run [agent-discovery](../../multi/references/agent-discovery.md) steps 1–2, th
 
 ```
 3. PROFILE ← review
-4. AVAILABLE ← agents where PROFILE ∈ dispatch.contexts (default [review])
-5. PATHS ← diff paths
-6. TEXT ← diff body
-7. REQUIRED ← agents where:
-     depth ≥ dispatch.depth.required_from
-     OR (dispatch.path_trigger AND path/keyword match AND depth ∈ dispatch.depth.eligible)
-8. BUDGET ← max(depth_budget[depth], |REQUIRED|)
-9. SCORE optional agents (eligible, not in REQUIRED, context includes review):
-     +50 per path prefix match on PATHS
-     +50 per path_glob match
-     +20 per keyword match in TEXT
-     + dispatch.priority (tie-breaker)
-10. SELECTED ← REQUIRED ∪ top_scored(optional, BUDGET − |REQUIRED|)
-11. If SELECTED empty → fallback: host built-in subagent_type + slice in Task prompt
+4. AVAILABLE ← agents where review ∈ dispatch.contexts
+5. PATHS, TEXT from diff
+6. REQUIRED ← agents per path_trigger / required_from at escalated depth
+7. BUDGET ← max(depth_budget[depth], |REQUIRED|)
+8. SCORE optional agents; SELECTED ← REQUIRED ∪ top_scored(optional, BUDGET − |REQUIRED|)
+9. Cap at 3 for targeted specialists unless user explicitly requested full council
 ```
 
-Path/keyword matching and model tier → [agent-discovery.md](../../multi/references/agent-discovery.md).
-
-**Quick + path-triggered `api` only** → Fast tier is acceptable.
+Path match selects **who**, not **whether** — [escalation.md](escalation.md).
 
 ## Availability log
 
-Include in dispatch plan per [agent-discovery § Availability log](../../multi/references/agent-discovery.md#availability-log-required-in-dispatch-plan) with `Profile: review` and `Depth` filled in.
+Record in dispatch plan per [agent-discovery § Availability log](../../multi/references/agent-discovery.md#availability-log-required-in-dispatch-plan).
 
 ## Integration
 
-Review workflow supplies `depth` (from mode default + [escalation rules](modes.md)). No static depth→agent table.
-
 Task prompts → [task-prompt-review.md](task-prompt-review.md). Synthesis → [synthesis.md](synthesis.md) → [output.md](output.md).
-
-Dispatch walkthrough → [council-dispatch.md](council-dispatch.md).

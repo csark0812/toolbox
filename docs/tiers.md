@@ -2,7 +2,7 @@
 
 **Source of truth for** skill tier assignment across the agent harness ecosystem.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
 Assign each skill to exactly one place. Update when adding skills.
 
@@ -10,15 +10,15 @@ Assign each skill to exactly one place. Update when adding skills.
 
 Generic orchestration, planning, and dialogue — intended for any consumer project.
 
-| Slug           | Notes                                        |
-| -------------- | -------------------------------------------- |
-| multi          | Parallel subagent kernel                     |
-| code-review    | Council review + fix-loop (customize roster) |
-| crystallize    | Fuzzy idea → artifact                        |
-| grill          | Pressure-test design                         |
-| second-opinion | Unified plan review (staged debate)          |
-| investigate    | Code / claim hunch — find & verdict, not fix |
-| handoff        | Session handoff                              |
+| Slug           | Notes                                                                     |
+| -------------- | ------------------------------------------------------------------------- |
+| multi          | Parallel subagent kernel                                                  |
+| code-review    | Primary-first review + fix-loop; council on escalation (customize roster) |
+| crystallize    | Fuzzy idea → artifact                                                     |
+| grill          | Pressure-test design                                                      |
+| second-opinion | Unified plan review (staged debate)                                       |
+| investigate    | Code / claim hunch — find & verdict, not fix                              |
+| handoff        | Session handoff                                                           |
 
 Shared ambient refs live in [`.skeleton/references/`](../.skeleton/references/) and are opened from skills via GitHub raw URLs (network required). See [github-ambient-refs-validation.md](github-ambient-refs-validation.md). Soft-default planning recipes stay out of skill trees — enable via [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md) only when the consumer has no planning docs remap.
 
@@ -37,6 +37,10 @@ npx skills add csark0812/toolbox --skill multi code-review crystallize grill sec
 - **`.skeleton/customize/`** — project overrides; hooks inject on skill read
 
 Install destinations: Cursor project → `.agents/skills/` (global → `~/.cursor/skills/`); Claude Code project → `.claude/skills/` (global → `~/.claude/skills/`); Codex project → `.agents/skills/` (global → `~/.codex/skills/`). Put project-specific customize stubs and council overlays in the consumer repo, not here.
+
+### Code-review migration (2026-07)
+
+Default review is **primary-first**: one coordinator pass by surface size; specialists/council only on escalation (user ask or unresolved domain). Source adapters replace legacy mode names (`pr` / `staged` / …). See [code-review/SKILL.md](../code-review/SKILL.md) and [sources.md](../code-review/references/sources.md).
 
 Distribution:
 

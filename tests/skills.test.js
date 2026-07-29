@@ -162,8 +162,7 @@ describe('toolbox skill SSOT', () => {
     expect(council).toMatch(/Parent model: \[Auto \| <named model>\]/)
     expect(council).toMatch(/model=\[inherit-auto \| slug\]/)
     expect(council).toMatch(/inherit-auto` means \*\*omit\*\* the Task\/Subagent `model` argument/)
-    expect(council).toMatch(/Review dispatch does not redefine that gate/)
-    expect(council).toMatch(/Goal: adversarial/)
+    expect(council).toMatch(/Council dispatch does not redefine that gate/)
     expect(council).not.toMatch(/## Checklist before spawn/)
     expect(council).not.toMatch(/model=\[slug\]/)
     expect(discovery).toMatch(/tier metadata.*not spawn instructions/s)
@@ -189,40 +188,35 @@ describe('toolbox skill SSOT', () => {
     expect(broad).toMatch(/Parent model: \[Auto \| <named model>\]/)
   })
 
-  it('code-review forbids solo synthesis without council Task spawns', () => {
+  it('code-review defaults to primary; council only on escalation', () => {
     const skill = readFileSync(join(root, 'code-review/SKILL.md'), 'utf8')
     const council = readFileSync(join(root, 'code-review/references/council-dispatch.md'), 'utf8')
     const synthesis = readFileSync(join(root, 'code-review/references/synthesis.md'), 'utf8')
-    const modes = readFileSync(join(root, 'code-review/references/modes.md'), 'utf8')
+    const review = readFileSync(join(root, 'code-review/references/review.md'), 'utf8')
+    const escalation = readFileSync(join(root, 'code-review/references/escalation.md'), 'utf8')
     const multi = readFileSync(join(root, 'multi/SKILL.md'), 'utf8')
 
-    expect(skill).toMatch(/Council dispatch \(mandatory spawn/)
-    expect(skill).toMatch(/always adversarial/)
-    expect(skill).toMatch(/one host Task\/Subagent call per selected member/)
-    expect(skill).toMatch(/do not fabricate a `Review · …` report/)
-    expect(skill).toMatch(/do \*\*not\*\* waive council/)
-    expect(skill).toMatch(/Fit check.*does \*\*not\*\* apply/s)
+    expect(skill).toMatch(/Primary-first/)
+    expect(skill).toMatch(/no Task members/)
+    expect(skill).toMatch(/Escalate only when matched/)
+    expect(skill).toMatch(/references\/escalation\.md/)
 
-    expect(council).toMatch(/## Hard gate \(before any review report\)/)
-    expect(council).toMatch(/Spawn \(mandatory\)/)
-    expect(council).toMatch(/Goal: adversarial/)
-    expect(council).toMatch(/Adversarial overlay/)
-    expect(council).toMatch(
-      /Skipping this step and writing findings yourself is a \*\*violation\*\*/,
-    )
-    expect(council).toMatch(/One Task\/Subagent completed per SELECTED member/)
-    expect(council).not.toMatch(/or valid skip documented/)
+    expect(review).toMatch(/Primary review/)
+    expect(review).toMatch(/zero Task\/Subagent members/)
 
-    expect(synthesis).toMatch(/Hard gate/)
-    expect(synthesis).toMatch(/do not emit synthesis-shaped output/)
+    expect(escalation).toMatch(/Primary/)
+    expect(escalation).toMatch(/Targeted specialists/)
+    expect(escalation).toMatch(/Council/)
 
-    expect(modes).toMatch(/Optional architecture slot \(not a council skip\)/)
-    expect(modes).toMatch(/does \*\*not\*\* waive council/)
-    expect(modes).not.toMatch(/\*\*Thorough optional skip:\*\*/)
+    expect(council).toMatch(/escalation only/)
+    expect(council).toMatch(/Primary path/)
+    expect(council).toMatch(/without.*member Tasks/)
+    expect(council).toMatch(/Fit check/)
+
+    expect(synthesis).toMatch(/Primary-only/)
+    expect(synthesis).toMatch(/Escalated hard gate/)
 
     expect(multi).toMatch(/Entry-skill carve-out/)
-    expect(multi).toMatch(/docs-only.*single theme/s)
-    expect(multi).toMatch(/and no entry skill already invoked parallel dispatch/)
   })
 
   it('excludes install-mirror skill trees from scan perimeter (registry SSOT is flat)', () => {
@@ -231,10 +225,10 @@ describe('toolbox skill SSOT', () => {
     expect(config).toMatch(/\.claude\/skills\/\*\*/)
   })
 
-  it('code-review anti-thrash guard calibrates re-review instead of reflex Full councils', () => {
+  it('code-review anti-thrash guard calibrates re-review instead of reflex councils', () => {
     const skill = readFileSync(join(root, 'code-review/SKILL.md'), 'utf8')
     const antiThrash = readFileSync(join(root, 'code-review/references/anti-thrash.md'), 'utf8')
-    const modes = readFileSync(join(root, 'code-review/references/modes.md'), 'utf8')
+    const surfaces = readFileSync(join(root, 'code-review/references/surfaces.md'), 'utf8')
     const ledger = readFileSync(join(root, 'code-review/references/fix-loop-ledger.md'), 'utf8')
     const council = readFileSync(join(root, 'code-review/references/council-dispatch.md'), 'utf8')
     const synthesis = readFileSync(join(root, 'code-review/references/synthesis.md'), 'utf8')
@@ -243,27 +237,19 @@ describe('toolbox skill SSOT', () => {
     const selection = readFileSync(join(root, 'code-review/references/agent-selection.md'), 'utf8')
 
     expect(skill).toMatch(/references\/anti-thrash\.md/)
-    expect(skill).toMatch(/closure-re-review/)
-    expect(skill).toMatch(/new-scope-review/)
-    expect(skill).toMatch(/never zero/)
+    expect(skill).toMatch(/no Task members/)
 
     expect(antiThrash).toMatch(/# Anti-thrash preflight/)
     expect(antiThrash).toMatch(/closure-re-review/)
     expect(antiThrash).toMatch(/new-scope-review/)
     expect(antiThrash).toMatch(/Thrash signal/)
-    expect(antiThrash).toMatch(/targeted contextual re-review/)
+    expect(antiThrash).toMatch(/targeted closure/)
     expect(antiThrash).toMatch(/Commit-stack thrash/)
     expect(antiThrash).toMatch(/Green cleanup/)
 
-    expect(modes).toMatch(/### Contextual re-review/)
-    expect(modes).toMatch(/Prefer targeted contextual re-review/)
-    expect(modes).toMatch(/Promote to Full contextual re-review/)
-    expect(modes).toMatch(/Pass: targeted contextual/)
-    expect(modes).toMatch(/Stayed targeted contextual/)
-    expect(modes).toMatch(/anti-thrash\.md/)
-    expect(modes).not.toMatch(
-      /Fix-loop pass 2\+ \(prior Action findings in thread\/PR\)\s+\| \*\*Full\*\* \(contextual re-review\)/,
-    )
+    expect(surfaces).toMatch(/closure-re-review/)
+    expect(surfaces).toMatch(/targeted contextual/)
+    expect(surfaces).toMatch(/anti-thrash\.md/)
 
     expect(ledger).toMatch(/## Same-invariant sweep/)
     expect(ledger).toMatch(/## Thrash signal/)
@@ -272,24 +258,22 @@ describe('toolbox skill SSOT', () => {
     expect(ledger).toMatch(/anti-thrash\.md/)
 
     expect(council).toMatch(/Pass class:/)
-    expect(council).toMatch(/Why this council size:/)
-    expect(council).toMatch(/Thrash signal:/)
-    expect(council).toMatch(/Anti-thrash preflight completed/)
+    expect(council).toMatch(/Anti-thrash completed/)
     expect(council).toMatch(/anti-thrash\.md/)
 
-    expect(synthesis).toMatch(/Reject adjacent-variant Action blocks/)
-    expect(synthesis).toMatch(/thrash signal/)
-    expect(synthesis).toMatch(/targeted contextual/)
+    expect(synthesis).toMatch(/thrash collapse/)
+    expect(synthesis).toMatch(/closure-re-review/)
 
     expect(prompt).toMatch(/## Contextual ledger overlay/)
     expect(prompt).toMatch(/sibling variants would fail/)
     expect(prompt).toMatch(/Thrash signal:/)
-    expect(prompt).not.toMatch(/## Contextual Full ledger overlay/)
+    expect(prompt).toMatch(/Orchestrated on \*\*escalated\*\* runs only/)
 
     expect(output).toMatch(/Stayed targeted contextual/)
     expect(output).toMatch(/Pass: targeted contextual/)
+    expect(output).toMatch(/Reviewer: primary/)
 
-    expect(selection).toMatch(/Default for targeted contextual re-review/)
-    expect(selection).toMatch(/does not waive spawn/)
+    expect(selection).toMatch(/escalated council only/)
+    expect(selection).toMatch(/Primary-only reviews do not run this doc/)
   })
 })

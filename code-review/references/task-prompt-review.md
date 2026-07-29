@@ -4,52 +4,48 @@
 
 Review-specific member prompt overlays. Generic template → [multi task-prompt.md](../../multi/references/task-prompt.md). Adversarial kernel → [multi adversarial.md](../../multi/references/adversarial.md).
 
-Orchestrated by [`code-review`](../SKILL.md) via [`multi`](../../multi/SKILL.md) kernel + [council-dispatch.md](council-dispatch.md).
+Orchestrated on **escalated** runs only — [escalation.md](escalation.md) + [council-dispatch.md](council-dispatch.md). Primary-only passes do not use member overlays.
 
 **Consumer overlays:** Consumers keep product-intent, filing-gate → quality-gates, baseline, and contextual Full overlay _prose_ in project-injected context — not in this portable file. See [council-dispatch.md](council-dispatch.md) § Overlays.
 
 **Mandatory consumer overlay gate:** When skill-read injection provided consumer overlays, prefer that overlay set for Filing gate, product-intent, Baseline, or Contextual Full. This file's thinned portable sections are **not** sufficient when injected overlays exist — do not stop here.
 
-## Review overlay (always — toolbox)
+## Review overlay (escalated council)
 
 Include in the coordinator dispatch plan before spawning:
 
 ```
-Mode: <mode>
-Depth: <depth>  # after escalation / anti-thrash calibration per modes.md
+Source: <adapter from sources.md>
+Surface: <band from surfaces.md>
+Reviewer: primary+specialists | council
 Pass class: <first-baseline | closure-re-review | new-scope-review | fix-implementation>
 Selected agents: <from agent-selection>
-Diff source: <command from modes.md>
-Mode overlay: "<overlay from modes.md>"
-Goal: adversarial
+Diff source: <command from sources.md>
+Escalation reason: <user ask | unresolved domain | cross-cutting>
 ```
 
 Append to each member Task `prompt`:
 
 ```
-Review: [mode] at [depth] depth.
+Review: [source adapter] · [surface band] · escalated.
 
 Diff:
 <diff content>
 
-Mode framing: <overlay from modes.md>
-
-Apply your [agent-name] lens (map depth: Quick→quick, Standard→standard, Thorough→thorough, Full→full per agent file).
+Apply your [agent-name] lens per agent file. Return evidence only — primary validates before filing.
 ```
 
 Synthesis → [synthesis.md](synthesis.md) then [output.md](output.md).
 
-## Adversarial overlay (always — toolbox)
+## Adversarial overlay (optional — escalated council)
 
-Append to the coordinator plan and **every** member Task `prompt` (including `refuter`):
+When consumer or user requests adversarial council, append per [multi adversarial.md](../../multi/references/adversarial.md):
 
 ```
-Adversarial review (always on):
+Adversarial review:
 - Kill mandate: break ship confidence in your assigned lens — do not rubber-stamp.
-- If stance=refuter: kill weak/false findings; find mechanisms that prevent the alleged failure.
 - Context asymmetry: evaluate the diff + requirements only — do not assume parent-chat conclusions.
 - Return Disposition: promote | kill | concede, Kill rationale, Evidence (see multi/references/adversarial.md).
-- Do not invent other members' conclusions.
 ```
 
 Cross-model / different-models only when the user asks or named-parent diversity applies — [adversarial.md](../../multi/references/adversarial.md) § Model routing overlay.

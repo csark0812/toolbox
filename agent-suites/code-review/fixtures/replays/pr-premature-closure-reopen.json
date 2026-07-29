@@ -2,31 +2,10 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "## Routing\n\n- **Tier:** Medium\n- **Signals:** review-only PR diff; default merge-blocker filing; no edits\n- **Invariant applied:** hands-off review → Medium (never Low)\n- **Escalations:** none\n- **Open questions:** none\n\nReview · pr · Standard · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; premature closure detected) · Pass: targeted contextual · Filing: merge-blockers only\n\n**Depth:** Standard\n\nAnti-thrash preflight: tip comments show prior pass closed `query-preservation` after E1 only. Hash variant E2 still fails. Premature closure — reopen same theme_id.\n\n## Findings\n\n### Complete query-preservation invariant (hash variant unfixed)\n\n`agent-suites/fixtures/sample-app/src/redirect.ts:11-13` · Theme: `query-preservation` · Severity: high · Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nPrior closure fixed query example E1 only. Hash variant E2 still fails. Same invariant — reopen; do not file a sibling Action theme.\n\n</details>\n\nContinuity: query-preservation still open on redirect.ts (hash variant). Next review stays targeted.\n\n## Review synthesis\nReopened same theme_id. Exit gate not satisfied. Findings-first output (no theme table)."
+      "content": "## Routing\n\n- **Tier:** Medium\n- **Signals:** review-only branch diff; default merge-blocker filing; no edits\n- **Invariant applied:** hands-off review → Medium (never Low)\n- **Escalations:** none\n- **Open questions:** none\n\nReview · source:branch · Surface: focused (1 file, 10 loc) · Reviewer: primary · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; premature closure detected) · Pass: targeted contextual · Filing: merge-blockers only\n\nAnti-thrash preflight: prior pass closed `query-preservation` after E1 only. Hash variant E2 still fails. Premature closure — reopen same theme_id.\n\n## Findings\n\n### Complete query-preservation invariant (hash variant unfixed)\n\n`agent-suites/fixtures/sample-app/src/redirect.ts:11-13` · Theme: `query-preservation` · Severity: high · Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nPrior closure fixed query example E1 only. Hash variant E2 still fails. Same invariant — reopen; do not file a sibling Action theme.\n\n</details>\n\nContinuity: query-preservation still open on redirect.ts (hash variant). Next review stays targeted.\n\n## Review synthesis\nReopened same theme_id. Exit gate not satisfied. Findings-first output (no theme table)."
     }
   ],
-  "toolCalls": [
-    {
-      "name": "Shell",
-      "arguments": {
-        "command": "git log -5 --oneline -- agent-suites/fixtures/sample-app/src/redirect.ts"
-      }
-    },
-    {
-      "name": "Task",
-      "arguments": {
-        "description": "correctness reopen lens",
-        "prompt": "Fix-loop: contextual re-review\nTheme recovery source: commit-stack archaeology\nPremature closure: reopen same theme_id query-preservation\nUser output: findings + Continuity one-liner; no theme table unless show ledger.\nDepth: Standard"
-      }
-    },
-    {
-      "name": "Task",
-      "arguments": {
-        "description": "api lens",
-        "prompt": "Same invariant new edge extends existing theme_id — do not invent theme_id Y."
-      }
-    }
-  ],
+  "toolCalls": [],
   "shellCommands": ["git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"],
   "skillsInvoked": ["code-review"],
   "artifacts": {}

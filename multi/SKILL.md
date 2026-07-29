@@ -47,14 +47,14 @@ When this skill applies (user attached `multi`, an entry skill invokes parallel 
 
 **Skip multi** when the task fits one agent, work is sequential, members would duplicate without adding confidence, or the user wants a single authoritative pass.
 
-**Entry-skill carve-out:** When `code-review` (or another entry skill) already invoked parallel dispatch / council, Fit check does **not** apply. Do not re-litigate “one agent suffices.” Follow that skill’s member budget and [Non-negotiables](#non-negotiables).
+**Entry-skill carve-out:** When `code-review` (or another entry skill) escalated to parallel dispatch / council, Fit check does **not** apply. Do not re-litigate “one agent suffices.” Follow that skill’s member budget and [Non-negotiables](#non-negotiables).
 
 ## Dispatch modes
 
 - **Coverage** — Split by source, subsystem, domain, or artifact. Example: one member maps data flow, another maps call sites.
 - **Perspective** — Same material, distinct stance. Model diversity alone is not enough if prompts are identical.
 - **Adversarial** — Specialization of Perspective: kill mandates, context asymmetry, convergent/divergent synthesis. Full recipe → [adversarial.md](references/adversarial.md).
-  - **Parallel** — one wave; independent members (code-review always; investigate when contested).
+  - **Parallel** — one wave; independent members (`code-review` when escalated; `investigate` when contested).
   - **Staged debate** (`Goal: adversarial-staged`) — wave 1 attackers → wave 2 defender who may receive coordinator-composed wave-1 briefs. Allowed sequential exception to same-wave isolation; not live inter-member chat.
 
 **Hard rule:** Never run parallel members with identical model plus identical prompt. When all members inherit Auto, diversify via distinct prompts and/or stances — shared Auto is expected. Adversarial cross-model diversity → [adversarial.md](references/adversarial.md) § Model routing overlay (named parent or user request only; never escalate tier just to diversify).

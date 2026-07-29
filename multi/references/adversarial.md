@@ -8,10 +8,10 @@ Spawn mechanics, Auto-first model routing, and synthesis gate → [`multi` SKILL
 
 ## Shapes
 
-| Shape | Waves | Who | Default entry |
-| ----- | ----- | --- | ------------- |
-| **Parallel** | One | Independent kill-mandate members | `code-review` (always); `investigate` when contested / stress-test |
-| **Staged debate** | Two | Wave 1 attackers → Wave 2 defender (sees wave-1 briefs) | `second-opinion` (always) |
+| Shape             | Waves | Who                                                     | Default entry                                                                       |
+| ----------------- | ----- | ------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| **Parallel**      | One   | Independent kill-mandate members                        | `code-review` when escalated to council; `investigate` when contested / stress-test |
+| **Staged debate** | Two   | Wave 1 attackers → Wave 2 defender (sees wave-1 briefs) | `second-opinion` (always)                                                           |
 
 **Hard rule (same wave):** Members do not communicate. Never identical model + identical prompt.
 
@@ -35,6 +35,7 @@ Requirements / acceptance (if any):
 [stated criteria — or "none"]
 
 Constraints:
+
 - Do not assume other members' conclusions.
 - Do not invent parent-chat conclusions.
 - Return only your mandate; coordinator synthesizes.
@@ -66,12 +67,12 @@ promote | kill | concede
 
 Follow [multi Model assignment](../SKILL.md#model-assignment) and [model-routing.md](model-routing.md).
 
-| Situation | Member `model` |
-| --------- | -------------- |
-| Auto parent, no user override | `inherit-auto` (omit tool `model`) — **default** |
-| Named parent, no cross-model request | Prefer `auto` when in enum; else cheapest good enough same tier |
+| Situation                                                                        | Member `model`                                                                                                                  |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Auto parent, no user override                                                    | `inherit-auto` (omit tool `model`) — **default**                                                                                |
+| Named parent, no cross-model request                                             | Prefer `auto` when in enum; else cheapest good enough same tier                                                                 |
 | User says cross-model / different models, **or** named parent + diversity wanted | Distinct **same-tier** family slugs from host enum across attackers — **never** escalate tier or use `*-fast` just to diversify |
-| User names a member model | That slug if in enum |
+| User names a member model                                                        | That slug if in enum                                                                                                            |
 
 Shared Auto across adversarial members is correct and still valuable (fresh context + kill mandates).
 
@@ -79,7 +80,7 @@ Shared Auto across adversarial members is correct and still valuable (fresh cont
 
 ### When / skip
 
-- **Always** for `code-review` council (entry skill applies kill-mandate overlays on depth-budgeted lenses).
+- **On escalation** for `code-review` council (entry skill applies kill-mandate overlays on depth-budgeted lenses).
 - `investigate` when evidence is contested or the user asks for a stress-test.
 - Skip for routine coverage gather/explore unless an entry skill invokes it.
 
@@ -89,10 +90,10 @@ Same material, independent mandates. Entry skill picks budget and stance ids.
 
 Typical pair when not using domain lenses:
 
-| Stance | Mandate |
-| ------ | ------- |
-| `attacker` | Strongest reasons to reject / confirm risk |
-| `refuter` | Kill weak or false findings; mechanisms that prevent the risk |
+| Stance     | Mandate                                                       |
+| ---------- | ------------------------------------------------------------- |
+| `attacker` | Strongest reasons to reject / confirm risk                    |
+| `refuter`  | Kill weak or false findings; mechanisms that prevent the risk |
 
 Code-review: keep lens selection; every member gets a kill mandate for their lens; budget ≥ 2 reserves one `refuter` slot (prefer dropping lowest-scored **optional** lens, never a required agent). Quick (1) = single lens with attacker mandate only.
 
@@ -117,9 +118,9 @@ Code-review: keep lens selection; every member gets a kill mandate for their len
 
 Spawn **two** members. Context pack = **artifact only**.
 
-| Stance | Mandate |
-| ------ | ------- |
-| `premises` | Break confidence on implicit goals, constraints, premises, outsider “why this at all?” |
+| Stance         | Mandate                                                                                                                                                                                                                                                              |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `premises`     | Break confidence on implicit goals, constraints, premises, outsider “why this at all?”                                                                                                                                                                               |
 | `completeness` | Break confidence on readiness using the three-axis checklist from [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) as an **overlay** (scope / gaps / sequencing) — kill mandate, not a polite checklist |
 
 Do not collapse to one attacker when the user emphasizes only “did I miss anything” or only “outsider read.”
@@ -128,8 +129,8 @@ Do not collapse to one attacker when the user emphasizes only “did I miss anyt
 
 After both attackers return, spawn **one** member:
 
-| Stance | Mandate |
-| ------ | ------- |
+| Stance   | Mandate                                                                            |
+| -------- | ---------------------------------------------------------------------------------- |
 | `defend` | Steelman the original; rebut, narrow, or concede each attacker claim with evidence |
 
 Context pack = artifact + 2–4 primary sources the plan cites (or coordinator-gathered related context) + **structured briefs** of both attacker reports (findings / dispositions only — not coordinator synthesis).
@@ -153,10 +154,12 @@ Parent model: [Auto | <named model>]
 User model overrides: [none | member=slug, …]
 
 Wave 1:
+
 - generalPurpose · tier=Standard · model=[inherit-auto | slug] · stance=premises: outsider premise attack
 - generalPurpose · tier=Standard · model=[inherit-auto | slug] · stance=completeness: axis readiness attack
 
 Wave 2 (after wave 1):
+
 - generalPurpose · tier=Standard · model=[inherit-auto | slug] · stance=defend: steelman + rebut briefs
 
 Synthesis plan: unified second-opinion report; tag defended/conceded/convergent/divergent

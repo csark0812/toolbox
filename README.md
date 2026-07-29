@@ -76,15 +76,15 @@ Canonical recipes live under `.skeleton/references/planning/soft-default/` and a
 
 ## Skills
 
-| Slug           | Purpose                                      |
-| -------------- | -------------------------------------------- |
-| multi          | Parallel subagent orchestration kernel       |
-| code-review    | Multi-lens code review with council dispatch |
-| crystallize    | Fuzzy idea → shaped intent                   |
-| grill          | Pressure-test design before implementation   |
-| second-opinion | Written plan review                          |
-| investigate    | Confirm/refute a code or approach hunch      |
-| handoff        | Compact session handoff                      |
+| Slug           | Purpose                                          |
+| -------------- | ------------------------------------------------ |
+| multi          | Parallel subagent orchestration kernel           |
+| code-review    | Primary-first code review; council on escalation |
+| crystallize    | Fuzzy idea → shaped intent                       |
+| grill          | Pressure-test design before implementation       |
+| second-opinion | Written plan review                              |
+| investigate    | Confirm/refute a code or approach hunch          |
+| handoff        | Compact session handoff                          |
 
 Consumer projects may lock additional slugs (`debug`, `testing`, `product-principles`, …) — **every lock key is replaced on resync**. Ambient shared refs are remote (GitHub); skill-local `references/` stay skill-specific. Consumers remap project docs via `.skeleton/customize/` + `customize.alwaysInclude`. See [docs/tiers.md](docs/tiers.md).
 

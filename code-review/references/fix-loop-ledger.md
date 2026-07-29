@@ -137,9 +137,7 @@ Then:
 1. Pause filing further individual Action blocks for that family.
 2. Perform a holistic same-invariant sweep across the shared surfaces.
 3. Collapse symptoms into one `theme_id` (or reopen the existing one).
-4. Prefer targeted contextual re-review after the sweep — not another reflex
-   Full baseline council — unless [modes.md](modes.md) § Contextual re-review
-   lists a qualifying Full reason **other than** whole-branch size alone.
+4. Prefer targeted contextual re-review after the sweep — not council — unless [surfaces.md](surfaces.md) § Re-review lists a qualifying Full reason **other than** whole-branch size alone.
 
 ## Premature closure (named failure mode)
 
