@@ -1,0 +1,12 @@
+{
+	"messages": [
+		{
+			"role": "assistant",
+			"content": "Using the **domain-model** skill.\n\n**Entry gate:** no **decision** has been stated — authentication approach is still open. I will **not** write an ADR (no theater ADRs).\n\n**Next steps:**\n1. Route to **grill** to decide the approach (session model, token shape, boundaries), **or**\n2. You state the decision explicitly (what was chosen and what was rejected), then I can persist an ADR.\n\nWhich authentication approach are we committing to?"
+		}
+	],
+	"toolCalls": [],
+	"shellCommands": [],
+	"skillsInvoked": ["domain-model"],
+	"artifacts": {}
+}

@@ -26,5 +26,6 @@
 | diagnose             | [diagnose/SKILL.md](../diagnose/SKILL.md)                         |
 | tdd                  | [tdd/SKILL.md](../tdd/SKILL.md)                                   |
 | prototype            | [prototype/SKILL.md](../prototype/SKILL.md)                       |
+| domain-model         | [domain-model/SKILL.md](../domain-model/SKILL.md)                 |
 | handoff              | [handoff/SKILL.md](../handoff/SKILL.md)                           |
 | writing-great-skills | [writing-great-skills/SKILL.md](../writing-great-skills/SKILL.md) |

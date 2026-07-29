@@ -16,6 +16,7 @@ scan:
     - 'diagnose/**'
     - 'tdd/**'
     - 'prototype/**'
+    - 'domain-model/**'
     - 'handoff/**'
     - 'writing-great-skills/**'
   exclude:
@@ -48,5 +49,6 @@ skillOwnership:
     - diagnose
     - tdd
     - prototype
+    - domain-model
     - handoff
     - writing-great-skills

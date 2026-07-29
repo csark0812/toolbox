@@ -74,6 +74,7 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 ## Next step
 
 - Ready to implement → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md) (then [code-review](../code-review/SKILL.md) once code exists)
+- Terms or structural decisions to persist → [`domain-model`](../domain-model/SKILL.md)
 - Written plan for external review → [second-opinion](../second-opinion/SKILL.md) (staged debate)
 - Contested premises needing parallel kill-mandate pass (after writing the plan) → **second-opinion**; keep grill dialogue-first otherwise
 - One concrete code doubt → [investigate](../investigate/SKILL.md)

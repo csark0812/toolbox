@@ -62,7 +62,7 @@ A fail-to-pass test is a **diagnostic instrument**, not a patch spec — it prov
 
 ### Phase 3 — Lock the regression
 
-Hand the loop to [`tdd`](../tdd/SKILL.md) to turn the diagnostic into a kept regression test at an agreed seam. Then [`code-review`](../code-review/SKILL.md) for structural cleanup if needed.
+Hand the loop to [`tdd`](../tdd/SKILL.md) to turn the diagnostic into a kept regression test at an agreed seam. Structural root causes may reference [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md). Then [`code-review`](../code-review/SKILL.md) for structural cleanup if needed.
 
 ## Output format
 

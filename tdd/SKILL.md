@@ -25,7 +25,7 @@ Not for: debugging without a failing signal ([`diagnose`](../diagnose/SKILL.md))
 
 ## Seams — confirm before the first test
 
-A **seam** is the public boundary you test at: the interface where you observe behavior without reaching inside.
+A **seam** is the public boundary you test at: the interface where you observe behavior without reaching inside. See [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md) for deep modules, information hiding, and seam quality.
 
 **Test only at pre-agreed seams.** Before writing any test, name the seams under test and confirm them with the user. No test at an unconfirmed seam.
 

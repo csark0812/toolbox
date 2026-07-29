@@ -21,6 +21,7 @@ const SKILL_SLUGS = [
   'diagnose',
   'tdd',
   'prototype',
+  'domain-model',
   'handoff',
   'writing-great-skills',
 ]

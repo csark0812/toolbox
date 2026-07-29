@@ -9,6 +9,7 @@ export const EXPECTED_SKILLS = [
 	"diagnose",
 	"tdd",
 	"prototype",
+	"domain-model",
 	"handoff",
 	"writing-great-skills",
 ] as const;

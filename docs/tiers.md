@@ -21,6 +21,7 @@ Generic orchestration, planning, and dialogue — intended for any consumer proj
 | diagnose             | Hard-bug loop — repro → tighten → fix → regression lock                   |
 | tdd                  | Test-first build at agreed public seams                                   |
 | prototype            | Throwaway artifact for one design question                                |
+| domain-model         | Persist glossary + ADRs when decisions are ready                          |
 | handoff              | Session handoff                                                           |
 | writing-great-skills | Skill-authoring vocabulary and predictability                             |
 

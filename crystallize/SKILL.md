@@ -55,6 +55,7 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 ## Possible next steps
 
 - Pressure-test the design → **grill** skill
+- Terms or decisions to persist → **domain-model** skill
 - Written plan pressure-test → **second-opinion** (staged debate)
 - Fresh adversarial pass without a plan file → **multi** adversarial
 - One concrete code doubt → **investigate**
