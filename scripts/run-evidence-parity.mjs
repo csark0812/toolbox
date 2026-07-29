@@ -210,6 +210,20 @@ Flags:
     reportDir: join(root, '_agent', 'eval-reports'),
   })
   manifest.report = report.reportPath
+  manifest.cost = {
+    full: {
+      totalTokens: report.leftTokenStats?.sum ?? null,
+      scenarioCount: report.leftTokenStats?.count ?? 0,
+    },
+    none: {
+      totalTokens: report.rightTokenStats?.sum ?? null,
+      scenarioCount: report.rightTokenStats?.count ?? 0,
+    },
+    deltaTokens:
+      report.leftTokenStats?.sum != null && report.rightTokenStats?.sum != null
+        ? report.rightTokenStats.sum - report.leftTokenStats.sum
+        : null,
+  }
   console.log(`\nCompare report: ${report.reportPath}`)
 
   if (args.propose) {

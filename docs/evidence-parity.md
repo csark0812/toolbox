@@ -80,7 +80,8 @@ npm run agent:test:evidence-parity
 ## Equal-budget discipline
 
 - Same model family for both arms in a comparison row.
-- Wall time (`durationMs` in `result.json`) is the budget proxy until harness exposes token usage.
+- Primary budget metric: **total tokens** (`usage.total` in `result.json` — agent + judge) when the SDK reports usage; wall time (`durationMs`) remains a secondary proxy.
+- Compare reports include per-arm token columns and Δ tok when usage is present.
 - If `full` does not beat `none` on settlement judges across repeats → lower **Confidence** or add **Does not transfer** in `research-basis.md`; do not add skill prose.
 
 ## Suites

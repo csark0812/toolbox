@@ -4,6 +4,7 @@ import {
   collectResults,
   mergeRowsByKey,
   mergeRowsByNorm,
+  totalTokensFromRow,
 } from './agent-test-artifacts.mjs'
 
 function statusCell(row) {
@@ -17,9 +18,40 @@ function durationCell(row) {
   return `${(row.durationMs / 1000).toFixed(1)}s`
 }
 
+function tokenCell(row) {
+  const tokens = totalTokensFromRow(row)
+  if (tokens == null) return '—'
+  if (tokens >= 1000) return `${(tokens / 1000).toFixed(1)}k`
+  return String(tokens)
+}
+
+function deltaTokenCell(left, right) {
+  const l = totalTokensFromRow(left)
+  const r = totalTokensFromRow(right)
+  if (l == null || r == null) return '—'
+  const delta = r - l
+  const sign = delta > 0 ? '+' : ''
+  if (Math.abs(delta) >= 1000) return `${sign}${(delta / 1000).toFixed(1)}k`
+  return `${sign}${delta}`
+}
+
 function categoryCell(row) {
   if (!row || row.pass || row.skipped) return ''
   return row.category || 'fail'
+}
+
+function sumTokens(rows, label) {
+  let sum = 0
+  let count = 0
+  for (const row of rows) {
+    const side = row[label]
+    const tokens = totalTokensFromRow(side)
+    if (tokens != null) {
+      sum += tokens
+      count++
+    }
+  }
+  return { sum, count }
 }
 
 /**
@@ -68,24 +100,26 @@ export async function writeComparisonReport(options) {
     `- **Align:** ${align}`,
     '',
     '| Suite | Scenario | ' +
-      `${leftLabel} | ${leftLabel} ms | ${leftLabel} cat | ` +
-      `${rightLabel} | ${rightLabel} ms | ${rightLabel} cat |`,
+      `${leftLabel} | ${leftLabel} ms | ${leftLabel} tok | ${leftLabel} cat | ` +
+      `${rightLabel} | ${rightLabel} ms | ${rightLabel} tok | Δ tok | ${rightLabel} cat |`,
     '| ----- | -------- | ' +
-      '---- | --- | --- | ' +
-      '---- | --- | --- |',
+      '---- | --- | --- | --- | ' +
+      '---- | --- | --- | --- | --- |',
   ]
 
   for (const row of merged) {
     const L = row[leftLabel]
     const R = row[rightLabel]
     lines.push(
-      `| ${row.suite} | ${row.scenario} | ${statusCell(L)} | ${durationCell(L)} | ${categoryCell(L)} | ${statusCell(R)} | ${durationCell(R)} | ${categoryCell(R)} |`,
+      `| ${row.suite} | ${row.scenario} | ${statusCell(L)} | ${durationCell(L)} | ${tokenCell(L)} | ${categoryCell(L)} | ${statusCell(R)} | ${durationCell(R)} | ${tokenCell(R)} | ${deltaTokenCell(L, R)} | ${categoryCell(R)} |`,
     )
   }
 
   const leftPasses = merged.filter((r) => r[leftLabel]?.pass).length
   const rightPasses = merged.filter((r) => r[rightLabel]?.pass).length
   const comparable = merged.filter((r) => r[leftLabel] && r[rightLabel]).length
+  const leftTokenStats = sumTokens(merged, leftLabel)
+  const rightTokenStats = sumTokens(merged, rightLabel)
 
   lines.push(
     '',
@@ -94,11 +128,39 @@ export async function writeComparisonReport(options) {
     `- Comparable scenarios: ${comparable}`,
     `- ${leftLabel} passes: ${leftPasses}`,
     `- ${rightLabel} passes: ${rightPasses}`,
+  )
+
+  if (leftTokenStats.count > 0) {
+    lines.push(
+      `- ${leftLabel} total tokens (comparable): ${leftTokenStats.sum.toLocaleString()} (${leftTokenStats.count} scenarios)`,
+    )
+  }
+  if (rightTokenStats.count > 0) {
+    lines.push(
+      `- ${rightLabel} total tokens (comparable): ${rightTokenStats.sum.toLocaleString()} (${rightTokenStats.count} scenarios)`,
+    )
+  }
+  if (leftTokenStats.count > 0 && rightTokenStats.count > 0) {
+    const delta = rightTokenStats.sum - leftTokenStats.sum
+    const sign = delta > 0 ? '+' : ''
+    lines.push(`- Token delta (${rightLabel} − ${leftLabel}): ${sign}${delta.toLocaleString()}`)
+  }
+
+  lines.push(
     '',
-    '_Wall time is a budget proxy until harness exposes token usage._',
+    '_Tokens from SDK usage when reported (agent + judge). Wall time includes git capture and judge._',
   )
 
   const body = lines.join('\n') + '\n'
   await writeFile(reportPath, body, 'utf8')
-  return { reportPath, body, merged, leftPasses, rightPasses, comparable }
+  return {
+    reportPath,
+    body,
+    merged,
+    leftPasses,
+    rightPasses,
+    comparable,
+    leftTokenStats,
+    rightTokenStats,
+  }
 }

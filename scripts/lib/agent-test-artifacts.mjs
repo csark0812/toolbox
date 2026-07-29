@@ -1,12 +1,24 @@
 import { readdir, readFile, stat } from 'node:fs/promises'
 import { basename, join } from 'node:path'
 
+/** Band-neutral key for full vs transfer arm comparison. */
 export function normalizeScenarioName(name) {
   return name
-    .replace(/^outcome:\s*/i, '')
-    .replace(/^transfer:\s*/i, '')
+    .replace(/^(outcome|transfer)[:-]\s*/i, '')
+    .replace(/-[a-f0-9]{8}$/i, '')
+    .replace(/-/g, ' ')
     .trim()
     .toLowerCase()
+}
+
+/** Total tokens from result row usage (agent + judge or total). */
+export function totalTokensFromRow(row) {
+  const usage = row?.usage
+  if (usage?.total?.totalTokens != null) return usage.total.totalTokens
+  const agent = row?.agentUsage?.totalTokens ?? usage?.agent?.totalTokens
+  const judge = row?.judgeUsage?.totalTokens ?? usage?.judge?.totalTokens
+  if (agent != null || judge != null) return (agent ?? 0) + (judge ?? 0)
+  return null
 }
 
 export async function listSessionDirs(sessionsParent) {
@@ -51,9 +63,11 @@ export async function collectResults(sessionRoot) {
             const raw = JSON.parse(await readFile(resultPath, 'utf8'))
             const scenario =
               raw.scenarioName ??
+              raw.scenario ??
               raw.name ??
               basename(full).replace(/\.debug$/, '')
-            const suite = raw.suiteName ?? basename(join(full, '..'))
+            const suite = raw.suiteName ?? raw.suite ?? basename(join(full, '..'))
+            const compareId = raw.compareId ?? null
             let category = ''
             let failed = false
             try {
@@ -72,10 +86,14 @@ export async function collectResults(sessionRoot) {
             rows.set(key, {
               suite,
               scenario,
-              norm: normalizeScenarioName(scenario),
+              compareId,
+              norm: compareId ?? normalizeScenarioName(scenario),
               pass,
               skipped: Boolean(raw.skipped),
               durationMs: raw.durationMs ?? raw.duration ?? null,
+              usage: raw.usage ?? null,
+              agentUsage: raw.agentUsage ?? raw.usage?.agent ?? null,
+              judgeUsage: raw.judgeUsage ?? raw.usage?.judge ?? null,
               category,
               debugDir: full,
               failed: failed || !pass,
