@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Compact session context for a fresh chat — summarize what was asked, decided, and done; reference artifacts by path only; suggest next skills from agent-routing.md tier table. User-invoked only; not for mid-task routing or authoring plans.
+description: Compact session context for a fresh chat — summarize what was asked, decided, and done; reference artifacts by path only; suggest next steps from session state. User-invoked only; not for mid-task work or authoring plans.
 disable-model-invocation: true
 ---
 
@@ -22,7 +22,7 @@ Compact and transfer context when a long session (grill → plan → implement �
 - Mid fix-loop when context is exhausted but work continues
 - User explicitly asks to "hand off", "compact context", or "prepare for a new session"
 
-Not for: routing between skills mid-task ([agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) · [dialogue-handoffs.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-handoffs.md)), authoring a plan ([build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md)), or consumer fix-loop chat handoff blocks only — use **handoff** when the next session needs full session context, not just fix-loop state.
+Not for: mid-task work in the same session, authoring a plan ([build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md)), or consumer fix-loop chat handoff blocks only — use **handoff** when the next session needs full session context, not just fix-loop state.
 
 ## Protocol
 
@@ -42,12 +42,12 @@ Not for: routing between skills mid-task ([agent-routing.md](https://raw.githubu
    - Do not commit; `_agent/` should be in `.gitignore`
 6. **Tell the user the path.** End the turn with the **repo-relative path** (and absolute if helpful) so they can `@`-reference it in the next session.
 
-**Suggested skills:** derive from [agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) — match session state to tier/situation row; list escalate-to skills first, then inline extracts if still Medium.
+**Suggested next steps:** infer from session state and installed skill descriptions — what the next session should do first and which workflow fits (implement, review, investigate, plan revision, etc.).
 
 ## Principles
 
 - **Reference, don't duplicate.** Artifacts stay at their paths; the handoff points to them.
-- **Actionable for a cold agent.** A reader with no prior thread should know what to do first and which skill to invoke.
+- **Actionable for a cold agent.** A reader with no prior thread should know what to do first.
 - **Honest state.** Distinguish done, in-progress, and deferred; cite evidence (commits, tests run, review themes).
 - **No tracked-source pollution.** Never save under committed doc trees — use `_agent/handoffs/`.
 
@@ -92,12 +92,10 @@ Write this structure to the handoff file (fill every section; use `—` or `none
 | PR      | [GitHub PR URL]     |
 | Commits | `abc1234` — message |
 
-## Suggested skills (next session)
+## Suggested next steps (next session)
 
-From [agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) — tier/situation match; invoke **escalate-to** skills first:
-
-1. **[skill-name]** — [situation row + why]
-2. **[skill-name]** — [follow-on]
+1. **[action]** — [why, tied to session state]
+2. **[follow-on]** — [optional]
 
 ## Review fix-loop (if applicable)
 

@@ -6,25 +6,6 @@
 
 Public team skills SSOT. Markdown skills + skeleton audits — not a TypeScript app. No runtime env vars required (see `.env.example`).
 
-## Routing announce (before tools)
-
-Full contracts: [`.skeleton/references/agent-routing.md`](.skeleton/references/agent-routing.md). Do **not** search the repo for that file before announcing — use this section (or the injected harness contract).
-
-- **Hands-on:** first assistant line includes the tier, e.g. `Low — …` / `Medium — …` / `Tier: low — …`.
-- **Hands-off (PR create/update/draft):** always **Medium** (or High if scope warrants) — never Low. First output is exactly:
-
-```markdown
-## Routing
-
-- **Tier:** Low | Medium | High
-- **Signals:** …
-- **Invariant applied:** …
-- **Escalations:** none | …
-- **Open questions:** none | …
-```
-
-No tools, file edits, or other prose until the announce is done. **Then continue the task** (diff review, investigation, PR draft, etc.) — announce is not the end of the turn. Only **PR-text-only** asks (write/update PR body with no repo investigation) stay documentation-only with no tools. Review-only / no-edits still means: use tools to read diffs and skills, then write the review.
-
 ## First hour
 
 Requires **Node ≥ 22**.

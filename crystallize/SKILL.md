@@ -1,7 +1,6 @@
 ---
 name: crystallize
-description: Fuzzy idea → shaped intent. Socratic dialogue toward a crystallized concept — no solving, no plan yet. High follow-up density; warm, not harsh. Handoffs — plan file → second-opinion; code hunch → investigate; pressure-test → grill; serialize work → references/planning/build.md.
-disable-model-invocation: true
+description: Shape a fuzzy or half-formed idea through Socratic dialogue — crystallized intent, not solutions or a plan yet. Use when the user has vague product intent and needs clarity before design pressure-testing or implementation. Not for design-tree pressure-tests (grill), written plan review (second-opinion), or code-path hunches (investigate).
 ---
 
 # Crystallize
@@ -10,11 +9,9 @@ disable-model-invocation: true
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
 
-Shape a half-formed idea through dialogue. Before the first turn, read [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) (shared behavior) and [dialogue-handoffs.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-handoffs.md) (routing).
+Shape a half-formed idea through dialogue. Before the first turn, read [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) (shared behavior).
 
 Goal: **crystallization**, not resolution. Follow the thread; don't steer toward a conclusion. Incomplete or vague input is normal.
-
-**Ambient routing:** mirror + one assumption check → [agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) § Fuzzy intent; full crystallize remains user-paced dialogue.
 
 ## Example opening turn
 

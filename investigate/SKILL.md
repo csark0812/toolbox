@@ -1,7 +1,6 @@
 ---
 name: investigate
-description: Narrow a hunch about code, approach, or claim — or a research/claim doubt — then confirm or refute with evidence and a verdict (Confirmed / Refuted / Partial) with citable primary-source references. Find and verdict only, not the fix. Not a written plan review (second-opinion) or open-ended ideation (crystallize).
-disable-model-invocation: true
+description: Narrow a specific hunch about code, approach, or claim — then confirm or refute with evidence and a verdict (Confirmed / Refuted / Partial) with citable primary-source references. Find and verdict only, not the fix. Use when there is a concrete doubt to test. Not a written plan review (second-opinion) or open-ended ideation (crystallize).
 ---
 
 # Investigate
@@ -12,7 +11,7 @@ disable-model-invocation: true
 
 For when something feels wrong but the user can't fully articulate it yet, or they have a **specific** doubt about a code path, approach, claim, or conclusion. The goal is to narrow the hunch, then **confirm** or **refute** with evidence. Do not manufacture problems if the hunch is unfounded. **Narrow the unease together** — not doubting the user's instincts.
 
-**Find and verdict only** through the evidence pass — locate the issue or settle the claim with citable evidence. Do not implement the fix, run full repro/repair loops, or "make it green" while investigating. After the verdict, **What to do next** points at fix work via consumer **testing** / **debug** when those skills are installed; otherwise prefer hook-injected consumer routing or project `AGENTS.md` (Quality & ops). If the user explicitly asks to implement, repro, or fix after the verdict, **stop applying find-only constraints** and follow that request (or the named consumer skill).
+**Find and verdict only** through the evidence pass — locate the issue or settle the claim with citable evidence. Do not implement the fix, run full repro/repair loops, or "make it green" while investigating. After the verdict, **What to do next** points at fix work via consumer **testing** / **debug** when those skills are installed; otherwise use project `AGENTS.md` or installed consumer skills. If the user explicitly asks to implement, repro, or fix after the verdict, **stop applying find-only constraints** and follow that request (or the named consumer skill).
 
 **Primary-source-first** after the target is clear: read the actual code, the actual source document, or the actual data — never secondhand description or memory.
 
@@ -23,9 +22,9 @@ For when something feels wrong but the user can't fully articulate it yet, or th
 - Narrow a vague unease into confirm/refute with citable primary-source evidence
 - Parallel web research on independent topics (via **multi**)
 
-Not for: written plan review ([`second-opinion`](../second-opinion/SKILL.md)), fuzzy ideation ([`crystallize`](../crystallize/SKILL.md)). Ambient extract → [agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) § Specific doubt.
+Not for: written plan review ([`second-opinion`](../second-opinion/SKILL.md)), fuzzy ideation ([`crystallize`](../crystallize/SKILL.md)).
 
-## Stance and routing
+## Stance
 
 - If they have a **plan file** to critique, use **second-opinion**.
 - For **fuzzy** thinking and no specific target yet, **crystallize** can precede this skill.
@@ -95,7 +94,7 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 
 ### What to do next
 
-- [Concrete next action: fix → consumer testing/debug when installed, else consumer routing / AGENTS.md; monitor; ignore; investigate further; or hand off to crystallize/grill → planning/build.md / second-opinion]
+- [Concrete next action: fix → consumer testing/debug when installed, else project AGENTS.md or installed skills; monitor; ignore; investigate further; or hand off to crystallize/grill → planning/build.md / second-opinion]
 - [If structural: localized change vs staged / ground-up work — one line, tied to evidence]
 ```
 

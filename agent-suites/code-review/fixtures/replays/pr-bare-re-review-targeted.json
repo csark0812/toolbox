@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "## Routing\n\n- **Tier:** Medium\n- **Signals:** review-only branch diff; default merge-blocker filing; no edits\n- **Invariant applied:** hands-off review → Medium (never Low)\n- **Escalations:** none\n- **Open questions:** none\n\nReview · source:branch · Surface: focused (1 file, 8 loc) · Reviewer: primary · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; commit-stack archaeology) · Pass: targeted contextual · Filing: merge-blockers only\n\nAnti-thrash preflight: bare `review vs main`. Tip micro-fix trail on `redirect.ts` — provisional theme `query-preservation` via commit-stack archaeology. Primary targeted closure.\n\n## Findings\nNo merge-blockers in scope.\n\n## Review synthesis\nExit gate green — findings-first output; no Continuity footer; no theme table. No sibling Action theme filed."
+      "content": "\nReview · source:branch · Surface: focused (1 file, 8 loc) · Reviewer: primary · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; commit-stack archaeology) · Pass: targeted contextual · Filing: merge-blockers only\n\nAnti-thrash preflight: bare `review vs main`. Tip micro-fix trail on `redirect.ts` — provisional theme `query-preservation` via commit-stack archaeology. Primary targeted closure.\n\n## Findings\nNo merge-blockers in scope.\n\n## Review synthesis\nExit gate green — findings-first output; no Continuity footer; no theme table. No sibling Action theme filed."
     }
   ],
   "toolCalls": [],
@@ -10,6 +10,8 @@
     "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts",
     "git log -8 --oneline -- agent-suites/fixtures/sample-app/src/redirect.ts"
   ],
-  "skillsInvoked": ["code-review"],
+  "skillsInvoked": [
+    "code-review"
+  ],
   "artifacts": {}
 }

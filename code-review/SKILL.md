@@ -11,7 +11,7 @@ description: Primary-first code review for any diff source (uncommitted, commit,
 
 Consumer overlays arrive as project-specific injected context on skill read.
 
-References: [review.md](references/review.md) · [sources.md](references/sources.md) · [surfaces.md](references/surfaces.md) · [escalation.md](references/escalation.md). Ambient routing → [agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) § Pre-ship / PR.
+References: [review.md](references/review.md) · [sources.md](references/sources.md) · [surfaces.md](references/surfaces.md) · [escalation.md](references/escalation.md).
 
 ## When to Use
 

@@ -25,4 +25,3 @@ Invariants shared by dialogue modes (crystallize / grill). Full Product checks a
 ## Related
 
 - Mode protocols live in each skill’s `SKILL.md`.
-- Full consumer handoffs → hook-injected dialogue-handoffs SSOT.

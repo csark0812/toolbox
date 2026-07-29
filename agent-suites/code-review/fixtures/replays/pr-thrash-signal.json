@@ -2,11 +2,15 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "## Routing\n\n- **Tier:** Medium\n- **Signals:** review-only branch diff; default merge-blocker filing; no edits\n- **Invariant applied:** hands-off review → Medium (never Low)\n- **Escalations:** none\n- **Open questions:** none\n\nReview · source:branch · Surface: focused (1 file, 12 loc) · Reviewer: primary · Filing: merge-blockers only\n\nThrash signal: two candidate Action blockers share the same path-routing family. Primary performed same-invariant sweep under one theme.\n\n## Findings\n\n### Unify redirect query-preservation invariant\n\n`agent-suites/fixtures/sample-app/src/redirect.ts:1-12` · Theme: `query-preservation` · Severity: high · Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nRelative redirect targets can lose query state and still accept malformed path shapes. Treat empty, relative+query, and absolute-reject as one invariant — do not file separate Action blocks for each adjacent edge.\n\n</details>\n\n## Review synthesis\nFiled one Action theme after thrash-signal collapse. No sibling Action blocks for adjacent edges."
+      "content": "\nReview · source:branch · Surface: focused (1 file, 12 loc) · Reviewer: primary · Filing: merge-blockers only\n\nThrash signal: two candidate Action blockers share the same path-routing family. Primary performed same-invariant sweep under one theme.\n\n## Findings\n\n### Unify redirect query-preservation invariant\n\n`agent-suites/fixtures/sample-app/src/redirect.ts:1-12` · Theme: `query-preservation` · Severity: high · Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nRelative redirect targets can lose query state and still accept malformed path shapes. Treat empty, relative+query, and absolute-reject as one invariant — do not file separate Action blocks for each adjacent edge.\n\n</details>\n\n## Review synthesis\nFiled one Action theme after thrash-signal collapse. No sibling Action blocks for adjacent edges."
     }
   ],
   "toolCalls": [],
-  "shellCommands": ["git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"],
-  "skillsInvoked": ["code-review"],
+  "shellCommands": [
+    "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts"
+  ],
+  "skillsInvoked": [
+    "code-review"
+  ],
   "artifacts": {}
 }

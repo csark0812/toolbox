@@ -1,7 +1,6 @@
 ---
 name: second-opinion
-description: Written plan / PRD / issue-set review via staged adversarial subagents — premises attack + completeness attack, then a related-context defender. Not for dialogue without a plan artifact or a single code-path hunch.
-disable-model-invocation: true
+description: Review a written plan, PRD, or issue set via staged adversarial subagents — premises attack + completeness attack, then a related-context defender. Use when a plan artifact exists on disk and needs a freshness or completeness pass. Not for dialogue without a plan (crystallize, grill) or a single code-path hunch (investigate).
 ---
 
 # Second opinion
@@ -33,8 +32,6 @@ Not for: dialogue without a plan ([`crystallize`](../crystallize/SKILL.md), [`gr
 - **Primary-source-first for the defender wave:** Wave 2 receives 2–4 primary sources the plan cites — code files, docs, data, or prior decisions; do not ask the user for paths that appear in the plan. Wave 1 attackers get the **artifact only** (context asymmetry).
 - Structural “worth deepening?” → brief notes in synthesis per [second-opinion.md](references/second-opinion.md). Broad codebase sweeps → [parallel-explore.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/parallel-explore.md). Large artifacts may optionally pre-gather via [parallel-plan-evidence.md](references/parallel-plan-evidence.md) — gather is not a substitute for debate.
 - Completeness axes checklist body → [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) as the **completeness attacker overlay**, not a separate skill stance.
-
-**Ambient routing:** inline axis pass on artifacts → [agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) § Plan on disk; full second-opinion remains user-invoked.
 
 ## Consumer bindings
 

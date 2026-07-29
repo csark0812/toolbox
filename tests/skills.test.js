@@ -46,9 +46,7 @@ describe('toolbox skill SSOT', () => {
 
   it('ambient refs are remote SSOT (no per-skill generated copies)', () => {
     const ambient = [
-      'agent-routing.md',
       'dialogue-contract.md',
-      'dialogue-handoffs.md',
       'output-schema.md',
       'planning/build.md',
       'planning/verify.md',
@@ -61,11 +59,11 @@ describe('toolbox skill SSOT', () => {
       }
       const skill = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
       // Skills that mention ambient contracts must link to GitHub raw, not local copies.
-      if (skill.includes('agent-routing') || skill.includes('dialogue-contract')) {
+      if (skill.includes('dialogue-contract')) {
         expect(skill).toContain(raw)
       }
     }
-    expect(existsSync(join(root, '.skeleton/references/agent-routing.md'))).toBe(true)
+    expect(existsSync(join(root, '.skeleton/references/dialogue-contract.md'))).toBe(true)
   })
 
   it('soft-default recipes stay out of skill trees (canonical + templates only)', () => {

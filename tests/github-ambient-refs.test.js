@@ -8,11 +8,11 @@ import process from 'node:process'
 import { describe, expect, it } from 'vitest'
 
 const root = join(import.meta.dirname, '..')
-const REL = '.skeleton/references/agent-routing.md'
+const REL = '.skeleton/references/dialogue-contract.md'
 const MARKERS = {
-  h1: '# Agent ambient routing',
+  h1: '# Dialogue contract',
   portableStub: '**Portable stub',
-  announce: 'Announce before tools',
+  repoFirst: 'Repo-first',
 }
 
 function localBody() {
@@ -38,7 +38,7 @@ describe('github ambient refs validation (T1/T6)', () => {
     expect(used.status).toBe(200)
     expect(used.text).toContain(MARKERS.h1)
     expect(used.text).toMatch(MARKERS.portableStub)
-    expect(used.text).toContain(MARKERS.announce)
+    expect(used.text).toContain(MARKERS.repoFirst)
   })
 
   it('T1: main raw URL returns usable markdown (not HTML shell)', async () => {
@@ -59,7 +59,7 @@ describe('github ambient refs validation (T1/T6)', () => {
       return
     }
 
-    expect(pinned.text).toMatch(/Do \*\*not\*\* call tools, search the repo for this file/)
+    expect(pinned.text).toContain(MARKERS.repoFirst)
 
     const main = await fetchText(rawUrl('main'))
     expect(main.status).toBe(200)
@@ -82,7 +82,7 @@ describe('github ambient refs tool capability (T2 gate input)', () => {
     let threw = false
     try {
       readFileSync(
-        'https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md',
+        'https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md',
         'utf8',
       )
     } catch {

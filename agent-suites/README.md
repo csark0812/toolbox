@@ -6,7 +6,6 @@ Toolbox agent suites are portable conformance checks for public skills. They use
 
 Toolbox owns generic skill-contract behavior:
 
-- `routing`: Low hands-on routing, hands-off PR routing blocks, and delegation to `grill` / `crystallize`.
 - `code-review`: source adapters, surface-size bands, primary-first default with escalation on demand, merge-blocker default filing, anti-thrash / contextual re-review convergence, and no-commit review behavior.
 - `github-ambient-refs`: live-only dogfood that ambient refs via GitHub raw URLs are fetchable at agent runtime (scenarios skipped in replay CI). See [docs/github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md).
 

@@ -8,15 +8,15 @@
   },
   "scenarios": [
     {
-      "name": "T2: fetch remote agent-routing and quote markers",
+      "name": "T2: fetch remote dialogue-contract and quote markers",
       "skip": true,
-      "prompt": "Do not use any local file under .skeleton/references/ or */references/agent-routing.md. Open this URL with a network fetch tool (not local Read): https://raw.githubusercontent.com/csark0812/toolbox/e8f6519d9c737f55ba71c16932e1a8cf06d3acc6/.skeleton/references/agent-routing.md\n\nQuote the exact H1 and the first **Portable stub** sentence. End with a line exactly: REMOTE_AMBIENT_OK",
+      "prompt": "Do not use any local file under .skeleton/references/ or */references/dialogue-contract.md. Open this URL with a network fetch tool (not local Read): https://raw.githubusercontent.com/csark0812/toolbox/e8f6519d9c737f55ba71c16932e1a8cf06d3acc6/.skeleton/references/dialogue-contract.md\n\nQuote the exact H1 and the first **Portable stub** sentence. End with a line exactly: REMOTE_AMBIENT_OK",
       "replayTrace": "agent-suites/github-ambient-refs/fixtures/replays/t2-fetch.json",
       "rubric": {
-        "must": ["Agent ambient routing", "Portable stub", "REMOTE_AMBIENT_OK"],
+        "must": ["Dialogue contract", "Portable stub", "REMOTE_AMBIENT_OK"],
         "mustNot": ["File not found"],
         "judge": [
-          "The agent retrieved agent-routing content from the GitHub raw URL (or equivalent network fetch), not from a local skill copy"
+          "The agent retrieved dialogue-contract content from the GitHub raw URL (or equivalent network fetch), not from a local skill copy"
         ]
       }
     },
@@ -26,7 +26,7 @@
       "prompt": "Read agent-suites/github-ambient-refs/fixtures/remote-ambient-probe/SKILL.md and follow its ambient-ref instruction exactly. Do not open local .skeleton/references copies.",
       "replayTrace": "agent-suites/github-ambient-refs/fixtures/replays/t2-skill.json",
       "rubric": {
-        "must": ["Agent ambient routing", "REMOTE_AMBIENT_OK"],
+        "must": ["Dialogue contract", "REMOTE_AMBIENT_OK"],
         "judge": [
           "The agent followed the GitHub URL in the fixture skill and used remote ambient content"
         ]

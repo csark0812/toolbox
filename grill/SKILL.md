@@ -1,7 +1,6 @@
 ---
 name: grill
-description: Design-tree alignment before implementation. Joint sense-making — persist until major branches resolve; repo-first. Handoffs — still fuzzy → crystallize; plan file → second-opinion; serialize → references/planning/build.md.
-disable-model-invocation: true
+description: Pressure-test a design or implementation plan before code — walk the design tree until major branches resolve; repo-first, joint sense-making. Use when there is a concrete design or decision to align on. Not for fuzzy ideation without a design target (crystallize) or reviewing a written plan artifact (second-opinion).
 ---
 
 # Grill
@@ -10,7 +9,7 @@ disable-model-invocation: true
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
 
-Pressure-test a design before code. Before the first turn, read [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) (shared behavior) and [dialogue-handoffs.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-handoffs.md) (routing).
+Pressure-test a design before code. Before the first turn, read [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) (shared behavior).
 
 Shared understanding before implementation. **Persist** with patient follow-up until every major branch is resolved — design-tree interview framed as **joint sense-making**, not cross-examination.
 
@@ -53,7 +52,6 @@ If almost there, **ask the next question** instead of summarizing prematurely.
 
 - **planning/build.md** — if the user just finished grill, skip redundant clarification there (Step 4).
 - **Repo exploration for a branch** — optional [parallel-explore.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/parallel-explore.md) via **multi** when a design branch depends on repo facts; grill stays dialogue-first.
-- **Ambient routing** — inline extract (branches, deps, falsifier) → [agent-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/agent-routing.md) § Before implement; full grill remains user-paced.
 
 ## Output format
 

@@ -14,9 +14,17 @@
       "seedStageOnly": true,
       "replayTrace": "agent-suites/code-review/fixtures/replays/staged-merge-blockers.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
-        "mustNot": ["Action: test inventory", "git commit", "Reviewer: council"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
+        "mustNot": [
+          "Action: test inventory",
+          "git commit",
+          "Reviewer: council"
+        ],
         "judge": [
           "The review uses default merge-blocker filing, primary reviewer only, and does not file test-inventory or polish findings under Action"
         ]
@@ -29,9 +37,16 @@
       "seedStageOnly": true,
       "replayTrace": "agent-suites/code-review/fixtures/replays/staged-standard.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
-        "mustNot": ["git commit", "Reviewer: council"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
+        "mustNot": [
+          "git commit",
+          "Reviewer: council"
+        ],
         "judge": [
           "The transcript contains a structured primary code review for the requested file without editing files or spawning council"
         ]
@@ -43,9 +58,16 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-commit.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/commit-standard.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
-        "mustNot": ["git commit", "Reviewer: council"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
+        "mustNot": [
+          "git commit",
+          "Reviewer: council"
+        ],
         "judge": [
           "The agent reviewed a commit diff with primary reviewer and produced a structured synthesis"
         ]
@@ -53,32 +75,45 @@
     },
     {
       "name": "branch: focused primary (scoped UI)",
-      "prompt": "Review the branch diff for agent-suites/fixtures/sample-app/src/form.tsx only (main...HEAD). Client-only UI — primary focused pass. Default merge-blocker filing. Review only; no edits.\n\nRequired header includes `Reviewer: primary` and `Surface: focused`.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md`, then produce the Review · report. Do not stop at the announce.",
+      "prompt": "Review the branch diff for agent-suites/fixtures/sample-app/src/form.tsx only (main...HEAD). Client-only UI — primary focused pass. Default merge-blocker filing. Review only; no edits.\n\nRequired header includes `Reviewer: primary` and `Surface: focused`. Read the diff and `.claude/skills/code-review/SKILL.md`, then produce the Review · report.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/form-pr.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thorough-default.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
-        "mustNot": ["git commit", "Reviewer: council", "Promoted to Full"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
+        "mustNot": [
+          "git commit",
+          "Reviewer: council",
+          "Promoted to Full"
+        ],
         "judge": [
           "The review stays primary on a small scoped UI diff and does not escalate to council"
-        ],
-        "routingBlock": true
+        ]
       }
     },
     {
       "name": "branch: auth primary deep",
-      "prompt": "Review the branch diff for auth/session handling in agent-suites/fixtures/sample-app/src/auth.ts. Default merge-blocker filing. Primary deep pass on auth risk — escalate only if unresolved. Review only; no edits.\n\nAfter the routing announce, continue with tools — read the diff and `.claude/skills/code-review/SKILL.md`, then produce the Review · report.",
+      "prompt": "Review the branch diff for auth/session handling in agent-suites/fixtures/sample-app/src/auth.ts. Default merge-blocker filing. Primary deep pass on auth risk — escalate only if unresolved. Review only; no edits.\n\nRead the diff and `.claude/skills/code-review/SKILL.md`, then produce the Review · report.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/auth-pr.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-auth-full.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
-        "mustNot": ["git commit", "Reviewer: council"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
+        "mustNot": [
+          "git commit",
+          "Reviewer: council"
+        ],
         "judge": [
           "The review deepens primary attention on auth/session, files or discusses merge-blockers, and does not mandate council spawn"
-        ],
-        "routingBlock": true
+        ]
       }
     },
     {
@@ -87,8 +122,12 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-closure.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-targeted-contextual.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -98,8 +137,7 @@
         ],
         "judge": [
           "The re-review stays primary targeted contextual after anti-thrash, reconstructs prior themes, uses findings-first output without a Fix-loop theme table, and does not invent a sibling Action theme"
-        ],
-        "routingBlock": true
+        ]
       }
     },
     {
@@ -108,13 +146,19 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-commit.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-signal.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
-        "mustNot": ["git commit", "Reviewer: council"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
+        "mustNot": [
+          "git commit",
+          "Reviewer: council"
+        ],
         "judge": [
           "The review applies the thrash signal, collapses adjacent same-family blockers into one theme_id with an explicit same-invariant sweep, and does not file sibling Action blocks for each edge"
-        ],
-        "routingBlock": true
+        ]
       }
     },
     {
@@ -123,8 +167,12 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/bare-re-review.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-bare-re-review-targeted.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -136,8 +184,7 @@
         ],
         "judge": [
           "The re-review classifies closure-re-review via commit-stack archaeology, stays primary targeted contextual, uses findings-first output without a Fix-loop theme table, and does not invent a sibling Action theme"
-        ],
-        "routingBlock": true
+        ]
       }
     },
     {
@@ -146,8 +193,12 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/large-branch-narrow-fix.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-large-branch-targeted.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -157,8 +208,7 @@
         ],
         "judge": [
           "Despite a large whole-branch diff surface, the re-review stays primary targeted contextual for closure-re-review, records that size thresholds were not used to promote council, and keeps findings-first output without a Fix-loop theme table"
-        ],
-        "routingBlock": true
+        ]
       }
     },
     {
@@ -167,8 +217,12 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/premature-closure-reopen.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-premature-closure-reopen.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
         "mustNot": [
           "git commit",
           "final blockers",
@@ -178,8 +232,7 @@
         ],
         "judge": [
           "The re-review detects premature closure, reopens the same theme_id query-preservation, includes a Continuity one-liner (not a Fix-loop theme table), and does not claim the exit gate passed"
-        ],
-        "routingBlock": true
+        ]
       }
     },
     {
@@ -188,8 +241,12 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/thrash-reopen-sweep.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-reopen-sweep.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -200,8 +257,7 @@
         ],
         "judge": [
           "The re-review applies thrash signal for a reopened theme, requires same-invariant sweep completion under one theme_id, includes a Continuity one-liner without a Fix-loop theme table, and does not file a second Action theme"
-        ],
-        "routingBlock": true
+        ]
       }
     },
     {
@@ -210,8 +266,12 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/parser-premature-closure.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-parser-premature-closure.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -223,8 +283,7 @@
         ],
         "judge": [
           "The re-review reopens the same high-dimensional theme_id, includes a Continuity one-liner without dumping a Fix-loop theme table, and does not invent a sibling Action theme"
-        ],
-        "routingBlock": true
+        ]
       }
     },
     {
@@ -233,8 +292,12 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/commit-stack-no-ledger.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-commit-stack-no-ledger.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -246,8 +309,7 @@
         ],
         "judge": [
           "The re-review classifies closure-re-review via commit-stack archaeology, stays primary targeted contextual, uses findings-first Continuity output without a Fix-loop theme table, and does not escalate to council"
-        ],
-        "routingBlock": true
+        ]
       }
     },
     {
@@ -256,8 +318,12 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/green-cleanup-leftover-ledger.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-green-cleanup-leftover.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -269,8 +335,7 @@
         ],
         "judge": [
           "On a green exit gate the review deletes the leftover review ledger file if present, omits Continuity and theme-table sections, and stays primary targeted contextual"
-        ],
-        "routingBlock": true
+        ]
       }
     },
     {
@@ -279,8 +344,12 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/premature-closure-reopen.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-show-ledger-verbose.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
+        "must": [
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
         "mustNot": [
           "git commit",
           "Reviewer: council",
@@ -289,8 +358,7 @@
         ],
         "judge": [
           "When the user asks show ledger, the re-review includes the full theme table and Baseline contradictions while still reopening the same theme_id query-preservation"
-        ],
-        "routingBlock": true
+        ]
       }
     },
     {
@@ -299,13 +367,22 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/premature-closure-reopen.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-premature-closure-reopen.json",
       "rubric": {
-        "must": ["Reviewer: primary", "Continuity:"],
-        "mustInvokeSkill": ["code-review"],
-        "mustNot": ["git commit", "## Fix-loop", "## Baseline contradictions", "Reviewer: council"],
+        "must": [
+          "Reviewer: primary",
+          "Continuity:"
+        ],
+        "mustInvokeSkill": [
+          "code-review"
+        ],
+        "mustNot": [
+          "git commit",
+          "## Fix-loop",
+          "## Baseline contradictions",
+          "Reviewer: council"
+        ],
         "judge": [
           "Default re-review with open themes emits a Continuity one-liner after findings and does not emit a Fix-loop theme table or Baseline contradictions section"
-        ],
-        "routingBlock": true
+        ]
       }
     }
   ]

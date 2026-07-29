@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Before any other work, open this URL with a network fetch tool (not local filesystem Read):
 
-https://raw.githubusercontent.com/csark0812/toolbox/e8f6519d9c737f55ba71c16932e1a8cf06d3acc6/.skeleton/references/agent-routing.md
+https://raw.githubusercontent.com/csark0812/toolbox/e8f6519d9c737f55ba71c16932e1a8cf06d3acc6/.skeleton/references/dialogue-contract.md
 
 From that remote file, quote the H1 and the portable-stub sentence, then print exactly:
 
