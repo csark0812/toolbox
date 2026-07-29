@@ -47,7 +47,7 @@ flowchart LR
 
 | Next need | Where |
 | --- | --- |
-| Implement the fix, repro, make tests pass | Consumer **testing** / **debug** when installed; else consumer routing / `AGENTS.md` (Quality & ops). Not in the toolbox install set. |
+| Implement the fix, repro, make tests pass | Hub **diagnose** / **tdd** when installed; else consumer **testing** / **debug** or `AGENTS.md` (Quality & ops). |
 | User explicitly asks to fix / repro / implement | **Exit find-only** — stop applying investigate no-fix constraints; follow the request or the named consumer skill. |
 | Still fuzzy on intent | **crystallize** |
 | Written plan to critique | **second-opinion** |
@@ -58,5 +58,5 @@ flowchart LR
 - Tool rankings or "likely file" lists as evidence — read primary material.
 - Single-cause theater when multiple mechanisms fit the evidence.
 - Implementing the fix during the evidence pass (before verdict / without an explicit post-verdict fix request).
-- Hard-requiring **testing** / **debug** when those skills are absent — fall back to consumer routing.
+- Hard-requiring **diagnose** / **tdd** / **testing** / **debug** when absent — fall back to consumer routing or `AGENTS.md`.
 - Heavy hypothesis matrices or formal ACH tables in user-facing output — keep competing hypos + disconfirm-first only.

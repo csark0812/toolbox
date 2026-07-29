@@ -21,7 +21,7 @@ Install destinations (skills CLI):
 | Codex       | `.agents/skills/` | `~/.codex/skills/`  |
 
 ```bash
-# All team skills (8 slugs), global — Cursor, Claude Code, and Codex
+# All team skills (11 slugs), global — Cursor, Claude Code, and Codex
 npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex -y
 
 # All team skills, project-scoped (commit under .agents/skills/ and/or .claude/skills/)
@@ -84,6 +84,9 @@ Canonical recipes live under `.skeleton/references/planning/soft-default/` and a
 | grill                | Pressure-test design before implementation       |
 | second-opinion       | Written plan review                              |
 | investigate          | Confirm/refute a code or approach hunch          |
+| diagnose             | Hard-bug loop — repro, tighten, fix, lock        |
+| tdd                  | Test-first build at agreed public seams          |
+| prototype            | Throwaway artifact for one design question       |
 | handoff              | Compact session handoff                          |
 | writing-great-skills | Skill-authoring vocabulary and predictability    |
 

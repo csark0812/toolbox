@@ -18,6 +18,9 @@ Generic orchestration, planning, and dialogue — intended for any consumer proj
 | grill                | Pressure-test design                                                      |
 | second-opinion       | Unified plan review (staged debate)                                       |
 | investigate          | Code / claim hunch — find & verdict, not fix                              |
+| diagnose             | Hard-bug loop — repro → tighten → fix → regression lock                   |
+| tdd                  | Test-first build at agreed public seams                                   |
+| prototype            | Throwaway artifact for one design question                                |
 | handoff              | Session handoff                                                           |
 | writing-great-skills | Skill-authoring vocabulary and predictability                             |
 

@@ -23,5 +23,8 @@
 | grill                | [grill/SKILL.md](../grill/SKILL.md)                               |
 | second-opinion       | [second-opinion/SKILL.md](../second-opinion/SKILL.md)             |
 | investigate          | [investigate/SKILL.md](../investigate/SKILL.md)                   |
+| diagnose             | [diagnose/SKILL.md](../diagnose/SKILL.md)                         |
+| tdd                  | [tdd/SKILL.md](../tdd/SKILL.md)                                   |
+| prototype            | [prototype/SKILL.md](../prototype/SKILL.md)                       |
 | handoff              | [handoff/SKILL.md](../handoff/SKILL.md)                           |
 | writing-great-skills | [writing-great-skills/SKILL.md](../writing-great-skills/SKILL.md) |

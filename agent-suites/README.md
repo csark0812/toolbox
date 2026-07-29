@@ -7,6 +7,8 @@ Toolbox agent suites are portable conformance checks for public skills. They use
 Toolbox owns generic skill-contract behavior:
 
 - `code-review`: source adapters, surface-size bands, primary-first default with escalation on demand, merge-blocker default filing, anti-thrash / contextual re-review convergence, and no-commit review behavior.
+- `tdd`: seam confirmation before the first test; red-green slice discipline.
+- `diagnose`: entry gate — no repro means no hypotheses; route to investigate or get a repro.
 - `github-ambient-refs`: live-only dogfood that ambient refs via GitHub raw URLs are fetchable at agent runtime (scenarios skipped in replay CI). See [docs/github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md).
 
 Consumer repos own integration dogfood suites for local product paths, rules, validation commands, and private docs. For example, PostPrint scenarios that mention `apps/client/**`, `apps/backend/**`, product auth/session code, council overlays, or PostPrint `validate:changed` stay in `PostPrint/applications`.

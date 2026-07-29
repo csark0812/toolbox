@@ -13,6 +13,9 @@ scan:
     - 'grill/**'
     - 'second-opinion/**'
     - 'investigate/**'
+    - 'diagnose/**'
+    - 'tdd/**'
+    - 'prototype/**'
     - 'handoff/**'
     - 'writing-great-skills/**'
   exclude:
@@ -42,5 +45,8 @@ skillOwnership:
     - grill
     - second-opinion
     - investigate
+    - diagnose
+    - tdd
+    - prototype
     - handoff
     - writing-great-skills

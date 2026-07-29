@@ -18,6 +18,9 @@ const SKILL_SLUGS = [
   'grill',
   'second-opinion',
   'investigate',
+  'diagnose',
+  'tdd',
+  'prototype',
   'handoff',
   'writing-great-skills',
 ]

@@ -11,7 +11,7 @@ description: Narrow a specific hunch about code, approach, or claim — then con
 
 For when something feels wrong but the user can't fully articulate it yet, or they have a **specific** doubt about a code path, approach, claim, or conclusion. The goal is to narrow the hunch, then **confirm** or **refute** with evidence. Do not manufacture problems if the hunch is unfounded. **Narrow the unease together** — not doubting the user's instincts.
 
-**Find and verdict only** through the evidence pass — locate the issue or settle the claim with citable evidence. Do not implement the fix, run full repro/repair loops, or "make it green" while investigating. After the verdict, **What to do next** points at fix work via consumer **testing** / **debug** when those skills are installed; otherwise use project `AGENTS.md` or installed consumer skills. If the user explicitly asks to implement, repro, or fix after the verdict, **stop applying find-only constraints** and follow that request (or the named consumer skill).
+**Find and verdict only** through the evidence pass — locate the issue or settle the claim with citable evidence. Do not implement the fix, run full repro/repair loops, or "make it green" while investigating. After the verdict, **What to do next** prefers hub **[`diagnose`](../diagnose/SKILL.md)** / **[`tdd`](../tdd/SKILL.md)** when installed; otherwise consumer **testing** / **debug** or project `AGENTS.md`. If the user explicitly asks to implement, repro, or fix after the verdict, **stop applying find-only constraints** and follow that request (or the named skill).
 
 **Primary-source-first** after the target is clear: read the actual code, the actual source document, or the actual data — never secondhand description or memory.
 
@@ -94,7 +94,7 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 
 ### What to do next
 
-- [Concrete next action: fix → consumer testing/debug when installed, else project AGENTS.md or installed skills; monitor; ignore; investigate further; or hand off to crystallize/grill → planning/build.md / second-opinion]
+- [Concrete next action: fix → diagnose/tdd when installed, else consumer testing/debug or project AGENTS.md; monitor; ignore; investigate further; or hand off to crystallize/grill → planning/build.md / second-opinion]
 - [If structural: localized change vs staged / ground-up work — one line, tied to evidence]
 ```
 

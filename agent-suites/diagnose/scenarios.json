@@ -1,0 +1,24 @@
+{
+	"name": "diagnose",
+	"description": "Portable diagnose skill conformance: entry gate refuses hypotheses without a tight loop",
+	"defaults": {
+		"host": "replay",
+		"profile": "cursor",
+		"skills": "full"
+	},
+	"scenarios": [
+		{
+			"name": "no repro: refuse hypotheses",
+			"prompt": "Something feels wrong with auth in our app but I don't have a repro yet. Diagnose it.\n\nRead `.claude/skills/diagnose/SKILL.md` first. There is no failing test, CI log, or steps to reproduce.",
+			"replayTrace": "agent-suites/diagnose/fixtures/replays/no-repro-gate.json",
+			"rubric": {
+				"must": ["investigate", "repro"],
+				"mustInvokeSkill": ["diagnose"],
+				"mustNot": ["root cause is", "the bug is caused by", "likely because"],
+				"judge": [
+					"The agent invoked diagnose, refused to hypothesize without a failing signal, and routed to get a repro or investigate"
+				]
+			}
+		}
+	]
+}

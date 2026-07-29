@@ -6,6 +6,9 @@ export const EXPECTED_SKILLS = [
 	"grill",
 	"second-opinion",
 	"investigate",
+	"diagnose",
+	"tdd",
+	"prototype",
 	"handoff",
 	"writing-great-skills",
 ] as const;
