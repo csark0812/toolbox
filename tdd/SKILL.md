@@ -13,16 +13,6 @@ Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) `tdd` (MI
 
 The **red → green** microcycle: one vertical slice at a time. Tests verify behavior through **public interfaces**, not implementation details. Prefer project glossary / `AGENTS.md` for domain vocabulary — no hard `CONTEXT.md` coupling.
 
-**Not for:** hard-bug diagnosis without a seam ([`diagnose`](../diagnose/SKILL.md)), throwaway design questions ([`prototype`](../prototype/SKILL.md)), or find-only hunch verification ([`investigate`](../investigate/SKILL.md)).
-
-## When to Use
-
-- User asks for TDD, test-first, red-green-refactor, or a regression lock after a fix
-- Building a new behavior slice where the public seam is knowable
-- [`diagnose`](../diagnose/SKILL.md) hands off with a tight loop ready to lock
-
-Not for: debugging without a failing signal ([`diagnose`](../diagnose/SKILL.md)), exploratory throwaway code ([`prototype`](../prototype/SKILL.md)), or reviewing finished work ([`code-review`](../code-review/SKILL.md)).
-
 ## Seams — confirm before the first test
 
 A **seam** is the public boundary you test at: the interface where you observe behavior without reaching inside. See [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md) for deep modules, information hiding, and seam quality.

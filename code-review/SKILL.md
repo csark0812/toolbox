@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Primary-first code review for any diff source (uncommitted, commit, branch, PR, paths, pasted). Surface size chooses intensity; specialists/council only on escalation. Default merge-blockers only; say "include improvements" for polish/tests/refactor. Scannable finding-block output (output.md). Use when reviewing code, checking a diff, or analyzing changes.
+description: Primary-first code review for any diff source — surface size sets intensity; specialists/council only on escalation. Use when reviewing code or a diff. Not for find-only hunches (investigate) or PR body authoring.
 ---
 
 # Code review
@@ -13,13 +13,13 @@ Consumer overlays arrive as project-specific injected context on skill read.
 
 References: [review.md](references/review.md) · [sources.md](references/sources.md) · [surfaces.md](references/surfaces.md) · [escalation.md](references/escalation.md).
 
-## When to Use
+## Owns
 
-- Review any code surface — uncommitted, commit, branch, PR, path-scoped, implementation slice, pasted diff
-- Merge-blocker filing (default) and fix-loop re-review
-- Same-session implement after review
+- Diff review across adapters (uncommitted, commit, branch, PR, path-scoped, pasted)
+- Merge-blocker filing by default; say "include improvements" for polish/tests/refactor
+- Fix-loop re-review and same-session implement-after-review
 
-Not for: PR description/body authoring (separate skill), Cursor `/review-bugbot` or `/review-security` shortcuts.
+Cursor `/review-bugbot` and `/review-security` stay those shortcuts.
 
 ## Quick reference
 

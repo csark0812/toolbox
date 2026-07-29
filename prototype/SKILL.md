@@ -1,6 +1,6 @@
 ---
 name: prototype
-description: Throwaway artifact to answer one design question — logic/state model or UI look-and-feel. Use when the user wants to prototype, sanity-check a state model, or explore UI options before real build. Not for production test-first work (tdd) or hard-bug diagnosis (diagnose).
+description: Throwaway artifact that answers one design question (logic/state or UI).
 disable-model-invocation: true
 ---
 
@@ -14,15 +14,7 @@ Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) `prototyp
 
 A prototype is **throwaway code that answers a question**. Declare the question and mode up front; never silently graduate throwaway to production.
 
-**Not for:** production test-first build ([`tdd`](../tdd/SKILL.md)), hard-bug loops ([`diagnose`](../diagnose/SKILL.md)), or design-tree alignment without code ([`grill`](../grill/SKILL.md)).
-
-## When to Use
-
-- User wants to prototype, spike, or sanity-check whether logic/state or UI feels right
-- [`grill`](../grill/SKILL.md) surfaced an open question that needs a runnable answer
-- One design question — not a production feature slice
-
-Not for: agreed production seams ([`tdd`](../tdd/SKILL.md)), reproducible bugs ([`diagnose`](../diagnose/SKILL.md)), written plan review ([`second-opinion`](../second-opinion/SKILL.md)).
+Also owns spikes when [`grill`](../grill/SKILL.md) surfaces an open question that needs a runnable answer. Production seams → [`tdd`](../tdd/SKILL.md); repro→fix → [`diagnose`](../diagnose/SKILL.md); design-tree alignment without code → [`grill`](../grill/SKILL.md).
 
 ## Up front — question + mode
 

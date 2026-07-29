@@ -1,6 +1,7 @@
 ---
 name: domain-model
-description: Persist ubiquitous-language glossary entries and architecture decision records when a term or structural decision is ready to land. Use when the user wants to update the glossary, write an ADR, or capture a decided design choice. Not for open grill dialogue (grill), test-first build (tdd), or debugging (diagnose).
+description: Persist glossary entries and ADRs after a term or structural decision is ready to land.
+disable-model-invocation: true
 ---
 
 # Domain model
@@ -13,21 +14,13 @@ Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) `domain-m
 
 **Process is generic; content is always repo-specific.** This skill writes to project-configured paths (glossary file, ADR directory) — never ships product domain terms in the hub.
 
-**Not for:** open design dialogue ([`grill`](../grill/SKILL.md)), fuzzy intent ([`crystallize`](../crystallize/SKILL.md)), test-first implementation ([`tdd`](../tdd/SKILL.md)), or bug loops ([`diagnose`](../diagnose/SKILL.md)).
-
-## When to Use
-
-- A glossary term is agreed and should be persisted
-- A structural decision was made and needs an ADR
-- [`grill`](../grill/SKILL.md) / [`crystallize`](../crystallize/SKILL.md) handed off with explicit terms or decisions
-
-Not for: still negotiating the design ([`grill`](../grill/SKILL.md)), implementing behavior ([`tdd`](../tdd/SKILL.md)), or documenting bugs ([`diagnose`](../diagnose/SKILL.md)).
-
 ## Entry gate — no decision, no ADR
 
 **Glossary:** term + definition must be stated (by user or prior grill output). If the term is still fuzzy, route to [`grill`](../grill/SKILL.md) or [`crystallize`](../crystallize/SKILL.md).
 
-**ADR:** a **decision** must be explicit — not a question, not "we should think about X." If alternatives are still open, route to [`grill`](../grill/SKILL.md). **Do not write theater ADRs.**
+**ADR:** a **decision** must be explicit — not a question, not "we should think about X." If alternatives are still open, route to [`grill`](../grill/SKILL.md). Write ADRs only for decided choices.
+
+Also owns handoffs when [`grill`](../grill/SKILL.md) / [`crystallize`](../crystallize/SKILL.md) leave explicit terms or decisions ready to persist.
 
 ## Paths
 

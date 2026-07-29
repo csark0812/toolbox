@@ -52,12 +52,12 @@ Synthesis plan: preserve conflicts per multi + adversarial synthesis; tag conver
 1. Merge findings per [multi synthesis gate](../../multi/SKILL.md#synthesis-gate) and [adversarial.md](../../multi/references/adversarial.md) — **preserve conflicts; do not flatten disagreements.** Tag `convergent` vs `divergent`.
 2. Each stance should try to **kill the opposing hypothesis** with primary evidence — not rhetoric. Steelman/attacker and skeptic/refuter are ACH-lite, not debate theater.
 3. State both sides if genuinely split rather than averaging into "it's complicated."
-4. Write **investigate** verdict — Confirmed / Refuted / Partial plus a one- or two-line explanation — when primary material supports one; if stances remain split, say so in that explanation.
+4. Write **investigate** verdict — plain-language settlement of what holds / doesn't / stays open; if stances remain split, say so in that prose.
 5. Output follows **investigate** skill final shape; use [multi output-format.md](../../multi/references/output-format.md) sections only as supporting detail.
 
 ## Handoff
 
-- Verdict Refuted / narrow → close or single-target **investigate**
+- Hunch closed or narrow → close or single-target **investigate**
 - Reproducible bug → hub **diagnose** / **tdd** when installed; else consumer **testing** / **debug** or `AGENTS.md`
 - Reproducible bug needing session logs (NDJSON, compose mount) → hub **diagnose** when installed; else consumer **debug** or `AGENTS.md`
 - User explicitly asks to fix after the verdict → exit investigate find-only; follow that request or the named consumer skill

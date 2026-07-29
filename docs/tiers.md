@@ -20,10 +20,10 @@ Generic orchestration, planning, and dialogue — intended for any consumer proj
 | investigate          | Code / claim hunch — find & verdict, not fix                              |
 | diagnose             | Hard-bug loop — repro → tighten → fix → regression lock                   |
 | tdd                  | Test-first build at agreed public seams                                   |
-| prototype            | Throwaway artifact for one design question                                |
-| domain-model         | Persist glossary + ADRs when decisions are ready                          |
-| handoff              | Session handoff                                                           |
-| writing-great-skills | Skill-authoring vocabulary and predictability                             |
+| prototype            | Throwaway design spike (user-invoked)                                     |
+| domain-model         | Persist glossary + ADRs when decisions are ready (user-invoked)           |
+| handoff              | Session handoff (user-invoked)                                            |
+| writing-great-skills | Skill-authoring vocabulary and predictability (user-invoked)              |
 
 Shared ambient refs live in [`.skeleton/references/`](../.skeleton/references/) and are opened from skills via GitHub raw URLs (network required). See [github-ambient-refs-validation.md](github-ambient-refs-validation.md). Soft-default planning recipes stay out of skill trees — enable via [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md) only when the consumer has no planning docs remap.
 
@@ -34,7 +34,7 @@ Skeleton and toolbox are complementary — init skeleton first, then install ski
 ```bash
 npm install -D @csark0812/skeleton
 npx skeleton init --skills
-npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion investigate handoff -a cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion investigate diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
 ```
 
 - **toolbox** — skill content SSOT (this repo)

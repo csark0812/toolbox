@@ -98,6 +98,7 @@ describe('toolbox skill SSOT', () => {
     expect(skill).not.toMatch(/Preferred slug\s+\|\s+`composer-2\.5-fast`/)
 
     expect(routing).toMatch(/inherit-auto/)
+    expect(routing).toMatch(/Anti-fast \(parallel\)/)
     expect(routing).toMatch(/Example dispatches \(validation\)/)
     expect(routing).toMatch(/Auto reachable: no/)
     expect(routing).toMatch(/Do not use.*\*-fast/)
@@ -125,8 +126,9 @@ describe('toolbox skill SSOT', () => {
     const adversarialKernel = readFileSync(join(root, 'multi/references/adversarial.md'), 'utf8')
     const broad = readFileSync(join(root, 'investigate/references/parallel-broad.md'), 'utf8')
 
-    // Canonical invariant + precedence
+    // Canonical invariant stays in the kernel; full gate lives in model-routing.
     expect(skill).toMatch(/Parent model = Auto.*no user model override/s)
+    expect(skill).toMatch(/model-routing\.md/)
     expect(skill).toMatch(/Routing precedence \(canonical order\)/)
     expect(skill).toMatch(/Pre-spawn model-routing gate/)
     expect(skill).toMatch(/Fail closed \(do not spawn\)/)
@@ -136,9 +138,13 @@ describe('toolbox skill SSOT', () => {
     expect(skill).toMatch(/Explicit routing \(named parent only\)/)
     expect(skill).toMatch(/Adversarial/)
     expect(skill).toMatch(/adversarial-staged/)
-
-    // inherit-auto is a sentinel, not a slug; examples live in model-routing.
     expect(skill).toMatch(/dispatch-plan sentinel only/)
+
+    expect(routing).toMatch(/Routing precedence \(canonical order\)/)
+    expect(routing).toMatch(/Pre-spawn model-routing gate/)
+    expect(routing).toMatch(/Fail closed \(do not spawn\)/)
+    expect(routing).toMatch(/Plan vs tool syntax/)
+    expect(routing).toMatch(/Explicit routing \(named parent only\)/)
     expect(routing).toMatch(/Correct — Auto parent/)
     expect(routing).toMatch(/tier=Premium · model=inherit-auto/)
     expect(routing).toMatch(/Incorrect — Auto parent with an explicit slug/)
@@ -150,9 +156,9 @@ describe('toolbox skill SSOT', () => {
     expect(routing).toMatch(/Task\/Subagent\(/)
     expect(routing).toMatch(/There is \*\*no\*\* `model` argument/)
 
-    // Fail-closed contradictions
-    expect(skill).toMatch(/Plan says `Parent model: Auto` but any member has an explicit slug/)
-    expect(skill).toMatch(
+    // Fail-closed contradictions (disclosed)
+    expect(routing).toMatch(/Plan says `Parent model: Auto` but any member has an explicit slug/)
+    expect(routing).toMatch(
       /Plan says `model=inherit-auto` but the generated Task\/Subagent call contains a `model` property/,
     )
 
@@ -221,6 +227,15 @@ describe('toolbox skill SSOT', () => {
     const config = readFileSync(join(root, '.skeleton/config.yaml'), 'utf8')
     expect(config).toMatch(/\.agents\/skills\/\*\*/)
     expect(config).toMatch(/\.claude\/skills\/\*\*/)
+  })
+
+  it('sync:skills imports EXPECTED_SKILLS (no duplicated slug list)', () => {
+    const sync = readFileSync(join(root, 'scripts/sync-claude-skills.mjs'), 'utf8')
+    const pkg = readFileSync(join(root, 'package.json'), 'utf8')
+    expect(sync).toMatch(/from ['"]\.\.\/src\/expected-skills\.ts['"]/)
+    expect(sync).toMatch(/EXPECTED_SKILLS/)
+    expect(sync).not.toMatch(/const SKILL_SLUGS = \[\s*'multi'/)
+    expect(pkg).toMatch(/sync:skills": "node --experimental-strip-types/)
   })
 
   it('code-review anti-thrash guard calibrates re-review instead of reflex councils', () => {

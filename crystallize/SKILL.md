@@ -7,11 +7,11 @@ description: Shape a fuzzy or half-formed idea through Socratic dialogue — cry
 
 **Source of truth for** Socratic idea crystallization.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
 Shape a half-formed idea through dialogue. Before the first turn, read [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) (shared behavior).
 
-Goal: **crystallization**, not resolution. Follow the thread; don't steer toward a conclusion. Incomplete or vague input is normal.
+Goal: **crystallization**, not resolution. Follow the thread; stay with the idea until it has shape. Incomplete or vague input is normal.
 
 ## Example opening turn
 
@@ -25,7 +25,7 @@ Goal: **crystallization**, not resolution. Follow the thread; don't steer toward
 4. **Exhaust the branch.** Chain another question on the same branch before moving on. If an answer is **thin**, say so and ask which meaning fits.
 5. **Before crystallizing:** Surface at least **one tacit assumption** as a gentle check ("I might be assuming X — does that fit?") **or** **one branch gently tested** — don't offer the final block until that exchange happened (unless the user asks to skip ahead).
 6. **Follow energy, not logic.** If the user lights up on a tangent, go there.
-7. **Don't solve.** Avoid proposing solutions, architectures, or implementations unless explicitly asked.
+7. **Stay in crystallization** — solutions, architectures, or implementations only when the user explicitly asks.
 8. **Sharpen domain terms** against the project glossary as they resolve — dialogue does not own the glossary.
 9. **Crystallize when ready.** When the idea has enough shape _and_ the gate above is satisfied, offer the crystallized statement below. Confirm with **AskQuestion** when possible.
 

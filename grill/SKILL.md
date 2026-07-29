@@ -11,7 +11,7 @@ description: Pressure-test a design or implementation plan before code — walk 
 
 Pressure-test a design before code. Before the first turn, read [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) (shared behavior).
 
-Shared understanding before implementation. **Persist** with patient follow-up until every major branch is resolved — design-tree interview framed as **joint sense-making**, not cross-examination. Cover every branch that matters; don't stop at the happy path.
+Shared understanding before implementation. **Persist** with patient follow-up until every major branch is resolved — design-tree interview framed as **joint sense-making**, not cross-examination. Cover every branch that matters, including unhappy paths.
 
 ## Example opening turn
 
@@ -27,8 +27,8 @@ Shared understanding before implementation. **Persist** with patient follow-up u
 6. **Consider-the-opposite / falsifier** — after the user engages the recommendation (accepts or chooses another branch), surface what would show that branch was the wrong bet before leaving the node.
 7. **Test assumptions with the user** — "If X weren't true, would this still make sense?"
 8. **Sharpen domain terms** against the project glossary as they resolve — grill does not own the glossary (no ADR or glossary writes).
-9. **Don't stop early.** Every major branch resolved, not just the happy path.
-10. **Hard no-act** — do not implement, scaffold, or run [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md) until **When to stop** criteria are met and the user confirms shared understanding (or explicitly asks to skip grill and build).
+9. **Every major branch resolved** — happy path and the branches that matter beside it.
+10. **Implement only after alignment** — start code, scaffolding, or [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md) only when **When to stop** criteria are met and the user confirms shared understanding (or explicitly asks to skip grill and build).
 
 ## Design tree
 

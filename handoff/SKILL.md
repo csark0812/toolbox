@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Compact session context for a fresh chat — summarize what was asked, decided, and done; reference artifacts by path only; suggest next steps from session state. User-invoked only; not for mid-task work or authoring plans.
+description: Compact session context into `_agent/handoffs/` for a fresh chat — paths only, no artifact paste.
 disable-model-invocation: true
 ---
 
@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 **Source of truth for** session context transfer into a fresh chat.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
 Compact and transfer context when a long session (grill → plan → implement → review) must continue in a **fresh chat**. Every other skill assumes one continuous context window — this fills that gap.
 
@@ -16,13 +16,7 @@ Compact and transfer context when a long session (grill → plan → implement �
 
 **Why `_agent/`:** Ephemeral agent workspace — session artifacts outside the doc audit perimeter.
 
-## When to Use
-
-- End of a long session before starting a fresh chat
-- Mid fix-loop when context is exhausted but work continues
-- User explicitly asks to "hand off", "compact context", or "prepare for a new session"
-
-Not for: mid-task work in the same session, authoring a plan ([build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md)), or consumer fix-loop chat handoff blocks only — use **handoff** when the next session needs full session context, not just fix-loop state.
+Also owns mid fix-loop compact when context is exhausted but work continues. Consumer fix-loop chat handoff blocks alone are enough when the next session needs only fix-loop state, not full session context. Mid-task work in the same session and plan authoring stay with those skills / [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md).
 
 ## Protocol
 
@@ -49,7 +43,7 @@ Not for: mid-task work in the same session, authoring a plan ([build.md](https:/
 - **Reference, don't duplicate.** Artifacts stay at their paths; the handoff points to them.
 - **Actionable for a cold agent.** A reader with no prior thread should know what to do first.
 - **Honest state.** Distinguish done, in-progress, and deferred; cite evidence (commits, tests run, review themes).
-- **No tracked-source pollution.** Never save under committed doc trees — use `_agent/handoffs/`.
+- **Ephemeral path.** Save under `_agent/handoffs/` only.
 
 ## Output template
 
@@ -102,7 +96,7 @@ Write this structure to the handoff file (fill every section; use `—` or `none
 Closed: [themes]
 Open: [themes]
 Next batch: [root_cause or —]
-Next pass: [e.g. contextual Full re-review]
+Next pass: [e.g. targeted contextual re-review]
 
 ## Redaction note
 

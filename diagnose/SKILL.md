@@ -13,16 +13,6 @@ Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) `diagnosi
 
 A discipline for hard bugs. **Ordering is the value** — build a **tight** pass/fail signal before hypothesizing. Skip phases only when explicitly justified.
 
-**Not for:** find-only hunch verification ([`investigate`](../investigate/SKILL.md)), greenfield test-first build ([`tdd`](../tdd/SKILL.md)), or throwaway design spikes ([`prototype`](../prototype/SKILL.md)).
-
-## When to Use
-
-- Reproducible or on-demand failing signal (test, script, user repro, CI failure)
-- User says diagnose, debug this, or reports broken / throwing / failing / slow
-- [`investigate`](../investigate/SKILL.md) confirmed locus and hands off to fix
-
-Not for: vague hunch without repro ([`investigate`](../investigate/SKILL.md)), new behavior at agreed seams ([`tdd`](../tdd/SKILL.md)), design questions ([`prototype`](../prototype/SKILL.md)).
-
 ## Entry gate — no loop, no hypotheses
 
 If there is **no on-demand failing signal** — no failing test, script, CI artifact, or user repro you can run — **stop**. Do not hypothesize.
@@ -31,6 +21,8 @@ Route to:
 
 - get a repro from the user (environment, steps, artifact), or
 - [`investigate`](../investigate/SKILL.md) when the locus is still unclear.
+
+Also owns the handoff when [`investigate`](../investigate/SKILL.md) confirmed a locus and the next step is fix.
 
 ## Protocol
 

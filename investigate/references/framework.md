@@ -2,7 +2,7 @@
 
 One loop for code, docs, data, and research claims. Phases may weave — repo read → external claim check → back to code (or reverse). Do not announce a "track" to the user; apply the same loop to whatever primary material is in play.
 
-Uses the **investigate** verdict: Confirmed | Refuted | Partial plus a one- or two-line explanation. **Find and verdict only** through the evidence pass — not the fix. After the verdict, hand off or exit find-only as below.
+Uses the **investigate** verdict: a plain-language settlement of what holds, what doesn't, and what stays open (no fixed label). **Find and verdict only** through the evidence pass — not the fix. After the verdict, hand off or exit find-only as below.
 
 ## Loop
 
@@ -12,7 +12,7 @@ Uses the **investigate** verdict: Confirmed | Refuted | Partial plus a one- or t
 4. **Primary material** — read the actual code, document, dataset, or cited source.
 5. **Forage or leave** — follow scent; if 2–3 reads yield no signal, leave the patch and re-rank (may switch material class).
 6. **Re-enter** when new leads appear (weave allowed).
-7. **Verdict** — citable locus + Confirmed / Refuted / Partial + one- or two-line explanation.
+7. **Verdict** — citable locus + plain-language settlement (what holds / doesn't / stays open).
 
 ```mermaid
 flowchart LR
@@ -33,7 +33,7 @@ flowchart LR
 | **Repo forage**    | Hunch points at code, config, or in-repo docs | Follow scent: callers, callees, tests, error sites, related types. Prefer dependency slices over whole-file reads when the hunch is localized. |
 | **Locate-to-cite** | Behavioral code hunch                         | Narrow to `file:line` (or config key, failing path) sufficient for the verdict — then **stop**. Do not bisect-as-repair or implement the fix.  |
 | **Lateral read**   | Claim depends on web/docs/vendor material     | Leave the page quickly; check who else says this; note source class (primary vs secondary, official vs commentary).                            |
-| **Source class**   | Before Confirmed/Partial on non-repo material | State what kind of source supports the claim. Conflicting independents → Partial or parallel-perspective.                                      |
+| **Source class**   | Before settling a non-repo claim              | State what kind of source supports the claim. Conflicting independents → name the split in the verdict or parallel-perspective.                |
 
 ## When to escalate (multi)
 
@@ -47,7 +47,7 @@ flowchart LR
 
 | Next need                                       | Where                                                                                                              |
 | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Implement the fix, repro, make tests pass       | Hub **diagnose** / **tdd** when installed; else consumer **testing** / **debug** or `AGENTS.md` (Quality & ops).   |
+| Implement the fix, repro, make tests pass       | Hub **diagnose** / **tdd** when installed; else consumer **testing** / **debug** or project `AGENTS.md`.           |
 | User explicitly asks to fix / repro / implement | **Exit find-only** — stop applying investigate no-fix constraints; follow the request or the named consumer skill. |
 | Still fuzzy on intent                           | **crystallize**                                                                                                    |
 | Written plan to critique                        | **second-opinion**                                                                                                 |

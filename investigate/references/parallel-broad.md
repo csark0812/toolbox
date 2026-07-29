@@ -44,19 +44,19 @@ Selected members:
 - explore · tier=Fast · model=[inherit-auto | slug] · stance=n/a: [client slice — hypothesis to test]
 - explore · tier=Fast · model=[inherit-auto | slug] · stance=n/a: [backend slice]
 
-Synthesis plan: merge evidence; verdict per investigate schema (Confirmed / Refuted / Partial plus a one- or two-line explanation)
+Synthesis plan: merge evidence; verdict per investigate schema (plain-language settlement)
 ```
 
 ## Synthesis
 
 1. Merge findings with file:line citations.
-2. Write **investigate** verdict — Confirmed / Refuted / Partial plus a one- or two-line explanation — with evidence from all members.
+2. Write **investigate** verdict — plain-language settlement with evidence from all members.
 3. Conflicting member conclusions → state both; escalate or narrow target.
 4. Output follows **investigate** skill final shape; use [multi output-format.md](../../multi/references/output-format.md) sections only as supporting detail.
 
 ## Handoff
 
-- Verdict Refuted / narrow → close or single-target **investigate**
+- Hunch closed or narrow → close or single-target **investigate**
 - Reproducible bug → hub **diagnose** / **tdd** when installed; else consumer **testing** / **debug** or `AGENTS.md`
 - Reproducible bug needing session logs (NDJSON, compose mount) → hub **diagnose** when installed; else consumer **debug** or `AGENTS.md`
 - User explicitly asks to fix after the verdict → exit investigate find-only; follow that request or the named consumer skill

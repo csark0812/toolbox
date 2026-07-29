@@ -7,25 +7,18 @@ description: Review a written plan, PRD, or issue set via staged adversarial sub
 
 **Source of truth for** written plan review via staged multi debate.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
-You are not having a Socratic **explore** session — the artifact is a **plan** (or PRD / issue set). Follow [references/second-opinion.md](references/second-opinion.md). Dispatch → [references/adversarial-debate.md](references/adversarial-debate.md) + [`multi` adversarial.md](../multi/references/adversarial.md) § Staged debate.
+The artifact is a **plan** (or PRD / issue set) — run staged debate, not a Socratic explore session. Follow [references/second-opinion.md](references/second-opinion.md). Dispatch → [references/adversarial-debate.md](references/adversarial-debate.md) + [`multi` adversarial.md](../multi/references/adversarial.md) § Staged debate.
 
 **No Stance A/B.** Outsider premise critique and completeness/axis readiness always run **in tandem** as Wave-1 subagent roles. Do not ask “fresh read or verify?”
 
-## When to Use
+## Owns
 
-- Written plan on disk, `.cursor/plans/*.plan.md`, PRD, or issue set
-- "Second opinion", "did I miss anything", freshness or completeness pass
-
-Not for: dialogue without a plan ([`crystallize`](../crystallize/SKILL.md), [`grill`](../grill/SKILL.md)), single code-path hunch ([`investigate`](../investigate/SKILL.md)).
-
-## Does not own
-
-- Dialogue without a plan artifact → **crystallize** or **grill**
-- Author a new plan from intent → **crystallize** or **grill** → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md)
-- Single code-path hunch with evidence → **investigate**
+- Written plan on disk (including `.cursor/plans/*.plan.md`), PRD, or issue set — freshness or completeness pass
 - Protocol + output sections → [references/second-opinion.md](references/second-opinion.md)
+
+Routes elsewhere: dialogue without a plan → **crystallize** / **grill**; new plan from intent → **crystallize** / **grill** → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md); single code-path hunch → **investigate**.
 
 ## Stance and repo
 

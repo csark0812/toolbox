@@ -15,7 +15,7 @@ Profile: `web` — skip council agent scoring.
 - Single topic — one agent or context7 MCP is enough
 - Answer is in repo docs — read repo first
 - Code hunch about repo behavior — standard **investigate** (generalized), not this multi-topic recipe
-- Single non-code hunch with a specific target — standard **investigate** (generalized), not this multi-topic recipe. This recipe stays scoped to genuinely independent multi-topic fact-gathering; it does not produce a Confirmed/Refuted verdict — that is **investigate**'s core protocol.
+- Single non-code hunch with a specific target — standard **investigate** (generalized), not this multi-topic recipe. This recipe stays scoped to genuinely independent multi-topic fact-gathering; it does not produce an investigate verdict — that is **investigate**'s core protocol.
 - Council code review — **code-review**
 
 ## Members (1 per topic)
