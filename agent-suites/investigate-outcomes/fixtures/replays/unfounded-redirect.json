@@ -2,7 +2,7 @@
 	"messages": [
 		{
 			"role": "assistant",
-			"content": "Using **investigate**.\n\n**Hypotheses:**\n1. Redirect clears session cookie on login.\n2. Session guard rejects valid sessions.\n\n**Kill test (hypo 1):** `redirect.ts` — no cookie/session API; only path normalization.\n\n**Verdict:** Redirect-clearing hunch does **not** hold. No evidence redirect mutates session state."
+			"content": "Using **investigate**.\n\n**Hypotheses:**\n1. Login redirect drops session state on success.\n2. Session guard rejects valid sessions.\n\n**Kill test (hypo 1):** `redirect.ts` — no cookie/session API; only path normalization.\n\n**Verdict:** Redirect-clearing hunch does **not** hold. No evidence redirect mutates session state."
 		}
 	],
 	"toolCalls": [],

@@ -7,18 +7,18 @@ Toolbox agent suites are portable conformance checks for public skills. They use
 | Band             | Purpose                                                           | CI default                    | Command                                |
 | ---------------- | ----------------------------------------------------------------- | ----------------------------- | -------------------------------------- |
 | **Contract**     | Process gates — did the agent follow the skill protocol?          | Replay (`npm run agent:test`) | `agent-test --suites-dir agent-suites` |
-| **Outcome**      | Task settlement — did the agent reach the right verdict / loop?   | Skipped (`skip: true`)        | `npm run agent:test:outcomes` (live)   |
-| **Ablation**     | Organization arms — primary vs council, fit-check vs forced spawn | Skipped (`skip: true`)        | `npm run agent:test:ablations` (live)  |
-| **Ambient live** | Network fetch of GitHub raw ambient refs                          | Skipped                       | `npm run agent:test:live`              |
+| **Outcome**      | Task settlement — did the agent reach the right verdict / loop?   | Stub replay (no judge)        | `npm run agent:test:outcomes` (live)   |
+| **Ablation**     | Organization arms — primary vs council, fit-check vs forced spawn | Stub replay (no judge)        | `npm run agent:test:ablations` (live)  |
+| **Ambient live** | Network fetch of GitHub raw ambient refs                          | Skipped (`skip: true`)        | `npm run agent:test:live`              |
 
-Contract suites use golden `replayTrace` JSON. Outcome and ablation suites still ship placeholder traces (required for live staging) but do not run in replay CI.
+Contract suites use golden `replayTrace` JSON. Outcome and ablation suites ship placeholder traces for live staging and stub replay in CI; the LLM judge runs only under `--live`.
 
 ### Authoring outcome scenarios
 
 1. Plant bugs in neutral fixtures — see `agent-suites/fixtures/debug-app/`.
 2. Write a prompt with a **held-out hunch** the agent has not seen in contract replays.
 3. Tie `judge` questions to a `research-basis.md` claim (e.g. kill tests before forage, loop before cause).
-4. Set `skip: true` so default replay CI stays fast.
+4. Ship a placeholder `replayTrace` for CI stub replay and live staging (judge criteria evaluate only under `--live`).
 5. Record goldens after a good live run: `npm run agent:test:live -- --suite <suite> --record-fixtures`.
 
 **Good judge question:** “The agent cited sessionGuard.ts with a boundary comparator issue and did not invent a fix.”
@@ -93,6 +93,4 @@ npm run agent:test:live:debug
 
 Live runs already use **git worktree isolation** for agent edits (`$TMPDIR/agent-harness-wt-…`). The worktree leak guard watches your **caller checkout** (where you ran npm). Harness staging under `--debug-dir` is excluded from that check as of `@post-print/agent-test` 0.1.18; prefer `$TMPDIR` anyway.
 
-### Unskip live-only scenarios
-
-Remove `"skip": true` from a scenario (or run with `--live` only on that suite) when dogfooding. Restore `skip: true` before merging unless the scenario is promoted to contract replay.
+`skip: true` skips a scenario in **both** replay and live. Use it only for suites that must never run in CI (e.g. `github-ambient-refs` network dogfood). Outcome and ablation scenarios must not set `skip` if you want `npm run agent:test:outcomes` / `agent:test:ablations` to invoke the agent.
