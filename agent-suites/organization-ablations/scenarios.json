@@ -1,0 +1,55 @@
+{
+	"name": "organization-ablations",
+	"description": "Live SkillJuror-lite ablations: compare skill organization arms under equal-budget live runs. Skipped in default replay CI.",
+	"defaults": {
+		"host": "replay",
+		"profile": "cursor",
+		"skills": "full"
+	},
+	"scenarios": [
+		{
+			"name": "ablation review: primary-first arm",
+			"skip": true,
+			"prompt": "Review staged changes in agent-suites/fixtures/sample-app/src/redirect.ts. Review only; do not edit or commit.\n\nRead `.claude/skills/code-review/SKILL.md` first. Default primary-first — no council unless escalation criteria match.",
+			"seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-staged.patch",
+			"seedStageOnly": true,
+			"replayTrace": "agent-suites/organization-ablations/fixtures/replays/review-primary-arm.json",
+			"rubric": {
+				"must": ["Reviewer: primary"],
+				"mustInvokeSkill": ["code-review"],
+				"mustNot": ["Reviewer: council", "Task("],
+				"judge": [
+					"The agent completed a primary review without spawning council or Task members"
+				]
+			}
+		},
+		{
+			"name": "ablation review: council escalation arm",
+			"skip": true,
+			"prompt": "Review staged changes in agent-suites/fixtures/sample-app/src/auth.ts with security and API council escalation. Review only.\n\nRead `.claude/skills/code-review/SKILL.md` and escalate per escalation.md.",
+			"seedPatch": "agent-suites/code-review/fixtures/seeds/auth-pr.patch",
+			"replayTrace": "agent-suites/organization-ablations/fixtures/replays/review-council-arm.json",
+			"rubric": {
+				"must": ["council", "multi"],
+				"mustInvokeSkill": ["code-review"],
+				"judge": [
+					"The agent escalated to council or multi specialists as requested after primary framing"
+				]
+			}
+		},
+		{
+			"name": "ablation multi: fit-check skip arm",
+			"skip": true,
+			"prompt": "Map how auth works in agent-suites/fixtures/sample-app. Use multi if parallel helps.\n\nRead `.claude/skills/multi/SKILL.md` first and apply Fit check.",
+			"replayTrace": "agent-suites/organization-ablations/fixtures/replays/multi-fit-skip-arm.json",
+			"rubric": {
+				"must": ["single-pass", "skip"],
+				"mustInvokeSkill": ["multi"],
+				"mustNot": ["Task(", "spawn 2"],
+				"judge": [
+					"The agent named a single-pass rival and skipped parallel spawn for this sequential repo map"
+				]
+			}
+		}
+	]
+}

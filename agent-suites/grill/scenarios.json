@@ -1,0 +1,24 @@
+{
+	"name": "grill",
+	"description": "Portable grill skill conformance: falsifier recorded before leaving a decision node",
+	"defaults": {
+		"host": "replay",
+		"profile": "cursor",
+		"skills": "full"
+	},
+	"scenarios": [
+		{
+			"name": "decision node: falsifier before leave",
+			"prompt": "Grill me on session storage for a new auth service — Redis vs in-memory.\n\nRead `.claude/skills/grill/SKILL.md` first. One decision per turn; state a provisional recommendation and a falsifier before leaving the node.",
+			"replayTrace": "agent-suites/grill/fixtures/replays/falsifier-before-leave.json",
+			"rubric": {
+				"must": ["falsifier", "recommendation"],
+				"mustInvokeSkill": ["grill"],
+				"mustNot": ["let's implement", "I'll start coding"],
+				"judge": [
+					"The agent stated a provisional recommendation and a falsifier for the chosen branch before moving on"
+				]
+			}
+		}
+	]
+}

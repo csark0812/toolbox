@@ -15,6 +15,8 @@ The **red → green** microcycle: one vertical slice at a time. Tests verify beh
 
 Prefer project glossary / `AGENTS.md` for domain vocabulary — no hard `CONTEXT.md` coupling.
 
+Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
+
 ## Seams — confirm before the first test
 
 A **seam** is the public boundary you test at: the interface where you observe behavior without reaching inside. See [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md) for deep modules, information hiding, and seam quality.

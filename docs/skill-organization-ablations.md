@@ -1,0 +1,39 @@
+# Skill organization ablations
+
+**Source of truth for** interpreting live ablation runs that compare skill organization arms.
+
+<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+
+Inspired by SkillJuror-style questions: does how skills are **organized** (routing, escalation, fit-check) change runtime behavior?
+
+## Suite
+
+`agent-suites/organization-ablations/` — live-only (`skip: true` in replay CI).
+
+```bash
+npm run agent:test:ablations
+```
+
+Requires `CURSOR_API_KEY`. Compare runs under the **same model** and similar token budget (equal-budget discipline from [`multi/references/research-basis.md`](../multi/references/research-basis.md)).
+
+## Arms
+
+| Scenario                                  | Tests                               | Pass signal                                   |
+| ----------------------------------------- | ----------------------------------- | --------------------------------------------- |
+| `ablation review: primary-first arm`      | Default code-review without council | `Reviewer: primary`, no `Task(` spawn         |
+| `ablation review: council escalation arm` | User requests council               | Escalation via `multi` / council path         |
+| `ablation multi: fit-check skip arm`      | Sequential repo map                 | Names single-pass rival, skips parallel spawn |
+
+## How to interpret
+
+- **Primary wins** on cost and debuggability when pass rates are equal — matches toolbox default.
+- **Council arm** should pass only when escalation criteria or explicit user ask applies — not on every large diff.
+- **Fit-check skip** should beat forced parallel spawn on single coherent repo slices.
+
+If an arm consistently fails live while the other passes, open a skill patch via [skill-evolution.md](skill-evolution.md) — do not reorganize skills from one run.
+
+## Not measured here
+
+- Numeric SkillsBench scores
+- Cross-model transfer (run ablations per model family separately)
+- Consumer-specific council roster overlays (those live in consumer repos)

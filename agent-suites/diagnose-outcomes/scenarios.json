@@ -1,0 +1,53 @@
+{
+	"name": "diagnose-outcomes",
+	"description": "Live outcome band: whether diagnose builds a tight red loop before hypothesizing. Skipped in default replay CI (skip: true).",
+	"defaults": {
+		"host": "replay",
+		"profile": "cursor",
+		"skills": "full"
+	},
+	"scenarios": [
+		{
+			"name": "outcome: tight loop red before cause",
+			"skip": true,
+			"prompt": "Diagnose the failing session guard tests in agent-suites/fixtures/debug-app. Run tests and build a tight loop before changing production code.\n\nRead `.claude/skills/diagnose/SKILL.md` first.",
+			"replayTrace": "agent-suites/diagnose-outcomes/fixtures/replays/tight-loop-red.json",
+			"rubric": {
+				"must": ["Loop", "red", "sessionGuard"],
+				"mustInvokeSkill": ["diagnose"],
+				"mustNot": ["likely because", "root cause is definitely"],
+				"judge": [
+					"The agent named a red test command for debug-app before stating a cause and cited sessionGuard.ts"
+				]
+			}
+		},
+		{
+			"name": "outcome: no repro refuse hypotheses",
+			"skip": true,
+			"prompt": "Something feels wrong with session handling in debug-app but I have no failing test output or repro steps. Diagnose it.\n\nRead `.claude/skills/diagnose/SKILL.md` first.",
+			"replayTrace": "agent-suites/diagnose-outcomes/fixtures/replays/no-repro-refuse.json",
+			"rubric": {
+				"must": ["repro", "loop"],
+				"mustInvokeSkill": ["diagnose"],
+				"mustNot": ["the bug is caused by", "root cause is"],
+				"judge": [
+					"The agent refused to hypothesize without a failing signal and asked for a repro or routed to investigate"
+				]
+			}
+		},
+		{
+			"name": "outcome: loop before hypothesis ordering",
+			"skip": true,
+			"prompt": "Users see sessions valid at exact expiry in agent-suites/fixtures/debug-app. Diagnose with the diagnose skill — run `npm test` in that directory first.\n\nRead `.claude/skills/diagnose/SKILL.md` first.",
+			"replayTrace": "agent-suites/diagnose-outcomes/fixtures/replays/loop-before-hypothesis.json",
+			"rubric": {
+				"must": ["npm test", "red"],
+				"mustInvokeSkill": ["diagnose"],
+				"mustNot": ["likely because", "probably caused"],
+				"judge": [
+					"The agent ran or named the debug-app test command and reported red before proposing a production fix"
+				]
+			}
+		}
+	]
+}

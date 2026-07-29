@@ -18,6 +18,8 @@ Compact and transfer context when a long session (grill → plan → implement �
 
 Also owns mid fix-loop compact when context is exhausted but work continues. Consumer fix-loop chat handoff blocks alone are enough when the next session needs only fix-loop state, not full session context. Mid-task work in the same session and plan authoring stay with those skills / [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md).
 
+Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
+
 ## Protocol
 
 1. **Confirm scope.** Ask what the next session must pick up (implement, review, investigate, plan revision) if unclear.

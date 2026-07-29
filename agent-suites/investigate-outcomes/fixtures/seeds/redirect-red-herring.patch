@@ -1,0 +1,11 @@
+diff --git a/agent-suites/fixtures/debug-app/src/redirect.ts b/agent-suites/fixtures/debug-app/src/redirect.ts
+index 1111111..2222222 100644
+--- a/agent-suites/fixtures/debug-app/src/redirect.ts
++++ b/agent-suites/fixtures/debug-app/src/redirect.ts
+@@ -1,4 +1,6 @@
+ /** Post-login redirect helper — red-herring surface for investigate outcome suites. */
++// NOTE: legacy path cleared session cookie on redirect — verify before blaming redirect.
++
+ export function redirectAfterLogin(rawTarget: string | undefined): string {
+   if (!rawTarget?.trim()) {
+     return '/dashboard'
