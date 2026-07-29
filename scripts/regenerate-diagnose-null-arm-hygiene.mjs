@@ -44,8 +44,14 @@ function listHeadPaths() {
     .filter((p) => !p.endsWith('null-arm-hygiene.patch'))
 }
 
-export function regenerateDiagnoseNullArmHygieneSeed() {
-  const out = join(root, DIAGNOSE_NULL_ARM_HYGIENE_SEED)
+/**
+ * @param {{ outPath?: string }} [options]
+ *   Prefer a path outside the IDE-open tree for null-arm runs (caller forage).
+ */
+export function regenerateDiagnoseNullArmHygieneSeed(options = {}) {
+  const out = options.outPath
+    ? options.outPath
+    : join(root, DIAGNOSE_NULL_ARM_HYGIENE_SEED)
   const paths = listHeadPaths()
   if (paths.length === 0) {
     throw new Error('No HEAD paths matched for diagnose null-arm hygiene seed')

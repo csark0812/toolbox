@@ -12,7 +12,7 @@ const root = join(import.meta.dirname, '..')
 
 describe('diagnose null-arm hygiene seed', () => {
 	it('writes seed under _agent/ (outside HEAD worktrees) with answer-key deletes', () => {
-		const { out, pathCount } = regenerateDiagnoseNullArmHygieneSeed()
+		const { out, pathCount } = regenerateDiagnoseNullArmHygieneSeed({})
 		expect(out.endsWith(DIAGNOSE_NULL_ARM_HYGIENE_SEED)).toBe(true)
 		expect(pathCount).toBeGreaterThan(5)
 		const patch = readFileSync(out, 'utf8')
@@ -24,7 +24,7 @@ describe('diagnose null-arm hygiene seed', () => {
 	})
 
 	it('applies cleanly against a detached HEAD worktree and is absent from that tree', () => {
-		regenerateDiagnoseNullArmHygieneSeed()
+		regenerateDiagnoseNullArmHygieneSeed({})
 		const seedPath = join(root, DIAGNOSE_NULL_ARM_HYGIENE_SEED)
 		const parent = mkdtempSync(join(tmpdir(), 'diagnose-hygiene-'))
 		try {

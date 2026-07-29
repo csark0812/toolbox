@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 /**
  * Diagnose evidence-parity cadence (independent of investigate):
- *   sync skills → compare-pairs diagnose-outcomes:diagnose-transfer
- *   → compare-pairs diagnose-outcomes:diagnose-prompt → propose notes
+ *   sync skills → live diagnose-outcomes
+ *   → materialize null suites to $TMPDIR → park answer keys on open tree
+ *   → live diagnose-transfer (+ prompt) → restore → offline compare → propose notes
+ *
+ * Caller park is required: live Cursor Shell often targets the IDE-open root,
+ * not the seeded worktree — worktree-only deletes do not stop forage.
  *
  * Does NOT edit SKILL.md — human Keep / Reject / Defer only.
  * Does NOT run investigate suites or organization-ablations by default.
@@ -20,7 +24,8 @@
  *   --compare-only    re-render compare from prior suite-report JSON (no live runs)
  */
 import { spawnSync } from 'node:child_process'
-import { mkdir, writeFile } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
+import { copyFile, mkdir, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -40,6 +45,11 @@ import {
   collectResults,
   aggregateBatchD1,
 } from './lib/agent-test-artifacts.mjs'
+import {
+  parkDiagnoseAnswerKeys,
+  restoreDiagnoseAnswerKeys,
+} from './lib/diagnose-caller-park.mjs'
+import { materializeNullArmSuite } from './lib/diagnose-null-arm-suites.mjs'
 import { proposeFromDebugDir } from './lib/propose-skill-evolution-core.mjs'
 import { regenerateDiagnoseNullArmHygieneSeed } from './regenerate-diagnose-null-arm-hygiene.mjs'
 
@@ -105,7 +115,40 @@ function syncSkills() {
   if (result.status !== 0) process.exit(result.status ?? 1)
 }
 
-async function resolveCompareInputs({ compareOnly, debugParent, runReportDir }) {
+/** Minimal B-side so compare-pairs can dump outcomes.suite-report without a second live suite. */
+async function writePlaceholderNullReport(path) {
+  const report = {
+    suite: 'placeholder-null',
+    host: 'cursor',
+    passed: 0,
+    skipped: 2,
+    failed: 0,
+    results: [
+      {
+        suite: 'placeholder-null',
+        scenario: 'transfer: session hunch A',
+        compareId: 'no-repro-refuse',
+        passed: false,
+        skipped: true,
+        failures: [],
+        durationMs: 0,
+      },
+      {
+        suite: 'placeholder-null',
+        scenario: 'transfer: session hunch B',
+        compareId: 'loop-before-cause',
+        passed: false,
+        skipped: true,
+        failures: [],
+        durationMs: 0,
+      },
+    ],
+    summary: {},
+  }
+  await writeFile(path, `${JSON.stringify(report, null, 2)}\n`, 'utf8')
+}
+
+async function resolveCompareInputs({ compareOnly, debugParent }) {
   if (!compareOnly) return null
 
   const latest = await findLatestSuiteReports(evalReportsRoot, DIAGNOSE_SUITE_NAMES)
@@ -149,7 +192,10 @@ async function summarizeD1FromSessions(sessionPaths) {
   }
 }
 
-async function runSingleParity(args, { runId, debugParent, runReportDir, repeatIndex, repeatTotal }) {
+async function runSingleParity(
+  args,
+  { runId, debugParent, runReportDir, repeatIndex, repeatTotal, seedPath },
+) {
   const sessionsParent = join(debugParent, 'sessions')
   const reportPaths = compareReportPaths(runReportDir, DIAGNOSE_SUITE_NAMES)
   const manifestDir = join(root, '_agent', 'evidence-runs', runId)
@@ -163,6 +209,8 @@ async function runSingleParity(args, { runId, debugParent, runReportDir, repeatI
     debugParent,
     comparePair: DIAGNOSE_PARITY_COMPARE_PAIR,
     promptComparePair: args.prompt ? DIAGNOSE_PROMPT_COMPARE_PAIR : null,
+    callerPark: true,
+    seedPath,
     model: {
       agent: process.env.CURSOR_AGENT_MODEL ?? null,
       judge: process.env.CURSOR_JUDGE_MODEL ?? null,
@@ -174,73 +222,164 @@ async function runSingleParity(args, { runId, debugParent, runReportDir, repeatI
     d1: null,
   }
 
-  const baseAgentArgs = [
-    '--suites-dir',
-    'agent-suites',
-    '--live',
-    '--debug',
-    '--debug-dir',
-    debugParent,
-    ...args.agentArgs,
-  ]
-
   const knownSessions = new Set()
+  let parkHandle = null
 
   if (!args.compareOnly) {
     syncSkills()
 
-    run('diagnose evidence-parity compare-pairs (full vs none)', [
-      ...baseAgentArgs,
-      '--compare-pairs',
-      DIAGNOSE_PARITY_COMPARE_PAIR,
-      '--compare-out',
-      runReportDir,
-    ], { allowFail: true })
+    const liveBase = [
+      '--live',
+      '--debug',
+      '--debug-dir',
+      debugParent,
+      ...args.agentArgs,
+    ]
 
-    const paritySession = await newestSessionAfter(sessionsParent, knownSessions)
-    if (!paritySession) {
-      console.error('No session directory found after compare-pairs run')
+    const placeholderPath = join(runReportDir, '_placeholder-null.suite-report.json')
+    await writePlaceholderNullReport(placeholderPath)
+    const outcomesStaging = join(runReportDir, 'outcomes-staging')
+    await mkdir(outcomesStaging, { recursive: true })
+
+    run(
+      'diagnose-outcomes (skill-on, answer keys present)',
+      [
+        '--suites-dir',
+        'agent-suites',
+        ...liveBase,
+        '--compare-pairs',
+        `${DIAGNOSE_OUTCOMES_SUITE}:${placeholderPath}`,
+        '--compare-out',
+        outcomesStaging,
+      ],
+      { allowFail: true },
+    )
+
+    const outcomesReportSrc = join(outcomesStaging, `${DIAGNOSE_OUTCOMES_SUITE}.suite-report.json`)
+    if (!existsSync(outcomesReportSrc)) {
+      console.error(`Missing outcomes suite report at ${outcomesReportSrc}`)
       process.exit(1)
     }
-    knownSessions.add(paritySession.path)
-    manifest.sessions.parity = paritySession.path
+    await copyFile(outcomesReportSrc, reportPaths.suiteReports.outcomes)
 
-    if (args.prompt) {
-      const promptCompareDir = join(runReportDir, 'prompt-compare')
-      run('diagnose evidence-parity compare-pairs (full vs prompt)', [
-        ...baseAgentArgs,
-        '--compare-pairs',
-        DIAGNOSE_PROMPT_COMPARE_PAIR,
-        '--compare-out',
-        promptCompareDir,
-      ], { allowFail: true })
-      const promptSession = await newestSessionAfter(sessionsParent, knownSessions)
-      if (promptSession) {
-        knownSessions.add(promptSession.path)
-        manifest.sessions.prompt = promptSession.path
-      }
-      manifest.promptCompare = join(promptCompareDir, 'compare-report.html')
-      manifest.promptCompareMd = join(promptCompareDir, 'compare-report.md')
-      manifest.promptCompareJson = join(promptCompareDir, 'compare-report.json')
+    const outcomesSession = await newestSessionAfter(sessionsParent, knownSessions)
+    if (!outcomesSession) {
+      console.error('No session directory found after diagnose-outcomes run')
+      process.exit(1)
     }
+    knownSessions.add(outcomesSession.path)
+    manifest.sessions.outcomes = outcomesSession.path
 
-    if (args.ablations) {
-      run('organization-ablations', [
-        ...baseAgentArgs,
-        '--suite',
-        'organization-ablations',
-      ], { allowFail: true })
-      const ablationSession = await newestSessionAfter(sessionsParent, knownSessions)
-      if (ablationSession) {
-        knownSessions.add(ablationSession.path)
-        manifest.sessions.ablations = ablationSession.path
+    // Materialize before park — park removes agent-suites/diagnose-* from the open tree.
+    const transferMat = materializeNullArmSuite(root, DIAGNOSE_TRANSFER_SUITE, seedPath)
+    const promptMat = args.prompt
+      ? materializeNullArmSuite(root, DIAGNOSE_PROMPT_SUITE, seedPath)
+      : null
+
+    try {
+      console.log('\n▶ park diagnose answer keys off open tree (null-arm forage guard)')
+      parkHandle = parkDiagnoseAnswerKeys(root, { parkId: `diagnose-park-${runId}` })
+      console.log(`  parked ${parkHandle.moved.length} path(s) → ${parkHandle.parkRoot}`)
+      manifest.callerParkRoot = parkHandle.parkRoot
+      manifest.callerParkCount = parkHandle.moved.length
+
+      const transferStaging = join(runReportDir, 'transfer-staging')
+      await mkdir(transferStaging, { recursive: true })
+      run(
+        'diagnose-transfer (null arm, caller keys parked)',
+        [
+          '--suites-dir',
+          transferMat.suitesDir,
+          ...liveBase,
+          '--compare-pairs',
+          `${reportPaths.suiteReports.outcomes}:${DIAGNOSE_TRANSFER_SUITE}`,
+          '--compare-out',
+          transferStaging,
+        ],
+        { allowFail: true },
+      )
+
+      const transferReportSrc = join(
+        transferStaging,
+        `${DIAGNOSE_TRANSFER_SUITE}.suite-report.json`,
+      )
+      if (existsSync(transferReportSrc)) {
+        await copyFile(transferReportSrc, reportPaths.suiteReports.transfer)
+      }
+      // Prefer the transfer-side compare artifact as the canonical full-vs-none report.
+      for (const name of ['compare-report.html', 'compare-report.md', 'compare-report.json']) {
+        const src = join(transferStaging, name)
+        if (existsSync(src)) await copyFile(src, join(runReportDir, name))
+      }
+
+      const transferSession = await newestSessionAfter(sessionsParent, knownSessions)
+      if (transferSession) {
+        knownSessions.add(transferSession.path)
+        manifest.sessions.transfer = transferSession.path
+        manifest.sessions.parity = transferSession.path
+      }
+
+      if (args.prompt && promptMat) {
+        const promptCompareDir = join(runReportDir, 'prompt-compare')
+        await mkdir(promptCompareDir, { recursive: true })
+        run(
+          'diagnose-prompt (prompt baseline, caller keys parked)',
+          [
+            '--suites-dir',
+            promptMat.suitesDir,
+            ...liveBase,
+            '--compare-pairs',
+            `${reportPaths.suiteReports.outcomes}:${DIAGNOSE_PROMPT_SUITE}`,
+            '--compare-out',
+            promptCompareDir,
+          ],
+          { allowFail: true },
+        )
+        const promptReportSrc = join(
+          promptCompareDir,
+          `${DIAGNOSE_PROMPT_SUITE}.suite-report.json`,
+        )
+        if (existsSync(promptReportSrc)) {
+          await copyFile(promptReportSrc, reportPaths.suiteReports.prompt)
+        }
+        const promptSession = await newestSessionAfter(sessionsParent, knownSessions)
+        if (promptSession) {
+          knownSessions.add(promptSession.path)
+          manifest.sessions.prompt = promptSession.path
+        }
+        manifest.promptCompare = join(promptCompareDir, 'compare-report.html')
+        manifest.promptCompareMd = join(promptCompareDir, 'compare-report.md')
+        manifest.promptCompareJson = join(promptCompareDir, 'compare-report.json')
+      }
+
+      if (args.ablations) {
+        // Ablations need skill trees; restore briefly then re-park if more null work remained (none).
+        restoreDiagnoseAnswerKeys(parkHandle)
+        parkHandle = null
+        syncSkills()
+        run(
+          'organization-ablations',
+          ['--suites-dir', 'agent-suites', ...liveBase, '--suite', 'organization-ablations'],
+          { allowFail: true },
+        )
+        const ablationSession = await newestSessionAfter(sessionsParent, knownSessions)
+        if (ablationSession) {
+          knownSessions.add(ablationSession.path)
+          manifest.sessions.ablations = ablationSession.path
+        }
+      }
+    } finally {
+      if (parkHandle) {
+        console.log('\n▶ restore diagnose answer keys to open tree')
+        restoreDiagnoseAnswerKeys(parkHandle)
+        parkHandle = null
+        syncSkills()
       }
     }
   } else {
     const compareInputs = await resolveCompareInputs({
       compareOnly: true,
       debugParent,
-      runReportDir,
     })
     run('agent-test compare (replay)', [
       '--suites-dir',
@@ -255,15 +394,33 @@ async function runSingleParity(args, { runId, debugParent, runReportDir, repeatI
     ])
   }
 
+  if (!existsSync(reportPaths.json) && existsSync(reportPaths.suiteReports.outcomes) &&
+      existsSync(reportPaths.suiteReports.transfer)) {
+    run('agent-test compare (full vs none)', [
+      '--suites-dir',
+      'agent-suites',
+      'compare',
+      '--a',
+      reportPaths.suiteReports.outcomes,
+      '--b',
+      reportPaths.suiteReports.transfer,
+      '--compare-out',
+      runReportDir,
+    ], { allowFail: true })
+  }
+
   const paritySession =
     manifest.sessions.parity ??
+    manifest.sessions.transfer ??
     (await findParitySession(sessionsParent, DIAGNOSE_SUITE_NAMES))?.path ??
     null
   if (paritySession) {
     manifest.sessions.parity = paritySession
   }
 
-  const compareReport = await readCompareReportJson(reportPaths.json)
+  const compareReport = existsSync(reportPaths.json)
+    ? await readCompareReportJson(reportPaths.json)
+    : { summary: {} }
   manifest.report = reportPaths.html
   manifest.reportMd = reportPaths.md
   manifest.reportJson = reportPaths.json
@@ -273,8 +430,10 @@ async function runSingleParity(args, { runId, debugParent, runReportDir, repeatI
   console.log(`Compare report (MD): ${reportPaths.md}`)
   console.log(`Paired scenarios: ${compareReport.summary?.pairedCount ?? 0}`)
 
-  if (paritySession) {
+  if (paritySession || manifest.sessions.outcomes) {
     const d1Rows = await summarizeD1FromSessions([
+      manifest.sessions.outcomes,
+      manifest.sessions.transfer,
       paritySession,
       manifest.sessions.prompt,
     ])
@@ -292,12 +451,15 @@ async function runSingleParity(args, { runId, debugParent, runReportDir, repeatI
     }
   }
 
-  if (args.propose && paritySession) {
+  if (args.propose && (paritySession || manifest.sessions.outcomes)) {
     const debugDirs = new Set()
-    for (const dir of await findFailedDebugBundles(paritySession)) {
-      debugDirs.add(dir)
-    }
-    for (const sessionPath of [manifest.sessions.prompt, manifest.sessions.ablations]) {
+    for (const sessionPath of [
+      manifest.sessions.outcomes,
+      manifest.sessions.transfer,
+      paritySession,
+      manifest.sessions.prompt,
+      manifest.sessions.ablations,
+    ]) {
       if (!sessionPath) continue
       for (const dir of await findFailedDebugBundles(sessionPath)) {
         debugDirs.add(dir)
@@ -313,14 +475,16 @@ async function runSingleParity(args, { runId, debugParent, runReportDir, repeatI
     }
   }
 
-  manifest.failures = paritySession
-    ? (await findFailedDebugBundles(paritySession)).length
-    : 0
-  if (manifest.sessions.prompt) {
-    manifest.failures += (await findFailedDebugBundles(manifest.sessions.prompt)).length
-  }
-  if (manifest.sessions.ablations) {
-    manifest.failures += (await findFailedDebugBundles(manifest.sessions.ablations)).length
+  manifest.failures = 0
+  for (const sessionPath of [
+    manifest.sessions.outcomes,
+    manifest.sessions.transfer,
+    paritySession,
+    manifest.sessions.prompt,
+    manifest.sessions.ablations,
+  ]) {
+    if (!sessionPath) continue
+    manifest.failures += (await findFailedDebugBundles(sessionPath)).length
   }
   manifest.finishedAt = new Date().toISOString()
 
@@ -335,7 +499,7 @@ async function main() {
   if (args.help) {
     console.log(`Usage: npm run agent:test:diagnose-evidence-parity [-- flags]
 
-Automates: compare-pairs (diagnose-outcomes vs transfer + vs prompt) + propose notes.
+Automates: diagnose-outcomes → park caller keys → transfer/prompt → restore + compare + propose.
 Requires CURSOR_API_KEY in the environment (source .env first).
 Independent of investigate evidence-parity — does not run investigate suites.
 
@@ -365,9 +529,12 @@ Flags:
     run('agent-test --doctor', ['--doctor', '--suites-dir', 'agent-suites'])
   }
 
+  let seedPath = join(root, '_agent', 'diagnose-null-arm-hygiene.patch')
   if (!args.compareOnly) {
-    console.log('\n▶ regenerate null-arm hygiene seed (_agent/, gitignored)')
-    const seed = regenerateDiagnoseNullArmHygieneSeed()
+    // Outside the open tree so parked/null arms cannot forage deleted hunk text via _agent/.
+    seedPath = join(tmpdir(), `toolbox-diagnose-null-arm-hygiene-${batchId}.patch`)
+    console.log('\n▶ regenerate null-arm hygiene seed (tmpdir, outside open tree)')
+    const seed = regenerateDiagnoseNullArmHygieneSeed({ outPath: seedPath })
     console.log(`  ${seed.out} (${seed.pathCount} files, ${seed.bytes} bytes)`)
   }
 
@@ -384,6 +551,7 @@ Flags:
       runReportDir,
       repeatIndex: i + 1,
       repeatTotal: args.repeats,
+      seedPath,
     })
     runManifests.push(manifest)
     totalFailures += manifest.failures
