@@ -75,29 +75,28 @@ npm run agent:test:evidence-parity
      --left  "$TMPDIR/agent-spec/sessions/<full-session-id>" \
      --right "$TMPDIR/agent-spec/sessions/<none-session-id>" \
      --left-label full \
-     --right-label none \
-     --align normalized
+     --right-label none
    ```
 
-   Report lands in `_agent/eval-reports/<timestamp>.md` (gitignored).
+   Writes `compare-report.html`, `compare-report.md`, and `compare-report.json` under `_agent/eval-reports/<run-id>/` (gitignored). Pairing uses `compareId` then band-neutral scenario name via agent-test `writeCompareReport`. The evidence-parity manifest links the HTML path as `report` and MD as `reportMd`.
 
 ## Equal-budget discipline
 
 - Same model family for both arms in a comparison row.
 - Primary budget metric: **total tokens** (`usage.total` in `result.json` — agent + judge) when the SDK reports usage; wall time (`durationMs`) remains a secondary proxy.
-- Compare reports include per-arm token columns and Δ tok when usage is present.
+- Compare reports include per-arm token columns and Δ tok when usage is present (agent-test HTML/MD compare).
 - If `full` does not beat `none` on settlement judges across repeats → lower **Confidence** or add **Does not transfer** in `research-basis.md`; do not add skill prose.
 
 ## Suites
 
-| Suite                    | `skills` | Purpose                              |
-| ------------------------ | -------- | ------------------------------------ |
-| `investigate-outcomes`   | `full`   | Skill-on settlement (discriminating band) |
-| `investigate-transfer`   | `none`   | Null baseline (discriminating band)       |
-| `investigate-outcomes-ceiling` | `full` | Replay CI only — ceiling scenarios  |
-| `investigate-transfer-ceiling` | `none` | Replay CI only — ceiling scenarios  |
-| `diagnose-outcomes`      | `full`   | Skill-on loop gates                  |
-| `organization-ablations` | `full`   | Primary vs council vs fit-check      |
+| Suite                          | `skills` | Purpose                                   |
+| ------------------------------ | -------- | ----------------------------------------- |
+| `investigate-outcomes`         | `full`   | Skill-on settlement (discriminating band) |
+| `investigate-transfer`         | `none`   | Null baseline (discriminating band)       |
+| `investigate-outcomes-ceiling` | `full`   | Replay CI only — ceiling scenarios        |
+| `investigate-transfer-ceiling` | `none`   | Replay CI only — ceiling scenarios        |
+| `diagnose-outcomes`            | `full`   | Skill-on loop gates                       |
+| `organization-ablations`       | `full`   | Primary vs council vs fit-check           |
 
 ## After failures
 

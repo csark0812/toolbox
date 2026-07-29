@@ -200,16 +200,22 @@ Flags:
     manifest.sessions.none = sessions.at(-1).path
   }
 
+  const runReportDir = join(root, '_agent', 'eval-reports', runId)
   const report = await writeComparisonReport({
     repoRoot: root,
     left: manifest.sessions.full,
     right: manifest.sessions.none,
     leftLabel: 'full',
     rightLabel: 'none',
-    align: 'normalized',
-    reportDir: join(root, '_agent', 'eval-reports'),
+    reportDir: runReportDir,
   })
   manifest.report = report.reportPath
+  manifest.reportMd = report.reportMdPath
+  manifest.reportJson = report.reportJsonPath
+  manifest.suiteReports = {
+    full: report.aDumpPath,
+    none: report.bDumpPath,
+  }
   manifest.cost = {
     full: {
       totalTokens: report.leftTokenStats?.sum ?? null,
@@ -224,7 +230,8 @@ Flags:
         ? report.rightTokenStats.sum - report.leftTokenStats.sum
         : null,
   }
-  console.log(`\nCompare report: ${report.reportPath}`)
+  console.log(`\nCompare report (HTML): ${report.reportPath}`)
+  console.log(`Compare report (MD): ${report.reportMdPath}`)
 
   if (args.propose) {
     const debugDirs = new Set()

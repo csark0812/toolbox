@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { mkdtemp, writeFile, mkdir } from 'node:fs/promises'
+import { mkdtemp, writeFile, mkdir, readFile, access } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import {
@@ -8,6 +8,12 @@ import {
   totalTokensFromRow,
 } from '../scripts/lib/agent-test-artifacts.mjs'
 import { writeComparisonReport } from '../scripts/lib/compare-agent-runs-core.mjs'
+import { suiteReportFromSession } from '../scripts/lib/suite-report-from-session.mjs'
+
+async function writeResultJson(debugDir, payload) {
+  await mkdir(debugDir, { recursive: true })
+  await writeFile(join(debugDir, 'result.json'), JSON.stringify(payload))
+}
 
 describe('normalizeScenarioName', () => {
   it('strips outcome: and transfer: band prefixes', () => {
@@ -115,51 +121,103 @@ describe('totalTokensFromRow', () => {
   })
 })
 
+describe('suiteReportFromSession', () => {
+  it('builds SuiteRunReport from debug bundles', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'toolbox-suite-report-'))
+    const session = join(root, 'session')
+    await writeResultJson(join(session, 'investigate-outcomes', 'outcome-x.debug'), {
+      suite: 'investigate-outcomes',
+      scenario: 'outcome: fix invention pressure',
+      compareId: 'fix-invention-pressure',
+      passed: true,
+      durationMs: 30_000,
+      usage: { total: { totalTokens: 10_000 } },
+    })
+
+    const report = await suiteReportFromSession(session)
+    expect(report.suite).toBe('investigate-outcomes')
+    expect(report.results).toHaveLength(1)
+    expect(report.results[0].compareId).toBe('fix-invention-pressure')
+    expect(report.passed).toBe(1)
+  })
+})
+
 describe('writeComparisonReport', () => {
-  it('includes token columns and comparable pairing', async () => {
+  it('writes agent-test compare HTML with paired compareId rows', async () => {
     const root = await mkdtemp(join(tmpdir(), 'toolbox-compare-'))
     const leftSession = join(root, 'left')
     const rightSession = join(root, 'right')
-    const leftDebug = join(leftSession, 'investigate-outcomes', 'outcome-x.debug')
-    const rightDebug = join(rightSession, 'investigate-transfer', 'transfer-x.debug')
-    await mkdir(leftDebug, { recursive: true })
-    await mkdir(rightDebug, { recursive: true })
-    await writeFile(
-      join(leftDebug, 'result.json'),
-      JSON.stringify({
+
+    await writeResultJson(
+      join(leftSession, 'investigate-outcomes', 'outcome-fix.debug'),
+      {
         suite: 'investigate-outcomes',
-        scenario: 'outcome: founded session guard comparator',
-        compareId: 'founded-session-guard',
+        scenario: 'outcome: fix invention pressure',
+        compareId: 'fix-invention-pressure',
         passed: true,
         durationMs: 30_000,
         usage: { total: { totalTokens: 10_000 } },
-      }),
+      },
     )
-    await writeFile(
-      join(rightDebug, 'result.json'),
-      JSON.stringify({
-        suite: 'investigate-transfer',
-        scenario: 'transfer: founded session guard comparator',
-        compareId: 'founded-session-guard',
+    await writeResultJson(
+      join(leftSession, 'investigate-outcomes', 'outcome-leave.debug'),
+      {
+        suite: 'investigate-outcomes',
+        scenario: 'outcome: leave redirect',
+        compareId: 'leave-redirect',
         passed: true,
+        durationMs: 20_000,
+        usage: { total: { totalTokens: 5_000 } },
+      },
+    )
+    await writeResultJson(
+      join(rightSession, 'investigate-transfer', 'transfer-fix.debug'),
+      {
+        suite: 'investigate-transfer',
+        scenario: 'transfer: fix invention pressure',
+        compareId: 'fix-invention-pressure',
+        passed: false,
         durationMs: 25_000,
         usage: { total: { totalTokens: 8_000 } },
-      }),
+      },
+    )
+    await writeResultJson(
+      join(rightSession, 'investigate-transfer', 'transfer-leave.debug'),
+      {
+        suite: 'investigate-transfer',
+        scenario: 'transfer: leave redirect',
+        compareId: 'leave-redirect',
+        passed: true,
+        durationMs: 18_000,
+        usage: { total: { totalTokens: 4_000 } },
+      },
     )
 
-    const { body, comparable } = await writeComparisonReport({
+    const reportDir = join(root, 'reports')
+    const result = await writeComparisonReport({
       repoRoot: root,
       left: leftSession,
       right: rightSession,
       leftLabel: 'full',
       rightLabel: 'none',
-      align: 'normalized',
-      reportDir: join(root, 'reports'),
+      reportDir,
     })
-    expect(comparable).toBe(1)
-    expect(body).toContain('Comparable scenarios: 1')
-    expect(body).toContain('full tok')
-    expect(body).toContain('Δ tok')
-    expect(body).toContain('Token delta')
+
+    expect(result.comparable).toBe(2)
+    expect(result.report.summary.pairedCount).toBe(2)
+    expect(result.report.onlyInA).toEqual([])
+    expect(result.report.onlyInB).toEqual([])
+
+    await access(result.reportPath)
+    await access(result.reportMdPath)
+    const html = await readFile(result.reportPath, 'utf8')
+    expect(html).toContain('fix-invention-pressure')
+    expect(html).toContain('leave-redirect')
+
+    const md = await readFile(result.reportMdPath, 'utf8')
+    expect(md).toContain('Paired scenarios: 2')
+
+    await access(result.aDumpPath)
+    await access(result.bDumpPath)
   })
 })

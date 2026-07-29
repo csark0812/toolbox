@@ -7,8 +7,7 @@
  *     --left  "$TMPDIR/agent-spec/sessions/<id-a>" \
  *     --right "$TMPDIR/agent-spec/sessions/<id-b>" \
  *     --left-label full \
- *     --right-label none \
- *     --align normalized
+ *     --right-label none
  */
 import { fileURLToPath } from 'node:url'
 import { join } from 'node:path'
@@ -22,7 +21,6 @@ function parseArgs(argv) {
     right: '',
     leftLabel: 'left',
     rightLabel: 'right',
-    align: 'key',
   }
   for (let i = 2; i < argv.length; i++) {
     const arg = argv[i]
@@ -30,12 +28,11 @@ function parseArgs(argv) {
     else if (arg === '--right') out.right = argv[++i] ?? ''
     else if (arg === '--left-label') out.leftLabel = argv[++i] ?? 'left'
     else if (arg === '--right-label') out.rightLabel = argv[++i] ?? 'right'
-    else if (arg === '--align') out.align = argv[++i] ?? 'key'
-    else if (arg === '--help' || arg === '-h') out.help = true
+    else if (arg === '--align') {
+      console.warn('Note: --align is ignored; pairing uses compareId then band-neutral name.')
+      argv[++i]
+    } else if (arg === '--help' || arg === '-h') out.help = true
     else throw new Error(`Unknown argument: ${arg}`)
-  }
-  if (out.align !== 'key' && out.align !== 'normalized') {
-    throw new Error('--align must be key or normalized')
   }
   return out
 }
@@ -48,22 +45,20 @@ async function main() {
     --left  <session-root> \\
     --right <session-root> \\
     [--left-label full] \\
-    [--right-label none] \\
-    [--align key|normalized]`)
+    [--right-label none]`)
     process.exit(args.help ? 0 : 1)
   }
 
-  const { reportPath, body } = await writeComparisonReport({
+  const { reportPath, reportMdPath } = await writeComparisonReport({
     repoRoot: root,
     left: args.left,
     right: args.right,
     leftLabel: args.leftLabel,
     rightLabel: args.rightLabel,
-    align: args.align,
   })
 
-  console.log(body)
-  console.log(`Report: ${reportPath}`)
+  console.log(`HTML: ${reportPath}`)
+  console.log(`MD: ${reportMdPath}`)
 }
 
 main().catch((err) => {
