@@ -270,12 +270,10 @@ async function runSingleParity(
     knownSessions.add(outcomesSession.path)
     manifest.sessions.outcomes = outcomesSession.path
 
-    // Materialize before park — park removes agent-suites/diagnose-* from the open tree.
-    const transferMat = materializeNullArmSuite(root, DIAGNOSE_TRANSFER_SUITE, seedPath)
-    const promptMat = args.prompt
-      ? materializeNullArmSuite(root, DIAGNOSE_PROMPT_SUITE, seedPath)
-      : null
-
+    // Park first so open-tree Shell forage cannot see answer keys; materialize
+    // suite defs for the harness from the parked copies into `_agent/null-arm-suites/`.
+    let transferMat
+    let promptMat = null
     try {
       console.log('\n▶ park diagnose answer keys off open tree (null-arm forage guard)')
       parkHandle = parkDiagnoseAnswerKeys(root, { parkId: `diagnose-park-${runId}` })
@@ -283,13 +281,30 @@ async function runSingleParity(
       manifest.callerParkRoot = parkHandle.parkRoot
       manifest.callerParkCount = parkHandle.moved.length
 
+      const parkedTransfer = parkHandle.moved.find(
+        (m) => m.rel === 'agent-suites/diagnose-transfer',
+      )
+      const parkedPrompt = parkHandle.moved.find((m) => m.rel === 'agent-suites/diagnose-prompt')
+      if (!parkedTransfer) {
+        throw new Error('park missed agent-suites/diagnose-transfer')
+      }
+      transferMat = materializeNullArmSuite(root, DIAGNOSE_TRANSFER_SUITE, seedPath, {
+        scenariosPath: join(parkedTransfer.to, 'scenarios.json'),
+      })
+      if (args.prompt) {
+        if (!parkedPrompt) throw new Error('park missed agent-suites/diagnose-prompt')
+        promptMat = materializeNullArmSuite(root, DIAGNOSE_PROMPT_SUITE, seedPath, {
+          scenariosPath: join(parkedPrompt.to, 'scenarios.json'),
+        })
+      }
+
       const transferStaging = join(runReportDir, 'transfer-staging')
       await mkdir(transferStaging, { recursive: true })
       run(
         'diagnose-transfer (null arm, caller keys parked)',
         [
           '--suites-dir',
-          transferMat.suitesDir,
+          transferMat.suitesDirArg,
           ...liveBase,
           '--compare-pairs',
           `${reportPaths.suiteReports.outcomes}:${DIAGNOSE_TRANSFER_SUITE}`,
@@ -326,7 +341,7 @@ async function runSingleParity(
           'diagnose-prompt (prompt baseline, caller keys parked)',
           [
             '--suites-dir',
-            promptMat.suitesDir,
+            promptMat.suitesDirArg,
             ...liveBase,
             '--compare-pairs',
             `${reportPaths.suiteReports.outcomes}:${DIAGNOSE_PROMPT_SUITE}`,

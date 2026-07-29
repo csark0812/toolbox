@@ -1,31 +1,36 @@
 /**
- * Materialize null-arm suite JSON under $TMPDIR (outside the IDE-open tree)
- * with an absolute seedPatch so agent-test can apply hygiene after caller park.
+ * Materialize null-arm suite JSON under `_agent/null-arm-suites/` (gitignored).
+ *
+ * agent-test preflight does `join(repoRoot, suitesDir)`, so `--suites-dir` must be
+ * relative (absolute $TMPDIR paths resolve incorrectly). Seed stays absolute under
+ * $TMPDIR so parked/null arms cannot forage deleted hunk text via `_agent/`.
  */
 import { mkdirSync, writeFileSync, readFileSync } from 'node:fs'
-import { join } from 'node:path'
-import { tmpdir } from 'node:os'
+import { join, relative } from 'node:path'
 
 /**
  * @param {string} repoRoot
  * @param {'diagnose-transfer' | 'diagnose-prompt'} suiteName
  * @param {string} absoluteSeedPath
- * @returns {{ suitesDir: string, suiteDir: string }}
+ * @param {{ scenariosPath?: string }} [options]
+ * @returns {{ suitesDir: string, suitesDirArg: string, suiteDir: string }}
  */
-export function materializeNullArmSuite(repoRoot, suiteName, absoluteSeedPath) {
-	const src = join(repoRoot, 'agent-suites', suiteName, 'scenarios.json')
-	const suitesDir = join(
-		tmpdir(),
-		`toolbox-diagnose-null-suites-${suiteName}-${Date.now()}`,
-	)
+export function materializeNullArmSuite(repoRoot, suiteName, absoluteSeedPath, options = {}) {
+	const src =
+		options.scenariosPath ?? join(repoRoot, 'agent-suites', suiteName, 'scenarios.json')
+	const suitesDir = join(repoRoot, '_agent', 'null-arm-suites', `${suiteName}-${Date.now()}`)
 	const suiteDir = join(suitesDir, suiteName)
 	mkdirSync(suiteDir, { recursive: true })
 	const doc = JSON.parse(readFileSync(src, 'utf8'))
 	for (const scenario of doc.scenarios ?? []) {
 		scenario.seedPatch = absoluteSeedPath
-		// Replay paths are unused on --live; drop absolute leakage into agent forage via suite file.
+		// Replay paths are unused on --live; drop paths that invite forage.
 		delete scenario.replayTrace
 	}
 	writeFileSync(join(suiteDir, 'scenarios.json'), `${JSON.stringify(doc, null, '\t')}\n`)
-	return { suitesDir, suiteDir }
+	return {
+		suitesDir,
+		suitesDirArg: relative(repoRoot, suitesDir),
+		suiteDir,
+	}
 }
