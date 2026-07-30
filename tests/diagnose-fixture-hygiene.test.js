@@ -48,6 +48,8 @@ describe('diagnose null-arm hygiene seed', () => {
 			expect(existsSync(join(parent, 'agent-suites/diagnose-outcomes/scenarios.json'))).toBe(
 				false,
 			)
+			// Applied tree must not still contain the seed file (patch text = crib).
+			expect(existsSync(join(parent, '_agent/diagnose-null-arm-hygiene.patch'))).toBe(false)
 		} finally {
 			spawnSync('git', ['worktree', 'remove', '--force', parent], {
 				cwd: root,

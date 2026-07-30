@@ -52,6 +52,10 @@ import {
   restoreDiagnoseParkGit,
 } from './lib/diagnose-caller-park.mjs'
 import { materializeNullArmSuite } from './lib/diagnose-null-arm-suites.mjs'
+import {
+  decideDiagnoseD1Disposition,
+  summarizeD1NoneForensics,
+} from './lib/diagnose-d1-decision.mjs'
 import { proposeFromDebugDir } from './lib/propose-skill-evolution-core.mjs'
 import { regenerateDiagnoseNullArmHygieneSeed } from './regenerate-diagnose-null-arm-hygiene.mjs'
 
@@ -472,6 +476,7 @@ async function runSingleParity(
     const nonePass = d1Rows.none.length > 0 && d1Rows.none.every((r) => r.pass && !r.skipped)
     const promptPass =
       d1Rows.prompt.length > 0 && d1Rows.prompt.every((r) => r.pass && !r.skipped)
+    const noneForensics = await summarizeD1NoneForensics(d1Rows.none)
     manifest.d1 = {
       fullPass,
       nonePass,
@@ -479,6 +484,7 @@ async function runSingleParity(
       full: d1Rows.full,
       none: d1Rows.none,
       prompt: d1Rows.prompt,
+      noneForensics,
     }
   }
 
@@ -611,27 +617,28 @@ Flags:
     const promptMatchesFull = runManifests.every(
       (m) => m.d1?.fullPass === m.d1?.promptPass,
     )
-    if (
-      agg.d1FullWins > agg.d1NoneWins &&
-      agg.d1FullBeatsPrompt > agg.d1PromptBeatsFull &&
-      !promptMatchesFull
-    ) {
-      batchManifest.decisionHint = 'keep-narrow-candidate'
-    } else if (agg.d1FullWins > agg.d1NoneWins && promptMatchesFull) {
-      batchManifest.decisionHint = 'demote-candidate'
-    } else if (agg.d1NoneWins >= agg.d1FullWins || agg.d1PromptBeatsFull > agg.d1FullBeatsPrompt) {
-      batchManifest.decisionHint = 'demote-or-remove-candidate'
-    } else {
-      batchManifest.decisionHint = 'invest-more'
-    }
+    const noneRows = runManifests.flatMap((m) => m.d1?.none ?? [])
+    const noneForensics = await summarizeD1NoneForensics(noneRows)
+    const disposition = decideDiagnoseD1Disposition({
+      ...agg,
+      promptMatchesFull,
+      noneForensics,
+    })
+    batchManifest.decisionHint = disposition.decisionHint
+    batchManifest.claimReady = disposition.claimReady
+    batchManifest.decisionRationale = disposition.rationale
     batchManifest.promptMatchesFull = promptMatchesFull
+    batchManifest.noneForensics = noneForensics
     const batchPath = join(batchDir, 'batch-manifest.json')
     await writeFile(batchPath, JSON.stringify(batchManifest, null, 2) + '\n', 'utf8')
     console.log(`\nBatch manifest: ${batchPath}`)
     console.log(
       `D1 aggregate: full wins=${agg.d1FullWins}, none wins=${agg.d1NoneWins}, ties=${agg.d1Ties}`,
     )
-    console.log(`Decision hint: ${batchManifest.decisionHint}`)
+    console.log(
+      `D1 none forensics: invent=${noneForensics.inventFails}, forage=${noneForensics.forageFails}, refuse=${noneForensics.refusePasses}`,
+    )
+    console.log(`Decision hint: ${batchManifest.decisionHint} (${disposition.rationale})`)
   }
 
   console.log(`Debug staging: ${debugParent}`)

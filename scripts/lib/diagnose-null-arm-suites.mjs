@@ -2,7 +2,8 @@
  * Materialize null-arm suite JSON under `_agent/null-arm-suites/` (gitignored).
  *
  * agent-test preflight does `join(repoRoot, suitesDir)`, so `--suites-dir` must be
- * relative. After a park-commit, omit seedPatch (HEAD already lacks answer keys).
+ * relative. After a park-commit, diagnose omits seedPatch (HEAD already lacks answer
+ * keys). Investigate passes per-compareId guard-only seeds from outside the tree.
  * Strip `judge` from on-disk rubric so forage of this file cannot crib the LLM
  * criterion; keep lexical must/mustNot/mustNotReadPath for harness settlement.
  */
@@ -11,9 +12,14 @@ import { join, relative } from 'node:path'
 
 /**
  * @param {string} repoRoot
- * @param {'diagnose-transfer' | 'diagnose-prompt'} suiteName
+ * @param {string} suiteName
  * @param {string | null} absoluteSeedPath
- * @param {{ scenariosPath?: string, scenariosJson?: string | Buffer, omitSeed?: boolean }} [options]
+ * @param {{
+ *   scenariosPath?: string,
+ *   scenariosJson?: string | Buffer,
+ *   omitSeed?: boolean,
+ *   seedByCompareId?: Record<string, string>,
+ * }} [options]
  * @returns {{ suitesDir: string, suitesDirArg: string, suiteDir: string }}
  */
 export function materializeNullArmSuite(repoRoot, suiteName, absoluteSeedPath, options = {}) {
@@ -28,10 +34,18 @@ export function materializeNullArmSuite(repoRoot, suiteName, absoluteSeedPath, o
 	mkdirSync(suiteDir, { recursive: true })
 	const doc = JSON.parse(srcText)
 	for (const scenario of doc.scenarios ?? []) {
-		if (options.omitSeed || !absoluteSeedPath) {
+		const byId =
+			scenario.compareId && options.seedByCompareId
+				? options.seedByCompareId[scenario.compareId]
+				: undefined
+		if (options.omitSeed) {
 			delete scenario.seedPatch
-		} else {
+		} else if (byId) {
+			scenario.seedPatch = byId
+		} else if (absoluteSeedPath) {
 			scenario.seedPatch = absoluteSeedPath
+		} else {
+			delete scenario.seedPatch
 		}
 		delete scenario.replayTrace
 		if (scenario.rubric && typeof scenario.rubric === 'object') {

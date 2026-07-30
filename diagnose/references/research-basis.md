@@ -32,7 +32,7 @@ Live skill-on vs skill-off transfer for diagnose is measured with `npm run agent
 | D2  | Loop before cause — red test before production edit |
 | D3  | Tight loop construction (ceiling band)              |
 
-**Confidence:** TBD until N≥3 same-model repeats where `full` majority-beats `none` on D1 and `full` beats the prompt baseline.
+**Confidence:** TBD until N≥3 same-model repeats where `full` majority-beats `none` on D1, `full` beats the prompt baseline, **and** transfer fails classify as invent (not forage-only). Batch `decisionHint` is `invest-more-hygiene` until forensics are clean.
 
 **Does not transfer:** Placeholder until live parity data exists — do not claim skill lift from contract replay alone.
 

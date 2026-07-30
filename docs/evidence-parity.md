@@ -41,7 +41,8 @@ Do not score “diagnose quality” as one number. Split claims:
 
 - **Remove:** D1 `full` never majority-beats `none` after hygiene.
 - **Demote:** D1 `full` > `none` but `prompt` matches `full` on all repeats (gate is prompt-teachable).
-- **Keep (narrow):** D1 `full` majority-beats `none` **and** `full` beats `prompt`; claim only “no repro → no hypotheses”.
+- **Keep (narrow):** D1 `full` majority-beats `none` **and** `full` beats `prompt`, **and** transfer fails are classified as _invent_ (cause named without repro)—not forage-only (`mustNotReadPath` / answer-key reads). Claim only “no repro → no hypotheses”.
+- **Invest more (hygiene):** aggregate looks like Keep but transfer fails are forage-only or unknown — fix null-arm hygiene before Keep/Remove.
 - **Invest more:** direction flips, judge/locus disagree, or confounds remain.
 
 Investigate and diagnose parity are **independent manual cadences** — separate commands, manifests, and report dirs.
