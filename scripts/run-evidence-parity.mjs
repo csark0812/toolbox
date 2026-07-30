@@ -324,6 +324,7 @@ async function runSingleParity(
       const transferMat = materializeNullArmSuite(root, TRANSFER_SUITE, null, {
         scenariosJson: transferBuf,
         seedPatchByCompareId: seedByCompareId,
+        omitMustNotReadPath: true,
       })
       let promptMat = null
       if (args.prompt) {
@@ -333,6 +334,7 @@ async function runSingleParity(
         promptMat = materializeNullArmSuite(root, PROMPT_SUITE, null, {
           scenariosJson: promptBuf,
           seedPatchByCompareId: seedByCompareId,
+          omitMustNotReadPath: true,
         })
       }
 

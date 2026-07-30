@@ -55,6 +55,7 @@ import { materializeNullArmSuite } from './lib/diagnose-null-arm-suites.mjs'
 import {
   decideDiagnoseD1Disposition,
   summarizeD1NoneForensics,
+  DIAGNOSE_NULL_ARM_SKILL_BODY_MUST_NOT,
 } from './lib/diagnose-d1-decision.mjs'
 import { proposeFromDebugDir } from './lib/propose-skill-evolution-core.mjs'
 import { regenerateDiagnoseNullArmHygieneSeed } from './regenerate-diagnose-null-arm-hygiene.mjs'
@@ -276,7 +277,10 @@ async function runSingleParity(
     let promptMat = null
     try {
       console.log('\n▶ park diagnose answer keys off open tree (null-arm forage guard)')
-      parkHandle = parkDiagnoseAnswerKeys(root, { parkId: `diagnose-park-${runId}` })
+      parkHandle = parkDiagnoseAnswerKeys(root, {
+        parkId: `diagnose-park-${runId}`,
+        parkGlobalSkills: true,
+      })
       console.log(`  parked ${parkHandle.moved.length} path(s) → ${parkHandle.parkRoot}`)
       manifest.callerParkRoot = parkHandle.parkRoot
       manifest.callerParkCount = parkHandle.moved.length
@@ -296,6 +300,8 @@ async function runSingleParity(
       transferMat = materializeNullArmSuite(root, DIAGNOSE_TRANSFER_SUITE, null, {
         scenariosJson: transferBuf,
         omitSeed: true,
+        omitMustNotReadPath: true,
+        extraMustNot: DIAGNOSE_NULL_ARM_SKILL_BODY_MUST_NOT,
       })
       if (args.prompt) {
         const promptBuf = parkHandle.files.get(promptKey)
@@ -303,6 +309,8 @@ async function runSingleParity(
         promptMat = materializeNullArmSuite(root, DIAGNOSE_PROMPT_SUITE, null, {
           scenariosJson: promptBuf,
           omitSeed: true,
+          omitMustNotReadPath: true,
+          extraMustNot: DIAGNOSE_NULL_ARM_SKILL_BODY_MUST_NOT,
         })
       }
 

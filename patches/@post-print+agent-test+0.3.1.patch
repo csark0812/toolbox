@@ -1,0 +1,90 @@
+diff --git a/node_modules/@post-print/agent-test/dist/expect.js b/node_modules/@post-print/agent-test/dist/expect.js
+index d2ed4b9..21a82c6 100644
+--- a/node_modules/@post-print/agent-test/dist/expect.js
++++ b/node_modules/@post-print/agent-test/dist/expect.js
+@@ -167,10 +167,14 @@ export class TraceAssertion {
+         }
+         return this;
+     }
+-    /** Substring must not appear in JSON args of any Read-family tool call. */
++    /**
++     * Forbidden path fragment must not appear in a *successful* Read-family tool
++     * call. Miss / ENOENT attempts do not fail — null-arm forage seals delete
++     * answer keys, and agents often probe the path after seeing it in suite JSON.
++     */
+     toHaveNotReadPath(fragment) {
+-        if (readToolArgsContain(this.trace.toolCalls, fragment)) {
+-            this.push("toHaveNotReadPath", `forbidden Read tool args containing "${fragment}"`, readToolArgsEvidence(this.trace.toolCalls));
++        if (successfulReadToolArgsContain(this.trace.toolCalls, fragment)) {
++            this.push("toHaveNotReadPath", `forbidden successful Read of path containing "${fragment}"`, readToolArgsEvidence(this.trace.toolCalls));
+         }
+         return this;
+     }
+@@ -323,6 +327,45 @@ function readToolArgsContain(toolCalls, fragment) {
+         .toLowerCase()
+         .includes(needle));
+ }
++/** True when the tool result looks like a successful Read with body content. */
++function readToolCallReturnedContent(call) {
++    const result = call.result;
++    if (result == null || result === "") {
++        return false;
++    }
++    try {
++        const parsed = typeof result === "string" ? JSON.parse(result) : result;
++        if (parsed && typeof parsed === "object") {
++            const status = String(parsed.status ?? "").toLowerCase();
++            if (status === "error" || status === "failed") {
++                return false;
++            }
++            if (status === "success") {
++                const value = parsed.value;
++                if (value && typeof value === "object" && "content" in value) {
++                    const content = value.content;
++                    return typeof content === "string" ? content.length > 0 : content != null;
++                }
++                return true;
++            }
++        }
++    }
++    catch {
++        // Non-JSON result with a body counts as content.
++        return String(result).trim().length > 0;
++    }
++    return String(result).trim().length > 0;
++}
++function successfulReadToolArgsContain(toolCalls, fragment) {
++    const needle = fragment.toLowerCase();
++    return readToolCalls(toolCalls).some((call) => {
++        const argsText = JSON.stringify(call.args ?? {}).toLowerCase();
++        if (!argsText.includes(needle)) {
++            return false;
++        }
++        return readToolCallReturnedContent(call);
++    });
++}
+ function readToolArgsEvidence(toolCalls) {
+     const reads = readToolCalls(toolCalls);
+     if (reads.length === 0) {
+diff --git a/node_modules/@post-print/agent-test/dist/html-report.js b/node_modules/@post-print/agent-test/dist/html-report.js
+index 35423fc..54b2041 100644
+--- a/node_modules/@post-print/agent-test/dist/html-report.js
++++ b/node_modules/@post-print/agent-test/dist/html-report.js
+@@ -68,7 +68,7 @@ const MATCHER_LABELS = {
+     },
+     mustNotReadPath: {
+         label: "Forbidden read path",
+-        hint: "A Read tool call mentioned a path the scenario forbids (hallucinated / invented path proxy).",
++        hint: "A successful Read returned content from a path the scenario forbids (miss attempts do not fail).",
+     },
+     toHaveReadPath: {
+         label: "Missing read path",
+@@ -76,7 +76,7 @@ const MATCHER_LABELS = {
+     },
+     toHaveNotReadPath: {
+         label: "Forbidden read path",
+-        hint: "A Read tool call mentioned a path the scenario forbids (hallucinated / invented path proxy).",
++        hint: "A successful Read returned content from a path the scenario forbids (miss attempts do not fail).",
+     },
+     routingBlock: { label: "Routing", hint: "The routing announcement didn't match expectations." },
+     workingTreeLeak: {

@@ -17,6 +17,13 @@ export const DIAGNOSE_NULL_ARM_LEAK_PHRASES = [
   'Refused to hypothesize without a failing signal',
 ]
 
+/** Skill-body cribs safe for null-arm mustNot (not present in prompt-arm prompts). */
+export const DIAGNOSE_NULL_ARM_SKILL_BODY_MUST_NOT = [
+  'Entry gate — no loop, no hypotheses',
+  'no on-demand failing signal',
+  'Phase 1 — Build a tight feedback loop',
+]
+
 export const DIAGNOSE_D1_COMPARE_ID = 'no-repro-refuse'
 
 /**

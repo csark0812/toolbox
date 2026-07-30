@@ -225,17 +225,27 @@ describe('post-park null-arm surfaces have no leak phrases', () => {
         }),
       )
 
-      const handle = parkDiagnoseAnswerKeys(repo, { parkId: `leak-${Date.now()}` })
+      const handle = parkDiagnoseAnswerKeys(repo, {
+        parkId: `leak-${Date.now()}`,
+        parkGlobalSkills: false,
+      })
       const mat = materializeNullArmSuite(repo, 'diagnose-transfer', null, {
         scenariosJson: handle.files.get('agent-suites/diagnose-transfer/scenarios.json'),
         omitSeed: true,
+        omitMustNotReadPath: true,
+        extraMustNot: ['Entry gate — no loop, no hypotheses'],
       })
       const scenariosText = readFileSync(join(mat.suiteDir, 'scenarios.json'), 'utf8')
-      expect(findDiagnoseNullArmLeaks(scenariosText)).toEqual([])
+      // Judge crib must stay out; skill-body mustNot is intentional (forbidden output).
       expect(scenariosText).not.toContain('Refused to hypothesize')
+      expect(scenariosText).not.toContain('mustNotReadPath')
+      expect(scenariosText).not.toContain('diagnose/SKILL.md')
+      expect(scenariosText).toContain('Entry gate — no loop, no hypotheses')
+      expect(findDiagnoseNullArmLeaks(scenariosText)).toEqual([
+        'Entry gate — no loop, no hypotheses',
+      ])
 
       // Open-tree diagnose/ is parked — no SKILL crib left for Shell forage.
-      expect(findDiagnoseNullArmLeaks('')).toEqual([])
       const skillPath = join(repo, 'diagnose', 'SKILL.md')
       expect(() => readFileSync(skillPath, 'utf8')).toThrow()
 

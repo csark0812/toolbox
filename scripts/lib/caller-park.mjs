@@ -6,6 +6,13 @@
  * plaintext), delete from the tree, then commit those deletions on a detached
  * HEAD and temporarily retarget main / origin/main so `git show` cannot recover
  * keys. Restore refs + bytes afterward.
+ *
+ * Also parks absolute paths (e.g. ~/.agents/skills/<slug>) and removes dangling
+ * skill symlinks — otherwise `ls .agents/skills` still lists the slug and agents
+ * attempt Read of SKILL.md. Successful Reads with content still fail mustNotReadPath.
+ *
+ * Restore must not `git checkout -f` — that discards unrelated uncommitted edits
+ * on the open tree (forage-seal patches were wiped that way).
  */
 import { execFileSync } from 'node:child_process'
 import {
@@ -15,38 +22,71 @@ import {
   writeFileSync,
   readFileSync,
   readdirSync,
-  statSync,
+  lstatSync,
+  readlinkSync,
+  symlinkSync,
 } from 'node:fs'
-import { dirname, join, relative } from 'node:path'
+import { dirname, isAbsolute, join } from 'node:path'
 import { tmpdir } from 'node:os'
 
 /**
- * @param {string} absDir
- * @param {string} repoRoot
- * @param {Map<string, Buffer>} files
+ * @param {string} abs
  */
-function collectFilesRecursive(absDir, repoRoot, files) {
+function pathExistsViaLstat(abs) {
+  try {
+    lstatSync(abs)
+    return true
+  } catch {
+    return false
+  }
+}
+
+/**
+ * @param {string} absDir
+ * @param {string} keyPrefix
+ * @param {Map<string, Buffer | { type: 'symlink', target: string }>} files
+ */
+function collectFilesRecursive(absDir, keyPrefix, files) {
   for (const name of readdirSync(absDir)) {
     const abs = join(absDir, name)
-    const st = statSync(abs)
-    if (st.isDirectory()) {
-      collectFilesRecursive(abs, repoRoot, files)
-    } else if (st.isFile() || st.isSymbolicLink()) {
-      files.set(relative(repoRoot, abs), readFileSync(abs))
+    const key = join(keyPrefix, name)
+    const st = lstatSync(abs)
+    if (st.isSymbolicLink()) {
+      files.set(key, { type: 'symlink', target: readlinkSync(abs) })
+    } else if (st.isDirectory()) {
+      collectFilesRecursive(abs, key, files)
+    } else if (st.isFile()) {
+      files.set(key, readFileSync(abs))
     }
   }
 }
 
 /**
  * @param {string} repoRoot
- * @param {string[]} parkPaths
+ * @param {string} entry
+ */
+export function resolveParkEntry(repoRoot, entry) {
+  return isAbsolute(entry) ? entry : join(repoRoot, entry)
+}
+
+/**
+ * @param {string} repoRoot
+ * @param {string} key
+ */
+function absFromParkKey(repoRoot, key) {
+  return isAbsolute(key) ? key : join(repoRoot, key)
+}
+
+/**
+ * @param {string} repoRoot
+ * @param {string[]} parkPaths  repo-relative and/or absolute paths
  * @param {{ parkId?: string }} [options]
  * @returns {{
  *   parkId: string,
  *   metaDir: string,
  *   parkRoot: string,
- *   moved: Array<{ rel: string }>,
- *   files: Map<string, Buffer>,
+ *   moved: Array<{ rel: string, outsideRepo?: boolean }>,
+ *   files: Map<string, Buffer | { type: 'symlink', target: string }>,
  * }}
  */
 export function parkAnswerKeys(repoRoot, parkPaths, options = {}) {
@@ -58,34 +98,63 @@ export function parkAnswerKeys(repoRoot, parkPaths, options = {}) {
 
   const files = new Map()
   const moved = []
-  for (const rel of parkPaths) {
-    const from = join(repoRoot, rel)
-    if (!existsSync(from)) continue
-    const st = statSync(from)
-    if (st.isDirectory()) {
-      collectFilesRecursive(from, repoRoot, files)
+  for (const entry of parkPaths) {
+    const from = resolveParkEntry(repoRoot, entry)
+    if (!pathExistsViaLstat(from)) continue
+    const st = lstatSync(from)
+    const outsideRepo = isAbsolute(entry)
+    const key = outsideRepo ? from : entry
+
+    if (st.isSymbolicLink()) {
+      files.set(key, { type: 'symlink', target: readlinkSync(from) })
+      rmSync(from, { force: true })
+    } else if (st.isDirectory()) {
+      collectFilesRecursive(from, key, files)
+      rmSync(from, { recursive: true, force: true })
+    } else if (st.isFile()) {
+      files.set(key, readFileSync(from))
+      rmSync(from, { force: true })
     } else {
-      files.set(rel, readFileSync(from))
+      continue
     }
-    rmSync(from, { recursive: true, force: true })
-    moved.push({ rel })
+    moved.push({ rel: key, outsideRepo })
   }
   return { parkId, metaDir, parkRoot: metaDir, moved, files }
 }
 
 /**
  * @param {string} repoRoot
- * @param {{ files: Map<string, Buffer>, moved?: unknown[] }} handle
+ * @param {{ files: Map<string, Buffer | { type: 'symlink', target: string }>, moved?: unknown[] }} handle
  */
 export function restoreAnswerKeys(repoRoot, handle) {
   if (!handle?.files?.size) {
     if (handle) handle.moved = []
     return
   }
-  for (const [rel, body] of handle.files) {
-    const abs = join(repoRoot, rel)
+  // Recreate files before symlinks so relative link targets resolve.
+  const entries = [...handle.files.entries()]
+  const filesFirst = entries.filter(
+    ([, body]) => !(body && typeof body === 'object' && 'type' in body),
+  )
+  const symlinks = entries.filter(
+    ([, body]) => body && typeof body === 'object' && 'type' in body && body.type === 'symlink',
+  )
+
+  for (const [key, body] of filesFirst) {
+    const abs = absFromParkKey(repoRoot, key)
     mkdirSync(dirname(abs), { recursive: true })
-    writeFileSync(abs, body)
+    writeFileSync(abs, /** @type {Buffer} */ (body))
+  }
+  for (const [key, body] of symlinks) {
+    const abs = absFromParkKey(repoRoot, key)
+    mkdirSync(dirname(abs), { recursive: true })
+    const target = /** @type {{ type: 'symlink', target: string }} */ (body).target
+    try {
+      rmSync(abs, { force: true })
+    } catch {
+      // absent
+    }
+    symlinkSync(target, abs)
   }
   handle.files.clear()
   handle.moved = []
@@ -109,7 +178,7 @@ function tryRevParse(repoRoot, rev) {
 
 /**
  * @param {string} repoRoot
- * @param {{ moved: Array<{ rel: string }>, metaDir?: string, parkRoot?: string }} parkHandle
+ * @param {{ moved: Array<{ rel: string, outsideRepo?: boolean }>, metaDir?: string, parkRoot?: string }} parkHandle
  * @param {{ commitMessage?: string }} [options]
  */
 export function commitParkToGit(repoRoot, parkHandle, options = {}) {
@@ -136,7 +205,8 @@ export function commitParkToGit(repoRoot, parkHandle, options = {}) {
   writeFileSync(join(metaDir, 'git-ref-backup.json'), `${JSON.stringify(meta, null, 2)}\n`)
 
   git(repoRoot, ['checkout', '--detach', 'HEAD'])
-  for (const { rel } of parkHandle.moved) {
+  for (const { rel, outsideRepo } of parkHandle.moved) {
+    if (outsideRepo || isAbsolute(rel)) continue
     try {
       git(repoRoot, ['add', '-u', '--', rel])
     } catch {
@@ -169,7 +239,6 @@ export function commitParkToGit(repoRoot, parkHandle, options = {}) {
   if (previousOriginMain) {
     git(repoRoot, ['update-ref', 'refs/remotes/origin/main', parkCommit])
   }
-  // Drop ref tips that advertise pre-park SHAs; keep objects for restore.
   try {
     git(repoRoot, ['reflog', 'expire', '--expire=now', '--all'])
   } catch {
@@ -180,6 +249,9 @@ export function commitParkToGit(repoRoot, parkHandle, options = {}) {
 }
 
 /**
+ * Restore branch refs without `checkout -f` (preserves unrelated working-tree edits).
+ * Call after restoreAnswerKeys so parked paths are already back on disk.
+ *
  * @param {string} repoRoot
  * @param {{ metaDir?: string, parkRoot?: string }} parkHandle
  */
@@ -197,7 +269,9 @@ export function restoreParkGit(repoRoot, parkHandle) {
   }
 
   if (meta.branch) {
-    git(repoRoot, ['checkout', '-f', meta.branch])
+    git(repoRoot, ['symbolic-ref', 'HEAD', `refs/heads/${meta.branch}`])
+    // Sync index to HEAD; leave working tree (incl. uncommitted forage-seal edits).
+    git(repoRoot, ['reset', '--mixed', 'HEAD'])
   } else if (meta.previousHead) {
     git(repoRoot, ['checkout', '--detach', meta.previousHead])
   }
