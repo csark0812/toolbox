@@ -1,12 +1,12 @@
 {
-	"messages": [
-		{
-			"role": "assistant",
-			"content": "Using **investigate**.\n\n**Hypotheses (ranked):**\n1. Redirect clears session cookie — kill test: read `redirect.ts` for cookie/session mutation.\n2. Guard comparator accepts expiry instant — kill test: read `sessionGuard.ts`.\n\n**Kill test (hypo 1):** `redirect.ts` — no cookie or session mutation on redirect path. Hypo 1 **killed**.\n\n**Verdict:** Redirect-clears-cookie narrative is unfounded. Primary settled issue: `sessionGuard.ts:8` boundary comparator."
-		}
-	],
-	"toolCalls": [],
-	"shellCommands": [],
-	"skillsInvoked": ["investigate"],
-	"artifacts": {}
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **investigate**.\n\n**Hypotheses (ranked):**\n1. Redirect clears session cookie — kill test: read `redirect.ts` for cookie/session mutation.\n2. Guard comparator accepts expiry instant — kill test: read `sessionGuard.ts`.\n\n**Kill test (hypo 1):** `redirect.ts` — no cookie or session mutation on redirect path. Hypo 1 **killed**.\n\n**Verdict:** Redirect-clears-cookie narrative is unfounded. Primary settled issue: `sessionGuard.ts:8` boundary comparator."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["investigate"],
+  "artifacts": {}
 }

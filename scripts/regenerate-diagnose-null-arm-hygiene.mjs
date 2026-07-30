@@ -49,9 +49,7 @@ function listHeadPaths() {
  *   Prefer a path outside the IDE-open tree for null-arm runs (caller forage).
  */
 export function regenerateDiagnoseNullArmHygieneSeed(options = {}) {
-  const out = options.outPath
-    ? options.outPath
-    : join(root, DIAGNOSE_NULL_ARM_HYGIENE_SEED)
+  const out = options.outPath ? options.outPath : join(root, DIAGNOSE_NULL_ARM_HYGIENE_SEED)
   const paths = listHeadPaths()
   if (paths.length === 0) {
     throw new Error('No HEAD paths matched for diagnose null-arm hygiene seed')
@@ -84,8 +82,7 @@ export function regenerateDiagnoseNullArmHygieneSeed(options = {}) {
 }
 
 const isDirectRun =
-  Boolean(process.argv[1]) &&
-  fileURLToPath(import.meta.url) === join(process.argv[1])
+  Boolean(process.argv[1]) && fileURLToPath(import.meta.url) === join(process.argv[1])
 if (isDirectRun) {
   const { out, pathCount, bytes } = regenerateDiagnoseNullArmHygieneSeed()
   console.log(`Wrote ${out} (${pathCount} file(s), ${bytes} bytes)`)

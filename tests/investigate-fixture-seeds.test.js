@@ -21,7 +21,7 @@ describe('investigate discriminating fixture seeds', () => {
     const guardOnlyPatch = patchApplies('fix-invention-guard-only.patch')
     expect(guardOnlyPatch).toMatch(/sessionCookie\.ts/)
     expect(guardOnlyPatch).toMatch(/Math\.floor\(stored \/ 1000\)/)
-    expect(guardOnlyPatch).toMatch(/const expiresAt = stored;/)
+    expect(guardOnlyPatch).toMatch(/const expiresAt = stored/)
   })
 
   it('leave-redirect guard-only seed applies cleanly with redirect comment + cookie fix', () => {
@@ -29,6 +29,6 @@ describe('investigate discriminating fixture seeds', () => {
     expect(leaveGuardPatch).toMatch(/redirect\.ts/)
     expect(leaveGuardPatch).toMatch(/legacy path cleared session cookie/)
     expect(leaveGuardPatch).toMatch(/sessionCookie\.ts/)
-    expect(leaveGuardPatch).toMatch(/const expiresAt = stored;/)
+    expect(leaveGuardPatch).toMatch(/const expiresAt = stored/)
   })
 })

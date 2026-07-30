@@ -1,12 +1,12 @@
 {
-	"messages": [
-		{
-			"role": "assistant",
-			"content": "Using **multi**.\n\n**Single-pass rival:** one agent can map auth in sample-app sequentially — no independent sources.\n\n**Fit check:** skip parallel spawn; doing a deeper primary pass instead."
-		}
-	],
-	"toolCalls": [],
-	"shellCommands": [],
-	"skillsInvoked": ["multi"],
-	"artifacts": {}
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **multi**.\n\n**Single-pass rival:** one agent can map auth in sample-app sequentially — no independent sources.\n\n**Fit check:** skip parallel spawn; doing a deeper primary pass instead."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["multi"],
+  "artifacts": {}
 }

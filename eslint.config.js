@@ -10,6 +10,7 @@ export default [
       '.agents/**',
       '.claude/**',
       '.cursor/**',
+      '_agent/**',
       'dist/**',
       // Skill-local references/ (not ambient GitHub SSOT)
       '*/references/**',
@@ -33,6 +34,7 @@ export default [
     files: ['tests/**/*.{js,mjs,cjs}'],
     languageOptions: {
       globals: {
+        ...globals.node,
         describe: 'readonly',
         it: 'readonly',
         expect: 'readonly',

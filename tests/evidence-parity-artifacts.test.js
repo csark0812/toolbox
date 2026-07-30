@@ -26,28 +26,16 @@ describe('compareReportPaths', () => {
   it('maps agent-test compare artifact names', () => {
     const paths = compareReportPaths('/tmp/run-1')
     expect(paths.html).toBe('/tmp/run-1/compare-report.html')
-    expect(paths.suiteReports.outcomes).toBe(
-      '/tmp/run-1/investigate-outcomes.suite-report.json',
-    )
-    expect(paths.suiteReports.transfer).toBe(
-      '/tmp/run-1/investigate-transfer.suite-report.json',
-    )
-    expect(paths.suiteReports.prompt).toBe(
-      '/tmp/run-1/investigate-prompt.suite-report.json',
-    )
+    expect(paths.suiteReports.outcomes).toBe('/tmp/run-1/investigate-outcomes.suite-report.json')
+    expect(paths.suiteReports.transfer).toBe('/tmp/run-1/investigate-transfer.suite-report.json')
+    expect(paths.suiteReports.prompt).toBe('/tmp/run-1/investigate-prompt.suite-report.json')
   })
 
   it('resolves diagnose suite-report paths when suite names are passed', () => {
     const paths = compareReportPaths('/tmp/diagnose-1', DIAGNOSE_SUITE_NAMES)
-    expect(paths.suiteReports.outcomes).toBe(
-      '/tmp/diagnose-1/diagnose-outcomes.suite-report.json',
-    )
-    expect(paths.suiteReports.transfer).toBe(
-      '/tmp/diagnose-1/diagnose-transfer.suite-report.json',
-    )
-    expect(paths.suiteReports.prompt).toBe(
-      '/tmp/diagnose-1/diagnose-prompt.suite-report.json',
-    )
+    expect(paths.suiteReports.outcomes).toBe('/tmp/diagnose-1/diagnose-outcomes.suite-report.json')
+    expect(paths.suiteReports.transfer).toBe('/tmp/diagnose-1/diagnose-transfer.suite-report.json')
+    expect(paths.suiteReports.prompt).toBe('/tmp/diagnose-1/diagnose-prompt.suite-report.json')
   })
 })
 
