@@ -48,6 +48,8 @@ import {
 import {
   parkDiagnoseAnswerKeys,
   restoreDiagnoseAnswerKeys,
+  commitDiagnoseParkToGit,
+  restoreDiagnoseParkGit,
 } from './lib/diagnose-caller-park.mjs'
 import { materializeNullArmSuite } from './lib/diagnose-null-arm-suites.mjs'
 import { proposeFromDebugDir } from './lib/propose-skill-evolution-core.mjs'
@@ -281,6 +283,11 @@ async function runSingleParity(
       manifest.callerParkRoot = parkHandle.parkRoot
       manifest.callerParkCount = parkHandle.moved.length
 
+      console.log('\n▶ commit park deletions (block git show HEAD|main|origin/main)')
+      const parkGit = commitDiagnoseParkToGit(root, parkHandle)
+      manifest.callerParkCommit = parkGit.parkCommit
+      console.log(`  park commit ${parkGit.parkCommit}`)
+
       const parkedTransfer = parkHandle.moved.find(
         (m) => m.rel === 'agent-suites/diagnose-transfer',
       )
@@ -288,13 +295,16 @@ async function runSingleParity(
       if (!parkedTransfer) {
         throw new Error('park missed agent-suites/diagnose-transfer')
       }
-      transferMat = materializeNullArmSuite(root, DIAGNOSE_TRANSFER_SUITE, seedPath, {
+      // HEAD already lacks answer keys — no seedPatch. Scrub judge from on-disk suite.
+      transferMat = materializeNullArmSuite(root, DIAGNOSE_TRANSFER_SUITE, null, {
         scenariosPath: join(parkedTransfer.to, 'scenarios.json'),
+        omitSeed: true,
       })
       if (args.prompt) {
         if (!parkedPrompt) throw new Error('park missed agent-suites/diagnose-prompt')
-        promptMat = materializeNullArmSuite(root, DIAGNOSE_PROMPT_SUITE, seedPath, {
+        promptMat = materializeNullArmSuite(root, DIAGNOSE_PROMPT_SUITE, null, {
           scenariosPath: join(parkedPrompt.to, 'scenarios.json'),
+          omitSeed: true,
         })
       }
 
@@ -385,7 +395,12 @@ async function runSingleParity(
       }
     } finally {
       if (parkHandle) {
-        console.log('\n▶ restore diagnose answer keys to open tree')
+        console.log('\n▶ restore diagnose git refs + answer keys to open tree')
+        try {
+          restoreDiagnoseParkGit(root, parkHandle)
+        } catch (err) {
+          console.error(`restoreDiagnoseParkGit failed: ${err instanceof Error ? err.message : err}`)
+        }
         restoreDiagnoseAnswerKeys(parkHandle)
         parkHandle = null
         syncSkills()

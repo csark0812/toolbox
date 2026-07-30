@@ -131,7 +131,7 @@ Dual-bug `debug-app` stays for `investigate-*-ceiling` and diagnose ceiling / D2
 - **D1 (no-repro):** no production seed — agent should not touch code; judge checks refusal, not locus file.
 - **D2 (loop-before-cause):** dual-bug `debug-app` is OK if the judge checks **ordering** (test before fix), not which bug file the agent names. Optional later: a guard-only seed if cookie forage confounds D2.
 - **D3 (tight loop):** lives in `diagnose-outcomes-ceiling` (replay CI only) — likely passes both arms once the model runs tests.
-- **Null-arm answer-key hygiene:** Two layers. (1) Worktree seed: `scripts/regenerate-diagnose-null-arm-hygiene.mjs` writes a delete patch under `$TMPDIR` (not `_agent/` on the open tree) and null-arm scenarios get that absolute `seedPatch` so detached worktrees lose skill/suite answer files. (2) **Caller park:** live Cursor Shell often targets the IDE-open repo root, not the worktree — so `run-diagnose-evidence-parity.mjs` runs outcomes first, then moves diagnose answer keys off the open tree while transfer/prompt run, then restores. Scenario display names stay opaque (`session hunch A/B`); keep `compareId` stable.
+- **Null-arm answer-key hygiene:** Three layers. (1) Outcomes run with keys present. (2) Working-tree park moves diagnose answer keys off the open IDE tree. (3) A temporary detached park-commit retargets `main` / `origin/main` so `git show HEAD|main|origin/main:…` cannot recover keys; refs restore afterward. Null-arm suite JSON is materialized under `_agent/null-arm-suites/` without `seedPatch` / `judge` (lexical `must`/`mustNot` only) so on-disk suite forage cannot crib the LLM criterion. Scenario display names stay opaque (`session hunch A/B`); keep `compareId` stable.
 
 ### Metrics beyond judge pass rate
 
