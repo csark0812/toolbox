@@ -14,15 +14,15 @@ import {
 import { materializeNullArmSuite } from '../scripts/lib/diagnose-null-arm-suites.mjs'
 
 describe('diagnose caller park', () => {
-	it('moves listed paths out and restores them', () => {
+	it('keeps answer keys in memory only (no plaintext under park metaDir)', () => {
 		const repo = mkdtempSync(join(tmpdir(), 'diagnose-park-repo-'))
 		try {
 			mkdirSync(join(repo, 'diagnose'), { recursive: true })
-			writeFileSync(join(repo, 'diagnose', 'SKILL.md'), 'gate text\n')
+			writeFileSync(join(repo, 'diagnose', 'SKILL.md'), 'gate text secret\n')
 			mkdirSync(join(repo, 'agent-suites', 'diagnose-transfer'), { recursive: true })
 			writeFileSync(
 				join(repo, 'agent-suites', 'diagnose-transfer', 'scenarios.json'),
-				'{}\n',
+				'{"name":"diagnose-transfer"}\n',
 			)
 			mkdirSync(join(repo, 'docs'), { recursive: true })
 			writeFileSync(join(repo, 'docs', 'evidence-parity.md'), 'doc\n')
@@ -30,15 +30,15 @@ describe('diagnose caller park', () => {
 			const handle = parkDiagnoseAnswerKeys(repo, { parkId: `test-park-${Date.now()}` })
 			expect(handle.moved.length).toBeGreaterThanOrEqual(2)
 			expect(existsSync(join(repo, 'diagnose', 'SKILL.md'))).toBe(false)
-			expect(existsSync(join(repo, 'agent-suites', 'diagnose-transfer', 'scenarios.json'))).toBe(
-				false,
-			)
+			expect(handle.files.get('diagnose/SKILL.md')?.toString()).toContain('gate text secret')
+			const metaListing = execFileSync('find', [handle.metaDir, '-type', 'f'], {
+				encoding: 'utf8',
+			})
+			expect(metaListing).not.toContain('SKILL.md')
+			expect(metaListing).not.toContain('gate text')
 
-			restoreDiagnoseAnswerKeys(handle)
+			restoreDiagnoseAnswerKeys(repo, handle)
 			expect(existsSync(join(repo, 'diagnose', 'SKILL.md'))).toBe(true)
-			expect(existsSync(join(repo, 'agent-suites', 'diagnose-transfer', 'scenarios.json'))).toBe(
-				true,
-			)
 			expect(DIAGNOSE_CALLER_PARK_PATHS).toContain('diagnose')
 		} finally {
 			rmSync(repo, { recursive: true, force: true })
@@ -86,19 +86,17 @@ describe('diagnose caller park', () => {
 			}),
 		).toThrow()
 
-		const parkedTransfer = handle.moved.find((m) => m.rel === 'agent-suites/diagnose-transfer')
+		const transferBuf = handle.files.get('agent-suites/diagnose-transfer/scenarios.json')
 		const mat = materializeNullArmSuite(repo, 'diagnose-transfer', null, {
-			scenariosPath: join(parkedTransfer.to, 'scenarios.json'),
+			scenariosJson: transferBuf,
 			omitSeed: true,
 		})
-		const onDisk = JSON.parse(
-			readFileSync(join(mat.suiteDir, 'scenarios.json'), 'utf8'),
-		)
+		const onDisk = JSON.parse(readFileSync(join(mat.suiteDir, 'scenarios.json'), 'utf8'))
 		expect(onDisk.scenarios[0].rubric.judge).toBeUndefined()
 		expect(onDisk.scenarios[0].seedPatch).toBeUndefined()
 
 		restoreDiagnoseParkGit(repo, handle)
-		restoreDiagnoseAnswerKeys(handle)
+		restoreDiagnoseAnswerKeys(repo, handle)
 		const skill = execFileSync('git', ['show', 'main:diagnose/SKILL.md'], {
 			cwd: repo,
 			encoding: 'utf8',

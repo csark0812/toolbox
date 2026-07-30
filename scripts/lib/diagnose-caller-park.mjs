@@ -2,14 +2,22 @@
  * Park diagnose answer keys off the open (caller) tree during null-arm live runs.
  *
  * Live Cursor agents often Shell against the IDE-open repo root, not the seeded
- * scenario worktree — so worktree-only deletes cannot stop forage. Move answer
- * keys out of the open tree, then commit those deletions on a detached HEAD and
- * temporarily retarget main / origin/main so `git show HEAD|main|origin/main:…`
- * cannot recover skill or fixture answer keys.
+ * scenario worktree. Store parked file bytes in process memory (no $TMPDIR
+ * plaintext), delete from the tree, then commit those deletions on a detached
+ * HEAD and temporarily retarget main / origin/main so `git show` cannot recover
+ * keys. Restore refs + bytes afterward.
  */
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, renameSync, existsSync, rmSync, writeFileSync, readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import {
+	mkdirSync,
+	existsSync,
+	rmSync,
+	writeFileSync,
+	readFileSync,
+	readdirSync,
+	statSync,
+} from 'node:fs'
+import { dirname, join, relative } from 'node:path'
 import { tmpdir } from 'node:os'
 
 /** Paths relative to repo root that teach the D1 refuse gate or leak fixtures. */
@@ -29,48 +37,81 @@ export const DIAGNOSE_CALLER_PARK_PATHS = [
 const PARK_COMMIT_MESSAGE = 'agent-test: temporary diagnose answer-key park'
 
 /**
+ * @param {string} absDir
+ * @param {string} repoRoot
+ * @param {Map<string, Buffer>} files
+ */
+function collectFilesRecursive(absDir, repoRoot, files) {
+	for (const name of readdirSync(absDir)) {
+		const abs = join(absDir, name)
+		const st = statSync(abs)
+		if (st.isDirectory()) {
+			collectFilesRecursive(abs, repoRoot, files)
+		} else if (st.isFile() || st.isSymbolicLink()) {
+			files.set(relative(repoRoot, abs), readFileSync(abs))
+		}
+	}
+}
+
+/**
  * @param {string} repoRoot
  * @param {{ parkId?: string }} [options]
- * @returns {{ parkRoot: string, moved: Array<{ from: string, to: string, rel: string }> }}
+ * @returns {{
+ *   parkId: string,
+ *   metaDir: string,
+ *   parkRoot: string,
+ *   moved: Array<{ rel: string }>,
+ *   files: Map<string, Buffer>,
+ * }}
  */
 export function parkDiagnoseAnswerKeys(repoRoot, options = {}) {
 	const parkId =
 		options.parkId ??
 		`diagnose-park-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}`
-	const parkRoot = join(tmpdir(), parkId)
-	mkdirSync(parkRoot, { recursive: true })
+	/** Only stores git-ref backup JSON — never answer-key bytes. */
+	const metaDir = join(tmpdir(), parkId)
+	mkdirSync(metaDir, { recursive: true })
+
+	const files = new Map()
 	const moved = []
 	for (const rel of DIAGNOSE_CALLER_PARK_PATHS) {
 		const from = join(repoRoot, rel)
 		if (!existsSync(from)) continue
-		const to = join(parkRoot, rel.replaceAll('/', '__'))
-		renameSync(from, to)
-		moved.push({ from, to, rel })
+		const st = statSync(from)
+		if (st.isDirectory()) {
+			collectFilesRecursive(from, repoRoot, files)
+		} else {
+			files.set(rel, readFileSync(from))
+		}
+		rmSync(from, { recursive: true, force: true })
+		moved.push({ rel })
 	}
-	return { parkRoot, moved }
+	return { parkId, metaDir, parkRoot: metaDir, moved, files }
 }
 
 /**
- * @param {{ moved: Array<{ from: string, to: string }> }} handle
+ * @param {string} repoRoot
+ * @param {{ files: Map<string, Buffer>, moved?: unknown[] }} handle
  */
-export function restoreDiagnoseAnswerKeys(handle) {
-	if (!handle?.moved?.length) return
-	for (const { from, to } of [...handle.moved].reverse()) {
-		if (!existsSync(to)) continue
-		mkdirSync(join(from, '..'), { recursive: true })
-		if (existsSync(from)) {
-			rmSync(from, { recursive: true, force: true })
-		}
-		renameSync(to, from)
+export function restoreDiagnoseAnswerKeys(repoRoot, handle) {
+	if (!handle?.files?.size) {
+		if (handle) handle.moved = []
+		return
 	}
+	for (const [rel, body] of handle.files) {
+		const abs = join(repoRoot, rel)
+		mkdirSync(dirname(abs), { recursive: true })
+		writeFileSync(abs, body)
+	}
+	handle.files.clear()
 	handle.moved = []
 }
 
-function git(repoRoot, args, opts = {}) {
+function git(repoRoot, args) {
 	return execFileSync('git', args, {
 		cwd: repoRoot,
 		encoding: 'utf8',
-		...opts,
+		stdio: ['ignore', 'pipe', 'pipe'],
 	}).trim()
 }
 
@@ -83,13 +124,11 @@ function tryRevParse(repoRoot, rev) {
 }
 
 /**
- * After working-tree park, commit deletions on detached HEAD and retarget
- * main / origin/main so typical `git show` forage fails.
- *
  * @param {string} repoRoot
- * @param {{ moved: Array<{ rel: string }>, parkRoot: string }} parkHandle
+ * @param {{ moved: Array<{ rel: string }>, metaDir?: string, parkRoot?: string }} parkHandle
  */
 export function commitDiagnoseParkToGit(repoRoot, parkHandle) {
+	const metaDir = parkHandle.metaDir ?? parkHandle.parkRoot
 	const branch = (() => {
 		try {
 			return git(repoRoot, ['symbolic-ref', '--short', 'HEAD'])
@@ -108,14 +147,14 @@ export function commitDiagnoseParkToGit(repoRoot, parkHandle) {
 		previousOriginMain,
 		parkCommit: null,
 	}
-	writeFileSync(join(parkHandle.parkRoot, 'git-ref-backup.json'), `${JSON.stringify(meta, null, 2)}\n`)
+	writeFileSync(join(metaDir, 'git-ref-backup.json'), `${JSON.stringify(meta, null, 2)}\n`)
 
 	git(repoRoot, ['checkout', '--detach', 'HEAD'])
 	for (const { rel } of parkHandle.moved) {
 		try {
 			git(repoRoot, ['add', '-u', '--', rel])
 		} catch {
-			// path may already be absent from index
+			// untracked / already absent
 		}
 	}
 	const status = git(repoRoot, ['status', '--porcelain'])
@@ -134,7 +173,7 @@ export function commitDiagnoseParkToGit(repoRoot, parkHandle) {
 	])
 	const parkCommit = git(repoRoot, ['rev-parse', 'HEAD'])
 	meta.parkCommit = parkCommit
-	writeFileSync(join(parkHandle.parkRoot, 'git-ref-backup.json'), `${JSON.stringify(meta, null, 2)}\n`)
+	writeFileSync(join(metaDir, 'git-ref-backup.json'), `${JSON.stringify(meta, null, 2)}\n`)
 
 	if (previousMain) {
 		git(repoRoot, ['update-ref', 'refs/heads/main', parkCommit])
@@ -147,14 +186,12 @@ export function commitDiagnoseParkToGit(repoRoot, parkHandle) {
 }
 
 /**
- * Restore branch tip / remote-tracking refs and leave HEAD on the original tip.
- * Caller should restore parked files afterward.
- *
  * @param {string} repoRoot
- * @param {{ parkRoot: string }} parkHandle
+ * @param {{ metaDir?: string, parkRoot?: string }} parkHandle
  */
 export function restoreDiagnoseParkGit(repoRoot, parkHandle) {
-	const backupPath = join(parkHandle.parkRoot, 'git-ref-backup.json')
+	const metaDir = parkHandle.metaDir ?? parkHandle.parkRoot
+	const backupPath = join(metaDir, 'git-ref-backup.json')
 	if (!existsSync(backupPath)) return
 	const meta = JSON.parse(readFileSync(backupPath, 'utf8'))
 

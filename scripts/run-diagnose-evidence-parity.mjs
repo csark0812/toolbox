@@ -288,22 +288,22 @@ async function runSingleParity(
       manifest.callerParkCommit = parkGit.parkCommit
       console.log(`  park commit ${parkGit.parkCommit}`)
 
-      const parkedTransfer = parkHandle.moved.find(
-        (m) => m.rel === 'agent-suites/diagnose-transfer',
-      )
-      const parkedPrompt = parkHandle.moved.find((m) => m.rel === 'agent-suites/diagnose-prompt')
-      if (!parkedTransfer) {
-        throw new Error('park missed agent-suites/diagnose-transfer')
+      const transferKey = 'agent-suites/diagnose-transfer/scenarios.json'
+      const promptKey = 'agent-suites/diagnose-prompt/scenarios.json'
+      const transferBuf = parkHandle.files.get(transferKey)
+      if (!transferBuf) {
+        throw new Error('park missed agent-suites/diagnose-transfer/scenarios.json')
       }
       // HEAD already lacks answer keys — no seedPatch. Scrub judge from on-disk suite.
       transferMat = materializeNullArmSuite(root, DIAGNOSE_TRANSFER_SUITE, null, {
-        scenariosPath: join(parkedTransfer.to, 'scenarios.json'),
+        scenariosJson: transferBuf,
         omitSeed: true,
       })
       if (args.prompt) {
-        if (!parkedPrompt) throw new Error('park missed agent-suites/diagnose-prompt')
+        const promptBuf = parkHandle.files.get(promptKey)
+        if (!promptBuf) throw new Error('park missed agent-suites/diagnose-prompt/scenarios.json')
         promptMat = materializeNullArmSuite(root, DIAGNOSE_PROMPT_SUITE, null, {
-          scenariosPath: join(parkedPrompt.to, 'scenarios.json'),
+          scenariosJson: promptBuf,
           omitSeed: true,
         })
       }
@@ -378,8 +378,9 @@ async function runSingleParity(
       }
 
       if (args.ablations) {
-        // Ablations need skill trees; restore briefly then re-park if more null work remained (none).
-        restoreDiagnoseAnswerKeys(parkHandle)
+        // Ablations need skill trees; restore briefly (no more null-arm work follows).
+        restoreDiagnoseParkGit(root, parkHandle)
+        restoreDiagnoseAnswerKeys(root, parkHandle)
         parkHandle = null
         syncSkills()
         run(
@@ -401,7 +402,7 @@ async function runSingleParity(
         } catch (err) {
           console.error(`restoreDiagnoseParkGit failed: ${err instanceof Error ? err.message : err}`)
         }
-        restoreDiagnoseAnswerKeys(parkHandle)
+        restoreDiagnoseAnswerKeys(root, parkHandle)
         parkHandle = null
         syncSkills()
       }

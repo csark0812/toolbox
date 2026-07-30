@@ -13,16 +13,20 @@ import { join, relative } from 'node:path'
  * @param {string} repoRoot
  * @param {'diagnose-transfer' | 'diagnose-prompt'} suiteName
  * @param {string | null} absoluteSeedPath
- * @param {{ scenariosPath?: string, omitSeed?: boolean }} [options]
+ * @param {{ scenariosPath?: string, scenariosJson?: string | Buffer, omitSeed?: boolean }} [options]
  * @returns {{ suitesDir: string, suitesDirArg: string, suiteDir: string }}
  */
 export function materializeNullArmSuite(repoRoot, suiteName, absoluteSeedPath, options = {}) {
-	const src =
-		options.scenariosPath ?? join(repoRoot, 'agent-suites', suiteName, 'scenarios.json')
+	const srcText = options.scenariosJson
+		? String(options.scenariosJson)
+		: readFileSync(
+				options.scenariosPath ?? join(repoRoot, 'agent-suites', suiteName, 'scenarios.json'),
+				'utf8',
+			)
 	const suitesDir = join(repoRoot, '_agent', 'null-arm-suites', `${suiteName}-${Date.now()}`)
 	const suiteDir = join(suitesDir, suiteName)
 	mkdirSync(suiteDir, { recursive: true })
-	const doc = JSON.parse(readFileSync(src, 'utf8'))
+	const doc = JSON.parse(srcText)
 	for (const scenario of doc.scenarios ?? []) {
 		if (options.omitSeed || !absoluteSeedPath) {
 			delete scenario.seedPatch
