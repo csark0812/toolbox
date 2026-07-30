@@ -86,6 +86,19 @@ describe('diagnose caller park', () => {
 			}),
 		).toThrow()
 
+		expect(() =>
+			execFileSync('git', ['show', 'HEAD^:diagnose/SKILL.md'], {
+				cwd: repo,
+				encoding: 'utf8',
+			}),
+		).toThrow()
+		expect(() =>
+			execFileSync('git', ['rev-parse', 'HEAD^'], {
+				cwd: repo,
+				encoding: 'utf8',
+			}),
+		).toThrow()
+
 		const transferBuf = handle.files.get('agent-suites/diagnose-transfer/scenarios.json')
 		const mat = materializeNullArmSuite(repo, 'diagnose-transfer', null, {
 			scenariosJson: transferBuf,

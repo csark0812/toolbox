@@ -30,6 +30,10 @@ export const DIAGNOSE_CALLER_PARK_PATHS = [
 	'agent-suites/diagnose-prompt',
 	'docs/evidence-parity.md',
 	'_agent/diagnose-null-arm-hygiene.patch',
+	'tests/diagnose-caller-park.test.js',
+	'tests/diagnose-transfer-prompts.test.js',
+	'tests/diagnose-prompt-baseline.test.js',
+	'tests/diagnose-fixture-hygiene.test.js',
 	'.claude/skills/diagnose',
 	'.agents/skills/diagnose',
 ]
@@ -161,17 +165,19 @@ export function commitDiagnoseParkToGit(repoRoot, parkHandle) {
 	if (!status.trim()) {
 		throw new Error('diagnose park commit: expected staged deletions after park, got empty status')
 	}
-	git(repoRoot, [
+	// Orphan root commit (no parent) so `git show HEAD^:diagnose/…` cannot recover keys.
+	const tree = git(repoRoot, ['write-tree'])
+	const parkCommit = git(repoRoot, [
 		'-c',
 		'user.email=agent-test@agent-spec.local',
 		'-c',
 		'user.name=agent-test',
-		'commit',
-		'--no-verify',
+		'commit-tree',
+		tree,
 		'-m',
 		PARK_COMMIT_MESSAGE,
 	])
-	const parkCommit = git(repoRoot, ['rev-parse', 'HEAD'])
+	git(repoRoot, ['checkout', '--detach', parkCommit])
 	meta.parkCommit = parkCommit
 	writeFileSync(join(metaDir, 'git-ref-backup.json'), `${JSON.stringify(meta, null, 2)}\n`)
 
@@ -180,6 +186,12 @@ export function commitDiagnoseParkToGit(repoRoot, parkHandle) {
 	}
 	if (previousOriginMain) {
 		git(repoRoot, ['update-ref', 'refs/remotes/origin/main', parkCommit])
+	}
+	// Drop ref tips that advertise pre-park SHAs; keep objects for restore.
+	try {
+		git(repoRoot, ['reflog', 'expire', '--expire=now', '--all'])
+	} catch {
+		// best-effort
 	}
 
 	return meta
