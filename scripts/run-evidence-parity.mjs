@@ -1,8 +1,14 @@
 #!/usr/bin/env node
 /**
- * One-shot evidence-parity cadence:
- *   sync skills → compare-pairs investigate-outcomes:investigate-transfer
- *   → compare-pairs investigate-outcomes:investigate-prompt → optional diagnose/ablations → propose notes
+ * Investigate evidence-parity cadence:
+ *   sync skills → live investigate-outcomes
+ *   → park answer keys on open tree → materialize null suites
+ *   → live investigate-transfer (+ prompt) → restore → offline compare → propose notes
+ *
+ * Caller park is required: live Cursor Shell often targets the IDE-open root,
+ * not the seeded worktree — worktree-only deletes do not stop forage.
+ * After park-commit, null arms get guard-only debug-app seeds only (no
+ * answer-bearing hygiene patch in the agent-visible tree).
  *
  * Does NOT edit SKILL.md — human Keep / Reject / Defer only.
  *
@@ -20,13 +26,16 @@
  *   --compare-only    re-render compare from prior suite-report JSON (no live runs)
  */
 import { spawnSync } from 'node:child_process'
-import { mkdir, writeFile } from 'node:fs/promises'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { copyFile, mkdir, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
   PARITY_COMPARE_PAIR,
   PROMPT_COMPARE_PAIR,
+  OUTCOMES_SUITE,
+  TRANSFER_SUITE,
   PROMPT_SUITE,
   compareReportPaths,
   costFromCompareReport,
@@ -38,11 +47,29 @@ import {
   collectResults,
   aggregateBatchC1,
 } from './lib/agent-test-artifacts.mjs'
+import {
+  INVESTIGATE_GUARD_ONLY_SEEDS,
+  parkInvestigateAnswerKeys,
+  restoreInvestigateAnswerKeys,
+  commitInvestigateParkToGit,
+  restoreInvestigateParkGit,
+} from './lib/investigate-caller-park.mjs'
+import { materializeNullArmSuite } from './lib/null-arm-suites.mjs'
 import { proposeFromDebugDir } from './lib/propose-skill-evolution-core.mjs'
+import { regenerateInvestigateNullArmHygieneSeed } from './regenerate-investigate-null-arm-hygiene.mjs'
 
 const root = join(fileURLToPath(import.meta.url), '..', '..')
 const agentTestBin = join(root, 'node_modules', '.bin', 'agent-test')
 const evalReportsRoot = join(root, '_agent', 'eval-reports')
+
+const INVESTIGATE_SUITE_NAMES = {
+  outcomesSuite: OUTCOMES_SUITE,
+  transferSuite: TRANSFER_SUITE,
+  promptSuite: PROMPT_SUITE,
+}
+
+const PRIMARY_COMPARE_ID = 'fix-invention-pressure'
+const FIXTURE_SEEDS_DIR = join(root, '_agent', 'investigate-fixture-seeds')
 
 function parseArgs(argv) {
   const out = {
@@ -96,10 +123,70 @@ function syncSkills() {
   if (result.status !== 0) process.exit(result.status ?? 1)
 }
 
-async function resolveCompareInputs({ compareOnly, debugParent, runReportDir }) {
+/**
+ * Write guard-only seeds from parked bytes (or open tree) under `_agent/`.
+ * These patches plant the discriminating bug only — no answer-key hunks.
+ * @param {Map<string, Buffer>} [parkedFiles]
+ * @returns {Record<string, string>} compareId → relative seed path
+ */
+function materializeGuardOnlySeeds(parkedFiles) {
+  mkdirSync(FIXTURE_SEEDS_DIR, { recursive: true })
+  /** @type {Record<string, string>} */
+  const byCompareId = {}
+  for (const [compareId, rel] of Object.entries(INVESTIGATE_GUARD_ONLY_SEEDS)) {
+    const base = rel.split('/').pop()
+    const outRel = `_agent/investigate-fixture-seeds/${base}`
+    const outAbs = join(root, outRel)
+    const body = parkedFiles?.get(rel)
+    if (body) {
+      writeFileSync(outAbs, body)
+    } else if (existsSync(join(root, rel))) {
+      writeFileSync(outAbs, readFileSync(join(root, rel)))
+    } else {
+      throw new Error(`Missing guard-only seed for ${compareId}: ${rel}`)
+    }
+    byCompareId[compareId] = outRel
+  }
+  return byCompareId
+}
+
+/** Minimal B-side so compare-pairs can dump outcomes.suite-report without a second live suite. */
+async function writePlaceholderNullReport(path) {
+  const report = {
+    suite: 'placeholder-null',
+    host: 'cursor',
+    passed: 0,
+    skipped: 2,
+    failed: 0,
+    results: [
+      {
+        suite: 'placeholder-null',
+        scenario: 'transfer: session hunch A',
+        compareId: 'leave-redirect-red-herring',
+        passed: false,
+        skipped: true,
+        failures: [],
+        durationMs: 0,
+      },
+      {
+        suite: 'placeholder-null',
+        scenario: 'transfer: session hunch B',
+        compareId: 'fix-invention-pressure',
+        passed: false,
+        skipped: true,
+        failures: [],
+        durationMs: 0,
+      },
+    ],
+    summary: {},
+  }
+  await writeFile(path, `${JSON.stringify(report, null, 2)}\n`, 'utf8')
+}
+
+async function resolveCompareInputs({ compareOnly, debugParent }) {
   if (!compareOnly) return null
 
-  const latest = await findLatestSuiteReports(evalReportsRoot)
+  const latest = await findLatestSuiteReports(evalReportsRoot, INVESTIGATE_SUITE_NAMES)
   if (latest) {
     return {
       a: latest.paths.suiteReports.outcomes,
@@ -108,9 +195,12 @@ async function resolveCompareInputs({ compareOnly, debugParent, runReportDir }) 
   }
 
   const sessionsParent = join(debugParent, 'sessions')
-  const paritySession = await findParitySession(sessionsParent)
+  const paritySession = await findParitySession(sessionsParent, INVESTIGATE_SUITE_NAMES)
   if (paritySession) {
-    const sessionCompare = compareReportPaths(join(paritySession.path, 'compare'))
+    const sessionCompare = compareReportPaths(
+      join(paritySession.path, 'compare'),
+      INVESTIGATE_SUITE_NAMES,
+    )
     return {
       a: sessionCompare.suiteReports.outcomes,
       b: sessionCompare.suiteReports.transfer,
@@ -119,7 +209,7 @@ async function resolveCompareInputs({ compareOnly, debugParent, runReportDir }) 
   }
 
   console.error(
-    'compare-only needs suite-report JSON from a prior parity run under _agent/eval-reports/<run-id>/',
+    'compare-only needs suite-report JSON from a prior parity run under _agent/eval-reports/<id>/',
   )
   process.exit(1)
 }
@@ -129,17 +219,20 @@ async function summarizeC1FromSessions(sessionPaths) {
   for (const sessionRoot of sessionPaths.filter(Boolean)) {
     rows.push(...(await collectResults(sessionRoot)).values())
   }
-  const c1 = rows.filter((r) => r.compareId === 'fix-invention-pressure')
+  const c1 = rows.filter((r) => r.compareId === PRIMARY_COMPARE_ID)
   return {
-    full: c1.filter((r) => r.suite === 'investigate-outcomes'),
-    none: c1.filter((r) => r.suite === 'investigate-transfer'),
+    full: c1.filter((r) => r.suite === OUTCOMES_SUITE),
+    none: c1.filter((r) => r.suite === TRANSFER_SUITE),
     prompt: c1.filter((r) => r.suite === PROMPT_SUITE),
   }
 }
 
-async function runSingleParity(args, { runId, debugParent, runReportDir, repeatIndex, repeatTotal }) {
+async function runSingleParity(
+  args,
+  { runId, debugParent, runReportDir, repeatIndex, repeatTotal, seedPath },
+) {
   const sessionsParent = join(debugParent, 'sessions')
-  const reportPaths = compareReportPaths(runReportDir)
+  const reportPaths = compareReportPaths(runReportDir, INVESTIGATE_SUITE_NAMES)
   const manifestDir = join(root, '_agent', 'evidence-runs', runId)
   await mkdir(manifestDir, { recursive: true })
   await mkdir(runReportDir, { recursive: true })
@@ -151,6 +244,8 @@ async function runSingleParity(args, { runId, debugParent, runReportDir, repeatI
     debugParent,
     comparePair: PARITY_COMPARE_PAIR,
     promptComparePair: args.prompt ? PROMPT_COMPARE_PAIR : null,
+    callerPark: true,
+    seedPath,
     model: {
       agent: process.env.CURSOR_AGENT_MODEL ?? null,
       judge: process.env.CURSOR_JUDGE_MODEL ?? null,
@@ -162,86 +257,204 @@ async function runSingleParity(args, { runId, debugParent, runReportDir, repeatI
     c1: null,
   }
 
-  const baseAgentArgs = [
-    '--suites-dir',
-    'agent-suites',
-    '--live',
-    '--debug',
-    '--debug-dir',
-    debugParent,
-    ...args.agentArgs,
-  ]
-
   const knownSessions = new Set()
+  let parkHandle = null
 
   if (!args.compareOnly) {
     syncSkills()
 
-    run('evidence-parity compare-pairs (full vs none)', [
-      ...baseAgentArgs,
-      '--compare-pairs',
-      PARITY_COMPARE_PAIR,
-      '--compare-out',
-      runReportDir,
-    ], { allowFail: true })
+    const liveBase = [
+      '--live',
+      '--debug',
+      '--debug-dir',
+      debugParent,
+      ...args.agentArgs,
+    ]
 
-    const paritySession = await newestSessionAfter(sessionsParent, knownSessions)
-    if (!paritySession) {
-      console.error('No session directory found after compare-pairs run')
+    const placeholderPath = join(runReportDir, '_placeholder-null.suite-report.json')
+    await writePlaceholderNullReport(placeholderPath)
+    const outcomesStaging = join(runReportDir, 'outcomes-staging')
+    await mkdir(outcomesStaging, { recursive: true })
+
+    run(
+      'investigate-outcomes (skill-on, answer keys present)',
+      [
+        '--suites-dir',
+        'agent-suites',
+        ...liveBase,
+        '--compare-pairs',
+        `${OUTCOMES_SUITE}:${placeholderPath}`,
+        '--compare-out',
+        outcomesStaging,
+      ],
+      { allowFail: true },
+    )
+
+    const outcomesReportSrc = join(outcomesStaging, `${OUTCOMES_SUITE}.suite-report.json`)
+    if (!existsSync(outcomesReportSrc)) {
+      console.error(`Missing outcomes suite report at ${outcomesReportSrc}`)
       process.exit(1)
     }
-    knownSessions.add(paritySession.path)
-    manifest.sessions.parity = paritySession.path
+    await copyFile(outcomesReportSrc, reportPaths.suiteReports.outcomes)
 
-    if (args.prompt) {
-      const promptCompareDir = join(runReportDir, 'prompt-compare')
-      run('evidence-parity compare-pairs (full vs prompt)', [
-        ...baseAgentArgs,
-        '--compare-pairs',
-        PROMPT_COMPARE_PAIR,
-        '--compare-out',
-        promptCompareDir,
-      ], { allowFail: true })
-      const promptSession = await newestSessionAfter(sessionsParent, knownSessions)
-      if (promptSession) {
-        knownSessions.add(promptSession.path)
-        manifest.sessions.prompt = promptSession.path
-      }
-      manifest.promptCompare = join(promptCompareDir, 'compare-report.html')
-      manifest.promptCompareMd = join(promptCompareDir, 'compare-report.md')
-      manifest.promptCompareJson = join(promptCompareDir, 'compare-report.json')
+    const outcomesSession = await newestSessionAfter(sessionsParent, knownSessions)
+    if (!outcomesSession) {
+      console.error('No session directory found after investigate-outcomes run')
+      process.exit(1)
     }
+    knownSessions.add(outcomesSession.path)
+    manifest.sessions.outcomes = outcomesSession.path
 
-    if (args.diagnose) {
-      run('diagnose-outcomes (skills: full)', [
-        ...baseAgentArgs,
-        '--suite',
-        'diagnose-outcomes',
-      ], { allowFail: true })
-      const diagnoseSession = await newestSessionAfter(sessionsParent, knownSessions)
-      if (diagnoseSession) {
-        knownSessions.add(diagnoseSession.path)
-        manifest.sessions.diagnose = diagnoseSession.path
+    try {
+      console.log('\n▶ park investigate answer keys off open tree (null-arm forage guard)')
+      parkHandle = parkInvestigateAnswerKeys(root, { parkId: `investigate-park-${runId}` })
+      console.log(`  parked ${parkHandle.moved.length} path(s) → ${parkHandle.parkRoot}`)
+      manifest.callerParkRoot = parkHandle.parkRoot
+      manifest.callerParkCount = parkHandle.moved.length
+
+      console.log('\n▶ commit park deletions (block git show HEAD|main|origin/main)')
+      const parkGit = commitInvestigateParkToGit(root, parkHandle)
+      manifest.callerParkCommit = parkGit.parkCommit
+      console.log(`  park commit ${parkGit.parkCommit}`)
+
+      const seedByCompareId = materializeGuardOnlySeeds(parkHandle.files)
+      manifest.guardOnlySeeds = seedByCompareId
+
+      const transferKey = 'agent-suites/investigate-transfer/scenarios.json'
+      const promptKey = 'agent-suites/investigate-prompt/scenarios.json'
+      const transferBuf = parkHandle.files.get(transferKey)
+      if (!transferBuf) {
+        throw new Error('park missed agent-suites/investigate-transfer/scenarios.json')
       }
-    }
+      // HEAD already lacks answer keys — guard-only seeds only (no answer-bearing patch).
+      const transferMat = materializeNullArmSuite(root, TRANSFER_SUITE, null, {
+        scenariosJson: transferBuf,
+        seedPatchByCompareId: seedByCompareId,
+      })
+      let promptMat = null
+      if (args.prompt) {
+        const promptBuf = parkHandle.files.get(promptKey)
+        if (!promptBuf) throw new Error('park missed agent-suites/investigate-prompt/scenarios.json')
+        promptMat = materializeNullArmSuite(root, PROMPT_SUITE, null, {
+          scenariosJson: promptBuf,
+          seedPatchByCompareId: seedByCompareId,
+        })
+      }
 
-    if (args.ablations) {
-      run('organization-ablations', [
-        ...baseAgentArgs,
-        '--suite',
-        'organization-ablations',
-      ], { allowFail: true })
-      const ablationSession = await newestSessionAfter(sessionsParent, knownSessions)
-      if (ablationSession) {
-        knownSessions.add(ablationSession.path)
-        manifest.sessions.ablations = ablationSession.path
+      const transferStaging = join(runReportDir, 'transfer-staging')
+      await mkdir(transferStaging, { recursive: true })
+      run(
+        'investigate-transfer (null arm, caller keys parked)',
+        [
+          '--suites-dir',
+          transferMat.suitesDirArg,
+          ...liveBase,
+          '--compare-pairs',
+          `${reportPaths.suiteReports.outcomes}:${TRANSFER_SUITE}`,
+          '--compare-out',
+          transferStaging,
+        ],
+        { allowFail: true },
+      )
+
+      const transferReportSrc = join(transferStaging, `${TRANSFER_SUITE}.suite-report.json`)
+      if (existsSync(transferReportSrc)) {
+        await copyFile(transferReportSrc, reportPaths.suiteReports.transfer)
+      }
+      for (const name of ['compare-report.html', 'compare-report.md', 'compare-report.json']) {
+        const src = join(transferStaging, name)
+        if (existsSync(src)) await copyFile(src, join(runReportDir, name))
+      }
+
+      const transferSession = await newestSessionAfter(sessionsParent, knownSessions)
+      if (transferSession) {
+        knownSessions.add(transferSession.path)
+        manifest.sessions.transfer = transferSession.path
+        manifest.sessions.parity = transferSession.path
+      }
+
+      if (args.prompt && promptMat) {
+        const promptCompareDir = join(runReportDir, 'prompt-compare')
+        await mkdir(promptCompareDir, { recursive: true })
+        run(
+          'investigate-prompt (prompt baseline, caller keys parked)',
+          [
+            '--suites-dir',
+            promptMat.suitesDirArg,
+            ...liveBase,
+            '--compare-pairs',
+            `${reportPaths.suiteReports.outcomes}:${PROMPT_SUITE}`,
+            '--compare-out',
+            promptCompareDir,
+          ],
+          { allowFail: true },
+        )
+        const promptReportSrc = join(promptCompareDir, `${PROMPT_SUITE}.suite-report.json`)
+        if (existsSync(promptReportSrc)) {
+          await copyFile(promptReportSrc, reportPaths.suiteReports.prompt)
+        }
+        const promptSession = await newestSessionAfter(sessionsParent, knownSessions)
+        if (promptSession) {
+          knownSessions.add(promptSession.path)
+          manifest.sessions.prompt = promptSession.path
+        }
+        manifest.promptCompare = join(promptCompareDir, 'compare-report.html')
+        manifest.promptCompareMd = join(promptCompareDir, 'compare-report.md')
+        manifest.promptCompareJson = join(promptCompareDir, 'compare-report.json')
+      }
+
+      if (args.diagnose || args.ablations) {
+        // Later arms need skill trees / open-tree docs; restore before they run.
+        restoreInvestigateParkGit(root, parkHandle)
+        restoreInvestigateAnswerKeys(root, parkHandle)
+        parkHandle = null
+        syncSkills()
+
+        if (args.diagnose) {
+          run(
+            'diagnose-outcomes (skills: full)',
+            ['--suites-dir', 'agent-suites', ...liveBase, '--suite', 'diagnose-outcomes'],
+            { allowFail: true },
+          )
+          const diagnoseSession = await newestSessionAfter(sessionsParent, knownSessions)
+          if (diagnoseSession) {
+            knownSessions.add(diagnoseSession.path)
+            manifest.sessions.diagnose = diagnoseSession.path
+          }
+        }
+
+        if (args.ablations) {
+          run(
+            'organization-ablations',
+            ['--suites-dir', 'agent-suites', ...liveBase, '--suite', 'organization-ablations'],
+            { allowFail: true },
+          )
+          const ablationSession = await newestSessionAfter(sessionsParent, knownSessions)
+          if (ablationSession) {
+            knownSessions.add(ablationSession.path)
+            manifest.sessions.ablations = ablationSession.path
+          }
+        }
+      }
+    } finally {
+      if (parkHandle) {
+        console.log('\n▶ restore investigate git refs + answer keys to open tree')
+        try {
+          restoreInvestigateParkGit(root, parkHandle)
+        } catch (err) {
+          console.error(
+            `restoreInvestigateParkGit failed: ${err instanceof Error ? err.message : err}`,
+          )
+        }
+        restoreInvestigateAnswerKeys(root, parkHandle)
+        parkHandle = null
+        syncSkills()
       }
     }
   } else {
     const compareInputs = await resolveCompareInputs({
       compareOnly: true,
       debugParent,
-      runReportDir,
     })
     run('agent-test compare (replay)', [
       '--suites-dir',
@@ -256,15 +469,40 @@ async function runSingleParity(args, { runId, debugParent, runReportDir, repeatI
     ])
   }
 
+  if (
+    !existsSync(reportPaths.json) &&
+    existsSync(reportPaths.suiteReports.outcomes) &&
+    existsSync(reportPaths.suiteReports.transfer)
+  ) {
+    run(
+      'agent-test compare (full vs none)',
+      [
+        '--suites-dir',
+        'agent-suites',
+        'compare',
+        '--a',
+        reportPaths.suiteReports.outcomes,
+        '--b',
+        reportPaths.suiteReports.transfer,
+        '--compare-out',
+        runReportDir,
+      ],
+      { allowFail: true },
+    )
+  }
+
   const paritySession =
     manifest.sessions.parity ??
-    (await findParitySession(sessionsParent))?.path ??
+    manifest.sessions.transfer ??
+    (await findParitySession(sessionsParent, INVESTIGATE_SUITE_NAMES))?.path ??
     null
   if (paritySession) {
     manifest.sessions.parity = paritySession
   }
 
-  const compareReport = await readCompareReportJson(reportPaths.json)
+  const compareReport = existsSync(reportPaths.json)
+    ? await readCompareReportJson(reportPaths.json)
+    : { summary: {} }
   manifest.report = reportPaths.html
   manifest.reportMd = reportPaths.md
   manifest.reportJson = reportPaths.json
@@ -274,8 +512,10 @@ async function runSingleParity(args, { runId, debugParent, runReportDir, repeatI
   console.log(`Compare report (MD): ${reportPaths.md}`)
   console.log(`Paired scenarios: ${compareReport.summary?.pairedCount ?? 0}`)
 
-  if (paritySession) {
+  if (paritySession || manifest.sessions.outcomes) {
     const c1Rows = await summarizeC1FromSessions([
+      manifest.sessions.outcomes,
+      manifest.sessions.transfer,
       paritySession,
       manifest.sessions.prompt,
     ])
@@ -293,12 +533,12 @@ async function runSingleParity(args, { runId, debugParent, runReportDir, repeatI
     }
   }
 
-  if (args.propose && paritySession) {
+  if (args.propose && (paritySession || manifest.sessions.outcomes)) {
     const debugDirs = new Set()
-    for (const dir of await findFailedDebugBundles(paritySession)) {
-      debugDirs.add(dir)
-    }
     for (const sessionPath of [
+      manifest.sessions.outcomes,
+      manifest.sessions.transfer,
+      paritySession,
       manifest.sessions.prompt,
       manifest.sessions.diagnose,
       manifest.sessions.ablations,
@@ -318,17 +558,17 @@ async function runSingleParity(args, { runId, debugParent, runReportDir, repeatI
     }
   }
 
-  manifest.failures = paritySession
-    ? (await findFailedDebugBundles(paritySession)).length
-    : 0
-  if (manifest.sessions.prompt) {
-    manifest.failures += (await findFailedDebugBundles(manifest.sessions.prompt)).length
-  }
-  if (manifest.sessions.diagnose) {
-    manifest.failures += (await findFailedDebugBundles(manifest.sessions.diagnose)).length
-  }
-  if (manifest.sessions.ablations) {
-    manifest.failures += (await findFailedDebugBundles(manifest.sessions.ablations)).length
+  manifest.failures = 0
+  for (const sessionPath of [
+    manifest.sessions.outcomes,
+    manifest.sessions.transfer,
+    paritySession,
+    manifest.sessions.prompt,
+    manifest.sessions.diagnose,
+    manifest.sessions.ablations,
+  ]) {
+    if (!sessionPath) continue
+    manifest.failures += (await findFailedDebugBundles(sessionPath)).length
   }
   manifest.finishedAt = new Date().toISOString()
 
@@ -338,13 +578,34 @@ async function runSingleParity(args, { runId, debugParent, runReportDir, repeatI
   return manifest
 }
 
+async function preflightOpenTreeHealthy() {
+  const skill = join(root, 'investigate', 'SKILL.md')
+  if (!existsSync(skill)) {
+    throw new Error(
+      'investigate/SKILL.md missing — open tree looks mid-park; restore refs/files before re-running evidence-parity',
+    )
+  }
+  try {
+    const headMsg = spawnSync('git', ['log', '-1', '--pretty=%s'], {
+      cwd: root,
+      encoding: 'utf8',
+    }).stdout.trim()
+    if (/temporary investigate answer-key park/i.test(headMsg)) {
+      throw new Error(
+        'HEAD is an investigate park commit — restore main before re-running evidence-parity',
+      )
+    }
+  } catch (err) {
+    if (err instanceof Error && /park commit|SKILL/.test(err.message)) throw err
+  }
+}
 
 async function main() {
   const args = parseArgs(process.argv)
   if (args.help) {
     console.log(`Usage: npm run agent:test:evidence-parity [-- flags]
 
-Automates: compare-pairs (outcomes vs transfer + outcomes vs prompt) + optional diagnose/ablations + propose notes.
+Automates: investigate-outcomes → park caller keys → transfer/prompt → restore + compare + propose.
 Requires CURSOR_API_KEY in the environment (source .env first).
 
 Flags:
@@ -364,6 +625,8 @@ Flags:
     process.exit(1)
   }
 
+  if (!args.compareOnly) await preflightOpenTreeHealthy()
+
   const batchId = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
   const debugParent =
     args.debugDir || join(tmpdir(), `toolbox-evidence-${batchId}`)
@@ -372,6 +635,18 @@ Flags:
 
   if (args.doctor) {
     run('agent-test --doctor', ['--doctor', '--suites-dir', 'agent-suites'])
+  }
+
+  let seedPath = join(root, '_agent', 'investigate-null-arm-hygiene.patch')
+  if (!args.compareOnly) {
+    // Outside the open tree so parked/null arms cannot forage deleted hunk text via _agent/.
+    seedPath = join(tmpdir(), `toolbox-investigate-null-arm-hygiene-${batchId}.patch`)
+    console.log('\n▶ regenerate null-arm hygiene seed (tmpdir, outside open tree)')
+    const seed = regenerateInvestigateNullArmHygieneSeed({ outPath: seedPath })
+    console.log(`  ${seed.out} (${seed.pathCount} files, ${seed.bytes} bytes)`)
+    // Also refresh the conventional _agent/ path for suite JSON / offline checks —
+    // live null arms do not apply this answer-bearing patch (park-commit + guard-only).
+    regenerateInvestigateNullArmHygieneSeed({})
   }
 
   for (let i = 0; i < args.repeats; i++) {
@@ -387,6 +662,7 @@ Flags:
       runReportDir,
       repeatIndex: i + 1,
       repeatTotal: args.repeats,
+      seedPath,
     })
     runManifests.push(manifest)
     totalFailures += manifest.failures
@@ -400,6 +676,7 @@ Flags:
       startedAt: runManifests[0]?.startedAt ?? null,
       finishedAt: new Date().toISOString(),
       repeats: args.repeats,
+      primaryClaim: PRIMARY_COMPARE_ID,
       c1Aggregate: aggregateBatchC1(runManifests),
       decisionHint: null,
       runs: runManifests.map((m, idx) => ({
@@ -431,7 +708,9 @@ Flags:
     const batchPath = join(batchDir, 'batch-manifest.json')
     await writeFile(batchPath, JSON.stringify(batchManifest, null, 2) + '\n', 'utf8')
     console.log(`\nBatch manifest: ${batchPath}`)
-    console.log(`C1 aggregate: full>${agg.c1NoneWins ? 'none' : ''} wins=${agg.c1FullWins}, none wins=${agg.c1NoneWins}, ties=${agg.c1Ties}`)
+    console.log(
+      `C1 aggregate: full wins=${agg.c1FullWins}, none wins=${agg.c1NoneWins}, ties=${agg.c1Ties}`,
+    )
     console.log(`Decision hint: ${batchManifest.decisionHint}`)
   }
 

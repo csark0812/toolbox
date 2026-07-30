@@ -62,7 +62,7 @@ Scenarios that pass on both arms (ceiling) live in `investigate-outcomes-ceiling
 **Not in CI:** `npm run check` / `npm test` runs replay contract suites only. Evidence-parity is a **manual** cadence (`CURSOR_API_KEY`, live judges). Do not wire `agent:test:evidence-parity` into `.github/workflows` unless you explicitly want live spend on every PR.
 
 ```bash
-# Faster: investigate transfer only, no diagnose/ablations
+# Faster: investigate transfer only, no diagnose/ablations (forage-safe park between arms)
 npm run agent:test:evidence-parity -- --no-diagnose --no-ablations
 
 # Skip prompt baseline arm
@@ -126,6 +126,12 @@ The shared `debug-app` fixture plants **two** session bugs (`sessionGuard.ts` `>
 - `leave-redirect-guard-only.patch` — redirect comment + guard-only cookie path
 
 Dual-bug `debug-app` stays for `investigate-*-ceiling` and diagnose ceiling / D2.
+
+### Fixture hygiene (investigate null-arm)
+
+- **Outcomes:** guard-only seeds with answer keys present (skill + suite judges).
+- **Null-arm answer-key hygiene:** same class as diagnose — outcomes run first; then answer-key bytes live only in the orchestrator process (no `$TMPDIR` plaintext park). Deletions are committed on a detached HEAD with `main` / `origin/main` retargeted so `git show` cannot recover keys; refs + bytes restore afterward. Null-arm suite JSON under `_agent/null-arm-suites/` strips `judge` and uses **guard-only** seeds under `_agent/investigate-fixture-seeds/` (bug plant only — no answer-bearing hygiene patch in the agent-visible tree). Scenario display names stay opaque (`session hunch A/B`); keep `compareId` stable.
+- Tracked transfer/prompt `seedPatch` points at `_agent/investigate-null-arm-hygiene.patch` (regenerated, gitignored) for offline worktree checks; live `agent:test:evidence-parity` does **not** apply that patch after park-commit.
 
 ### Fixture hygiene (diagnose)
 

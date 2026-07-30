@@ -70,7 +70,9 @@ describe('diagnose caller park', () => {
 		execFileSync('git', ['add', '-A'], { cwd: repo })
 		execFileSync('git', ['commit', '-m', 'init'], { cwd: repo })
 
-		const handle = parkDiagnoseAnswerKeys(repo, { parkId: `git-park-${Date.now()}` })
+		const handle = parkDiagnoseAnswerKeys(repo, {
+			parkId: `diagnose-git-park-${process.pid}-${Date.now()}`,
+		})
 		commitDiagnoseParkToGit(repo, handle)
 
 		expect(() =>
