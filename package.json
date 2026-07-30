@@ -1,67 +1,67 @@
 {
-	"name": "toolbox",
-	"version": "1.0.0",
-	"description": "Public SSOT for team Cursor/Claude agent skills.",
-	"type": "module",
-	"engines": {
-		"node": ">=22"
-	},
-	"directories": {
-		"doc": "docs"
-	},
-	"scripts": {
-		"audit:hub": "skeleton audit docs --paths=README.md,AGENTS.md,docs",
-		"audit:docs": "skeleton audit docs",
-		"audit:skills": "skeleton audit skills",
-		"audit:self": "skeleton audit self",
-		"audit:deps": "npm audit --omit=dev",
-		"build": "npm run test:unit",
-		"format": "prettier --write .",
-		"format:check": "prettier --check .",
-		"lint": "eslint .",
-		"test:unit": "vitest run",
-		"test:coverage": "vitest run --coverage",
-		"sync:skills": "node --experimental-strip-types scripts/sync-claude-skills.mjs",
-		"sync:claude-skills": "npm run sync:skills",
-		"agent:test": "agent-test --suites-dir agent-suites",
-		"agent:test:outcomes": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --suite investigate-outcomes --live && agent-test --suites-dir agent-suites --suite diagnose-outcomes --live",
-		"agent:test:transfer": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --suite investigate-outcomes --live && agent-test --suites-dir agent-suites --suite investigate-transfer --live",
-		"agent:test:evidence-parity": "node scripts/run-evidence-parity.mjs",
-		"agent:test:diagnose-evidence-parity": "node scripts/run-diagnose-evidence-parity.mjs",
-		"agent:test:ablations": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --suite organization-ablations --live",
-		"agent:test:live": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --live",
-		"agent:test:live:debug": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --live --debug",
-		"validate:changed": "skeleton validate changed",
-		"validate": "npm run validate:changed",
-		"validate:ci": "skeleton validate changed --base origin/main",
-		"test": "npm run test:unit && npm run audit:hub && npm run audit:skills && npm run validate:ci",
-		"typecheck": "tsc --noEmit",
-		"check": "npm run format:check && npm run lint && npm run typecheck && npm test",
-		"start": "npm run check",
-		"dev": "npm run check"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/csark0812/toolbox.git"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/csark0812/toolbox/issues"
-	},
-	"homepage": "https://github.com/csark0812/toolbox#readme",
-	"devDependencies": {
-		"@csark0812/skeleton": "^1.5.5",
-		"@cursor/sdk": "^1.0.23",
-		"@eslint/js": "^9.39.2",
-		"@eslint/markdown": "^7.5.1",
-		"@post-print/agent-harness": "^0.3.0",
-		"@post-print/agent-test": "^0.3.1",
-		"@types/node": "^22.15.21",
-		"eslint": "^9.39.2",
-		"prettier": "^3.7.4",
-		"typescript": "^5.8.3",
-		"vitest": "^4.0.18"
-	}
+  "name": "toolbox",
+  "version": "1.0.0",
+  "description": "Public SSOT for team Cursor/Claude agent skills.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "audit:hub": "skeleton audit docs --paths=README.md,AGENTS.md,docs",
+    "audit:docs": "skeleton audit docs",
+    "audit:skills": "skeleton audit skills",
+    "audit:self": "skeleton audit self",
+    "audit:deps": "npm audit --omit=dev",
+    "build": "npm run test:unit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "sync:skills": "node --experimental-strip-types scripts/sync-claude-skills.mjs",
+    "sync:claude-skills": "npm run sync:skills",
+    "agent:test": "agent-test --suites-dir agent-suites",
+    "agent:test:outcomes": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --suite investigate-outcomes --live && agent-test --suites-dir agent-suites --suite diagnose-outcomes --live",
+    "agent:test:transfer": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --suite investigate-outcomes --live && agent-test --suites-dir agent-suites --suite investigate-transfer --live",
+    "agent:test:evidence-parity": "node scripts/run-evidence-parity.mjs",
+    "agent:test:diagnose-evidence-parity": "node scripts/run-diagnose-evidence-parity.mjs",
+    "agent:test:ablations": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --suite organization-ablations --live",
+    "agent:test:live": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --live",
+    "agent:test:live:debug": "npm run sync:claude-skills && agent-test --suites-dir agent-suites --live --debug",
+    "validate:changed": "skeleton validate changed",
+    "validate": "npm run validate:changed",
+    "validate:ci": "skeleton validate changed --base origin/main",
+    "test": "npm run test:unit && npm run audit:hub && npm run audit:skills && npm run validate:ci",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm test",
+    "start": "npm run check",
+    "dev": "npm run check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csark0812/toolbox.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/csark0812/toolbox/issues"
+  },
+  "homepage": "https://github.com/csark0812/toolbox#readme",
+  "devDependencies": {
+    "@csark0812/skeleton": "^1.5.5",
+    "@cursor/sdk": "^1.0.23",
+    "@eslint/js": "^9.39.2",
+    "@eslint/markdown": "^7.5.1",
+    "@post-print/agent-harness": "^0.3.0",
+    "@post-print/agent-test": "^0.3.1",
+    "@types/node": "^22.15.21",
+    "eslint": "^9.39.2",
+    "prettier": "^3.7.4",
+    "typescript": "^5.8.3",
+    "vitest": "^4.0.18"
+  }
 }

@@ -234,13 +234,7 @@ async function runSingleParity(
   if (!args.compareOnly) {
     syncSkills()
 
-    const liveBase = [
-      '--live',
-      '--debug',
-      '--debug-dir',
-      debugParent,
-      ...args.agentArgs,
-    ]
+    const liveBase = ['--live', '--debug', '--debug-dir', debugParent, ...args.agentArgs]
 
     const placeholderPath = join(runReportDir, '_placeholder-null.suite-report.json')
     await writePlaceholderNullReport(placeholderPath)
@@ -364,10 +358,7 @@ async function runSingleParity(
           ],
           { allowFail: true },
         )
-        const promptReportSrc = join(
-          promptCompareDir,
-          `${DIAGNOSE_PROMPT_SUITE}.suite-report.json`,
-        )
+        const promptReportSrc = join(promptCompareDir, `${DIAGNOSE_PROMPT_SUITE}.suite-report.json`)
         if (existsSync(promptReportSrc)) {
           await copyFile(promptReportSrc, reportPaths.suiteReports.prompt)
         }
@@ -404,7 +395,9 @@ async function runSingleParity(
         try {
           restoreDiagnoseParkGit(root, parkHandle)
         } catch (err) {
-          console.error(`restoreDiagnoseParkGit failed: ${err instanceof Error ? err.message : err}`)
+          console.error(
+            `restoreDiagnoseParkGit failed: ${err instanceof Error ? err.message : err}`,
+          )
         }
         restoreDiagnoseAnswerKeys(root, parkHandle)
         parkHandle = null
@@ -429,19 +422,26 @@ async function runSingleParity(
     ])
   }
 
-  if (!existsSync(reportPaths.json) && existsSync(reportPaths.suiteReports.outcomes) &&
-      existsSync(reportPaths.suiteReports.transfer)) {
-    run('agent-test compare (full vs none)', [
-      '--suites-dir',
-      'agent-suites',
-      'compare',
-      '--a',
-      reportPaths.suiteReports.outcomes,
-      '--b',
-      reportPaths.suiteReports.transfer,
-      '--compare-out',
-      runReportDir,
-    ], { allowFail: true })
+  if (
+    !existsSync(reportPaths.json) &&
+    existsSync(reportPaths.suiteReports.outcomes) &&
+    existsSync(reportPaths.suiteReports.transfer)
+  ) {
+    run(
+      'agent-test compare (full vs none)',
+      [
+        '--suites-dir',
+        'agent-suites',
+        'compare',
+        '--a',
+        reportPaths.suiteReports.outcomes,
+        '--b',
+        reportPaths.suiteReports.transfer,
+        '--compare-out',
+        runReportDir,
+      ],
+      { allowFail: true },
+    )
   }
 
   const paritySession =
@@ -474,8 +474,7 @@ async function runSingleParity(
     ])
     const fullPass = d1Rows.full.length > 0 && d1Rows.full.every((r) => r.pass && !r.skipped)
     const nonePass = d1Rows.none.length > 0 && d1Rows.none.every((r) => r.pass && !r.skipped)
-    const promptPass =
-      d1Rows.prompt.length > 0 && d1Rows.prompt.every((r) => r.pass && !r.skipped)
+    const promptPass = d1Rows.prompt.length > 0 && d1Rows.prompt.every((r) => r.pass && !r.skipped)
     const noneForensics = await summarizeD1NoneForensics(d1Rows.none)
     manifest.d1 = {
       fullPass,
@@ -557,8 +556,7 @@ Flags:
   }
 
   const batchId = `diagnose-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}`
-  const debugParent =
-    args.debugDir || join(tmpdir(), `toolbox-diagnose-evidence-${batchId}`)
+  const debugParent = args.debugDir || join(tmpdir(), `toolbox-diagnose-evidence-${batchId}`)
   const runManifests = []
   let totalFailures = 0
 
@@ -576,8 +574,7 @@ Flags:
   }
 
   for (let i = 0; i < args.repeats; i++) {
-    const runId =
-      args.repeats > 1 ? `${batchId}-r${String(i + 1).padStart(2, '0')}` : batchId
+    const runId = args.repeats > 1 ? `${batchId}-r${String(i + 1).padStart(2, '0')}` : batchId
     const runReportDir = join(evalReportsRoot, runId)
     if (args.repeats > 1) {
       console.log(`\n══ Repeat ${i + 1}/${args.repeats} (${runId}) ══`)
@@ -614,9 +611,7 @@ Flags:
       })),
     }
     const agg = batchManifest.d1Aggregate
-    const promptMatchesFull = runManifests.every(
-      (m) => m.d1?.fullPass === m.d1?.promptPass,
-    )
+    const promptMatchesFull = runManifests.every((m) => m.d1?.fullPass === m.d1?.promptPass)
     const noneRows = runManifests.flatMap((m) => m.d1?.none ?? [])
     const noneForensics = await summarizeD1NoneForensics(noneRows)
     const disposition = decideDiagnoseD1Disposition({

@@ -1,8 +1,8 @@
 {
-	"name": "debug-app",
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"test": "node --experimental-strip-types --test tests/*.test.ts"
-	}
+  "name": "debug-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-strip-types --test tests/*.test.ts"
+  }
 }

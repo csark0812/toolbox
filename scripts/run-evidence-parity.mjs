@@ -263,13 +263,7 @@ async function runSingleParity(
   if (!args.compareOnly) {
     syncSkills()
 
-    const liveBase = [
-      '--live',
-      '--debug',
-      '--debug-dir',
-      debugParent,
-      ...args.agentArgs,
-    ]
+    const liveBase = ['--live', '--debug', '--debug-dir', debugParent, ...args.agentArgs]
 
     const placeholderPath = join(runReportDir, '_placeholder-null.suite-report.json')
     await writePlaceholderNullReport(placeholderPath)
@@ -334,7 +328,8 @@ async function runSingleParity(
       let promptMat = null
       if (args.prompt) {
         const promptBuf = parkHandle.files.get(promptKey)
-        if (!promptBuf) throw new Error('park missed agent-suites/investigate-prompt/scenarios.json')
+        if (!promptBuf)
+          throw new Error('park missed agent-suites/investigate-prompt/scenarios.json')
         promptMat = materializeNullArmSuite(root, PROMPT_SUITE, null, {
           scenariosJson: promptBuf,
           seedPatchByCompareId: seedByCompareId,
@@ -521,8 +516,7 @@ async function runSingleParity(
     ])
     const fullPass = c1Rows.full.length > 0 && c1Rows.full.every((r) => r.pass && !r.skipped)
     const nonePass = c1Rows.none.length > 0 && c1Rows.none.every((r) => r.pass && !r.skipped)
-    const promptPass =
-      c1Rows.prompt.length > 0 && c1Rows.prompt.every((r) => r.pass && !r.skipped)
+    const promptPass = c1Rows.prompt.length > 0 && c1Rows.prompt.every((r) => r.pass && !r.skipped)
     manifest.c1 = {
       fullPass,
       nonePass,
@@ -628,8 +622,7 @@ Flags:
   if (!args.compareOnly) await preflightOpenTreeHealthy()
 
   const batchId = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
-  const debugParent =
-    args.debugDir || join(tmpdir(), `toolbox-evidence-${batchId}`)
+  const debugParent = args.debugDir || join(tmpdir(), `toolbox-evidence-${batchId}`)
   const runManifests = []
   let totalFailures = 0
 
@@ -650,8 +643,7 @@ Flags:
   }
 
   for (let i = 0; i < args.repeats; i++) {
-    const runId =
-      args.repeats > 1 ? `${batchId}-r${String(i + 1).padStart(2, '0')}` : batchId
+    const runId = args.repeats > 1 ? `${batchId}-r${String(i + 1).padStart(2, '0')}` : batchId
     const runReportDir = join(evalReportsRoot, runId)
     if (args.repeats > 1) {
       console.log(`\n══ Repeat ${i + 1}/${args.repeats} (${runId}) ══`)
@@ -688,9 +680,7 @@ Flags:
       })),
     }
     const agg = batchManifest.c1Aggregate
-    const promptMatchesFull = runManifests.every(
-      (m) => m.c1?.fullPass === m.c1?.promptPass,
-    )
+    const promptMatchesFull = runManifests.every((m) => m.c1?.fullPass === m.c1?.promptPass)
     if (
       agg.c1FullWins > agg.c1NoneWins &&
       agg.c1FullBeatsPrompt > agg.c1PromptBeatsFull &&

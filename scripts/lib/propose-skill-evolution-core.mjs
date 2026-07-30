@@ -87,9 +87,7 @@ export async function proposeFromDebugDir(debugDir, options) {
     readJson(join(parsed, 'environment.json')),
   ])
 
-  const failures = Array.isArray(failuresRaw)
-    ? failuresRaw
-    : (failuresRaw?.failures ?? [])
+  const failures = Array.isArray(failuresRaw) ? failuresRaw : (failuresRaw?.failures ?? [])
 
   const failedRubric =
     failures
@@ -99,8 +97,7 @@ export async function proposeFromDebugDir(debugDir, options) {
 
   const skill = inferSkill(scenarioJson, failures)
   const sessionId = basename(join(parsed, '../../..'))
-  const ts =
-    options.ts ?? new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
+  const ts = options.ts ?? new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
   const outName = `${ts}-${slugify(suite)}-${slugify(scenarioName)}.md`
   const outDir = options.outDir ?? join(repoRoot, '_agent', 'skill-evolution')
   await mkdir(outDir, { recursive: true })

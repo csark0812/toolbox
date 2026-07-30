@@ -63,8 +63,7 @@ export function costFromCompareReport(report) {
       totalTokens: transferCount > 0 ? transferSum : null,
       scenarioCount: transferCount,
     },
-    deltaTokens:
-      outcomesCount > 0 && transferCount > 0 ? transferSum - outcomesSum : null,
+    deltaTokens: outcomesCount > 0 && transferCount > 0 ? transferSum - outcomesSum : null,
   }
 }
 
@@ -106,10 +105,7 @@ export async function newestSessionAfter(sessionsParent, known = new Set()) {
  */
 export async function findParitySession(
   sessionsParent,
-  {
-    outcomesSuite = OUTCOMES_SUITE,
-    transferSuite = TRANSFER_SUITE,
-  } = {},
+  { outcomesSuite = OUTCOMES_SUITE, transferSuite = TRANSFER_SUITE } = {},
 ) {
   const sessions = await listSessionDirs(sessionsParent)
   for (let i = sessions.length - 1; i >= 0; i--) {
@@ -154,10 +150,7 @@ export async function collectResults(sessionRoot) {
           try {
             const raw = JSON.parse(await readFile(resultPath, 'utf8'))
             const scenario =
-              raw.scenarioName ??
-              raw.scenario ??
-              raw.name ??
-              basename(full).replace(/\.debug$/, '')
+              raw.scenarioName ?? raw.scenario ?? raw.name ?? basename(full).replace(/\.debug$/, '')
             const suite = raw.suiteName ?? raw.suite ?? basename(join(full, '..'))
             const compareId = raw.compareId ?? null
             let category = ''

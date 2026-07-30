@@ -1,12 +1,12 @@
 {
-	"messages": [
-		{
-			"role": "assistant",
-			"content": "Using **code-review** — primary-first path.\n\nSurface: Focused · Reviewer: primary\n\nReading the staged diff directly. No council escalation — user did not request specialists and domain is settleable from the diff.\n\n## Findings\n\n- [merge-blocker] …"
-		}
-	],
-	"toolCalls": [],
-	"shellCommands": [],
-	"skillsInvoked": ["code-review"],
-	"artifacts": {}
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **code-review** — primary-first path.\n\nSurface: Focused · Reviewer: primary\n\nReading the staged diff directly. No council escalation — user did not request specialists and domain is settleable from the diff.\n\n## Findings\n\n- [merge-blocker] …"
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
 }

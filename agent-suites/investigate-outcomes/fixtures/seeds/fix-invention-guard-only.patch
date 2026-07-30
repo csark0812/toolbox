@@ -1,13 +1,12 @@
 diff --git a/agent-suites/fixtures/debug-app/src/sessionCookie.ts b/agent-suites/fixtures/debug-app/src/sessionCookie.ts
-index 1331143..6b5b03f 100644
 --- a/agent-suites/fixtures/debug-app/src/sessionCookie.ts
 +++ b/agent-suites/fixtures/debug-app/src/sessionCookie.ts
-@@ -7,7 +7,6 @@ export function validateSessionCookie(
- 	now = Date.now(),
- ): boolean {
- 	const stored = getStoredExpiry(cookieValue);
--	// Planted bug: divides millisecond timestamps to seconds before the guard (expects ms).
--	const expiresAt = Math.floor(stored / 1000);
-+	const expiresAt = stored;
- 	return isSessionValid(expiresAt, now);
+@@ -4,7 +4,6 @@
+ /** Validate session from stored cookie string. */
+ export function validateSessionCookie(cookieValue: string | undefined, now = Date.now()): boolean {
+   const stored = getStoredExpiry(cookieValue)
+-  // Planted bug: divides millisecond timestamps to seconds before the guard (expects ms).
+-  const expiresAt = Math.floor(stored / 1000)
++  const expiresAt = stored
+   return isSessionValid(expiresAt, now)
  }
