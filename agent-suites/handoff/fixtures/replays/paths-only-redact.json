@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Using **handoff**.\n\nHandoff written to `_agent/handoffs/2026-07-29-session-auth.md`.\n\n## Artifacts (reference only)\n\n| Kind | Path or URL |\n| Plan | `.cursor/plans/auth-refactor.plan.md` |\n| PR | https://github.com/org/repo/pull/42 |\n\n## Redaction note\n\nStripped API key placeholder — `[REDACTED]`.\n\n> Handoff written to `_agent/handoffs/2026-07-29-session-auth.md` — `@`-reference it in the next session."
+      "content": "Using **handoff**.\n\nHandoff written to `_agent/handoffs/2026-07-29-session-auth.md`.\n\n## Artifacts (reference only)\n\n| Kind | Path or URL |\n| Plan | `.cursor/plans/auth-refactor.plan.md` |\n| PR | https://github.com/org/repo/pull/42 |\n\n## Redaction note\n\nStripped API key placeholder — `[REDACTED]`.\n\nPaste into a new agent:\n\n```text\nRead @_agent/handoffs/2026-07-29-session-auth.md and continue from there.\n\nGoal: Continue auth refactor from plan and PR #42\nStart with: Read the plan and implement the next open slice\n```"
     }
   ],
   "toolCalls": [],

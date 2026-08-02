@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 **Source of truth for** session context transfer into a fresh chat.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-02 -->
 
 Compact and transfer context when a long session (grill → plan → implement → review) must continue in a **fresh chat**. Every other skill assumes one continuous context window — this fills that gap.
 
@@ -36,7 +36,7 @@ Read [references/research-basis.md](references/research-basis.md) when calibrati
    - Create a unique timestamped file
    - Write the handoff using the [Output template](#output-template) below
    - Do not commit; `_agent/` should be in `.gitignore`
-6. **Tell the user the path.** End the turn with the **repo-relative path** (and absolute if helpful) so they can `@`-reference it in the next session.
+6. **Give a paste-ready new-agent prompt.** End the turn with the repo-relative path **and** a fenced prompt the user can paste into a fresh chat. The prompt must `@`-reference the handoff file (so the client attaches it) and state the next-session goal plus the first suggested action. Do not paste the handoff body into the prompt.
 
 **Suggested next steps:** infer from session state and installed skill descriptions — what the next session should do first and which workflow fits (implement, review, investigate, plan revision, etc.).
 
@@ -113,9 +113,20 @@ Next pass: [e.g. targeted contextual re-review]
 [What was redacted, or "none"]
 ```
 
-After writing, tell the user:
+After writing, tell the user the path, then a **paste-ready prompt** in a fenced code block (fill placeholders from the handoff; keep it short):
 
-> Handoff written to `_agent/handoffs/<filename>.md` — `@`-reference it in the next session.
+Handoff written to `_agent/handoffs/<filename>.md`.
+
+Paste into a new agent:
+
+```text
+Read @_agent/handoffs/<filename>.md and continue from there.
+
+Goal: <Next session goal — one line>
+Start with: <first Suggested next steps item>
+```
+
+If `@` attach is unavailable in that client, say to open or attach the same path — still do not paste the handoff body.
 
 ## Consumer bindings
 

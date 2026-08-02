@@ -12,11 +12,11 @@
       "prompt": "Hand off this session for a fresh chat. We worked on auth refactor; plan at `.cursor/plans/auth-refactor.plan.md`, PR #42. API key was mentioned in thread — must not land in the handoff file.\n\nRead `.claude/skills/handoff/SKILL.md` first. Write to `_agent/handoffs/` only.",
       "replayTrace": "agent-suites/handoff/fixtures/replays/paths-only-redact.json",
       "rubric": {
-        "must": ["_agent/handoffs", "Redaction", "Path"],
+        "must": ["_agent/handoffs", "Redaction", "Path", "Paste into a new agent", "@_agent/handoffs"],
         "mustInvokeSkill": ["handoff"],
         "mustNot": ["sk-", "BEGIN PRIVATE KEY", "paste the full plan body"],
         "judge": [
-          "The agent wrote a handoff under _agent/handoffs with artifact pointers only and noted redaction of secrets"
+          "The agent wrote a handoff under _agent/handoffs with artifact pointers only, noted redaction of secrets, and gave a paste-ready new-agent prompt that @-references the handoff path"
         ]
       }
     }
