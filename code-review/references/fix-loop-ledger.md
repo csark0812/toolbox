@@ -1,31 +1,52 @@
 # Fix-loop themes
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-16 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-03 -->
 
-Portable state for review → fix → re-review convergence. Theme identity lives in
-Action finding lines (`Theme: …`), coordinator/member prompts, and git tip /
-hotspot archaeology across chats.
+Portable state for review → fix → re-review convergence. Theme **identity** lives
+in Action finding lines (`Theme: …`), coordinator/member prompts, and git tip /
+hotspot archaeology across chats. Theme **closure state** is never durable across
+chats — re-verify against tip when thrash signal is present ([exit gate](#exit-gate)).
 
 Do not rely on line numbers or finding order as identity.
 
-## Continuity
+## Continuity (identity-only)
 
 Primary signals (in order):
 
 1. Prior finding `Theme:` lines / synthesis in this thread (if present).
 2. Prior synthesis embedded in PR body (if present).
-3. Recent commit messages containing a `theme_id` or `Review ·` header.
-4. **Commit-stack / hotspot archaeology:** tip history of micro-fixes on the same
-   files/subsystem after a broad Action pass — reconstruct provisional themes for
-   dispatch and member prompts.
-5. Old leftover review ledger file from earlier skill versions (if present): read
-   once. When the [exit gate](#exit-gate) is green (or no themes remain open),
-   delete that leftover file and remove an empty `_agent/review/` directory.
+3. Recent commit messages containing `Theme:` / `theme_id` or `Review ·` header.
+4. **Same-hotspot archaeology:** tip micro-fixes with path recurrence — reconstruct
+   provisional **contract-class** theme ids ([Predicate glossary](#predicate-glossary)).
+5. Leftover `_agent/review/REVIEW_LEDGER.md` if present: **identity labels only** —
+   ignore `closed` / state columns. Prefer Theme:/slug. Delete on green
+   ([Ledger policy](#ledger-policy)).
 
-Default user-facing output is findings + optional `Continuity:` line — not a
-theme table (see [output.md](output.md)). Carry the full table in member prompts
+Default user-facing output is findings + optional `Continuity:` session hint — not a
+theme table (see [output.md](output.md)). Continuity MUST NOT claim closed or exit-gate
+passed; it is not cross-chat authority. Carry the full table in member prompts
 whenever fix-loop applies. Emit the table in chat only on `show ledger` /
 `include continuity`.
+
+## Ledger policy
+
+- **Never write** `_agent/review/REVIEW_LEDGER.md` during an open fix-loop.
+- If a leftover file exists: do not use it for closure state; delete when the
+  [exit gate](#exit-gate) is green (or no themes remain open) and remove an empty
+  `_agent/review/` directory.
+
+## Predicate glossary
+
+| Term                                         | Definition                                                                                                                                                                                                                                                                                                                                                                                                       |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Contract-class slug**                      | v1 catalog only: `shell-argv-free-text-sinks` and `session-pin-plane-attach`. Map by **invariant failure mode** (free-text→shell/argv vs pin/plane/session attach), not filename. Not symptom wording (`adb-shell-argv-join-escape`) or basename-suffixed. Extend the catalog in skill text when adding classes — **no catch-all**. Force-fitting a non-isomorphic invariant into these two is a protocol error. |
+| **Same-hotspot**                             | In tip window (last 8 commits or since last broad Action): ≥2 commits share ≥1 **non-noise** path **and** that path appears in ≥2 of those commits (back-and-forth). One-hop shared file alone is not enough.                                                                                                                                                                                                    |
+| **Noise paths** (never count toward hotspot) | Lockfiles: `package-lock.json`, `bun.lock`, `yarn.lock`, `pnpm-lock.yaml`, `Cargo.lock`, `poetry.lock`, `*.lock`. Also `**/dist/**`, `**/build/**`, `**/*.min.js`, `CHANGELOG.md`, `LICENSE*`.                                                                                                                                                                                                                   |
+| **Same-subsystem**                           | For class mapping / sibling-collapse only — **not** a first-baseline refuse trigger. Shared high-dim class; `fix(scope):` is a hint.                                                                                                                                                                                                                                                                             |
+| **Sibling mint**                             | New Action `theme_id` when archaeology already recovered a parent for that hotspot/class → protocol error; reopen/extend the parent.                                                                                                                                                                                                                                                                             |
+| **Sweep quality**                            | Under `Thrash: inventory-required`: pass if Sweep lists named surfaces/APIs **or** matrix rows with ≥1 **class-relevant** token; fail empty/hollow `Sweep` or irrelevant name lists. Per-surface N/A with reason OK; whole-Sweep N/A alone fails.                                                                                                                                                                |
+
+**Positive same-hotspot:** commits A and B both touch `src/adb.ts` (non-noise) in the tip window → recurrence. **Negative:** only shared path is `package-lock.json` → noise, not thrash. **Negative:** commit A touches `a.ts`, commit B touches `b.ts` with no shared path → file-hop residual (may miss refuse; accepted).
 
 ## Theme record
 
@@ -55,29 +76,67 @@ member prompts. Emit it in user chat only when the user asked `include continuit
 Before filing or closing a theme, derive only the applicable rows from the
 diff. Add repo-specific dimensions when the changed behavior demands them.
 
-| Change class                | Minimum dimensions to inspect                                                                                                                                                                                                           |
-| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Routing / validation        | empty, single, mixed, skipped, unknown; local vs CI; fail-open vs fail-closed                                                                                                                                                           |
-| Paths / files               | relative, absolute, normalized, traversal, symlink, missing target, platform separator                                                                                                                                                  |
-| Source rewrites             | destination binding, titled links, duplicate URL text, inline links, reference definitions, label/title collisions, parser offsets, fence, inline code, prefix/suffix, generated file                                                   |
-| Public contracts            | runtime, schema, exported declarations, docs/examples, CLI help, error behavior, generated artifacts                                                                                                                                    |
-| State / cache / persistence | read key, write key, invalidation, migration, retry, stale/concurrent state                                                                                                                                                             |
-| Auth / permissions          | anonymous, least privilege, denied, expired, cross-tenant, partial failure                                                                                                                                                              |
-| Parser / classifier output  | See [High-dimensional contract themes](#high-dimensional-contract-themes) — whole vs fenced vs preamble; object / array / primitive; trailing junk; English salvage prefixes; incidental mid-prose blobs; fail-closed vs legacy salvage |
+| Change class                 | Minimum dimensions to inspect                                                                                                                                                                                                           |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Routing / validation         | empty, single, mixed, skipped, unknown; local vs CI; fail-open vs fail-closed                                                                                                                                                           |
+| Paths / files                | relative, absolute, normalized, traversal, symlink, missing target, platform separator                                                                                                                                                  |
+| Source rewrites              | destination binding, titled links, duplicate URL text, inline links, reference definitions, label/title collisions, parser offsets, fence, inline code, prefix/suffix, generated file                                                   |
+| Public contracts             | runtime, schema, exported declarations, docs/examples, CLI help, error behavior, generated artifacts                                                                                                                                    |
+| State / cache / persistence  | read key, write key, invalidation, migration, retry, stale/concurrent state                                                                                                                                                             |
+| Auth / permissions           | anonymous, least privilege, denied, expired, cross-tenant, partial failure                                                                                                                                                              |
+| Parser / classifier output   | See [High-dimensional contract themes](#high-dimensional-contract-themes) — whole vs fenced vs preamble; object / array / primitive; trailing junk; English salvage prefixes; incidental mid-prose blobs; fail-closed vs legacy salvage |
+| Free-text → shell/argv sinks | See [Contract-class catalog](#contract-class-catalog) · `shell-argv-free-text-sinks`                                                                                                                                                    |
+| Pin / plane / session attach | See [Contract-class catalog](#contract-class-catalog) · `session-pin-plane-attach`                                                                                                                                                      |
 
 The matrix is a review aid, not a mandate to file test inventory. Default filing
 remains merge-blockers only.
 
+## Contract-class catalog
+
+v1 portable high-dim classes (extend later in this file when adding classes — no
+catch-all). Map by invariant failure mode. Isomorphic thrash in other repos maps
+into these templates; non-isomorphic → extend catalog or use Theme: without a
+fake class slug.
+
+### `shell-argv-free-text-sinks`
+
+Free-text / agent strings entering shell argv join (device or host) such that
+unquoted metacharacters, control chars, or IFS create injection or wrong tokens.
+
+| Dimension                       | Check (or N/A)                                              |
+| ------------------------------- | ----------------------------------------------------------- |
+| Free-text sinks enumerated      | All builders that interpolate agent strings into shell argv |
+| Control chars                   | `\0` · `\n` · `\r`                                          |
+| Metachar / IFS / redirect / `$` | `;` `\|` `&` `` ` `` `$` `>` `<` and whitespace/IFS splits  |
+| Quote vs hard-reject policy     | Per field class: quote-first vs meta-reject                 |
+| Identifier sinks allowlisted    | serial / bundle / path / activity-style ids                 |
+| Boundary layer                  | MCP/CLI re-validate vs trust sink-layer only                |
+
+### `session-pin-plane-attach`
+
+Device/session attach where pin identity, plane, soft-omit, or session rebind can
+silently select the wrong target.
+
+| Dimension                           | Check (or N/A)                                    |
+| ----------------------------------- | ------------------------------------------------- |
+| Attach/open entrypoints enumerated  | Every open/attach/bring-up path                   |
+| Pin identity                        | omit→pin; explicit must match pin                 |
+| Plane reconcile before side effects | platform/udid/pin before boot/attach              |
+| Soft-omit vs hard-refuse            | incl. physical consent / never ambient physical   |
+| Bring-up asymmetry                  | boot-then-pin vs must-already-connected           |
+| Session/companion coherence         | after tunnel drop / fail-open bind / health drift |
+
 ## High-dimensional contract themes
 
-Parsers, classifiers, serializers, and similar **high-dimensional input →
-structured output** contracts thrash when each review files one reply shape and
-marks the theme `closed`. Treat them as one matrix, not a stack of sibling bugs.
+Parsers, classifiers, serializers, **shell/argv free-text sinks**, **pin/plane/session
+attach**, and similar **high-dimensional input → structured output / attach**
+contracts thrash when each review files one edge and marks the theme `closed`.
+Treat them as one matrix, not a stack of sibling bugs.
 
-Before a parser/classifier (or equivalent) theme may move to `closed`:
+Before such a theme may move to `closed`:
 
 1. Attach a **variant checklist** derived from the applicable matrix dimensions
-   below (check or N/A each row — do not stop at the filed counterexample).
+   (check or N/A each row — do not stop at the filed counterexample).
 2. Prefer **one intentional matrix pass** + regression coverage over a chain of
    symptom patches across fresh chats.
 3. On re-review, if an adjacent shape still fails, **reopen** the same
@@ -113,10 +172,13 @@ share the invariant — not only the example that was filed.
 - Matrix rows: <applicable invariant-matrix dimensions>
 ```
 
+Under `Thrash: inventory-required`, this Sweep MUST meet [Sweep quality](#predicate-glossary)
+(named class-relevant surfaces **or** matrix rows — not an empty `Sweep` heading).
+
 Rules:
 
 1. Closure evidence is incomplete until the sweep plan was executed (or each
-   skipped surface has an explicit N/A reason).
+   skipped surface has an explicit N/A reason). Whole-Sweep N/A alone fails under thrash.
 2. If a later pass finds an adjacent edge of the same invariant, mark prior
    closure incomplete and **reopen** the existing `theme_id`. Do not invent a
    fresh sibling theme.
@@ -130,14 +192,17 @@ Stop symptom-by-symptom filing when either:
 
 - Two or more Action blockers in the **same subsystem / theme family** appear
   on one pass, or
-- Pass 2+ rediscovers adjacent holes next to a recently closed theme.
+- Pass 2+ rediscovers adjacent holes next to a recently closed theme, or
+- Same-hotspot commit-stack thrash is detected ([anti-thrash.md](anti-thrash.md)).
 
 Then:
 
 1. Pause filing further individual Action blocks for that family.
 2. Perform a holistic same-invariant sweep across the shared surfaces.
-3. Collapse symptoms into one `theme_id` (or reopen the existing one).
-4. Prefer targeted contextual re-review after the sweep — not council — unless [surfaces.md](surfaces.md) § Re-review lists a qualifying Full reason **other than** whole-branch size alone.
+3. Collapse symptoms into one `theme_id` (or reopen the existing one) — contract-class
+   slug when no Theme: recovered.
+4. Stay **targeted contextual** with `Thrash: inventory-required` — **never** auto-Full
+   on thrash. Full only on explicit user ask or `new-scope-review` ([surfaces.md](surfaces.md)).
 
 ## Premature closure (named failure mode)
 
@@ -185,8 +250,8 @@ closure, or incomplete prior sweep):
    evidence.
 3. MUST NOT invent a sibling Action theme for the adjacent edge — extend /
    reopen the existing `theme_id`.
-4. Prefer targeted hotspot council on sweep surfaces — not a reflex Full
-   symptom-hunting pass.
+4. Prefer targeted hotspot attention on sweep surfaces — **not** a reflex Full
+   symptom-hunting pass. Thrash never auto-Full.
 
 ## Reconciliation
 
@@ -208,15 +273,17 @@ When the same branch/thread is reviewed again after fixes — **including bare
 `review vs main` in a new chat**:
 
 1. Reconstruct themes before dispatch ([anti-thrash.md](anti-thrash.md))
-   from findings / PR / git archaeology.
-2. Classify as `closure-re-review` vs `new-scope-review`.
+   from findings / PR / git archaeology / contract-class slug.
+2. Classify as `closure-re-review` vs `new-scope-review`. MUST NOT emit
+   `first-baseline` when same-hotspot thrash or recoverable themes exist.
 3. Carry every prior `theme_id` into member prompts; do not renumber or rename
-   for title wording changes.
+   for title wording changes; reject sibling mint for the same class/hotspot.
 4. Reconcile against prior themes (Baseline contradictions stay internal unless
    the user asked for verbose continuity).
 5. Do not claim merge-ready until the [exit gate](#exit-gate) passes.
-6. Do not Full-promote solely because the whole branch is large.
-7. On green: omit Continuity footer; delete any leftover review ledger file if present.
+6. Do not Full-promote on thrash or solely because the whole branch is large.
+7. On green: omit Continuity footer; delete any leftover review ledger file if present
+   (never write a new one).
 
 ## Hotspots
 

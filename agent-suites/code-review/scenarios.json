@@ -105,11 +105,11 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-commit.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-signal.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
+        "must": ["Reviewer: primary", "Thrash: inventory-required", "### Sweep"],
         "mustInvokeSkill": ["code-review"],
-        "mustNot": ["git commit", "Reviewer: council"],
+        "mustNot": ["git commit", "Reviewer: council", "Pass: Full contextual"],
         "judge": [
-          "The review applies the thrash signal, collapses adjacent same-family blockers into one theme_id with an explicit same-invariant sweep, and does not file sibling Action blocks for each edge"
+          "The review applies the thrash signal, collapses adjacent same-family blockers into one theme_id with an explicit same-invariant Sweep, and does not file sibling Action blocks for each edge"
         ]
       }
     },
@@ -119,7 +119,7 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/bare-re-review.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-bare-re-review-targeted.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
+        "must": ["Reviewer: primary", "Thrash: inventory-required", "Pass: targeted contextual"],
         "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
@@ -131,7 +131,7 @@
           "## Fix-loop"
         ],
         "judge": [
-          "The re-review classifies closure-re-review via commit-stack archaeology, stays primary targeted contextual, uses findings-first output without a Fix-loop theme table, and does not invent a sibling Action theme"
+          "The re-review classifies closure-re-review via same-hotspot archaeology, stays primary targeted contextual with Thrash: inventory-required, uses findings-first output without a Fix-loop theme table, and does not invent a sibling Action theme"
         ]
       }
     },
@@ -171,7 +171,7 @@
           "Reviewer: council"
         ],
         "judge": [
-          "The re-review detects premature closure, reopens the same theme_id query-preservation, includes a Continuity one-liner (not a Fix-loop theme table), and does not claim the exit gate passed"
+          "The re-review detects premature closure, reopens the same theme_id query-preservation, includes a Continuity session-hint one-liner (re-verify against tip, not a Fix-loop theme table), and does not claim the exit gate passed"
         ]
       }
     },
@@ -181,7 +181,12 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/thrash-reopen-sweep.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-reopen-sweep.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
+        "must": [
+          "Reviewer: primary",
+          "Thrash: inventory-required",
+          "Pass: targeted contextual",
+          "### Sweep"
+        ],
         "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
@@ -192,7 +197,7 @@
           "## Fix-loop"
         ],
         "judge": [
-          "The re-review applies thrash signal for a reopened theme, requires same-invariant sweep completion under one theme_id, includes a Continuity one-liner without a Fix-loop theme table, and does not file a second Action theme"
+          "The re-review applies thrash signal for a reopened theme, requires same-invariant sweep with named surfaces or matrix rows under one theme_id, includes a Continuity session hint without a Fix-loop theme table, and does not file a second Action theme"
         ]
       }
     },
@@ -224,7 +229,7 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/commit-stack-no-ledger.patch",
       "replayTrace": "agent-suites/code-review/fixtures/replays/pr-commit-stack-no-ledger.json",
       "rubric": {
-        "must": ["Reviewer: primary"],
+        "must": ["Reviewer: primary", "Thrash: inventory-required", "Pass: targeted contextual"],
         "mustInvokeSkill": ["code-review"],
         "mustNot": [
           "git commit",
@@ -236,7 +241,7 @@
           "## Fix-loop"
         ],
         "judge": [
-          "The re-review classifies closure-re-review via commit-stack archaeology, stays primary targeted contextual, uses findings-first Continuity output without a Fix-loop theme table, and does not escalate to council"
+          "The re-review classifies closure-re-review via same-hotspot archaeology, stays primary targeted contextual with Thrash: inventory-required, uses findings-first Continuity session hint without a Fix-loop theme table, and does not escalate to council"
         ]
       }
     },
@@ -291,7 +296,112 @@
         "mustInvokeSkill": ["code-review"],
         "mustNot": ["git commit", "## Fix-loop", "## Baseline contradictions", "Reviewer: council"],
         "judge": [
-          "Default re-review with open themes emits a Continuity one-liner after findings and does not emit a Fix-loop theme table or Baseline contradictions section"
+          "Default re-review with open themes emits a Continuity session-hint one-liner after findings and does not emit a Fix-loop theme table or Baseline contradictions section"
+        ]
+      }
+    },
+    {
+      "name": "re-review: hotspot stack refuses first-baseline",
+      "prompt": "review vs main\n\nTip back-and-forth micro-fix trail on shell-sink.ts after prior Action. No Theme: in the user message. Primary re-review. Default merge-blocker filing. Review only; no edits.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/shell-sink-hotspot-stack.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-hotspot-stack-refuse.json",
+      "rubric": {
+        "must": [
+          "Reviewer: primary",
+          "Pass class: closure-re-review",
+          "Thrash: inventory-required",
+          "shell-argv-free-text-sinks",
+          "### Sweep"
+        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": [
+          "git commit",
+          "Pass class: first-baseline",
+          "Pass: Full contextual",
+          "Theme: `adb-shell-argv-join-escape`",
+          "## Fix-loop"
+        ],
+        "judge": [
+          "Bare re-review with same-hotspot tip stack refuses first-baseline, uses contract-class slug shell-argv-free-text-sinks, requires Thrash inventory Sweep, and does not mint a sibling symptom theme"
+        ]
+      }
+    },
+    {
+      "name": "re-review: thrash inventory named sweep",
+      "prompt": "review vs main\n\nThrash signal on shell-argv free-text sinks; complete inventory under one theme. Primary re-review. Default merge-blocker filing. Review only; no edits.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/shell-sink-hotspot-stack.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-thrash-inventory.json",
+      "rubric": {
+        "must": [
+          "Thrash: inventory-required",
+          "### Sweep",
+          "buildShellArgv",
+          "Pass: targeted contextual"
+        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["Pass: Full contextual", "git commit", "## Fix-loop"],
+        "judge": [
+          "Thrash inventory pass stays targeted with Thrash: inventory-required and a named Sweep (buildShellArgv or matrix rows), not a hollow Sweep heading"
+        ]
+      }
+    },
+    {
+      "name": "re-review: over-fire allows first-baseline",
+      "prompt": "review vs main\n\nSingle tip fix on form.tsx; no recurring hotspot files. Primary review. Default merge-blocker filing. Review only; no edits.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/overfire-first-baseline.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-overfire-first-baseline.json",
+      "rubric": {
+        "must": ["Reviewer: primary", "Pass class: first-baseline"],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["Thrash: inventory-required", "git commit", "Reviewer: council"],
+        "judge": [
+          "When there is no same-hotspot recurrence, the review allows Pass class: first-baseline and does not force Thrash: inventory-required"
+        ]
+      }
+    },
+    {
+      "name": "re-review: sibling collapse to contract-class slug",
+      "prompt": "review vs main\n\nCandidate symptom Theme: `adb-shell-argv-join-escape` on shell-sink hotspot after prior Action on shell-argv family. Primary re-review. Default merge-blocker filing. Review only; no edits.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/shell-sink-hotspot-stack.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-sibling-collapse.json",
+      "rubric": {
+        "must": ["shell-argv-free-text-sinks", "Thrash: inventory-required"],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["Theme: `adb-shell-argv-join-escape`", "Pass: Full contextual", "git commit"],
+        "judge": [
+          "Symptom-named sibling is collapsed into parent contract-class slug shell-argv-free-text-sinks under Thrash inventory"
+        ]
+      }
+    },
+    {
+      "name": "re-review: cold archaeology slug without Theme",
+      "prompt": "review vs main\n\nReview only; no edits. No Continuity in this message. Tip hotspot stack on shell-sink.ts with no Theme: in commits. Reconstruct identity via contract-class slug.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/shell-sink-hotspot-stack.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-cold-slug-archaeology.json",
+      "rubric": {
+        "must": [
+          "Pass class: closure-re-review",
+          "shell-argv-free-text-sinks",
+          "Thrash: inventory-required"
+        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["Pass class: first-baseline", "Pass: Full contextual", "git commit"],
+        "judge": [
+          "Cold bare re-review without Theme: reconstructs contract-class slug shell-argv-free-text-sinks and refuses first-baseline"
+        ]
+      }
+    },
+    {
+      "name": "re-review: cold archaeology Theme in tip",
+      "prompt": "review vs main\n\nReview only; no edits. No Continuity in this message. Tip commit message includes Theme: shell-argv-free-text-sinks. Reconstruct the same theme_id.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/shell-sink-theme-tip.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-cold-theme-tip.json",
+      "rubric": {
+        "must": ["Theme: `shell-argv-free-text-sinks`", "Pass class: closure-re-review"],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["Pass class: first-baseline", "git commit", "## Fix-loop"],
+        "judge": [
+          "Cold re-review reconstructs the same theme_id from tip Theme: without chat Continuity or a ledger file"
         ]
       }
     }

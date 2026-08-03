@@ -1,0 +1,15 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "\nReview · source:branch · Surface: focused (1 file, 8 loc) · Reviewer: primary · Pass class: first-baseline · Filing: merge-blockers only\n\nAnti-thrash preflight: single tip fix on form.tsx; no recurring non-noise hotspot path in tip window. Over-fire negative — first-baseline allowed.\n\n## Findings\nNo merge-blockers in scope.\n\n## Review synthesis\nDid not force closure-re-review. No thrash inventory header."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [
+    "git log -8 --oneline -- agent-suites/fixtures/sample-app/src/form.tsx",
+    "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/form.tsx"
+  ],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

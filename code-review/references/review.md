@@ -31,4 +31,4 @@ Always [output.md](output.md): finding blocks, optional Continuity, tails. **Rev
 
 ## Fix implementation (after review)
 
-User "address all" / "fix all" / "yes" to ship-blockers → read prior themes (findings / git archaeology) before coding; invariant-complete batches; repo validation; end with findings + Continuity if themes remain open. On green, delete leftover `_agent/review/REVIEW_LEDGER.md` if present.
+User "address all" / "fix all" / "yes" to ship-blockers → read prior themes (findings / git archaeology) before coding; invariant-complete batches; include `Theme: <id>` in fix commit messages; repo validation; end with findings + Continuity session hint if themes remain open. On green, delete leftover `_agent/review/REVIEW_LEDGER.md` if present — **never write** a new ledger file.

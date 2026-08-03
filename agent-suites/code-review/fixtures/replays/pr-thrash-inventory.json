@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "\nReview · source:branch · Surface: focused (1 file, 10 loc) · Reviewer: primary · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; thrash inventory) · Pass: targeted contextual · Thrash: inventory-required · Filing: merge-blockers only\n\nAnti-thrash preflight: thrash signal on shell-argv family. Header Thrash: inventory-required. Named Sweep (not hollow).\n\n## Findings\n\n### Complete shell-argv inventory under one theme\n\n`agent-suites/fixtures/sample-app/src/shell-sink.ts` · Theme: `shell-argv-free-text-sinks` · Severity: high · Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nInventory required — do not tip-patch only the newline edge.\n\n</details>\n\n### Sweep · `shell-argv-free-text-sinks`\n\n- Symbols / APIs: `buildShellArgv`\n- Matrix rows: free-text sinks enumerated · control chars · metachar/IFS · quote vs reject · identifiers N/A · boundary N/A\n\nContinuity: shell-argv-free-text-sinks — re-verify matrix/sweep against tip. Next review stays targeted.\n\n## Review synthesis\nMustNot hollow Sweep. MustNot Full contextual. MustNot sibling mint."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": ["git diff main...HEAD -- agent-suites/fixtures/sample-app/src/shell-sink.ts"],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

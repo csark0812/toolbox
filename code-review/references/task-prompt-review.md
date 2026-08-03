@@ -103,37 +103,38 @@ dispatch plan. Use the matching depth lane:
 
 ```
 Fix-loop: contextual re-review
-Pass lane: <targeted contextual | Full contextual>
-Theme recovery source: <chat findings | PR body | git log | commit-stack archaeology | legacy leftover | none>
+Pass lane: targeted contextual | Full contextual (user ask or new-scope-review only — never thrash→Full)
+Thrash: inventory-required when same-hotspot stack / thrash signal / reopened high-dim theme
+Theme recovery source: <chat findings | PR body | git log Theme: | contract-class slug archaeology | leftover identity-only | none>
 Prior synthesis + themes: <paste current stable-theme table for members>
-Sweep plans: <paste Sweep · theme-id blocks>
+Sweep plans: <paste Sweep · theme-id blocks — named class-relevant surfaces or matrix rows>
 Depth: <Standard|Quick|Full>; diff: whole branch + sweep surfaces
-User output: findings + Theme ids; Continuity one-liner if open; full theme table only if user asked show ledger.
+User output: findings + Theme ids; Continuity session hint if open; full theme table only if user asked show ledger.
 
-Reject sibling Action themes for adjacent variants — extend/reopen the existing theme_id.
+Reject sibling Action themes for adjacent variants — extend/reopen the existing theme_id (contract-class slug when no Theme:).
 If the same theme_id reopened on pass 2+, complete the same-invariant sweep before filing more Action blocks in that family.
-For parser/classifier (high-dimensional) themes: refuse closed until fix-loop-ledger.md § High-dimensional contract themes checklist is complete.
+For high-dimensional themes (parser / shell-argv / session-pin-plane): refuse closed until fix-loop-ledger.md matrix checklist is complete.
 
 Read the assigned scope independently, then reconcile every candidate:
 1. Same theme, incomplete fix → reopen existing theme_id.
 2. Same invariant, new variant → add evidence to the existing theme (prior closure incomplete).
-3. Genuinely new invariant → create a theme_id and explain in one line why prior passes missed this blocker class.
+3. Genuinely new invariant → create a theme_id and explain in one line why prior passes missed this blocker class. Non-isomorphic thrash → extend catalog; do not force-fit.
 4. No reachable production failure → Noted/Deferred under filing rules.
 
 Reject fresh Action blocks for adjacent variants unless the root invariant differs.
 For every theme marked closed or newly fixed, ask: what other variants of this
 invariant would fail if this fix is too narrow? Check fix-loop-ledger.md
 § Same-invariant sweep, § Variant coverage before closure, § High-dimensional
-contract themes, and the applicable matrix rows.
+contract themes / Contract-class catalog, and the applicable matrix rows.
 
 Thrash signal: if 2+ blockers share a subsystem/theme family, or tip is another
-micro-fix on a multi-pass hotspot, stop filing symptoms and perform a holistic
-invariant audit under one theme_id.
+micro-fix on a same-hotspot stack, stop filing symptoms and perform a holistic
+invariant audit under one theme_id with Thrash: inventory-required.
 
 Identify files/subsystems changed in 2+ fix passes and review those hotspots holistically.
 Do not claim merge-ready or "final blockers" unless fix-loop-ledger.md § Exit gate passes.
 ```
 
-Theme identity and closure state do not reset between passes. Targeted lane still
-reconciles against prior-theme risk on the whole branch; Full lane revisits the
-entire branch when promotion triggers match.
+Theme identity does not reset between passes; closure state is re-verified against tip.
+Targeted lane still reconciles against prior-theme risk on the whole branch; Full lane
+only on user ask or new-scope-review.

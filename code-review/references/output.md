@@ -22,15 +22,16 @@ Match the **scannable finding-block shape** for **Action** items — short imper
 Review · source:branch · Surface: standard (4 files, 186 loc) · Reviewer: primary · Pass class: first-baseline · Filing: merge-blockers only
 ```
 
-| Field         | Values                                                                                                        |
-| ------------- | ------------------------------------------------------------------------------------------------------------- |
-| `source:`     | Adapter id from [sources.md](sources.md) (`uncommitted`, `staged-only`, `commit`, `branch`, `pr`, `paths`, …) |
-| `Surface:`    | `focused` \| `standard` \| `broad` + `(N files, M loc)` in scope                                              |
-| `Reviewer:`   | `primary` (default) \| `primary+specialists` \| `council`                                                     |
-| `Pass class:` | When anti-thrash ran: `first-baseline` \| `closure-re-review` \| `new-scope-review` \| `fix-implementation`   |
-| `Pass:`       | On `closure-re-review`: `targeted contextual` (default) or `Full contextual` + reason                         |
-| `Escalation:` | When escalated or carve-out: e.g. `Stayed targeted contextual (closure-re-review; whole-branch size ignored)` |
-| `Filing:`     | `merge-blockers only` (default) or improvements mode per [merge-blockers.md](merge-blockers.md)               |
+| Field         | Values                                                                                                                                          |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source:`     | Adapter id from [sources.md](sources.md) (`uncommitted`, `staged-only`, `commit`, `branch`, `pr`, `paths`, …)                                   |
+| `Surface:`    | `focused` \| `standard` \| `broad` + `(N files, M loc)` in scope                                                                                |
+| `Reviewer:`   | `primary` (default) \| `primary+specialists` \| `council`                                                                                       |
+| `Pass class:` | When anti-thrash ran: `first-baseline` \| `closure-re-review` \| `new-scope-review` \| `fix-implementation`                                     |
+| `Pass:`       | On `closure-re-review`: `targeted contextual` (default) or `Full contextual` + reason (user ask or `new-scope-review` only — never thrash→Full) |
+| `Thrash:`     | When thrash / same-hotspot stack: `inventory-required` (mandatory with targeted Pass)                                                           |
+| `Escalation:` | When escalated or carve-out: e.g. `Stayed targeted contextual (closure-re-review; whole-branch size ignored)`                                   |
+| `Filing:`     | `merge-blockers only` (default) or improvements mode per [merge-blockers.md](merge-blockers.md)                                                 |
 
 **Primary default example:**
 
@@ -41,7 +42,7 @@ Review · source:uncommitted · Surface: focused (1 file, 42 loc) · Reviewer: p
 **Closure re-review example:**
 
 ```markdown
-Review · source:branch · Surface: broad (28 files, 1200 loc) · Reviewer: primary · Pass class: closure-re-review · Escalation: Stayed targeted contextual (whole-branch size ignored) · Pass: targeted contextual · Filing: merge-blockers only
+Review · source:branch · Surface: broad (28 files, 1200 loc) · Reviewer: primary · Pass class: closure-re-review · Escalation: Stayed targeted contextual (whole-branch size ignored) · Pass: targeted contextual · Thrash: inventory-required · Filing: merge-blockers only
 ```
 
 Missing `Reviewer:` or `Surface:` = incomplete turn. On escalated runs, log `Escalation reason:` in synthesis when not obvious.
@@ -108,7 +109,7 @@ One block per **Action** issue, severity descending (critical → high → mediu
 
 **Cross-turn references (fix-loop):** cite the stable `theme_id` from [fix-loop-ledger.md](fix-loop-ledger.md). Titles and locations may change without creating a new theme.
 
-**Re-review:** classify every candidate as incomplete fix, same-invariant variant, genuinely new invariant, or non-blocking. Same invariant + new edge extends the existing `theme_id` (incomplete prior closure) — never a fresh sibling for an adjacent hole. Do not append sibling blocks for minor edges on **closed** themes. A genuinely new Action theme on pass 2+ must include `Prior-pass miss: <why this blocker class escaped earlier invariant/contract coverage>.` Header must record `Pass: targeted contextual` or `Pass: Full contextual` with reason.
+**Re-review:** classify every candidate as incomplete fix, same-invariant variant, genuinely new invariant, or non-blocking. Same invariant + new edge extends the existing `theme_id` (incomplete prior closure) — never a fresh sibling for an adjacent hole. Do not append sibling blocks for minor edges on **closed** themes. A genuinely new Action theme on pass 2+ must include `Prior-pass miss: <why this blocker class escaped earlier invariant/contract coverage>.` Header must record `Pass: targeted contextual` (thrash → also `Thrash: inventory-required`) or `Pass: Full contextual` only for user ask / `new-scope-review`.
 
 ```markdown
 ## Reset panelMode on host navigation
@@ -197,7 +198,7 @@ Review · source:branch · Surface: standard (3 files, 90 loc) · Reviewer: prim
 
 `path` · Theme: `theme-id` · …
 
-Continuity: theme-id still open on path (reason). Next review stays targeted.
+Continuity: theme-id — re-verify matrix/sweep against tip (reason). Next review stays targeted.
 
 ## Review synthesis
 
@@ -213,12 +214,13 @@ When Action themes remain `open` or `reopened` and the user did **not** ask for
 verbose continuity, end findings with **one** line (before synthesis):
 
 ```markdown
-Continuity: query-preservation still open on redirect.ts (hash variant). Next review stays targeted.
+Continuity: theme-id — re-verify matrix/sweep against tip (reason). Next review stays targeted.
 ```
 
-Include `theme_id`, hotspot path, and why it remains open. No table. On green /
-zero open themes: omit this line. If an old leftover review ledger file is
-present, delete it.
+Session hint only: include `theme_id`, hotspot, and what to re-verify. MUST NOT claim
+closed, exit-gate passed, or matrix complete. Not cross-chat authority. No table. On
+green / zero open themes: omit this line. If an old leftover review ledger file is
+present, delete it (never write a new one).
 
 ## Fix-loop themes (opt-in verbose)
 

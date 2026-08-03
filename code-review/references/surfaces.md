@@ -42,8 +42,18 @@ Bands are **guides** — conceptual coherence matters more than LOC alone.
 
 When [anti-thrash.md](anti-thrash.md) classifies `closure-re-review`:
 
-- **Whole-surface bulk must not** promote to council on size alone.
+- **Whole-surface bulk must not** promote to council or Full on size alone.
 - Stay **primary** targeted closure; optional Quick (1) specialist only if primary cannot settle a hotspot.
-- Header records `Pass class: closure-re-review` · `Pass: targeted contextual` and size carve-out when applicable — [output.md](output.md).
+- On thrash / same-hotspot stack: header records `Pass: targeted contextual` · `Thrash: inventory-required` — never auto-Full.
+- Header records `Pass class: closure-re-review` · `Pass: targeted contextual` (or `Full contextual` only per § Full contextual) and size carve-out when applicable — [output.md](output.md).
 
-Contextual re-review rules (targeted vs Full contextual) live in [fix-loop-ledger.md](fix-loop-ledger.md) and [anti-thrash.md](anti-thrash.md); they apply on **any** source adapter.
+## Full contextual
+
+Promote to `Pass: Full contextual` (primary whole-branch / new-scope revisit — **not** automatic council) **only** when:
+
+1. User explicitly asks Full / whole-branch revisit / inventory-all, **or**
+2. Pass class is `new-scope-review` (scope materially outside reconstructed themes — new subsystem/contract, not an adjacent edge of an open family).
+
+**Never** Full for: thrash signal, same-hotspot commit-stack, sibling edge of an open family, or whole-branch size alone. Those stay targeted + inventory-required when thrash applies.
+
+Contextual re-review rules (targeted vs Full) live in [fix-loop-ledger.md](fix-loop-ledger.md) and [anti-thrash.md](anti-thrash.md); they apply on **any** source adapter.

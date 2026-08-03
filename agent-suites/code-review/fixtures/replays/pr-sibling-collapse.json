@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "\nReview · source:branch · Surface: focused (1 file, 12 loc) · Reviewer: primary · Pass class: closure-re-review · Escalation: Stayed targeted contextual (sibling collapse) · Pass: targeted contextual · Thrash: inventory-required · Filing: merge-blockers only\n\nAnti-thrash preflight: symptom-named sibling candidate on shell-sink hotspot. Collapse to parent contract-class slug `shell-argv-free-text-sinks`.\n\n## Findings\n\n### Reopen shell-argv-free-text-sinks (sibling mint rejected)\n\n`agent-suites/fixtures/sample-app/src/shell-sink.ts` · Theme: `shell-argv-free-text-sinks` · Severity: high · Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nAdjacent metachar edge — same invariant. Collapse symptom-named sibling into parent contract-class slug; do not mint a new theme_id.\n\n</details>\n\n### Sweep · `shell-argv-free-text-sinks`\n\n- Symbols / APIs: `buildShellArgv`\n- Matrix rows: free-text sinks · control chars · metachar/IFS\n\nContinuity: shell-argv-free-text-sinks — re-verify matrix/sweep against tip. Next review stays targeted.\n\n## Review synthesis\nSibling mint rejected."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": ["git diff main...HEAD -- agent-suites/fixtures/sample-app/src/shell-sink.ts"],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

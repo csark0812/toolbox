@@ -7,7 +7,7 @@ description: Primary-first code review for any diff source — surface size sets
 
 **Source of truth for** portable primary-first code-review workflow.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-03 -->
 
 Consumer overlays arrive as project-specific injected context on skill read.
 

@@ -1,0 +1,8 @@
+diff --git a/agent-suites/fixtures/sample-app/src/form.tsx b/agent-suites/fixtures/sample-app/src/form.tsx
+--- a/agent-suites/fixtures/sample-app/src/form.tsx
++++ b/agent-suites/fixtures/sample-app/src/form.tsx
+@@ -1,3 +1,4 @@
++/** Single tip fix — over-fire negative (no recurring hotspot stack). */
+ type SubmitState = 'idle' | 'submitting' | 'success' | 'error'
+ 
+ export interface SampleFormState {
