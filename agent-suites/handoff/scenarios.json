@@ -1,6 +1,6 @@
 {
   "name": "handoff",
-  "description": "Portable handoff skill conformance: paths-only artifacts and redaction before write",
+  "description": "Portable handoff skill conformance: paths-only artifacts, redaction, and same-root write",
   "defaults": {
     "host": "replay",
     "profile": "cursor",
@@ -12,11 +12,31 @@
       "prompt": "Hand off this session for a fresh chat. We worked on auth refactor; plan at `.cursor/plans/auth-refactor.plan.md`, PR #42. API key was mentioned in thread — must not land in the handoff file.\n\nRead `.claude/skills/handoff/SKILL.md` first. Write to `_agent/handoffs/` only.",
       "replayTrace": "agent-suites/handoff/fixtures/replays/paths-only-redact.json",
       "rubric": {
-        "must": ["_agent/handoffs", "Redaction", "Path", "Paste into a new agent", "@_agent/handoffs"],
+        "must": ["_agent/handoffs", "Redaction", "Path", "Open workspace"],
         "mustInvokeSkill": ["handoff"],
         "mustNot": ["sk-", "BEGIN PRIVATE KEY", "paste the full plan body"],
         "judge": [
-          "The agent wrote a handoff under _agent/handoffs with artifact pointers only, noted redaction of secrets, and gave a paste-ready new-agent prompt that @-references the handoff path"
+          "The agent wrote a handoff under _agent/handoffs with artifact pointers only, noted redaction of secrets, and gave a paste-ready prompt that names the workspace root"
+        ]
+      }
+    },
+    {
+      "name": "handoff: write into next-session workspace not current root",
+      "prompt": "Current chat is rooted in /tmp/unrelated-app. Next session must edit the voice skill under /tmp/personal-toolbox. /handoff to harden voice em-dash ban.\n\nRead `.claude/skills/handoff/SKILL.md` first. Do not write the handoff under /tmp/unrelated-app.",
+      "replayTrace": "agent-suites/handoff/fixtures/replays/cross-root-target.json",
+      "rubric": {
+        "must": [
+          "/tmp/personal-toolbox/_agent/handoffs",
+          "Open workspace: /tmp/personal-toolbox",
+          "@_agent/handoffs/"
+        ],
+        "mustInvokeSkill": ["handoff"],
+        "mustNot": [
+          "/tmp/unrelated-app/_agent/handoffs",
+          "paste the handoff body"
+        ],
+        "judge": [
+          "The agent wrote the handoff under the personal-toolbox target workspace (not the unrelated current root) and the paste prompt requires opening that workspace before relative @"
         ]
       }
     }

@@ -1,0 +1,21 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **handoff**. Next-session work owns `/tmp/personal-toolbox`, not the current unrelated root — writing there.\n\nHandoff written to `/tmp/personal-toolbox/_agent/handoffs/20260803T025440Z-voice-ban-em-dashes.md` (workspace: `/tmp/personal-toolbox`).\n\nPaste into a new agent **rooted in that workspace**:\n\n```text\nOpen workspace: /tmp/personal-toolbox\n\nRead @_agent/handoffs/20260803T025440Z-voice-ban-em-dashes.md and continue from there.\n\nGoal: Harden /voice so outbound drafts never use em dashes\nStart with: Harden the ban in idiolect + anti-voice + self-check\n```"
+    }
+  ],
+  "toolCalls": [
+    {
+      "toolName": "Write",
+      "arguments": {
+        "path": "/tmp/personal-toolbox/_agent/handoffs/20260803T025440Z-voice-ban-em-dashes.md"
+      }
+    }
+  ],
+  "shellCommands": [
+    "mkdir -p /tmp/personal-toolbox/_agent/handoffs"
+  ],
+  "skillsInvoked": ["handoff"],
+  "artifacts": {}
+}

@@ -2,7 +2,7 @@
 
 **Source of truth for** evidence and limits behind session context transfer.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-03 -->
 
 Read when calibrating a move or making a research claim. Not for every handoff.
 
@@ -10,6 +10,14 @@ Read when calibrating a move or making a research claim. Not for every handoff.
 
 - Handoff compresses **pointers**, not artifact bodies — fights context loss without duplicating SSOT files.
 - Ephemeral `_agent/handoffs/` stays outside doc audit perimeter; never commit secrets.
+
+## Same-root @ attach
+
+Relative `@_agent/handoffs/...` resolves against the **next chat's workspace root**. Writing under the current chat root when next-session work lives in another repo produces a missing-file miss even when the paste prompt looks correct.
+
+**Confidence:** High — observed failure mode when handoff was written under an unrelated repo while `@` was used from the skill-owning workspace.
+
+**Does not transfer:** Noting “work lives elsewhere” in the handoff body while still writing `_agent/handoffs/` under the wrong root; relative `@` does not cross roots.
 
 ## Reference don't duplicate
 
