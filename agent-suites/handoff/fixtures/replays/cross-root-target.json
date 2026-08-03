@@ -13,9 +13,7 @@
       }
     }
   ],
-  "shellCommands": [
-    "mkdir -p /tmp/personal-toolbox/_agent/handoffs"
-  ],
+  "shellCommands": ["mkdir -p /tmp/personal-toolbox/_agent/handoffs"],
   "skillsInvoked": ["handoff"],
   "artifacts": {}
 }

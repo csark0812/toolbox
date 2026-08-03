@@ -31,10 +31,7 @@
           "@_agent/handoffs/"
         ],
         "mustInvokeSkill": ["handoff"],
-        "mustNot": [
-          "/tmp/unrelated-app/_agent/handoffs",
-          "paste the handoff body"
-        ],
+        "mustNot": ["/tmp/unrelated-app/_agent/handoffs", "paste the handoff body"],
         "judge": [
           "The agent wrote the handoff under the personal-toolbox target workspace (not the unrelated current root) and the paste prompt requires opening that workspace before relative @"
         ]
