@@ -44,7 +44,7 @@ Pass 2+ must include loop state. `closure-re-review` without prior themes / just
    4. Contextual ledger overlay when prior Action findings exist
    5. Consumer overlays when injected on skill read
 
-5. **Pre-spawn model-routing gate** — [multi Pre-spawn model-routing gate](../../multi/SKILL.md#pre-spawn-model-routing-gate). Dispatch plans use `Parent model: [Auto | <named model>]` and `model=[inherit-auto | slug]`. `inherit-auto` means **omit** the Task/Subagent `model` argument. Council dispatch does not redefine that gate.
+5. **Pre-spawn model-routing gate** — [multi Pre-spawn model-routing gate](../../multi/references/model-routing.md#pre-spawn-model-routing-gate). Dispatch plans use `Parent model: [Auto | <named model>]` and `model=[inherit-auto | slug]`. `inherit-auto` means **omit** the Task/Subagent `model` argument. Council dispatch does not redefine that gate.
 6. **Spawn** — one Task per SELECTED member in parallel.
 7. **Synthesize** — [synthesis.md](synthesis.md) → [output.md](output.md). Primary validates every specialist finding before filing.
 

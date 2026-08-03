@@ -38,6 +38,6 @@ Live skill-on vs skill-off transfer for diagnose is measured with `npm run agent
 
 ## Handoff to TDD
 
-Diagnostic instrument ≠ regression spec; [`tdd`](../tdd/SKILL.md) locks the seam after the mechanism is understood.
+Diagnostic instrument ≠ regression spec; [`tdd`](../../tdd/SKILL.md) locks the seam after the mechanism is understood.
 
 **Confidence:** High for separation of concerns; not a claim about TDD effect sizes.
