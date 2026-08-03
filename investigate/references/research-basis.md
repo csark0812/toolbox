@@ -79,7 +79,7 @@ Batch: `_agent/evidence-runs/batch-2026-07-29T21-48-54/batch-manifest.json`
 
 ### Decision (2026-07-29)
 
-**Demote** — keep slug and contract suites; drop from default consumer install bundle ([tiers.md](../../docs/tiers.md)). Routing slug remains for explicit hunch→verdict dispatch; prefer diagnose when locus unclear.
+**Demote** — keep slug and contract suites; drop from default consumer install bundle ([tiers.md](https://raw.githubusercontent.com/csark0812/toolbox/main/docs/tiers.md)). Routing slug remains for explicit hunch→verdict dispatch; prefer diagnose when locus unclear.
 
 **Not Remove** — full still separates from hunch-only on C1 (2/3); protocol value may exist outside the narrow C1 rubric.
 

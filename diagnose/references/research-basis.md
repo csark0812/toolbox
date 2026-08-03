@@ -24,7 +24,7 @@ No on-demand red signal → no hypotheses. The tight loop must be red-capable, d
 
 ## Evidence parity
 
-Live skill-on vs skill-off transfer for diagnose is measured with `npm run agent:test:diagnose-evidence-parity` (manual cadence; see [docs/evidence-parity.md](../../docs/evidence-parity.md)).
+Live skill-on vs skill-off transfer for diagnose is measured with `npm run agent:test:diagnose-evidence-parity` (manual cadence; see [evidence-parity.md](https://raw.githubusercontent.com/csark0812/toolbox/main/docs/evidence-parity.md)).
 
 | ID  | Claim                                               |
 | --- | --------------------------------------------------- |
