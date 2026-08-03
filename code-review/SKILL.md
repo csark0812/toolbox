@@ -45,10 +45,10 @@ Follow [review.md](references/review.md) end-to-end:
 
 1. **Source adapter** — [sources.md](references/sources.md): acquire diff + light framing.
 2. **Surface band** — [surfaces.md](references/surfaces.md): measure scope; assign Focused / Standard / Broad; log `Surface: …` · `Reviewer: primary`.
-3. **Re-review preflight** — when prior Action themes may exist, [anti-thrash.md](references/anti-thrash.md) before synthesis (any adapter).
-4. **Primary review** — default path: coordinator reads diff and related code; **no Task members** unless [escalation.md](references/escalation.md) applies.
-5. **Escalate only when matched** — user asks for lens/council, or primary cannot settle a domain after inspection; then `multi` + [council-dispatch.md](references/council-dispatch.md) → [synthesis.md](references/synthesis.md).
-6. **Output** — [output.md](references/output.md): findings-first; Continuity when themes open; merge-status lines only when merge-readiness is in the ask.
+3. **Re-review preflight** — bare `review vs main` / tip micro-fix / recoverable themes → [anti-thrash.md](references/anti-thrash.md) **before synthesis and before any Task/council** (hard stop forbids `first-baseline` while triggers fire).
+4. **Primary review** — default path: coordinator reads diff and related code; **no Task members** unless [escalation.md](references/escalation.md) applies after the hard stop.
+5. **Escalate only when matched** — user asks for lens/council, or primary cannot settle a domain after inspection; then `multi` + [council-dispatch.md](references/council-dispatch.md) → [synthesis.md](references/synthesis.md). Dispatch plan must carry `Pass class:` + archaeology evidence.
+6. **Output** — [output.md](references/output.md): findings-first; Continuity when themes open; Persist reminder when Action > 0; merge-status lines only when merge-readiness is in the ask.
 
 **Filing:** merge-blockers only unless user opted into improvements ([merge-blockers.md](references/merge-blockers.md)).
 

@@ -1,0 +1,16 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "\nReview · source:branch · Surface: focused (1 file, 8 loc) · Reviewer: primary · Pass class: closure-re-review · Escalation: Stayed targeted contextual (closure-re-review; hard stop — empty PR Continuity + same-hotspot tip; whole-branch size ignored) · Pass: targeted contextual · Thrash: inventory-required · Filing: merge-blockers only\n\nAnti-thrash hard stop: bare `review vs main`; PR body product summary only (no Theme:/Continuity); tip same-hotspot trail on `shell-sink.ts`. Archaeology → provisional `shell-argv-free-text-sinks`. Forced Pass class: closure-re-review — did not spawn Task/council; first-baseline forbidden.\n\n## Findings\n\n### Inventory shell-argv-free-text-sinks under empty-PR cold start\n\n`agent-suites/fixtures/sample-app/src/shell-sink.ts` · Theme: `shell-argv-free-text-sinks` · Severity: high · Scope: ship-blocker\n\n<details>\n<summary>Description</summary>\n\nEmpty PR Continuity channel must not re-baseline. Same-hotspot tip trail forces closure-re-review + inventory Sweep.\n\n</details>\n\n### Sweep · `shell-argv-free-text-sinks`\n\n- Symbols / APIs: `buildShellArgv`\n- Matrix rows: free-text sinks · control chars · metachar/IFS\n\nContinuity: shell-argv-free-text-sinks — re-verify matrix/sweep against tip. Next review stays targeted.\n\nPersist (cold-chat recovery):\n- PR body: paste identity Continuity / theme_ids under a `## Continuity` heading (ids + hotspots only — no closure claims).\n- Fix commits: include `Theme: <id>` in each fix commit message when addressing review findings.\n\n## Review synthesis\nHard stop cleared with closure-re-review. No first-baseline. No council spawn. Persist reminder emitted because Action > 0."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [
+    "git log --oneline --stat -n 12",
+    "git log -8 --oneline -- agent-suites/fixtures/sample-app/src/shell-sink.ts",
+    "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/shell-sink.ts"
+  ],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

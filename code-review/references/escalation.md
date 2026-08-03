@@ -2,7 +2,7 @@
 
 Primary-first by default. Council machinery is **opt-in / justified**, not automatic.
 
-**Fit check timing:** [`multi` Fit check](../multi/SKILL.md#fit-check) applies only when deciding **whether** to leave primary (unresolved domain after inspection). User asks for a named lens / `council` / `multi-agent` / `exhaustive council` already authorize escalation — do not re-run Fit check to waive spawn. Once this skill has placed the run on specialists or council, the [`multi` entry-skill carve-out](../multi/SKILL.md#fit-check) applies: spawn per budget; do not re-litigate “one agent suffices.”
+**Fit check timing:** [`multi` Fit check](../../multi/SKILL.md#fit-check) applies only when deciding **whether** to leave primary (unresolved domain after inspection). User asks for a named lens / `council` / `multi-agent` / `exhaustive council` already authorize escalation — do not re-run Fit check to waive spawn. Once this skill has placed the run on specialists or council, the [`multi` entry-skill carve-out](../../multi/SKILL.md#fit-check) applies: spawn per budget; do not re-litigate “one agent suffices.”
 
 ## Rungs
 
@@ -24,7 +24,7 @@ When council or specialists run → [council-dispatch.md](council-dispatch.md). 
 
 ## Re-review
 
-`closure-re-review` → primary targeted closure by default; see [surfaces.md](surfaces.md) § Re-review and [anti-thrash.md](anti-thrash.md). User-requested council on re-review uses this ladder.
+`closure-re-review` → primary targeted closure by default; see [surfaces.md](surfaces.md) § Re-review and [anti-thrash.md](anti-thrash.md). User-requested council on re-review uses this ladder — only after the anti-thrash hard stop (no `first-baseline` spawn on micro-fix trail / recoverable themes).
 
 ## Forbidden
 

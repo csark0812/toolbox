@@ -66,10 +66,10 @@ Pass as `task_paths[]` to entry-skill scoring.
 
 Agent `dispatch.model.default` and `premium_when` are **tier metadata**, not spawn instructions.
 
-1. Resolve the member model with [multi routing precedence](../SKILL.md#routing-precedence-canonical-order) and validate it with the [pre-spawn gate](../SKILL.md#pre-spawn-model-routing-gate).
+1. Resolve the member model with [multi routing precedence](model-routing.md#routing-precedence-canonical-order) and validate it with the [pre-spawn gate](model-routing.md#pre-spawn-model-routing-gate).
 2. Under an Auto parent without a user override, metadata stays informational: plan `model=inherit-auto` and omit the tool `model` argument.
 3. Tier→slug mapping is only for the named-parent branch; when it applies, use [model-routing.md](model-routing.md) for cost/fit and anti-fast rules.
-4. Usage-limit start/stop failures use [multi usage-limit retry](../SKILL.md#usage-limit-retry).
+4. Usage-limit start/stop failures use [multi usage-limit retry](model-routing.md#usage-limit-retry).
 
 ## Availability log (required in dispatch plan)
 
