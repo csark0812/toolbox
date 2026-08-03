@@ -404,6 +404,32 @@
           "Cold re-review reconstructs the same theme_id from tip Theme: without chat Continuity or a ledger file"
         ]
       }
+    },
+    {
+      "name": "re-review: empty-pr tip hard-stop refuses first-baseline",
+      "prompt": "review vs main\n\nReview only; no edits. New chat. PR body is product summary only — no Theme:, Continuity, or theme table. Tip has a same-hotspot micro-fix trail on shell-sink.ts. Run anti-thrash hard stop before any Task/council. Default merge-blocker filing.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/shell-sink-hotspot-stack.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-empty-pr-tip-hard-stop.json",
+      "rubric": {
+        "must": [
+          "Pass class: closure-re-review",
+          "Thrash: inventory-required",
+          "shell-argv-free-text-sinks",
+          "Persist (cold-chat recovery)",
+          "Reviewer: primary"
+        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": [
+          "Pass class: first-baseline",
+          "Pass: Full contextual",
+          "Reviewer: council",
+          "git commit",
+          "## Fix-loop"
+        ],
+        "judge": [
+          "Empty PR Continuity plus tip same-hotspot trail forces hard-stop closure-re-review (not first-baseline), stays primary targeted with Thrash inventory, and emits Persist cold-chat recovery instructions"
+        ]
+      }
     }
   ]
 }

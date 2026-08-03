@@ -274,6 +274,14 @@ describe('toolbox skill SSOT', () => {
     expect(antiThrash).toMatch(/Never write/)
     expect(antiThrash).toMatch(/Green cleanup/)
     expect(antiThrash).toMatch(/Over-fire/)
+    expect(antiThrash).toMatch(/## Hard stop \(before Task \/ council\)/)
+    expect(antiThrash).toMatch(/before any Task\/Subagent or council spawn/)
+    expect(antiThrash).toMatch(/git log --oneline --stat -n 12/)
+
+    const review = readFileSync(join(root, 'code-review/references/review.md'), 'utf8')
+    expect(review).toMatch(/Hard stop/)
+    expect(review).toMatch(/Theme: <id>/)
+    expect(review).toMatch(/Continuity persistence/)
 
     expect(surfaces).toMatch(/closure-re-review/)
     expect(surfaces).toMatch(/targeted contextual/)
@@ -309,6 +317,9 @@ describe('toolbox skill SSOT', () => {
     expect(output).toMatch(/Thrash:/)
     expect(output).toMatch(/inventory-required/)
     expect(output).toMatch(/Reviewer: primary/)
+    expect(output).toMatch(/## Continuity persistence/)
+    expect(output).toMatch(/Persist \(cold-chat recovery\)/)
+    expect(ledger).toMatch(/### Persistence/)
 
     expect(selection).toMatch(/escalated council only/)
     expect(selection).toMatch(/Primary-only reviews do not run this doc/)

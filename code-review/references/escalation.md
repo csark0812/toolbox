@@ -24,7 +24,7 @@ When council or specialists run → [council-dispatch.md](council-dispatch.md). 
 
 ## Re-review
 
-`closure-re-review` → primary targeted closure by default; see [surfaces.md](surfaces.md) § Re-review and [anti-thrash.md](anti-thrash.md). User-requested council on re-review uses this ladder.
+`closure-re-review` → primary targeted closure by default; see [surfaces.md](surfaces.md) § Re-review and [anti-thrash.md](anti-thrash.md). User-requested council on re-review uses this ladder — only after the anti-thrash hard stop (no `first-baseline` spawn on micro-fix trail / recoverable themes).
 
 ## Forbidden
 

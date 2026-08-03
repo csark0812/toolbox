@@ -109,7 +109,7 @@ Theme recovery source: <chat findings | PR body | git log Theme: | contract-clas
 Prior synthesis + themes: <paste current stable-theme table for members>
 Sweep plans: <paste Sweep · theme-id blocks — named class-relevant surfaces or matrix rows>
 Depth: <Standard|Quick|Full>; diff: whole branch + sweep surfaces
-User output: findings + Theme ids; Continuity session hint if open; full theme table only if user asked show ledger.
+User output: findings + Theme ids; Continuity session hint if open; Persist (PR Continuity + Theme: commit footers) when Action > 0; full theme table only if user asked show ledger.
 
 Reject sibling Action themes for adjacent variants — extend/reopen the existing theme_id (contract-class slug when no Theme:).
 If the same theme_id reopened on pass 2+, complete the same-invariant sweep before filing more Action blocks in that family.

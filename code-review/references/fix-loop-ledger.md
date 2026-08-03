@@ -28,6 +28,14 @@ passed; it is not cross-chat authority. Carry the full table in member prompts
 whenever fix-loop applies. Emit the table in chat only on `show ledger` /
 `include continuity`.
 
+### Persistence (keep channels #2–#3 non-empty)
+
+When Action > 0, [output.md](output.md) § Continuity persistence requires a **Persist**
+reminder: paste identity Continuity / `theme_id`s into the PR body (channel #2), and
+put `Theme: <id>` in fix commit messages (channel #3). Empty PR Continuity + prose-only
+fix commits is how bare new-chat reviews lose the trail — do not leave both empty
+after an Action pass. Persistence carries **identity only**, never durable closure.
+
 ## Ledger policy
 
 - **Never write** `_agent/review/REVIEW_LEDGER.md` during an open fix-loop.

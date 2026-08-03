@@ -171,16 +171,17 @@ Do not append as Action findings. Do not block fix-loop exit.
 Required rows below must appear in their stated lifecycle; use optional rows
 only when they add decision value. Keep each section concise.
 
-| Section                     | When                                                                                        |
-| --------------------------- | ------------------------------------------------------------------------------------------- |
-| **Continuity**              | Fix-loop with open/reopened themes — one line after findings (default)                      |
-| **Fix-loop themes**         | Only when user asked `include continuity` / `show ledger`                                   |
-| **Baseline contradictions** | Only with verbose continuity (`show ledger` / `include continuity`) on re-review            |
-| **Closure evidence**        | Closing a theme that spanned 2+ passes — in verbose continuity or merge-ready Exit evidence |
-| **Exit evidence**           | Contextual re-review that claims merge-ready — short bullets                                |
-| **Open questions**          | Product or backend assumptions block Action severity                                        |
-| **Testing gaps**            | Residual coverage not already in Deferred tail                                              |
-| **Change summary**          | User asked for overview, or first review on a large PR — max 3 sentences                    |
+| Section                     | When                                                                                                                                     |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **Continuity**              | Fix-loop with open/reopened themes — one line after findings (default)                                                                   |
+| **Persist**                 | When Action > 0 — PR Continuity paste + `Theme:` fix-commit footers ([§ Continuity persistence](#continuity-persistence-when-action--0)) |
+| **Fix-loop themes**         | Only when user asked `include continuity` / `show ledger`                                                                                |
+| **Baseline contradictions** | Only with verbose continuity (`show ledger` / `include continuity`) on re-review                                                         |
+| **Closure evidence**        | Closing a theme that spanned 2+ passes — in verbose continuity or merge-ready Exit evidence                                              |
+| **Exit evidence**           | Contextual re-review that claims merge-ready — short bullets                                                                             |
+| **Open questions**          | Product or backend assumptions block Action severity                                                                                     |
+| **Testing gaps**            | Residual coverage not already in Deferred tail                                                                                           |
+| **Change summary**          | User asked for overview, or first review on a large PR — max 3 sentences                                                                 |
 
 Omit **Change summary** by default. Do not restate Action items in tail sections.
 Default user output is findings-first: header → findings → optional Continuity line
@@ -221,6 +222,25 @@ Session hint only: include `theme_id`, hotspot, and what to re-verify. MUST NOT 
 closed, exit-gate passed, or matrix complete. Not cross-chat authority. No table. On
 green / zero open themes: omit this line. If an old leftover review ledger file is
 present, delete it (never write a new one).
+
+## Continuity persistence (when Action > 0)
+
+When this pass files **any** Action finding, Continuity alone is not enough for the
+next cold chat. After the Continuity session hint (or after findings if green has no
+open themes but Action was filed earlier in the loop), emit a short **Persist** block
+so archaeology channels #2–#3 stay non-empty:
+
+```markdown
+Persist (cold-chat recovery):
+
+- PR body: paste identity Continuity / theme_ids under a `## Continuity` heading (ids + hotspots only — no closure claims).
+- Fix commits: include `Theme: <id>` in each fix commit message when addressing review findings.
+```
+
+Identity only — do not paste exit-gate or `closed` claims into the PR. Prefer editing
+the PR description when a PR exists; otherwise tell the user to paste before the next
+bare `review vs main`. Fix-implementation turns MUST put `Theme: <id>` in commit
+messages ([review.md](review.md) § Fix implementation).
 
 ## Fix-loop themes (opt-in verbose)
 
