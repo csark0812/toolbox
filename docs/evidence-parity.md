@@ -2,7 +2,7 @@
 
 **Source of truth for** running skill-on vs skill-off outcome comparisons and interpreting transfer tables.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
 Measure whether toolbox skills improve settlement under transfer — without autonomous skill mutation.
 
@@ -29,10 +29,10 @@ Do not score “investigate quality” as one number. Split claims:
 
 Do not score “diagnose quality” as one number. Split claims:
 
-| ID  | Claim                                                                                        | Keep/remove gate                                            |
-| --- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| D1  | No-repro gate — without a failing signal, agent refuses to hypothesize (repro / investigate) | **Primary** — only D1 can earn Keep-narrow                  |
-| D2  | Loop before cause — names/runs a red test command before stating cause or editing production | Secondary corroboration                                     |
+| ID  | Claim                                                                                        | Keep/remove gate                                             |
+| --- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| D1  | No-repro gate — without a failing signal, agent refuses to hypothesize (repro / investigate) | **Primary** — only D1 can earn Keep-narrow                   |
+| D2  | Loop before cause — names/runs a red test command before stating cause or editing production | Secondary corroboration                                      |
 | D3  | Tight loop construction — loop is red-capable, deterministic, fast (seconds) on debug-app    | Secondary / ceiling candidate (`probe-fix-outcomes-ceiling`) |
 
 **Bar to stay first-class:** N≥3 same-model repeats where `full` majority-beats `none` on D1 **and** `full` beats the **prompt** baseline (skill file ≠ pasted rules).
@@ -160,18 +160,18 @@ Dual-bug `debug-app` stays for `investigate-*-ceiling` and diagnose ceiling / D2
 
 ## Suites
 
-| Suite                          | `skills` | Purpose                                   |
-| ------------------------------ | -------- | ----------------------------------------- |
+| Suite                             | `skills` | Purpose                                   |
+| --------------------------------- | -------- | ----------------------------------------- |
 | `probe-evidence-outcomes`         | `full`   | Skill-on settlement (discriminating band) |
 | `probe-evidence-transfer`         | `none`   | Hunch-only null baseline (discriminating) |
 | `probe-evidence-prompt`           | `none`   | Prompt-instructed verdict-gate baseline   |
 | `probe-evidence-outcomes-ceiling` | `full`   | Replay CI only — ceiling scenarios        |
 | `probe-evidence-transfer-ceiling` | `none`   | Replay CI only — ceiling scenarios        |
-| `probe-fix-outcomes`            | `full`   | Skill-on discriminating band (D1/D2)      |
-| `probe-fix-transfer`            | `none`   | Hunch-only null baseline (discriminating) |
-| `probe-fix-prompt`              | `none`   | Prompt-instructed entry-gate baseline     |
-| `probe-fix-outcomes-ceiling`    | `full`   | Replay CI only — ceiling (D3)             |
-| `organization-ablations`       | `full`   | Primary vs council vs fit-check           |
+| `probe-fix-outcomes`              | `full`   | Skill-on discriminating band (D1/D2)      |
+| `probe-fix-transfer`              | `none`   | Hunch-only null baseline (discriminating) |
+| `probe-fix-prompt`                | `none`   | Prompt-instructed entry-gate baseline     |
+| `probe-fix-outcomes-ceiling`      | `full`   | Replay CI only — ceiling (D3)             |
+| `organization-ablations`          | `full`   | Primary vs council vs fit-check           |
 
 Diagnose compare artifacts land under `_agent/eval-reports/diagnose-<id>/` with `probe-fix-outcomes.suite-report.json` / `probe-fix-transfer.suite-report.json` / `probe-fix-prompt.suite-report.json`. Manifests under `_agent/evidence-runs/diagnose-<id>/manifest.json` record the D1 pass matrix (`full` vs `none` vs `prompt`).
 

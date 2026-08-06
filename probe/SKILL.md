@@ -22,11 +22,11 @@ Read [references/research-basis.md](references/research-basis.md) (Evidence) or 
 
 ## Stance select
 
-| State | Enter when | May edit production? | Next |
-| --- | --- | --- | --- |
-| **Evidence** | Default; locus unclear; hunch/claim | No | Verdict → stop, or user asks fix → evaluate Authority B |
-| **Fix (loop-building)** | Authority B satisfied **and** no tight red loop yet | **No** — build/tighten loop or ask for repro only | When red loop exists → Fix (patch) |
-| **Fix (patch)** | Authority B satisfied **and** on-demand failing signal exists | **Yes** after red | Regression lock; optional **tdd** handoff |
+| State                   | Enter when                                                    | May edit production?                              | Next                                                    |
+| ----------------------- | ------------------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------- |
+| **Evidence**            | Default; locus unclear; hunch/claim                           | No                                                | Verdict → stop, or user asks fix → evaluate Authority B |
+| **Fix (loop-building)** | Authority B satisfied **and** no tight red loop yet           | **No** — build/tighten loop or ask for repro only | When red loop exists → Fix (patch)                      |
+| **Fix (patch)**         | Authority B satisfied **and** on-demand failing signal exists | **Yes** after red                                 | Regression lock; optional **tdd** handoff               |
 
 If locus is unclear → start **Evidence** (even if the user said “broken”).
 

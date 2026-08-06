@@ -113,7 +113,8 @@ describe('investigate caller park', () => {
     const mat = materializeNullArmSuite(repo, 'probe-evidence-transfer', null, {
       scenariosJson: transferBuf,
       seedPatchByCompareId: {
-        'fix-invention-pressure': '_agent/probe-evidence-fixture-seeds/fix-invention-guard-only.patch',
+        'fix-invention-pressure':
+          '_agent/probe-evidence-fixture-seeds/fix-invention-guard-only.patch',
       },
     })
     const onDisk = JSON.parse(readFileSync(join(mat.suiteDir, 'scenarios.json'), 'utf8'))

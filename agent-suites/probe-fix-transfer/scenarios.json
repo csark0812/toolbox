@@ -31,11 +31,7 @@
       "rubric": {
         "must": ["npm test", "red"],
         "mustNot": ["likely because", "probably caused"],
-        "mustNotReadPath": [
-          "probe/SKILL.md",
-          "loop-before-hypothesis.json",
-          "evidence-parity.md"
-        ],
+        "mustNotReadPath": ["probe/SKILL.md", "loop-before-hypothesis.json", "evidence-parity.md"],
         "judge": [
           "Ran or named debug-app test command and reported red before proposing a production fix"
         ]

@@ -10,20 +10,20 @@ Assign each skill to exactly one place. Update when adding skills.
 
 Generic orchestration, planning, and dialogue — intended for any consumer project.
 
-| Slug                 | Notes                                                                             |
-| -------------------- | --------------------------------------------------------------------------------- |
-| subagents            | Subagent type, token-efficient splits, cheapest model routing                     |
-| code-review          | Primary-first review + fix-loop; council on escalation (customize roster)         |
-| crystallize          | Fuzzy idea → artifact                                                             |
-| grill                | Pressure-test design                                                              |
-| second-opinion       | Unified plan review (staged debate)                                               |
-| iterate              | Bounded code/plan-slice closure — blind review loop until cohesive                |
-| probe                | Hunch evidence/verdict by default; hard-bug fix under Authority B (default seat)  |
-| tdd                  | Test-first build at agreed public seams                                           |
-| prototype            | Throwaway design spike (user-invoked)                                             |
-| domain-model         | Persist glossary + ADRs when decisions are ready (user-invoked)                   |
-| handoff              | Session handoff — model-invoked artifact or user prompt-only                      |
-| writing-great-skills | Skill-authoring vocabulary and predictability (user-invoked)                      |
+| Slug                 | Notes                                                                            |
+| -------------------- | -------------------------------------------------------------------------------- |
+| subagents            | Subagent type, token-efficient splits, cheapest model routing                    |
+| code-review          | Primary-first review + fix-loop; council on escalation (customize roster)        |
+| crystallize          | Fuzzy idea → artifact                                                            |
+| grill                | Pressure-test design                                                             |
+| second-opinion       | Unified plan review (staged debate)                                              |
+| iterate              | Bounded code/plan-slice closure — blind review loop until cohesive               |
+| probe                | Hunch evidence/verdict by default; hard-bug fix under Authority B (default seat) |
+| tdd                  | Test-first build at agreed public seams                                          |
+| prototype            | Throwaway design spike (user-invoked)                                            |
+| domain-model         | Persist glossary + ADRs when decisions are ready (user-invoked)                  |
+| handoff              | Session handoff — model-invoked artifact or user prompt-only                     |
+| writing-great-skills | Skill-authoring vocabulary and predictability (user-invoked)                     |
 
 Shared ambient refs live in [`.skeleton/references/`](../.skeleton/references/) and are opened from skills via GitHub raw URLs (network required). See [github-ambient-refs-validation.md](github-ambient-refs-validation.md). Soft-default planning recipes stay out of skill trees — enable via [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md) only when the consumer has no planning docs remap.
 
