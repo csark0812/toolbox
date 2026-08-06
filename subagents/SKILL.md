@@ -51,7 +51,6 @@ When an entry skill **mandates** Task spawn, do not re-litigate “one agent suf
 
 | Entry skill        | Spawn shape                            | Recipe lives in                                                                         |
 | ------------------ | -------------------------------------- | --------------------------------------------------------------------------------------- |
-| **code-review**    | Council / specialists (parallel)       | [code-review council-dispatch](../code-review/references/council-dispatch.md)           |
 | **second-opinion** | Staged debate (2 attackers + defender) | [adversarial.md](references/adversarial.md) § B                                         |
 | **iterate**        | Single blind member per pass           | [iterate blind-reviewer-dispatch](../iterate/references/blind-reviewer-dispatch.md)     |
 | **handoff**        | Single compact member (model-invoked)  | [handoff handoff-subagent-dispatch](../handoff/references/handoff-subagent-dispatch.md) |

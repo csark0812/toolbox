@@ -30,8 +30,8 @@ Merge member output into [output.md](output.md) shape. Run thrash preflight agai
 
 Required coordinator reading when thrash may apply:
 
-- [`code-review` anti-thrash.md](../../code-review/references/anti-thrash.md) — thrash signals
-- [`code-review` fix-loop-ledger.md](../../code-review/references/fix-loop-ledger.md) — premature closure, theme identity, invariant matrix
+- [anti-thrash.md](anti-thrash.md) — thrash signals
+- [fix-loop-ledger.md](fix-loop-ledger.md) — premature closure, theme identity, invariant matrix
 
 ### 4 — Fix (when Action > 0)
 
