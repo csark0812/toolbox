@@ -1,6 +1,6 @@
 ---
 name: iterate
-description: Cohesive slice closure — iterative blind review subagent passes until a bounded code or plan section holds together. Use when a named slice needs fix-loop review until cohesive, not merge-ready. Not for PR or diff merge review (code-review), full-plan staged debate (second-opinion), or a single hunch (investigate).
+description: Cohesive slice closure — iterative blind review subagent passes until a bounded code or plan section holds together. Use when a named slice needs fix-loop review until cohesive, not merge-ready; also for iterative jobs like test→impl until green or plan-section closure loops. Not for PR or diff merge review (code-review), full-plan staged debate (second-opinion), TDD how at a seam (tdd), or a single hunch (probe).
 ---
 
 # Iterate

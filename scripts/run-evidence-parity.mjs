@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
  * Investigate evidence-parity cadence:
- *   sync skills → live investigate-outcomes
+ *   sync skills → live probe-evidence-outcomes
  *   → park answer keys on open tree → materialize null suites
- *   → live investigate-transfer (+ prompt) → restore → offline compare → propose notes
+ *   → live probe-evidence-transfer (+ prompt) → restore → offline compare → propose notes
  *
  * Caller park is required: live Cursor Shell often targets the IDE-open root,
  * not the seeded worktree — worktree-only deletes do not stop forage.
@@ -18,10 +18,10 @@
  *
  * Flags (pass after --):
  *   --doctor          run agent-test --doctor first
- *   --no-diagnose     skip diagnose-outcomes
+ *   --no-diagnose     skip probe-fix-outcomes
  *   --no-ablations    skip organization-ablations
  *   --no-propose      skip evolution-note autofill
- *   --no-prompt       skip investigate-prompt baseline arm
+ *   --no-prompt       skip probe-evidence-prompt baseline arm
  *   --repeats N       run parity cadence N times (default 1); writes batch manifest
  *   --compare-only    re-render compare from prior suite-report JSON (no live runs)
  */
@@ -135,7 +135,7 @@ function materializeGuardOnlySeeds(parkedFiles) {
   const byCompareId = {}
   for (const [compareId, rel] of Object.entries(INVESTIGATE_GUARD_ONLY_SEEDS)) {
     const base = rel.split('/').pop()
-    const outRel = `_agent/investigate-fixture-seeds/${base}`
+    const outRel = `_agent/probe-evidence-fixture-seeds/${base}`
     const outAbs = join(root, outRel)
     const body = parkedFiles?.get(rel)
     if (body) {
@@ -271,7 +271,7 @@ async function runSingleParity(
     await mkdir(outcomesStaging, { recursive: true })
 
     run(
-      'investigate-outcomes (skill-on, answer keys present)',
+      'probe-evidence-outcomes (skill-on, answer keys present)',
       [
         '--suites-dir',
         'agent-suites',
@@ -293,7 +293,7 @@ async function runSingleParity(
 
     const outcomesSession = await newestSessionAfter(sessionsParent, knownSessions)
     if (!outcomesSession) {
-      console.error('No session directory found after investigate-outcomes run')
+      console.error('No session directory found after probe-evidence-outcomes run')
       process.exit(1)
     }
     knownSessions.add(outcomesSession.path)
@@ -314,11 +314,11 @@ async function runSingleParity(
       const seedByCompareId = materializeGuardOnlySeeds(parkHandle.files)
       manifest.guardOnlySeeds = seedByCompareId
 
-      const transferKey = 'agent-suites/investigate-transfer/scenarios.json'
-      const promptKey = 'agent-suites/investigate-prompt/scenarios.json'
+      const transferKey = 'agent-suites/probe-evidence-transfer/scenarios.json'
+      const promptKey = 'agent-suites/probe-evidence-prompt/scenarios.json'
       const transferBuf = parkHandle.files.get(transferKey)
       if (!transferBuf) {
-        throw new Error('park missed agent-suites/investigate-transfer/scenarios.json')
+        throw new Error('park missed agent-suites/probe-evidence-transfer/scenarios.json')
       }
       // HEAD already lacks answer keys — guard-only seeds only (no answer-bearing patch).
       const transferMat = materializeNullArmSuite(root, TRANSFER_SUITE, null, {
@@ -330,7 +330,7 @@ async function runSingleParity(
       if (args.prompt) {
         const promptBuf = parkHandle.files.get(promptKey)
         if (!promptBuf)
-          throw new Error('park missed agent-suites/investigate-prompt/scenarios.json')
+          throw new Error('park missed agent-suites/probe-evidence-prompt/scenarios.json')
         promptMat = materializeNullArmSuite(root, PROMPT_SUITE, null, {
           scenariosJson: promptBuf,
           seedPatchByCompareId: seedByCompareId,
@@ -341,7 +341,7 @@ async function runSingleParity(
       const transferStaging = join(runReportDir, 'transfer-staging')
       await mkdir(transferStaging, { recursive: true })
       run(
-        'investigate-transfer (null arm, caller keys parked)',
+        'probe-evidence-transfer (null arm, caller keys parked)',
         [
           '--suites-dir',
           transferMat.suitesDirArg,
@@ -374,7 +374,7 @@ async function runSingleParity(
         const promptCompareDir = join(runReportDir, 'prompt-compare')
         await mkdir(promptCompareDir, { recursive: true })
         run(
-          'investigate-prompt (prompt baseline, caller keys parked)',
+          'probe-evidence-prompt (prompt baseline, caller keys parked)',
           [
             '--suites-dir',
             promptMat.suitesDirArg,
@@ -409,8 +409,8 @@ async function runSingleParity(
 
         if (args.diagnose) {
           run(
-            'diagnose-outcomes (skills: full)',
-            ['--suites-dir', 'agent-suites', ...liveBase, '--suite', 'diagnose-outcomes'],
+            'probe-fix-outcomes (skills: full)',
+            ['--suites-dir', 'agent-suites', ...liveBase, '--suite', 'probe-fix-outcomes'],
             { allowFail: true },
           )
           const diagnoseSession = await newestSessionAfter(sessionsParent, knownSessions)
@@ -578,7 +578,7 @@ async function preflightOpenTreeHealthy() {
   const skill = join(root, 'investigate', 'SKILL.md')
   if (!existsSync(skill)) {
     throw new Error(
-      'investigate/SKILL.md missing — open tree looks mid-park; restore refs/files before re-running evidence-parity',
+      'probe/SKILL.md missing — open tree looks mid-park; restore refs/files before re-running evidence-parity',
     )
   }
   try {
@@ -601,15 +601,15 @@ async function main() {
   if (args.help) {
     console.log(`Usage: npm run agent:test:evidence-parity [-- flags]
 
-Automates: investigate-outcomes → park caller keys → transfer/prompt → restore + compare + propose.
+Automates: probe-evidence-outcomes → park caller keys → transfer/prompt → restore + compare + propose.
 Requires CURSOR_API_KEY in the environment (source .env first).
 
 Flags:
   --doctor          agent-test --doctor preflight
-  --no-diagnose     skip diagnose-outcomes
+  --no-diagnose     skip probe-fix-outcomes
   --no-ablations    skip organization-ablations
   --no-propose      skip evolution-note autofill
-  --no-prompt       skip investigate-prompt baseline arm
+  --no-prompt       skip probe-evidence-prompt baseline arm
   --repeats N       run parity cadence N times (default 1)
   --compare-only    re-render compare from prior suite-report JSON (no live runs)
   --debug-dir PATH  staging parent (default: $TMPDIR/toolbox-evidence-<ts>)`)

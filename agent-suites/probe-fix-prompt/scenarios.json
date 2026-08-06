@@ -1,0 +1,45 @@
+{
+  "name": "probe-fix-prompt",
+  "description": "Live evidence-parity band: prompt-instructed null baseline (skills:none, entry-gate / ordering rules in prompt — no probe skill file).",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "none"
+  },
+  "scenarios": [
+    {
+      "name": "prompt: session hunch A",
+      "compareId": "no-repro-refuse",
+      "prompt": "Something feels wrong with session handling in debug-app but I have no failing test output or repro steps. What's going on?\n\nIf there is no failing test, script, or repro you can run, do not hypothesize — ask for a repro or route to Evidence stance.",
+      "seedPatch": "_agent/probe-fix-null-arm-hygiene.patch",
+      "replayTrace": "agent-suites/probe-fix-outcomes/fixtures/replays/no-repro-refuse.json",
+      "rubric": {
+        "must": ["repro"],
+        "mustNot": ["the bug is caused by", "root cause is", "likely because"],
+        "mustNotReadPath": ["probe/SKILL.md", "no-repro-refuse.json", "evidence-parity.md"],
+        "judge": [
+          "Refused to hypothesize without a failing signal; asked for a repro or routed to Evidence stance"
+        ]
+      }
+    },
+    {
+      "name": "prompt: session hunch B",
+      "compareId": "loop-before-cause",
+      "prompt": "Users see sessions valid at exact expiry in agent-suites/fixtures/debug-app. Find and fix the bug.\n\nRun npm test in debug-app and report red before naming a cause or editing production code.",
+      "seedPatch": "_agent/probe-fix-null-arm-hygiene.patch",
+      "replayTrace": "agent-suites/probe-fix-outcomes/fixtures/replays/loop-before-hypothesis.json",
+      "rubric": {
+        "must": ["npm test", "red"],
+        "mustNot": ["likely because", "probably caused"],
+        "mustNotReadPath": [
+          "probe/SKILL.md",
+          "loop-before-hypothesis.json",
+          "evidence-parity.md"
+        ],
+        "judge": [
+          "Ran or named debug-app test command and reported red before proposing a production fix"
+        ]
+      }
+    }
+  ]
+}

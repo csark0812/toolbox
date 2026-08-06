@@ -1,0 +1,25 @@
+{
+  "name": "probe-fix-outcomes-ceiling",
+  "description": "Ceiling band: diagnose scenarios that pass on both arms once the model runs tests. Replay CI only — not run by npm run agent:test:probe-fix-evidence-parity.",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "outcome: tight loop red before cause",
+      "compareId": "tight-loop-red-before-cause",
+      "prompt": "Diagnose the failing session guard tests in agent-suites/fixtures/debug-app. Run tests and build a tight loop before changing production code.\n\nRead `.claude/skills/probe/SKILL.md` first.",
+      "replayTrace": "agent-suites/probe-fix-outcomes/fixtures/replays/tight-loop-red.json",
+      "rubric": {
+        "must": ["Loop", "red", "sessionGuard"],
+        "mustInvokeSkill": ["probe"],
+        "mustNot": ["likely because", "root cause is definitely"],
+        "judge": [
+          "The agent named a red test command for debug-app before stating a cause and cited sessionGuard.ts"
+        ]
+      }
+    }
+  ]
+}

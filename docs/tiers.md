@@ -18,8 +18,7 @@ Generic orchestration, planning, and dialogue — intended for any consumer proj
 | grill                | Pressure-test design                                                              |
 | second-opinion       | Unified plan review (staged debate)                                               |
 | iterate              | Bounded code/plan-slice closure — blind review loop until cohesive                |
-| investigate          | Code / claim hunch — find & verdict, not fix (**optional** — see evidence parity) |
-| diagnose             | Hard-bug loop — repro → tighten → fix → regression lock                           |
+| probe                | Hunch evidence/verdict by default; hard-bug fix under Authority B (default seat)  |
 | tdd                  | Test-first build at agreed public seams                                           |
 | prototype            | Throwaway design spike (user-invoked)                                             |
 | domain-model         | Persist glossary + ADRs when decisions are ready (user-invoked)                   |
@@ -35,13 +34,7 @@ Skeleton and toolbox are complementary — init skeleton first, then install ski
 ```bash
 npm install -D @csark0812/skeleton
 npx skeleton init --skills
-npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterate diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
-```
-
-Optional — install when you need explicit hunch→verdict routing (not in default bundle after 2026-07 evidence parity):
-
-```bash
-npx skills add csark0812/toolbox --skill investigate -a cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterate probe tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
 ```
 
 - **toolbox** — skill content SSOT (this repo)

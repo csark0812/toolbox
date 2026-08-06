@@ -17,10 +17,10 @@ describe('diagnose null-arm hygiene seed', () => {
     expect(pathCount).toBeGreaterThan(5)
     const patch = readFileSync(out, 'utf8')
     expect(patch).toMatch(/deleted file mode/)
-    expect(patch).toMatch(/diagnose\/SKILL\.md/)
-    expect(patch).toMatch(/agent-suites\/diagnose-outcomes\/scenarios\.json/)
+    expect(patch).toMatch(/probe\/SKILL\.md/)
+    expect(patch).toMatch(/agent-suites\/probe-fix-outcomes\/scenarios\.json/)
     expect(patch).toMatch(
-      /agent-suites\/diagnose-outcomes\/fixtures\/replays\/no-repro-refuse\.json/,
+      /agent-suites\/probe-fix-outcomes\/fixtures\/replays\/no-repro-refuse\.json/,
     )
     expect(patch).toMatch(/docs\/evidence-parity\.md/)
   })
@@ -46,10 +46,10 @@ describe('diagnose null-arm hygiene seed', () => {
         encoding: 'utf8',
       })
       expect(apply.status, apply.stderr || apply.stdout).toBe(0)
-      expect(existsSync(join(parent, 'diagnose/SKILL.md'))).toBe(false)
-      expect(existsSync(join(parent, 'agent-suites/diagnose-outcomes/scenarios.json'))).toBe(false)
+      expect(existsSync(join(parent, 'probe/SKILL.md'))).toBe(false)
+      expect(existsSync(join(parent, 'agent-suites/probe-fix-outcomes/scenarios.json'))).toBe(false)
       // Applied tree must not still contain the seed file (patch text = crib).
-      expect(existsSync(join(parent, '_agent/diagnose-null-arm-hygiene.patch'))).toBe(false)
+      expect(existsSync(join(parent, '_agent/probe-fix-null-arm-hygiene.patch'))).toBe(false)
     } finally {
       spawnSync('git', ['worktree', 'remove', '--force', parent], {
         cwd: root,

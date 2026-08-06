@@ -86,7 +86,7 @@ describe('toolbox skill SSOT', () => {
     const routing = readFileSync(join(root, 'subagents/references/model-routing.md'), 'utf8')
     const types = readFileSync(join(root, 'subagents/references/subagent-types.md'), 'utf8')
     const splitting = readFileSync(join(root, 'subagents/references/task-splitting.md'), 'utf8')
-    const research = readFileSync(join(root, 'investigate/references/parallel-research.md'), 'utf8')
+    const research = readFileSync(join(root, 'probe/references/parallel-research.md'), 'utf8')
     const planEvidence = readFileSync(
       join(root, 'second-opinion/references/parallel-plan-evidence.md'),
       'utf8',
@@ -121,7 +121,7 @@ describe('toolbox skill SSOT', () => {
     const taskPrompt = readFileSync(join(root, 'subagents/references/task-prompt.md'), 'utf8')
     const council = readFileSync(join(root, 'code-review/references/council-dispatch.md'), 'utf8')
     const perspectiveInvestigate = readFileSync(
-      join(root, 'investigate/references/parallel-perspective.md'),
+      join(root, 'probe/references/parallel-perspective.md'),
       'utf8',
     )
     const adversarialDebate = readFileSync(
@@ -132,7 +132,7 @@ describe('toolbox skill SSOT', () => {
       join(root, 'subagents/references/adversarial.md'),
       'utf8',
     )
-    const broad = readFileSync(join(root, 'investigate/references/parallel-broad.md'), 'utf8')
+    const broad = readFileSync(join(root, 'probe/references/parallel-broad.md'), 'utf8')
 
     // Canonical invariant stays in subagents + model-routing.
     expect(skill).toMatch(/model-routing\.md/)
@@ -191,11 +191,53 @@ describe('toolbox skill SSOT', () => {
     expect(broad).toMatch(/Parent model: \[Auto \| <named model>\]/)
   })
 
-  it('investigate enforces find-and-verdict-only (no fix in verdict)', () => {
-    const skill = readFileSync(join(root, 'investigate/SKILL.md'), 'utf8')
+  it('probe enforces Authority B, Evidence no-edit, and Fix no-loop', () => {
+    const skill = readFileSync(join(root, 'probe/SKILL.md'), 'utf8')
+    const desc = skill.match(/^description:\s*(.+)$/m)?.[1] ?? ''
+    expect(skill).toMatch(/Authority B/)
     expect(skill).toMatch(/Find and verdict only/)
     expect(skill).toMatch(/Do not propose code edits, diffs/)
     expect(skill).toMatch(/Completion gate:.*no code fix/s)
+    expect(skill).toMatch(/Fix \(loop-building\)/)
+    expect(skill).toMatch(/no on-demand failing signal/)
+    expect(skill).toMatch(/Do not hypothesize/)
+    expect(skill).toMatch(/loop must be \*\*red\*\*/)
+    for (const kw of [
+      'hunch',
+      'verdict',
+      'concrete doubt',
+      'broken',
+      'throwing',
+      'failing',
+      'diagnose',
+      'debug',
+      'investigate',
+      'second-opinion',
+      'crystallize',
+      'tdd',
+    ]) {
+      expect(desc.toLowerCase()).toContain(kw)
+    }
+  })
+
+  it('hub has no live investigate/diagnose skill trees', () => {
+    expect(existsSync(join(root, 'investigate'))).toBe(false)
+    expect(existsSync(join(root, 'diagnose'))).toBe(false)
+    expect(existsSync(join(root, 'probe/SKILL.md'))).toBe(true)
+    const config = readFileSync(join(root, '.skeleton/config.yaml'), 'utf8')
+    expect(config).toMatch(/retiredSkills:[\s\S]*- investigate[\s\S]*- diagnose/)
+    const owned = config.split(/ownedSlugs:\s*\n/)[1] ?? ''
+    expect(owned).toMatch(/^\s*- probe$/m)
+    expect(owned).not.toMatch(/^\s*- investigate$/m)
+    expect(owned).not.toMatch(/^\s*- diagnose$/m)
+    const readme = readFileSync(join(root, 'README.md'), 'utf8')
+    const tiers = readFileSync(join(root, 'docs/tiers.md'), 'utf8')
+    expect(readme).toMatch(/--skill[^\n]*\bprobe\b/)
+    expect(readme).not.toMatch(/--skill[^\n]*\binvestigate\b/)
+    expect(readme).not.toMatch(/--skill[^\n]*\bdiagnose\b/)
+    expect(tiers).toMatch(/--skill[^\n]*\bprobe\b/)
+    expect(tiers).not.toMatch(/--skill[^\n]*\binvestigate\b/)
+    expect(tiers).not.toMatch(/--skill[^\n]*\bdiagnose\b/)
   })
 
   it('code-review defaults to primary; council only on escalation', () => {

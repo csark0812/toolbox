@@ -1,6 +1,6 @@
 ---
 name: crystallize
-description: Shape a fuzzy or half-formed idea through Socratic dialogue — crystallized intent, not solutions or a plan yet. Use when the user has vague product intent and needs clarity before design pressure-testing or implementation. Not for design-tree pressure-tests (grill), written plan review (second-opinion), or code-path hunches (investigate).
+description: Shape a fuzzy or half-formed idea through Socratic dialogue — crystallized intent, not solutions or a plan yet. Use when the user has vague product intent and needs clarity before design pressure-testing or implementation. Not for design-tree pressure-tests (grill), written plan review (second-opinion), or code-path hunches (probe).
 ---
 
 # Crystallize
@@ -64,7 +64,7 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 - Terms or decisions to persist → **domain-model** skill
 - Written plan pressure-test → **second-opinion** (staged debate)
 - Fresh adversarial pass without a plan file → **subagents** adversarial
-- One concrete code doubt → **investigate**
+- One concrete code doubt → **probe**
 - PRD or structured plan → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md)
 ```
 

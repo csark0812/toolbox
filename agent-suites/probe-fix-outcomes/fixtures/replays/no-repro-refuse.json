@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **probe** (Fix).\n\n**Entry gate:** no on-demand failing signal — no test output, CI log, or repro steps. I will **not hypothesize** without a **tight** loop.\n\nRoute to get a repro or **Evidence** if the locus is unclear."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["probe"],
+  "artifacts": {}
+}

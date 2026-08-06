@@ -17,10 +17,10 @@ describe('investigate null-arm hygiene seed', () => {
     expect(pathCount).toBeGreaterThan(5)
     const patch = readFileSync(out, 'utf8')
     expect(patch).toMatch(/deleted file mode/)
-    expect(patch).toMatch(/investigate\/SKILL\.md/)
-    expect(patch).toMatch(/agent-suites\/investigate-outcomes\/scenarios\.json/)
+    expect(patch).toMatch(/probe\/SKILL\.md/)
+    expect(patch).toMatch(/agent-suites\/probe-evidence-outcomes\/scenarios\.json/)
     expect(patch).toMatch(
-      /agent-suites\/investigate-outcomes\/fixtures\/replays\/fix-invention-pressure\.json/,
+      /agent-suites\/probe-evidence-outcomes\/fixtures\/replays\/fix-invention-pressure\.json/,
     )
     expect(patch).toMatch(/docs\/evidence-parity\.md/)
   })
@@ -46,11 +46,11 @@ describe('investigate null-arm hygiene seed', () => {
         encoding: 'utf8',
       })
       expect(apply.status, apply.stderr || apply.stdout).toBe(0)
-      expect(existsSync(join(parent, 'investigate/SKILL.md'))).toBe(false)
-      expect(existsSync(join(parent, 'agent-suites/investigate-outcomes/scenarios.json'))).toBe(
+      expect(existsSync(join(parent, 'probe/SKILL.md'))).toBe(false)
+      expect(existsSync(join(parent, 'agent-suites/probe-evidence-outcomes/scenarios.json'))).toBe(
         false,
       )
-      expect(existsSync(join(parent, '_agent/investigate-null-arm-hygiene.patch'))).toBe(false)
+      expect(existsSync(join(parent, '_agent/probe-evidence-null-arm-hygiene.patch'))).toBe(false)
     } finally {
       spawnSync('git', ['worktree', 'remove', '--force', parent], {
         cwd: root,

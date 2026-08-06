@@ -3,15 +3,15 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 const root = join(import.meta.dirname, '..')
-const transferPath = join(root, 'agent-suites/investigate-transfer/scenarios.json')
-const outcomePath = join(root, 'agent-suites/investigate-outcomes/scenarios.json')
+const transferPath = join(root, 'agent-suites/probe-evidence-transfer/scenarios.json')
+const outcomePath = join(root, 'agent-suites/probe-evidence-outcomes/scenarios.json')
 
-const HYGIENE_SEED = '_agent/investigate-null-arm-hygiene.patch'
+const HYGIENE_SEED = '_agent/probe-evidence-null-arm-hygiene.patch'
 
 /** Investigate-protocol phrases that should not appear in the null (transfer) arm. */
 const TRANSFER_LEAKAGE = [
   /SKILL\.md/i,
-  /\.claude\/skills\/investigate/i,
+  /\.claude\/skills\/probe/i,
   /falsifiable hypotheses/i,
   /kill tests?/i,
   /confirmatory (reading|forage)/i,
@@ -48,13 +48,13 @@ describe('investigate transfer null baseline', () => {
 
   it('outcome prompts require reading the investigate skill', () => {
     for (const scenario of outcome.scenarios) {
-      expect(scenario.prompt).toMatch(/\.claude\/skills\/investigate\/SKILL\.md/)
+      expect(scenario.prompt).toMatch(/\.claude\/skills\/probe\/SKILL\.md/)
     }
   })
 
   it('outcome arm still requires investigate invocation', () => {
     for (const scenario of outcome.scenarios) {
-      expect(scenario.rubric.mustInvokeSkill).toEqual(['investigate'])
+      expect(scenario.rubric.mustInvokeSkill).toEqual(['probe'])
     }
   })
 

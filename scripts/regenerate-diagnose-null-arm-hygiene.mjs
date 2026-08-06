@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 /**
- * Rebuild diagnose null-arm hygiene seed under `_agent/` (gitignored).
+ * Rebuild probe-fix null-arm hygiene seed under `_agent/` (gitignored).
  *
  * Live worktrees are detached at HEAD and do **not** include `_agent/`, so
- * agents cannot forage the answer-bearing patch (the previous confound: a
- * tracked delete-patch under diagnose-outcomes/fixtures/seeds/).
+ * agents cannot forage the answer-bearing patch.
  *
- * Run automatically by `npm run agent:test:diagnose-evidence-parity`.
+ * Run automatically by `npm run agent:test:probe-fix-evidence-parity`.
  * Manual:
  *   node scripts/regenerate-diagnose-null-arm-hygiene.mjs
  */
 import { execFileSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import { mkdirSync, writeFileSync, readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -18,15 +18,15 @@ import { fileURLToPath } from 'node:url'
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 
 /** Must stay outside HEAD worktrees (see .gitignore `_agent/`). */
-export const DIAGNOSE_NULL_ARM_HYGIENE_SEED = '_agent/diagnose-null-arm-hygiene.patch'
+export const DIAGNOSE_NULL_ARM_HYGIENE_SEED = '_agent/probe-fix-null-arm-hygiene.patch'
 
 const pathArgs = [
-  'diagnose/**',
-  'agent-suites/diagnose/**',
-  'agent-suites/diagnose-outcomes/**',
-  'agent-suites/diagnose-transfer/**',
-  'agent-suites/diagnose-prompt/**',
-  'agent-suites/diagnose-outcomes-ceiling/**',
+  'probe/**',
+  'agent-suites/probe-fix/**',
+  'agent-suites/probe-fix-outcomes/**',
+  'agent-suites/probe-fix-transfer/**',
+  'agent-suites/probe-fix-prompt/**',
+  'agent-suites/probe-fix-outcomes-ceiling/**',
   'docs/evidence-parity.md',
   'tests/diagnose-transfer-prompts.test.js',
   'tests/diagnose-prompt-baseline.test.js',
@@ -44,19 +44,8 @@ function listHeadPaths() {
     .filter((p) => !p.endsWith('null-arm-hygiene.patch'))
 }
 
-/**
- * @param {{ outPath?: string }} [options]
- *   Prefer a path outside the IDE-open tree for null-arm runs (caller forage).
- */
-export function regenerateDiagnoseNullArmHygieneSeed(options = {}) {
-  const out = options.outPath ? options.outPath : join(root, DIAGNOSE_NULL_ARM_HYGIENE_SEED)
-  const paths = listHeadPaths()
-  if (paths.length === 0) {
-    throw new Error('No HEAD paths matched for diagnose null-arm hygiene seed')
-  }
-
-  const chunks = []
-  for (const rel of paths) {
+function readBlob(rel) {
+  try {
     const body = execFileSync('git', ['show', `HEAD:${rel}`], {
       cwd: root,
       encoding: 'utf8',
@@ -65,6 +54,27 @@ export function regenerateDiagnoseNullArmHygieneSeed(options = {}) {
       cwd: root,
       encoding: 'utf8',
     }).trim()
+    return { body, hash }
+  } catch {
+    const body = readFileSync(join(root, rel), 'utf8')
+    const hash = createHash('sha1').update(body).digest('hex')
+    return { body, hash }
+  }
+}
+
+/**
+ * @param {{ outPath?: string }} [options]
+ */
+export function regenerateDiagnoseNullArmHygieneSeed(options = {}) {
+  const out = options.outPath ? options.outPath : join(root, DIAGNOSE_NULL_ARM_HYGIENE_SEED)
+  const paths = listHeadPaths()
+  if (paths.length === 0) {
+    throw new Error('No HEAD paths matched for probe-fix null-arm hygiene seed')
+  }
+
+  const chunks = []
+  for (const rel of paths) {
+    const { body, hash } = readBlob(rel)
     const hunkLines = body.endsWith('\n') ? body.slice(0, -1).split('\n') : body.split('\n')
     chunks.push(`diff --git a/${rel} b/${rel}`)
     chunks.push('deleted file mode 100644')

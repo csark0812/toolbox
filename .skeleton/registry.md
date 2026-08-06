@@ -25,9 +25,9 @@
 | crystallize          | [crystallize/SKILL.md](../crystallize/SKILL.md)                   |
 | grill                | [grill/SKILL.md](../grill/SKILL.md)                               |
 | second-opinion       | [second-opinion/SKILL.md](../second-opinion/SKILL.md)             |
-| investigate          | [investigate/SKILL.md](../investigate/SKILL.md)                   |
+| investigate          | [probe/SKILL.md](../probe/SKILL.md)                   |
 | iterate              | [iterate/SKILL.md](../iterate/SKILL.md)                           |
-| diagnose             | [diagnose/SKILL.md](../diagnose/SKILL.md)                         |
+| diagnose             | [probe/SKILL.md](../probe/SKILL.md)                         |
 | tdd                  | [tdd/SKILL.md](../tdd/SKILL.md)                                   |
 | prototype            | [prototype/SKILL.md](../prototype/SKILL.md)                       |
 | domain-model         | [domain-model/SKILL.md](../domain-model/SKILL.md)                 |

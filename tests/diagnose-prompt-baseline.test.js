@@ -3,16 +3,16 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 const root = join(import.meta.dirname, '..')
-const promptPath = join(root, 'agent-suites/diagnose-prompt/scenarios.json')
-const outcomePath = join(root, 'agent-suites/diagnose-outcomes/scenarios.json')
-const transferPath = join(root, 'agent-suites/diagnose-transfer/scenarios.json')
+const promptPath = join(root, 'agent-suites/probe-fix-prompt/scenarios.json')
+const outcomePath = join(root, 'agent-suites/probe-fix-outcomes/scenarios.json')
+const transferPath = join(root, 'agent-suites/probe-fix-transfer/scenarios.json')
 
-const HYGIENE_SEED = '_agent/diagnose-null-arm-hygiene.patch'
+const HYGIENE_SEED = '_agent/probe-fix-null-arm-hygiene.patch'
 
 /** Skill-file references that must not appear in the prompt baseline arm. */
 const PROMPT_LEAKAGE = [
   /SKILL\.md/i,
-  /\.claude\/skills\/diagnose/i,
+  /\.claude\/skills\/probe/i,
   /mustInvokeSkill/i,
   /no repro refuse/i,
   /loop before cause/i,
