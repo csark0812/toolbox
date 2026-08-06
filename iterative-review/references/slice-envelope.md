@@ -21,7 +21,7 @@ Mixed entry: user supplies **intent**; coordinator derives a **frozen envelope**
 - **Out of slice:** [explicit exclusions]
 ```
 
-4. **Stability rules** — coordinator MUST NOT embed prior-round finding prose, thrash notes, or fix rationale into materials sent to the blind reviewer. Updated file contents after fixes are allowed; narrative about prior passes is not.
+4. **Stability rules** — coordinator MUST NOT embed prior-round finding prose, thrash notes, between-pass bridge text, or fix rationale into materials sent to the blind reviewer. Updated file contents after fixes are allowed; narrative about prior passes is not.
 
 ## Envelope changes
 
