@@ -1,10 +1,10 @@
 # Anti-thrash preflight
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-03 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Run **before synthesis** — and **before any Task/council spawn** — on any re-review or merge-readiness ask when prior Action findings **may** exist — **any** source adapter ([sources.md](sources.md)), not only branch/PR. Bare `review vs main` in a new chat is a continuity check, not an automatic fresh baseline.
+**Iterate coordinator vocabulary** — thrash signals and pass classification when reopening themes across blind passes. Diff review orchestration lives in [`subagents`](../../subagents/SKILL.md); diff review **how-to** in [`code-review`](../../code-review/SKILL.md).
 
-Depth lane → [surfaces.md](surfaces.md) § Re-review. Themes → [fix-loop-ledger.md](fix-loop-ledger.md). Continuity → [output.md](output.md). Predicate glossary → [fix-loop-ledger.md](fix-loop-ledger.md) § Predicate glossary.
+Run **before synthesis** on any pass when prior Action findings **may** exist. Themes → [fix-loop-ledger.md](fix-loop-ledger.md). Output markers → [output.md](output.md).
 
 1. **Detect repeated review** — MUST treat as repeated when any is true:
    - Same branch/thread as a prior `Review · …` pass, or user asked to re-review after fixes.
@@ -25,10 +25,10 @@ Depth lane → [surfaces.md](surfaces.md) § Re-review. Themes → [fix-loop-led
    - `closure-re-review` — re-review after fixes; recoverable themes and/or same-hotspot thrash; tip bound to prior themes / sweep surfaces. **Default** when step 1 detects repeated review or thrash.
    - `new-scope-review` — scope **materially** outside reconstructed themes (new subsystem/contract, not an adjacent edge of an open family), or archaeology fails to bound themes.
 4. **Hard stop before Task/council** — see below. Complete before step 5 when escalation is considered.
-5. **Choose lane** — `closure-re-review` → **primary** `Pass: targeted contextual` ([surfaces.md](surfaces.md)). Whole-surface size MUST NOT alone promote to council or Full.
-   - **Thrash / same-hotspot stack / sibling edge of an open family:** stay targeted; header MUST include `Thrash: inventory-required`; complete same-invariant Sweep ([fix-loop-ledger.md](fix-loop-ledger.md) § Same-invariant sweep + § Sweep quality). **Never** auto-Full on thrash.
-   - **Full contextual** only when the user explicitly asks Full / whole-branch revisit, **or** pass class is `new-scope-review` (material new scope). Size alone never Full. See [surfaces.md](surfaces.md) § Full contextual.
-6. **Thrash signal** — two+ Action blockers same family, reopened `theme_id`, or same-hotspot micro-fix trail → primary same-invariant inventory under one theme; no symptom-hunting council. High-dimensional contract themes → matrix checklist before `closed`. Sibling mint of a new `theme_id` for the same hotspot/class is a protocol error.
+5. **Choose lane** — `closure-re-review` → targeted re-verify of open themes and matrix rows. Whole-surface size MUST NOT alone widen scope.
+   - **Thrash / same-hotspot stack / sibling edge of an open family:** stay targeted; header MUST include `Thrash: inventory-required`; complete same-invariant sweep ([fix-loop-ledger.md](fix-loop-ledger.md) § Same-invariant sweep + § Sweep quality).
+   - **Full revisit** only when the user explicitly asks or pass class is `new-scope-review` (material new scope). Size alone never widens scope.
+6. **Thrash signal** — two+ Action blockers same family, reopened `theme_id`, or same-hotspot micro-fix trail → same-invariant inventory under one theme; no symptom-hunting. High-dimensional contract themes → matrix checklist before `closed`. Sibling mint of a new `theme_id` for the same hotspot/class is a protocol error.
 7. **Over-fire** — true first Action, single fix commit, or tip window with **no** recurring non-noise hotspot path → `first-baseline` **allowed**.
 8. **Green cleanup** — exit gate passes → delete leftover review ledger file if present. **Never write** `_agent/review/REVIEW_LEDGER.md` during the loop.
 
@@ -72,4 +72,4 @@ Record at least:
 
 ---
 
-**Efficiency:** re-review on Broad surface still uses targeted primary closure; optional Quick (1) specialist only if primary cannot settle hotspot ([escalation.md](escalation.md)).
+**Efficiency:** stay targeted on open themes; spawn another blind pass only per [protocol.md](protocol.md).

@@ -14,7 +14,7 @@ v1 supports **code slice** and **plan section** only. Other artifact types → e
 - Related reads (callers, tests, config touched by invariant)
 - Entrypoints / public symbols
 
-**Matrix rows (minimum):** derive from [`code-review` fix-loop-ledger § Invariant matrix](../../code-review/references/fix-loop-ledger.md#invariant-matrix) — only rows applicable to the slice. High-dimensional contracts → use contract-class catalog when thrash applies.
+**Matrix rows (minimum):** derive from [fix-loop-ledger § Invariant matrix](fix-loop-ledger.md#invariant-matrix) — only rows applicable to the slice.
 
 **Blind pack:** file contents (or excerpts within host limits), test files, relevant types — no diff narrative, no PR context unless user scoped the slice to a diff hunk (then prefer **code-review**).
 

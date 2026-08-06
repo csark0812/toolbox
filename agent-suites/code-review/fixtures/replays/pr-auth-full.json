@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "\nReview · source:branch · Surface: standard (1 file, 92 loc) · Reviewer: primary · Filing: merge-blockers only\n\nPrimary deep pass on auth/session — risk flag deepened evidence bar; no council spawn.\n\n## Findings\nAction: merge-blocker — validate token/session lifecycle before shipping. The sample diff introduces shared session lookup state and changes expiry boundary behavior, which is security-sensitive.\n\n## Review synthesis\nAuth/session review stayed primary with heightened evidence requirements."
+      "content": "\nReview · source:branch · Scope: 1 file, 92 loc · Filing: merge-blockers only\n\nDeep pass on auth/session — heightened evidence bar.\n\n## Findings\nAction: merge-blocker — validate token/session lifecycle before shipping. The sample diff introduces shared session lookup state and changes expiry boundary behavior, which is security-sensitive.\n\n## Review synthesis\nAuth/session review with heightened evidence requirements."
     }
   ],
   "toolCalls": [],

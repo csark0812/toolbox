@@ -25,19 +25,19 @@ Routes elsewhere → [routing.md](references/routing.md).
 
 ## Quick reference
 
-| Need                              | Reference                                                                                                                               |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| End-to-end loop                   | [references/protocol.md](references/protocol.md)                                                                                        |
-| Intent → envelope                 | [references/slice-envelope.md](references/slice-envelope.md)                                                                            |
-| Code vs plan § adapters           | [references/adapters.md](references/adapters.md)                                                                                        |
-| Blind Task dispatch               | [references/blind-reviewer-dispatch.md](references/blind-reviewer-dispatch.md)                                                          |
-| Coordinator thrash memory         | [references/thrash-ledger.md](references/thrash-ledger.md)                                                                              |
-| Exit layers                       | [references/exit-gate.md](references/exit-gate.md)                                                                                      |
-| Pass output shape                 | [references/output.md](references/output.md)                                                                                            |
-| Between-pass bridge (re-loop)     | [references/output.md](references/output.md#between-pass-bridge-required-before-next-blind-subagent)                                    |
-| Sibling handoffs                  | [references/routing.md](references/routing.md)                                                                                          |
-| Thrash / matrix vocabulary (link) | [`code-review` fix-loop-ledger](../code-review/references/fix-loop-ledger.md) · [anti-thrash](../code-review/references/anti-thrash.md) |
-| Spawn kernel                      | [`subagents`](../subagents/SKILL.md)                                                                                                    |
+| Need                              | Reference                                                                                            |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| End-to-end loop                   | [references/protocol.md](references/protocol.md)                                                     |
+| Intent → envelope                 | [references/slice-envelope.md](references/slice-envelope.md)                                         |
+| Code vs plan § adapters           | [references/adapters.md](references/adapters.md)                                                     |
+| Blind Task dispatch               | [references/blind-reviewer-dispatch.md](references/blind-reviewer-dispatch.md)                       |
+| Coordinator thrash memory         | [references/thrash-ledger.md](references/thrash-ledger.md)                                           |
+| Exit layers                       | [references/exit-gate.md](references/exit-gate.md)                                                   |
+| Pass output shape                 | [references/output.md](references/output.md)                                                         |
+| Between-pass bridge (re-loop)     | [references/output.md](references/output.md#between-pass-bridge-required-before-next-blind-subagent) |
+| Sibling handoffs                  | [references/routing.md](references/routing.md)                                                       |
+| Thrash / matrix vocabulary (link) | [fix-loop-ledger.md](references/fix-loop-ledger.md) · [anti-thrash.md](references/anti-thrash.md)    |
+| Spawn kernel                      | [`subagents`](../subagents/SKILL.md)                                                                 |
 
 ## Workflow
 

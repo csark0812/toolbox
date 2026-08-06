@@ -32,14 +32,12 @@ Consecutive no-Action blind passes reduce one-pass false green.
 
 ## Thrash delegation
 
-Theme identity and premature closure vocabulary reuse **code-review** fix-loop ledger rather than forking.
+Theme identity and premature closure vocabulary → [fix-loop-ledger.md](fix-loop-ledger.md) and [anti-thrash.md](anti-thrash.md) in this skill.
 
 **Confidence:** High for SSOT maintenance; moderate that cross-skill links are followed without coordinator discipline.
 
 ## Problem drift
 
-Iterative loops without thrash guards re-file adjacent edges as sibling themes — same failure mode as fix-loop thrash before anti-thrash preflight.
+Iterative loops without thrash guards re-file adjacent edges as sibling themes.
 
-**Confidence:** Moderate — see code-review thrash signal documentation.
-
-- Link: [`code-review` anti-thrash.md](../../code-review/references/anti-thrash.md)
+**Confidence:** Moderate — see [anti-thrash.md](anti-thrash.md).

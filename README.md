@@ -76,20 +76,20 @@ Canonical recipes live under `.skeleton/references/planning/soft-default/` and a
 
 ## Skills
 
-| Slug                 | Purpose                                          |
-| -------------------- | ------------------------------------------------ |
-| subagents            | Subagent dispatch — type, splits, cheapest model |
-| code-review          | Primary-first code review; council on escalation |
-| crystallize          | Fuzzy idea → shaped intent                       |
-| grill                | Pressure-test design before implementation       |
-| second-opinion       | Written plan review                              |
-| iterate              | Bounded slice closure until cohesive             |
-| probe                | Hunch verdict or hard-bug fix under Authority B  |
-| tdd                  | Test-first build at agreed public seams          |
-| prototype            | Throwaway artifact for one design question       |
-| domain-model         | Persist glossary + ADRs when decisions are ready |
-| handoff              | Compact session handoff                          |
-| writing-great-skills | Skill-authoring vocabulary and predictability    |
+| Slug                 | Purpose                                             |
+| -------------------- | --------------------------------------------------- |
+| subagents            | Subagent dispatch — type, splits, cheapest model    |
+| code-review          | How to review a diff — merge-blockers, evidence bar |
+| crystallize          | Fuzzy idea → shaped intent                          |
+| grill                | Pressure-test design before implementation          |
+| second-opinion       | Written plan review                                 |
+| iterate              | Bounded slice closure until cohesive                |
+| probe                | Hunch verdict or hard-bug fix under Authority B     |
+| tdd                  | Test-first build at agreed public seams             |
+| prototype            | Throwaway artifact for one design question          |
+| domain-model         | Persist glossary + ADRs when decisions are ready    |
+| handoff              | Compact session handoff                             |
+| writing-great-skills | Skill-authoring vocabulary and predictability       |
 
 Consumer projects may lock additional slugs (`debug`, `testing`, `product-principles`, …) — **every lock key is replaced on resync**. Ambient shared refs are remote (GitHub); skill-local `references/` stay skill-specific. Consumers remap project docs via `.skeleton/customize/` + `customize.alwaysInclude`. See [docs/tiers.md](docs/tiers.md).
 

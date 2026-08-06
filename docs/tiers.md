@@ -13,7 +13,7 @@ Generic orchestration, planning, and dialogue — intended for any consumer proj
 | Slug                 | Notes                                                                            |
 | -------------------- | -------------------------------------------------------------------------------- |
 | subagents            | Subagent type, token-efficient splits, cheapest model routing                    |
-| code-review          | Primary-first review + fix-loop; council on escalation (customize roster)        |
+| code-review          | Diff review guidelines — merge-blocker filing, evidence bar                      |
 | crystallize          | Fuzzy idea → artifact                                                            |
 | grill                | Pressure-test design                                                             |
 | second-opinion       | Unified plan review (staged debate)                                              |
@@ -45,7 +45,7 @@ Install destinations: Cursor project → `.agents/skills/` (global → `~/.curso
 
 ### Code-review migration (2026-07)
 
-Default review is **primary-first**: one coordinator pass by surface size; specialists/council only on escalation (user ask or unresolved domain). Source adapters replace legacy mode names (`pr` / `staged` / …). See [code-review/SKILL.md](../code-review/SKILL.md) and [sources.md](../code-review/references/sources.md).
+Default review skill is **guidelines-only**: how to read a diff and file merge-blockers. Spawn and fix-loop orchestration → [`subagents`](../subagents/SKILL.md) and [`iterate`](../iterate/SKILL.md). See [code-review/SKILL.md](../code-review/SKILL.md).
 
 Distribution:
 
