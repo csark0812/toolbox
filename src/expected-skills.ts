@@ -6,6 +6,7 @@ export const EXPECTED_SKILLS = [
   'grill',
   'second-opinion',
   'investigate',
+  'iterative-review',
   'diagnose',
   'tdd',
   'prototype',

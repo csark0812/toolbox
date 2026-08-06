@@ -324,4 +324,37 @@ describe('toolbox skill SSOT', () => {
     expect(selection).toMatch(/escalated council only/)
     expect(selection).toMatch(/Primary-only reviews do not run this doc/)
   })
+
+  it('iterative-review mandates blind Task spawn and split closure semantics', () => {
+    const skill = readFileSync(join(root, 'iterative-review/SKILL.md'), 'utf8')
+    const protocol = readFileSync(join(root, 'iterative-review/references/protocol.md'), 'utf8')
+    const dispatch = readFileSync(
+      join(root, 'iterative-review/references/blind-reviewer-dispatch.md'),
+      'utf8',
+    )
+    const exitGate = readFileSync(join(root, 'iterative-review/references/exit-gate.md'), 'utf8')
+    const multi = readFileSync(join(root, 'multi/SKILL.md'), 'utf8')
+    const adversarial = readFileSync(join(root, 'multi/references/adversarial.md'), 'utf8')
+
+    expect(skill).toMatch(/iterative-review/)
+    expect(skill).toMatch(/Closure: ready/)
+    expect(skill).toMatch(/Hard gate/)
+    expect(skill).toMatch(/iterative-review/)
+
+    expect(protocol).toMatch(/Hard gate/)
+    expect(protocol).toMatch(/Closure: ready/)
+    expect(protocol).toMatch(/violation/)
+
+    expect(dispatch).toMatch(/model=inherit-auto/)
+    expect(dispatch).toMatch(/Forbidden inputs/)
+    expect(dispatch).toMatch(/Cohesion: attested-local/)
+
+    expect(exitGate).toMatch(/Closure: ready/)
+    expect(exitGate).toMatch(/attested-local/)
+    expect(exitGate).toMatch(/Clean streak/)
+
+    expect(multi).toMatch(/iterative-review/)
+    expect(adversarial).toMatch(/iterative-review/)
+    expect(adversarial).toMatch(/blind-reviewer-dispatch/)
+  })
 })

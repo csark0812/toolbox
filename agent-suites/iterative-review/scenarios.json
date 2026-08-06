@@ -1,0 +1,37 @@
+{
+  "name": "iterative-review",
+  "description": "Portable iterative-review conformance: blind pass markers and thrash reopen without sibling mint",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "blind-pass: protocol markers",
+      "prompt": "Iterative review on the session attach slice in src/session until cohesive.\n\nRead `.claude/skills/iterative-review/SKILL.md` first. Run a blind review pass; emit Pass: blind, Slice:, Clean streak, and Cohesion: attested-local or not-attested. Do not reference prior review text.",
+      "replayTrace": "agent-suites/iterative-review/fixtures/replays/blind-pass-markers.json",
+      "rubric": {
+        "must": ["Pass: blind", "Slice:", "Clean streak", "Cohesion: attested-local"],
+        "mustInvokeSkill": ["iterative-review"],
+        "mustNot": ["prior review", "review 1 said", "Closure: ready"],
+        "judge": [
+          "The agent invoked iterative-review, emitted blind pass protocol markers, and did not leak prior review context"
+        ]
+      }
+    },
+    {
+      "name": "thrash: reopen theme not sibling mint",
+      "prompt": "Re-run iterative review on src/session after fixes. Round 2 must detect thrash on theme session-pin-plane-attach and set Thrash: inventory-required; reopen the existing theme_id — do not mint a sibling Action theme.\n\nRead `.claude/skills/iterative-review/SKILL.md` first.",
+      "replayTrace": "agent-suites/iterative-review/fixtures/replays/thrash-reopen-theme.json",
+      "rubric": {
+        "must": ["Thrash: inventory-required", "session-pin-plane-attach", "Pass: blind"],
+        "mustInvokeSkill": ["iterative-review"],
+        "mustNot": ["sibling mint", "new theme_id for the same"],
+        "judge": [
+          "The agent invoked iterative-review, flagged thrash inventory-required, and reopened the existing theme family instead of sibling mint"
+        ]
+      }
+    }
+  ]
+}

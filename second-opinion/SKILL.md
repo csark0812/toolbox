@@ -1,6 +1,6 @@
 ---
 name: second-opinion
-description: Review a written plan, PRD, or issue set via staged adversarial subagents — premises attack + completeness attack, then a related-context defender. Use when a plan artifact exists on disk and needs a freshness or completeness pass. Not for dialogue without a plan (crystallize, grill) or a single code-path hunch (investigate).
+description: Review a written plan, PRD, or issue set via staged adversarial subagents — premises attack + completeness attack, then a related-context defender. Use when a plan artifact exists on disk and needs a freshness or completeness pass. Not for dialogue without a plan (crystallize, grill), iterative slice closure (iterative-review), or a single code-path hunch (investigate).
 ---
 
 # Second opinion

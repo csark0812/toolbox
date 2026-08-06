@@ -120,6 +120,8 @@ Code-review: keep lens selection; every member gets a kill mandate for their len
 - Elsewhere only when an entry skill cites this shape.
 - Not a substitute for dialogue (`crystallize` / `grill`).
 
+**Iterative-review blind pass** (single member, not staged debate): **Always** spawn one memoryless blind reviewer per review pass when **iterative-review** runs. Fit check waived. Recipe → [`iterative-review` blind-reviewer-dispatch.md](../../iterative-review/references/blind-reviewer-dispatch.md).
+
 ### Wave 1 — parallel attackers (fresh context)
 
 Spawn **two** members. Context pack = **artifact only**.

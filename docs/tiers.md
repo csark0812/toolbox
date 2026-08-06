@@ -17,6 +17,7 @@ Generic orchestration, planning, and dialogue — intended for any consumer proj
 | crystallize          | Fuzzy idea → artifact                                                             |
 | grill                | Pressure-test design                                                              |
 | second-opinion       | Unified plan review (staged debate)                                               |
+| iterative-review     | Bounded code/plan-slice closure — blind review loop until cohesive                |
 | investigate          | Code / claim hunch — find & verdict, not fix (**optional** — see evidence parity) |
 | diagnose             | Hard-bug loop — repro → tighten → fix → regression lock                           |
 | tdd                  | Test-first build at agreed public seams                                           |
@@ -34,7 +35,7 @@ Skeleton and toolbox are complementary — init skeleton first, then install ski
 ```bash
 npm install -D @csark0812/skeleton
 npx skeleton init --skills
-npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion iterative-review diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
 ```
 
 Optional — install when you need explicit hunch→verdict routing (not in default bundle after 2026-07 evidence parity):
