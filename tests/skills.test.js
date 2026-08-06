@@ -86,9 +86,12 @@ describe('toolbox skill SSOT', () => {
     const routing = readFileSync(join(root, 'subagents/references/model-routing.md'), 'utf8')
     const types = readFileSync(join(root, 'subagents/references/subagent-types.md'), 'utf8')
     const splitting = readFileSync(join(root, 'subagents/references/task-splitting.md'), 'utf8')
-    const research = readFileSync(join(root, 'investigate/references/parallel-research.md'), 'utf8')
+    const research = readFileSync(
+      join(root, 'subagents/references/investigate-dispatch.md'),
+      'utf8',
+    )
     const planEvidence = readFileSync(
-      join(root, 'second-opinion/references/parallel-plan-evidence.md'),
+      join(root, 'subagents/references/second-opinion-evidence-dispatch.md'),
       'utf8',
     )
 
@@ -105,6 +108,7 @@ describe('toolbox skill SSOT', () => {
     expect(routing).toMatch(/Auto reachable: no/)
     expect(routing).toMatch(/Do not use.*\*-fast/)
 
+    expect(research).toMatch(/Parallel research/)
     expect(research).toMatch(/model=inherit-auto/)
     expect(research).not.toMatch(/model=composer-2\.5-fast/)
     expect(planEvidence).toMatch(/model=inherit-auto/)
@@ -124,18 +128,18 @@ describe('toolbox skill SSOT', () => {
       'utf8',
     )
     const perspectiveInvestigate = readFileSync(
-      join(root, 'investigate/references/parallel-perspective.md'),
+      join(root, 'subagents/references/investigate-dispatch.md'),
       'utf8',
     )
     const adversarialDebate = readFileSync(
-      join(root, 'second-opinion/references/adversarial-debate.md'),
+      join(root, 'subagents/references/second-opinion-dispatch.md'),
       'utf8',
     )
     const adversarialKernel = readFileSync(
       join(root, 'subagents/references/adversarial.md'),
       'utf8',
     )
-    const broad = readFileSync(join(root, 'investigate/references/parallel-broad.md'), 'utf8')
+    const broad = readFileSync(join(root, 'subagents/references/investigate-dispatch.md'), 'utf8')
 
     // Canonical invariant stays in subagents + model-routing.
     expect(skill).toMatch(/model-routing\.md/)
@@ -175,10 +179,10 @@ describe('toolbox skill SSOT', () => {
     expect(taskPrompt).toMatch(/adversarial\.md/)
 
     // Related entry recipes reconciled away from forced slugs
-    expect(perspectiveInvestigate).toMatch(/model=\[inherit-auto \| slug\]/)
+    expect(perspectiveInvestigate).toMatch(/model=inherit-auto/)
     expect(perspectiveInvestigate).not.toMatch(/model=\[slug A\]/)
     expect(perspectiveInvestigate).toMatch(/Goal: adversarial/)
-    expect(adversarialDebate).toMatch(/model=\[inherit-auto \| slug\]/)
+    expect(adversarialDebate).toMatch(/model=inherit-auto/)
     expect(adversarialDebate).not.toMatch(/model=\[slug A\]/)
     expect(adversarialDebate).toMatch(/Goal: adversarial-staged/)
     expect(adversarialDebate).toMatch(/stance=premises/)
@@ -187,16 +191,17 @@ describe('toolbox skill SSOT', () => {
     expect(adversarialKernel).toMatch(/Staged debate/)
     expect(adversarialKernel).toMatch(/Context asymmetry/)
     expect(adversarialKernel).toMatch(/iterate/)
-    expect(broad).toMatch(/model=\[inherit-auto \| slug\]/)
+    expect(broad).toMatch(/model=inherit-auto/)
     expect(broad).not.toMatch(/model=\[cheapest\]/)
-    expect(broad).toMatch(/Parent model: \[Auto \| <named model>\]/)
+    expect(broad).toMatch(/Parent model: \[Auto \| named\]/)
   })
 
   it('investigate enforces find-and-verdict-only (no fix in verdict)', () => {
     const skill = readFileSync(join(root, 'investigate/SKILL.md'), 'utf8')
-    expect(skill).toMatch(/Find and verdict only/)
-    expect(skill).toMatch(/Do not propose code edits, diffs/)
-    expect(skill).toMatch(/Completion gate:.*no code fix/s)
+    const output = readFileSync(join(root, 'investigate/references/output.md'), 'utf8')
+    expect(skill).toMatch(/find and verdict only/i)
+    expect(skill).toMatch(/Verdict not fix/)
+    expect(output).toMatch(/Find and verdict only/)
   })
 
   it('code-review is thin review guidelines without orchestration', () => {
@@ -327,6 +332,30 @@ describe('toolbox skill SSOT', () => {
     expect(tiers).toMatch(/\*\*code-review\*\*/)
     expect(tiers).toMatch(/\*\*second-opinion\*\*/)
     expect(tiers).not.toMatch(/Subagent kernel/)
+  })
+
+  it('process skills are thin and dispatch lives under subagents', () => {
+    const so = readFileSync(join(root, 'second-opinion/SKILL.md'), 'utf8')
+    const soDispatch = readFileSync(
+      join(root, 'subagents/references/second-opinion-dispatch.md'),
+      'utf8',
+    )
+    const inv = readFileSync(join(root, 'investigate/SKILL.md'), 'utf8')
+    const grill = readFileSync(join(root, 'grill/SKILL.md'), 'utf8')
+
+    expect(so).toMatch(/\*\*Process skill\*\*/)
+    expect(so).toMatch(/second-opinion-dispatch\.md/)
+    expect(so).not.toMatch(/adversarial-debate\.md/)
+    expect(existsSync(join(root, 'second-opinion/references/adversarial-debate.md'))).toBe(false)
+    expect(soDispatch).toMatch(/Goal: adversarial-staged/)
+
+    expect(inv).toMatch(/\*\*Process skill\*\*/)
+    expect(inv).toMatch(/investigate-dispatch\.md/)
+    expect(existsSync(join(root, 'investigate/references/parallel-broad.md'))).toBe(false)
+
+    expect(grill).toMatch(/\*\*Process skill\*\*/)
+    expect(grill).toMatch(/protocol\.md/)
+    expect(grill).not.toMatch(/## Protocol/)
   })
 
   it('subagents context-pack is SSOT for member envelopes', () => {

@@ -28,20 +28,20 @@ flowchart LR
 
 ## Domain moves (same loop)
 
-| Move               | When                                          | How                                                                                                                                            |
-| ------------------ | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Repo forage**    | Hunch points at code, config, or in-repo docs | Follow scent: callers, callees, tests, error sites, related types. Prefer dependency slices over whole-file reads when the hunch is localized. |
-| **Locate-to-cite** | Behavioral code hunch                         | Narrow to `file:line` (or config key, failing path) sufficient for the verdict — then **stop**. Do not bisect-as-repair or implement the fix.  |
-| **Lateral read**   | Claim depends on web/docs/vendor material     | Leave the page quickly; check who else says this; note source class (primary vs secondary, official vs commentary).                            |
-| **Source class**   | Before settling a non-repo claim              | State what kind of source supports the claim. Conflicting independents → name the split in the verdict or parallel-perspective.                |
+| Move               | When                                          | How                                                                                                                                                                  |
+| ------------------ | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Repo forage**    | Hunch points at code, config, or in-repo docs | Follow scent: callers, callees, tests, error sites, related types. Prefer dependency slices over whole-file reads when the hunch is localized.                       |
+| **Locate-to-cite** | Behavioral code hunch                         | Narrow to `file:line` (or config key, failing path) sufficient for the verdict — then **stop**. Do not bisect-as-repair or implement the fix.                        |
+| **Lateral read**   | Claim depends on web/docs/vendor material     | Leave the page quickly; check who else says this; note source class (primary vs secondary, official vs commentary).                                                  |
+| **Source class**   | Before settling a non-repo claim              | State what kind of source supports the claim. Conflicting independents → name the split in the verdict or **subagents** investigate-dispatch § Parallel perspective. |
 
 ## When to escalate (multi)
 
-| Situation                                    | Recipe                                                                                    |
-| -------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| User asks to fish broadly                    | [parallel-broad.md](parallel-broad.md)                                                    |
-| Multiple independent topics, no single hunch | [parallel-research.md](parallel-research.md) — then back here if a specific claim remains |
-| Genuinely mixed or contested evidence        | [parallel-perspective.md](parallel-perspective.md)                                        |
+| Situation                                    | Recipe                                                                                                             |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| User asks to fish broadly                    | **subagents** [investigate-dispatch.md](../../subagents/references/investigate-dispatch.md) § Parallel broad       |
+| Multiple independent topics, no single hunch | **subagents** [investigate-dispatch.md](../../subagents/references/investigate-dispatch.md) § Parallel research    |
+| Genuinely mixed or contested evidence        | **subagents** [investigate-dispatch.md](../../subagents/references/investigate-dispatch.md) § Parallel perspective |
 
 ## Handoffs (after verdict)
 

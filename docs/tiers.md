@@ -91,9 +91,9 @@ Install destinations: Cursor project → `.agents/skills/` (global → `~/.curso
 
 ### Migration notes
 
-**Code-review (2026-07):** Process-only — spawn and slice loops → **subagents** / **iterate**. See [code-review/SKILL.md](../code-review/SKILL.md).
+**Process vs orchestrator (2026-08):** Process skills describe _what_; dispatch refs live under **subagents** (`second-opinion-dispatch`, `investigate-dispatch`, `review-council-dispatch`) or orchestrators (`iterate`, `handoff`).
 
-**Second-opinion (pending):** Still embeds staged-debate dispatch in skill refs — target is process-only body + **subagents** `second-opinion-dispatch.md` (same split as code-review).
+**Code-review (2026-07):** Process-only — see [code-review/SKILL.md](../code-review/SKILL.md).
 
 Distribution:
 

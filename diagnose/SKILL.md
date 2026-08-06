@@ -1,90 +1,34 @@
 ---
 name: diagnose
-description: Hard-bug diagnosis loop — repro → tighten feedback loop → fix → regression lock. Use when something is broken, throwing, failing, slow, or the user says diagnose/debug this. Not for find-only hunches without a repro (investigate) or greenfield test-first build (tdd).
+description: Hard-bug discipline — build a tight repro loop, then fix and lock regression. Process skill; coordinator-only loop. Not find-only hunch without repro (investigate) or greenfield TDD (tdd).
 ---
 
 # Diagnose
 
-**Source of truth for** hard-bug and regression diagnosis with a tight feedback loop.
+**Source of truth for** repro-first hard-bug diagnosis.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) `diagnosing-bugs` (MIT © 2026 Matt Pocock).
+**Process skill** — loop before hypotheses. Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) `diagnosing-bugs` (MIT © 2026 Matt Pocock).
 
-A discipline for hard bugs. **Ordering is the value** — build a **tight** pass/fail signal before hypothesizing. The loop is the **verifier** (environment oracle); hypotheses serve the loop, not the other way around. Skip phases only when explicitly justified.
+References: [protocol.md](references/protocol.md) · [loop-catalog.md](references/loop-catalog.md) · [output.md](references/output.md).
 
-Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
+Read [research-basis.md](references/research-basis.md) only when calibrating loop claims.
 
-## Entry gate — no loop, no hypotheses
+## Non-negotiables
 
-If there is **no on-demand failing signal** — no failing test, script, CI artifact, or user repro you can run — **stop**. Do not hypothesize.
+1. **No loop, no hypotheses** — failing signal required.
+2. **Red before fix** — loop proves bug before production edits.
+3. **Lock regression** — hand to **tdd** at agreed seam.
 
-Route to:
+## Workflow
 
-- get a repro from the user (environment, steps, artifact), or
-- [`investigate`](../investigate/SKILL.md) when the locus is still unclear.
-
-Also owns the handoff when [`investigate`](../investigate/SKILL.md) confirmed a locus and the next step is fix.
-
-## Protocol
-
-### Phase 1 — Build a tight feedback loop
-
-**This is the skill.** Everything else consumes the loop. Full catalog → [loop-catalog.md](references/loop-catalog.md).
-
-Spend disproportionate effort here. Try loop constructions in roughly catalog order until one is **tight** and **red** on _this_ bug.
-
-**Tighten the loop** once you have one:
-
-- Faster? (cache setup, skip unrelated init, narrow scope)
-- Sharper signal? (assert the specific symptom, not "didn't crash")
-- More deterministic? (pin time, seed RNG, isolate filesystem/network)
-
-**Completion criterion:** you can name **one command** you have **already run** that is:
-
-- [ ] **Red-capable** — drives the bug path and asserts the user's exact symptom
-- [ ] **Deterministic** — same verdict every run (flake: raise reproduction rate until debuggable)
-- [ ] **Fast** — seconds, not minutes
-
-If you genuinely cannot build a loop, say so explicitly. List what you tried. Ask for environment access, a captured artifact, or permission for temporary instrumentation. **Do not proceed to hypothesize.**
-
-### Phase 2 — Fix with the loop red
-
-Only after Phase 1 is complete. The loop must be **red** on this bug before you change production code.
-
-A fail-to-pass test is a **diagnostic instrument**, not a patch spec — it proves the bug; the fix may differ.
-
-### Phase 3 — Lock the regression
-
-Hand the loop to [`tdd`](../tdd/SKILL.md) to turn the diagnostic into a kept regression test at an agreed seam. Structural root causes may reference [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md). Then [`code-review`](../code-review/SKILL.md) for structural cleanup if needed.
-
-## Output format
-
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). End with:
-
-```markdown
-## Diagnosis
-
-**Symptom:** [user-visible failure]
-**Loop:** `[one command]` — [red/green, deterministic, fast]
-
-### Cause
-
-[mechanism + citable location]
-
-### Fix
-
-[what changed]
-
-### Regression lock
-
-[test path or pending tdd handoff]
-
-### What to do next
-
-- [tdd slice, code-review, investigate if locus unclear, or handoff]
-```
+Follow [protocol.md](references/protocol.md) → [output.md](references/output.md).
 
 ## Consumer bindings
 
-Project-specific injected context is appended on skill read. Do not edit synced copies in place.
+Project-specific injected context appended on skill read. Do not edit synced copies in place.
+
+## Output format
+
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Details → [references/output.md](references/output.md).

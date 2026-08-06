@@ -22,13 +22,13 @@ Which host **`subagent_type`** to pass on Task/Subagent calls. Pair with [task-s
 
 ## Entry-skill overrides
 
-| Skill                       | Typical type                                        | Notes                                                                                                                                                                                                                           |
-| --------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **iterate**                 | `generalPurpose` · `stance=blind`                   | One member; slice materials only                                                                                                                                                                                                |
-| **handoff** (model-invoked) | `generalPurpose` · `stance=compact`                 | One member; writes `_agent/handoffs/` artifact — not user `/handoff` prompt-only                                                                                                                                                |
-| **second-opinion**          | `generalPurpose` · premises / completeness / defend | Staged debate; see [adversarial.md](adversarial.md)                                                                                                                                                                             |
-| **code-review** (parallel)  | `explore` / `generalPurpose`                        | [review-council-dispatch.md](review-council-dispatch.md); each member loads code-review skill                                                                                                                                   |
-| **investigate** (parallel)  | `explore`, `docs-researcher`, `generalPurpose`      | [parallel-research.md](../../investigate/references/parallel-research.md), [parallel-broad.md](../../investigate/references/parallel-broad.md), [parallel-perspective.md](../../investigate/references/parallel-perspective.md) |
+| Skill                       | Typical type                                        | Notes                                                                                         |
+| --------------------------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| **iterate**                 | `generalPurpose` · `stance=blind`                   | One member; slice materials only                                                              |
+| **handoff** (model-invoked) | `generalPurpose` · `stance=compact`                 | One member; writes `_agent/handoffs/` artifact — not user `/handoff` prompt-only              |
+| **second-opinion**          | `generalPurpose` · premises / completeness / defend | [second-opinion-dispatch.md](second-opinion-dispatch.md)                                      |
+| **code-review** (parallel)  | `explore` / `generalPurpose`                        | [review-council-dispatch.md](review-council-dispatch.md); each member loads code-review skill |
+| **investigate** (optional)  | `explore`, `docs-researcher`, `generalPurpose`      | [investigate-dispatch.md](investigate-dispatch.md)                                            |
 
 ## Council agents (consumer)
 

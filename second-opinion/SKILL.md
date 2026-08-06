@@ -1,54 +1,40 @@
 ---
 name: second-opinion
-description: Multiple independent perspectives on a written plan, PRD, or issue set — premise stress, completeness axes, then defense with primary sources. Process skill; staged member runs → subagents. Not dialogue without a plan (crystallize, grill), slice cohesion loop (iterate), or a single hunch (investigate).
+description: Multiple independent perspectives on a written plan — premise stress, completeness axes, then defense with primary sources. Process skill; member runs → subagents second-opinion-dispatch. Not dialogue without a plan (crystallize, grill), slice cohesion (iterate), or a single hunch (investigate).
 ---
 
 # Second opinion
 
-**Source of truth for** written plan review — what perspectives to apply and how to synthesize them.
+**Source of truth for** what plan review perspectives mean and how to synthesize them.
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-**Process skill** — natural-language arc: outsider premise stress and completeness axes in parallel, then a defender with cited primary sources. **A2A wiring** → [`subagents`](../subagents/SKILL.md) ([adversarial-debate.md](references/adversarial-debate.md) + [adversarial.md](../subagents/references/adversarial.md) § Staged debate; dispatch refs pending consolidation).
+**Process skill** — written artifact on disk; parallel outsider + completeness perspectives, then defender with cited sources. **A2A wiring** → [`subagents`](../subagents/SKILL.md) [second-opinion-dispatch.md](../subagents/references/second-opinion-dispatch.md).
 
-Follow [references/second-opinion.md](references/second-opinion.md). Not a Socratic explore session — artifact must be on disk.
+References: [plan-review.md](references/plan-review.md) · [output.md](references/output.md).
 
-Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
+Read [research-basis.md](references/research-basis.md) only when calibrating debate claims.
 
-**No Stance A/B.** Outsider premise critique and completeness/axis readiness always run **in tandem** as Wave-1 subagent roles. Do not ask “fresh read or verify?”
+## Non-negotiables
 
-## Owns
+1. **Artifact on disk** — plan, PRD, or issue set; not Socratic explore.
+2. **Both wave-1 perspectives** — `premises` + `completeness`; never ask user to pick one.
+3. **Claim anchoring** — kills map to plan § or premise id; unanchored → `drift`.
+4. **Both waves before final report** — coordinator-only critique without member runs is a **violation** ([dispatch](../subagents/references/second-opinion-dispatch.md)).
 
-- Written plan on disk (including `.cursor/plans/*.plan.md`), PRD, or issue set — freshness or completeness pass
-- Protocol + output sections → [references/second-opinion.md](references/second-opinion.md)
+## Workflow
 
-Routes elsewhere: dialogue without a plan → **crystallize** / **grill**; new plan from intent → **crystallize** / **grill** → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md); single code-path hunch → **investigate**.
+1. **Locate artifact** — path on disk.
+2. **Premise surface** — [plan-review.md](references/plan-review.md): 3–6 premises; confirm with user if unsettled.
+3. **Run perspectives** — **subagents** [second-opinion-dispatch.md](../subagents/references/second-opinion-dispatch.md); large plans → optional [second-opinion-evidence-dispatch.md](../subagents/references/second-opinion-evidence-dispatch.md).
+4. **Synthesize** — [plan-review.md](references/plan-review.md) + [output.md](references/output.md).
 
-## Stance and repo
-
-- **Primary-source-first for the defender wave:** Wave 2 receives 2–4 primary sources the plan cites — code files, docs, data, or prior decisions; do not ask the user for paths that appear in the plan. Wave 1 attackers get the **artifact only** (context asymmetry).
-- Structural “worth deepening?” → brief notes in synthesis per [second-opinion.md](references/second-opinion.md). Broad codebase sweeps → [parallel-explore.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/parallel-explore.md). Large artifacts may optionally pre-gather via [parallel-plan-evidence.md](references/parallel-plan-evidence.md) — gather is not a substitute for debate.
-- Completeness axes checklist body → [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) as the **completeness attacker overlay**, not a separate skill stance.
+Wave 1: artifact only. Wave 2: artifact + 2–4 cited primary sources + attacker briefs — do not ask user for paths already in the plan.
 
 ## Consumer bindings
 
-Plan artifact paths (`.cursor/plans/`, ClickUp tasks, etc.) arrive as project-specific injected context on skill read. Do not edit synced copies in place.
+Plan artifact paths arrive as injected context on skill read. Do not edit synced copies in place.
 
 ## Output format
 
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). End with this block when both debate waves and synthesis are complete:
-
-```markdown
-## Second opinion summary
-
-**Artifact:** [path or title]
-**Dispatch:** adversarial-staged
-
-### Findings
-
-- [Critical gap or assumption — or "No material gaps"]
-
-### Recommended next steps
-
-- [Concrete action: implement, revise plan, pressure-test → **grill**, serialize → planning/build.md, investigate code path → **investigate**]
-```
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Details → [references/output.md](references/output.md).
