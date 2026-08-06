@@ -4,14 +4,14 @@
 
 When the **parent coordinator** chooses parallel review specialists (user ask or unresolved domain after primary pass). Not part of the [`code-review`](../../code-review/SKILL.md) skill — spawn mechanics live here.
 
-Each member loads [`code-review`](../code-review/SKILL.md) for **how** to review the diff slice assigned.
+Each member loads [`code-review`](../code-review/SKILL.md) for **how** to review the surface slice assigned.
 
 ## Dispatch plan template
 
 ```markdown
 Task: Code review — parallel · [adapter] · [scope summary]
 Classification: review
-Source of truth: diff
+Source of truth: review surface (diff, paths, or snapshot)
 Goal: review
 Parent model: [Auto | named]
 

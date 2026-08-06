@@ -287,8 +287,10 @@ describe('toolbox skill SSOT', () => {
     expect(adversarial).not.toMatch(/blind-reviewer-dispatch/)
   })
 
-  it('handoff is model-invoked with subagent artifact path and user prompt-only branch', () => {
+  it('handoff is token-minimal with channel, pack, and prompt vs artifact', () => {
     const skill = readFileSync(join(root, 'handoff/SKILL.md'), 'utf8')
+    const pack = readFileSync(join(root, 'handoff/references/pack.md'), 'utf8')
+    const output = readFileSync(join(root, 'handoff/references/output.md'), 'utf8')
     const dispatch = readFileSync(
       join(root, 'handoff/references/handoff-subagent-dispatch.md'),
       'utf8',
@@ -296,13 +298,20 @@ describe('toolbox skill SSOT', () => {
     const subagents = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
 
     expect(skill).not.toMatch(/disable-model-invocation/)
-    expect(skill).toMatch(/User-request/)
-    expect(skill).toMatch(/prompt-only/)
-    expect(skill).toMatch(/Model-invoked/)
-    expect(skill).toMatch(/Hard gate/)
+    expect(skill).toMatch(/Pointers not bodies/)
+    expect(skill).toMatch(/channel:prompt/)
+    expect(skill).toMatch(/pack\.md/)
+    expect(skill).not.toMatch(/## Original ask/)
 
-    expect(dispatch).toMatch(/model=inherit-auto/)
-    expect(dispatch).toMatch(/write-handoff-artifact/)
+    expect(pack).toMatch(/not limits/)
+    expect(pack).toMatch(/\*\*pointers\*\*/)
+    expect(pack).toMatch(/\*\*prompt\*\*/)
+
+    expect(output).toMatch(/Handoff · channel:/)
+    expect(output).toMatch(/Omit empty sections/)
+
+    expect(dispatch).toMatch(/channel:artifact/)
+    expect(dispatch).toMatch(/output\.md/)
 
     expect(subagents).toMatch(/handoff/)
     expect(subagents).toMatch(/handoff-subagent-dispatch/)

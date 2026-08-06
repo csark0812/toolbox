@@ -23,7 +23,7 @@ Generic orchestration, planning, and dialogue — intended for any consumer proj
 | tdd                  | Test-first build at agreed public seams                                           |
 | prototype            | Throwaway design spike (user-invoked)                                             |
 | domain-model         | Persist glossary + ADRs when decisions are ready (user-invoked)                   |
-| handoff              | Session handoff — model-invoked artifact or user prompt-only                      |
+| handoff              | Cross-session handoff — channel + pack + goal; pointers not bodies                |
 | writing-great-skills | Skill-authoring vocabulary and predictability (user-invoked)                      |
 
 Shared ambient refs live in [`.skeleton/references/`](../.skeleton/references/) and are opened from skills via GitHub raw URLs (network required). See [github-ambient-refs-validation.md](github-ambient-refs-validation.md). Soft-default planning recipes stay out of skill trees — enable via [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md) only when the consumer has no planning docs remap.
