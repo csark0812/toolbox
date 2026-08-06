@@ -13,7 +13,7 @@ Generic orchestration, planning, and dialogue — intended for any consumer proj
 | Slug                 | Notes                                                                            |
 | -------------------- | -------------------------------------------------------------------------------- |
 | subagents            | Subagent type, token-efficient splits, cheapest model routing                    |
-| code-review          | Diff review guidelines — merge-blocker filing, evidence bar                      |
+| code-review          | Diff review guidelines — merge-blocker filing, evidence bar                       |
 | crystallize          | Fuzzy idea → artifact                                                            |
 | grill                | Pressure-test design                                                             |
 | second-opinion       | Unified plan review (staged debate)                                              |
