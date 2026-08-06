@@ -13,7 +13,7 @@ Former Stance A (fresh read) and Stance B (completeness) are **Wave-1 member rol
 ## When to skip
 
 - Dialogue without plan artifact → **crystallize** / **grill**
-- Single code-path hunch → **investigate**
+- Single code-path hunch → **probe**
 - Optional large-artifact gather only → [parallel-plan-evidence.md](parallel-plan-evidence.md) (prep, not a substitute)
 
 ## Members
@@ -66,4 +66,4 @@ Synthesis plan: unified second-opinion.md sections; tag defended/conceded/conver
 ## Handoff
 
 - Gaps found → revise plan, **grill**, or **build**
-- Code hunch from cited material → **investigate**
+- Code hunch from cited material → **probe**

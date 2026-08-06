@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 const root = join(import.meta.dirname, '..')
-const seedsDir = join(root, 'agent-suites/investigate-outcomes/fixtures/seeds')
+const seedsDir = join(root, 'agent-suites/probe-evidence-outcomes/fixtures/seeds')
 
 function patchApplies(name) {
   const patchPath = join(seedsDir, name)

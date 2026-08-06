@@ -18,7 +18,7 @@ Parallel attackers with kill mandates and a defender with related context can br
 
 **Confidence:** Moderate for plan critique; low for treating debate output as ground truth without primary evidence.
 
-**Does not transfer:** Dialogue without an artifact (use **crystallize** / **grill**); code-path hunches (**investigate**).
+**Does not transfer:** Dialogue without an artifact (use **crystallize** / **grill**); code-path hunches (**probe**).
 
 - Du et al. (2023). _Improving Factuality and Reasoning in Language Models through Multiagent Debate._ arXiv:2305.14325
 - Liang et al. (2023) — debate patterns in reasoning surveys (arXiv:2504.09037).

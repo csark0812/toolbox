@@ -14,8 +14,8 @@ Bounded **code slice** or **plan section** iterative closure until `Closure: rea
 | Plan § or mid-implementation slice until cohesive | **iterate**                 |
 | PR, branch, diff, merge-ready                     | **code-review**             |
 | Open design dialogue without slice target         | **grill** / **crystallize** |
-| One concrete doubt, no fix loop                   | **investigate**             |
-| Broken behavior, repro-first                      | **diagnose**                |
+| One concrete doubt, no fix loop                   | **probe** (Evidence)        |
+| Broken behavior, repro-first                      | **probe** (Fix)             |
 
 ## Peer negations (reciprocal)
 
@@ -31,4 +31,4 @@ When installing, ensure sibling descriptions include:
 | ----------------------------------- | ---------------- |
 | Merge / PR review of resulting diff | **code-review**  |
 | Persist terms or ADRs               | **domain-model** |
-| Hard bug with repro                 | **diagnose**     |
+| Hard bug with repro                 | **probe** (Fix)  |

@@ -14,7 +14,7 @@ Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) `prototyp
 
 A prototype is **throwaway code that answers a question**. Declare the question and mode up front; never silently graduate throwaway to production.
 
-Also owns spikes when [`grill`](../grill/SKILL.md) surfaces an open question that needs a runnable answer. Production seams → [`tdd`](../tdd/SKILL.md); repro→fix → [`diagnose`](../diagnose/SKILL.md); design-tree alignment without code → [`grill`](../grill/SKILL.md).
+Also owns spikes when [`grill`](../grill/SKILL.md) surfaces an open question that needs a runnable answer. Production seams → [`tdd`](../tdd/SKILL.md); repro→fix → [`probe`](../probe/SKILL.md); design-tree alignment without code → [`grill`](../grill/SKILL.md).
 
 Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
 

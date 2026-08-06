@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
  * Diagnose evidence-parity cadence (independent of investigate):
- *   sync skills → live diagnose-outcomes
+ *   sync skills → live probe-fix-outcomes
  *   → materialize null suites to $TMPDIR → park answer keys on open tree
- *   → live diagnose-transfer (+ prompt) → restore → offline compare → propose notes
+ *   → live probe-fix-transfer (+ prompt) → restore → offline compare → propose notes
  *
  * Caller park is required: live Cursor Shell often targets the IDE-open root,
  * not the seeded worktree — worktree-only deletes do not stop forage.
@@ -17,7 +17,7 @@
  *
  * Flags (pass after --):
  *   --doctor          run agent-test --doctor first
- *   --no-prompt       skip diagnose-prompt baseline arm
+ *   --no-prompt       skip probe-fix-prompt baseline arm
  *   --ablations       also run organization-ablations
  *   --no-propose      skip evolution-note autofill
  *   --repeats N       run parity cadence N times (default 1); writes batch manifest
@@ -243,7 +243,7 @@ async function runSingleParity(
     await mkdir(outcomesStaging, { recursive: true })
 
     run(
-      'diagnose-outcomes (skill-on, answer keys present)',
+      'probe-fix-outcomes (skill-on, answer keys present)',
       [
         '--suites-dir',
         'agent-suites',
@@ -265,7 +265,7 @@ async function runSingleParity(
 
     const outcomesSession = await newestSessionAfter(sessionsParent, knownSessions)
     if (!outcomesSession) {
-      console.error('No session directory found after diagnose-outcomes run')
+      console.error('No session directory found after probe-fix-outcomes run')
       process.exit(1)
     }
     knownSessions.add(outcomesSession.path)
@@ -290,11 +290,11 @@ async function runSingleParity(
       manifest.callerParkCommit = parkGit.parkCommit
       console.log(`  park commit ${parkGit.parkCommit}`)
 
-      const transferKey = 'agent-suites/diagnose-transfer/scenarios.json'
-      const promptKey = 'agent-suites/diagnose-prompt/scenarios.json'
+      const transferKey = 'agent-suites/probe-fix-transfer/scenarios.json'
+      const promptKey = 'agent-suites/probe-fix-prompt/scenarios.json'
       const transferBuf = parkHandle.files.get(transferKey)
       if (!transferBuf) {
-        throw new Error('park missed agent-suites/diagnose-transfer/scenarios.json')
+        throw new Error('park missed agent-suites/probe-fix-transfer/scenarios.json')
       }
       // HEAD already lacks answer keys — no seedPatch. Scrub judge from on-disk suite.
       transferMat = materializeNullArmSuite(root, DIAGNOSE_TRANSFER_SUITE, null, {
@@ -305,7 +305,7 @@ async function runSingleParity(
       })
       if (args.prompt) {
         const promptBuf = parkHandle.files.get(promptKey)
-        if (!promptBuf) throw new Error('park missed agent-suites/diagnose-prompt/scenarios.json')
+        if (!promptBuf) throw new Error('park missed agent-suites/probe-fix-prompt/scenarios.json')
         promptMat = materializeNullArmSuite(root, DIAGNOSE_PROMPT_SUITE, null, {
           scenariosJson: promptBuf,
           omitSeed: true,
@@ -317,7 +317,7 @@ async function runSingleParity(
       const transferStaging = join(runReportDir, 'transfer-staging')
       await mkdir(transferStaging, { recursive: true })
       run(
-        'diagnose-transfer (null arm, caller keys parked)',
+        'probe-fix-transfer (null arm, caller keys parked)',
         [
           '--suites-dir',
           transferMat.suitesDirArg,
@@ -354,7 +354,7 @@ async function runSingleParity(
         const promptCompareDir = join(runReportDir, 'prompt-compare')
         await mkdir(promptCompareDir, { recursive: true })
         run(
-          'diagnose-prompt (prompt baseline, caller keys parked)',
+          'probe-fix-prompt (prompt baseline, caller keys parked)',
           [
             '--suites-dir',
             promptMat.suitesDirArg,
@@ -543,13 +543,13 @@ async function main() {
   if (args.help) {
     console.log(`Usage: npm run agent:test:diagnose-evidence-parity [-- flags]
 
-Automates: diagnose-outcomes → park caller keys → transfer/prompt → restore + compare + propose.
+Automates: probe-fix-outcomes → park caller keys → transfer/prompt → restore + compare + propose.
 Requires CURSOR_API_KEY in the environment (source .env first).
 Independent of investigate evidence-parity — does not run investigate suites.
 
 Flags:
   --doctor          agent-test --doctor preflight
-  --no-prompt       skip diagnose-prompt baseline arm
+  --no-prompt       skip probe-fix-prompt baseline arm
   --ablations       also run organization-ablations
   --no-propose      skip evolution-note autofill
   --repeats N       run parity cadence N times (default 1)

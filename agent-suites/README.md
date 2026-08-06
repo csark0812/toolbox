@@ -38,14 +38,14 @@ Toolbox owns generic skill-contract behavior:
 - `subagents`: Fit check — name single-pass rival before `N ≥ 2`; skip when independence fails.
 - `second-opinion`: staged debate with claim anchoring; unanchored kills tagged `drift`.
 - `iterate`: blind pass protocol markers (`Pass: blind`, `Cohesion: attested-local`); thrash reopen without sibling mint.
-- `investigate`: discriminating kill tests; leave dead patches after 2–3 no-signal reads.
-- `investigate-outcomes` / `investigate-transfer` / `investigate-prompt`: discriminating evidence-parity band (2 scenarios). **Manual live cadence only** (not part of `npm run check`). Discriminating scenarios use guard-only fixture seeds; dual-bug `debug-app` remains for ceiling/diagnose.
-- `investigate-outcomes-ceiling` / `investigate-transfer-ceiling`: ceiling scenarios (replay CI only).
+- `probe-evidence`: discriminating kill tests; leave dead patches after 2–3 no-signal reads (Evidence stance).
+- `probe-evidence-outcomes` / `probe-evidence-transfer` / `probe-evidence-prompt`: discriminating evidence-parity band (2 scenarios). **Manual live cadence only** (not part of `npm run check`). Discriminating scenarios use guard-only fixture seeds; dual-bug `debug-app` remains for ceiling/Fix bands.
+- `probe-evidence-outcomes-ceiling` / `probe-evidence-transfer-ceiling`: ceiling scenarios (replay CI only).
 - `crystallize`: alternate problem frame before crystallized output.
 - `tdd`: seam confirmation before the first test; red-green slice discipline.
-- `diagnose`: entry gate — no repro means no hypotheses; route to investigate or get a repro.
-- `diagnose-outcomes` / `diagnose-transfer` / `diagnose-prompt`: discriminating evidence-parity band (2 scenarios: `no-repro-refuse`, `loop-before-cause`). **Manual live cadence only** — `npm run agent:test:diagnose-evidence-parity` (not part of `npm run check`). Independent of investigate parity.
-- `diagnose-outcomes-ceiling`: ceiling scenario (tight loop; replay CI only).
+- `probe-fix`: entry gate — no repro means no hypotheses; route to Evidence stance or get a repro.
+- `probe-fix-outcomes` / `probe-fix-transfer` / `probe-fix-prompt`: discriminating evidence-parity band (2 scenarios: `no-repro-refuse`, `loop-before-cause`). **Manual live cadence only** — `npm run agent:test:probe-fix-evidence-parity` (not part of `npm run check`). Independent of Evidence parity.
+- `probe-fix-outcomes-ceiling`: ceiling scenario (tight loop; replay CI only).
 - `domain-model`: entry gate — no stated decision means no ADR; route to grill or crystallize.
 - `prototype`: declare design question + mode before writing throwaway code.
 - `grill`: falsifier recorded before leaving a decision node.
@@ -70,25 +70,25 @@ Replay mode is the default and does not require live credentials. Install depend
 npm run agent:test:outcomes
 ```
 
-Live outcome band for `investigate-outcomes` and `diagnose-outcomes`. Requires `CURSOR_API_KEY`.
+Live outcome band for `probe-evidence-outcomes` and `probe-fix-outcomes`. Requires `CURSOR_API_KEY`.
 
 ```bash
 npm run agent:test:transfer
 ```
 
-Live transfer band via native compare: `agent-test --compare-pairs investigate-outcomes:investigate-transfer` (or the full automated cadence):
+Live transfer band via native compare: `agent-test --compare-pairs probe-evidence-outcomes:probe-evidence-transfer` (or the full automated cadence):
 
 ```bash
 npm run agent:test:evidence-parity
 ```
 
-Investigate discriminating band. See [docs/evidence-parity.md](../docs/evidence-parity.md).
+Probe Evidence discriminating band. See [docs/evidence-parity.md](../docs/evidence-parity.md).
 
 ```bash
-npm run agent:test:diagnose-evidence-parity
+npm run agent:test:probe-fix-evidence-parity
 ```
 
-Diagnose discriminating band (outcomes vs transfer + prompt baseline). Manual cadence only — not wired to CI.
+Probe Fix discriminating band (outcomes vs transfer + prompt baseline). Manual cadence only — not wired to CI. Alias: `agent:test:diagnose-evidence-parity`.
 
 ```bash
 npm run agent:test:ablations

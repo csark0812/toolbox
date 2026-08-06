@@ -8,10 +8,10 @@ Spawn mechanics, Auto-first model routing, and synthesis gate → [`subagents` S
 
 ## Shapes
 
-| Shape             | Waves | Who                                                     | Default entry                                                                       |
-| ----------------- | ----- | ------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| **Parallel**      | One   | Independent kill-mandate members                        | `code-review` when escalated to council; `investigate` when contested / stress-test |
-| **Staged debate** | Two   | Wave 1 attackers → Wave 2 defender (sees wave-1 briefs) | `second-opinion` (always)                                                           |
+| Shape             | Waves | Who                                                     | Default entry                                                                 |
+| ----------------- | ----- | ------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| **Parallel**      | One   | Independent kill-mandate members                        | `code-review` when escalated to council; `probe` when contested / stress-test |
+| **Staged debate** | Two   | Wave 1 attackers → Wave 2 defender (sees wave-1 briefs) | `second-opinion` (always)                                                     |
 
 **Hard rule (same wave):** Members do not communicate. Never identical model + identical prompt.
 
@@ -87,7 +87,7 @@ Shared Auto across adversarial members is correct and still valuable (fresh cont
 ### When / skip
 
 - **On escalation** for `code-review` council (entry skill applies kill-mandate overlays on depth-budgeted lenses).
-- `investigate` when evidence is contested or the user asks for a stress-test.
+- `probe` when evidence is contested or the user asks for a stress-test.
 - Skip for routine coverage gather/explore unless an entry skill invokes it.
 
 ### Members

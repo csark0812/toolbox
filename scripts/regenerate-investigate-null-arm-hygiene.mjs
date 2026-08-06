@@ -1,20 +1,13 @@
 #!/usr/bin/env node
 /**
- * Rebuild investigate null-arm hygiene seed under `_agent/` (gitignored).
- *
- * Live worktrees are detached at HEAD and do **not** include `_agent/`, so
- * agents cannot forage the answer-bearing patch (diagnose confound: a tracked
- * delete-patch under fixtures/seeds/ taught the gate from hunk text).
- *
- * Live evidence-parity prefers park-commit + guard-only seeds only (no
- * answer-bearing patch in the agent-visible tree). This seed is for tests and
- * non-orchestrated worktree checks.
+ * Rebuild probe-evidence null-arm hygiene seed under `_agent/` (gitignored).
  *
  * Run automatically by `npm run agent:test:evidence-parity`.
  * Manual:
  *   node scripts/regenerate-investigate-null-arm-hygiene.mjs
  */
 import { execFileSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import { mkdirSync, writeFileSync, readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -22,16 +15,16 @@ import { fileURLToPath } from 'node:url'
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 
 /** Must stay outside HEAD worktrees (see .gitignore `_agent/`). */
-export const INVESTIGATE_NULL_ARM_HYGIENE_SEED = '_agent/investigate-null-arm-hygiene.patch'
+export const INVESTIGATE_NULL_ARM_HYGIENE_SEED = '_agent/probe-evidence-null-arm-hygiene.patch'
 
 const pathArgs = [
-  'investigate/**',
-  'agent-suites/investigate/**',
-  'agent-suites/investigate-outcomes/**',
-  'agent-suites/investigate-transfer/**',
-  'agent-suites/investigate-prompt/**',
-  'agent-suites/investigate-outcomes-ceiling/**',
-  'agent-suites/investigate-transfer-ceiling/**',
+  'probe/**',
+  'agent-suites/probe-evidence/**',
+  'agent-suites/probe-evidence-outcomes/**',
+  'agent-suites/probe-evidence-transfer/**',
+  'agent-suites/probe-evidence-prompt/**',
+  'agent-suites/probe-evidence-outcomes-ceiling/**',
+  'agent-suites/probe-evidence-transfer-ceiling/**',
   'docs/evidence-parity.md',
   'tests/investigate-transfer-prompts.test.js',
   'tests/investigate-prompt-baseline.test.js',
@@ -51,19 +44,8 @@ function listHeadPaths() {
     .filter((p) => !p.endsWith('null-arm-hygiene.patch'))
 }
 
-/**
- * @param {{ outPath?: string }} [options]
- *   Prefer a path outside the IDE-open tree for null-arm runs (caller forage).
- */
-export function regenerateInvestigateNullArmHygieneSeed(options = {}) {
-  const out = options.outPath ? options.outPath : join(root, INVESTIGATE_NULL_ARM_HYGIENE_SEED)
-  const paths = listHeadPaths()
-  if (paths.length === 0) {
-    throw new Error('No HEAD paths matched for investigate null-arm hygiene seed')
-  }
-
-  const chunks = []
-  for (const rel of paths) {
+function readBlob(rel) {
+  try {
     const body = execFileSync('git', ['show', `HEAD:${rel}`], {
       cwd: root,
       encoding: 'utf8',
@@ -72,6 +54,27 @@ export function regenerateInvestigateNullArmHygieneSeed(options = {}) {
       cwd: root,
       encoding: 'utf8',
     }).trim()
+    return { body, hash }
+  } catch {
+    const body = readFileSync(join(root, rel), 'utf8')
+    const hash = createHash('sha1').update(body).digest('hex')
+    return { body, hash }
+  }
+}
+
+/**
+ * @param {{ outPath?: string }} [options]
+ */
+export function regenerateInvestigateNullArmHygieneSeed(options = {}) {
+  const out = options.outPath ? options.outPath : join(root, INVESTIGATE_NULL_ARM_HYGIENE_SEED)
+  const paths = listHeadPaths()
+  if (paths.length === 0) {
+    throw new Error('No HEAD paths matched for probe-evidence null-arm hygiene seed')
+  }
+
+  const chunks = []
+  for (const rel of paths) {
+    const { body, hash } = readBlob(rel)
     const hunkLines = body.endsWith('\n') ? body.slice(0, -1).split('\n') : body.split('\n')
     chunks.push(`diff --git a/${rel} b/${rel}`)
     chunks.push('deleted file mode 100644')

@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **probe** (Fix).\n\n**Phase 1:** building loop — `npm test` in agent-suites/fixtures/debug-app.\n\n**Result:** red on boundary test. Loop is tight before any production edit.\n\n**Symptom:** session valid at exact expiry.\n**Loop:** `npm test` — red, deterministic, fast."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": ["cd agent-suites/fixtures/debug-app && npm test"],
+  "skillsInvoked": ["probe"],
+  "artifacts": {}
+}

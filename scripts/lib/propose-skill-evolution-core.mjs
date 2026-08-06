@@ -19,9 +19,9 @@ async function readJson(path) {
 
 function inferSkill(scenarioJson, failures) {
   const prompt = scenarioJson?.prompt ?? ''
-  if (/investigate/i.test(prompt) || /investigate-outcomes|investigate-transfer/.test(prompt))
+  if (/investigate/i.test(prompt) || /probe-evidence-outcomes|probe-evidence-transfer/.test(prompt))
     return 'investigate'
-  if (/diagnose/i.test(prompt) || /diagnose-outcomes/.test(prompt)) return 'diagnose'
+  if (/diagnose/i.test(prompt) || /probe-fix-outcomes/.test(prompt)) return 'diagnose'
   if (/code-review/i.test(prompt)) return 'code-review'
   if (/multi/i.test(prompt)) return 'multi'
   if (/second-opinion/i.test(prompt)) return 'second-opinion'

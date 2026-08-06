@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Test-driven development — build behavior test-first at agreed seams. Use when the user wants TDD, red-green-refactor, a failing test before implementation, or a regression lock after diagnose. Not for hard-bug loops without a seam (diagnose), throwaway design spikes (prototype), or find-only hunch checks (investigate).
+description: Test-driven development — build behavior test-first at agreed seams, one red→green slice at a time until the behavior holds. Use when the user wants TDD, red-green-refactor, a failing test before implementation, iterative test→impl until green, or a regression lock after probe Fix. Not for hard-bug loops without a seam (probe), throwaway design spikes (prototype), or find-only hunch checks (probe Evidence).
 ---
 
 # Test-Driven Development
@@ -27,7 +27,7 @@ Ask: "What's the public interface, and which seams should we test?"
 
 ## Protocol
 
-1. **Confirm seams** with the user (public interfaces only). Stop if the seam is unclear — narrow with [`grill`](../grill/SKILL.md) or [`investigate`](../investigate/SKILL.md) first.
+1. **Confirm seams** with the user (public interfaces only). Stop if the seam is unclear — narrow with [`grill`](../grill/SKILL.md) or [`probe`](../probe/SKILL.md) first.
 2. **One vertical slice** — failing test → observe **red** → minimal green → stop. Do not bulk-write tests or implementation.
 3. **Independent expected values** — assertions come from spec, worked examples, or known-good literals — not by recomputing the same logic as production code. See [anti-patterns.md](references/anti-patterns.md).
 4. **Optional information flow** — where possible, author the failing test without the production change in context (write test from spec/interface only), then implement to green.
@@ -67,7 +67,7 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 
 ### What to do next
 
-- [next slice, code-review, diagnose, or handoff]
+- [next slice, code-review, probe, or handoff]
 ```
 
 ## Consumer bindings

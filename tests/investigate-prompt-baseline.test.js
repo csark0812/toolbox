@@ -3,16 +3,16 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 const root = join(import.meta.dirname, '..')
-const promptPath = join(root, 'agent-suites/investigate-prompt/scenarios.json')
-const outcomePath = join(root, 'agent-suites/investigate-outcomes/scenarios.json')
-const transferPath = join(root, 'agent-suites/investigate-transfer/scenarios.json')
+const promptPath = join(root, 'agent-suites/probe-evidence-prompt/scenarios.json')
+const outcomePath = join(root, 'agent-suites/probe-evidence-outcomes/scenarios.json')
+const transferPath = join(root, 'agent-suites/probe-evidence-transfer/scenarios.json')
 
-const HYGIENE_SEED = '_agent/investigate-null-arm-hygiene.patch'
+const HYGIENE_SEED = '_agent/probe-evidence-null-arm-hygiene.patch'
 
 /** Investigate-protocol phrases that should not appear in the prompt baseline arm. */
 const PROMPT_LEAKAGE = [
   /SKILL\.md/i,
-  /\.claude\/skills\/investigate/i,
+  /\.claude\/skills\/probe/i,
   /falsifiable hypotheses/i,
   /kill tests?/i,
   /confirmatory (reading|forage)/i,

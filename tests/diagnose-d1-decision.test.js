@@ -37,7 +37,7 @@ describe('classifyD1NullArmResult', () => {
         failures: [
           {
             matcher: 'toHaveNotReadPath',
-            message: 'forbidden Read tool args: diagnose/SKILL.md',
+            message: 'forbidden Read tool args: probe/SKILL.md',
           },
         ],
       }),
@@ -63,7 +63,7 @@ describe('classifyD1NullArmResult', () => {
       classifyD1NullArmResult({
         pass: false,
         failures: [
-          { matcher: 'toHaveNotReadPath', message: 'diagnose/SKILL.md' },
+          { matcher: 'toHaveNotReadPath', message: 'probe/SKILL.md' },
           {
             matcher: 'toNotInclude',
             message: 'mustNot matched: root cause is',
@@ -87,7 +87,7 @@ describe('classifyD1NullArmResult', () => {
       classifyD1NullArmResult({
         pass: false,
         failures: [{ matcher: 'judge', message: 'did not refuse' }],
-        transcript: 'Read _agent/diagnose-null-arm-hygiene.patch then Entry gate — no loop',
+        transcript: 'Read _agent/probe-fix-null-arm-hygiene.patch then Entry gate — no loop',
       }),
     ).toBe('forage')
   })
@@ -153,7 +153,7 @@ describe('summarizeD1NoneForensics', () => {
       mkdirSync(debugDir)
       writeFileSync(
         join(debugDir, 'failures.json'),
-        JSON.stringify([{ matcher: 'toHaveNotReadPath', message: 'diagnose/SKILL.md' }]),
+        JSON.stringify([{ matcher: 'toHaveNotReadPath', message: 'probe/SKILL.md' }]),
       )
       writeFileSync(join(debugDir, 'result.json'), JSON.stringify({ pass: false }))
       const s = await summarizeD1NoneForensics([
@@ -199,16 +199,16 @@ describe('post-park null-arm surfaces have no leak phrases', () => {
   it('materialized transfer scenarios omit judge crib and SKILL is gone', () => {
     const repo = mkdtempSync(join(tmpdir(), 'diagnose-leak-scan-'))
     try {
-      mkdirSync(join(repo, 'diagnose'), { recursive: true })
+      mkdirSync(join(repo, 'probe'), { recursive: true })
       writeFileSync(
-        join(repo, 'diagnose', 'SKILL.md'),
-        '# diagnose\n\n## Entry gate — no loop, no hypotheses\nI will **not hypothesize**\n',
+        join(repo, 'probe', 'SKILL.md'),
+        '# probe\n\n## Entry gate — no loop, no hypotheses\nI will **not hypothesize**\n',
       )
-      mkdirSync(join(repo, 'agent-suites', 'diagnose-transfer'), { recursive: true })
+      mkdirSync(join(repo, 'agent-suites', 'probe-fix-transfer'), { recursive: true })
       writeFileSync(
-        join(repo, 'agent-suites', 'diagnose-transfer', 'scenarios.json'),
+        join(repo, 'agent-suites', 'probe-fix-transfer', 'scenarios.json'),
         JSON.stringify({
-          name: 'diagnose-transfer',
+          name: 'probe-fix-transfer',
           scenarios: [
             {
               name: 'transfer: session hunch A',
@@ -229,8 +229,8 @@ describe('post-park null-arm surfaces have no leak phrases', () => {
         parkId: `leak-${Date.now()}`,
         parkGlobalSkills: false,
       })
-      const mat = materializeNullArmSuite(repo, 'diagnose-transfer', null, {
-        scenariosJson: handle.files.get('agent-suites/diagnose-transfer/scenarios.json'),
+      const mat = materializeNullArmSuite(repo, 'probe-fix-transfer', null, {
+        scenariosJson: handle.files.get('agent-suites/probe-fix-transfer/scenarios.json'),
         omitSeed: true,
         omitMustNotReadPath: true,
         extraMustNot: ['Entry gate — no loop, no hypotheses'],
@@ -239,14 +239,14 @@ describe('post-park null-arm surfaces have no leak phrases', () => {
       // Judge crib must stay out; skill-body mustNot is intentional (forbidden output).
       expect(scenariosText).not.toContain('Refused to hypothesize')
       expect(scenariosText).not.toContain('mustNotReadPath')
-      expect(scenariosText).not.toContain('diagnose/SKILL.md')
+      expect(scenariosText).not.toContain('probe/SKILL.md')
       expect(scenariosText).toContain('Entry gate — no loop, no hypotheses')
       expect(findDiagnoseNullArmLeaks(scenariosText)).toEqual([
         'Entry gate — no loop, no hypotheses',
       ])
 
       // Open-tree diagnose/ is parked — no SKILL crib left for Shell forage.
-      const skillPath = join(repo, 'diagnose', 'SKILL.md')
+      const skillPath = join(repo, 'probe', 'SKILL.md')
       expect(() => readFileSync(skillPath, 'utf8')).toThrow()
 
       restoreDiagnoseAnswerKeys(repo, handle)

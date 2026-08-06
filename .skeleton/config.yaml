@@ -12,9 +12,8 @@ scan:
     - 'crystallize/**'
     - 'grill/**'
     - 'second-opinion/**'
-    - 'investigate/**'
     - 'iterate/**'
-    - 'diagnose/**'
+    - 'probe/**'
     - 'tdd/**'
     - 'prototype/**'
     - 'domain-model/**'
@@ -30,6 +29,8 @@ scan:
   retiredSkills:
     - multi
     - iterative-review
+    - investigate
+    - diagnose
     - branch-cleanup
     - product-principles
     - testing
@@ -48,9 +49,8 @@ skillOwnership:
     - crystallize
     - grill
     - second-opinion
-    - investigate
     - iterate
-    - diagnose
+    - probe
     - tdd
     - prototype
     - domain-model

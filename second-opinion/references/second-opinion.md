@@ -8,7 +8,7 @@ Work on a **written** plan, PRD, or issue set — not Socratic explore. Always r
 
 Former “fresh read” and “completeness verify” are **Wave-1 subagent roles** (`premises` + `completeness`), not user-chosen modes. Do not ask which stance to run.
 
-**Not in scope:** security/compliance review (use the **security** agent), reproducible broken behavior (**investigate** + **testing** + **debug** when layer or session logs unclear). For broad proactive codebase sweeps, use [parallel-explore.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/parallel-explore.md).
+**Not in scope:** security/compliance review (use the **security** agent), reproducible broken behavior (**probe** + **testing** + **debug** when layer or session logs unclear). For broad proactive codebase sweeps, use [parallel-explore.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/parallel-explore.md).
 
 ---
 

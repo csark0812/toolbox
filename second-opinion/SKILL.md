@@ -1,6 +1,6 @@
 ---
 name: second-opinion
-description: Review a written plan, PRD, or issue set via staged adversarial subagents — premises attack + completeness attack, then a related-context defender. Use when a plan artifact exists on disk and needs a freshness or completeness pass. Not for dialogue without a plan (crystallize, grill), iterative slice closure (iterate), or a single code-path hunch (investigate).
+description: Review a written plan, PRD, or issue set via staged adversarial subagents — premises attack + completeness attack, then a related-context defender. Use when a plan artifact exists on disk and needs a freshness or completeness pass. Not for dialogue without a plan (crystallize, grill), iterative slice closure (iterate), or a single code-path hunch (probe).
 ---
 
 # Second opinion
@@ -20,7 +20,7 @@ Read [references/research-basis.md](references/research-basis.md) when calibrati
 - Written plan on disk (including `.cursor/plans/*.plan.md`), PRD, or issue set — freshness or completeness pass
 - Protocol + output sections → [references/second-opinion.md](references/second-opinion.md)
 
-Routes elsewhere: dialogue without a plan → **crystallize** / **grill**; new plan from intent → **crystallize** / **grill** → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md); single code-path hunch → **investigate**.
+Routes elsewhere: dialogue without a plan → **crystallize** / **grill**; new plan from intent → **crystallize** / **grill** → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md); single code-path hunch → **probe**.
 
 ## Stance and repo
 
@@ -48,5 +48,5 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 
 ### Recommended next steps
 
-- [Concrete action: implement, revise plan, pressure-test → **grill**, serialize → planning/build.md, investigate code path → **investigate**]
+- [Concrete action: implement, revise plan, pressure-test → **grill**, serialize → planning/build.md, code-path hunch → **probe**]
 ```

@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **probe**.\n\n**Hypotheses (ranked):**\n1. `isSessionValid` treats expiry instant as valid — kill test: read `sessionGuard.ts` comparator at expiry boundary.\n2. Redirect clears session — kill test: read `redirect.ts` for cookie/session mutation.\n\n**Kill test (hypo 1):** `agent-suites/fixtures/debug-app/src/sessionGuard.ts:8` — `expiresAt >= now` accepts equality; boundary should fail.\n\n**Verdict:** Hunch holds — off-by-one at `sessionGuard.ts:8` (`>=` vs `>`). Redirect path has no session mutation."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["probe"],
+  "artifacts": {}
+}

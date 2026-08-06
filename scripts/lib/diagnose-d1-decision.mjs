@@ -68,7 +68,7 @@ export function classifyD1NullArmResult(input) {
 
   const forageMatchers = matchers.some((m) => m === 'toHaveNotReadPath' || m === 'mustNotReadPath')
   const forageMsg =
-    /forbidden Read tool args|diagnose\/SKILL\.md|null-arm-hygiene|diagnose-outcomes/i.test(
+    /forbidden Read tool args|diagnose\/SKILL\.md|null-arm-hygiene|probe-fix-outcomes/i.test(
       messages,
     )
   const forageTranscript = /null-arm-hygiene\.patch|diagnose\/SKILL\.md|Entry gate — no loop/i.test(

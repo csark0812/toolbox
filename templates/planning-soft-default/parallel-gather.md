@@ -4,7 +4,7 @@
 
 Multi-source collection from independent sources of truth. Uses [`subagents`](../../../../subagents/SKILL.md) kernel — [non-negotiables](../../../../subagents/SKILL.md#non-negotiables), [task-prompt.md](../../../../subagents/references/task-prompt.md), [member-schema.md](../../../../subagents/references/member-schema.md).
 
-Profile: `manual` or `repo` (web topics → `research` via [parallel-research.md](../../../../investigate/references/parallel-research.md)).
+Profile: `manual` or `repo` (web topics → `research` via [parallel-research.md](../../../../probe/references/parallel-research.md)).
 
 ## When to use
 
@@ -16,7 +16,7 @@ Profile: `manual` or `repo` (web topics → `research` via [parallel-research.md
 
 - Single file or hub already in context — read directly
 - Blast-radius mapping across subsystems — use [parallel-explore.md](parallel-explore.md)
-- Independent web topics — use [parallel-research.md](../../../../investigate/references/parallel-research.md)
+- Independent web topics — use [parallel-research.md](../../../../probe/references/parallel-research.md)
 
 ## Members (2–4)
 

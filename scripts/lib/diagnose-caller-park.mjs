@@ -1,15 +1,15 @@
 /**
- * Park diagnose answer keys off the open (caller) tree during null-arm live runs.
+ * Park probe Fix-band answer keys off the open (caller) tree during null-arm live runs.
  *
- * Thin wrapper over shared caller-park with diagnose path list.
+ * Thin wrapper over shared caller-park with probe-fix path list.
  *
- * Skill mirrors are listed *before* `diagnose/` so symlinks are unlinked while
+ * Skill mirrors are listed *before* `probe/` so symlinks are unlinked while
  * still resolvable (lstat); parking the target first left dangling slugs that
  * `ls .agents/skills` still showed — agents then Read SKILL.md and failed
  * mustNotReadPath.
  *
  * Absolute home paths (opt-in via `parkGlobalSkills`) block Cursor from
- * re-injecting the global diagnose skill during null-arm runs.
+ * re-injecting the global probe skill during null-arm runs.
  */
 import { homedir } from 'node:os'
 import { join } from 'node:path'
@@ -23,16 +23,16 @@ import {
 /** Repo-relative paths that teach the D1 refuse gate or leak fixtures. */
 export const DIAGNOSE_CALLER_PARK_PATHS = [
   // Mirrors first (symlinks) — see file header.
-  '.claude/skills/diagnose',
-  '.agents/skills/diagnose',
-  'diagnose',
-  'agent-suites/diagnose',
-  'agent-suites/diagnose-outcomes',
-  'agent-suites/diagnose-outcomes-ceiling',
-  'agent-suites/diagnose-transfer',
-  'agent-suites/diagnose-prompt',
+  '.claude/skills/probe',
+  '.agents/skills/probe',
+  'probe',
+  'agent-suites/probe-fix',
+  'agent-suites/probe-fix-outcomes',
+  'agent-suites/probe-fix-outcomes-ceiling',
+  'agent-suites/probe-fix-transfer',
+  'agent-suites/probe-fix-prompt',
   'docs/evidence-parity.md',
-  '_agent/diagnose-null-arm-hygiene.patch',
+  '_agent/probe-fix-null-arm-hygiene.patch',
   // Prior-run cribs (gitignored but Shell-visible on the open tree).
   // Do NOT park `_agent/eval-reports` / `evidence-runs` mid-cadence — outcomes
   // suite-report JSON under eval-reports is required for transfer compare-pairs.
@@ -49,14 +49,14 @@ export const DIAGNOSE_CALLER_PARK_PATHS = [
 /** Global skill installs Cursor may surface even when project keys are parked. */
 export function diagnoseGlobalSkillParkPaths(home = homedir()) {
   return [
-    join(home, '.agents', 'skills', 'diagnose'),
-    join(home, '.claude', 'skills', 'diagnose'),
-    join(home, '.cursor', 'skills', 'diagnose'),
-    join(home, '.codex', 'skills', 'diagnose'),
+    join(home, '.agents', 'skills', 'probe'),
+    join(home, '.claude', 'skills', 'probe'),
+    join(home, '.cursor', 'skills', 'probe'),
+    join(home, '.codex', 'skills', 'probe'),
   ]
 }
 
-const PARK_COMMIT_MESSAGE = 'agent-test: temporary diagnose answer-key park'
+const PARK_COMMIT_MESSAGE = 'agent-test: temporary probe-fix answer-key park'
 
 /**
  * @param {string} repoRoot

@@ -1,17 +1,17 @@
 import { access, readdir, readFile, stat } from 'node:fs/promises'
 import { basename, join } from 'node:path'
 
-export const PARITY_COMPARE_PAIR = 'investigate-outcomes:investigate-transfer'
-export const PROMPT_COMPARE_PAIR = 'investigate-outcomes:investigate-prompt'
-export const OUTCOMES_SUITE = 'investigate-outcomes'
-export const TRANSFER_SUITE = 'investigate-transfer'
-export const PROMPT_SUITE = 'investigate-prompt'
+export const PARITY_COMPARE_PAIR = 'probe-evidence-outcomes:probe-evidence-transfer'
+export const PROMPT_COMPARE_PAIR = 'probe-evidence-outcomes:probe-evidence-prompt'
+export const OUTCOMES_SUITE = 'probe-evidence-outcomes'
+export const TRANSFER_SUITE = 'probe-evidence-transfer'
+export const PROMPT_SUITE = 'probe-evidence-prompt'
 
-export const DIAGNOSE_PARITY_COMPARE_PAIR = 'diagnose-outcomes:diagnose-transfer'
-export const DIAGNOSE_PROMPT_COMPARE_PAIR = 'diagnose-outcomes:diagnose-prompt'
-export const DIAGNOSE_OUTCOMES_SUITE = 'diagnose-outcomes'
-export const DIAGNOSE_TRANSFER_SUITE = 'diagnose-transfer'
-export const DIAGNOSE_PROMPT_SUITE = 'diagnose-prompt'
+export const DIAGNOSE_PARITY_COMPARE_PAIR = 'probe-fix-outcomes:probe-fix-transfer'
+export const DIAGNOSE_PROMPT_COMPARE_PAIR = 'probe-fix-outcomes:probe-fix-prompt'
+export const DIAGNOSE_OUTCOMES_SUITE = 'probe-fix-outcomes'
+export const DIAGNOSE_TRANSFER_SUITE = 'probe-fix-transfer'
+export const DIAGNOSE_PROMPT_SUITE = 'probe-fix-prompt'
 
 const DEFAULT_SUITE_NAMES = {
   outcomesSuite: OUTCOMES_SUITE,
