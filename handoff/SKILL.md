@@ -9,11 +9,16 @@ description: Agent-to-agent cross-session transfer — pointers not bodies. Chan
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-**Orchestrator** — cross-session A2A (`channel:prompt` vs `channel:artifact`). Process state lives at pointer paths; this skill compresses thread → next session.
+**Orchestrator** — cross-session A2A (`channel:prompt` vs `channel:artifact`). Shared vocabulary → [context-pack.md](../subagents/references/context-pack.md).
 
 References: [pack.md](references/pack.md) · [output.md](references/output.md) · [handoff-subagent-dispatch.md](references/handoff-subagent-dispatch.md) · [`subagents`](../subagents/SKILL.md).
 
 Read [research-basis.md](references/research-basis.md) only when calibrating claims.
+
+## Entry gate
+
+- **New chat** intended — same-session continuation without transfer is out of scope.
+- **Channel** chosen — `prompt` (user) or `artifact` (model-invoked).
 
 ## Non-negotiables
 

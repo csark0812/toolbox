@@ -10,34 +10,34 @@ Assign each skill to exactly one **group**. Update when adding skills.
 
 Every toolbox skill is either an **orchestrator** (agent-to-agent plumbing) or a **process** skill (what the work means in natural language). One meta skill covers authoring.
 
+**Composition:** Skills compose via **layered prompts** — attach multiple skills or name several modes on the same `Slice` / `Artifact`. Shared vocabulary → [context-pack.md](../subagents/references/context-pack.md). No chains table; each skill defines entry gates and exit artifacts only.
+
 ### Orchestrators — agent-to-agent (A2A)
 
-Define **how agents and sessions connect**: spawn, member envelopes, pass loops, cross-session channels. Process skills **call** orchestrators; they do not re-embed dispatch templates.
+Define **how agents and sessions connect**: spawn, member envelopes, pass loops, cross-session channels. Process skills **call** orchestrators when their own recipe mandates spawn; they do not re-embed dispatch templates.
 
 | Slug          | A2A role                                                                                          |
 | ------------- | ------------------------------------------------------------------------------------------------- |
-| **subagents** | Task spawn — type, splits, model routing, [context-pack](../subagents/references/context-pack.md) |
+| **subagents** | Task spawn — type, splits, ≤100k context, [context-pack](../subagents/references/context-pack.md) |
 | **iterate**   | In-session pass loop — blind members, fix loop, exit gate until a bounded slice coheres           |
 | **handoff**   | Cross-session channel — `channel` + `Pack` + `Goal`; pointers not bodies                          |
 
 Dispatch recipes live under orchestrator trees (`*-dispatch.md`, `context-pack.md`, `adversarial.md`) — not under process skills.
 
-### Process skills — what happens
+### Process skills — atoms
 
-Describe **what good work looks like**: intent, evidence bar, filing, output shape, routing to sibling processes. Written so a human (or coordinator) understands the job without reading spawn mechanics.
+Each process skill is an **atom**: entry gate → non-negotiables → workflow → exit artifact → non-goals (frontmatter `Not …`). Atoms stack on overlapping **Slice** / **Artifact** / **Seam** without naming siblings.
 
-When the job needs another agent or another pass, say so in one line and point at an orchestrator — e.g. “parallel perspectives → **subagents**”, “until cohesive → **iterate**”, “continue next chat → **handoff**”.
-
-| Slug               | Process (natural language)                                                                  |
-| ------------------ | ------------------------------------------------------------------------------------------- |
-| **code-review**    | Review code on any surface through any lens; file merge-blockers with evidence              |
-| **second-opinion** | Multiple independent perspectives on a written plan — premise stress, completeness, defense |
-| **grill**          | Walk the design tree in dialogue until major branches align                                 |
-| **crystallize**    | Shape fuzzy intent through Socratic dialogue before design or build                         |
-| **probe**          | Hunch evidence/verdict by default; hard-bug fix under Authority B (default seat)            |
-| **tdd**            | Test-first build at agreed public seams                                                     |
-| **prototype**      | Throwaway spike for one design question (user-invoked)                                      |
-| **domain-model**   | Persist glossary + ADRs when decisions are ready (user-invoked)                             |
+| Slug               | Atom (natural language)                                                                           |
+| ------------------ | ------------------------------------------------------------------------------------------------- |
+| **code-review**    | Review code on any surface through any lens; file merge-blockers with evidence                    |
+| **second-opinion** | Multiple independent perspectives on a written plan — premise stress, completeness, defense       |
+| **crystallize**    | Shape fuzzy intent through Socratic dialogue — crystallized statement, not solutions yet          |
+| **grill**          | Shape fuzzy intent (intent phase) and walk the design tree in dialogue until major branches align |
+| **probe**          | Hunch verdict (Evidence) or hard-bug fix (Fix) under Authority B — tight **Repro** before patch   |
+| **tdd**            | Test-first build at agreed public seams — red-green on a **Slice**                                |
+| **prototype**      | Throwaway spike for one design question (user-invoked)                                            |
+| **domain-model**   | Persist glossary + ADRs when a decision is ready (user-invoked)                                   |
 
 ### Meta
 
@@ -45,22 +45,10 @@ When the job needs another agent or another pass, say so in one line and point a
 | ------------------------ | ----------------------------------------- |
 | **writing-great-skills** | Skill-authoring vocabulary (user-invoked) |
 
-## Typical chains (process → orchestrator)
-
-Process skills name the arc; orchestrators wire the agents.
-
-| User intent                        | Process skill(s)              | Orchestrator when needed                        |
-| ---------------------------------- | ----------------------------- | ----------------------------------------------- |
-| “Is this plan sound?”              | **second-opinion**            | **subagents** — parallel attackers + defender   |
-| “Make this module hold together”   | (review filing → code-review) | **iterate** — blind passes until slice coheres  |
-| “Review my PR”                     | **code-review**               | **subagents** — optional parallel lenses        |
-| “Context full — continue tomorrow” | (any)                         | **handoff** — `Pack: pointers` or `fix-loop`    |
-| “Pressure-test this design”        | **grill**                     | **subagents** — optional repo explore only      |
-| “Is this hunch true?” / hard bug   | **probe**                     | **subagents** — optional parallel gather/stress |
-
 ## Team (`toolbox/`)
 
 Generic orchestration, planning, and dialogue — intended for any consumer project.
+
 Shared ambient refs live in [`.skeleton/references/`](../.skeleton/references/) and are opened from skills via GitHub raw URLs (network required). See [github-ambient-refs-validation.md](github-ambient-refs-validation.md). Soft-default planning recipes stay out of skill trees — enable via [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md) only when the consumer has no planning docs remap.
 
 ### Consumer setup
@@ -81,9 +69,11 @@ Install destinations: Cursor project → `.agents/skills/` (global → `~/.curso
 
 ### Migration notes
 
-**Code-review (2026-07):** Process-only — spawn and slice loops → **subagents** / **iterate**. See [code-review/SKILL.md](../code-review/SKILL.md).
+**Atomic composition (2026-08):** Retired cross-skill routing tables and chain docs. Compose via [context-pack.md](../subagents/references/context-pack.md) primitives + layered prompts.
 
-**Second-opinion (pending):** Still embeds staged-debate dispatch in skill refs — target is process-only body + **subagents** `second-opinion-dispatch.md` (same split as code-review).
+**Process vs orchestrator (2026-08):** Dispatch refs live under **subagents** (`second-opinion-dispatch`, `explore-escalation-dispatch`, `review-council-dispatch`) or orchestrators (`iterate`, `handoff`). Hunch settlement uses coordinator **explore** + ambient [verdict.md](../.skeleton/references/verdict.md) (retired **investigate** slug).
+
+**Code-review (2026-07):** Process-only — see [code-review/SKILL.md](../code-review/SKILL.md).
 
 Distribution:
 

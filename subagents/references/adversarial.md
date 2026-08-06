@@ -97,65 +97,11 @@ Code-review: keep lens selection; every member gets a kill mandate for their len
 
 ## B. Staged debate
 
-### When / skip
+Full recipe → [second-opinion-dispatch.md](second-opinion-dispatch.md). Synthesis shape → [second-opinion plan-review.md](../../second-opinion/references/plan-review.md).
 
-- **Always** for `second-opinion` on a written artifact.
-- Elsewhere only when an entry skill cites this shape.
-- Not a substitute for dialogue (`crystallize` / `grill`).
+- **Always** for **second-opinion** on a written artifact.
+- Elsewhere only when a process skill cites this shape.
+- Not a substitute for dialogue (**crystallize** / **grill**).
+- Single-member orchestrator spawns (e.g. **iterate** blind pass) → [carve-out](../SKILL.md#entry-skill-carve-out), not this section.
 
-Single-member entry-skill spawns (e.g. **iterate** blind pass) → [SKILL.md § Entry-skill carve-out](../SKILL.md#entry-skill-carve-out), not this staged-debate section.
-
-### Wave 1 — parallel attackers (fresh context)
-
-Spawn **two** members. Context pack = **artifact only**.
-
-| Stance         | Mandate                                                                                                                                                                                                                                                              |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `premises`     | Break confidence on implicit goals, constraints, premises, outsider “why this at all?”                                                                                                                                                                               |
-| `completeness` | Break confidence on readiness using the three-axis checklist from [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) as an **overlay** (scope / gaps / sequencing) — kill mandate, not a polite checklist |
-
-Do not collapse to one attacker when the user emphasizes only “did I miss anything” or only “outsider read.”
-
-### Wave 2 — defender (related context)
-
-After both attackers return, spawn **one** member:
-
-| Stance   | Mandate                                                                                         |
-| -------- | ----------------------------------------------------------------------------------------------- |
-| `defend` | Steelman the original; rebut, narrow, or concede each **anchored** attacker claim with evidence |
-
-Context pack = artifact + 2–4 primary sources the plan cites (or coordinator-gathered related context) + **structured briefs** of both attacker reports (findings / dispositions / anchors only — not coordinator synthesis). Defender **ignores unanchored kills** unless the coordinator tags them `drift`.
-
-### Coordinator synthesis
-
-1. One unified report (entry skill shape): critique **and** axis/readiness gaps together.
-2. Tag claims `attacker-convergent` / `attacker-divergent` / `defended` / `conceded` / `drift` (unanchored attacker claim — do not treat as convergent).
-3. Preserve unresolved conflict.
-4. Premise-confirm with the user when premises are unsettled before treating the opinion as final.
-5. Hard gate: both waves completed before the final report — do not fabricate debate outcomes.
-
-### Dispatch plan sketch
-
-```markdown
-Task: Second opinion — staged debate for [artifact]
-Classification: mixed
-Source of truth: plan
-Goal: adversarial-staged
-Parent model: [Auto | <named model>]
-User model overrides: [none | member=slug, …]
-
-Wave 1:
-
-- generalPurpose · tier=Standard · model=[inherit-auto | slug] · stance=premises: outsider premise attack
-- generalPurpose · tier=Standard · model=[inherit-auto | slug] · stance=completeness: axis readiness attack
-
-Wave 2 (after wave 1):
-
-- generalPurpose · tier=Standard · model=[inherit-auto | slug] · stance=defend: steelman + rebut briefs
-
-Synthesis plan: unified second-opinion report; tag defended/conceded/convergent/divergent
-```
-
-## Optional pre-wave gather
-
-Large artifacts may run coverage gather first ([parallel-plan-evidence](../../second-opinion/references/parallel-plan-evidence.md) or similar). Gather feeds wave-2 defender context and/or thin path hints — **not** a substitute for debate.
+Optional pre-wave gather → [second-opinion-evidence-dispatch.md](second-opinion-evidence-dispatch.md).

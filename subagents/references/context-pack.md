@@ -2,30 +2,51 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-**Source of truth for** what Task members receive — minimal, pointer-heavy, asymmetric to the parent chat. Spawn mechanics → [`subagents` SKILL](../SKILL.md). Member prompt shell → [task-prompt.md](task-prompt.md).
+**Source of truth for** shared composability vocabulary and what Task members receive — minimal, pointer-heavy, asymmetric to the parent chat. Spawn mechanics → [`subagents` SKILL](../SKILL.md). Member prompt shell → [task-prompt.md](task-prompt.md).
 
-Entry skills own **domain pack shape**; this ref owns **shared token rules** and the **generic envelope header**.
+Process skills define **entry gates, non-negotiables, and exit artifacts** only. **No routing tables** — layered prompts (multiple skills attached, or one prompt naming several modes) compose by overlapping scope on this vocabulary.
+
+## Composability (layered prompts)
+
+When the user attaches multiple skills or names several modes on the same **Slice** or **Artifact**, every active atom applies its non-negotiables. Conflicts resolve by **entry gates** (stop and ask), not by cross-skill links.
+
+| Primitive    | Meaning                                      | Examples                                                    |
+| ------------ | -------------------------------------------- | ----------------------------------------------------------- |
+| **Slice**    | Bounded work unit — code paths, plan §, slug | `src/auth/**`, plan § "OAuth", envelope id `session-attach` |
+| **Artifact** | Written object on disk                       | plan path, PRD, ADR draft, handoff file                     |
+| **Surface**  | Review/diff adapter (alias `source:`)        | `branch`, `pr`, `paths`, `snapshot`                         |
+| **Lens**     | Review or critique stance                    | `security`, user phrase, `premises`, `completeness`         |
+| **Seam**     | Public test boundary (tdd)                   | module API, CLI entry, HTTP handler                         |
+| **Repro**    | On-demand failing signal (probe Fix)         | red test cmd, CI log, repro steps                           |
+| **Closure**  | Atom considers itself settled                | `Closure: ready`, crystallized block, cited verdict         |
+| **Pass**     | Review pass kind                             | `blind` (iterate member) vs coordinator                     |
+
+**Overlap rule:** Same `Slice:` → **tdd** (red-green cycles), **iterate** (blind cohesion passes), **code-review** (evidence filing) may all apply without any skill naming another. Different primitives → gates apply independently (e.g. **second-opinion** needs an **Artifact**; **tdd** needs a **Seam**).
 
 ## Token rules (all packs)
 
-1. **Pointers not bodies** — paths, URLs, SHAs, plan § ids; never paste plans, PRDs, diffs, or full review synthesis into member prompts.
-2. **Omit empty** — delete empty sections; do not pad with `none` or `—`.
-3. **Context asymmetry** — members do not get the full user thread, coordinator synthesis, or other members' raw transcripts unless the entry skill explicitly allows structured briefs (e.g. second-opinion wave 2).
-4. **Coordinator composes** — one copyable block per member; duplicate context across parallel members only when slices overlap.
+1. **Hard ceiling — 100k context** — total material across coordinator + all members in one dispatch run must stay **under 100k tokens**. Split slices, shrink excerpts, or serialise passes — never exceed. See [task-splitting.md](task-splitting.md).
+2. **Pointers not bodies** — paths, URLs, SHAs, plan § ids; never paste plans, PRDs, diffs, or full review synthesis into member prompts.
+3. **Omit empty** — delete empty sections; do not pad with `none` or `—`.
+4. **Context asymmetry** — members do not get the full user thread, coordinator synthesis, or other members' raw transcripts unless the entry skill explicitly allows structured briefs (e.g. second-opinion wave 2).
+5. **Coordinator composes** — one copyable block per member; duplicate context across parallel members only when slices overlap.
 
 ## Header vocabulary (open menus)
 
 Name reality in the header; tables are starting points, not limits.
 
-| Field      | Used by                        | Examples                                                                      |
-| ---------- | ------------------------------ | ----------------------------------------------------------------------------- |
-| `Pack:`    | handoff                        | `pointers`, `fix-loop`, `slice`, `full`, user-named                           |
-| `Goal:`    | handoff, iterate intent        | `implement`, `review`, `diagnose`, `investigate`, `iterate-slice`, user-named |
-| `Surface:` | code-review (alias: `source:`) | `branch`, `paths`, `snapshot`, `pr` — see code-review output header           |
-| `Lens:`    | code-review, review council    | `security`, `cleanliness`, `merge-readiness`, user phrase                     |
-| `Slice:`   | iterate (coordinator header)   | short id — path glob, plan § id, or intent slug                               |
-| `Adapter:` | iterate (member envelope)      | `code`, `plan-section` — full block in slice-envelope                         |
-| `channel:` | handoff                        | `prompt`, `artifact`                                                          |
+| Field      | Used by                        | Examples                                                               |
+| ---------- | ------------------------------ | ---------------------------------------------------------------------- |
+| `Pack:`    | handoff                        | `pointers`, `fix-loop`, `slice`, `full`, user-named                    |
+| `Goal:`    | handoff, iterate intent        | `implement`, `review`, `probe`, `explore`, `iterate-slice`, user-named |
+| `Surface:` | code-review (alias: `source:`) | `branch`, `paths`, `snapshot`, `pr` — see code-review output header    |
+| `Lens:`    | code-review, review council    | `security`, `cleanliness`, `merge-readiness`, user phrase              |
+| `Slice:`   | iterate, tdd, code-review      | short id — path glob, plan § id, or intent slug                        |
+| `Seam:`    | tdd                            | public interface under test                                            |
+| `Adapter:` | iterate (member envelope)      | `code`, `plan-section` — full block in slice-envelope                  |
+| `Closure:` | iterate                        | `ready` \| `open`                                                      |
+| `Pass:`    | iterate                        | `blind`                                                                |
+| `channel:` | handoff                        | `prompt`, `artifact`                                                   |
 
 `source:` in code-review status headers maps to the same adapter slug as `Surface:` — do not rename output headers without a consumer migration.
 
@@ -45,14 +66,15 @@ Paste into member Task prompts after the [task-prompt.md](task-prompt.md) shell:
 
 ## Domain recipes (procedure in entry skill)
 
-| Job                      | Pack shape                          | Recipe                                                                                                                                                                                                                                        |
-| ------------------------ | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Handoff artifact         | `channel` + `Pack` + `Goal`         | [handoff/pack.md](../../handoff/references/pack.md) · [output.md](../../handoff/references/output.md)                                                                                                                                         |
-| Iterate blind pass       | frozen slice envelope               | [iterate/slice-envelope.md](../../iterate/references/slice-envelope.md) — coordinator `Slice:` = short id; member gets full envelope block. Bounded in-slice excerpts (paths + line ranges) ok; never full PR diffs or coordinator narrative. |
-| Parallel review council  | `Surface` + `Lens` + path slice     | [review-council-dispatch.md](review-council-dispatch.md)                                                                                                                                                                                      |
-| Adversarial kill mandate | artifact + criteria                 | [Adversarial pack](#adversarial-pack) below · [adversarial.md](adversarial.md)                                                                                                                                                                |
-| Second-opinion wave 1    | artifact only                       | [adversarial.md](adversarial.md) § Staged debate                                                                                                                                                                                              |
-| Second-opinion wave 2    | artifact + primary sources + briefs | [adversarial.md](adversarial.md) § Staged debate                                                                                                                                                                                              |
+| Job                           | Pack shape                      | Recipe                                                                                                                                                                                                                                        |
+| ----------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Handoff artifact              | `channel` + `Pack` + `Goal`     | [handoff/pack.md](../../handoff/references/pack.md) · [output.md](../../handoff/references/output.md)                                                                                                                                         |
+| Iterate blind pass            | frozen slice envelope           | [iterate/slice-envelope.md](../../iterate/references/slice-envelope.md) — coordinator `Slice:` = short id; member gets full envelope block. Bounded in-slice excerpts (paths + line ranges) ok; never full PR diffs or coordinator narrative. |
+| TDD microcycle                | `Slice` + `Seam`                | [tdd/SKILL.md](../../tdd/SKILL.md) — coordinator owns red-green; shares `Slice:` with iterate when both active.                                                                                                                               |
+| Parallel review council       | `Surface` + `Lens` + path slice | [review-council-dispatch.md](review-council-dispatch.md)                                                                                                                                                                                      |
+| Adversarial kill mandate      | artifact + criteria             | [Adversarial pack](#adversarial-pack) · [adversarial.md](adversarial.md)                                                                                                                                                                      |
+| Second-opinion staged debate  | artifact + wave stances         | [second-opinion-dispatch.md](second-opinion-dispatch.md) · optional [second-opinion-evidence-dispatch.md](second-opinion-evidence-dispatch.md)                                                                                                |
+| Explore escalation (optional) | hunch + slice                   | [explore-escalation-dispatch.md](explore-escalation-dispatch.md)                                                                                                                                                                              |
 
 Coordinator picks closest row, then follows that skill's ref for fill-in — do not merge domains into one mega-prompt.
 
@@ -83,20 +105,6 @@ Ban phrases like “prior chat concluded…” or dumping coordinator synthesis 
 
 ## Cross-session vs in-session
 
-Orchestrators (**subagents**, **iterate**, **handoff**) wire agent-to-agent work. Process skills describe what happens and call orchestrators when needed — see [tiers.md](../../docs/tiers.md).
+Orchestrators (**subagents**, **iterate**, **handoff**) wire agent-to-agent work. Process skills are **atoms** — compose via layered prompts and shared headers above, not hub routing docs.
 
 Fix-loop-only next session: prefer **handoff** `Pack: fix-loop` or consumer overlay — not `Pack: full`.
-
-## Typical chains (pointers only)
-
-| Phase            | Skill                       | Pack / surface hint                     |
-| ---------------- | --------------------------- | --------------------------------------- |
-| Plan critique    | **second-opinion**          | artifact path only                      |
-| Design dialogue  | **grill** / **crystallize** | —                                       |
-| Slice cohesion   | **iterate**                 | slice envelope in-session               |
-| Merge / PR       | **code-review**             | `source:branch` or `pr`                 |
-| Context full     | **handoff**                 | `Pack: pointers` or `fix-loop` + Goal   |
-| Hard bug         | **diagnose**                | repro pointer in handoff Goal if needed |
-| Persist decision | **domain-model**            | ADR path in handoff Pointers            |
-
-Each hop uses pointers at the prior artifact — do not replay full bodies in the next skill.

@@ -1,6 +1,6 @@
 {
   "name": "grill",
-  "description": "Portable grill skill conformance: falsifier recorded before leaving a decision node",
+  "description": "Portable grill skill conformance: intent phase and design-tree gates",
   "defaults": {
     "host": "replay",
     "profile": "cursor",
@@ -17,6 +17,19 @@
         "mustNot": ["let's implement", "I'll start coding"],
         "judge": [
           "The agent stated a provisional recommendation and a falsifier for the chosen branch before moving on"
+        ]
+      }
+    },
+    {
+      "name": "fuzzy intent: alternate frame required",
+      "prompt": "We need better onboarding for engineers — it's fuzzy. Shape the intent with me using grill intent phase.\n\nRead `.claude/skills/grill/SKILL.md` and `grill/references/intent-phase.md` first. Name one alternate problem frame before the crystallized block.",
+      "replayTrace": "agent-suites/grill/fixtures/replays/alternate-frame-gate.json",
+      "rubric": {
+        "must": ["Alternate frame", "Crystallized idea"],
+        "mustInvokeSkill": ["grill"],
+        "mustNot": ["let's implement", "architecture"],
+        "judge": [
+          "The agent invoked grill, named an alternate problem frame, and produced a crystallized idea without jumping to solutions"
         ]
       }
     }

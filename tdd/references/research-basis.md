@@ -24,13 +24,13 @@ One vertical slice: failing test from independent expected values, then minimal 
 
 ## Seam confirmation
 
-Tests only at user-confirmed public boundaries — unclear seam → grill or investigate first.
+Tests only at user-confirmed public boundaries — unclear seam → grill or probe (Evidence) first.
 
 **Confidence:** High for avoiding implementation-coupled tests; not a substitute for domain modeling.
 
 **Does not transfer:** Testing private helpers because they are easier to reach.
 
-## Handoff from diagnose
+## Handoff from probe Fix
 
 Diagnostic loop proves the bug; TDD locks regression at an agreed seam — different jobs.
 
