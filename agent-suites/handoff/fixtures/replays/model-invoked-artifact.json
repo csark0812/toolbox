@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **handoff** — model-invoked; spawning subagent per handoff-subagent-dispatch.\n\n```markdown\nTask: Handoff — compact session · auth-refactor\nClassification: handoff\nGoal: write-handoff-artifact\n\nMembers:\n- generalPurpose · model=inherit-auto · stance=compact: write handoff file\n```\n\nHandoff written to `/workspace/_agent/handoffs/2026-08-06-auth-refactor.md` (workspace: `/workspace`).\n\n```text\nOpen workspace: /workspace\n\nRead @_agent/handoffs/2026-08-06-auth-refactor.md and continue from there.\n\nGoal: Continue auth refactor implementation\nStart with: Read plan and resume on branch\n```"
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["handoff"],
+  "artifacts": {}
+}

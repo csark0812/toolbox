@@ -6,12 +6,12 @@ Single-member Task recipe for each review pass. Spawn mechanics → [`subagents`
 
 ## When
 
-- **Every** iterative-review review pass — no coordinator-primary substitute.
+- **Every** iterate review pass — no coordinator-primary substitute.
 
 ## Dispatch plan template
 
 ```markdown
-Task: Iterative review — blind pass · round [N]
+Task: Iterate — blind pass · round [N]
 Classification: review
 Source of truth: slice envelope
 Goal: blind-review

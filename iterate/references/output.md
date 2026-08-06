@@ -1,4 +1,4 @@
-# Iterative review output
+# Iterate output
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
@@ -9,7 +9,7 @@ Extends [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/m
 First line of every pass synthesis:
 
 ```markdown
-Iterative review · Slice: [short id] · Pass: blind · Round: [N] · Clean streak: [n]/[M] · Cohesion: attested-local|not-attested · Closure: open|ready
+Iterate · Slice: [short id] · Pass: blind · Round: [N] · Clean streak: [n]/[M] · Cohesion: attested-local|not-attested · Closure: open|ready
 ```
 
 | Field           | Notes                                                                        |
@@ -39,7 +39,7 @@ When a pass completes and the loop continues to another blind Task (after fixes,
 | Rule      | Detail                                                                                                                                                      |
 | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Placement | After pass synthesis and any fixes; immediately before spawning pass N+1                                                                                    |
-| Skip      | First pass (nothing prior); final turn when emitting `Closure: ready` ([summary](#iterative-review-summary-on-exit-or-user-stop) replaces)                  |
+| Skip      | First pass (nothing prior); final turn when emitting `Closure: ready` ([summary](#iterate-summary-on-exit-or-user-stop) replaces)                           |
 | Blindness | User-facing coordinator prose only — **never** paste into blind member prompt or slice materials ([blind-reviewer-dispatch.md](blind-reviewer-dispatch.md)) |
 
 Optional split: use `**What happened:**` / `**Why it matters:**` inline labels (above) or separate `#### What happened` / `#### Why it matters` headings — same sentence budget.
@@ -61,10 +61,10 @@ Default filing: merge-blockers / material issues only unless user opted into imp
 
 Same tier pattern as code-review — out-of-slice polish in **Noted** tail.
 
-## Iterative review summary (on exit or user stop)
+## Iterate summary (on exit or user stop)
 
 ```markdown
-## Iterative review summary
+## Iterate summary
 
 **Slice:** [envelope]
 **Closure:** ready | open

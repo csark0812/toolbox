@@ -120,7 +120,7 @@ Code-review: keep lens selection; every member gets a kill mandate for their len
 - Elsewhere only when an entry skill cites this shape.
 - Not a substitute for dialogue (`crystallize` / `grill`).
 
-Single-member entry-skill spawns (e.g. **iterative-review** blind pass) → [SKILL.md § Entry-skill carve-out](../SKILL.md#entry-skill-carve-out), not this staged-debate section.
+Single-member entry-skill spawns (e.g. **iterate** blind pass) → [SKILL.md § Entry-skill carve-out](../SKILL.md#entry-skill-carve-out), not this staged-debate section.
 
 ### Wave 1 — parallel attackers (fresh context)
 

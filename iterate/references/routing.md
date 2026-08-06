@@ -11,7 +11,7 @@ Bounded **code slice** or **plan section** iterative closure until `Closure: rea
 | User ask                                          | Skill                       |
 | ------------------------------------------------- | --------------------------- |
 | Full plan / PRD pre-build critique                | **second-opinion**          |
-| Plan § or mid-implementation slice until cohesive | **iterative-review**        |
+| Plan § or mid-implementation slice until cohesive | **iterate**                 |
 | PR, branch, diff, merge-ready                     | **code-review**             |
 | Open design dialogue without slice target         | **grill** / **crystallize** |
 | One concrete doubt, no fix loop                   | **investigate**             |
@@ -21,9 +21,9 @@ Bounded **code slice** or **plan section** iterative closure until `Closure: rea
 
 When installing, ensure sibling descriptions include:
 
-- **code-review** — not slice cohesion loops → **iterative-review**
-- **second-opinion** — not iterative slice closure → **iterative-review**
-- **iterative-review** — not PR merge review, full-plan debate, single hunch
+- **code-review** — not slice cohesion loops → **iterate**
+- **second-opinion** — not iterative slice closure → **iterate**
+- **iterate** — not PR merge review, full-plan debate, single hunch
 
 ## After closure
 

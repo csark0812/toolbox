@@ -1,10 +1,10 @@
-# Iterative review research basis
+# Iterate research basis
 
 **Source of truth for** evidence and limits behind blind iterative closure.
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Read when calibrating blindness, exit gates, or claiming iterative-review benefits. Not for every pass.
+Read when calibrating blindness, exit gates, or claiming iterate benefits. Not for every pass.
 
 ## Evidence posture
 

@@ -1,4 +1,4 @@
-# Iterative review protocol
+# Iterate protocol
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 

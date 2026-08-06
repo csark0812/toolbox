@@ -43,10 +43,10 @@
       "skillPath": "investigate/SKILL.md",
       "computedHash": "5eae46913aecdeeaa3fa68ac47e366e5a935acd0b6553a9abca7cbb894976089"
     },
-    "iterative-review": {
+    "iterate": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
-      "skillPath": "iterative-review/SKILL.md",
+      "skillPath": "iterate/SKILL.md",
       "computedHash": "0000000000000000000000000000000000000000000000000000000000000000"
     },
     "subagents": {
