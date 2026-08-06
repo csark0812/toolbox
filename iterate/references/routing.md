@@ -17,6 +17,14 @@ Bounded **code slice** or **plan section** iterative closure until `Closure: rea
 | One concrete doubt, no fix loop                   | **investigate**             |
 | Broken behavior, repro-first                      | **diagnose**                |
 
+## During / after code-review
+
+| Signal in review pass                         | Route to        |
+| --------------------------------------------- | --------------- |
+| Bounded area cohesion thrash (not merge-only) | **iterate**     |
+| One falsifiable doubt, no fix loop            | **investigate** |
+| Repro-first failure surfaced                  | **diagnose**    |
+
 ## Peer negations (reciprocal)
 
 When installing, ensure sibling descriptions include:
@@ -27,8 +35,10 @@ When installing, ensure sibling descriptions include:
 
 ## After closure
 
-| Next step                           | Skill            |
-| ----------------------------------- | ---------------- |
-| Merge / PR review of resulting diff | **code-review**  |
-| Persist terms or ADRs               | **domain-model** |
-| Hard bug with repro                 | **diagnose**     |
+| Next step                           | Skill              | Pack / surface hint                           |
+| ----------------------------------- | ------------------ | --------------------------------------------- |
+| Merge / PR review of resulting diff | **code-review**    | `source:branch` or `pr` · default lens        |
+| Context full — continue elsewhere   | **handoff**        | `Pack: fix-loop` or `pointers` + `Goal:` slug |
+| Persist terms or ADRs               | **domain-model**   | —                                             |
+| Hard bug with repro                 | **diagnose**       | —                                             |
+| Full plan still untested            | **second-opinion** | artifact path only                            |

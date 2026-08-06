@@ -11,7 +11,7 @@ description: Subagent dispatch — pick subagent_type, split tasks token-efficie
 
 Host **Task** tool (Cursor: **Subagent**). Entry skills own domain recipes and synthesis; this skill owns **how** to spawn — not **what** job to run.
 
-References: [subagent-types.md](references/subagent-types.md) · [task-splitting.md](references/task-splitting.md) · [model-routing.md](references/model-routing.md) · [adversarial.md](references/adversarial.md) · [task-prompt.md](references/task-prompt.md) · [member-schema.md](references/member-schema.md) · [output-format.md](references/output-format.md) · [agent-discovery.md](references/agent-discovery.md).
+References: [context-pack.md](references/context-pack.md) · [subagent-types.md](references/subagent-types.md) · [task-splitting.md](references/task-splitting.md) · [model-routing.md](references/model-routing.md) · [adversarial.md](references/adversarial.md) · [task-prompt.md](references/task-prompt.md) · [member-schema.md](references/member-schema.md) · [output-format.md](references/output-format.md) · [agent-discovery.md](references/agent-discovery.md).
 
 Read [references/research-basis.md](references/research-basis.md) when calibrating spawn or cost claims. Do not load by habit.
 
@@ -19,6 +19,7 @@ Read [references/research-basis.md](references/research-basis.md) when calibrati
 
 | Need                         | Where                                                          |
 | ---------------------------- | -------------------------------------------------------------- |
+| Member context / token rules | [references/context-pack.md](references/context-pack.md)       |
 | Which `subagent_type` when   | [references/subagent-types.md](references/subagent-types.md)   |
 | Token-efficient slice splits | [references/task-splitting.md](references/task-splitting.md)   |
 | Cheapest good-enough model   | [references/model-routing.md](references/model-routing.md)     |

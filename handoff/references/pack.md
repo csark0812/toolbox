@@ -6,6 +6,8 @@ How to **choose what to include** and **how to deliver** it. Compact procedure �
 
 **Channel** = delivery to the next session. **Pack** = how much context to include. **Goal** = what the next session should do — kebab-case slug, open vocabulary.
 
+Shared member-pack rules → [`subagents` context-pack.md](../../subagents/references/context-pack.md).
+
 Menus below are **starting points**, not limits. Pick closest row, name reality in the header, omit empty sections.
 
 ## Channel (delivery)
@@ -30,7 +32,7 @@ Same-root rule: `@_agent/handoffs/...` resolves against the **next chat's worksp
 
 ## Goal (next-session lens)
 
-Header `Goal:` — one line. Examples: `implement`, `review`, `debug`, `plan-revise`, `iterate-slice`, or user phrase as slug (`harden-auth`).
+Header `Goal:` — one line. Examples: `implement`, `review`, `diagnose` (repro-first bug), `investigate` (single hunch), `plan-revise`, `iterate-slice`, or user phrase as slug (`harden-auth`).
 
 Infer from session state; ask once if unclear.
 

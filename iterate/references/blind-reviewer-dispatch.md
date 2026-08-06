@@ -2,7 +2,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Single-member Task recipe for each review pass. Spawn mechanics → [`subagents`](../../subagents/SKILL.md) non-negotiables. Model → `model=inherit-auto` (omit tool `model` under Auto parent).
+Single-member Task recipe for each review pass. Spawn mechanics → [`subagents`](../../subagents/SKILL.md) non-negotiables. Slice envelope → [slice-envelope.md](slice-envelope.md); pack rules → [context-pack.md](../../subagents/references/context-pack.md). Model → `model=inherit-auto` (omit tool `model` under Auto parent).
 
 ## When
 
@@ -43,7 +43,7 @@ Slice envelope:
 [paste envelope block from slice-envelope.md]
 
 Materials:
-[file excerpts, plan sections — slice only]
+[bounded in-slice excerpts — paths + line ranges for code adapter; plan § text for plan adapter — never full PR diffs or coordinator narrative; see context-pack.md iterate row]
 
 Adapter matrix:
 [applicable rows from adapters.md — check or N/A each]

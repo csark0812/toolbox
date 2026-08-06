@@ -4,11 +4,13 @@
 
 Mixed entry: user supplies **intent**; coordinator derives a **frozen envelope** before each blind pass.
 
+Member envelope rules → [`subagents` context-pack.md](../../subagents/references/context-pack.md).
+
 ## Steps
 
 1. **Listen** — capture user intent (feature, plan §, module behavior, invariant class).
 2. **Repo-first expand** — search/read to bound paths, symbols, plan section ids, linked decisions.
-3. **Write envelope block** — explicit, copyable into blind dispatch:
+3. **Write envelope block** — explicit, copyable into blind dispatch. Coordinator synthesis header uses short `Slice:` id ([output.md](output.md)); member prompt carries the full block:
 
 ```markdown
 ### Slice envelope

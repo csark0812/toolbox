@@ -316,4 +316,21 @@ describe('toolbox skill SSOT', () => {
     expect(subagents).toMatch(/handoff/)
     expect(subagents).toMatch(/handoff-subagent-dispatch/)
   })
+
+  it('subagents context-pack is SSOT for member envelopes', () => {
+    const pack = readFileSync(join(root, 'subagents/references/context-pack.md'), 'utf8')
+    const subagents = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
+    const adversarial = readFileSync(join(root, 'subagents/references/adversarial.md'), 'utf8')
+    const handoffPack = readFileSync(join(root, 'handoff/references/pack.md'), 'utf8')
+    const sliceEnv = readFileSync(join(root, 'iterate/references/slice-envelope.md'), 'utf8')
+
+    expect(subagents).toMatch(/context-pack\.md/)
+    expect(pack).toMatch(/Pointers not bodies/)
+    expect(pack).toMatch(/Omit empty/)
+    expect(pack).toMatch(/Domain recipes/)
+    expect(adversarial).toMatch(/context-pack\.md/)
+    expect(adversarial).not.toMatch(/Requirements \/ acceptance \(if any\):/)
+    expect(handoffPack).toMatch(/context-pack\.md/)
+    expect(sliceEnv).toMatch(/context-pack\.md/)
+  })
 })

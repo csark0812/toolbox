@@ -4,7 +4,9 @@
 
 When the **parent coordinator** chooses parallel review specialists (user ask or unresolved domain after primary pass). Not part of the [`code-review`](../../code-review/SKILL.md) skill — spawn mechanics live here.
 
-Each member loads [`code-review`](../code-review/SKILL.md) for **how** to review the surface slice assigned.
+Each member loads [`code-review`](../../code-review/SKILL.md) for **how** to review the surface slice assigned.
+
+Member context → [context-pack.md](context-pack.md) · surface/lens → [code-review/sources.md](../../code-review/references/sources.md).
 
 ## Dispatch plan template
 
@@ -25,12 +27,14 @@ Synthesis plan: merge member findings; validate before Action filing; output per
 ## Member prompt
 
 ```
-Member N/M · review · [lens]
+Member N/M · review · Lens:[lens]
 
 Sub-task: Review your slice per code-review/SKILL.md (merge-blockers default).
 
-Diff / paths:
-[paste slice materials]
+Context pack:
+- Surface: [adapter from sources.md]
+- Lens: [lens slug]
+- Source: [path list or diff stat — read in scope via repo tools; no full diff paste]
 
 Output: finding blocks per code-review/references/output.md
 ```

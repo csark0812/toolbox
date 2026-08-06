@@ -2,7 +2,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Member recipe for **channel:artifact** only. Spawn → [`subagents`](../../subagents/SKILL.md). Output shape → [output.md](output.md). **Not** user `channel:prompt`.
+Member recipe for **channel:artifact** only. Spawn → [`subagents`](../../subagents/SKILL.md). Output shape → [output.md](output.md). Context pack → [context-pack.md](../../subagents/references/context-pack.md). **Not** user `channel:prompt`.
 
 ## Dispatch plan
 

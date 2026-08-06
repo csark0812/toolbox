@@ -37,7 +37,7 @@ Read [references/research-basis.md](references/research-basis.md) when calibrati
 2. **Review** — [review.md](references/review.md): trace behavior for the active lens.
 3. **File** — [merge-blockers.md](references/merge-blockers.md) + [output.md](references/output.md).
 
-Parallel members → parent uses [`subagents`](../subagents/SKILL.md); each member loads this skill for **how** to review.
+Parallel members → parent uses [`subagents`](../subagents/SKILL.md); each member loads this skill for **how** to review. Cohesion thrash on a bounded area → [`iterate`](../iterate/SKILL.md); single hunch → [`investigate`](../investigate/SKILL.md).
 
 ## Consumer bindings
 
