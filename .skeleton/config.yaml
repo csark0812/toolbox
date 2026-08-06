@@ -9,7 +9,6 @@ scan:
     - 'agent-suites/README.md'
     - 'subagents/**'
     - 'code-review/**'
-    - 'crystallize/**'
     - 'grill/**'
     - 'second-opinion/**'
     - 'iterate/**'
@@ -31,6 +30,7 @@ scan:
     - iterative-review
     - investigate
     - diagnose
+    - crystallize
     - branch-cleanup
     - product-principles
     - testing
@@ -46,7 +46,6 @@ skillOwnership:
   ownedSlugs:
     - subagents
     - code-review
-    - crystallize
     - grill
     - second-opinion
     - iterate

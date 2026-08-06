@@ -24,7 +24,6 @@
 | -------------------- | ----------------------------------------------------------------- |
 | subagents            | [subagents/SKILL.md](../subagents/SKILL.md)                       |
 | code-review          | [code-review/SKILL.md](../code-review/SKILL.md)                   |
-| crystallize          | [crystallize/SKILL.md](../crystallize/SKILL.md)                   |
 | grill                | [grill/SKILL.md](../grill/SKILL.md)                               |
 | second-opinion       | [second-opinion/SKILL.md](../second-opinion/SKILL.md)             |
 | iterate              | [iterate/SKILL.md](../iterate/SKILL.md)                           |

@@ -1,6 +1,6 @@
 # Agent Suites
 
-Toolbox agent suites are portable conformance checks for public skills. They use neutral fixture files and replay traces so they can run outside any consumer repo.
+Toolbox agent suites are portable conformance checks for public process skills. They prove **portable process contracts**, not consumer product workflows. They use neutral fixture files and replay traces so they can run outside any consumer repo.
 
 ## Suite bands
 
@@ -28,7 +28,7 @@ Contract suites use golden `replayTrace` JSON. Outcome and ablation suites ship 
 
 **Bad judge question:** “The agent was thorough.”
 
-Consumer repos own product integration outcomes (app paths, private docs, `validate:changed` dogfood). Toolbox owns portable cognition only.
+Consumer repos own product integration outcomes (app paths, private docs, `validate:changed` dogfood). Toolbox owns portable process contracts only.
 
 ## Ownership Boundary
 
@@ -41,14 +41,12 @@ Toolbox owns generic skill-contract behavior:
 - `probe-evidence`: discriminating kill tests; leave dead patches after 2–3 no-signal reads (Evidence stance).
 - `probe-evidence-outcomes` / `probe-evidence-transfer` / `probe-evidence-prompt`: discriminating evidence-parity band (2 scenarios). **Manual live cadence only** (not part of `npm run check`). Discriminating scenarios use guard-only fixture seeds; dual-bug `debug-app` remains for ceiling/Fix bands.
 - `probe-evidence-outcomes-ceiling` / `probe-evidence-transfer-ceiling`: ceiling scenarios (replay CI only).
-- `crystallize`: alternate problem frame before crystallized output.
+- `grill`: ask-block Context+Questions (N=1 slim); alternate frame before crystallized output; falsifier before leaving a decision node.
 - `tdd`: seam confirmation before the first test; red-green slice discipline.
 - `probe-fix`: entry gate — no repro means no hypotheses; route to Evidence stance or get a repro.
 - `probe-fix-outcomes` / `probe-fix-transfer` / `probe-fix-prompt`: discriminating evidence-parity band (2 scenarios: `no-repro-refuse`, `loop-before-cause`). **Manual live cadence only** — `npm run agent:test:probe-fix-evidence-parity` (not part of `npm run check`). Independent of Evidence parity.
 - `probe-fix-outcomes-ceiling`: ceiling scenario (tight loop; replay CI only).
-- `domain-model`: entry gate — no stated decision means no ADR; route to grill or crystallize.
-- `prototype`: declare design question + mode before writing throwaway code.
-- `grill`: falsifier recorded before leaving a decision node.
+- `domain-model`: entry gate — no stated decision means no ADR; route to grill.
 - `handoff`: `channel:prompt` (user) vs `channel:artifact` (model-invoked); `Pack:` pointers/fix-loop/full — omit empty sections.
 - `writing-great-skills`: user-only skills stay user-invoked (`disable-model-invocation`).
 - `organization-ablations`: live SkillJuror-lite arms — see [docs/skill-organization-ablations.md](../docs/skill-organization-ablations.md).

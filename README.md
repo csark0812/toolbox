@@ -1,18 +1,18 @@
 # toolbox
 
-**Source of truth for** team Cursor/Claude agent skills.
+**Source of truth for** user-level process and orchestrator Cursor/Claude agent skills.
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Public SSOT for reusable Cursor/Claude agent skills.
+Public process SSOT. Engineers install skills globally (`-g`). Product repos keep product workflows and shared standards — they should not vendor these process skill folders.
 
-New skill packages can start from the public [skeleton](https://github.com/csark0812/skeleton) template. Personal or org-private skills stay outside this repo.
+New skill packages can start from the public [skeleton](https://github.com/csark0812/skeleton) template. Private preference skills live in a separate global install outside this repo.
 
 Requires **Node ≥ 22**. Contributor cold-start: [AGENTS.md](AGENTS.md). No runtime environment variables are required (see `.env.example`).
 
 ## Install
 
-Install destinations (skills CLI):
+Install destinations (where agents look):
 
 | Agent       | Project-scoped    | Global              |
 | ----------- | ----------------- | ------------------- |
@@ -20,59 +20,59 @@ Install destinations (skills CLI):
 | Claude Code | `.claude/skills/` | `~/.claude/skills/` |
 | Codex       | `.agents/skills/` | `~/.codex/skills/`  |
 
-```bash
-# All team skills (13 slugs), global — Cursor, Claude Code, and Codex
-npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex -y
+Toolbox **process** skills install to **Global** only. Project skill dirs are for consumer product/standards skills (and planning overlays), not vendored toolbox process copies.
 
-# All team skills, project-scoped (commit under .agents/skills/ and/or .claude/skills/)
-# Codex shares `.agents/skills/` with Cursor project installs.
-npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code codex --copy -y
+```bash
+# Process / orchestrators — user-level (`*` = registered skill slugs only; not soft-default templates)
+npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex -y
+npx skills update -g
 
 # Core dialogue/build set (subset) — space-separated skill names (not commas)
-npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterate probe tdd prototype domain-model handoff writing-great-skills --agent cursor claude-code codex --copy -y
-
-# Update after push
-npx skills update -g   # global
-npx skills update -p   # project
+npx skills add csark0812/toolbox --skill subagents code-review grill second-opinion iterate probe tdd prototype domain-model handoff writing-great-skills -g --agent cursor claude-code codex -y
 ```
 
 Shorthand for `https://github.com/csark0812/toolbox`. The `@` prefix (npm-style scopes) is not supported by the skills CLI — use `csark0812/toolbox`.
 
-Symlink installs keep a canonical copy under `.agents/skills/` with agent-specific links elsewhere. Prefer `--copy` when committing skills into a consumer repo.
+**Clone dogfood:** project sync of toolbox process skills is allowed **only inside this toolbox clone** while authoring (e.g. local suite work). Do not commit toolbox process skills into other repos.
 
 ## In a consumer repo
 
-Two steps: skeleton validates the repo's docs/skills perimeter; toolbox supplies the skills.
+Skeleton can audit the repo’s docs/skills perimeter. Toolbox process skills still install **globally** on each engineer’s machine — not into the consumer skill tree.
 
 ```bash
-# 1. SSOT audit harness (once per project)
+# Optional: audit scaffolding only (does not install toolbox process skills)
 npm install -D @csark0812/skeleton
 npx skeleton init --skills
 
-# 2. Team skills (global or project-scoped)
-npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterate probe tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
+# Process skills — user-level
+npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex -y
+npx skills update -g
 ```
 
 After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton audit self` to verify.
 
 ### Roles
 
-| Piece                       | Role                                                                                                                  |
-| --------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| **toolbox** (this repo)     | Skill source SSOT — what skills exist and how they're written                                                         |
-| **skeleton**                | Docs/skill registry linter — validates links, banners, and scan perimeter                                             |
-| **`.skeleton/customize/`**  | Project-specific skill overrides (injected via IDE hooks on read) — **consumer repos only**, not present in this tree |
-| **`.skeleton/references/`** | Canonical ambient reference docs — skills link via GitHub raw URLs (not copied into each skill)                       |
+| Piece                       | Role                                                                                                  |
+| --------------------------- | ----------------------------------------------------------------------------------------------------- |
+| **toolbox** (this repo)     | Process skill SSOT — installed user-level (`-g`), not vendored into consumer repos                    |
+| **skeleton**                | Docs/skill registry linter — validates links, banners, and scan perimeter                             |
+| **`.skeleton/customize/`**  | Consumer-local overlays (product docs, alwaysInclude, soft-default binders) — **consumer repos only** |
+| **`.skeleton/references/`** | Canonical ambient reference docs — skills link via GitHub raw URLs (not copied into each skill)       |
 
-Do not edit synced `SKILL.md` files in consumer projects — override in `.skeleton/customize/<slug>.md` instead. See [skeleton customize docs](https://github.com/csark0812/skeleton/blob/main/docs/developer/customize.md).
+Do not edit installed `SKILL.md` copies in place. Process SSOT updates via global install / this repo. Consumer customize overlays carry product-local context. See [skeleton customize docs](https://github.com/csark0812/skeleton/blob/main/docs/developer/customize.md).
 
 Ambient shared refs live once under [`.skeleton/references/`](.skeleton/references/). Skill bodies open them via `raw.githubusercontent.com/csark0812/toolbox/main/...` (network required). Validation: [docs/github-ambient-refs-validation.md](docs/github-ambient-refs-validation.md). Skill-local refs (unique to one skill) stay under `{slug}/references/`.
 
 ### Planning references (fail-loud vs soft-default)
 
-Fail-loud planning stubs live under `.skeleton/references/planning/*.md` and are linked from skills via GitHub raw URLs — do not execute Linear / `docs/prds/` recipes from them. Soft-default recipe trees are **not** shipped inside portable skill trees.
+Fail-loud planning stubs live under `.skeleton/references/planning/*.md` and are linked from skills via GitHub raw URLs — do not execute Linear / `docs/prds/` recipes from them. Soft-default recipe trees are **not** shipped inside portable skill trees and are **not** installed by `--skill '*'`.
 
-Canonical recipes live under `.skeleton/references/planning/soft-default/` and are packaged for bare consumers as [`templates/planning-soft-default/`](templates/planning-soft-default/) plus the binder [`templates/soft-default-planning.md`](templates/soft-default-planning.md). Opt in by copying the pack to `.skeleton/customize/planning-soft-default/`, the binder to `.skeleton/customize/soft-default-planning.md`, and listing that basename in `customize.alwaysInclude`. Remapping consumers must omit that binder and map planning paths to project docs instead.
+Canonical recipes live under `.skeleton/references/planning/soft-default/` and are packaged as [`templates/planning-soft-default/`](templates/planning-soft-default/) plus the binder [`templates/soft-default-planning.md`](templates/soft-default-planning.md). Opt in by copying the pack to `.skeleton/customize/planning-soft-default/`, the binder to `.skeleton/customize/soft-default-planning.md`, and listing that basename in `customize.alwaysInclude` — or re-home equivalent recipes in a consumer-local skill. Remapping consumers must omit that binder and map planning paths to project docs instead.
+
+### Migration (from project `--copy`)
+
+Existing committed toolbox process skill dirs keep loading until removed. Delete only vendored copies of registered toolbox skill slugs under project skill dirs; keep product/standards skills; reinstall process skills with `-g`. Soft-default under `.skeleton/customize/` is not a process skill dir. See [docs/tiers.md](docs/tiers.md).
 
 ## Skills
 
@@ -83,8 +83,7 @@ Canonical recipes live under `.skeleton/references/planning/soft-default/` and a
 | Orchestrator | handoff              | A2A cross-session — channel + pack + goal; pointers not bodies |
 | Process      | code-review          | Review any surface + lens; merge-blockers with evidence        |
 | Process      | second-opinion       | Multiple perspectives on a written plan                        |
-| Process      | grill                | Pressure-test design before implementation                     |
-| Process      | crystallize          | Fuzzy idea → shaped intent                                     |
+| Process      | grill                | Fuzzy intent + design pressure-test before implementation      |
 | Process      | probe                | Hunch verdict or hard-bug fix under Authority B                |
 | Process      | tdd                  | Test-first build at agreed public seams                        |
 | Process      | prototype            | Throwaway artifact for one design question                     |
@@ -93,7 +92,7 @@ Canonical recipes live under `.skeleton/references/planning/soft-default/` and a
 
 Orchestrators define **agent-to-agent** wiring; process skills describe **what happens** and point at orchestrators when another agent or pass is needed. See [docs/tiers.md](docs/tiers.md).
 
-Consumer projects may lock additional slugs (`debug`, `testing`, `product-principles`, …) — **every lock key is replaced on resync**. Ambient shared refs are remote (GitHub); skill-local `references/` stay skill-specific. Consumers remap project docs via `.skeleton/customize/` + `customize.alwaysInclude`. See [docs/tiers.md](docs/tiers.md).
+Consumer projects may add product/standards slugs locally. Ambient shared refs are remote (GitHub); skill-local `references/` stay skill-specific. Consumers remap project docs via `.skeleton/customize/` + `customize.alwaysInclude`. See [docs/tiers.md](docs/tiers.md).
 
 ## Daily workflow
 
@@ -119,7 +118,7 @@ pre-commit install          # runs npm test on commit
 
 ### Agent suites
 
-Portable agent conformance lives under [`agent-suites/`](agent-suites/). Replay mode is credential-free:
+Portable agent conformance lives under [`agent-suites/`](agent-suites/). Suites prove **portable process contracts**, not consumer product workflows. Replay mode is credential-free:
 
 ```bash
 npm run agent:test
@@ -133,7 +132,7 @@ npm run agent:test:live
 
 For verbose failures and kept staging traces, use `npm run agent:test:live:debug`. Debug output defaults to `$TMPDIR/agent-spec` (outside the repo). Avoid `--debug-dir ./…` inside the repo unless you want artifacts in the working tree — `@post-print/agent-test` ≥ 0.1.18 excludes harness staging from worktree leak checks, but `$TMPDIR` keeps `git status` clean. See [`agent-suites/README.md`](agent-suites/README.md).
 
-Toolbox owns generic skill-contract behavior (`code-review`, `grill`, `crystallize`). Consumer repos keep product-specific integration suites that mention local app paths, private docs, custom validation commands, or repo-specific overlays.
+Toolbox owns portable process-contract behavior (`code-review`, `grill`, …). Consumer repos keep product-specific integration suites that mention local app paths, private docs, custom validation commands, or repo-specific overlays.
 
 ## Adding a skill
 

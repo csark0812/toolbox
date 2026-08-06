@@ -101,7 +101,7 @@ Full recipe → [second-opinion-dispatch.md](second-opinion-dispatch.md). Synthe
 
 - **Always** for **second-opinion** on a written artifact.
 - Elsewhere only when a process skill cites this shape.
-- Not a substitute for dialogue (**crystallize** / **grill**).
+- Not a substitute for dialogue (**grill**).
 - Single-member orchestrator spawns (e.g. **iterate** blind pass) → [carve-out](../SKILL.md#entry-skill-carve-out), not this section.
 
 Optional pre-wave gather → [second-opinion-evidence-dispatch.md](second-opinion-evidence-dispatch.md).

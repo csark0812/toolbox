@@ -2,9 +2,9 @@
 
 **Source of truth for** agent cold-start in this repo.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Public team skills SSOT. Markdown skills + skeleton audits — not a TypeScript app. No runtime env vars required (see `.env.example`).
+Public process skills SSOT (user-level install). Markdown skills + skeleton audits — not a TypeScript app. No runtime env vars required (see `.env.example`).
 
 ## First hour
 
@@ -33,7 +33,7 @@ pre-commit install
 - Agent conformance suites: `agent-suites/` (`npm run agent:test`)
 - Canonical ambient refs: `.skeleton/references/` — skills link via GitHub raw URLs (see [docs/github-ambient-refs-validation.md](docs/github-ambient-refs-validation.md)); no per-skill materialization
 - Hub taxonomy: `docs/tiers.md`, `.skeleton/registry.md`
-- This clone ships team skills + skeleton config. Agent preference packs (`.cursor/` / `.claude/` prefs) live elsewhere — see [tiers](docs/tiers.md).
+- This clone ships process skills + skeleton config. Private preference skills live in a separate global install outside this repo — see [tiers](docs/tiers.md).
 
 ## Validation
 
@@ -52,7 +52,7 @@ Path-scoped `validate:changed` on skill-only paths exits non-zero and redirects 
 
 `npm run agent:test` runs replay-based portable conformance suites for public toolbox skills. `npm run agent:test:live` uses Cursor SDK dogfood in isolated worktrees and requires `CURSOR_API_KEY`. `npm run agent:test:live:debug` adds verbose failures and keeps staging under `$TMPDIR/agent-spec` by default (see `agent-suites/README.md`). Keep consumer/product-specific suites (for example PostPrint app paths, private docs, and repo validation commands) in the consumer repo.
 
-## Install destinations (consumers)
+## Install destinations
 
 | Agent       | Project           | Global              |
 | ----------- | ----------------- | ------------------- |
@@ -60,6 +60,6 @@ Path-scoped `validate:changed` on skill-only paths exits non-zero and redirects 
 | Claude Code | `.claude/skills/` | `~/.claude/skills/` |
 | Codex       | `.agents/skills/` | `~/.codex/skills/`  |
 
-Use space-separated `--skill` names (or `--skill '*'`), not commas. Include `codex` in `--agent` when installing for Codex.
+Toolbox process skills install to **Global** (`-g`) only. Project dirs are for consumer product/standards skills. Use space-separated `--skill` names (or `--skill '*'`), not commas. Include `codex` in `--agent` when installing for Codex.
 
 See [README](README.md) · [tiers](docs/tiers.md) · `package.json` scripts.

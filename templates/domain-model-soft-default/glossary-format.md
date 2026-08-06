@@ -30,4 +30,4 @@ Each term is one `###` block:
 ## Rules
 
 - Dedupe before add — update in place rather than fork synonyms.
-- Persistence is via **domain-model** skill after grill/crystallize sharpen terms.
+- Persistence is via **domain-model** skill after grill sharpens terms.

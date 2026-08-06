@@ -49,7 +49,7 @@ flowchart LR
 | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | Implement the fix, repro, make tests pass       | Hub **diagnose** / **tdd** when installed; else consumer **testing** / **debug** or project `AGENTS.md`.           |
 | User explicitly asks to fix / repro / implement | **Exit find-only** — stop applying investigate no-fix constraints; follow the request or the named consumer skill. |
-| Still fuzzy on intent                           | **crystallize**                                                                                                    |
+| Still fuzzy on intent                           | **grill** intent phase ([intent-phase.md](../../grill/references/intent-phase.md))                                 |
 | Written plan to critique                        | **second-opinion**                                                                                                 |
 | Pressure-test design before build               | **grill**                                                                                                          |
 

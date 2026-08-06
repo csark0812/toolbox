@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Using **grill**.\n\n**Decision:** store sessions in Redis vs in-memory map.\n\n**Provisional recommendation:** in-memory for the spike — fewer moving parts.\n\n**Falsifier before we leave this node:** if we need cross-instance logout propagation, in-memory would be the wrong bet — we'd see stale sessions after deploy.\n\nDoes that falsifier matter for your deployment model?"
+      "content": "Using **grill**.\n\n## Context\n- **Where:** New auth service — session storage choice before implementation\n- **Deciding:** Whether v1 sessions live in Redis or in-process memory\n- **Settled:**\n  - Auth service is greenfield; no production sessions yet.\n  - Falsifier for in-memory: if we need cross-instance logout, in-memory fails after deploy.\n\n## Questions\n1. **Where should session data live in v1?**\n   Why it matters: This choice drives ops load and logout behavior across instances.\n   A) Redis (recommended)\n   B) In-process memory only\n   Recommended: A — shared across instances without inventing a new store later when the falsifier hits"
     }
   ],
   "toolCalls": [],

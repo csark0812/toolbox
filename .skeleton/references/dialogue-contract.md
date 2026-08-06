@@ -13,7 +13,7 @@ Consumer projects remap the full dialogue contract through hook-injected customi
 
 ## Portable baseline (incomplete)
 
-Invariants shared by dialogue modes (crystallize / grill). Full Product checks and consumer handoffs live in the consumer SSOT.
+Invariants shared by dialogue modes (grill intent phase / design tree). Full Product checks and consumer handoffs live in the consumer SSOT.
 
 1. **Repo-first** — Prefer search/read over asking the user for repo-answerable facts.
 2. **One branch at a time** — Exhaust the active thread before breadth.
