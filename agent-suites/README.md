@@ -37,7 +37,7 @@ Toolbox owns generic skill-contract behavior:
 - `code-review`: source adapters, surface-size bands, primary-first default with escalation on demand, merge-blocker default filing, anti-thrash / contextual re-review convergence, and no-commit review behavior.
 - `subagents`: Fit check — name single-pass rival before `N ≥ 2`; skip when independence fails.
 - `second-opinion`: staged debate with claim anchoring; unanchored kills tagged `drift`.
-- `iterate`: blind pass protocol markers (`Pass: blind`, `Cohesion: attested-local`); thrash reopen without sibling mint.
+- `iterate`: blind pass protocol markers (`Pass: blind`, `Cohesion: attested-local` in HTML `iterate-contract` footer); thrash reopen without sibling mint.
 - `investigate`: discriminating kill tests; leave dead patches after 2–3 no-signal reads.
 - `investigate-outcomes` / `investigate-transfer` / `investigate-prompt`: discriminating evidence-parity band (2 scenarios). **Manual live cadence only** (not part of `npm run check`). Discriminating scenarios use guard-only fixture seeds; dual-bug `debug-app` remains for ceiling/diagnose.
 - `investigate-outcomes-ceiling` / `investigate-transfer-ceiling`: ceiling scenarios (replay CI only).
@@ -50,7 +50,6 @@ Toolbox owns generic skill-contract behavior:
 - `prototype`: declare design question + mode before writing throwaway code.
 - `grill`: falsifier recorded before leaving a decision node.
 - `handoff`: user `/handoff` → prompt-only; model-invoked → subagent writes `_agent/handoffs/` with redaction.
-- `writing-great-skills`: user-only skills stay user-invoked (`disable-model-invocation`).
 - `organization-ablations`: live SkillJuror-lite arms — see [docs/skill-organization-ablations.md](../docs/skill-organization-ablations.md).
 - `github-ambient-refs`: live-only dogfood that ambient refs via GitHub raw URLs are fetchable at agent runtime (scenarios skipped in replay CI). See [docs/github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md).
 

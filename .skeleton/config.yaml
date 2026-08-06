@@ -19,7 +19,6 @@ scan:
     - 'prototype/**'
     - 'domain-model/**'
     - 'handoff/**'
-    - 'writing-great-skills/**'
   exclude:
     - '.skeleton/references/**'
     - '**/references/**'
@@ -55,4 +54,3 @@ skillOwnership:
     - prototype
     - domain-model
     - handoff
-    - writing-great-skills

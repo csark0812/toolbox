@@ -58,7 +58,7 @@ If almost there, **ask the next question** instead of summarizing prematurely.
 ## Integration
 
 - **planning/build.md** — if the user just finished grill, skip redundant clarification there (Step 4).
-- **Repo exploration for a branch** — optional [parallel-explore.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/parallel-explore.md) via **subagents** when a design branch depends on repo facts; grill stays dialogue-first.
+- **Repo exploration for a branch** — optional [parallel-explore.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/parallel-explore.md) via subagents when a design branch depends on repo facts; grill stays dialogue-first.
 
 ## Output format
 

@@ -2,7 +2,7 @@
 
 **Source of truth for** agent cold-start in this repo.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
 Public team skills SSOT. Markdown skills + skeleton audits — not a TypeScript app. No runtime env vars required (see `.env.example`).
 
@@ -33,6 +33,7 @@ pre-commit install
 - Agent conformance suites: `agent-suites/` (`npm run agent:test`)
 - Canonical ambient refs: `.skeleton/references/` — skills link via GitHub raw URLs (see [docs/github-ambient-refs-validation.md](docs/github-ambient-refs-validation.md)); no per-skill materialization
 - Hub taxonomy: `docs/tiers.md`, `.skeleton/registry.md`
+- Host/overlay authoring: [docs/latch-compose.md](docs/latch-compose.md) (latch-compose + job-first). General skill-authoring vocab → install `writing-great-skills` from mattpocock/skills globally (not shipped here).
 - This clone ships team skills + skeleton config. Agent preference packs (`.cursor/` / `.claude/` prefs) live elsewhere — see [tiers](docs/tiers.md).
 
 ## Validation

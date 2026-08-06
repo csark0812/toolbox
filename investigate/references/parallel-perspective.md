@@ -1,6 +1,6 @@
 # Parallel Perspective Investigate
 
-Adversarial stress-test when evidence is mixed or the user explicitly asks. Uses [`subagents`](../../subagents/SKILL.md) kernel — [non-negotiables](../../subagents/SKILL.md#non-negotiables), [adversarial.md](../../subagents/references/adversarial.md) § Parallel, [task-prompt.md](../../subagents/references/task-prompt.md), [member-schema.md](../../subagents/references/member-schema.md).
+Adversarial stress-test when evidence is mixed or the user explicitly asks. Uses via subagents for spawn — non-negotiables, adversarial (parallel), member prompts, member schema (load the subagents skill).
 
 Profile: `mixed`. Goal: `adversarial`.
 
@@ -27,7 +27,7 @@ Same target — adversarial stances (kill mandates):
 | Strongest case for the hunch | `generalPurpose` | `steelman` / `attacker` — assume the hunch is real; build the strongest case; try to _kill_ skeptic hypos with evidence     |
 | Mechanism that prevents it   | `generalPurpose` | `skeptic` / `refuter` — assume it's a non-issue; find what prevents the problem; try to _kill_ steelman hypos with evidence |
 
-Use distinct stances. Under an Auto parent, share `inherit-auto` (omit tool `model`); diversify via prompts/stances, not slugs. Distinct explicit models only under a named parent (same tier), user cross-model request, or recorded user overrides — [adversarial.md](../../subagents/references/adversarial.md) § Model routing overlay.
+Use distinct stances. Under an Auto parent, share `inherit-auto` (omit tool `model`); diversify via prompts/stances, not slugs. Distinct explicit models only under a named parent (same tier), user cross-model request, or recorded user overrides — via subagents (adversarial) § Model routing overlay.
 
 ## Dispatch plan template
 
@@ -49,11 +49,11 @@ Synthesis plan: preserve conflicts per subagents + adversarial synthesis; tag co
 
 ## Synthesis
 
-1. Merge findings per [subagents synthesis gate](../../subagents/SKILL.md#synthesis-gate) and [adversarial.md](../../subagents/references/adversarial.md) — **preserve conflicts; do not flatten disagreements.** Tag `convergent` vs `divergent`.
+1. Merge findings per via subagents synthesis gate and via subagents (adversarial) — **preserve conflicts; do not flatten disagreements.** Tag `convergent` vs `divergent`.
 2. Each stance should try to **kill the opposing hypothesis** with primary evidence — not rhetoric. Steelman/attacker and skeptic/refuter are ACH-lite, not debate theater.
 3. State both sides if genuinely split rather than averaging into "it's complicated."
 4. Write **investigate** verdict — plain-language settlement of what holds / doesn't / stays open; if stances remain split, say so in that prose.
-5. Output follows **investigate** skill final shape; use [subagents output-format.md](../../subagents/references/output-format.md) sections only as supporting detail.
+5. Output follows **investigate** skill final shape; use via subagents (output-format) sections only as supporting detail.
 
 ## Handoff
 

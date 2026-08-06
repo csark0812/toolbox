@@ -185,7 +185,7 @@ describe('toolbox skill SSOT', () => {
     expect(adversarialDebate).toMatch(/stance=defend/)
     expect(adversarialKernel).toMatch(/Staged debate/)
     expect(adversarialKernel).toMatch(/Context asymmetry/)
-    expect(adversarialKernel).toMatch(/iterate/)
+    expect(adversarialKernel).toMatch(/Recipe carve-out/)
     expect(broad).toMatch(/model=\[inherit-auto \| slug\]/)
     expect(broad).not.toMatch(/model=\[cheapest\]/)
     expect(broad).toMatch(/Parent model: \[Auto \| <named model>\]/)
@@ -218,20 +218,20 @@ describe('toolbox skill SSOT', () => {
     expect(escalation).toMatch(/Targeted specialists/)
     expect(escalation).toMatch(/Council/)
     expect(escalation).toMatch(/Fit check timing/)
-    expect(escalation).toMatch(/entry-skill carve-out/)
+    expect(escalation).toMatch(/recipe carve-out/)
     expect(escalation).not.toMatch(/Fit check ON/)
 
     expect(council).toMatch(/escalation only/)
     expect(council).toMatch(/Primary path/)
     expect(council).toMatch(/without.*member Tasks/)
-    expect(council).toMatch(/entry-skill carve-out/)
+    expect(council).toMatch(/entry-skill carve-out|recipe carve-out/i)
     expect(council).toMatch(/do not.*re-run Fit check/i)
     expect(council).not.toMatch(/run \[`subagents` when-not-to-spawn\]/)
 
     expect(synthesis).toMatch(/Primary-only/)
     expect(synthesis).toMatch(/Escalated hard gate/)
 
-    expect(multi).toMatch(/Entry-skill carve-out/)
+    expect(multi).toMatch(/Recipe carve-out/)
   })
 
   it('excludes install-mirror skill trees from scan perimeter (registry SSOT is flat)', () => {
@@ -352,8 +352,15 @@ describe('toolbox skill SSOT', () => {
     expect(exitGate).toMatch(/attested-local/)
     expect(exitGate).toMatch(/Clean streak/)
 
-    expect(multi).toMatch(/iterate/)
-    expect(multi).toMatch(/blind-reviewer-dispatch/)
+    expect(multi).toMatch(/## Compose contract/)
+    expect(multi).toMatch(/latches on as extra context/)
+    expect(multi).toMatch(/must not replace the recipe/)
+    expect(multi).toMatch(/dispatch plan before the first Task/i)
+    expect(multi).toMatch(/## Recipe carve-out/)
+    expect(multi).toMatch(/Blind single/)
+    expect(multi).toMatch(/Parallel council/)
+    expect(multi).toMatch(/Staged debate/)
+    expect(multi).toMatch(/Compact writer/)
     expect(adversarial).not.toMatch(/blind-reviewer-dispatch/)
   })
 
@@ -374,7 +381,97 @@ describe('toolbox skill SSOT', () => {
     expect(dispatch).toMatch(/model=inherit-auto/)
     expect(dispatch).toMatch(/write-handoff-artifact/)
 
-    expect(subagents).toMatch(/handoff/)
-    expect(subagents).toMatch(/handoff-subagent-dispatch/)
+    expect(subagents).toMatch(/## Recipe carve-out/)
+    expect(subagents).toMatch(/Compact writer/)
+  })
+
+  it('docs/latch-compose teaches latch-compose and job-first voice', () => {
+    const doc = readFileSync(join(root, 'docs/latch-compose.md'), 'utf8')
+    expect(doc).toMatch(/latch-compose|Latch-compose/)
+    expect(doc).toMatch(/overlay/)
+    expect(doc).toMatch(/via subagents|via <kernel-slug>/)
+    expect(doc).toMatch(/path-coupling|path-links/)
+    expect(doc).toMatch(/job-first/)
+    expect(doc).toMatch(/secondary/)
+    expect(doc).toMatch(/mattpocock\/skills/)
+  })
+
+  it('bans subagents/ path tokens outside subagents and allowlisted trees', () => {
+    const hits = []
+    const skillSlugs = EXPECTED_SKILLS.filter((s) => s !== 'subagents')
+    const extraRoots = ['templates', '.skeleton/references/planning/soft-default']
+
+    function scanFile(rel) {
+      const text = readFileSync(join(root, rel), 'utf8')
+      if (text.includes('subagents/')) hits.push(rel)
+    }
+
+    function walkMd(dirRel) {
+      const abs = join(root, dirRel)
+      if (!existsSync(abs)) return
+      for (const ent of readdirSync(abs, { withFileTypes: true })) {
+        const child = dirRel ? `${dirRel}/${ent.name}` : ent.name
+        if (ent.isDirectory()) walkMd(child)
+        else if (/\.(md|js|ts|mjs|yaml|yml)$/.test(ent.name)) scanFile(child)
+      }
+    }
+
+    for (const slug of skillSlugs) walkMd(slug)
+    for (const extra of extraRoots) walkMd(extra)
+
+    expect(hits, `subagents/ path tokens in ban roots: ${hits.join(', ')}`).toEqual([])
+  })
+
+  it('retention set keeps via subagents latch phrase', () => {
+    const retention = [
+      'iterate',
+      'handoff',
+      'code-review',
+      'second-opinion',
+      'investigate',
+      'crystallize',
+      'grill',
+    ]
+    for (const slug of retention) {
+      const skill = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
+      const refsDir = join(root, slug, 'references')
+      let blob = skill
+      if (existsSync(refsDir)) {
+        for (const ent of readdirSync(refsDir, { withFileTypes: true })) {
+          if (ent.isFile() && ent.name.endsWith('.md')) {
+            blob += readFileSync(join(refsDir, ent.name), 'utf8')
+          }
+        }
+      }
+      expect(blob, `${slug} missing via subagents`).toMatch(/via subagents/)
+    }
+  })
+
+  it('iterate uses job-first lead and HTML iterate-contract footer', () => {
+    const output = readFileSync(join(root, 'iterate/references/output.md'), 'utf8')
+    const dispatch = readFileSync(
+      join(root, 'iterate/references/blind-reviewer-dispatch.md'),
+      'utf8',
+    )
+    const fixture = readFileSync(
+      join(root, 'agent-suites/iterate/fixtures/replays/blind-pass-markers.json'),
+      'utf8',
+    )
+
+    expect(output).toMatch(/### Iterate — round/)
+    expect(output).toMatch(/<!-- iterate-contract:/)
+    expect(output).toMatch(/Pass: blind/)
+    expect(dispatch).toMatch(/Review this slice as if you have never seen it before/)
+    expect(dispatch).not.toMatch(/Member 1\/1 · review · stance=blind/)
+    expect(fixture).toMatch(/<!-- iterate-contract:/)
+    expect(fixture).toMatch(/Pass: blind/)
+    expect(fixture).toMatch(/### Iterate — round/)
+  })
+
+  it('subagents member prompts are job-first without Member N/N salutation', () => {
+    const taskPrompt = readFileSync(join(root, 'subagents/references/task-prompt.md'), 'utf8')
+    expect(taskPrompt).toMatch(/job-first/i)
+    expect(taskPrompt).toMatch(/Review this slice as a fresh look/)
+    expect(taskPrompt).not.toMatch(/Member \[k\]\/\[N\] ·/)
   })
 })

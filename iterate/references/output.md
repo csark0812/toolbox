@@ -6,23 +6,38 @@ Extends [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/m
 
 ## Pass header (required)
 
-First line of every pass synthesis:
+Job-first user lead — not a jargon one-liner. Protocol tokens for suites live in the HTML contract footer.
 
 ```markdown
-Iterate · Slice: [short id] · Pass: blind · Round: [N] · Clean streak: [n]/[M] · Cohesion: attested-local|not-attested · Closure: open|ready
+### Iterate — round [N]
+
+**Slice:** [short id]
+**Review:** fresh (no prior-pass context)
+**Streak:** [n] clean passes in a row (need [M])
+**Slice holds this pass:** yes | no
+**Status:** open | done — ready to leave iterate
 ```
 
-| Field           | Notes                                                                        |
-| --------------- | ---------------------------------------------------------------------------- |
-| `Slice:`        | Envelope summary (path glob, plan §, or intent slug)                         |
-| `Pass:`         | Always `blind` when protocol followed                                        |
-| `Round:`        | Monotonic pass counter                                                       |
-| `Clean streak:` | Consecutive no-Action blind passes toward M (default 2)                      |
-| `Cohesion:`     | Latest subagent local attestation                                            |
-| `Closure:`      | `open` until exit gate passes; `ready` only per [exit-gate.md](exit-gate.md) |
-| `Thrash:`       | When thrash signal: `inventory-required`                                     |
+| Field                      | Notes                                                                                                |
+| -------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `### Iterate — round N`    | Human pass index (do not dual-use “Pass” here)                                                       |
+| **Slice:**                 | Envelope summary (path glob, plan §, or intent slug)                                                 |
+| **Review:**                | Fresh / blind — no prior-pass context to the member                                                  |
+| **Streak:**                | Consecutive no-Action blind passes toward M (default 2)                                              |
+| **Slice holds this pass:** | Maps to latest subagent local cohesion                                                               |
+| **Status:**                | `open` until exit gate passes; `done — ready to leave iterate` only per [exit-gate.md](exit-gate.md) |
 
-Missing `Pass: blind` or `Slice:` = incomplete turn.
+## Contract footer (required)
+
+Append after the pass body (suites assert these tokens; not the human lead). Footer `Pass: blind` means review **mode**.
+
+```markdown
+<!-- iterate-contract: Pass: blind · Slice: [id] · Clean streak: [n]/[M] · Cohesion: attested-local|not-attested · Closure: open|ready -->
+```
+
+Include `Thrash: inventory-required` in the footer when thrash applies. `Closure: ready` appears only when the coordinator emits exit; first-pass / early-round fixtures mustNot `Closure: ready`.
+
+Missing footer tokens `Pass: blind` or `Slice:` = incomplete turn.
 
 ## Between-pass bridge (required before next blind subagent)
 
@@ -78,4 +93,4 @@ On `Closure: ready`, state validation command + result or explicit not-run discl
 
 ## Contract replay markers
 
-Portable suites may assert presence of: `Pass: blind`, `Slice:`, `Clean streak`, `Cohesion: attested-local`, `Thrash: inventory-required`. Suites do **not** prove Task spawn or blindness isolation.
+Portable suites may assert presence of: `Pass: blind`, `Slice:`, `Clean streak`, `Cohesion: attested-local`, `Thrash: inventory-required` (typically inside the HTML `<!-- iterate-contract: … -->` footer). Suites do **not** prove Task spawn or blindness isolation.

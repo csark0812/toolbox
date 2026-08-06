@@ -2,7 +2,7 @@
 
 Discover and score council agents when [escalation.md](escalation.md) triggers specialists or council. **Primary-only reviews do not run this doc.**
 
-Mechanical discovery → [subagents agent-discovery.md](../../subagents/references/agent-discovery.md). Kernel → [`subagents`](../../subagents/SKILL.md).
+Mechanical discovery → via subagents (agent-discovery). Kernel → via subagents.
 
 ## Input
 
@@ -31,7 +31,7 @@ Depth ranks: `quick` < `standard` < `thorough` < `full`.
 
 ## Selection algorithm
 
-Run [agent-discovery](../../subagents/references/agent-discovery.md) steps 1–2, then:
+Run via subagents (agent-discovery) steps 1–2, then:
 
 ```
 3. PROFILE ← review
@@ -47,7 +47,7 @@ Path match selects **who**, not **whether** — [escalation.md](escalation.md).
 
 ## Availability log
 
-Record in dispatch plan per [agent-discovery § Availability log](../../subagents/references/agent-discovery.md#availability-log-required-in-dispatch-plan).
+Record in dispatch plan per via subagents (agent-discovery) § Availability log.
 
 ## Integration
 

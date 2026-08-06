@@ -20,7 +20,7 @@ Memoryless subagent review trades coordinator continuity for reduced confirmatio
 
 **Does not transfer:** Claiming replay CI proves Task spawn or prompt isolation (transcript markers only).
 
-- [`subagents` adversarial.md](../../subagents/references/adversarial.md) — context asymmetry operationalizes attacker/defender isolation patterns.
+- via subagents adversarial context asymmetry — operationalizes attacker/defender isolation patterns. Load when calibrating blindness.
 
 ## Clean streak (M=2)
 

@@ -23,19 +23,19 @@ Cursor `/review-bugbot` and `/review-security` stay those shortcuts.
 
 ## Quick reference
 
-| Need                               | Reference                                                                                               |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Procedure (all sources)            | [references/review.md](references/review.md)                                                            |
-| Acquire diff (adapters)            | [references/sources.md](references/sources.md)                                                          |
-| Surface bands + measurement        | [references/surfaces.md](references/surfaces.md)                                                        |
-| Escalation (specialists / council) | [references/escalation.md](references/escalation.md)                                                    |
-| Default filing                     | [references/merge-blockers.md](references/merge-blockers.md)                                            |
-| Output shape                       | [references/output.md](references/output.md)                                                            |
-| Branch/PR base + diff              | [references/shared.md](references/shared.md)                                                            |
-| Anti-thrash + re-review            | [references/anti-thrash.md](references/anti-thrash.md)                                                  |
-| Fix-loop themes                    | [references/fix-loop-ledger.md](references/fix-loop-ledger.md)                                          |
-| Council (escalation only)          | [references/council-dispatch.md](references/council-dispatch.md) · [`subagents`](../subagents/SKILL.md) |
-| Research basis (calibration)       | [references/research-basis.md](references/research-basis.md)                                            |
+| Need                               | Reference                                                                        |
+| ---------------------------------- | -------------------------------------------------------------------------------- |
+| Procedure (all sources)            | [references/review.md](references/review.md)                                     |
+| Acquire diff (adapters)            | [references/sources.md](references/sources.md)                                   |
+| Surface bands + measurement        | [references/surfaces.md](references/surfaces.md)                                 |
+| Escalation (specialists / council) | [references/escalation.md](references/escalation.md)                             |
+| Default filing                     | [references/merge-blockers.md](references/merge-blockers.md)                     |
+| Output shape                       | [references/output.md](references/output.md)                                     |
+| Branch/PR base + diff              | [references/shared.md](references/shared.md)                                     |
+| Anti-thrash + re-review            | [references/anti-thrash.md](references/anti-thrash.md)                           |
+| Fix-loop themes                    | [references/fix-loop-ledger.md](references/fix-loop-ledger.md)                   |
+| Council (escalation only)          | [references/council-dispatch.md](references/council-dispatch.md) · via subagents |
+| Research basis (calibration)       | [references/research-basis.md](references/research-basis.md)                     |
 
 Read research basis when calibrating a move or making a research claim. Do not load by habit.
 

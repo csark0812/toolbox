@@ -2,7 +2,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Single-member Task recipe for **model-invoked** handoff. Spawn mechanics → [`subagents`](../../subagents/SKILL.md) non-negotiables. Model → `model=inherit-auto` (omit tool `model` under Auto parent).
+Single-member Task recipe for **model-invoked** handoff. Spawn mechanics → via subagents non-negotiables. Model → `model=inherit-auto` (omit tool `model` under Auto parent).
 
 **Not used** for user-request `/handoff` — that path is prompt-only ([SKILL.md](../SKILL.md) § User-request).
 

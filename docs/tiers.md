@@ -10,23 +10,24 @@ Assign each skill to exactly one place. Update when adding skills.
 
 Generic orchestration, planning, and dialogue — intended for any consumer project.
 
-| Slug                 | Notes                                                                             |
-| -------------------- | --------------------------------------------------------------------------------- |
-| subagents            | Subagent type, token-efficient splits, cheapest model routing                     |
-| code-review          | Primary-first review + fix-loop; council on escalation (customize roster)         |
-| crystallize          | Fuzzy idea → artifact                                                             |
-| grill                | Pressure-test design                                                              |
-| second-opinion       | Unified plan review (staged debate)                                               |
-| iterate              | Bounded code/plan-slice closure — blind review loop until cohesive                |
-| investigate          | Code / claim hunch — find & verdict, not fix (**optional** — see evidence parity) |
-| diagnose             | Hard-bug loop — repro → tighten → fix → regression lock                           |
-| tdd                  | Test-first build at agreed public seams                                           |
-| prototype            | Throwaway design spike (user-invoked)                                             |
-| domain-model         | Persist glossary + ADRs when decisions are ready (user-invoked)                   |
-| handoff              | Session handoff — model-invoked artifact or user prompt-only                      |
-| writing-great-skills | Skill-authoring vocabulary and predictability (user-invoked)                      |
+| Slug           | Notes                                                                             |
+| -------------- | --------------------------------------------------------------------------------- |
+| subagents      | Subagent type, token-efficient splits, cheapest model routing                     |
+| code-review    | Primary-first review + fix-loop; council on escalation (customize roster)         |
+| crystallize    | Fuzzy idea → artifact                                                             |
+| grill          | Pressure-test design                                                              |
+| second-opinion | Unified plan review (staged debate)                                               |
+| iterate        | Bounded code/plan-slice closure — blind review loop until cohesive                |
+| investigate    | Code / claim hunch — find & verdict, not fix (**optional** — see evidence parity) |
+| diagnose       | Hard-bug loop — repro → tighten → fix → regression lock                           |
+| tdd            | Test-first build at agreed public seams                                           |
+| prototype      | Throwaway design spike (user-invoked)                                             |
+| domain-model   | Persist glossary + ADRs when decisions are ready (user-invoked)                   |
+| handoff        | Session handoff — model-invoked artifact or user prompt-only                      |
 
 Shared ambient refs live in [`.skeleton/references/`](../.skeleton/references/) and are opened from skills via GitHub raw URLs (network required). See [github-ambient-refs-validation.md](github-ambient-refs-validation.md). Soft-default planning recipes stay out of skill trees — enable via [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md) only when the consumer has no planning docs remap.
+
+Host/overlay authoring (latch-compose, job-first) → [latch-compose.md](latch-compose.md). General skill-authoring vocabulary is not in this hub — install from [mattpocock/skills](https://github.com/mattpocock/skills) (`writing-great-skills`) globally when needed.
 
 ### Consumer setup
 
@@ -35,7 +36,7 @@ Skeleton and toolbox are complementary — init skeleton first, then install ski
 ```bash
 npm install -D @csark0812/skeleton
 npx skeleton init --skills
-npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterate diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterate diagnose tdd prototype domain-model handoff -a cursor claude-code codex --copy -y
 ```
 
 Optional — install when you need explicit hunch→verdict routing (not in default bundle after 2026-07 evidence parity):

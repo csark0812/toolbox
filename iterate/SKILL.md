@@ -37,7 +37,7 @@ Routes elsewhere → [routing.md](references/routing.md).
 | Between-pass bridge (re-loop)     | [references/output.md](references/output.md#between-pass-bridge-required-before-next-blind-subagent)                                    |
 | Sibling handoffs                  | [references/routing.md](references/routing.md)                                                                                          |
 | Thrash / matrix vocabulary (link) | [`code-review` fix-loop-ledger](../code-review/references/fix-loop-ledger.md) · [anti-thrash](../code-review/references/anti-thrash.md) |
-| Spawn kernel                      | [`subagents`](../subagents/SKILL.md)                                                                                                    |
+| Spawn kernel                      | via subagents                                                                                                                           |
 
 ## Workflow
 

@@ -2,7 +2,7 @@
 
 **Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file — open the consumer planning SSOT instead.
 
-Blast-radius mapping and subsystem discovery. Uses [`subagents`](../../../../subagents/SKILL.md) kernel — [non-negotiables](../../../../subagents/SKILL.md#non-negotiables), [task-prompt.md](../../../../subagents/references/task-prompt.md), [member-schema.md](../../../../subagents/references/member-schema.md).
+Blast-radius mapping and subsystem discovery. Uses via subagents for spawn — non-negotiables, member prompts, member schema (load the subagents skill).
 
 Profile: `manual` or `repo`.
 
@@ -28,7 +28,7 @@ Split by **domain**, not file:
 | Client data + UI | `explore` | Fast | client data layer + UI routes                |
 | Shared packages  | `explore` | Fast | shared packages / UI kit paths               |
 
-Optional: score council agents on `task_paths[]` from the plan — spawn `architecture` or `correctness` only when cited paths match and `dispatch.contexts` includes `repo`. Path matching → [agent-discovery.md](../../../../subagents/references/agent-discovery.md).
+Optional: score council agents on `task_paths[]` from the plan — spawn `architecture` or `correctness` only when cited paths match and `dispatch.contexts` includes `repo`. Path matching → via subagents (agent-discovery).
 
 ## Dispatch plan template
 
@@ -49,14 +49,14 @@ Why these members: independent domains; no cross-member dependencies
 Synthesis plan: merge scope maps; flag overlaps and blast-radius gaps
 ```
 
-Compose prompts per [task-prompt.md](../../../../subagents/references/task-prompt.md).
+Compose prompts per via subagents (task-prompt).
 
 ## Synthesis
 
 1. Merge non-overlapping structure maps per domain.
 2. Surface **blast radius** — what the plan did not cite but is affected.
 3. Preserve conflicts (e.g. two members disagree on ownership).
-4. Output → [subagents output-format.md](../../../../subagents/references/output-format.md).
+4. Output → via subagents (output-format).
 
 ## Handoff
 

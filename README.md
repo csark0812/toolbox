@@ -29,7 +29,7 @@ npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex
 npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code codex --copy -y
 
 # Core dialogue/build set (subset) — space-separated skill names (not commas)
-npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterate investigate diagnose tdd prototype domain-model handoff writing-great-skills --agent cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterate investigate diagnose tdd prototype domain-model handoff --agent cursor claude-code codex --copy -y
 
 # Update after push
 npx skills update -g   # global
@@ -50,8 +50,16 @@ npm install -D @csark0812/skeleton
 npx skeleton init --skills
 
 # 2. Team skills (global or project-scoped)
-npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterate investigate diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterate investigate diagnose tdd prototype domain-model handoff -a cursor claude-code codex --copy -y
 ```
+
+Optional — skill-authoring vocabulary (not shipped in this hub; install Matt Pocock’s pack globally):
+
+```bash
+npx skills add mattpocock/skills --skill writing-great-skills -g -y
+```
+
+Toolbox-specific host/overlay authoring (latch-compose, job-first voice) → [docs/latch-compose.md](docs/latch-compose.md).
 
 After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton audit self` to verify.
 
@@ -76,23 +84,22 @@ Canonical recipes live under `.skeleton/references/planning/soft-default/` and a
 
 ## Skills
 
-| Slug                 | Purpose                                          |
-| -------------------- | ------------------------------------------------ |
-| subagents            | Subagent dispatch — type, splits, cheapest model |
-| code-review          | Primary-first code review; council on escalation |
-| crystallize          | Fuzzy idea → shaped intent                       |
-| grill                | Pressure-test design before implementation       |
-| second-opinion       | Written plan review                              |
-| iterate              | Bounded slice closure until cohesive             |
-| investigate          | Confirm/refute a code or approach hunch          |
-| diagnose             | Hard-bug loop — repro, tighten, fix, lock        |
-| tdd                  | Test-first build at agreed public seams          |
-| prototype            | Throwaway artifact for one design question       |
-| domain-model         | Persist glossary + ADRs when decisions are ready |
-| handoff              | Compact session handoff                          |
-| writing-great-skills | Skill-authoring vocabulary and predictability    |
+| Slug           | Purpose                                          |
+| -------------- | ------------------------------------------------ |
+| subagents      | Subagent dispatch — type, splits, cheapest model |
+| code-review    | Primary-first code review; council on escalation |
+| crystallize    | Fuzzy idea → shaped intent                       |
+| grill          | Pressure-test design before implementation       |
+| second-opinion | Written plan review                              |
+| iterate        | Bounded slice closure until cohesive             |
+| investigate    | Confirm/refute a code or approach hunch          |
+| diagnose       | Hard-bug loop — repro, tighten, fix, lock        |
+| tdd            | Test-first build at agreed public seams          |
+| prototype      | Throwaway artifact for one design question       |
+| domain-model   | Persist glossary + ADRs when decisions are ready |
+| handoff        | Compact session handoff                          |
 
-Consumer projects may lock additional slugs (`debug`, `testing`, `product-principles`, …) — **every lock key is replaced on resync**. Ambient shared refs are remote (GitHub); skill-local `references/` stay skill-specific. Consumers remap project docs via `.skeleton/customize/` + `customize.alwaysInclude`. See [docs/tiers.md](docs/tiers.md).
+Consumer projects may lock additional slugs (`debug`, `testing`, `product-principles`, …) — **every lock key is replaced on resync**. Ambient shared refs are remote (GitHub); skill-local `references/` stay skill-specific. Consumers remap project docs via `.skeleton/customize/` + `customize.alwaysInclude`. See [docs/tiers.md](docs/tiers.md). For general skill-authoring vocabulary, install `writing-great-skills` from [mattpocock/skills](https://github.com/mattpocock/skills) globally; for toolbox latch-compose / job-first rules see [docs/latch-compose.md](docs/latch-compose.md).
 
 ## Daily workflow
 

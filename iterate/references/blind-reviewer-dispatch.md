@@ -2,7 +2,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Single-member Task recipe for each review pass. Spawn mechanics → [`subagents`](../../subagents/SKILL.md) non-negotiables. Model → `model=inherit-auto` (omit tool `model` under Auto parent).
+Single-member Task recipe for each review pass. Spawn mechanics → via subagents non-negotiables. Model → `model=inherit-auto` (omit tool `model` under Auto parent).
 
 ## When
 
@@ -25,10 +25,18 @@ Members:
 Synthesis plan: merge member matrix + findings + Cohesion attested-local; coordinator thrash after return
 ```
 
+Keep `subagent_type` / stance in the plan table — not as the member’s opening salutation.
+
 ## Member prompt template
 
+Job-first open (shared core + iterate-owned extras: thrash forbid + coordinator-only closure line):
+
 ```
-Member 1/1 · review · stance=blind
+Review this slice as if you have never seen it before.
+Do not use prior-pass findings, fix stories, or thrash notes.
+
+Then: matrix, findings, and whether the slice holds together this pass.
+Do not say the loop is finished — only the coordinator does that.
 
 Sub-task: Review the bounded slice below as if this is the first review. Do not assume prior passes.
 
@@ -68,4 +76,4 @@ Cohesion: attested-local | not-attested
 
 ## Context asymmetry
 
-Align with [`subagents` adversarial context asymmetry](../../subagents/references/adversarial.md): blind member receives slice materials only. Coordinator retains K-round ledger separately ([thrash-ledger.md](thrash-ledger.md)).
+Align with via subagents adversarial context asymmetry: blind member receives slice materials only. Coordinator retains K-round ledger separately ([thrash-ledger.md](thrash-ledger.md)).

@@ -1,6 +1,6 @@
 # Parallel Broad Investigate
 
-Wide fish when the user explicitly asks for a broad pass. Uses [`subagents`](../../subagents/SKILL.md) kernel — [non-negotiables](../../subagents/SKILL.md#non-negotiables), [task-prompt.md](../../subagents/references/task-prompt.md), [member-schema.md](../../subagents/references/member-schema.md).
+Wide fish when the user explicitly asks for a broad pass. Uses via subagents for spawn — non-negotiables, member prompts, member schema (load the subagents skill).
 
 Profile: `repo`.
 
@@ -27,7 +27,7 @@ Split by subsystem:
 | Area B (e.g. backend) | `explore` or `generalPurpose` | Fast |
 | Shared / integration  | `explore`                     | Fast |
 
-Optional: score council agents on known paths — prefer `correctness` for mutation/cache paths if `contexts` includes `repo`. Path matching → [agent-discovery.md](../../subagents/references/agent-discovery.md).
+Optional: score council agents on known paths — prefer `correctness` for mutation/cache paths if `contexts` includes `repo`. Path matching → via subagents (agent-discovery).
 
 ## Dispatch plan template
 
@@ -52,7 +52,7 @@ Synthesis plan: merge evidence; verdict per investigate schema (plain-language s
 1. Merge findings with file:line citations.
 2. Write **investigate** verdict — plain-language settlement with evidence from all members.
 3. Conflicting member conclusions → state both; escalate or narrow target.
-4. Output follows **investigate** skill final shape; use [subagents output-format.md](../../subagents/references/output-format.md) sections only as supporting detail.
+4. Output follows **investigate** skill final shape; use via subagents (output-format) sections only as supporting detail.
 
 ## Handoff
 

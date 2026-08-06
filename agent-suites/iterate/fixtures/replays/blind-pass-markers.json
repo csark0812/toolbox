@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Using **iterate**.\n\n### Slice envelope\n\n- **Adapter:** code\n- **Intent:** session attach pin/plane coherence\n- **Paths:** `src/session/**`\n\nIterate · Slice: session-attach · Pass: blind · Round: 1 · Clean streak: 0/2 · Cohesion: attested-local · Closure: open\n\n## Matrix\n| Row | Status |\n| Pin identity | checked |\n| Plane reconcile | checked |\n\n## Findings\n\nNo material issues.\n\n## Cohesion\nCohesion: attested-local — attach paths read as one coherent slice this pass.\n\n## Iterate summary\n\n**Slice:** session-attach\n**Closure:** open"
+      "content": "Using **iterate**.\n\n### Slice envelope\n\n- **Adapter:** code\n- **Intent:** session attach pin/plane coherence\n- **Paths:** `src/session/**`\n\n### Iterate — round 1\n**Slice:** session-attach\n**Review:** fresh (no prior-pass context)\n**Streak:** 0 clean passes in a row (need 2)\n**Slice holds this pass:** yes\n**Status:** open\n\n## Matrix\n| Row | Status |\n| Pin identity | checked |\n| Plane reconcile | checked |\n\n## Findings\n\nNo material issues.\n\n## Cohesion\nCohesion: attested-local — attach paths read as one coherent slice this pass.\n\n<!-- iterate-contract: Pass: blind · Slice: session-attach · Clean streak: 0/2 · Cohesion: attested-local · Closure: open -->\n\n## Iterate summary\n\n**Slice:** session-attach\n**Closure:** open"
     }
   ],
   "toolCalls": [],

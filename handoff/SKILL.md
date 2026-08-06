@@ -13,7 +13,7 @@ Compact and transfer context when a long session (grill → plan → implement �
 
 Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
 
-References: [handoff-subagent-dispatch.md](references/handoff-subagent-dispatch.md) · [research-basis.md](references/research-basis.md) · spawn kernel [`subagents`](../subagents/SKILL.md).
+References: [handoff-subagent-dispatch.md](references/handoff-subagent-dispatch.md) · [research-basis.md](references/research-basis.md) · spawn kernel via subagents.
 
 Also owns mid fix-loop compact when context is exhausted but work continues. Consumer fix-loop chat handoff blocks alone are enough when the next session needs only fix-loop state, not full session context. Mid-task work in the same session and plan authoring stay with those skills / [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md).
 
@@ -38,7 +38,7 @@ When the agent invokes handoff without an explicit user `/handoff`:
 
 **Hard gate:** Model-invoked handoff MUST spawn a real Task subagent before writing the artifact. Coordinator-primary file write is a **violation** — not an optimization.
 
-Entry-skill carve-out applies ([`subagents`](../subagents/SKILL.md) § Entry-skill carve-out).
+Recipe carve-out applies (via subagents § Recipe carve-out).
 
 ## User-request protocol (prompt-only)
 

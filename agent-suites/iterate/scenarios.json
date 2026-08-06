@@ -9,7 +9,7 @@
   "scenarios": [
     {
       "name": "blind-pass: protocol markers",
-      "prompt": "Iterate on the session attach slice in src/session until cohesive.\n\nRead `.claude/skills/iterate/SKILL.md` first. Run a blind review pass; emit Pass: blind, Slice:, Clean streak, and Cohesion: attested-local or not-attested. Do not reference prior review text.",
+      "prompt": "Iterate on the session attach slice in src/session until cohesive.\n\nRead `.claude/skills/iterate/SKILL.md` first. Run a blind review pass; emit an HTML iterate-contract footer with Pass: blind, Slice:, Clean streak, and Cohesion: attested-local or not-attested. Do not reference prior review text.",
       "replayTrace": "agent-suites/iterate/fixtures/replays/blind-pass-markers.json",
       "rubric": {
         "must": ["Pass: blind", "Slice:", "Clean streak", "Cohesion: attested-local"],

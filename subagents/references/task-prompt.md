@@ -2,14 +2,20 @@
 
 Each member Task `prompt` is composed by the coordinator — subagents do not receive the full user thread or the `subagents` skill.
 
-Review overlays → [code-review/references/task-prompt-review.md](../../code-review/references/task-prompt-review.md).
+Review overlays → host recipe member templates (e.g. code-review task-prompt-review).
 
 **Model is not part of the prompt body.** Resolve `model` on the Task/Subagent call per [subagents Model assignment](../SKILL.md#model-assignment): plan `model=inherit-auto` → omit the tool `model` argument; plan `model=<slug>` → pass that slug only when present in the host enum.
 
-## Generic template
+## Generic template (job-first)
+
+Open with the job — not a `Member N/N · stance=` salutation. Keep `subagent_type` / stance in the dispatch **plan table**.
+
+**Review / blind exemplar:**
 
 ```
-Member [k]/[N] · [job_type] · stance=[stance_id or n/a]
+Review this slice as a fresh look. Do not treat prior-pass findings or fix stories as given.
+
+Then: your matrix, findings, and whether the slice holds together this pass.
 
 Sub-task: [slice only — not the whole job]
 
@@ -23,6 +29,8 @@ Constraints:
 - Return only your perspective; coordinator synthesizes.
 ```
 
+Other recipe shapes keep job-first leads without requiring this exact review paste.
+
 ## Job types
 
 | Job        | Sub-task focus                                     |
@@ -32,7 +40,7 @@ Constraints:
 | `research` | Independent web topic                              |
 | `mixed`    | One slice per member; no cross-member dependencies |
 
-Job recipes → entry skill references (arrive as project-specific injected context on skill read).
+Job recipes → host skill references (arrive as project-specific injected context on skill read).
 
 ## Perspective diversity
 

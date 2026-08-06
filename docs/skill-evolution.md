@@ -2,7 +2,7 @@
 
 **Source of truth for** human-gated skill patches after agent-suite failures.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
 Toolbox skills are static human SSOT — they do not self-mutate from transcripts. This doc defines the **human-gated** loop for turning live eval failures into durable skill improvements.
 
@@ -42,7 +42,7 @@ Toolbox skills are static human SSOT — they do not self-mutate from transcript
    - Sharpen a completion criterion if the agent **prematurely completed**
    - Add a carve-out under **Does not transfer** if the failure falsifies an overclaim
    - Lower **Confidence** if evidence is mixed
-4. **Authoring gate** — apply [`writing-great-skills`](../writing-great-skills/SKILL.md): prune no-ops, positive steering, progressive disclosure.
+4. **Authoring gate** — apply [latch-compose.md](latch-compose.md) for host/overlay rules; for general skill-authoring vocabulary use Matt Pocock’s `writing-great-skills` (install globally from [mattpocock/skills](https://github.com/mattpocock/skills)): prune no-ops, positive steering, progressive disclosure.
 5. **Lock** — add or update a **contract** scenario + replay fixture in `agent-suites/<skill>/`. Outcome scenarios use stub `replayTrace` for replay CI only (no `skip` — that disables live too).
 6. **Optional vitest lock** — add a string invariant in `tests/skills.test.js` only when the new rule is stable prose that regressions should catch globally.
 7. **Record** — copy [`templates/skill-evolution-note.md`](../templates/skill-evolution-note.md) into `_agent/` or the PR description; bump `last-reviewed` on touched research-basis files.

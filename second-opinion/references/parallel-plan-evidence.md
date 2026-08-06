@@ -1,6 +1,6 @@
 # Parallel plan evidence
 
-Optional **pre-wave** evidence gathering for **second-opinion** before staged debate. Uses [`subagents`](../../subagents/SKILL.md) kernel — [non-negotiables](../../subagents/SKILL.md#non-negotiables), [task-prompt.md](../../subagents/references/task-prompt.md), [member-schema.md](../../subagents/references/member-schema.md).
+Optional **pre-wave** evidence gathering for **second-opinion** before staged debate. Uses via subagents for spawn — non-negotiables, member prompts, member schema (load the subagents skill).
 
 Profile: `plan`.
 
@@ -19,11 +19,11 @@ Default second-opinion always runs [adversarial-debate.md](adversarial-debate.md
 
 ## Members (coverage split)
 
-| Slice                       | Focus                                                | Prefer                                                                                             | Fallback                                                                                     |
-| --------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| Premises + scope            | Implicit goals, in/out of scope, acceptance criteria | `generalPurpose` + stance `premises`                                                               | Plan text only                                                                               |
-| Dependencies + blast radius | Ordering, hidden deps, structural work               | `architecture` if HOST + `contexts` includes `plan`; else `generalPurpose` + stance `blast_radius` | Score on cited paths via [agent-discovery.md](../../subagents/references/agent-discovery.md) |
-| Cited paths skim            | Primary sources named in the plan                    | `explore`                                                                                          | `generalPurpose`                                                                             |
+| Slice                       | Focus                                                | Prefer                                                                                             | Fallback                                             |
+| --------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| Premises + scope            | Implicit goals, in/out of scope, acceptance criteria | `generalPurpose` + stance `premises`                                                               | Plan text only                                       |
+| Dependencies + blast radius | Ordering, hidden deps, structural work               | `architecture` if HOST + `contexts` includes `plan`; else `generalPurpose` + stance `blast_radius` | Score on cited paths via subagents (agent-discovery) |
+| Cited paths skim            | Primary sources named in the plan                    | `explore`                                                                                          | `generalPurpose`                                     |
 
 ## Dispatch plan template
 
@@ -48,7 +48,7 @@ Under an Auto parent, omit tool `model` (`inherit-auto`).
 
 ## Synthesis
 
-1. Merge member [member-schema](../../subagents/references/member-schema.md) reports per [subagents synthesis gate](../../subagents/SKILL.md#synthesis-gate).
+1. Merge member reports per via subagents synthesis gate (member schema — load the subagents skill).
 2. Feed into [adversarial-debate.md](adversarial-debate.md) Wave 2 (and optional thin path hints for Wave 1) — do **not** skip debate.
 3. Final opinion shape → [second-opinion.md](second-opinion.md) after debate.
 

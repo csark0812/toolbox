@@ -4,7 +4,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
-Work on a **written** plan, PRD, or issue set — not Socratic explore. Always run **staged adversarial debate** via [`subagents`](../../subagents/SKILL.md) — recipe [adversarial-debate.md](adversarial-debate.md) + [`subagents` adversarial.md](../../subagents/references/adversarial.md) § Staged debate.
+Work on a **written** plan, PRD, or issue set — not Socratic explore. Always run **staged adversarial debate** via subagents — recipe [adversarial-debate.md](adversarial-debate.md) + via subagents (adversarial) § Staged debate.
 
 Former “fresh read” and “completeness verify” are **Wave-1 subagent roles** (`premises` + `completeness`), not user-chosen modes. Do not ask which stance to run.
 
