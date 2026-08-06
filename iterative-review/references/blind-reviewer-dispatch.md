@@ -34,6 +34,7 @@ Sub-task: Review the bounded slice below as if this is the first review. Do not 
 
 Forbidden inputs (must not appear in your reasoning as prior art):
 - Prior pass findings or synthesis
+- Coordinator between-pass bridge prose ([output.md](output.md#between-pass-bridge-required-before-next-blind-subagent))
 - Coordinator thrash notes or theme ledger
 - Fix commit messages or fix narrative
 - Full user thread / parent chat

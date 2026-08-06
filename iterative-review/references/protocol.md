@@ -48,6 +48,8 @@ Re-run repo validation when the consumer defines an authoritative lane.
 - **Action findings** → return to phase 2 on the **same envelope** (expand envelope only when user widens scope).
 - **No Action** → increment clean streak; evaluate [exit-gate.md](exit-gate.md).
 
+When continuing to another blind pass, emit the [between-pass bridge](output.md#between-pass-bridge-required-before-next-blind-subagent) (3–4 sentences: what happened + why it matters for slice closure) **before** phase 2 dispatch. Skip on the first pass and when emitting final `Closure: ready`.
+
 Forbidden: emit `Closure: ready` when any exit layer fails.
 
 ## Pass numbering
