@@ -218,8 +218,9 @@ describe('toolbox skill SSOT', () => {
     expect(skill).toMatch(/Merge-blockers default/)
     expect(skill).not.toMatch(/anti-thrash/)
     expect(skill).not.toMatch(/fix-loop/)
-    expect(skill).not.toMatch(/council-dispatch/)
     expect(skill).not.toMatch(/Escalate only when matched/)
+    expect(skill).toMatch(/review-council-dispatch\.md/)
+    expect(skill).toMatch(/subagents/)
 
     expect(review).toMatch(/Introduced-only/)
     expect(review).toMatch(/path:line/)
@@ -274,7 +275,7 @@ describe('toolbox skill SSOT', () => {
 
     expect(skill).toMatch(/iterate/)
     expect(skill).toMatch(/Closure: ready/)
-    expect(skill).toMatch(/Hard gate/)
+    expect(skill).toMatch(/violation/)
     expect(skill).toMatch(/name: iterate/)
 
     expect(protocol).toMatch(/Hard gate/)
@@ -327,12 +328,16 @@ describe('toolbox skill SSOT', () => {
   it('tiers.md defines orchestrator vs process skill groups', () => {
     const tiers = readFileSync(join(root, 'docs/tiers.md'), 'utf8')
     expect(tiers).toMatch(/Orchestrators — agent-to-agent/)
-    expect(tiers).toMatch(/Process skills — what happens/)
+    expect(tiers).toMatch(/Process skills — atoms/)
+    expect(tiers).toMatch(/Composition/)
+    expect(tiers).toMatch(/layered prompts/)
+    expect(tiers).toMatch(/context-pack\.md/)
     expect(tiers).toMatch(/\*\*subagents\*\*/)
     expect(tiers).toMatch(/\*\*iterate\*\*/)
     expect(tiers).toMatch(/\*\*handoff\*\*/)
     expect(tiers).toMatch(/\*\*code-review\*\*/)
     expect(tiers).toMatch(/\*\*second-opinion\*\*/)
+    expect(tiers).not.toMatch(/Typical chains/)
     expect(tiers).not.toMatch(/Subagent kernel/)
   })
 
@@ -360,7 +365,7 @@ describe('toolbox skill SSOT', () => {
     expect(existsSync(join(root, 'investigate/SKILL.md'))).toBe(false)
   })
 
-  it('subagents context-pack is SSOT for member envelopes', () => {
+  it('subagents context-pack is SSOT for member envelopes and composability', () => {
     const pack = readFileSync(join(root, 'subagents/references/context-pack.md'), 'utf8')
     const subagents = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
     const adversarial = readFileSync(join(root, 'subagents/references/adversarial.md'), 'utf8')
@@ -368,6 +373,12 @@ describe('toolbox skill SSOT', () => {
     const sliceEnv = readFileSync(join(root, 'iterate/references/slice-envelope.md'), 'utf8')
 
     expect(subagents).toMatch(/context-pack\.md/)
+    expect(subagents).toMatch(/100k|100,000/)
+    expect(pack).toMatch(/Composability \(layered prompts\)/)
+    expect(pack).toMatch(/100k/)
+    expect(pack).toMatch(/Slice/)
+    expect(pack).toMatch(/Closure/)
+    expect(pack).not.toMatch(/Typical chains/)
     expect(pack).toMatch(/Pointers not bodies/)
     expect(pack).toMatch(/Omit empty/)
     expect(pack).toMatch(/Domain recipes/)
@@ -375,5 +386,15 @@ describe('toolbox skill SSOT', () => {
     expect(adversarial).not.toMatch(/Requirements \/ acceptance \(if any\):/)
     expect(handoffPack).toMatch(/context-pack\.md/)
     expect(sliceEnv).toMatch(/context-pack\.md/)
+    expect(existsSync(join(root, 'iterate/references/routing.md'))).toBe(false)
+  })
+
+  it('process skills use entry gates not routing tables', () => {
+    for (const slug of ['grill', 'tdd', 'second-opinion', 'diagnose', 'code-review']) {
+      const skill = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
+      expect(skill).toMatch(/## Entry gate/)
+      expect(skill).not.toMatch(/Routes elsewhere/)
+      expect(skill).not.toMatch(/routing\.md/)
+    }
   })
 })

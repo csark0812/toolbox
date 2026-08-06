@@ -6,16 +6,17 @@
 
 ## Documentation
 
-| Topic                        | Canonical file                                                                 |
-| ---------------------------- | ------------------------------------------------------------------------------ |
-| Package overview             | [README.md](../README.md)                                                      |
-| Agent cold-start             | [AGENTS.md](../AGENTS.md)                                                      |
-| Skill tiers & groups         | [tiers.md](../docs/tiers.md)                                                   |
-| GitHub ambient refs validate | [github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md) |
-| Hunch verdict (ambient)      | [verdict.md](../.skeleton/references/verdict.md)                               |
-| Evidence parity              | [evidence-parity.md](../docs/evidence-parity.md)                               |
-| Skill evolution              | [skill-evolution.md](../docs/skill-evolution.md)                               |
-| Skill organization ablations | [skill-organization-ablations.md](../docs/skill-organization-ablations.md)     |
+| Topic                        | Canonical file                                                                            |
+| ---------------------------- | ----------------------------------------------------------------------------------------- |
+| Package overview             | [README.md](../README.md)                                                                 |
+| Agent cold-start             | [AGENTS.md](../AGENTS.md)                                                                 |
+| Skill tiers                  | [tiers.md](../docs/tiers.md)                                                              |
+| Composability vocabulary       | [context-pack.md](../subagents/references/context-pack.md)                                |
+| GitHub ambient refs validate | [github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md)            |
+| Hunch verdict (ambient)      | [verdict.md](../.skeleton/references/verdict.md)                                          |
+| Evidence parity              | [evidence-parity.md](../docs/evidence-parity.md)                                          |
+| Skill evolution              | [skill-evolution.md](../docs/skill-evolution.md)                                          |
+| Skill organization ablations | [skill-organization-ablations.md](../docs/skill-organization-ablations.md)                |
 
 ## Skills
 

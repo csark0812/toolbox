@@ -1,6 +1,6 @@
 ---
 name: diagnose
-description: Hard-bug discipline — build a tight repro loop, then fix and lock regression. Process skill; coordinator-only loop. Not find-only hunch without repro (verdict.md + explore) or greenfield TDD (tdd).
+description: Hard-bug discipline — build a tight repro loop, then fix. Process skill; coordinator-only loop. Composes with tdd on the same Slice after repro exists. Not find-only hunch without repro, or greenfield seam-first build.
 ---
 
 # Diagnose
@@ -9,21 +9,29 @@ description: Hard-bug discipline — build a tight repro loop, then fix and lock
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-**Process skill** — loop before hypotheses. Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) `diagnosing-bugs` (MIT © 2026 Matt Pocock).
+**Process skill** — shared vocabulary → [context-pack.md](../subagents/references/context-pack.md).
 
 References: [protocol.md](references/protocol.md) · [loop-catalog.md](references/loop-catalog.md) · [output.md](references/output.md).
 
 Read [research-basis.md](references/research-basis.md) only when calibrating loop claims.
 
+## Entry gate
+
+- **Repro** present or obtainable — failing test, script, CI artifact, or user repro steps.
+- Without on-demand failing signal → **stop**; ask for repro. Do not hypothesize root cause.
+
 ## Non-negotiables
 
-1. **No loop, no hypotheses** — failing signal required.
+1. **Loop before cause** — red-capable, deterministic, fast loop named or built before production edits.
 2. **Red before fix** — loop proves bug before production edits.
-3. **Lock regression** — hand to **tdd** at agreed seam.
 
 ## Workflow
 
 Follow [protocol.md](references/protocol.md) → [output.md](references/output.md).
+
+## Exit artifact
+
+Per [output.md](references/output.md) — loop command, cause citation, fix summary. Lock regression at agreed **Seam** when **tdd** is also active.
 
 ## Consumer bindings
 

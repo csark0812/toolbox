@@ -1,28 +1,25 @@
 ---
 name: code-review
-description: How to review code — any surface and any user-named lens. Evidence bar, filing, output shape. Use when reviewing code as primary or subagent. Not find-only hunches (verdict.md + explore), slice cohesion loops (iterate), or plan debate (second-opinion). Spawn orchestration in subagents; iterative closure in iterate.
+description: How to review code — any surface and any user-named lens. Evidence bar, filing, output shape. Composes on the same Slice as tdd and iterate. Not find-only hunch settlement, blind slice pass ownership, or written-plan perspective debate.
 ---
 
 # Code review
 
-**Source of truth for** how to review code and file findings — not agent-to-agent spawn (→ **subagents**) or slice pass loops (→ **iterate**).
+**Source of truth for** how to review code and file findings — not agent-to-agent spawn (→ **subagents**) or blind slice pass loops (→ **iterate**).
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-**Process skill** — guidelines for a review agent or subagent. Parent coordinator owns spawn and fix loops unless the user asked this agent to fix.
+**Process skill** — shared vocabulary → [context-pack.md](../subagents/references/context-pack.md).
 
 References: [review.md](references/review.md) · [sources.md](references/sources.md) · [merge-blockers.md](references/merge-blockers.md) · [output.md](references/output.md).
 
 Read [references/research-basis.md](references/research-basis.md) when calibrating a filing or evidence claim. Do not load by habit.
 
-## Quick reference
+## Entry gate
 
-| Need              | Reference                                                    |
-| ----------------- | ------------------------------------------------------------ |
-| Review procedure  | [references/review.md](references/review.md)                 |
-| Acquire materials | [references/sources.md](references/sources.md)               |
-| Default filing    | [references/merge-blockers.md](references/merge-blockers.md) |
-| Output shape      | [references/output.md](references/output.md)                 |
+- **Surface** acquirable — branch, PR, paths, or snapshot ([sources.md](references/sources.md)).
+- **Lens** from user wording — not limited to a fixed list.
+- Merge-ready full-PR review without a named surface → stop; ask for adapter + scope.
 
 ## Non-negotiables
 
@@ -33,11 +30,15 @@ Read [references/research-basis.md](references/research-basis.md) when calibrati
 
 ## Workflow
 
-1. **Acquire surface** — [sources.md](references/sources.md): closest adapter + actual scope in header; set `Lens:` from user wording (not limited to a fixed list).
+1. **Acquire surface** — [sources.md](references/sources.md): closest adapter + actual scope in header.
 2. **Review** — [review.md](references/review.md): trace behavior for the active lens.
 3. **File** — [merge-blockers.md](references/merge-blockers.md) + [output.md](references/output.md).
 
-Parallel members → parent uses [`subagents`](../subagents/SKILL.md); each member loads this skill for **how** to review. Cohesion thrash on a bounded area → [`iterate`](../iterate/SKILL.md); single hunch → explore + [verdict.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/verdict.md).
+Parallel members → parent uses [`subagents`](../subagents/SKILL.md) [review-council-dispatch.md](../subagents/references/review-council-dispatch.md); each member loads this skill for **how** to review.
+
+## Exit artifact
+
+Per [output.md](references/output.md) — `Review · source:` header, findings, filing class.
 
 ## Consumer bindings
 

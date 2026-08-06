@@ -4,7 +4,12 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Ambient ref for **hunch → evidence → plain-language verdict** — find and settle only, not fix. Extends [output-schema.md](output-schema.md). Coordinator-default path: **explore** subagent (or coordinator tool pass) + this block when evidence is ready.
+Ambient ref for **hunch → evidence → plain-language verdict** — find and settle only, not fix. Extends [output-schema.md](output-schema.md). Shared vocabulary → [context-pack.md](../../subagents/references/context-pack.md).
+
+## Entry gate
+
+- **Concrete hunch** — falsifiable target (path, behavior, claim).
+- Hunch too vague → stop; ask narrowing questions (dialogue) before evidence pass.
 
 ## Non-negotiables
 
@@ -30,9 +35,9 @@ Ambient ref for **hunch → evidence → plain-language verdict** — find and s
 | Multiple independent topics, no single hunch | **subagents** [explore-escalation-dispatch.md](../../subagents/references/explore-escalation-dispatch.md) § Parallel research    |
 | Genuinely mixed or contested evidence        | **subagents** [explore-escalation-dispatch.md](../../subagents/references/explore-escalation-dispatch.md) § Parallel perspective |
 
-## Output block
+## Exit artifact
 
-End with this block when clarification (if needed) and evidence pass are complete — not before. If hunch too vague, route to **grill** intent phase or ask next narrowing question.
+End with this block when clarification (if needed) and evidence pass are complete — not before.
 
 ```markdown
 ## Hunch: [one-line restatement]
@@ -43,20 +48,9 @@ End with this block when clarification (if needed) and evidence pass are complet
 
 [path:line or URL#section] — [what this shows and why it matters]
 
-### What to do next
+### What stays open
 
-- [fix → diagnose/tdd; monitor; ignore; grill; second-opinion; …]
-- [If structural: localized vs staged/ground-up — one line]
+- …
 ```
 
 **Find and verdict only** — no code fix in verdict/evidence unless user explicitly asked to implement.
-
-## Handoffs (after verdict)
-
-| Next need                               | Where                                                                                     |
-| --------------------------------------- | ----------------------------------------------------------------------------------------- |
-| Implement fix, repro, make tests pass   | **diagnose** / **tdd** when installed; else consumer testing/debug or project `AGENTS.md` |
-| User explicitly asks to fix / implement | **Exit find-only** — follow the request or named consumer skill                           |
-| Still fuzzy on intent                   | **grill** intent phase ([intent-phase.md](../../grill/references/intent-phase.md))        |
-| Written plan to critique                | **second-opinion**                                                                        |
-| Pressure-test design before build       | **grill** design tree                                                                     |

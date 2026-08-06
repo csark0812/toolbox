@@ -38,7 +38,7 @@ Toolbox owns generic skill-contract behavior:
 - `subagents`: Fit check — name single-pass rival before `N ≥ 2`; skip when independence fails.
 - `second-opinion`: process skill — plan perspectives; A2A → subagents second-opinion-dispatch.
 - `iterate`: blind pass protocol markers (`Pass: blind`, `Cohesion: attested-local`); thrash reopen without sibling mint.
-- `grill` / `grill-intent`: intent-phase alternate frame before crystallized output; design tree falsifier before leaving a node.
+- `grill`: intent-phase alternate frame + design-tree falsifier before leaving a node.
 - `tdd`: seam confirmation before the first test; red-green slice discipline.
 - `diagnose`: entry gate — no repro means no hypotheses; route to explore + verdict or get a repro.
 - `diagnose-outcomes` / `diagnose-transfer` / `diagnose-prompt`: discriminating evidence-parity band (2 scenarios: `no-repro-refuse`, `loop-before-cause`). **Manual live cadence only** — `npm run agent:test:diagnose-evidence-parity` (not part of `npm run check`).

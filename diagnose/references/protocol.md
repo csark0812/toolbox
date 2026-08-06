@@ -6,7 +6,7 @@ Hard-bug discipline — **ordering is the value**. Loop catalog → [loop-catalo
 
 ## Entry gate
 
-No on-demand failing signal → **stop**. Route to user repro or explore + verdict.md when locus unclear.
+No on-demand failing signal → **stop**. Ask for **Repro** (test output, CI log, steps). Do not hypothesize.
 
 ## Phase 1 — Tight feedback loop
 

@@ -1,6 +1,6 @@
 ---
 name: prototype
-description: Throwaway artifact answering one design question — logic/state or UI. Process skill (user-invoked). Not production TDD (tdd) or repro-first debug (diagnose).
+description: Throwaway artifact answering one design question — logic/state or UI. Process skill (user-invoked). Not production red-green (tdd) or repro-first debug (diagnose).
 disable-model-invocation: true
 ---
 
@@ -10,11 +10,16 @@ disable-model-invocation: true
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-**Process skill** — declare question + mode up front; never silent graduation to production. Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) `prototype` (MIT © 2026 Matt Pocock).
+**Process skill** — declare question + mode up front; never silent graduation to production.
 
 References: [LOGIC.md](references/LOGIC.md) · [UI.md](references/UI.md) · [output.md](references/output.md).
 
 Read [research-basis.md](references/research-basis.md) only when calibrating spike claims.
+
+## Entry gate
+
+- **Design question** stated — one falsifiable question, not open-ended build.
+- User wants production TDD or repro-first debug → stop; wrong atom for this skill.
 
 ## Non-negotiables
 
@@ -27,9 +32,11 @@ Read [research-basis.md](references/research-basis.md) only when calibrating spi
 
 1. State question, mode, branch (LOGIC vs UI refs).
 2. Build minimal runnable artifact.
-3. Verdict → [output.md](references/output.md).
+3. Report per [output.md](references/output.md).
 
-Open questions → **grill**. Validated build → **tdd**.
+## Exit artifact
+
+Per [output.md](references/output.md) — question, verdict, promote/discard.
 
 ## Consumer bindings
 

@@ -41,8 +41,4 @@ When exit criteria met — not before.
 ## What remains open
 
 - …
-
-## Possible next steps
-
-- grill design tree · domain-model · second-opinion · build.md · explore + verdict.md
 ```

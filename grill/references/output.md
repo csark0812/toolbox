@@ -16,8 +16,4 @@ When **When to stop** criteria met — not before.
 ## Scope notes (silent-topic scan)
 
 - [Topic]: in scope | out of scope — [why if out]
-
-## Next step
-
-- implement → build.md · review → code-review · persist → domain-model · plan review → second-opinion · hunch → explore + verdict.md · fuzzy → intent-phase.md
 ```

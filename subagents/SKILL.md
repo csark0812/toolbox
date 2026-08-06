@@ -1,6 +1,6 @@
 ---
 name: subagents
-description: Agent-to-agent spawn — subagent_type, token-efficient splits, context-pack envelopes, cheapest good-enough model. Use when spawning Task/Subagent or an entry orchestrator mandates dispatch. Not for process-only coordinator work without spawn (code-review default, grill).
+description: Agent-to-agent spawn — subagent_type, extremely token-efficient splits (≤100k total context), context-pack envelopes, cheapest good-enough model. Use when spawning Task/Subagent or an entry orchestrator mandates dispatch. Not for process-only coordinator work without spawn (code-review default, grill).
 ---
 
 # Subagents
@@ -9,7 +9,7 @@ description: Agent-to-agent spawn — subagent_type, token-efficient splits, con
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-**Orchestrator** — wires coordinator ↔ member agents. Process skills ([code-review](../code-review/SKILL.md), [second-opinion](../second-opinion/SKILL.md), …) describe _what_ to do; this skill owns _how_ members are spawned and what they receive ([context-pack.md](references/context-pack.md)).
+**Orchestrator** — wires coordinator ↔ member agents. Process skills are **atoms** that compose via [context-pack.md](references/context-pack.md); this skill owns _how_ members are spawned and what they receive.
 
 References: [context-pack.md](references/context-pack.md) · [second-opinion-dispatch.md](references/second-opinion-dispatch.md) · [explore-escalation-dispatch.md](references/explore-escalation-dispatch.md) · [review-council-dispatch.md](references/review-council-dispatch.md) · [subagent-types.md](references/subagent-types.md) · [task-splitting.md](references/task-splitting.md) · [model-routing.md](references/model-routing.md) · [adversarial.md](references/adversarial.md) · [task-prompt.md](references/task-prompt.md) · [member-schema.md](references/member-schema.md) · [output-format.md](references/output-format.md) · [agent-discovery.md](references/agent-discovery.md).
 
@@ -34,10 +34,11 @@ Read [references/research-basis.md](references/research-basis.md) when calibrati
 
 When this skill applies (user attached `subagents`, an entry skill invokes dispatch, or the plan includes Task members):
 
-1. **Spawn real members** — one host **Task** per planned member with chosen `subagent_type` and model per [Model assignment](#model-assignment). Parallel `read_file` / `grep` / other tools are **not** substitutes for member runs.
-2. **Synthesis runs after members** — merge member outputs before the consolidated report. Writing synthesis **without** completed Task runs is a **violation**.
-3. **Forbidden rationalizations** — do not skip spawns because you already read the repo, want lower latency, or want to save tokens **when entry skill or plan already committed to dispatch**.
-4. **Valid skips** — user declines spawn; [When-not-to-spawn](#when-not-to-spawn) passes **and** no [entry-skill carve-out](#entry-skill-carve-out); host cannot run Task; only one member planned and single-pass suffices **and** no entry-skill carve-out.
+1. **≤100k total context — hard ceiling** — combined coordinator material + every member prompt + cited excerpts in one dispatch run must stay **under 100,000 tokens**. If over budget: split into another dispatch run, shrink slices, drop bodies for pointers, or serialise members — **never** exceed 100k. Budget in the dispatch plan ([task-splitting.md](references/task-splitting.md)).
+2. **Spawn real members** — one host **Task** per planned member with chosen `subagent_type` and model per [Model assignment](#model-assignment). Parallel `read_file` / `grep` / other tools are **not** substitutes for member runs.
+3. **Synthesis runs after members** — merge member outputs before the consolidated report. Writing synthesis **without** completed Task runs is a **violation**.
+4. **Forbidden rationalizations** — do not skip spawns because you already read the repo, want lower latency, or want to save tokens **when entry skill or plan already committed to dispatch**.
+5. **Valid skips** — user declines spawn; [When-not-to-spawn](#when-not-to-spawn) passes **and** no [entry-skill carve-out](#entry-skill-carve-out); host cannot run Task; only one member planned and single-pass suffices **and** no entry-skill carve-out.
 
 **Cost default:** [Cheapest good enough](references/model-routing.md) — Auto / omit `model` under Auto parent; never default to premium or `*-fast` in parallel.
 
@@ -112,7 +113,7 @@ Selected members:
 - [subagent_type] · tier=[Fast|Standard|Premium] · model=[inherit-auto | slug] · stance=[id]: [minimal sub-task — see task-splitting.md]
 
 Why these types: [subagent-types.md rationale]
-Token budget: [why this split minimizes duplicate context]
+Token budget: [estimated tokens — must sum <100k across all members + coordinator excerpts]
 Synthesis plan: [merge / adjudicate]
 ```
 
