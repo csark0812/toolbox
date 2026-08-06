@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Cross-session context — pointers not bodies. Channel prompt (user /handoff) or artifact (model-invoked subagent). Pack and Goal are open vocabulary. Use when context is full or user hands off to a fresh chat. Not same-session continuation without a new chat.
+description: Agent-to-agent cross-session transfer — pointers not bodies. Channel prompt (user /handoff) or artifact (model-invoked subagent). Pack and Goal are open vocabulary. Orchestrator for continuing work in a fresh chat. Not same-session continuation without a new chat.
 ---
 
 # Handoff
@@ -9,7 +9,7 @@ description: Cross-session context — pointers not bodies. Channel prompt (user
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Every other skill assumes one continuous window. This skill **compresses** thread → next session via pointers.
+**Orchestrator** — cross-session A2A (`channel:prompt` vs `channel:artifact`). Process state lives at pointer paths; this skill compresses thread → next session.
 
 References: [pack.md](references/pack.md) · [output.md](references/output.md) · [handoff-subagent-dispatch.md](references/handoff-subagent-dispatch.md) · [`subagents`](../subagents/SKILL.md).
 

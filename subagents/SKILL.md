@@ -1,15 +1,15 @@
 ---
 name: subagents
-description: Subagent dispatch — pick subagent_type, split tasks token-efficiently, cheapest good-enough model. Use when spawning Task/Subagent, planning independent slices, or an entry skill mandates dispatch. Not for primary-only passes without spawn (code-review default) or dialogue (grill, crystallize).
+description: Agent-to-agent spawn — subagent_type, token-efficient splits, context-pack envelopes, cheapest good-enough model. Use when spawning Task/Subagent or an entry orchestrator mandates dispatch. Not for process-only coordinator work without spawn (code-review default, grill, crystallize).
 ---
 
 # Subagents
 
-**Source of truth for** effective Task/Subagent utilization — type selection, token-efficient splits, and cost-aware model routing.
+**Source of truth for** agent-to-agent Task spawn — type selection, token-efficient splits, and cost-aware model routing.
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Host **Task** tool (Cursor: **Subagent**). Entry skills own domain recipes and synthesis; this skill owns **how** to spawn — not **what** job to run.
+**Orchestrator** — wires coordinator ↔ member agents. Process skills ([code-review](../code-review/SKILL.md), [second-opinion](../second-opinion/SKILL.md), …) describe _what_ to do; this skill owns _how_ members are spawned and what they receive ([context-pack.md](references/context-pack.md)).
 
 References: [context-pack.md](references/context-pack.md) · [subagent-types.md](references/subagent-types.md) · [task-splitting.md](references/task-splitting.md) · [model-routing.md](references/model-routing.md) · [adversarial.md](references/adversarial.md) · [task-prompt.md](references/task-prompt.md) · [member-schema.md](references/member-schema.md) · [output-format.md](references/output-format.md) · [agent-discovery.md](references/agent-discovery.md).
 
@@ -48,7 +48,7 @@ Before `N ≥ 2`, name a **single-pass rival**: one coordinator with deeper tool
 
 ## Entry-skill carve-out
 
-When an entry skill **mandates** Task spawn, do not re-litigate “one agent suffices.” Follow that skill’s member budget and [Non-negotiables](#non-negotiables).
+When an orchestrator or process skill **mandates** Task spawn, do not re-litigate “one agent suffices.” Follow that recipe’s member budget and [Non-negotiables](#non-negotiables).
 
 | Entry skill        | Spawn shape                            | Recipe lives in                                                                         |
 | ------------------ | -------------------------------------- | --------------------------------------------------------------------------------------- |

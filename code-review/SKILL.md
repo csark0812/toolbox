@@ -5,11 +5,11 @@ description: How to review code — any surface and any user-named lens. Evidenc
 
 # Code review
 
-**Source of truth for** how to review code and file findings — not how to orchestrate loops or acquire work (orchestrator + surface adapters).
+**Source of truth for** how to review code and file findings — not agent-to-agent spawn (→ **subagents**) or slice pass loops (→ **iterate**).
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Guidelines for a **review agent or subagent**. Parent coordinator owns spawn and fix loops unless the user asked this agent to fix.
+**Process skill** — guidelines for a review agent or subagent. Parent coordinator owns spawn and fix loops unless the user asked this agent to fix.
 
 References: [review.md](references/review.md) · [sources.md](references/sources.md) · [merge-blockers.md](references/merge-blockers.md) · [output.md](references/output.md).
 

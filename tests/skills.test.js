@@ -317,6 +317,18 @@ describe('toolbox skill SSOT', () => {
     expect(subagents).toMatch(/handoff-subagent-dispatch/)
   })
 
+  it('tiers.md defines orchestrator vs process skill groups', () => {
+    const tiers = readFileSync(join(root, 'docs/tiers.md'), 'utf8')
+    expect(tiers).toMatch(/Orchestrators — agent-to-agent/)
+    expect(tiers).toMatch(/Process skills — what happens/)
+    expect(tiers).toMatch(/\*\*subagents\*\*/)
+    expect(tiers).toMatch(/\*\*iterate\*\*/)
+    expect(tiers).toMatch(/\*\*handoff\*\*/)
+    expect(tiers).toMatch(/\*\*code-review\*\*/)
+    expect(tiers).toMatch(/\*\*second-opinion\*\*/)
+    expect(tiers).not.toMatch(/Subagent kernel/)
+  })
+
   it('subagents context-pack is SSOT for member envelopes', () => {
     const pack = readFileSync(join(root, 'subagents/references/context-pack.md'), 'utf8')
     const subagents = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
