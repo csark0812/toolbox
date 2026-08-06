@@ -1,6 +1,6 @@
 ---
 name: iterate
-description: Cohesive slice closure — iterative blind review subagent passes until a bounded code or plan section holds together. Use when a named slice needs fix-loop review until cohesive, not merge-ready; also for iterative jobs like test→impl until green or plan-section closure loops. Not for PR or diff merge review (code-review), full-plan staged debate (second-opinion), TDD how at a seam (tdd), or a single hunch (probe).
+description: Agent-to-agent pass loop — iterative blind review subagent passes until a bounded code or plan section holds together. Orchestrator for slice cohesion. Not merge-ready PR review (code-review process), full-plan perspectives (second-opinion process), TDD how at a seam (tdd), or a single hunch (probe).
 ---
 
 # Iterate
@@ -9,7 +9,7 @@ description: Cohesive slice closure — iterative blind review subagent passes u
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Consumer overlays arrive as project-specific injected context on skill read.
+**Orchestrator** — in-session A2A pass loop (coordinator fix + blind member passes until exit). Review _how-to_ → [`code-review`](../code-review/SKILL.md). Spawn mechanics → [`subagents`](../subagents/SKILL.md).
 
 References: [protocol.md](references/protocol.md) · [slice-envelope.md](references/slice-envelope.md) · [adapters.md](references/adapters.md) · [blind-reviewer-dispatch.md](references/blind-reviewer-dispatch.md) · [thrash-ledger.md](references/thrash-ledger.md) · [exit-gate.md](references/exit-gate.md) · [output.md](references/output.md) · [routing.md](references/routing.md).
 

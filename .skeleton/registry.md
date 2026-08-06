@@ -10,7 +10,7 @@
 | ---------------------------- | ------------------------------------------------------------------------------ |
 | Package overview             | [README.md](../README.md)                                                      |
 | Agent cold-start             | [AGENTS.md](../AGENTS.md)                                                      |
-| Skill tiers                  | [tiers.md](../docs/tiers.md)                                                   |
+| Skill tiers & groups         | [tiers.md](../docs/tiers.md)                                                   |
 | GitHub ambient refs validate | [github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md) |
 | Evidence parity              | [evidence-parity.md](../docs/evidence-parity.md)                               |
 | Skill evolution              | [skill-evolution.md](../docs/skill-evolution.md)                               |

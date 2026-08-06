@@ -83,12 +83,7 @@ Ban phrases like “prior chat concluded…” or dumping coordinator synthesis 
 
 ## Cross-session vs in-session
 
-| Need                           | Skill / pack                                                            |
-| ------------------------------ | ----------------------------------------------------------------------- |
-| Next chat, minimal rip-out     | **handoff** · `Pack: pointers` or `fix-loop`                            |
-| Same session, member spawn     | **context pack** (this ref) + entry dispatch ref                        |
-| Slice fix-loop until cohesive  | **iterate** · slice envelope (in-session; not handoff unless user asks) |
-| Merge / PR after slice closure | **code-review** · surface adapter on resulting diff                     |
+Orchestrators (**subagents**, **iterate**, **handoff**) wire agent-to-agent work. Process skills describe what happens and call orchestrators when needed — see [tiers.md](../../docs/tiers.md).
 
 Fix-loop-only next session: prefer **handoff** `Pack: fix-loop` or consumer overlay — not `Pack: full`.
 

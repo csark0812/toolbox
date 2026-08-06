@@ -1,15 +1,17 @@
 ---
 name: second-opinion
-description: Review a written plan, PRD, or issue set via staged adversarial subagents — premises attack + completeness attack, then a related-context defender. Use when a plan artifact exists on disk and needs a freshness or completeness pass. Not for dialogue without a plan (crystallize, grill), iterative slice closure (iterate), or a single code-path hunch (probe).
+description: Multiple independent perspectives on a written plan, PRD, or issue set — premise stress, completeness axes, then defense with primary sources. Process skill; staged member runs → subagents. Not dialogue without a plan (crystallize, grill), slice cohesion loop (iterate), or a single hunch (probe).
 ---
 
 # Second opinion
 
-**Source of truth for** written plan review via staged adversarial debate.
+**Source of truth for** written plan review — what perspectives to apply and how to synthesize them.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-The artifact is a **plan** (or PRD / issue set) — run staged debate, not a Socratic explore session. Follow [references/second-opinion.md](references/second-opinion.md). Dispatch → [references/adversarial-debate.md](references/adversarial-debate.md) + [`subagents` adversarial.md](../subagents/references/adversarial.md) § Staged debate.
+**Process skill** — natural-language arc: outsider premise stress and completeness axes in parallel, then a defender with cited primary sources. **A2A wiring** → [`subagents`](../subagents/SKILL.md) ([adversarial-debate.md](references/adversarial-debate.md) + [adversarial.md](../subagents/references/adversarial.md) § Staged debate; dispatch refs pending consolidation).
+
+Follow [references/second-opinion.md](references/second-opinion.md). Not a Socratic explore session — artifact must be on disk.
 
 Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
 
