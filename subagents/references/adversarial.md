@@ -28,24 +28,7 @@ Spawn mechanics, Auto-first model routing, and synthesis gate → [`subagents` S
 
 ## Context pack
 
-```markdown
-Artifact:
-[diff | plan path | hunch target — the subject only]
-
-Requirements / acceptance (if any):
-[stated criteria — or "none"]
-
-Constraints:
-
-- Do not assume other members' conclusions.
-- Do not invent parent-chat conclusions.
-- Anchor every kill/promote/concede to an artifact locus (section, premise id, file:line, or criterion).
-- Return only your mandate; coordinator synthesizes.
-
-Output: [member-schema.md](member-schema.md) plus adversarial fields below.
-```
-
-Ban phrases like “prior chat concluded…” or dumping the coordinator's synthesis into wave-1 prompts.
+Shared token rules + generic envelope → [context-pack.md](context-pack.md). Use the **Adversarial pack** block there for wave prompts; append adversarial fields below to member output. Ban phrases → context-pack § Adversarial pack.
 
 ## Adversarial member fields
 
