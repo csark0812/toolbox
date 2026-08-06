@@ -5,11 +5,11 @@ description: Review a written plan, PRD, or issue set via staged adversarial sub
 
 # Second opinion
 
-**Source of truth for** written plan review via staged multi debate.
+**Source of truth for** written plan review via staged adversarial debate.
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
 
-The artifact is a **plan** (or PRD / issue set) — run staged debate, not a Socratic explore session. Follow [references/second-opinion.md](references/second-opinion.md). Dispatch → [references/adversarial-debate.md](references/adversarial-debate.md) + [`multi` adversarial.md](../multi/references/adversarial.md) § Staged debate.
+The artifact is a **plan** (or PRD / issue set) — run staged debate, not a Socratic explore session. Follow [references/second-opinion.md](references/second-opinion.md). Dispatch → [references/adversarial-debate.md](references/adversarial-debate.md) + [`subagents` adversarial.md](../subagents/references/adversarial.md) § Staged debate.
 
 Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
 

@@ -12,7 +12,7 @@ Single primary-first contract for every source adapter ([sources.md](sources.md)
 4. **Hard stop** — if anti-thrash triggers (same-hotspot trail or recoverable `Theme:` lines), set `Pass class:` to `closure-re-review` or justified `new-scope-review` per [anti-thrash.md](anti-thrash.md) § Hard stop. **Do not** call Task/Subagent or open council until that gate passes. `first-baseline` is forbidden while a trigger is active.
 5. **Primary review** — read diff + primary material; trace contracts, guards, async boundaries, introduced-only defects. Coordinator tools are the default review path. On `closure-re-review`, prefer same-invariant inventory over symptom hunting ([anti-thrash.md](anti-thrash.md) thrash signal).
 6. **Escalate?** — only per [escalation.md](escalation.md) (Matched policy), and only after steps 3–4. If no escalation, synthesize and write [output.md](output.md).
-7. **Escalated path** — `multi` specialists or council → primary validates every candidate → [synthesis.md](synthesis.md) → [output.md](output.md). Dispatch plan MUST include `Pass class:` + archaeology evidence from the hard stop.
+7. **Escalated path** — `subagents` specialists or council → primary validates every candidate → [synthesis.md](synthesis.md) → [output.md](output.md). Dispatch plan MUST include `Pass class:` + archaeology evidence from the hard stop.
 
 **Default:** step 6 ends with **primary only** — zero Task/Subagent members.
 

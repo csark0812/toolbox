@@ -2,7 +2,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Single-member Task recipe for each review pass. Spawn mechanics → [`multi`](../../multi/SKILL.md) non-negotiables. Model → `model=inherit-auto` (omit tool `model` under Auto parent).
+Single-member Task recipe for each review pass. Spawn mechanics → [`subagents`](../../subagents/SKILL.md) non-negotiables. Model → `model=inherit-auto` (omit tool `model` under Auto parent).
 
 ## When
 
@@ -67,4 +67,4 @@ Cohesion: attested-local | not-attested
 
 ## Context asymmetry
 
-Align with [`multi` adversarial context asymmetry](../../multi/references/adversarial.md): blind member receives slice materials only. Coordinator retains K-round ledger separately ([thrash-ledger.md](thrash-ledger.md)).
+Align with [`subagents` adversarial context asymmetry](../../subagents/references/adversarial.md): blind member receives slice materials only. Coordinator retains K-round ledger separately ([thrash-ledger.md](thrash-ledger.md)).

@@ -2,7 +2,7 @@
 
 **Source of truth for** skill tier assignment across the agent harness ecosystem.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
 Assign each skill to exactly one place. Update when adding skills.
 
@@ -12,7 +12,7 @@ Generic orchestration, planning, and dialogue — intended for any consumer proj
 
 | Slug                 | Notes                                                                             |
 | -------------------- | --------------------------------------------------------------------------------- |
-| multi                | Parallel subagent kernel                                                          |
+| subagents            | Subagent type, token-efficient splits, cheapest model routing                     |
 | code-review          | Primary-first review + fix-loop; council on escalation (customize roster)         |
 | crystallize          | Fuzzy idea → artifact                                                             |
 | grill                | Pressure-test design                                                              |
@@ -35,7 +35,7 @@ Skeleton and toolbox are complementary — init skeleton first, then install ski
 ```bash
 npm install -D @csark0812/skeleton
 npx skeleton init --skills
-npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion iterative-review diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterative-review diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
 ```
 
 Optional — install when you need explicit hunch→verdict routing (not in default bundle after 2026-07 evidence parity):

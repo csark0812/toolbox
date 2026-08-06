@@ -2,7 +2,7 @@
 
 **Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file — open the consumer planning SSOT instead.
 
-Multi-source collection from independent sources of truth. Uses [`multi`](../../../../multi/SKILL.md) kernel — [non-negotiables](../../../../multi/SKILL.md#non-negotiables), [task-prompt.md](../../../../multi/references/task-prompt.md), [member-schema.md](../../../../multi/references/member-schema.md).
+Multi-source collection from independent sources of truth. Uses [`subagents`](../../../../subagents/SKILL.md) kernel — [non-negotiables](../../../../subagents/SKILL.md#non-negotiables), [task-prompt.md](../../../../subagents/references/task-prompt.md), [member-schema.md](../../../../subagents/references/member-schema.md).
 
 Profile: `manual` or `repo` (web topics → `research` via [parallel-research.md](../../../../investigate/references/parallel-research.md)).
 
@@ -49,14 +49,14 @@ Why these members: independent sources; no cross-member dependencies
 Synthesis plan: merge fact lists; flag conflicts between sources
 ```
 
-Compose prompts per [task-prompt.md](../../../../multi/references/task-prompt.md).
+Compose prompts per [task-prompt.md](../../../../subagents/references/task-prompt.md).
 
 ## Synthesis
 
 1. Merge non-overlapping facts per source.
 2. Surface **conflicts** between sources (two SSOTs disagree).
 3. Preserve source attribution (path per fact).
-4. Output → [multi output-format.md](../../../../multi/references/output-format.md).
+4. Output → [subagents output-format.md](../../../../subagents/references/output-format.md).
 
 ## Handoff
 

@@ -1,10 +1,10 @@
 # Task Prompt Template
 
-Each member Task `prompt` is composed by the coordinator — subagents do not receive the full user thread or the `multi` skill.
+Each member Task `prompt` is composed by the coordinator — subagents do not receive the full user thread or the `subagents` skill.
 
 Review overlays → [code-review/references/task-prompt-review.md](../../code-review/references/task-prompt-review.md).
 
-**Model is not part of the prompt body.** Resolve `model` on the Task/Subagent call per [multi Model assignment](../SKILL.md#model-assignment): plan `model=inherit-auto` → omit the tool `model` argument; plan `model=<slug>` → pass that slug only when present in the host enum.
+**Model is not part of the prompt body.** Resolve `model` on the Task/Subagent call per [subagents Model assignment](../SKILL.md#model-assignment): plan `model=inherit-auto` → omit the tool `model` argument; plan `model=<slug>` → pass that slug only when present in the host enum.
 
 ## Generic template
 

@@ -1,6 +1,6 @@
 # Adversarial debate (second-opinion)
 
-Staged debate recipe for [`second-opinion`](../SKILL.md). Kernel SSOT → [`multi` adversarial.md](../../multi/references/adversarial.md) § Staged debate. Spawn mechanics → [`multi`](../../multi/SKILL.md) non-negotiables.
+Staged debate recipe for [`second-opinion`](../SKILL.md). Kernel SSOT → [`subagents` adversarial.md](../../subagents/references/adversarial.md) § Staged debate. Spawn mechanics → [`subagents`](../../subagents/SKILL.md) non-negotiables.
 
 Profile: `plan`. Goal: `adversarial-staged`.
 
@@ -25,7 +25,7 @@ Former Stance A (fresh read) and Stance B (completeness) are **Wave-1 member rol
 | Outsider premises | `generalPurpose` | `premises`     | Break confidence on implicit goals, constraints, premises — **anchor each kill to a plan section or premise id**                                                                                                           |
 | Axis readiness    | `generalPurpose` | `completeness` | Kill-mandate pass on [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) three axes (scope / gaps / sequencing) — **anchor each kill to a plan section or axis** |
 
-Under an Auto parent, share `inherit-auto` (omit tool `model`); diversify via stances. Distinct explicit models only under named parent (same tier), user cross-model request, or recorded overrides — [adversarial.md](../../multi/references/adversarial.md) § Model routing overlay.
+Under an Auto parent, share `inherit-auto` (omit tool `model`); diversify via stances. Distinct explicit models only under named parent (same tier), user cross-model request, or recorded overrides — [adversarial.md](../../subagents/references/adversarial.md) § Model routing overlay.
 
 ### Wave 2 (sequential, related context)
 
@@ -59,7 +59,7 @@ Synthesis plan: unified second-opinion.md sections; tag defended/conceded/conver
 
 ## Synthesis
 
-1. Merge per [multi synthesis gate](../../multi/SKILL.md#synthesis-gate) and [adversarial.md](../../multi/references/adversarial.md) § Coordinator synthesis — **preserve conflicts**.
+1. Merge per [subagents synthesis gate](../../subagents/SKILL.md#synthesis-gate) and [adversarial.md](../../subagents/references/adversarial.md) § Coordinator synthesis — **preserve conflicts**.
 2. **Coordinator** writes final output per [second-opinion.md](second-opinion.md).
 3. Hard gate: both waves completed — do not fabricate the debate.
 

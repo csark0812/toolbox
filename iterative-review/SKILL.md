@@ -36,7 +36,7 @@ Routes elsewhere → [routing.md](references/routing.md).
 | Pass output shape                 | [references/output.md](references/output.md)                                                                                            |
 | Sibling handoffs                  | [references/routing.md](references/routing.md)                                                                                          |
 | Thrash / matrix vocabulary (link) | [`code-review` fix-loop-ledger](../code-review/references/fix-loop-ledger.md) · [anti-thrash](../code-review/references/anti-thrash.md) |
-| Spawn kernel                      | [`multi`](../multi/SKILL.md)                                                                                                            |
+| Spawn kernel                      | [`subagents`](../subagents/SKILL.md)                                                                                                    |
 
 ## Workflow
 

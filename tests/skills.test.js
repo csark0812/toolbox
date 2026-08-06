@@ -81,23 +81,25 @@ describe('toolbox skill SSOT', () => {
     expect(body).not.toMatch(/POS-12/)
   })
 
-  it('multi model routing is Auto-first and does not default parallel Standard to composer-2.5-fast', () => {
-    const skill = readFileSync(join(root, 'multi/SKILL.md'), 'utf8')
-    const routing = readFileSync(join(root, 'multi/references/model-routing.md'), 'utf8')
+  it('subagents model routing is Auto-first and cheapest-good-enough', () => {
+    const skill = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
+    const routing = readFileSync(join(root, 'subagents/references/model-routing.md'), 'utf8')
+    const types = readFileSync(join(root, 'subagents/references/subagent-types.md'), 'utf8')
+    const splitting = readFileSync(join(root, 'subagents/references/task-splitting.md'), 'utf8')
     const research = readFileSync(join(root, 'investigate/references/parallel-research.md'), 'utf8')
     const planEvidence = readFileSync(
       join(root, 'second-opinion/references/parallel-plan-evidence.md'),
       'utf8',
     )
 
-    expect(existsSync(join(root, 'multi/references/model-routing.md'))).toBe(true)
+    expect(existsSync(join(root, 'subagents/references/model-routing.md'))).toBe(true)
     expect(skill).toMatch(/model-routing\.md/)
+    expect(skill).toMatch(/subagent-types\.md/)
+    expect(skill).toMatch(/task-splitting\.md/)
     expect(skill).toMatch(/cheapest good enough/i)
-    expect(skill).toMatch(/Anti-fast \(parallel\)/)
-    expect(skill).not.toMatch(/Standard → `composer-2\.5-fast`/)
-    expect(skill).not.toMatch(/Preferred slug\s+\|\s+`composer-2\.5-fast`/)
+    expect(skill).toMatch(/When-not-to-spawn/)
+    expect(skill).not.toMatch(/disable-model-invocation/)
 
-    expect(routing).toMatch(/inherit-auto/)
     expect(routing).toMatch(/Anti-fast \(parallel\)/)
     expect(routing).toMatch(/Example dispatches \(validation\)/)
     expect(routing).toMatch(/Auto reachable: no/)
@@ -107,13 +109,16 @@ describe('toolbox skill SSOT', () => {
     expect(research).not.toMatch(/model=composer-2\.5-fast/)
     expect(planEvidence).toMatch(/model=inherit-auto/)
     expect(planEvidence).not.toMatch(/model=composer-2\.5-fast/)
+
+    expect(types).toMatch(/explore/)
+    expect(splitting).toMatch(/Minimum viable context/)
   })
 
   it('Auto-parent model inheritance is a fail-closed pre-spawn invariant', () => {
-    const skill = readFileSync(join(root, 'multi/SKILL.md'), 'utf8')
-    const routing = readFileSync(join(root, 'multi/references/model-routing.md'), 'utf8')
-    const discovery = readFileSync(join(root, 'multi/references/agent-discovery.md'), 'utf8')
-    const taskPrompt = readFileSync(join(root, 'multi/references/task-prompt.md'), 'utf8')
+    const skill = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
+    const routing = readFileSync(join(root, 'subagents/references/model-routing.md'), 'utf8')
+    const discovery = readFileSync(join(root, 'subagents/references/agent-discovery.md'), 'utf8')
+    const taskPrompt = readFileSync(join(root, 'subagents/references/task-prompt.md'), 'utf8')
     const council = readFileSync(join(root, 'code-review/references/council-dispatch.md'), 'utf8')
     const perspectiveInvestigate = readFileSync(
       join(root, 'investigate/references/parallel-perspective.md'),
@@ -123,22 +128,15 @@ describe('toolbox skill SSOT', () => {
       join(root, 'second-opinion/references/adversarial-debate.md'),
       'utf8',
     )
-    const adversarialKernel = readFileSync(join(root, 'multi/references/adversarial.md'), 'utf8')
+    const adversarialKernel = readFileSync(
+      join(root, 'subagents/references/adversarial.md'),
+      'utf8',
+    )
     const broad = readFileSync(join(root, 'investigate/references/parallel-broad.md'), 'utf8')
 
-    // Canonical invariant stays in the kernel; full gate lives in model-routing.
-    expect(skill).toMatch(/Parent model = Auto.*no user model override/s)
+    // Canonical invariant stays in subagents + model-routing.
     expect(skill).toMatch(/model-routing\.md/)
-    expect(skill).toMatch(/Routing precedence \(canonical order\)/)
-    expect(skill).toMatch(/Pre-spawn model-routing gate/)
-    expect(skill).toMatch(/Fail closed \(do not spawn\)/)
-    expect(skill).toMatch(/Plan vs tool syntax/)
-    expect(skill).toMatch(/User model overrides/)
-    expect(skill).toMatch(/model=\[inherit-auto \| slug\]/)
-    expect(skill).toMatch(/Explicit routing \(named parent only\)/)
-    expect(skill).toMatch(/Adversarial/)
-    expect(skill).toMatch(/adversarial-staged/)
-    expect(skill).toMatch(/dispatch-plan sentinel only/)
+    expect(skill).toMatch(/Pre-spawn gate/)
 
     expect(routing).toMatch(/Routing precedence \(canonical order\)/)
     expect(routing).toMatch(/Pre-spawn model-routing gate/)
@@ -187,6 +185,7 @@ describe('toolbox skill SSOT', () => {
     expect(adversarialDebate).toMatch(/stance=defend/)
     expect(adversarialKernel).toMatch(/Staged debate/)
     expect(adversarialKernel).toMatch(/Context asymmetry/)
+    expect(adversarialKernel).toMatch(/iterative-review/)
     expect(broad).toMatch(/model=\[inherit-auto \| slug\]/)
     expect(broad).not.toMatch(/model=\[cheapest\]/)
     expect(broad).toMatch(/Parent model: \[Auto \| <named model>\]/)
@@ -205,7 +204,7 @@ describe('toolbox skill SSOT', () => {
     const synthesis = readFileSync(join(root, 'code-review/references/synthesis.md'), 'utf8')
     const review = readFileSync(join(root, 'code-review/references/review.md'), 'utf8')
     const escalation = readFileSync(join(root, 'code-review/references/escalation.md'), 'utf8')
-    const multi = readFileSync(join(root, 'multi/SKILL.md'), 'utf8')
+    const multi = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
 
     expect(skill).toMatch(/Primary-first/)
     expect(skill).toMatch(/no Task members/)
@@ -227,7 +226,7 @@ describe('toolbox skill SSOT', () => {
     expect(council).toMatch(/without.*member Tasks/)
     expect(council).toMatch(/entry-skill carve-out/)
     expect(council).toMatch(/do not.*re-run Fit check/i)
-    expect(council).not.toMatch(/run \[`multi` Fit check\]/)
+    expect(council).not.toMatch(/run \[`subagents` when-not-to-spawn\]/)
 
     expect(synthesis).toMatch(/Primary-only/)
     expect(synthesis).toMatch(/Escalated hard gate/)
@@ -246,7 +245,7 @@ describe('toolbox skill SSOT', () => {
     const pkg = readFileSync(join(root, 'package.json'), 'utf8')
     expect(sync).toMatch(/from ['"]\.\.\/src\/expected-skills\.ts['"]/)
     expect(sync).toMatch(/EXPECTED_SKILLS/)
-    expect(sync).not.toMatch(/const SKILL_SLUGS = \[\s*'multi'/)
+    expect(sync).not.toMatch(/const SKILL_SLUGS = \[\s*'subagents'/)
     expect(pkg).toMatch(/sync:skills": "node --experimental-strip-types/)
   })
 
@@ -333,8 +332,8 @@ describe('toolbox skill SSOT', () => {
       'utf8',
     )
     const exitGate = readFileSync(join(root, 'iterative-review/references/exit-gate.md'), 'utf8')
-    const multi = readFileSync(join(root, 'multi/SKILL.md'), 'utf8')
-    const adversarial = readFileSync(join(root, 'multi/references/adversarial.md'), 'utf8')
+    const multi = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
+    const adversarial = readFileSync(join(root, 'subagents/references/adversarial.md'), 'utf8')
 
     expect(skill).toMatch(/iterative-review/)
     expect(skill).toMatch(/Closure: ready/)
@@ -354,7 +353,7 @@ describe('toolbox skill SSOT', () => {
     expect(exitGate).toMatch(/Clean streak/)
 
     expect(multi).toMatch(/iterative-review/)
-    expect(adversarial).toMatch(/iterative-review/)
-    expect(adversarial).toMatch(/blind-reviewer-dispatch/)
+    expect(multi).toMatch(/blind-reviewer-dispatch/)
+    expect(adversarial).not.toMatch(/blind-reviewer-dispatch/)
   })
 })

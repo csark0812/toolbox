@@ -1,10 +1,10 @@
 # Council dispatch (escalation only)
 
-Parallel council when [escalation.md](escalation.md) places the run on **Targeted specialists** or **Council** — not the default primary path. Spawn mechanics → [`multi`](../../multi/SKILL.md) non-negotiables. Procedure default → [review.md](review.md).
+Parallel council when [escalation.md](escalation.md) places the run on **Targeted specialists** or **Council** — not the default primary path. Spawn mechanics → [`subagents`](../../subagents/SKILL.md) non-negotiables. Procedure default → [review.md](review.md).
 
 ## Hard gate (escalated runs only)
 
-1. Read [`multi` Non-negotiables](../../multi/SKILL.md#non-negotiables). Honor the [`multi` entry-skill carve-out](../../multi/SKILL.md#fit-check) — escalation is already decided; **do not** re-run Fit check to skip spawns.
+1. Read [`subagents` Non-negotiables](../../subagents/SKILL.md#non-negotiables). Honor the [`subagents` entry-skill carve-out](../../subagents/SKILL.md#when-not-to-spawn) — escalation is already decided; **do not** re-run Fit check to skip spawns.
 2. Select members per [agent-selection.md](agent-selection.md); issue **one Task/Subagent call per selected member**.
 3. Only after those calls complete → [synthesis.md](synthesis.md) → [output.md](output.md).
 
@@ -18,7 +18,7 @@ Parallel council when [escalation.md](escalation.md) places the run on **Targete
 
 1. **Inputs** — source adapter id, surface band, escalation reason, diff, filing mode, fix-loop state ([anti-thrash.md](anti-thrash.md) when applicable).
 2. **Select agents** — [agent-selection.md](agent-selection.md), profile `review`, depth for this escalated run only.
-3. **Dispatch plan** — per [multi workflow](../../multi/SKILL.md#workflow) plus:
+3. **Dispatch plan** — per [subagents workflow](../../subagents/SKILL.md#workflow) plus:
 
 ```markdown
 Task: Code review — [source adapter] · [surface band] · escalated
@@ -44,7 +44,7 @@ Pass 2+ must include loop state. `closure-re-review` without prior themes / just
    4. Contextual ledger overlay when prior Action findings exist
    5. Consumer overlays when injected on skill read
 
-5. **Pre-spawn model-routing gate** — [multi Pre-spawn model-routing gate](../../multi/references/model-routing.md#pre-spawn-model-routing-gate). Dispatch plans use `Parent model: [Auto | <named model>]` and `model=[inherit-auto | slug]`. `inherit-auto` means **omit** the Task/Subagent `model` argument. Council dispatch does not redefine that gate.
+5. **Pre-spawn model-routing gate** — [subagents pre-spawn model-routing gate](../../subagents/references/model-routing.md#pre-spawn-model-routing-gate). Dispatch plans use `Parent model: [Auto | <named model>]` and `model=[inherit-auto | slug]`. `inherit-auto` means **omit** the Task/Subagent `model` argument. Council dispatch does not redefine that gate.
 6. **Spawn** — one Task per SELECTED member in parallel.
 7. **Synthesize** — [synthesis.md](synthesis.md) → [output.md](output.md). Primary validates every specialist finding before filing.
 

@@ -2,7 +2,7 @@
 
 **Source of truth for** team Cursor/Claude agent skills.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
 Public SSOT for reusable Cursor/Claude agent skills.
 
@@ -29,7 +29,7 @@ npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex
 npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code codex --copy -y
 
 # Core dialogue/build set (subset) — space-separated skill names (not commas)
-npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion iterative-review investigate diagnose tdd prototype domain-model handoff writing-great-skills --agent cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterative-review investigate diagnose tdd prototype domain-model handoff writing-great-skills --agent cursor claude-code codex --copy -y
 
 # Update after push
 npx skills update -g   # global
@@ -50,7 +50,7 @@ npm install -D @csark0812/skeleton
 npx skeleton init --skills
 
 # 2. Team skills (global or project-scoped)
-npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion iterative-review investigate diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterative-review investigate diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
 ```
 
 After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton audit self` to verify.
@@ -78,7 +78,7 @@ Canonical recipes live under `.skeleton/references/planning/soft-default/` and a
 
 | Slug                 | Purpose                                          |
 | -------------------- | ------------------------------------------------ |
-| multi                | Parallel subagent orchestration kernel           |
+| subagents            | Subagent dispatch — type, splits, cheapest model |
 | code-review          | Primary-first code review; council on escalation |
 | crystallize          | Fuzzy idea → shaped intent                       |
 | grill                | Pressure-test design before implementation       |
@@ -145,4 +145,4 @@ Toolbox owns generic skill-contract behavior (`code-review`, `grill`, `crystalli
 
 **Validation honesty:** path-scoped `npm run validate:changed -- <skill-path>` barely checks skill bodies — skills suite rules are global. Rely on `npm test` / CI for skill edits. Hub docs (`README.md`, `docs/*`) are fine under `validate:changed`.
 
-Inter-toolbox links use relative paths (`../multi/SKILL.md`). Project-local skills must not use `/SKILL.md` links from toolbox — see [docs/tiers.md](docs/tiers.md).
+Inter-toolbox links use relative paths (`../subagents/SKILL.md`). Project-local skills must not use `/SKILL.md` links from toolbox — see [docs/tiers.md](docs/tiers.md).

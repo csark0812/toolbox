@@ -27,7 +27,7 @@ pre-commit install
 
 ## Layout
 
-- Flat skills: `<slug>/SKILL.md` (e.g. `multi/SKILL.md`)
+- Flat skills: `<slug>/SKILL.md` (e.g. `subagents/SKILL.md`)
 - Shared module: `src/expected-skills.ts` (canonical slug list; `npm run typecheck`)
 - Tests: `tests/`
 - Agent conformance suites: `agent-suites/` (`npm run agent:test`)

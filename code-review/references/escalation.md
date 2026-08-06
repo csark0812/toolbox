@@ -2,14 +2,14 @@
 
 Primary-first by default. Council machinery is **opt-in / justified**, not automatic.
 
-**Fit check timing:** [`multi` Fit check](../../multi/SKILL.md#fit-check) applies only when deciding **whether** to leave primary (unresolved domain after inspection). User asks for a named lens / `council` / `multi-agent` / `exhaustive council` already authorize escalation — do not re-run Fit check to waive spawn. Once this skill has placed the run on specialists or council, the [`multi` entry-skill carve-out](../../multi/SKILL.md#fit-check) applies: spawn per budget; do not re-litigate “one agent suffices.”
+**Fit check timing:** [`subagents` when-not-to-spawn](../../subagents/SKILL.md#when-not-to-spawn) applies only when deciding **whether** to leave primary (unresolved domain after inspection). User asks for a named lens / `council` / `multi-agent` / `exhaustive council` already authorize escalation — do not re-run when-not-to-spawn to waive spawn. Once this skill has placed the run on specialists or council, the [`subagents` entry-skill carve-out](../../subagents/SKILL.md#entry-skill-carve-out) applies: spawn per budget; do not re-litigate “one agent suffices.”
 
 ## Rungs
 
 | Rung                     | When                                                                                                                   | Behavior                                                                                         |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
 | **Primary**              | Default for Focused/Standard; first pass on Broad                                                                      | Coordinator reviews with tools; emit `Review · …` without Task members                           |
-| **Targeted specialists** | User asks for a named lens **or** primary logs unresolved domain after direct inspection                               | `multi` + carve-out; cap **3** matched specialists; primary validates before filing              |
+| **Targeted specialists** | User asks for a named lens **or** primary logs unresolved domain after direct inspection                               | `subagents` + carve-out; cap **3** matched specialists; primary validates before filing          |
 | **Council**              | User says `council` / `multi-agent` / `exhaustive council`; or multiple unresolved cross-cutting domains after primary | [council-dispatch.md](council-dispatch.md) + [synthesis.md](synthesis.md); carve-out (no re-Fit) |
 
 **Matched policy:** path/keyword match may select **who** to spawn, never **whether** to spawn. Broad surface may _consider_ specialists after primary deep pass; **never** spawn from size alone.

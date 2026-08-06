@@ -38,4 +38,4 @@ Wave-1 attackers see the artifact only; wave-2 defender sees cited primary sourc
 
 **Confidence:** Moderate as process hygiene; not a guarantee of correctness.
 
-- [`multi` adversarial.md](../../multi/references/adversarial.md) — claim anchoring and kill mandates operationalize drift control.
+- [`subagents` adversarial.md](../../subagents/references/adversarial.md) — claim anchoring and kill mandates operationalize drift control.

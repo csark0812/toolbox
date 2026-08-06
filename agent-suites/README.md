@@ -35,7 +35,7 @@ Consumer repos own product integration outcomes (app paths, private docs, `valid
 Toolbox owns generic skill-contract behavior:
 
 - `code-review`: source adapters, surface-size bands, primary-first default with escalation on demand, merge-blocker default filing, anti-thrash / contextual re-review convergence, and no-commit review behavior.
-- `multi`: Fit check — name single-pass rival before `N ≥ 2`; skip when independence fails.
+- `subagents`: Fit check — name single-pass rival before `N ≥ 2`; skip when independence fails.
 - `second-opinion`: staged debate with claim anchoring; unanchored kills tagged `drift`.
 - `iterative-review`: blind pass protocol markers (`Pass: blind`, `Cohesion: attested-local`); thrash reopen without sibling mint.
 - `investigate`: discriminating kill tests; leave dead patches after 2–3 no-signal reads.

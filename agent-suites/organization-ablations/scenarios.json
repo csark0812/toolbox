@@ -26,7 +26,7 @@
       "seedPatch": "agent-suites/code-review/fixtures/seeds/auth-pr.patch",
       "replayTrace": "agent-suites/organization-ablations/fixtures/replays/review-council-arm.json",
       "rubric": {
-        "must": ["council", "multi"],
+        "must": ["council", "subagents"],
         "mustInvokeSkill": ["code-review"],
         "judge": [
           "The agent escalated to council or multi specialists as requested after primary framing"
@@ -35,11 +35,11 @@
     },
     {
       "name": "ablation multi: fit-check skip arm",
-      "prompt": "Map how auth works in agent-suites/fixtures/sample-app. Use multi if parallel helps.\n\nRead `.claude/skills/multi/SKILL.md` first and apply Fit check.",
+      "prompt": "Map how auth works in agent-suites/fixtures/sample-app. Use subagents if parallel helps.\n\nRead `.claude/skills/subagents/SKILL.md` first and apply Fit check.",
       "replayTrace": "agent-suites/organization-ablations/fixtures/replays/multi-fit-skip-arm.json",
       "rubric": {
         "must": ["single-pass", "skip"],
-        "mustInvokeSkill": ["multi"],
+        "mustInvokeSkill": ["subagents"],
         "mustNot": ["Task(", "spawn 2"],
         "judge": [
           "The agent named a single-pass rival and skipped parallel spawn for this sequential repo map"

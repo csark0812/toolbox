@@ -41,7 +41,7 @@ Skip for non-code plans (process docs, team workflows, pure cleanup with obvious
 - **Scope is narrow** — single-component change; minimal exploration.
 - **Repo exploration already in context** — exploration was just run in this session.
 
-For code plans: follow [parallel-explore.md](parallel-explore.md) via **multi** (or spawn parallel **explore** subagents per affected domain). State what you're exploring before launching.
+For code plans: follow [parallel-explore.md](parallel-explore.md) via **subagents** (or spawn parallel **explore** subagents per affected domain). State what you're exploring before launching.
 
 Goal: enough context to ask grounded questions and detect blast radius early. Do not go deep — surface-level structure is enough.
 

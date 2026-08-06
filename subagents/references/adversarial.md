@@ -1,10 +1,10 @@
 # Adversarial dispatch
 
-**Source of truth for** adversarial parallel and staged-debate recipes on the [`multi`](../SKILL.md) kernel.
+**Source of truth for** adversarial parallel and staged-debate recipes on [`subagents`](../SKILL.md).
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Spawn mechanics, Auto-first model routing, and synthesis gate → [`multi` SKILL](../SKILL.md). Member shape → [member-schema.md](member-schema.md). Entry skills own domain overlays and final report shape.
+Spawn mechanics, Auto-first model routing, and synthesis gate → [`subagents` SKILL](../SKILL.md). Member shape → [member-schema.md](member-schema.md). Entry skills own domain overlays and final report shape.
 
 ## Shapes
 
@@ -19,7 +19,7 @@ Spawn mechanics, Auto-first model routing, and synthesis gate → [`multi` SKILL
 
 ## Non-negotiables
 
-1. **Real Task spawns** — one host Task/Subagent per planned member per wave ([multi non-negotiables](../SKILL.md#non-negotiables)).
+1. **Real Task spawns** — one host Task/Subagent per planned member per wave ([subagents Non-negotiables](../SKILL.md#non-negotiables)).
 2. **Context asymmetry** — member prompts exclude parent-chat reasoning, builder justifications, and other members' raw transcripts (except wave-2 briefs, structured by the coordinator).
 3. **Kill mandates** — do not ask for generic “critique.” Mandate breaking confidence or killing weak claims.
 4. **One cycle** — one parallel round or one debate cycle (wave1→wave2→synth) unless the user asks for another.
@@ -71,7 +71,7 @@ promote | kill | concede
 
 ## Model routing overlay
 
-Follow [multi Model assignment](../SKILL.md#model-assignment) and [model-routing.md](model-routing.md).
+Follow [subagents Model assignment](../SKILL.md#model-assignment) and [model-routing.md](model-routing.md).
 
 | Situation                                                                        | Member `model`                                                                                                                  |
 | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
@@ -110,7 +110,7 @@ Code-review: keep lens selection; every member gets a kill mandate for their len
 3. Preserve conflicts — do not flatten.
 4. Divergent high-severity claims need stronger primary evidence or demotion (entry skill filing rules).
 5. Do not treat unanimous same-family agreement as proof.
-6. High-stakes Action contradictions → multi tiebreaker or user.
+6. High-stakes Action contradictions → subagents tiebreaker or user.
 
 ## B. Staged debate
 
@@ -120,7 +120,7 @@ Code-review: keep lens selection; every member gets a kill mandate for their len
 - Elsewhere only when an entry skill cites this shape.
 - Not a substitute for dialogue (`crystallize` / `grill`).
 
-**Iterative-review blind pass** (single member, not staged debate): **Always** spawn one memoryless blind reviewer per review pass when **iterative-review** runs. Fit check waived. Recipe → [`iterative-review` blind-reviewer-dispatch.md](../../iterative-review/references/blind-reviewer-dispatch.md).
+Single-member entry-skill spawns (e.g. **iterative-review** blind pass) → [SKILL.md § Entry-skill carve-out](../SKILL.md#entry-skill-carve-out), not this staged-debate section.
 
 ### Wave 1 — parallel attackers (fresh context)
 

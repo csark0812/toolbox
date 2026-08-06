@@ -2,7 +2,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-End-to-end loop for bounded slice closure. Kernel spawn invariants → [`multi`](../../multi/SKILL.md).
+End-to-end loop for bounded slice closure. Spawn invariants → [`subagents`](../../subagents/SKILL.md).
 
 ## Phases
 
@@ -22,7 +22,7 @@ Before any pass synthesis:
 
 **Hard gate:** Do not emit pass findings, `Cohesion: attested-local`, or `Closure: ready` without a completed Task run for **this** pass. Coordinator-only reading of the slice is a **violation** — not an optimization.
 
-Entry-skill carve-out applies: Fit check does not apply ([`multi` SKILL.md](../../multi/SKILL.md) § Fit check).
+Entry-skill carve-out applies: when-not-to-spawn waived ([`subagents` SKILL.md](../../subagents/SKILL.md) § When-not-to-spawn).
 
 ### 3 — Synthesize pass
 
@@ -56,4 +56,4 @@ Round = one blind Task + coordinator synthesis. Ledger stores last **K=3** round
 
 ## Honesty scope
 
-Contract replay suites verify **transcript protocol markers** only — not Task spawn proof or prompt isolation. Blindness is enforced by dispatch rules and forbidden inputs, aligned with [`multi` adversarial context asymmetry](../../multi/references/adversarial.md).
+Contract replay suites verify **transcript protocol markers** only — not Task spawn proof or prompt isolation. Blindness is enforced by dispatch rules and forbidden inputs, aligned with [`subagents` adversarial context asymmetry](../../subagents/references/adversarial.md).
