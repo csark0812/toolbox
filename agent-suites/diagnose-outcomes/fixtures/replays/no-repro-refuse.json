@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Using **diagnose**.\n\n**Entry gate:** no on-demand failing signal — no test output, CI log, or repro steps. I will **not hypothesize** without a **tight** loop.\n\nRoute to get a repro or **investigate** if the locus is unclear."
+      "content": "Using **diagnose**.\n\n**Entry gate:** no on-demand failing signal — no test output, CI log, or repro steps. I will **not hypothesize** without a **tight** loop.\n\nRoute to get a repro or explore + verdict.md if the locus is unclear."
     }
   ],
   "toolCalls": [],

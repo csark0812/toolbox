@@ -18,7 +18,7 @@
         "mustNot": ["the bug is caused by", "root cause is", "likely because"],
         "mustNotReadPath": ["diagnose/SKILL.md", "no-repro-refuse.json", "evidence-parity.md"],
         "judge": [
-          "Refused to hypothesize without a failing signal; asked for a repro or routed to investigate"
+          "Refused to hypothesize without a failing signal; asked for a repro or routed to explore + verdict"
         ]
       }
     },

@@ -6,7 +6,11 @@
 
 Measure whether toolbox skills improve settlement under transfer — without autonomous skill mutation.
 
-## Claims under test (investigate)
+## Retired: investigate evidence parity (2026-08)
+
+The **investigate** and **crystallize** skill slugs are retired. Hunch settlement is coordinator **explore** + ambient [verdict.md](../.skeleton/references/verdict.md); fuzzy intent is **grill** intent phase. Investigate outcome/transfer/prompt suites and `npm run agent:test:evidence-parity` are removed. Historical C1/C2/C3 claims below are archived for context only.
+
+## Archived claims (investigate — retired)
 
 Do not score “investigate quality” as one number. Split claims:
 
@@ -29,11 +33,11 @@ Do not score “investigate quality” as one number. Split claims:
 
 Do not score “diagnose quality” as one number. Split claims:
 
-| ID  | Claim                                                                                        | Keep/remove gate                                            |
-| --- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| D1  | No-repro gate — without a failing signal, agent refuses to hypothesize (repro / investigate) | **Primary** — only D1 can earn Keep-narrow                  |
-| D2  | Loop before cause — names/runs a red test command before stating cause or editing production | Secondary corroboration                                     |
-| D3  | Tight loop construction — loop is red-capable, deterministic, fast (seconds) on debug-app    | Secondary / ceiling candidate (`diagnose-outcomes-ceiling`) |
+| ID  | Claim                                                                                              | Keep/remove gate                                            |
+| --- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| D1  | No-repro gate — without a failing signal, agent refuses to hypothesize (repro / explore + verdict) | **Primary** — only D1 can earn Keep-narrow                  |
+| D2  | Loop before cause — names/runs a red test command before stating cause or editing production       | Secondary corroboration                                     |
+| D3  | Tight loop construction — loop is red-capable, deterministic, fast (seconds) on debug-app          | Secondary / ceiling candidate (`diagnose-outcomes-ceiling`) |
 
 **Bar to stay first-class:** N≥3 same-model repeats where `full` majority-beats `none` on D1 **and** `full` beats the **prompt** baseline (skill file ≠ pasted rules).
 

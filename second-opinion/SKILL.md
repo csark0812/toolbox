@@ -1,6 +1,6 @@
 ---
 name: second-opinion
-description: Multiple independent perspectives on a written plan — premise stress, completeness axes, then defense with primary sources. Process skill; member runs → subagents second-opinion-dispatch. Not dialogue without a plan (crystallize, grill), slice cohesion (iterate), or a single hunch (investigate).
+description: Multiple independent perspectives on a written plan — premise stress, completeness axes, then defense with primary sources. Process skill; member runs → subagents second-opinion-dispatch. Not dialogue without a plan (grill), slice cohesion (iterate), or a single hunch (verdict.md + explore).
 ---
 
 # Second opinion

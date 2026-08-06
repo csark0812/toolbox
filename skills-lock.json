@@ -7,12 +7,6 @@
       "skillPath": "code-review/SKILL.md",
       "computedHash": "7ed59859e27013cfecc93728a3d0c298c922fea8e17da9275e6741e30a95af70"
     },
-    "crystallize": {
-      "source": "csark0812/toolbox",
-      "sourceType": "github",
-      "skillPath": "crystallize/SKILL.md",
-      "computedHash": "5c9990f6d96afae74b9623c04df3018b9fd7cab34b0f51d947c75928b6f22c6c"
-    },
     "diagnose": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
@@ -29,19 +23,13 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "grill/SKILL.md",
-      "computedHash": "01d253ac54eb163db206485c3eff9ce823b24d59bfbdaa2ec5c07ee7bcad011b"
+      "computedHash": "0000000000000000000000000000000000000000000000000000000000000000"
     },
     "handoff": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "handoff/SKILL.md",
       "computedHash": "5d30b2d8074852ca9ea323dab45413102e5d406d51b8d266caaf693a4d5fc08a"
-    },
-    "investigate": {
-      "source": "csark0812/toolbox",
-      "sourceType": "github",
-      "skillPath": "investigate/SKILL.md",
-      "computedHash": "5eae46913aecdeeaa3fa68ac47e366e5a935acd0b6553a9abca7cbb894976089"
     },
     "iterate": {
       "source": "csark0812/toolbox",
@@ -53,7 +41,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "subagents/SKILL.md",
-      "computedHash": "fcfe47d4f3afa3117ae0ceeb0d18a021f2b3e7a63627206739788a4b6d1b0359"
+      "computedHash": "0000000000000000000000000000000000000000000000000000000000000000"
     },
     "prototype": {
       "source": "csark0812/toolbox",
@@ -65,13 +53,13 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "second-opinion/SKILL.md",
-      "computedHash": "a9a996c8895f44120aaa310265f63b10e06cd58b4c102e05e82e1f0c8059dfe4"
+      "computedHash": "0000000000000000000000000000000000000000000000000000000000000000"
     },
     "tdd": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "tdd/SKILL.md",
-      "computedHash": "20d7c1595fb8bcc9f2242a36f6db4e40f16f6d0e7c517287f888da71e045bb80"
+      "computedHash": "0000000000000000000000000000000000000000000000000000000000000000"
     },
     "writing-great-skills": {
       "source": "csark0812/toolbox",

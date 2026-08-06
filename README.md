@@ -21,7 +21,7 @@ Install destinations (skills CLI):
 | Codex       | `.agents/skills/` | `~/.codex/skills/`  |
 
 ```bash
-# All team skills (13 slugs), global — Cursor, Claude Code, and Codex
+# All team skills (11 slugs), global — Cursor, Claude Code, and Codex
 npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex -y
 
 # All team skills, project-scoped (commit under .agents/skills/ and/or .claude/skills/)
@@ -29,7 +29,7 @@ npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex
 npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code codex --copy -y
 
 # Core dialogue/build set (subset) — space-separated skill names (not commas)
-npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterate investigate diagnose tdd prototype domain-model handoff writing-great-skills --agent cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill subagents code-review grill second-opinion iterate diagnose tdd prototype domain-model handoff writing-great-skills --agent cursor claude-code codex --copy -y
 
 # Update after push
 npx skills update -g   # global
@@ -50,7 +50,7 @@ npm install -D @csark0812/skeleton
 npx skeleton init --skills
 
 # 2. Team skills (global or project-scoped)
-npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterate investigate diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill subagents code-review grill second-opinion iterate diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
 ```
 
 After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton audit self` to verify.
@@ -76,21 +76,19 @@ Canonical recipes live under `.skeleton/references/planning/soft-default/` and a
 
 ## Skills
 
-| Group        | Slug                 | Purpose                                                          |
-| ------------ | -------------------- | ---------------------------------------------------------------- |
-| Orchestrator | subagents            | A2A spawn — type, splits, context-pack, cheapest model           |
-| Orchestrator | iterate              | A2A pass loop — blind review until a bounded slice coheres       |
-| Orchestrator | handoff              | A2A cross-session — channel + pack + goal; pointers not bodies   |
-| Process      | code-review          | Review any surface + lens; merge-blockers with evidence          |
-| Process      | second-opinion       | Multiple perspectives on a written plan                          |
-| Process      | grill                | Pressure-test design before implementation                       |
-| Process      | crystallize          | Fuzzy idea → shaped intent                                       |
-| Process      | investigate          | Confirm/refute a hunch — verdict, not fix (**optional** install) |
-| Process      | diagnose             | Hard-bug loop — repro, tighten, fix, lock                        |
-| Process      | tdd                  | Test-first build at agreed public seams                          |
-| Process      | prototype            | Throwaway artifact for one design question                       |
-| Process      | domain-model         | Persist glossary + ADRs when decisions are ready                 |
-| Meta         | writing-great-skills | Skill-authoring vocabulary and predictability                    |
+| Group        | Slug                 | Purpose                                                        |
+| ------------ | -------------------- | -------------------------------------------------------------- |
+| Orchestrator | subagents            | A2A spawn — type, splits, context-pack, cheapest model         |
+| Orchestrator | iterate              | A2A pass loop — blind review until a bounded slice coheres     |
+| Orchestrator | handoff              | A2A cross-session — channel + pack + goal; pointers not bodies |
+| Process      | code-review          | Review any surface + lens; merge-blockers with evidence        |
+| Process      | second-opinion       | Multiple perspectives on a written plan                        |
+| Process      | grill                | Shape intent and pressure-test design before implementation    |
+| Process      | diagnose             | Hard-bug loop — repro, tighten, fix, lock                      |
+| Process      | tdd                  | Test-first build at agreed public seams                        |
+| Process      | prototype            | Throwaway artifact for one design question                     |
+| Process      | domain-model         | Persist glossary + ADRs when decisions are ready               |
+| Meta         | writing-great-skills | Skill-authoring vocabulary and predictability                  |
 
 Orchestrators define **agent-to-agent** wiring; process skills describe **what happens** and point at orchestrators when another agent or pass is needed. See [docs/tiers.md](docs/tiers.md).
 
@@ -134,7 +132,7 @@ npm run agent:test:live
 
 For verbose failures and kept staging traces, use `npm run agent:test:live:debug`. Debug output defaults to `$TMPDIR/agent-spec` (outside the repo). Avoid `--debug-dir ./…` inside the repo unless you want artifacts in the working tree — `@post-print/agent-test` ≥ 0.1.18 excludes harness staging from worktree leak checks, but `$TMPDIR` keeps `git status` clean. See [`agent-suites/README.md`](agent-suites/README.md).
 
-Toolbox owns generic skill-contract behavior (`code-review`, `grill`, `crystallize`). Consumer repos keep product-specific integration suites that mention local app paths, private docs, custom validation commands, or repo-specific overlays.
+Toolbox owns generic skill-contract behavior (`code-review`, `grill`). Consumer repos keep product-specific integration suites that mention local app paths, private docs, custom validation commands, or repo-specific overlays.
 
 ## Adding a skill
 

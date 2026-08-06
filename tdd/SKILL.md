@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Test-first build at agreed public seams — one red-green slice at a time. Process skill. Not hard-bug loop without seam (diagnose), throwaway spike (prototype), or hunch-only (investigate).
+description: Test-first build at agreed public seams — one red-green slice at a time. Process skill. Not hard-bug loop without seam (diagnose), throwaway spike (prototype), or hunch-only (verdict.md + explore).
 ---
 
 # Test-Driven Development
@@ -28,7 +28,7 @@ Read [research-basis.md](references/research-basis.md) only when calibrating sea
 2. Failing test → red → minimal green → stop.
 3. Report per [output.md](references/output.md).
 
-Unclear seam → **grill** or **investigate** first. After **diagnose**, lock regression here.
+Unclear seam → **grill** or explore + verdict.md first. After **diagnose**, lock regression here.
 
 ## Consumer bindings
 

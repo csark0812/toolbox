@@ -28,7 +28,7 @@ Which host **`subagent_type`** to pass on Task/Subagent calls. Pair with [task-s
 | **handoff** (model-invoked) | `generalPurpose` · `stance=compact`                 | One member; writes `_agent/handoffs/` artifact — not user `/handoff` prompt-only              |
 | **second-opinion**          | `generalPurpose` · premises / completeness / defend | [second-opinion-dispatch.md](second-opinion-dispatch.md)                                      |
 | **code-review** (parallel)  | `explore` / `generalPurpose`                        | [review-council-dispatch.md](review-council-dispatch.md); each member loads code-review skill |
-| **investigate** (optional)  | `explore`, `docs-researcher`, `generalPurpose`      | [investigate-dispatch.md](investigate-dispatch.md)                                            |
+| **explore escalation**      | `explore`, `docs-researcher`, `generalPurpose`      | [explore-escalation-dispatch.md](explore-escalation-dispatch.md)                              |
 
 ## Council agents (consumer)
 

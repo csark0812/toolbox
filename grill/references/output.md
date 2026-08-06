@@ -19,5 +19,5 @@ When **When to stop** criteria met — not before.
 
 ## Next step
 
-- implement → build.md · review → code-review · persist → domain-model · plan review → second-opinion · hunch → investigate · fuzzy → crystallize
+- implement → build.md · review → code-review · persist → domain-model · plan review → second-opinion · hunch → explore + verdict.md · fuzzy → intent-phase.md
 ```

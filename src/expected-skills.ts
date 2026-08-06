@@ -2,10 +2,8 @@
 export const EXPECTED_SKILLS = [
   'subagents',
   'code-review',
-  'crystallize',
   'grill',
   'second-opinion',
-  'investigate',
   'iterate',
   'diagnose',
   'tdd',

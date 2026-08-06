@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: How to review code — any surface and any user-named lens. Evidence bar, filing, output shape. Use when reviewing code as primary or subagent. Not find-only hunches (investigate), slice cohesion loops (iterate), or plan debate (second-opinion). Spawn orchestration in subagents; iterative closure in iterate.
+description: How to review code — any surface and any user-named lens. Evidence bar, filing, output shape. Use when reviewing code as primary or subagent. Not find-only hunches (verdict.md + explore), slice cohesion loops (iterate), or plan debate (second-opinion). Spawn orchestration in subagents; iterative closure in iterate.
 ---
 
 # Code review
@@ -37,7 +37,7 @@ Read [references/research-basis.md](references/research-basis.md) when calibrati
 2. **Review** — [review.md](references/review.md): trace behavior for the active lens.
 3. **File** — [merge-blockers.md](references/merge-blockers.md) + [output.md](references/output.md).
 
-Parallel members → parent uses [`subagents`](../subagents/SKILL.md); each member loads this skill for **how** to review. Cohesion thrash on a bounded area → [`iterate`](../iterate/SKILL.md); single hunch → [`investigate`](../investigate/SKILL.md).
+Parallel members → parent uses [`subagents`](../subagents/SKILL.md); each member loads this skill for **how** to review. Cohesion thrash on a bounded area → [`iterate`](../iterate/SKILL.md); single hunch → explore + [verdict.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/verdict.md).
 
 ## Consumer bindings
 

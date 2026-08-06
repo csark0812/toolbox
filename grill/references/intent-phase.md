@@ -1,8 +1,8 @@
-# Crystallize protocol
+# Grill intent phase
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Socratic shaping — **crystallization**, not resolution. Shared behavior → [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md).
+Socratic shaping when intent is fuzzy — **crystallization**, not resolution. Shared behavior → [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md). After intent has shape, continue with [protocol.md](protocol.md) (design tree) or exit.
 
 ## Core moves
 
@@ -24,3 +24,25 @@ Avoid: steering "Why not just do Y?" / forced binaries when space is open.
 ## Exit
 
 User confirms crystallized statement or done for now. If major thread implicit, ask one more question instead of closing.
+
+## Output block
+
+When exit criteria met — not before.
+
+```markdown
+## Crystallized idea
+
+[2–4 sentences from user's perspective]
+
+## Alternate frame considered
+
+- [chosen, discarded, or open]
+
+## What remains open
+
+- …
+
+## Possible next steps
+
+- grill design tree · domain-model · second-opinion · build.md · explore + verdict.md
+```

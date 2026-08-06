@@ -22,5 +22,5 @@
 
 ### What to do next
 
-- [tdd, code-review, investigate, handoff]
+- [tdd, code-review, explore + verdict, handoff]
 ```

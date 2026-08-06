@@ -1,6 +1,6 @@
 ---
 name: diagnose
-description: Hard-bug discipline — build a tight repro loop, then fix and lock regression. Process skill; coordinator-only loop. Not find-only hunch without repro (investigate) or greenfield TDD (tdd).
+description: Hard-bug discipline — build a tight repro loop, then fix and lock regression. Process skill; coordinator-only loop. Not find-only hunch without repro (verdict.md + explore) or greenfield TDD (tdd).
 ---
 
 # Diagnose

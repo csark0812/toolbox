@@ -217,7 +217,7 @@ describe('post-park null-arm surfaces have no leak phrases', () => {
                 must: ['repro'],
                 mustNot: ['the bug is caused by'],
                 judge: [
-                  'Refused to hypothesize without a failing signal; asked for a repro or routed to investigate',
+                  'Refused to hypothesize without a failing signal; asked for a repro or routed to explore + verdict',
                 ],
               },
             },

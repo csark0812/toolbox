@@ -17,7 +17,7 @@
         "mustInvokeSkill": ["diagnose"],
         "mustNot": ["the bug is caused by", "root cause is", "likely because"],
         "judge": [
-          "Refused to hypothesize without a failing signal; asked for a repro or routed to investigate"
+          "Refused to hypothesize without a failing signal; asked for a repro or routed to explore + verdict"
         ]
       }
     },

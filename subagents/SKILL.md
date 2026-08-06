@@ -1,6 +1,6 @@
 ---
 name: subagents
-description: Agent-to-agent spawn — subagent_type, token-efficient splits, context-pack envelopes, cheapest good-enough model. Use when spawning Task/Subagent or an entry orchestrator mandates dispatch. Not for process-only coordinator work without spawn (code-review default, grill, crystallize).
+description: Agent-to-agent spawn — subagent_type, token-efficient splits, context-pack envelopes, cheapest good-enough model. Use when spawning Task/Subagent or an entry orchestrator mandates dispatch. Not for process-only coordinator work without spawn (code-review default, grill).
 ---
 
 # Subagents
@@ -11,24 +11,24 @@ description: Agent-to-agent spawn — subagent_type, token-efficient splits, con
 
 **Orchestrator** — wires coordinator ↔ member agents. Process skills ([code-review](../code-review/SKILL.md), [second-opinion](../second-opinion/SKILL.md), …) describe _what_ to do; this skill owns _how_ members are spawned and what they receive ([context-pack.md](references/context-pack.md)).
 
-References: [context-pack.md](references/context-pack.md) · [second-opinion-dispatch.md](references/second-opinion-dispatch.md) · [investigate-dispatch.md](references/investigate-dispatch.md) · [review-council-dispatch.md](references/review-council-dispatch.md) · [subagent-types.md](references/subagent-types.md) · [task-splitting.md](references/task-splitting.md) · [model-routing.md](references/model-routing.md) · [adversarial.md](references/adversarial.md) · [task-prompt.md](references/task-prompt.md) · [member-schema.md](references/member-schema.md) · [output-format.md](references/output-format.md) · [agent-discovery.md](references/agent-discovery.md).
+References: [context-pack.md](references/context-pack.md) · [second-opinion-dispatch.md](references/second-opinion-dispatch.md) · [explore-escalation-dispatch.md](references/explore-escalation-dispatch.md) · [review-council-dispatch.md](references/review-council-dispatch.md) · [subagent-types.md](references/subagent-types.md) · [task-splitting.md](references/task-splitting.md) · [model-routing.md](references/model-routing.md) · [adversarial.md](references/adversarial.md) · [task-prompt.md](references/task-prompt.md) · [member-schema.md](references/member-schema.md) · [output-format.md](references/output-format.md) · [agent-discovery.md](references/agent-discovery.md).
 
 Read [references/research-basis.md](references/research-basis.md) when calibrating spawn or cost claims. Do not load by habit.
 
 ## Quick reference
 
-| Need                         | Where                                                             |
-| ---------------------------- | ----------------------------------------------------------------- |
-| Member context / token rules | [references/context-pack.md](references/context-pack.md)          |
-| Process dispatch recipes     | second-opinion · investigate · review-council dispatch refs below |
-| Which `subagent_type` when   | [references/subagent-types.md](references/subagent-types.md)      |
-| Token-efficient slice splits | [references/task-splitting.md](references/task-splitting.md)      |
-| Cheapest good-enough model   | [references/model-routing.md](references/model-routing.md)        |
-| Adversarial / staged debate  | [references/adversarial.md](references/adversarial.md)            |
-| Member prompt template       | [references/task-prompt.md](references/task-prompt.md)            |
-| Per-member output shape      | [references/member-schema.md](references/member-schema.md)        |
-| Consolidated report          | [references/output-format.md](references/output-format.md)        |
-| Council agent discovery      | [references/agent-discovery.md](references/agent-discovery.md)    |
+| Need                         | Where                                                                    |
+| ---------------------------- | ------------------------------------------------------------------------ |
+| Member context / token rules | [references/context-pack.md](references/context-pack.md)                 |
+| Process dispatch recipes     | second-opinion · explore-escalation · review-council dispatch refs below |
+| Which `subagent_type` when   | [references/subagent-types.md](references/subagent-types.md)             |
+| Token-efficient slice splits | [references/task-splitting.md](references/task-splitting.md)             |
+| Cheapest good-enough model   | [references/model-routing.md](references/model-routing.md)               |
+| Adversarial / staged debate  | [references/adversarial.md](references/adversarial.md)                   |
+| Member prompt template       | [references/task-prompt.md](references/task-prompt.md)                   |
+| Per-member output shape      | [references/member-schema.md](references/member-schema.md)               |
+| Consolidated report          | [references/output-format.md](references/output-format.md)               |
+| Council agent discovery      | [references/agent-discovery.md](references/agent-discovery.md)           |
 
 ## Non-negotiables
 

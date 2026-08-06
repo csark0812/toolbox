@@ -45,7 +45,7 @@ describe('diagnose prompt baseline', () => {
   it('prompt no-repro includes entry-gate rule in prompt text', () => {
     const gate = prompt.scenarios.find((s) => s.compareId === 'no-repro-refuse')
     expect(gate.prompt).toMatch(/do not hypothesize/i)
-    expect(gate.prompt).toMatch(/ask for a repro|route to investigate/i)
+    expect(gate.prompt).toMatch(/ask for a repro|route to explore|verdict/i)
   })
 
   it('prompt loop-before-cause includes ordering rule in prompt text', () => {

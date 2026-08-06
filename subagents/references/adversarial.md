@@ -8,10 +8,10 @@ Spawn mechanics, Auto-first model routing, and synthesis gate → [`subagents` S
 
 ## Shapes
 
-| Shape             | Waves | Who                                                     | Default entry                                                                       |
-| ----------------- | ----- | ------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| **Parallel**      | One   | Independent kill-mandate members                        | `code-review` when escalated to council; `investigate` when contested / stress-test |
-| **Staged debate** | Two   | Wave 1 attackers → Wave 2 defender (sees wave-1 briefs) | `second-opinion` (always)                                                           |
+| Shape             | Waves | Who                                                     | Default entry                                                                          |
+| ----------------- | ----- | ------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| **Parallel**      | One   | Independent kill-mandate members                        | `code-review` when escalated to council; contested hunch → explore-escalation-dispatch |
+| **Staged debate** | Two   | Wave 1 attackers → Wave 2 defender (sees wave-1 briefs) | `second-opinion` (always)                                                              |
 
 **Hard rule (same wave):** Members do not communicate. Never identical model + identical prompt.
 
@@ -70,7 +70,7 @@ Shared Auto across adversarial members is correct and still valuable (fresh cont
 ### When / skip
 
 - **On escalation** for `code-review` council (entry skill applies kill-mandate overlays on depth-budgeted lenses).
-- `investigate` when evidence is contested or the user asks for a stress-test.
+- Contested hunch or user stress-test → [explore-escalation-dispatch.md](explore-escalation-dispatch.md) § Parallel perspective.
 - Skip for routine coverage gather/explore unless an entry skill invokes it.
 
 ### Members
@@ -101,7 +101,7 @@ Full recipe → [second-opinion-dispatch.md](second-opinion-dispatch.md). Synthe
 
 - **Always** for **second-opinion** on a written artifact.
 - Elsewhere only when a process skill cites this shape.
-- Not a substitute for dialogue (**crystallize** / **grill**).
+- Not a substitute for dialogue (**grill** intent phase or design tree).
 - Single-member orchestrator spawns (e.g. **iterate** blind pass) → [carve-out](../SKILL.md#entry-skill-carve-out), not this section.
 
 Optional pre-wave gather → [second-opinion-evidence-dispatch.md](second-opinion-evidence-dispatch.md).

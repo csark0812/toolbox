@@ -18,7 +18,7 @@ Extends [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/m
 
 ### Recommended next steps
 
-- [revise plan, grill, build, investigate, …]
+- [revise plan, grill, build, explore + verdict, …]
 ```
 
 ## Body sections

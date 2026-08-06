@@ -12,7 +12,7 @@ Optional **pre-wave** gather for large plans before [second-opinion-dispatch.md]
 ## When to skip
 
 - Small plan — go straight to [second-opinion-dispatch.md](second-opinion-dispatch.md)
-- Dialogue without plan → **crystallize** / **grill**
+- Dialogue without plan → **grill** intent phase
 
 ## Members
 

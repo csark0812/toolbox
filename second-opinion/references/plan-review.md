@@ -47,7 +47,7 @@ One honest line in **Scope / complexity** or **Gaps** when relevant — not a se
 
 | Ask                       | Skill                               |
 | ------------------------- | ----------------------------------- |
-| No plan on disk           | **crystallize** / **grill**         |
-| Single code hunch         | **investigate**                     |
+| No plan on disk           | **grill** intent phase              |
+| Single code hunch         | explore + verdict.md                |
 | Security/compliance agent | consumer **security** agent         |
 | Broad codebase sweep      | parallel-explore (planning ambient) |

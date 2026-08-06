@@ -8,22 +8,22 @@ Bounded **code slice** or **plan section** iterative closure until `Closure: rea
 
 ## Routes elsewhere
 
-| User ask                                          | Skill                       |
-| ------------------------------------------------- | --------------------------- |
-| Full plan / PRD pre-build critique                | **second-opinion**          |
-| Plan § or mid-implementation slice until cohesive | **iterate**                 |
-| PR, branch, diff, merge-ready                     | **code-review**             |
-| Open design dialogue without slice target         | **grill** / **crystallize** |
-| One concrete doubt, no fix loop                   | **investigate**             |
-| Broken behavior, repro-first                      | **diagnose**                |
+| User ask                                          | Skill                |
+| ------------------------------------------------- | -------------------- |
+| Full plan / PRD pre-build critique                | **second-opinion**   |
+| Plan § or mid-implementation slice until cohesive | **iterate**          |
+| PR, branch, diff, merge-ready                     | **code-review**      |
+| Open design dialogue without slice target         | **grill**            |
+| One concrete doubt, no fix loop                   | explore + verdict.md |
+| Broken behavior, repro-first                      | **diagnose**         |
 
 ## During / after code-review
 
-| Signal in review pass                         | Route to        |
-| --------------------------------------------- | --------------- |
-| Bounded area cohesion thrash (not merge-only) | **iterate**     |
-| One falsifiable doubt, no fix loop            | **investigate** |
-| Repro-first failure surfaced                  | **diagnose**    |
+| Signal in review pass                         | Route to             |
+| --------------------------------------------- | -------------------- |
+| Bounded area cohesion thrash (not merge-only) | **iterate**          |
+| One falsifiable doubt, no fix loop            | explore + verdict.md |
+| Repro-first failure surfaced                  | **diagnose**         |
 
 ## Peer negations (reciprocal)
 

@@ -16,7 +16,7 @@ Profile: `manual` or `repo`.
 
 - Single-component change; paths already in context from this session
 - User wants one authoritative pass
-- Target is one file or hook — use direct read or **investigate**
+- Target is one file or hook — use direct read or explore + verdict.md
 
 ## Members (2–4)
 

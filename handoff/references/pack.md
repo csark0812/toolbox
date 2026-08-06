@@ -32,7 +32,7 @@ Same-root rule: `@_agent/handoffs/...` resolves against the **next chat's worksp
 
 ## Goal (next-session lens)
 
-Header `Goal:` — one line. Examples: `implement`, `review`, `diagnose` (repro-first bug), `investigate` (single hunch), `plan-revise`, `iterate-slice`, or user phrase as slug (`harden-auth`).
+Header `Goal:` — one line. Examples: `implement`, `review`, `diagnose` (repro-first bug), `explore` (single hunch), `plan-revise`, `iterate-slice`, or user phrase as slug (`harden-auth`).
 
 Infer from session state; ask once if unclear.
 

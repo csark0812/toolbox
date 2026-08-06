@@ -4,7 +4,7 @@
 
 Multi-source collection from independent sources of truth. Uses [`subagents`](../../../../subagents/SKILL.md) kernel — [non-negotiables](../../../../subagents/SKILL.md#non-negotiables), [task-prompt.md](../../../../subagents/references/task-prompt.md), [member-schema.md](../../../../subagents/references/member-schema.md).
 
-Profile: `manual` or `repo` (web topics → `research` via [investigate-dispatch.md](../../../../subagents/references/investigate-dispatch.md) § Parallel research).
+Profile: `manual` or `repo` (web topics → `research` via [explore-escalation-dispatch.md](../../../../subagents/references/explore-escalation-dispatch.md) § Parallel research).
 
 ## When to use
 
@@ -16,7 +16,7 @@ Profile: `manual` or `repo` (web topics → `research` via [investigate-dispatch
 
 - Single file or hub already in context — read directly
 - Blast-radius mapping across subsystems — use [parallel-explore.md](parallel-explore.md)
-- Independent web topics — use [investigate-dispatch.md](../../../../subagents/references/investigate-dispatch.md) § Parallel research
+- Independent web topics — use [explore-escalation-dispatch.md](../../../../subagents/references/explore-escalation-dispatch.md) § Parallel research
 
 ## Members (2–4)
 
@@ -61,4 +61,4 @@ Compose prompts per [task-prompt.md](../../../../subagents/references/task-promp
 ## Handoff
 
 - Planning continues in **build** / **grill** / **second-opinion** with gathered facts.
-- Does not produce verdicts — use **investigate** after gather if a specific doubt remains.
+- Does not produce verdicts — use explore + verdict.md after gather if a specific doubt remains.

@@ -1,6 +1,6 @@
 ---
 name: iterate
-description: Agent-to-agent pass loop — iterative blind review subagent passes until a bounded code or plan section holds together. Orchestrator for slice cohesion. Not merge-ready PR review (code-review process), full-plan perspectives (second-opinion process), or a single hunch (investigate).
+description: Agent-to-agent pass loop — iterative blind review subagent passes until a bounded code or plan section holds together. Orchestrator for slice cohesion. Not merge-ready PR review (code-review process), full-plan perspectives (second-opinion process), or a single hunch (verdict.md + explore).
 ---
 
 # Iterate

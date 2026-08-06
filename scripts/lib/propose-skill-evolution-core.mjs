@@ -19,8 +19,8 @@ async function readJson(path) {
 
 function inferSkill(scenarioJson, failures) {
   const prompt = scenarioJson?.prompt ?? ''
-  if (/investigate/i.test(prompt) || /investigate-outcomes|investigate-transfer/.test(prompt))
-    return 'investigate'
+  if (/diagnose-outcomes|diagnose-transfer/.test(prompt)) return 'diagnose'
+  if (/verdict\.md|explore \+ verdict/i.test(prompt)) return 'verdict'
   if (/diagnose/i.test(prompt) || /diagnose-outcomes/.test(prompt)) return 'diagnose'
   if (/code-review/i.test(prompt)) return 'code-review'
   if (/multi/i.test(prompt)) return 'multi'
@@ -52,7 +52,7 @@ function triageHint(failures) {
       return 'Likely **rubric brittleness** — substring `mustNot` fired on discussion, not endorsement. Patch scenario before skill.'
     }
     if (/fix|diff|change .* to/i.test(ev)) {
-      return 'Likely **skill/process** — find≠fix violation. Sharpen investigate completion gate.'
+      return 'Likely **ambient ref** — find≠fix violation. Sharpen verdict.md completion gate.'
     }
     return 'Likely **skill or judge** — read transcript; map to research-basis claim.'
   }

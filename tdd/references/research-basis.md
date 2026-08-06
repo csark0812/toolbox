@@ -24,7 +24,7 @@ One vertical slice: failing test from independent expected values, then minimal 
 
 ## Seam confirmation
 
-Tests only at user-confirmed public boundaries — unclear seam → grill or investigate first.
+Tests only at user-confirmed public boundaries — unclear seam → grill or explore + verdict.md first.
 
 **Confidence:** High for avoiding implementation-coupled tests; not a substitute for domain modeling.
 

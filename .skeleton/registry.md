@@ -12,6 +12,7 @@
 | Agent cold-start             | [AGENTS.md](../AGENTS.md)                                                      |
 | Skill tiers & groups         | [tiers.md](../docs/tiers.md)                                                   |
 | GitHub ambient refs validate | [github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md) |
+| Hunch verdict (ambient)      | [verdict.md](../.skeleton/references/verdict.md)                               |
 | Evidence parity              | [evidence-parity.md](../docs/evidence-parity.md)                               |
 | Skill evolution              | [skill-evolution.md](../docs/skill-evolution.md)                               |
 | Skill organization ablations | [skill-organization-ablations.md](../docs/skill-organization-ablations.md)     |
@@ -22,10 +23,8 @@
 | -------------------- | ----------------------------------------------------------------- |
 | subagents            | [subagents/SKILL.md](../subagents/SKILL.md)                       |
 | code-review          | [code-review/SKILL.md](../code-review/SKILL.md)                   |
-| crystallize          | [crystallize/SKILL.md](../crystallize/SKILL.md)                   |
 | grill                | [grill/SKILL.md](../grill/SKILL.md)                               |
 | second-opinion       | [second-opinion/SKILL.md](../second-opinion/SKILL.md)             |
-| investigate          | [investigate/SKILL.md](../investigate/SKILL.md)                   |
 | iterate              | [iterate/SKILL.md](../iterate/SKILL.md)                           |
 | diagnose             | [diagnose/SKILL.md](../diagnose/SKILL.md)                         |
 | tdd                  | [tdd/SKILL.md](../tdd/SKILL.md)                                   |

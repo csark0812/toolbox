@@ -1,6 +1,6 @@
 ---
 name: domain-model
-description: Persist glossary entries and ADRs after a term or decision is ready. Process skill (user-invoked). Not open design dialogue (grill, crystallize).
+description: Persist glossary entries and ADRs after a term or decision is ready. Process skill (user-invoked). Not open design dialogue (grill).
 disable-model-invocation: true
 ---
 
@@ -18,7 +18,7 @@ Read [research-basis.md](references/research-basis.md) only when calibrating per
 
 ## Non-negotiables
 
-1. **No decision, no ADR** — open alternatives → **grill** / **crystallize**.
+1. **No decision, no ADR** — open alternatives → **grill**.
 2. **Known paths only** — stop and ask if glossary/ADR location unknown.
 3. **Report only** — no implementation in this pass.
 

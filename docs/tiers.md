@@ -28,19 +28,15 @@ Describe **what good work looks like**: intent, evidence bar, filing, output sha
 
 When the job needs another agent or another pass, say so in one line and point at an orchestrator — e.g. “parallel perspectives → **subagents**”, “until cohesive → **iterate**”, “continue next chat → **handoff**”.
 
-| Slug               | Process (natural language)                                                                  |
-| ------------------ | ------------------------------------------------------------------------------------------- |
-| **code-review**    | Review code on any surface through any lens; file merge-blockers with evidence              |
-| **second-opinion** | Multiple independent perspectives on a written plan — premise stress, completeness, defense |
-| **grill**          | Walk the design tree in dialogue until major branches align                                 |
-| **crystallize**    | Shape fuzzy intent through Socratic dialogue before design or build                         |
-| **investigate**    | Settle one concrete hunch with primary-source evidence — verdict, not fix                   |
-| **diagnose**       | Hard bug: build a tight repro loop, then fix and lock regression                            |
-| **tdd**            | Test-first build at agreed public seams                                                     |
-| **prototype**      | Throwaway spike for one design question (user-invoked)                                      |
-| **domain-model**   | Persist glossary + ADRs when decisions are ready (user-invoked)                             |
-
-**Optional install:** **investigate** — same process group; omitted from default bundle after 2026-07 evidence parity ([evidence-parity.md](evidence-parity.md)).
+| Slug               | Process (natural language)                                                                        |
+| ------------------ | ------------------------------------------------------------------------------------------------- |
+| **code-review**    | Review code on any surface through any lens; file merge-blockers with evidence                    |
+| **second-opinion** | Multiple independent perspectives on a written plan — premise stress, completeness, defense       |
+| **grill**          | Shape fuzzy intent (intent phase) and walk the design tree in dialogue until major branches align |
+| **diagnose**       | Hard bug: build a tight repro loop, then fix and lock regression                                  |
+| **tdd**            | Test-first build at agreed public seams                                                           |
+| **prototype**      | Throwaway spike for one design question (user-invoked)                                            |
+| **domain-model**   | Persist glossary + ADRs when decisions are ready (user-invoked)                                   |
 
 ### Meta
 
@@ -52,14 +48,14 @@ When the job needs another agent or another pass, say so in one line and point a
 
 Process skills name the arc; orchestrators wire the agents.
 
-| User intent                        | Process skill(s)              | Orchestrator when needed                        |
-| ---------------------------------- | ----------------------------- | ----------------------------------------------- |
-| “Is this plan sound?”              | **second-opinion**            | **subagents** — parallel attackers + defender   |
-| “Make this module hold together”   | (review filing → code-review) | **iterate** — blind passes until slice coheres  |
-| “Review my PR”                     | **code-review**               | **subagents** — optional parallel lenses        |
-| “Context full — continue tomorrow” | (any)                         | **handoff** — `Pack: pointers` or `fix-loop`    |
-| “Pressure-test this design”        | **grill**                     | **subagents** — optional repo explore only      |
-| “Is this hunch true?”              | **investigate**               | **subagents** — optional parallel gather/stress |
+| User intent                        | Process skill(s)                                           | Orchestrator when needed                        |
+| ---------------------------------- | ---------------------------------------------------------- | ----------------------------------------------- |
+| “Is this plan sound?”              | **second-opinion**                                         | **subagents** — parallel attackers + defender   |
+| “Make this module hold together”   | (review filing → code-review)                              | **iterate** — blind passes until slice coheres  |
+| “Review my PR”                     | **code-review**                                            | **subagents** — optional parallel lenses        |
+| “Context full — continue tomorrow” | (any)                                                      | **handoff** — `Pack: pointers` or `fix-loop`    |
+| “Pressure-test this design”        | **grill**                                                  | **subagents** — optional repo explore only      |
+| “Is this hunch true?”              | explore + [verdict.md](../.skeleton/references/verdict.md) | **subagents** — optional parallel gather/stress |
 
 ## Team (`toolbox/`)
 
@@ -74,13 +70,7 @@ Skeleton and toolbox are complementary — init skeleton first, then install ski
 ```bash
 npm install -D @csark0812/skeleton
 npx skeleton init --skills
-npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterate diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
-```
-
-Optional — install when you need explicit hunch→verdict routing (not in default bundle after 2026-07 evidence parity):
-
-```bash
-npx skills add csark0812/toolbox --skill investigate -a cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill subagents code-review grill second-opinion iterate diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
 ```
 
 - **toolbox** — skill content SSOT (this repo)
@@ -91,7 +81,7 @@ Install destinations: Cursor project → `.agents/skills/` (global → `~/.curso
 
 ### Migration notes
 
-**Process vs orchestrator (2026-08):** Process skills describe _what_; dispatch refs live under **subagents** (`second-opinion-dispatch`, `investigate-dispatch`, `review-council-dispatch`) or orchestrators (`iterate`, `handoff`).
+**Process vs orchestrator (2026-08):** Process skills describe _what_; dispatch refs live under **subagents** (`second-opinion-dispatch`, `explore-escalation-dispatch`, `review-council-dispatch`) or orchestrators (`iterate`, `handoff`). Hunch settlement uses coordinator **explore** + ambient [verdict.md](../.skeleton/references/verdict.md) (retired **investigate** slug).
 
 **Code-review (2026-07):** Process-only — see [code-review/SKILL.md](../code-review/SKILL.md).
 

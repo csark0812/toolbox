@@ -4,15 +4,15 @@ Toolbox agent suites are portable conformance checks for public skills. They use
 
 ## Suite bands
 
-| Band             | Purpose                                                                        | CI default                    | Command                                |
-| ---------------- | ------------------------------------------------------------------------------ | ----------------------------- | -------------------------------------- |
-| **Contract**     | Process gates — did the agent follow the skill protocol?                       | Replay (`npm run agent:test`) | `agent-test --suites-dir agent-suites` |
-| **Outcome**      | Task settlement — did the agent reach the right verdict / loop?                | Stub replay (no judge)        | `npm run agent:test:outcomes` (live)   |
-| **Transfer**     | Same judges as outcome with `skills: none` (null baseline; hunch-only prompts) | Stub replay (no judge)        | `npm run agent:test:transfer` (live)   |
-| **Prompt**       | Verdict-gate rules in prompt, `skills: none` (no skill file)                   | Stub replay (no judge)        | `npm run agent:test:evidence-parity`   |
-| **Ceiling**      | Scenarios that pass on both arms — replay CI only, not evidence-parity         | Stub replay (no judge)        | `npm run agent:test` only              |
-| **Ablation**     | Organization arms — primary vs council, fit-check vs forced spawn              | Stub replay (no judge)        | `npm run agent:test:ablations` (live)  |
-| **Ambient live** | Network fetch of GitHub raw ambient refs                                       | Skipped (`skip: true`)        | `npm run agent:test:live`              |
+| Band             | Purpose                                                                        | CI default                    | Command                                              |
+| ---------------- | ------------------------------------------------------------------------------ | ----------------------------- | ---------------------------------------------------- |
+| **Contract**     | Process gates — did the agent follow the skill protocol?                       | Replay (`npm run agent:test`) | `agent-test --suites-dir agent-suites`               |
+| **Outcome**      | Task settlement — did the agent reach the right verdict / loop?                | Stub replay (no judge)        | `npm run agent:test:outcomes` (live)                 |
+| **Transfer**     | Same judges as outcome with `skills: none` (null baseline; hunch-only prompts) | Stub replay (no judge)        | `npm run agent:test:transfer` (live)                 |
+| **Prompt**       | Verdict-gate rules in prompt, `skills: none` (no skill file)                   | Stub replay (no judge)        | `npm run agent:test:diagnose-evidence-parity` (live) |
+| **Ceiling**      | Scenarios that pass on both arms — replay CI only, not evidence-parity         | Stub replay (no judge)        | `npm run agent:test` only                            |
+| **Ablation**     | Organization arms — primary vs council, fit-check vs forced spawn              | Stub replay (no judge)        | `npm run agent:test:ablations` (live)                |
+| **Ambient live** | Network fetch of GitHub raw ambient refs                                       | Skipped (`skip: true`)        | `npm run agent:test:live`                            |
 
 Contract suites use golden `replayTrace` JSON. Outcome and ablation suites ship placeholder traces for live staging and stub replay in CI; the LLM judge runs only under `--live`.
 
@@ -38,15 +38,12 @@ Toolbox owns generic skill-contract behavior:
 - `subagents`: Fit check — name single-pass rival before `N ≥ 2`; skip when independence fails.
 - `second-opinion`: process skill — plan perspectives; A2A → subagents second-opinion-dispatch.
 - `iterate`: blind pass protocol markers (`Pass: blind`, `Cohesion: attested-local`); thrash reopen without sibling mint.
-- `investigate`: discriminating kill tests; leave dead patches after 2–3 no-signal reads.
-- `investigate-outcomes` / `investigate-transfer` / `investigate-prompt`: discriminating evidence-parity band (2 scenarios). **Manual live cadence only** (not part of `npm run check`). Discriminating scenarios use guard-only fixture seeds; dual-bug `debug-app` remains for ceiling/diagnose.
-- `investigate-outcomes-ceiling` / `investigate-transfer-ceiling`: ceiling scenarios (replay CI only).
-- `crystallize`: alternate problem frame before crystallized output.
+- `grill` / `grill-intent`: intent-phase alternate frame before crystallized output; design tree falsifier before leaving a node.
 - `tdd`: seam confirmation before the first test; red-green slice discipline.
-- `diagnose`: entry gate — no repro means no hypotheses; route to investigate or get a repro.
-- `diagnose-outcomes` / `diagnose-transfer` / `diagnose-prompt`: discriminating evidence-parity band (2 scenarios: `no-repro-refuse`, `loop-before-cause`). **Manual live cadence only** — `npm run agent:test:diagnose-evidence-parity` (not part of `npm run check`). Independent of investigate parity.
+- `diagnose`: entry gate — no repro means no hypotheses; route to explore + verdict or get a repro.
+- `diagnose-outcomes` / `diagnose-transfer` / `diagnose-prompt`: discriminating evidence-parity band (2 scenarios: `no-repro-refuse`, `loop-before-cause`). **Manual live cadence only** — `npm run agent:test:diagnose-evidence-parity` (not part of `npm run check`).
 - `diagnose-outcomes-ceiling`: ceiling scenario (tight loop; replay CI only).
-- `domain-model`: entry gate — no stated decision means no ADR; route to grill or crystallize.
+- `domain-model`: entry gate — no stated decision means no ADR; route to grill.
 - `prototype`: declare design question + mode before writing throwaway code.
 - `grill`: falsifier recorded before leaving a decision node.
 - `handoff`: `channel:prompt` (user) vs `channel:artifact` (model-invoked); `Pack:` pointers/fix-loop/full — omit empty sections.
@@ -70,19 +67,13 @@ Replay mode is the default and does not require live credentials. Install depend
 npm run agent:test:outcomes
 ```
 
-Live outcome band for `investigate-outcomes` and `diagnose-outcomes`. Requires `CURSOR_API_KEY`.
+Live outcome band for `diagnose-outcomes`. Requires `CURSOR_API_KEY`.
 
 ```bash
 npm run agent:test:transfer
 ```
 
-Live transfer band via native compare: `agent-test --compare-pairs investigate-outcomes:investigate-transfer` (or the full automated cadence):
-
-```bash
-npm run agent:test:evidence-parity
-```
-
-Investigate discriminating band. See [docs/evidence-parity.md](../docs/evidence-parity.md).
+Live transfer band for `diagnose-transfer`. Requires `CURSOR_API_KEY`.
 
 ```bash
 npm run agent:test:diagnose-evidence-parity

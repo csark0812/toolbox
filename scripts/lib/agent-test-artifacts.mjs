@@ -1,12 +1,6 @@
 import { access, readdir, readFile, stat } from 'node:fs/promises'
 import { basename, join } from 'node:path'
 
-export const PARITY_COMPARE_PAIR = 'investigate-outcomes:investigate-transfer'
-export const PROMPT_COMPARE_PAIR = 'investigate-outcomes:investigate-prompt'
-export const OUTCOMES_SUITE = 'investigate-outcomes'
-export const TRANSFER_SUITE = 'investigate-transfer'
-export const PROMPT_SUITE = 'investigate-prompt'
-
 export const DIAGNOSE_PARITY_COMPARE_PAIR = 'diagnose-outcomes:diagnose-transfer'
 export const DIAGNOSE_PROMPT_COMPARE_PAIR = 'diagnose-outcomes:diagnose-prompt'
 export const DIAGNOSE_OUTCOMES_SUITE = 'diagnose-outcomes'
@@ -14,9 +8,9 @@ export const DIAGNOSE_TRANSFER_SUITE = 'diagnose-transfer'
 export const DIAGNOSE_PROMPT_SUITE = 'diagnose-prompt'
 
 const DEFAULT_SUITE_NAMES = {
-  outcomesSuite: OUTCOMES_SUITE,
-  transferSuite: TRANSFER_SUITE,
-  promptSuite: PROMPT_SUITE,
+  outcomesSuite: DIAGNOSE_OUTCOMES_SUITE,
+  transferSuite: DIAGNOSE_TRANSFER_SUITE,
+  promptSuite: DIAGNOSE_PROMPT_SUITE,
 }
 
 /** Paths agent-test writes under a compare-out directory. */
@@ -101,11 +95,11 @@ export async function newestSessionAfter(sessionsParent, known = new Set()) {
 
 /**
  * Newest session containing both outcomes and transfer debug trees.
- * Defaults to investigate suite names; pass diagnose suites for diagnose parity.
+ * Defaults to diagnose suite names.
  */
 export async function findParitySession(
   sessionsParent,
-  { outcomesSuite = OUTCOMES_SUITE, transferSuite = TRANSFER_SUITE } = {},
+  { outcomesSuite = DIAGNOSE_OUTCOMES_SUITE, transferSuite = DIAGNOSE_TRANSFER_SUITE } = {},
 ) {
   const sessions = await listSessionDirs(sessionsParent)
   for (let i = sessions.length - 1; i >= 0; i--) {
