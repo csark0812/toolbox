@@ -1,6 +1,6 @@
 ---
 name: probe
-description: Narrow a hunch or hard bug — evidence and plain-language verdict by default; fix only when explicitly asked to implement/repro/fix or when a broken/throwing/failing/slow symptom already has an on-demand failing signal. Use when there is a concrete doubt to test, or the user says diagnose/debug/investigate this. Find and verdict only unless Fix is authorized under that gate. Not for written plan review (second-opinion), open ideation (crystallize), or greenfield test-first build (tdd).
+description: Narrow a hunch or hard bug — evidence and plain-language verdict by default; fix only when explicitly asked to implement/repro/fix or when a broken/throwing/failing/slow symptom already has an on-demand failing signal. Use when there is a concrete doubt to test, or the user says diagnose/debug/investigate this. Find and verdict only unless Fix is authorized under that gate. Not for written plan review (second-opinion), open ideation (grill), or greenfield test-first build (tdd).
 ---
 
 # Probe
@@ -26,7 +26,7 @@ Read [references/research-basis.md](references/research-basis.md) (Evidence) or 
 
 - **Concrete doubt** — specific hunch, claim, or broken symptom to test (not open ideation).
 - Plan file to critique → stop; use **second-opinion**.
-- Fuzzy thinking with no specific target → stop; use **crystallize** first.
+- Fuzzy thinking with no specific target → stop; use **grill** intent phase first.
 - Greenfield test-first at an agreed seam → stop; use **tdd**.
 
 ## Stance select
@@ -99,7 +99,7 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 
 ### What to do next
 
-- [Concrete next action: Fix under Authority B / tdd when installed, else consumer testing/debug or project AGENTS.md; monitor; ignore; probe further; or hand off to crystallize/grill → planning/build.md / second-opinion]
+- [Concrete next action: Fix under Authority B / tdd when installed, else consumer testing/debug or project AGENTS.md; monitor; ignore; probe further; or hand off to grill → planning/build.md / second-opinion]
 - [If structural: localized change vs staged / ground-up work — one line, tied to evidence]
 ```
 

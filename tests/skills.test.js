@@ -359,12 +359,12 @@ describe('toolbox skill SSOT', () => {
     expect(grill).toMatch(/\*\*Process skill\*\*/)
     expect(grill).toMatch(/intent-phase\.md/)
     expect(grill).toMatch(/protocol\.md/)
+    expect(grill).toMatch(/ask\.md/)
     expect(grill).not.toMatch(/## Protocol/)
     expect(intent).toMatch(/Alternate frame/)
-    const crystallize = readFileSync(join(root, 'crystallize/SKILL.md'), 'utf8')
-    expect(crystallize).toMatch(/\*\*Process skill\*\*/)
-    expect(crystallize).toMatch(/protocol\.md/)
-    expect(crystallize).not.toMatch(/## Protocol/)
+    expect(intent).toMatch(/ask\.md/)
+    expect(existsSync(join(root, 'grill/references/ask.md'))).toBe(true)
+    expect(existsSync(join(root, 'crystallize/SKILL.md'))).toBe(false)
     expect(existsSync(join(root, 'investigate/SKILL.md'))).toBe(false)
     expect(existsSync(join(root, 'diagnose/SKILL.md'))).toBe(false)
   })
@@ -393,8 +393,21 @@ describe('toolbox skill SSOT', () => {
     expect(existsSync(join(root, 'iterate/references/routing.md'))).toBe(false)
   })
 
+  it('grill ask.md is mid-turn SSOT without After you answer', () => {
+    const ask = readFileSync(join(root, 'grill/references/ask.md'), 'utf8')
+    expect(ask).toMatch(/## Context/)
+    expect(ask).toMatch(/## Questions/)
+    expect(ask).toMatch(/Where/)
+    expect(ask).toMatch(/Recommended:/)
+    expect(ask).toMatch(/N=1/)
+    expect(ask).not.toMatch(/## After you answer/)
+    const grill = readFileSync(join(root, 'grill/SKILL.md'), 'utf8')
+    expect(grill).toMatch(/ask\.md/)
+    expect(grill).not.toMatch(/One decision per turn/)
+  })
+
   it('process skills use entry gates not routing tables', () => {
-    for (const slug of ['grill', 'tdd', 'second-opinion', 'probe', 'code-review', 'crystallize']) {
+    for (const slug of ['grill', 'tdd', 'second-opinion', 'probe', 'code-review']) {
       const skill = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
       expect(skill).toMatch(/## Entry gate/)
       expect(skill).not.toMatch(/Routes elsewhere/)

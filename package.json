@@ -1,7 +1,7 @@
 {
   "name": "toolbox",
   "version": "1.0.0",
-  "description": "Public SSOT for team Cursor/Claude agent skills.",
+  "description": "Public SSOT for user-level process/orchestrator Cursor/Claude agent skills.",
   "type": "module",
   "engines": {
     "node": ">=22"

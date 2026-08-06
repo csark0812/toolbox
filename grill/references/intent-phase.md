@@ -2,13 +2,13 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Socratic shaping when intent is fuzzy — **crystallization**, not resolution. Shared behavior → [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md). After intent has shape, continue with [protocol.md](protocol.md) (design tree) or exit.
+Socratic shaping when intent is fuzzy — **crystallization**, not resolution. Shared behavior → [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md). Mid-turn asks → [ask.md](ask.md). After intent has shape, continue with [protocol.md](protocol.md) (design tree) or exit.
 
 ## Core moves
 
 1. **Listen first** — incomplete input is normal.
-2. **One cluster per turn** — one main question; tight sub-parts on same uncertainty only.
-3. **Reflect before asking** — mirror what you heard.
+2. **Ask via [ask.md](ask.md)** — 1–3 same-branch lettered questions; Context stands alone across hop sessions.
+3. **Reflect before asking** — mirror what you heard (briefly in Context Settled / Deciding).
 4. **Exhaust the branch** before switching topics.
 5. **Before crystallizing** — surface one tacit assumption or alternate frame; user gate unless skip ahead.
 6. **Follow energy** — go where user lights up.
@@ -17,13 +17,13 @@ Socratic shaping when intent is fuzzy — **crystallization**, not resolution. S
 
 ## Question cadence
 
-Good: "What would make this feel solved?" / "What's most uncertain?"
+Use [ask.md](ask.md). Prefer closed lettered picks; free-text only when options cannot be named.
 
-Avoid: steering "Why not just do Y?" / forced binaries when space is open.
+Avoid: steering "Why not just do Y?" outside the Recommended row; skill jargon in question stems.
 
 ## Exit
 
-User confirms crystallized statement or done for now. If major thread implicit, ask one more question instead of closing.
+User confirms crystallized statement or done for now. If major thread implicit, ask via [ask.md](ask.md) instead of closing.
 
 ## Output block
 

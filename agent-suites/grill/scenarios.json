@@ -1,6 +1,6 @@
 {
   "name": "grill",
-  "description": "Portable grill skill conformance: intent phase and design-tree gates",
+  "description": "Portable grill skill conformance: intent phase, ask block, and design-tree gates",
   "defaults": {
     "host": "replay",
     "profile": "cursor",
@@ -9,12 +9,12 @@
   "scenarios": [
     {
       "name": "decision node: falsifier before leave",
-      "prompt": "Grill me on session storage for a new auth service — Redis vs in-memory.\n\nRead `.claude/skills/grill/SKILL.md` first. One decision per turn; state a provisional recommendation and a falsifier before leaving the node.",
+      "prompt": "Grill me on session storage for a new auth service — Redis vs in-memory.\n\nRead `.claude/skills/grill/SKILL.md` and `grill/references/ask.md` first. Use the ask block; include a provisional recommendation and a falsifier before leaving the node.",
       "replayTrace": "agent-suites/grill/fixtures/replays/falsifier-before-leave.json",
       "rubric": {
-        "must": ["falsifier", "recommendation"],
+        "must": ["falsifier", "Recommended"],
         "mustInvokeSkill": ["grill"],
-        "mustNot": ["let's implement", "I'll start coding"],
+        "mustNot": ["let's implement", "I'll start coding", "After you answer"],
         "judge": [
           "The agent stated a provisional recommendation and a falsifier for the chosen branch before moving on"
         ]
@@ -30,6 +30,19 @@
         "mustNot": ["let's implement", "architecture"],
         "judge": [
           "The agent invoked grill, named an alternate problem frame, and produced a crystallized idea without jumping to solutions"
+        ]
+      }
+    },
+    {
+      "name": "ask block: N=1 slim Context+Questions",
+      "prompt": "Grill me on one choice: should session cookies be httpOnly for a new auth service?\n\nRead `.claude/skills/grill/SKILL.md` and `grill/references/ask.md` first. Use a single-question ask block (N=1 slim).",
+      "replayTrace": "agent-suites/grill/fixtures/replays/ask-block-n1.json",
+      "rubric": {
+        "must": ["## Context", "## Questions", "Recommended:", "(recommended)"],
+        "mustInvokeSkill": ["grill"],
+        "mustNot": ["After you answer", "Why it matters"],
+        "judge": [
+          "The agent used Context + Questions with a lettered pick, (recommended) mark, and Recommended why-row, without After you answer or Why it matters on N=1"
         ]
       }
     }

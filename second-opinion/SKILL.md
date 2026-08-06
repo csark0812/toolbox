@@ -39,11 +39,11 @@ When **iterate** uses the plan-section adapter on the same sections, second-opin
 
 ## Exit artifact
 
-Per [output.md](references/output.md) — synthesis sections, preserved conflicts, concrete suggestions.
+Per [output.md](references/output.md) — user-facing **Bottom line** + **Action items** only (no Gaps / Risky assumptions / Debate tags dump).
 
 ## Consumer bindings
 
-Plan artifact paths arrive as injected context on skill read. Do not edit synced copies in place.
+Plan artifact paths arrive as injected context on skill read. Do not edit installed copies in place.
 
 ## Output format
 

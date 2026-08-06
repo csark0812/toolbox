@@ -17,7 +17,7 @@ MADR-style records with at least one rejected alternative prevent decision-recor
 
 **Confidence:** Moderate as team practice; low as automatic quality lift without human judgment.
 
-**Does not transfer:** Writing ADRs before decisions are settled — route to **grill** / **crystallize**.
+**Does not transfer:** Writing ADRs before decisions are settled — route to **grill**.
 
 - MADR project — Markdown Architectural Decision Records: https://adr.github.io/madr/
 - Evans, E. (2003). _Domain-Driven Design_ — ubiquitous language and bounded context (conceptual basis for glossary writes).

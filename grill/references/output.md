@@ -2,12 +2,12 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-When **When to stop** criteria met — not before.
+When **When to stop** criteria met — not before. Mid-turn asks → [ask.md](ask.md) (not this exit block).
 
 ```markdown
 ## Decisions reached
 
-- [Decision]: [what and why]
+- [Decision]: [what and why] — falsifier: [what would show this wrong]
 
 ## Open questions (deferred)
 
@@ -19,5 +19,5 @@ When **When to stop** criteria met — not before.
 
 ## Next step
 
-- implement → build.md · review → code-review · persist → domain-model · plan review → second-opinion · hunch → probe · fuzzy → crystallize
+- implement → build.md · review → code-review · persist → domain-model · plan review → second-opinion · hunch → probe · fuzzy intent → grill intent phase
 ```

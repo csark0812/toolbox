@@ -4,62 +4,29 @@
 
 Extends [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Synthesis procedure → [plan-review.md](plan-review.md).
 
-## Summary block (required on completion)
+## Summary block (required on completion — user-facing)
+
+After both debate waves, end with this block only for the user:
 
 ```markdown
 ## Second opinion summary
 
 **Artifact:** [path or title]
-**Perspectives:** premises + completeness + defend
+**Bottom line:** [one short paragraph — design holds / holds with edits / reopen grill on X]
 
-### Findings
+### Action items
 
-- [Critical gap or assumption — or "No material gaps"]
-
-### Recommended next steps
-
-- [revise plan, grill, build, probe, …]
+- [concrete next step — or "None — ready to implement"]
 ```
 
-## Body sections
+Do **not** put Gaps, Risky assumptions, or Debate tags in the user-facing summary. Those stay coordinator-internal while synthesizing — not dumped after a run.
 
-```markdown
-## Premises (if not already settled in-thread)
+## Coordinator-internal notes (optional; not user-facing)
 
-- [Premise 1]
-- …
+While synthesizing, the coordinator may privately track:
 
-## Debate tags (brief)
+- What's solid / gaps / hidden dependencies / risky assumptions
+- Debate tags (`attacker-convergent` | `defended` | `conceded` | `drift`)
+- Axis / readiness survivors after defender rebuttal
 
-- [claim]: attacker-convergent | attacker-divergent | defended | conceded | drift
-
-## What's solid
-
-…
-
-## Gaps
-
-…
-
-## Hidden dependencies
-
-…
-
-## Risky assumptions
-
-…
-
-## Scope / complexity
-
-…
-
-## Axis / readiness
-
-…
-
-## Recommended additions to the plan
-
-- …
-```
-
-Omit empty sections — do not pad.
+Fold anything the user needs into **Bottom line** and **Action items** only. Omit empty internal notes — do not pad the user summary.

@@ -42,7 +42,9 @@ Per [output.md](references/output.md) — `Review · source:` header, findings, 
 
 ## Consumer bindings
 
-Project-specific injected context is appended on skill read. Do not edit synced copies in place.
+Project-specific injected context is appended on skill read. Do not edit installed copies in place — process SSOT is this repo / global install; consumer customize overlays are for product-local docs, not the primary process override path.
+
+When a consumer-local review/standards skill is also loaded, stack that repo opinion with this skill’s evidence/filing bar (layered — neither replaces the other).
 
 ## Output format
 
