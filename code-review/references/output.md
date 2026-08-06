@@ -14,12 +14,12 @@ First line of every review:
 Review · source:[adapter] · Scope: [N files, M loc] · Lens: [general|security|cleanliness|merge-readiness] · Filing: merge-blockers only
 ```
 
-| Field     | Notes                                                                                        |
-| --------- | -------------------------------------------------------------------------------------------- |
-| `source:` | Surface adapter from [sources.md](sources.md) (`paths`, `snapshot`, `branch`, `external`, …) |
-| `Scope:`  | Files and approximate size in review scope                                                   |
-| `Lens:`   | User focus; omit or `general` when unspecified                                               |
-| `Filing:` | `merge-blockers only` (default) or improvements mode per merge-blockers                      |
+| Field     | Notes                                                                                         |
+| --------- | --------------------------------------------------------------------------------------------- |
+| `source:` | Surface adapter from [sources.md](sources.md) (`paths`, `snapshot`, `branch`, `external`, …)  |
+| `Scope:`  | Files and approximate size in review scope                                                    |
+| `Lens:`   | User focus; omit, `general`, or any kebab-case slug (examples in sources.md — not exhaustive) |
+| `Filing:` | `merge-blockers only` (default) or improvements mode per merge-blockers                       |
 
 Optional one-line scope note may precede the header.
 
