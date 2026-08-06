@@ -1,37 +1,57 @@
-# Review procedure (all sources)
+# How to review
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-03 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Single primary-first contract for every source adapter ([sources.md](sources.md)). Intensity from [surfaces.md](surfaces.md). Escalation only via [escalation.md](escalation.md).
+Review procedure for primary agents and subagents. Acquire materials first ([sources.md](sources.md)); file per [merge-blockers.md](merge-blockers.md); shape output per [output.md](output.md).
 
-## Workflow
+Works for **any surface** — git diff, whole module, path list, paste, multi-repo path, or user-described scope — and **any lens** the user names (table rows are examples, not limits).
 
-1. **Source** — pick adapter; run acquire commands; note framing if needed.
-2. **Surface** — measure bulk in scope; assign band; apply risk attention; honor user intensity overrides.
-3. **Re-review preflight** — run [anti-thrash.md](anti-thrash.md) **before synthesis and before any Task/council spawn** when any of: prior Action themes may exist; user re-reviews after fixes; bare `review` / `review vs main` / `check the PR` in a new chat; tip may show a same-hotspot micro-fix trail. Missing chat context alone MUST NOT imply `first-baseline`.
-4. **Hard stop** — if anti-thrash triggers (same-hotspot trail or recoverable `Theme:` lines), set `Pass class:` to `closure-re-review` or justified `new-scope-review` per [anti-thrash.md](anti-thrash.md) § Hard stop. **Do not** call Task/Subagent or open council until that gate passes. `first-baseline` is forbidden while a trigger is active.
-5. **Primary review** — read diff + primary material; trace contracts, guards, async boundaries, introduced-only defects. Coordinator tools are the default review path. On `closure-re-review`, prefer same-invariant inventory over symptom hunting ([anti-thrash.md](anti-thrash.md) thrash signal).
-6. **Escalate?** — only per [escalation.md](escalation.md) (Matched policy), and only after steps 3–4. If no escalation, synthesize and write [output.md](output.md).
-7. **Escalated path** — `subagents` specialists or council → primary validates every candidate → [synthesis.md](synthesis.md) → [output.md](output.md). Dispatch plan MUST include `Pass class:` + archaeology evidence from the hard stop.
+## Steps
 
-**Default:** step 6 ends with **primary only** — zero Task/Subagent members.
+1. **Scope** — confirm surface adapter, paths, and lens. Ask if ambiguous.
+2. **Read** — change hunks **or** full in-scope files plus callers, types, tests when they exist.
+3. **Trace** — happy path, error path, null/empty input, auth boundary, persistence, concurrency/async.
+4. **Evidence** — every Action finding needs `path:line`, trigger, and impact.
+5. **Synthesize** — merge duplicates; route polish to Deferred unless improvements/cleanliness lens is on.
 
-## Evidence
+## What to look for (by lens)
 
-- Introduced-only / regression provenance — consumer review-gates overlay when injected; portable default: file what the diff introduced or newly made reachable.
-- Each Action claim needs `path:line`, trigger, impact, and counter-evidence checked.
-- Merge duplicate symptoms under one `theme_id` ([fix-loop-ledger.md](fix-loop-ledger.md)).
-- Prefer no finding over speculation ([merge-blockers.md](merge-blockers.md)).
-- On **Broad** surfaces, maximize **usefulness density** — fewer high-confidence production-reachable blockers with `path:line` evidence beat long low-value lists ([surfaces.md](surfaces.md)).
+| Lens                  | Emphasize (extend when user names another focus)                                              |
+| --------------------- | --------------------------------------------------------------------------------------------- |
+| **general** (default) | Correctness, contracts, errors, data, UX on paths the surface touches                         |
+| **security**          | Authz, injection, secret handling, trust boundaries, unsafe defaults                          |
+| **cleanliness**       | Naming, structure, duplication, readability — file as improvements / Deferred per filing mode |
+| **merge-readiness**   | Same as general + explicit ship/no-ship status                                                |
+| **user-named**        | Prioritize what the user asked; keep base checklist as background scan                        |
+
+Base checklist (all lenses):
+
+| Area            | Questions                                                                   |
+| --------------- | --------------------------------------------------------------------------- |
+| **Correctness** | Wrong branch, off-by-one, stale state, missing lifecycle reset              |
+| **Contracts**   | API drift, broken invariants, unchecked assumptions                         |
+| **Errors**      | Swallowed errors, wrong codes, partial failure state                        |
+| **Security**    | Authz bypass, injection, leakage (always scan lightly even on general lens) |
+| **Data**        | Loss, corruption, race, idempotency                                         |
+| **UX reach**    | User-visible wrong behavior on reachable paths                              |
+
+## Evidence bar
+
+| Surface shape                     | Default bar                                                                                              |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Change-shaped** (diff adapters) | **Introduced-only** — defects the change introduced or newly exposed                                     |
+| **Snapshot / paths**              | **In-scope** — issues in named material; mark `pre-existing` in Noted when outside user's implied intent |
+
+Shared rules:
+
+- **Reachability** — name the trigger. Append `· Needs confirmation` when unproven.
+- **No speculation** — no trigger + impact → no Action.
+- **Tests** — missing tests alone ≠ Action unless tied to reachable untested risk on a changed path.
 
 ## Filing
 
-Default **merge-blockers only** — [merge-blockers.md](merge-blockers.md). Improvements/exhaustive only on explicit user triggers listed there.
+Default **merge-blockers only** — [merge-blockers.md](merge-blockers.md). Cleanliness / style / nits require improvements lens or explicit user opt-in.
 
 ## Output
 
-Always [output.md](output.md): finding blocks, optional Continuity, tails. When Action > 0, include Continuity session hint **and** persistence instructions ([output.md](output.md) § Continuity persistence). **Review status** lines (`No findings in scope.`, `No merge-blockers in scope.`, counts) only when the user asked merge-readiness or equivalent — not on every casual review.
-
-## Fix implementation (after review)
-
-User "address all" / "fix all" / "yes" to ship-blockers → read prior themes (findings / git archaeology) before coding; invariant-complete batches; **MUST** include `Theme: <id>` in each fix commit message (footer or body) so channel #3 stays recoverable; repo validation; end with findings + Continuity session hint + persistence reminder if themes remain open. On green, delete leftover `_agent/review/REVIEW_LEDGER.md` if present — **never write** a new ledger file.
+Always [output.md](output.md). Review status lines only when lens or user ask is merge-readiness.

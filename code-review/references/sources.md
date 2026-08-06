@@ -1,46 +1,58 @@
-# Source adapters
+# Review surface adapters
 
-How to **acquire** the review surface. Source chooses git commands and light framing only — not review intensity, filing, or council spawn. Intensity → [surfaces.md](surfaces.md). Procedure → [review.md](review.md).
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-## Pick an adapter
+How to **acquire review materials** — not every review is a git diff. Procedure → [review.md](review.md).
 
-| Adapter            | When                                              | Acquire (run in order)                                                                                                     |
-| ------------------ | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| **uncommitted**    | Staged, unstaged, and/or untracked working tree   | `git status --short` · `git diff --stat -- .` · `git diff -- .` · `git diff --cached -- .` · read material untracked files |
-| **staged-only**    | User asks staged / pre-commit / `--cached` only   | `git status --short` · `git diff --cached --stat` · `git diff --cached`                                                    |
-| **commit**         | Single commit (`HEAD`, SHA, or “latest commit”)   | `git show --stat` · `git show` (or `git show <sha>`)                                                                       |
-| **branch**         | Branch vs base, `review vs main`, merge readiness | [shared.md](shared.md) fetch + stat + diff                                                                                 |
-| **pr**             | Open PR / explicit PR review                      | Same as **branch**; optional `gh pr view` for base/title/body context                                                      |
-| **paths**          | User names files, modules, or directories         | Parent adapter + `-- <paths>` on every diff command                                                                        |
-| **implementation** | Implementation review of named modules            | **paths** + holistic read of module boundaries (not line-only)                                                             |
-| **external**       | Pasted patch or attachment                        | User-supplied diff; read repo only when paths exist                                                                        |
+**Surface** = the code (or paste) the reviewer reads. **Lens** = what the user wants judged — set in header `Lens:` and filing mode ([merge-blockers.md](merge-blockers.md)).
 
-**Legacy mode names** (route here, do not treat as separate skills):
+Adapters and lens labels below are **starting points**, not a closed set. If the user’s ask does not fit a row, pick the closest adapter, name the actual scope in the header, and follow their wording for emphasis and filing.
 
-| Legacy prompt                      | Adapter                                                                    |
-| ---------------------------------- | -------------------------------------------------------------------------- |
-| `staged`, `unstaged`, `pre-commit` | **uncommitted** (full tree) or **staged-only** when explicitly staged-only |
-| `commit`                           | **commit**                                                                 |
-| `pr`, `merge`, `review vs main`    | **branch** or **pr**                                                       |
-| `implementation`                   | **implementation**                                                         |
+## Pick a surface adapter
 
-## Framing (not a separate path)
+| Adapter         | When                                                    | Acquire                                                                                    |
+| --------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| **uncommitted** | Working tree changes                                    | `git status --short` · `git diff --stat -- .` · `git diff -- .` · `git diff --cached -- .` |
+| **staged-only** | Staged / pre-commit only                                | `git status --short` · `git diff --cached --stat` · `git diff --cached`                    |
+| **commit**      | Single commit                                           | `git show --stat` · `git show`                                                             |
+| **branch**      | Branch vs base                                          | fetch + stat + diff (below)                                                                |
+| **pr**          | Open PR                                                 | Same as **branch**; optional `gh pr view` for context                                      |
+| **paths**       | Named files, module, directory — **no diff required**   | Read files in scope; optional `git log -n 5 -- <paths>` for recent churn context only      |
+| **snapshot**    | “Review this code”, security/cleanliness pass on a area | Same as **paths** — holistic read of in-scope files, not hunk-by-hunk                      |
+| **external**    | Pasted snippet or attachment                            | User-supplied text; read repo paths when referenced                                        |
 
-Add at most one short framing line in the synthesis header or change summary when relevant:
+**Change-shaped** surfaces (diff adapters) → default **introduced-only** evidence ([review.md](review.md)). **Snapshot/path** surfaces → judge **in-scope material**; pre-existing issues are in scope unless user narrowed to “changes only”.
 
-- **uncommitted** — surface may include unrelated dirty files; confirm scope if ambiguous.
-- **pr** / **branch** — base resolved via [shared.md](shared.md); empty diff against wrong base is not “nothing to review.”
-- **paths** / **implementation** — scoped surface; introduced-only within paths unless user widened scope.
-- **merge-readiness** — when the user asks merge-ready / ship / “good to merge”, include review status per [output.md](output.md) § Review status.
+## Branch / PR diff
 
-## Path-scoped diffs
-
-When paths are named, every diff command from the parent adapter must include `-- <paths>`.
+When the surface is a change set:
 
 ```bash
-git fetch origin <base>   # branch/pr only
-git diff --stat origin/<base>...HEAD -- src/auth/
-git diff origin/<base>...HEAD -- src/auth/
+git fetch origin <base>
+git diff --stat origin/<base>...HEAD
+git diff origin/<base>...HEAD
 ```
 
-If scoped paths are unclear, ask before reviewing.
+Path-scoped diff: append `-- src/module/` to both commands.
+
+## Lens (user intent — not a separate adapter)
+
+Record in header as `Lens:` when the user names a focus. Use a **kebab-case slug** from the table when it fits; otherwise use the user’s phrase (e.g. `Lens: performance`, `Lens: api-breaking-changes`).
+
+| User ask (examples)             | `Lens:` (examples)  | Filing hint                                                    |
+| ------------------------------- | ------------------- | -------------------------------------------------------------- |
+| Default / “review my changes”   | `general` (omit ok) | merge-blockers only                                            |
+| “Security review”, “auth flaws” | `security`          | merge-blockers — reachable vulns are Action                    |
+| “Cleanliness”, “style”, “nits”  | `cleanliness`       | **improvements mode** ([merge-blockers.md](merge-blockers.md)) |
+| “Merge-ready”, “ship it”        | `merge-readiness`   | merge-blockers + review status lines ([output.md](output.md))  |
+| Anything else                   | user-named slug     | infer filing from user words; ask once if ambiguous            |
+
+Lens adjusts **emphasis** and **default filing** — it does not replace acquiring a surface. Combine freely: `source:snapshot` + `Lens: security`, `source:branch` + `Lens: performance`, etc.
+
+## Framing
+
+- **paths** / **snapshot** — confirm directory or symbol scope if ambiguous.
+- **uncommitted** — may include unrelated dirty files; confirm scope.
+- **merge-readiness** — include review status per [output.md](output.md).
+
+If surface or lens is unclear, ask once before reviewing.

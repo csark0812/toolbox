@@ -38,4 +38,4 @@ Job recipes → entry skill references (arrive as project-specific injected cont
 
 When `N ≥ 2` members share the same `subagent_type`, assign distinct `stance` values from the agent's `dispatch.stances` (or define ad hoc stances). Never use identical `model` + identical prompt for parallel members. Shared Auto inherit (`inherit-auto` / omit tool `model`) is fine when prompts/stances differ — do not pick distinct slugs under an Auto parent just to diversify.
 
-Adversarial kill mandates, context packs, staged debate, and cross-model carve-out → [adversarial.md](adversarial.md).
+Member envelope shape + token rules → [context-pack.md](context-pack.md). Adversarial kill mandates, staged debate, cross-model carve-out → [adversarial.md](adversarial.md).

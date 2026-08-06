@@ -1,11 +1,10 @@
 # Fix-loop themes
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-03 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Portable state for review → fix → re-review convergence. Theme **identity** lives
-in Action finding lines (`Theme: …`), coordinator/member prompts, and git tip /
-hotspot archaeology across chats. Theme **closure state** is never durable across
-chats — re-verify against tip when thrash signal is present ([exit gate](#exit-gate)).
+**Iterate coordinator vocabulary** — theme identity, invariant matrix, and closure evidence for iterative blind passes. Review **how-to** → [`code-review`](../../code-review/SKILL.md).
+
+Theme **identity** lives in Action finding lines (`Theme: …`), coordinator/member prompts, and git tip / hotspot archaeology across chats. Theme **closure state** is never durable across chats — re-verify against tip when thrash signal is present ([exit gate](#exit-gate)).
 
 Do not rely on line numbers or finding order as identity.
 
@@ -210,7 +209,7 @@ Then:
 3. Collapse symptoms into one `theme_id` (or reopen the existing one) — contract-class
    slug when no Theme: recovered.
 4. Stay **targeted contextual** with `Thrash: inventory-required` — **never** auto-Full
-   on thrash. Full only on explicit user ask or `new-scope-review` ([surfaces.md](surfaces.md)).
+   on thrash. Full revisit only on explicit user ask or `new-scope-review`.
 
 ## Premature closure (named failure mode)
 

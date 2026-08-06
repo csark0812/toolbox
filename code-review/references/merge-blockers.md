@@ -1,6 +1,6 @@
 # Default filing — merge-blockers only
 
-**SSOT:** Which finding **categories** to file by default on review (merge-blockers vs improvements mode). Edit here; cite from [output.md](output.md), [SKILL.md](../SKILL.md), [task-prompt-review.md](task-prompt-review.md).
+**SSOT:** Which finding **categories** to file by default on review (merge-blockers vs improvements mode). Edit here; cite from [output.md](output.md) and [SKILL.md](../SKILL.md).
 
 **Per-finding Action bar** (introduced/reachable/behavior delta/PR-aligned → Action vs Noted/Deferred) → consumer worth-doing gate / customize. Apply **both**: this doc sets filing breadth; worth-doing gate filters individual findings at synthesis.
 
@@ -18,7 +18,7 @@ File **only merge-blockers** — bugs that would **surface in production** and n
 
 **Registry + synthesis:** `scope: ship-blocker` only. Do not append `hardening` or `improvement` rows unless improvements mode is active.
 
-**Council still reads the whole diff** at the configured depth — filing is what gets narrowed, not audit scope.
+**Audit depth:** filing is what gets narrowed, not read scope — still read the full in-scope surface.
 
 **Synthesis status line** (when zero merge-blockers):
 
@@ -30,7 +30,7 @@ When merge-blockers exist, count only ship-blockers in the findings line (omit h
 
 ## Improvements mode (explicit opt-in)
 
-Activate when the user says any of: **include improvements**, **improvements too**, **full audit**, **hardening pass**, **polish**, **test inventory**, **exhaustive audit**, **comprehensive pass**, or **do not cap findings**.
+Activate when the user says any of: **include improvements**, **improvements too**, **full audit**, **hardening pass**, **polish**, **cleanliness**, **style pass**, **test inventory**, **exhaustive audit**, **comprehensive pass**, or **do not cap findings**.
 
 Then also file:
 
@@ -41,8 +41,8 @@ Then also file:
 
 Record in synthesis header: `Filing: merge-blockers + improvements` (or `Filing: exhaustive`).
 
-## Member prompt one-liner
+Default filing one-liner for member prompts:
 
 ```
-Default filing: merge-blockers only ([merge-blockers.md](merge-blockers.md)). File only reachable production bugs (scope: ship-blocker). No test-gap, docs, refactor, or polish findings unless user requested improvements mode.
+Default filing: merge-blockers only ([merge-blockers.md](merge-blockers.md)). File only reachable production bugs (scope: ship-blocker). No test-gap, docs, refactor, or polish unless user requested improvements mode.
 ```

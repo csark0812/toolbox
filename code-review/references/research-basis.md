@@ -1,34 +1,25 @@
 # Code review research basis
 
-**Source of truth for** evidence and limits behind primary-first review.
+**Source of truth for** evidence behind review filing and evidence bar.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Read when calibrating surface bands, filing density, or claiming review-process benefits. Not for every review pass.
+Read when calibrating filing density or evidence claims. Not for every review.
 
-## Evidence posture
+## Merge-blockers-only filing
 
-- Large changesets tend toward lower usefulness density per comment — depth beats volume on Broad surfaces.
-- Primary-first matches equal-budget findings that multi-agent review is often extra tokens, not extra signal.
-- Merge-blockers-only filing reduces speculative noise.
+Reduces speculative noise — file reachable production defects, not test inventory or polish by default.
 
-## Usefulness density (Broad)
+**Confidence:** High for maintainability; moderate for cold-start agent success.
 
-As file count in a changeset rises, proportion of useful review comments tends to drop — reviewers skim or ask clarifying questions instead of deep reads.
+## Introduced-only default
 
-**Confidence:** Moderate to high for human review at scale; moderate for LLM primary review mimicking the same constraint.
+Review what the diff changed or newly exposed — pre-existing issues belong in Noted unless they block the changed path.
 
-**Does not transfer:** Hard file-count gates; skipping review on large PRs.
+**Confidence:** Moderate — reduces scope creep on large diffs.
 
-- Bosu, A., Greiler, M., & Bird, C. (2015). _Characteristics of Useful Code Reviews: An Empirical Study at Microsoft._ MSR. https://doi.org/10.1109/MSR.2015.21
-- Google eng practices — small CLs: https://google.github.io/eng-practices/review/developer/cl-small.html
+## Evidence over volume
 
-## Primary-first vs council
+Each Action item needs `path:line`, trigger, and impact. Prefer no finding over speculation.
 
-Default one coordinator with direct diff inspection; escalate specialists only on user ask or unresolved domain after primary pass.
-
-**Confidence:** Moderate for cost and debuggability; aligns with budget-normalized single-agent reasoning literature.
-
-**Does not transfer:** Mandatory council on every large diff; size alone as escalation trigger.
-
-- Han et al. (2025) and related work on equal thinking-token budgets — multi-agent overhead without guaranteed lift.
+**Confidence:** High as process hygiene.

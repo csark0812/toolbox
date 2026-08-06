@@ -10,20 +10,20 @@ Assign each skill to exactly one place. Update when adding skills.
 
 Generic orchestration, planning, and dialogue — intended for any consumer project.
 
-| Slug                 | Notes                                                                            |
-| -------------------- | -------------------------------------------------------------------------------- |
-| subagents            | Subagent type, token-efficient splits, cheapest model routing                    |
-| code-review          | Primary-first review + fix-loop; council on escalation (customize roster)        |
-| crystallize          | Fuzzy idea → artifact                                                            |
-| grill                | Pressure-test design                                                             |
-| second-opinion       | Unified plan review (staged debate)                                              |
-| iterate              | Bounded code/plan-slice closure — blind review loop until cohesive               |
-| probe                | Hunch evidence/verdict by default; hard-bug fix under Authority B (default seat) |
-| tdd                  | Test-first build at agreed public seams                                          |
-| prototype            | Throwaway design spike (user-invoked)                                            |
-| domain-model         | Persist glossary + ADRs when decisions are ready (user-invoked)                  |
-| handoff              | Session handoff — model-invoked artifact or user prompt-only                     |
-| writing-great-skills | Skill-authoring vocabulary and predictability (user-invoked)                     |
+| Slug                 | Notes                                                                                               |
+| -------------------- | --------------------------------------------------------------------------------------------------- |
+| subagents            | Spawn kernel — type, splits, model routing, [context-pack](../subagents/references/context-pack.md) |
+| code-review          | Any review surface + lens — merge-blocker filing, evidence bar (not diff-only)                      |
+| crystallize          | Fuzzy idea → artifact                                                                               |
+| grill                | Pressure-test design                                                                                |
+| second-opinion       | Unified plan review (staged debate)                                                                 |
+| iterate              | Bounded code/plan-slice closure — blind review loop until cohesive                                  |
+| probe                | Hunch evidence/verdict by default; hard-bug fix under Authority B (default seat)                    |
+| tdd                  | Test-first build at agreed public seams                                                             |
+| prototype            | Throwaway design spike (user-invoked)                                                               |
+| domain-model         | Persist glossary + ADRs when decisions are ready (user-invoked)                                     |
+| handoff              | Cross-session handoff — channel + pack + goal; pointers not bodies                                  |
+| writing-great-skills | Skill-authoring vocabulary and predictability (user-invoked)                                        |
 
 Shared ambient refs live in [`.skeleton/references/`](../.skeleton/references/) and are opened from skills via GitHub raw URLs (network required). See [github-ambient-refs-validation.md](github-ambient-refs-validation.md). Soft-default planning recipes stay out of skill trees — enable via [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md) only when the consumer has no planning docs remap.
 
@@ -43,9 +43,20 @@ npx skills add csark0812/toolbox --skill subagents code-review crystallize grill
 
 Install destinations: Cursor project → `.agents/skills/` (global → `~/.cursor/skills/`); Claude Code project → `.claude/skills/` (global → `~/.claude/skills/`); Codex project → `.agents/skills/` (global → `~/.codex/skills/`). Put project-specific customize stubs and council overlays in the consumer repo, not here.
 
+### Compositional layers (2026-08)
+
+Four complementary layers — keep orchestration out of instruction skills:
+
+| Layer           | Skills / refs                           | Owns                                        |
+| --------------- | --------------------------------------- | ------------------------------------------- |
+| Orchestrator    | `iterate`, `second-opinion`, `diagnose` | Loops, exit gates, coordinator memory       |
+| Subagent kernel | `subagents`, `context-pack.md`          | Spawn, splits, member envelopes             |
+| Instruction     | `code-review`, dispatch refs            | _How_ to do one job (review, handoff write) |
+| Info pass       | `handoff`                               | Cross-session rip-out (`channel` + `Pack`)  |
+
 ### Code-review migration (2026-07)
 
-Default review is **primary-first**: one coordinator pass by surface size; specialists/council only on escalation (user ask or unresolved domain). Source adapters replace legacy mode names (`pr` / `staged` / …). See [code-review/SKILL.md](../code-review/SKILL.md) and [sources.md](../code-review/references/sources.md).
+Default review skill is **guidelines-only**: how to read a diff and file merge-blockers. Spawn and fix-loop orchestration → [`subagents`](../subagents/SKILL.md) and [`iterate`](../iterate/SKILL.md). See [code-review/SKILL.md](../code-review/SKILL.md).
 
 Distribution:
 

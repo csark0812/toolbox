@@ -119,7 +119,10 @@ describe('toolbox skill SSOT', () => {
     const routing = readFileSync(join(root, 'subagents/references/model-routing.md'), 'utf8')
     const discovery = readFileSync(join(root, 'subagents/references/agent-discovery.md'), 'utf8')
     const taskPrompt = readFileSync(join(root, 'subagents/references/task-prompt.md'), 'utf8')
-    const council = readFileSync(join(root, 'code-review/references/council-dispatch.md'), 'utf8')
+    const council = readFileSync(
+      join(root, 'subagents/references/review-council-dispatch.md'),
+      'utf8',
+    )
     const perspectiveInvestigate = readFileSync(
       join(root, 'probe/references/parallel-perspective.md'),
       'utf8',
@@ -161,12 +164,10 @@ describe('toolbox skill SSOT', () => {
     )
 
     // Entry/auxiliary docs reference the kernel instead of redefining the gate.
-    expect(council).toMatch(/Parent model: \[Auto \| <named model>\]/)
-    expect(council).toMatch(/model=\[inherit-auto \| slug\]/)
-    expect(council).toMatch(/inherit-auto` means \*\*omit\*\* the Task\/Subagent `model` argument/)
-    expect(council).toMatch(/Council dispatch does not redefine that gate/)
-    expect(council).not.toMatch(/## Checklist before spawn/)
-    expect(council).not.toMatch(/model=\[slug\]/)
+    expect(council).toMatch(/Parent model: \[Auto \| named\]/)
+    expect(council).toMatch(/model=inherit-auto/)
+    expect(council).toMatch(/code-review\/SKILL\.md/)
+    expect(council).toMatch(/Pre-spawn model-routing gate/)
     expect(discovery).toMatch(/tier metadata.*not spawn instructions/s)
     expect(discovery).toMatch(/Tier→slug mapping is only for the named-parent branch/)
     expect(discovery).toMatch(/Parent model: \[Auto \| <named model>\]/)
@@ -240,40 +241,44 @@ describe('toolbox skill SSOT', () => {
     expect(tiers).not.toMatch(/--skill[^\n]*\bdiagnose\b/)
   })
 
-  it('code-review defaults to primary; council only on escalation', () => {
+  it('code-review is thin review guidelines without orchestration', () => {
     const skill = readFileSync(join(root, 'code-review/SKILL.md'), 'utf8')
-    const council = readFileSync(join(root, 'code-review/references/council-dispatch.md'), 'utf8')
-    const synthesis = readFileSync(join(root, 'code-review/references/synthesis.md'), 'utf8')
     const review = readFileSync(join(root, 'code-review/references/review.md'), 'utf8')
-    const escalation = readFileSync(join(root, 'code-review/references/escalation.md'), 'utf8')
-    const multi = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
+    const output = readFileSync(join(root, 'code-review/references/output.md'), 'utf8')
+    const sources = readFileSync(join(root, 'code-review/references/sources.md'), 'utf8')
+    const blockers = readFileSync(join(root, 'code-review/references/merge-blockers.md'), 'utf8')
 
-    expect(skill).toMatch(/Primary-first/)
-    expect(skill).toMatch(/no Task members/)
-    expect(skill).toMatch(/Escalate only when matched/)
-    expect(skill).toMatch(/references\/escalation\.md/)
+    expect(skill).toMatch(/How to review/)
+    expect(skill).toMatch(/Review only/)
+    expect(skill).toMatch(/Merge-blockers default/)
+    expect(skill).not.toMatch(/anti-thrash/)
+    expect(skill).not.toMatch(/fix-loop/)
+    expect(skill).not.toMatch(/council-dispatch/)
+    expect(skill).not.toMatch(/Escalate only when matched/)
 
-    expect(review).toMatch(/Primary review/)
-    expect(review).toMatch(/zero Task\/Subagent members/)
+    expect(review).toMatch(/Introduced-only/)
+    expect(review).toMatch(/path:line/)
+    expect(review).not.toMatch(/Hard stop/)
+    expect(review).not.toMatch(/Task\/Subagent/)
 
-    expect(escalation).toMatch(/Primary/)
-    expect(escalation).toMatch(/Targeted specialists/)
-    expect(escalation).toMatch(/Council/)
-    expect(escalation).toMatch(/Fit check timing/)
-    expect(escalation).toMatch(/entry-skill carve-out/)
-    expect(escalation).not.toMatch(/Fit check ON/)
+    expect(output).toMatch(/Review · source:/)
+    expect(output).toMatch(/Filing: merge-blockers only/)
+    expect(output).not.toMatch(/Pass class:/)
+    expect(output).not.toMatch(/Thrash:/)
+    expect(output).not.toMatch(/Reviewer: primary/)
 
-    expect(council).toMatch(/escalation only/)
-    expect(council).toMatch(/Primary path/)
-    expect(council).toMatch(/without.*member Tasks/)
-    expect(council).toMatch(/entry-skill carve-out/)
-    expect(council).toMatch(/do not.*re-run Fit check/i)
-    expect(council).not.toMatch(/run \[`subagents` when-not-to-spawn\]/)
+    expect(sources).toMatch(/git diff/)
+    expect(blockers).toMatch(/merge-blockers only/)
+  })
 
-    expect(synthesis).toMatch(/Primary-only/)
-    expect(synthesis).toMatch(/Escalated hard gate/)
+  it('iterate owns thrash vocabulary moved from code-review', () => {
+    const antiThrash = readFileSync(join(root, 'iterate/references/anti-thrash.md'), 'utf8')
+    const ledger = readFileSync(join(root, 'iterate/references/fix-loop-ledger.md'), 'utf8')
 
-    expect(multi).toMatch(/Entry-skill carve-out/)
+    expect(antiThrash).toMatch(/Thrash signal/)
+    expect(antiThrash).toMatch(/Thrash: inventory-required/)
+    expect(ledger).toMatch(/## Predicate glossary/)
+    expect(ledger).toMatch(/session-pin-plane-attach/)
   })
 
   it('excludes install-mirror skill trees from scan perimeter (registry SSOT is flat)', () => {
@@ -289,81 +294,6 @@ describe('toolbox skill SSOT', () => {
     expect(sync).toMatch(/EXPECTED_SKILLS/)
     expect(sync).not.toMatch(/const SKILL_SLUGS = \[\s*'subagents'/)
     expect(pkg).toMatch(/sync:skills": "node --experimental-strip-types/)
-  })
-
-  it('code-review anti-thrash guard calibrates re-review instead of reflex councils', () => {
-    const skill = readFileSync(join(root, 'code-review/SKILL.md'), 'utf8')
-    const antiThrash = readFileSync(join(root, 'code-review/references/anti-thrash.md'), 'utf8')
-    const surfaces = readFileSync(join(root, 'code-review/references/surfaces.md'), 'utf8')
-    const ledger = readFileSync(join(root, 'code-review/references/fix-loop-ledger.md'), 'utf8')
-    const council = readFileSync(join(root, 'code-review/references/council-dispatch.md'), 'utf8')
-    const synthesis = readFileSync(join(root, 'code-review/references/synthesis.md'), 'utf8')
-    const prompt = readFileSync(join(root, 'code-review/references/task-prompt-review.md'), 'utf8')
-    const output = readFileSync(join(root, 'code-review/references/output.md'), 'utf8')
-    const selection = readFileSync(join(root, 'code-review/references/agent-selection.md'), 'utf8')
-
-    expect(skill).toMatch(/references\/anti-thrash\.md/)
-    expect(skill).toMatch(/no Task members/)
-
-    expect(antiThrash).toMatch(/# Anti-thrash preflight/)
-    expect(antiThrash).toMatch(/closure-re-review/)
-    expect(antiThrash).toMatch(/new-scope-review/)
-    expect(antiThrash).toMatch(/Thrash signal/)
-    expect(antiThrash).toMatch(/targeted contextual/)
-    expect(antiThrash).toMatch(/Same-hotspot commit-stack thrash/)
-    expect(antiThrash).toMatch(/Thrash: inventory-required/)
-    expect(antiThrash).toMatch(/Never write/)
-    expect(antiThrash).toMatch(/Green cleanup/)
-    expect(antiThrash).toMatch(/Over-fire/)
-    expect(antiThrash).toMatch(/## Hard stop \(before Task \/ council\)/)
-    expect(antiThrash).toMatch(/before any Task\/Subagent or council spawn/)
-    expect(antiThrash).toMatch(/git log --oneline --stat -n 12/)
-
-    const review = readFileSync(join(root, 'code-review/references/review.md'), 'utf8')
-    expect(review).toMatch(/Hard stop/)
-    expect(review).toMatch(/Theme: <id>/)
-    expect(review).toMatch(/Continuity persistence/)
-
-    expect(surfaces).toMatch(/closure-re-review/)
-    expect(surfaces).toMatch(/targeted contextual/)
-    expect(surfaces).toMatch(/## Full contextual/)
-    expect(surfaces).toMatch(/anti-thrash\.md/)
-
-    expect(ledger).toMatch(/## Same-invariant sweep/)
-    expect(ledger).toMatch(/## Thrash signal/)
-    expect(ledger).toMatch(/## Repeated-review guard/)
-    expect(ledger).toMatch(/## Predicate glossary/)
-    expect(ledger).toMatch(/## Contract-class catalog/)
-    expect(ledger).toMatch(/shell-argv-free-text-sinks/)
-    expect(ledger).toMatch(/session-pin-plane-attach/)
-    expect(ledger).toMatch(/Two or more Action blockers/)
-    expect(ledger).toMatch(/Never write/)
-    expect(ledger).toMatch(/anti-thrash\.md/)
-
-    expect(council).toMatch(/Pass class:/)
-    expect(council).toMatch(/Anti-thrash completed/)
-    expect(council).toMatch(/anti-thrash\.md/)
-
-    expect(synthesis).toMatch(/thrash collapse/)
-    expect(synthesis).toMatch(/closure-re-review/)
-
-    expect(prompt).toMatch(/## Contextual ledger overlay/)
-    expect(prompt).toMatch(/sibling variants would fail/)
-    expect(prompt).toMatch(/Thrash signal:/)
-    expect(prompt).toMatch(/inventory-required/)
-    expect(prompt).toMatch(/Orchestrated on \*\*escalated\*\* runs only/)
-
-    expect(output).toMatch(/Stayed targeted contextual/)
-    expect(output).toMatch(/Pass: targeted contextual/)
-    expect(output).toMatch(/Thrash:/)
-    expect(output).toMatch(/inventory-required/)
-    expect(output).toMatch(/Reviewer: primary/)
-    expect(output).toMatch(/## Continuity persistence/)
-    expect(output).toMatch(/Persist \(cold-chat recovery\)/)
-    expect(ledger).toMatch(/### Persistence/)
-
-    expect(selection).toMatch(/escalated council only/)
-    expect(selection).toMatch(/Primary-only reviews do not run this doc/)
   })
 
   it('iterate mandates blind Task spawn and split closure semantics', () => {
@@ -399,8 +329,10 @@ describe('toolbox skill SSOT', () => {
     expect(adversarial).not.toMatch(/blind-reviewer-dispatch/)
   })
 
-  it('handoff is model-invoked with subagent artifact path and user prompt-only branch', () => {
+  it('handoff is token-minimal with channel, pack, and prompt vs artifact', () => {
     const skill = readFileSync(join(root, 'handoff/SKILL.md'), 'utf8')
+    const pack = readFileSync(join(root, 'handoff/references/pack.md'), 'utf8')
+    const output = readFileSync(join(root, 'handoff/references/output.md'), 'utf8')
     const dispatch = readFileSync(
       join(root, 'handoff/references/handoff-subagent-dispatch.md'),
       'utf8',
@@ -408,15 +340,39 @@ describe('toolbox skill SSOT', () => {
     const subagents = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
 
     expect(skill).not.toMatch(/disable-model-invocation/)
-    expect(skill).toMatch(/User-request/)
-    expect(skill).toMatch(/prompt-only/)
-    expect(skill).toMatch(/Model-invoked/)
-    expect(skill).toMatch(/Hard gate/)
+    expect(skill).toMatch(/Pointers not bodies/)
+    expect(skill).toMatch(/channel:prompt/)
+    expect(skill).toMatch(/pack\.md/)
+    expect(skill).not.toMatch(/## Original ask/)
 
-    expect(dispatch).toMatch(/model=inherit-auto/)
-    expect(dispatch).toMatch(/write-handoff-artifact/)
+    expect(pack).toMatch(/not limits/)
+    expect(pack).toMatch(/\*\*pointers\*\*/)
+    expect(pack).toMatch(/\*\*prompt\*\*/)
+
+    expect(output).toMatch(/Handoff · channel:/)
+    expect(output).toMatch(/Omit empty sections/)
+
+    expect(dispatch).toMatch(/channel:artifact/)
+    expect(dispatch).toMatch(/output\.md/)
 
     expect(subagents).toMatch(/handoff/)
     expect(subagents).toMatch(/handoff-subagent-dispatch/)
+  })
+
+  it('subagents context-pack is SSOT for member envelopes', () => {
+    const pack = readFileSync(join(root, 'subagents/references/context-pack.md'), 'utf8')
+    const subagents = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
+    const adversarial = readFileSync(join(root, 'subagents/references/adversarial.md'), 'utf8')
+    const handoffPack = readFileSync(join(root, 'handoff/references/pack.md'), 'utf8')
+    const sliceEnv = readFileSync(join(root, 'iterate/references/slice-envelope.md'), 'utf8')
+
+    expect(subagents).toMatch(/context-pack\.md/)
+    expect(pack).toMatch(/Pointers not bodies/)
+    expect(pack).toMatch(/Omit empty/)
+    expect(pack).toMatch(/Domain recipes/)
+    expect(adversarial).toMatch(/context-pack\.md/)
+    expect(adversarial).not.toMatch(/Requirements \/ acceptance \(if any\):/)
+    expect(handoffPack).toMatch(/context-pack\.md/)
+    expect(sliceEnv).toMatch(/context-pack\.md/)
   })
 })

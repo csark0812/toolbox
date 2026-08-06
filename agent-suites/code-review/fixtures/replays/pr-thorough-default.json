@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "\nReview · source:paths · Surface: focused (1 file, 64 loc) · Reviewer: primary · Filing: merge-blockers only\n\nPrimary focused pass on client-only UI form state — no council escalation.\n\n## Findings\nNo merge-blocking findings found.\n\n## Review synthesis\nThe review remained primary on a small scoped UI diff and did not escalate to council."
+      "content": "\nReview · source:branch · Scope: 1 file, 64 loc · Filing: merge-blockers only\n\nPrimary pass on client-only UI form state.\n\n## Findings\nNo merge-blocking findings found.\n\n## Review synthesis\nThe review stayed focused on a small scoped UI diff."
     }
   ],
   "toolCalls": [],

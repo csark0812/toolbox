@@ -34,7 +34,7 @@ Consumer repos own product integration outcomes (app paths, private docs, `valid
 
 Toolbox owns generic skill-contract behavior:
 
-- `code-review`: source adapters, surface-size bands, primary-first default with escalation on demand, merge-blocker default filing, anti-thrash / contextual re-review convergence, and no-commit review behavior.
+- `code-review`: diff adapters, merge-blocker filing, review-only — no orchestration in skill body.
 - `subagents`: Fit check — name single-pass rival before `N ≥ 2`; skip when independence fails.
 - `second-opinion`: staged debate with claim anchoring; unanchored kills tagged `drift`.
 - `iterate`: blind pass protocol markers (`Pass: blind`, `Cohesion: attested-local`); thrash reopen without sibling mint.
@@ -49,7 +49,7 @@ Toolbox owns generic skill-contract behavior:
 - `domain-model`: entry gate — no stated decision means no ADR; route to grill or crystallize.
 - `prototype`: declare design question + mode before writing throwaway code.
 - `grill`: falsifier recorded before leaving a decision node.
-- `handoff`: user `/handoff` → prompt-only; model-invoked → subagent writes `_agent/handoffs/` with redaction.
+- `handoff`: `channel:prompt` (user) vs `channel:artifact` (model-invoked); `Pack:` pointers/fix-loop/full — omit empty sections.
 - `writing-great-skills`: user-only skills stay user-invoked (`disable-model-invocation`).
 - `organization-ablations`: live SkillJuror-lite arms — see [docs/skill-organization-ablations.md](../docs/skill-organization-ablations.md).
 - `github-ambient-refs`: live-only dogfood that ambient refs via GitHub raw URLs are fetchable at agent runtime (scenarios skipped in replay CI). See [docs/github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md).

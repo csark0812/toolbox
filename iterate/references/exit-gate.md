@@ -35,7 +35,7 @@ Closing after fixing only the reported example, or attested-local with incomplet
 2. Reset clean streak.
 3. Do not mint sibling Action theme for the adjacent edge.
 
-See [`code-review` fix-loop-ledger § Premature closure](../../code-review/references/fix-loop-ledger.md#premature-closure-named-failure-mode).
+See [fix-loop-ledger § Premature closure](fix-loop-ledger.md#premature-closure-named-failure-mode).
 
 ## Streak heuristic
 
