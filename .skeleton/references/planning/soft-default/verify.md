@@ -4,7 +4,7 @@
 
 Completeness check on an existing plan, PRD, or issue set. Does not rewrite — flags gaps and suggests specific additions.
 
-Plan type and axis weighting — see [README.md](README.md) (Completeness axes). This file is the **axis checklist body** loaded by the second-opinion **completeness** attacker ([adversarial-debate.md](../../../../second-opinion/references/adversarial-debate.md)). Full second-opinion always pairs premises attack + this checklist + a defender — do not treat this doc as a separate “verify stance.”
+Plan type and axis weighting — see [README.md](README.md) (Completeness axes). This file is the **axis checklist body** loaded by the second-opinion **completeness** attacker ([second-opinion-dispatch.md](../../../../subagents/references/second-opinion-dispatch.md)). Full second-opinion always pairs premises attack + this checklist + a defender — do not treat this doc as a separate “verify stance.”
 
 ## Step 1: Locate the Artifact
 
@@ -106,4 +106,4 @@ After the report:
 - Ready to build → "Want to kick off your tracker / issue-workflow skill to start work?"
 - Before commit → **code-review** staged (includes AI drift hygiene)
 
-See [README.md](README.md) (Peripheral skills) for **investigate**, **code-review**, and **subagents** ([parallel-explore.md](parallel-explore.md)).
+See [README.md](README.md) (Peripheral skills) for **probe**, **code-review**, and **subagents** ([parallel-explore.md](parallel-explore.md)).

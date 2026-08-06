@@ -106,4 +106,4 @@ After the report:
 - Ready to build → "Want to kick off your tracker / issue-workflow skill to start work?"
 - Before commit → **code-review** staged (includes AI drift hygiene)
 
-See [README.md](README.md) (Peripheral skills) for **investigate**, **code-review**, and **subagents** ([parallel-explore.md](parallel-explore.md)).
+See [README.md](README.md) (Peripheral skills) for **probe**, **code-review**, and **subagents** ([parallel-explore.md](parallel-explore.md)).

@@ -61,4 +61,4 @@ Compose prompts per [task-prompt.md](../../../../subagents/references/task-promp
 ## Handoff
 
 - Planning continues in **build** / **grill** / **second-opinion** with gathered facts.
-- Does not produce verdicts — use **investigate** after gather if a specific doubt remains.
+- Does not produce verdicts — use **probe** after gather if a specific doubt remains.
