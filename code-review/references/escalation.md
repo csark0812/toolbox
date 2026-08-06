@@ -2,7 +2,7 @@
 
 Primary-first by default. Council machinery is **opt-in / justified**, not automatic.
 
-**Fit check timing:** [`subagents` when-not-to-spawn](../../subagents/SKILL.md#when-not-to-spawn) applies only when deciding **whether** to leave primary (unresolved domain after inspection). User asks for a named lens / `council` / `multi-agent` / `exhaustive council` already authorize escalation — do not re-run Fit check to waive spawn. Once this skill has placed the run on specialists or council, the [`subagents` entry-skill carve-out](../../subagents/SKILL.md#when-not-to-spawn) applies: spawn per budget; do not re-litigate “one agent suffices.”
+**Fit check timing:** [`subagents` when-not-to-spawn](../../subagents/SKILL.md#when-not-to-spawn) applies only when deciding **whether** to leave primary (unresolved domain after inspection). User asks for a named lens / `council` / `multi-agent` / `exhaustive council` already authorize escalation — do not re-run when-not-to-spawn to waive spawn. Once this skill has placed the run on specialists or council, the [`subagents` entry-skill carve-out](../../subagents/SKILL.md#entry-skill-carve-out) applies: spawn per budget; do not re-litigate “one agent suffices.”
 
 ## Rungs
 

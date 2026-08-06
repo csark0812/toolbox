@@ -2,7 +2,7 @@
 
 **Source of truth for** adversarial parallel and staged-debate recipes on [`subagents`](../SKILL.md).
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
 Spawn mechanics, Auto-first model routing, and synthesis gate → [`subagents` SKILL](../SKILL.md). Member shape → [member-schema.md](member-schema.md). Entry skills own domain overlays and final report shape.
 
@@ -120,7 +120,7 @@ Code-review: keep lens selection; every member gets a kill mandate for their len
 - Elsewhere only when an entry skill cites this shape.
 - Not a substitute for dialogue (`crystallize` / `grill`).
 
-**Iterative-review blind pass** (single member, not staged debate): **Always** spawn one memoryless blind reviewer per review pass when **iterative-review** runs. Fit check waived. Recipe → [`iterative-review` blind-reviewer-dispatch.md](../../iterative-review/references/blind-reviewer-dispatch.md).
+Single-member entry-skill spawns (e.g. **iterative-review** blind pass) → [SKILL.md § Entry-skill carve-out](../SKILL.md#entry-skill-carve-out), not this staged-debate section.
 
 ### Wave 1 — parallel attackers (fresh context)
 

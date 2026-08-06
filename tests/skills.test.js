@@ -353,7 +353,7 @@ describe('toolbox skill SSOT', () => {
     expect(exitGate).toMatch(/Clean streak/)
 
     expect(multi).toMatch(/iterative-review/)
-    expect(adversarial).toMatch(/iterative-review/)
-    expect(adversarial).toMatch(/blind-reviewer-dispatch/)
+    expect(multi).toMatch(/blind-reviewer-dispatch/)
+    expect(adversarial).not.toMatch(/blind-reviewer-dispatch/)
   })
 })

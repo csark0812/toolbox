@@ -35,7 +35,7 @@ When this skill applies (user attached `subagents`, an entry skill invokes dispa
 1. **Spawn real members** — one host **Task** per planned member with chosen `subagent_type` and model per [Model assignment](#model-assignment). Parallel `read_file` / `grep` / other tools are **not** substitutes for member runs.
 2. **Synthesis runs after members** — merge member outputs before the consolidated report. Writing synthesis **without** completed Task runs is a **violation**.
 3. **Forbidden rationalizations** — do not skip spawns because you already read the repo, want lower latency, or want to save tokens **when entry skill or plan already committed to dispatch**.
-4. **Valid skips** — user declines spawn; [When-not-to-spawn](#when-not-to-spawn) passes **and** no entry-skill carve-out; host cannot run Task; only one member planned and single-pass suffices.
+4. **Valid skips** — user declines spawn; [When-not-to-spawn](#when-not-to-spawn) passes **and** no [entry-skill carve-out](#entry-skill-carve-out); host cannot run Task; only one member planned and single-pass suffices **and** no entry-skill carve-out.
 
 **Cost default:** [Cheapest good enough](references/model-routing.md) — Auto / omit `model` under Auto parent; never default to premium or `*-fast` in parallel.
 
@@ -45,7 +45,17 @@ Before `N ≥ 2`, name a **single-pass rival**: one coordinator with deeper tool
 
 **Skip subagents** when the rival suffices, work is sequential, members would duplicate without added confidence, or the user wants one authoritative pass.
 
-**Entry-skill carve-out:** When `code-review` escalated to council, `second-opinion` mandates staged debate, or `iterative-review` mandates blind review spawn — do not re-litigate “one agent suffices.” Follow that skill’s member budget and [Non-negotiables](#non-negotiables).
+## Entry-skill carve-out
+
+When an entry skill **mandates** Task spawn, do not re-litigate “one agent suffices.” Follow that skill’s member budget and [Non-negotiables](#non-negotiables).
+
+| Entry skill          | Spawn shape                            | Recipe lives in                                                                                       |
+| -------------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| **code-review**      | Council / specialists (parallel)       | [code-review council-dispatch](../code-review/references/council-dispatch.md)                         |
+| **second-opinion**   | Staged debate (2 attackers + defender) | [adversarial.md](references/adversarial.md) § B                                                       |
+| **iterative-review** | Single blind member per pass           | [iterative-review blind-reviewer-dispatch](../iterative-review/references/blind-reviewer-dispatch.md) |
+
+Type and model defaults for each → [subagent-types.md](references/subagent-types.md).
 
 ## One vs many
 

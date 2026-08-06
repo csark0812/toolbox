@@ -1,9 +1,9 @@
-# Multi Report Output Format
+# Consolidated dispatch report
 
-Use for generic subagent dispatch runs. Review runs use [output.md](../../code-review/references/output.md) instead.
+Use for generic subagent dispatch runs. Review runs use [output.md](../../code-review/references/output.md) instead. Entry skills own final shape when they specify one (e.g. iterative-review pass headers, second-opinion summary).
 
 ```markdown
-# Multi Report: [Task]
+# Dispatch report: [Task]
 
 ## Summary
 
