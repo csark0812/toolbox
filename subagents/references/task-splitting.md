@@ -2,15 +2,16 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-How to divide work across subagents so **total tokens** stay minimal while independence holds. Model cost → [model-routing.md](model-routing.md) (**cheapest good enough** always).
+How to divide work across subagents so **total tokens stay under 100k** while independence holds. Model cost → [model-routing.md](model-routing.md) (**cheapest good enough** always).
 
 ## Principles
 
-1. **Minimum viable context per member** — each prompt gets only the sub-task, paths, and materials for its slice — not the full user thread or sibling outputs (except staged debate wave 2 briefs).
-2. **No duplicate reads** — if two slices need the same file, either one member owns it or the coordinator read once and passes excerpts (coordinator synthesis), not two full-file spawns.
-3. **Split on independence boundaries** — source of truth, subsystem, topic, stance — not arbitrary line counts.
-4. **Prefer fewer members** — `N=2` beats `N=5` when the rival cannot do both slices; each spawn has fixed startup overhead.
-5. **Cheapest model for every slice** — Auto / omit `model`; never pay premium for mechanical gather.
+1. **100k hard ceiling per dispatch run** — count coordinator excerpts + every member prompt + attached file excerpts. Over budget → fewer members, smaller slices, pointers not bodies, or a second dispatch run — never exceed 100k.
+2. **Minimum viable context per member** — each prompt gets only the sub-task, paths, and materials for its slice — not the full user thread or sibling outputs (except staged debate wave 2 briefs).
+3. **No duplicate reads** — if two slices need the same file, either one member owns it or the coordinator read once and passes excerpts (coordinator synthesis), not two full-file spawns.
+4. **Split on independence boundaries** — source of truth, subsystem, topic, stance — not arbitrary line counts.
+5. **Prefer fewer members** — `N=2` beats `N=5` when the rival cannot do both slices; each spawn has fixed startup overhead.
+6. **Cheapest model for every slice** — Auto / omit `model`; never pay premium for mechanical gather.
 
 ## Split strategies
 

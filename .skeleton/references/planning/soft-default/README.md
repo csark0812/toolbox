@@ -14,7 +14,7 @@ Execution planning and **completeness verify** live here as **reference docs**, 
 | [prd-format.md](prd-format.md)       | PRD template for `docs/prds/`                                                      | After `build.md` when output is a PRD                                                   |
 | [issues-format.md](issues-format.md) | Vertical-slice Linear issues                                                       | After `build.md` when output is issues                                                  |
 
-**Written plan review** (premises + completeness + defender) → **second-opinion** skill, [second-opinion reference](../../../../second-opinion/references/second-opinion.md).
+**Written plan review** (premises + completeness + defender) → **second-opinion** skill, [plan-review.md](../../../../second-opinion/references/plan-review.md) · [second-opinion-dispatch.md](../../../../subagents/references/second-opinion-dispatch.md).
 
 ## Completeness axes
 
@@ -41,9 +41,9 @@ Planning orchestrates work; it does **not** replace other skills:
 | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **crystallize** / **grill** | When intent or assumptions are still fuzzy (`build.md` Step 5).                                                                                                                                                                          |
 | **second-opinion**          | Written artifact review via staged debate (premises + completeness attackers, then defender).                                                                                                                                            |
-| **investigate**             | One concrete code-path hunch → evidence (`build.md` Step 5).                                                                                                                                                                             |
-| **multi**                   | Parallel surface exploration — [parallel-explore.md](parallel-explore.md) (`build.md` Step 3); optional large-plan evidence — [parallel-plan-evidence.md](../../../../second-opinion/references/parallel-plan-evidence.md) before debate |
-| **Optional tracker skill**  | Branch, draft PR, Closes / issue-tracker state **after** a plan exists and you’re starting work (`verify.md` Step 5), if the consumer ships one.                                                                                         |
-| **code-review**             | Holistic PR / implementation review **after** code exists; AI drift / hygiene on staged/unstaged (consumer AI-drift doc / customize).                                                                                                    |
+| **probe**                   | One concrete code-path hunch → evidence (`build.md` Step 5).                                                                                                                                                                                  |
+| **subagents**               | Parallel surface exploration — [parallel-explore.md](parallel-explore.md) (`build.md` Step 3); optional large-plan evidence — [second-opinion-evidence-dispatch.md](../../../../subagents/references/second-opinion-evidence-dispatch.md) |
+| **Optional tracker skill**  | Branch, draft PR, Closes / issue-tracker state **after** a plan exists and you’re starting work (`verify.md` Step 5), if the consumer ships one.                                                                                              |
+| **code-review**             | Holistic PR / implementation review **after** code exists; AI drift / hygiene on staged/unstaged (consumer AI-drift doc / customize).                                                                                                         |
 
-Structural checks in plans → **second-opinion** ([second-opinion.md](../../../../second-opinion/references/second-opinion.md)).
+Structural checks in plans → **second-opinion** ([plan-review.md](../../../../second-opinion/references/plan-review.md)).

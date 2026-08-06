@@ -76,20 +76,22 @@ Canonical recipes live under `.skeleton/references/planning/soft-default/` and a
 
 ## Skills
 
-| Slug                 | Purpose                                             |
-| -------------------- | --------------------------------------------------- |
-| subagents            | Subagent dispatch — type, splits, cheapest model    |
-| code-review          | How to review a diff — merge-blockers, evidence bar |
-| crystallize          | Fuzzy idea → shaped intent                          |
-| grill                | Pressure-test design before implementation          |
-| second-opinion       | Written plan review                                 |
-| iterate              | Bounded slice closure until cohesive                |
-| probe                | Hunch verdict or hard-bug fix under Authority B     |
-| tdd                  | Test-first build at agreed public seams             |
-| prototype            | Throwaway artifact for one design question          |
-| domain-model         | Persist glossary + ADRs when decisions are ready    |
-| handoff              | Compact session handoff                             |
-| writing-great-skills | Skill-authoring vocabulary and predictability       |
+| Group        | Slug                 | Purpose                                                        |
+| ------------ | -------------------- | -------------------------------------------------------------- |
+| Orchestrator | subagents            | A2A spawn — type, splits, context-pack, cheapest model         |
+| Orchestrator | iterate              | A2A pass loop — blind review until a bounded slice coheres     |
+| Orchestrator | handoff              | A2A cross-session — channel + pack + goal; pointers not bodies |
+| Process      | code-review          | Review any surface + lens; merge-blockers with evidence        |
+| Process      | second-opinion       | Multiple perspectives on a written plan                        |
+| Process      | grill                | Pressure-test design before implementation                     |
+| Process      | crystallize          | Fuzzy idea → shaped intent                                     |
+| Process      | probe                | Hunch verdict or hard-bug fix under Authority B                |
+| Process      | tdd                  | Test-first build at agreed public seams                        |
+| Process      | prototype            | Throwaway artifact for one design question                     |
+| Process      | domain-model         | Persist glossary + ADRs when decisions are ready               |
+| Meta         | writing-great-skills | Skill-authoring vocabulary and predictability                  |
+
+Orchestrators define **agent-to-agent** wiring; process skills describe **what happens** and point at orchestrators when another agent or pass is needed. See [docs/tiers.md](docs/tiers.md).
 
 Consumer projects may lock additional slugs (`debug`, `testing`, `product-principles`, …) — **every lock key is replaced on resync**. Ambient shared refs are remote (GitHub); skill-local `references/` stay skill-specific. Consumers remap project docs via `.skeleton/customize/` + `customize.alwaysInclude`. See [docs/tiers.md](docs/tiers.md).
 

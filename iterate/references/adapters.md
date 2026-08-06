@@ -30,13 +30,3 @@ v1 supports **code slice** and **plan section** only. Other artifact types → e
 **Matrix rows:** scope / gaps / sequencing — same three-axis overlay as **second-opinion** completeness attacker ([verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) stub points at consumer SSOT). Do not invent a fourth axis set in this skill.
 
 **Blind pack:** cited plan sections only — not full-repo sweeps.
-
-## Routing overlap
-
-| Ask                          | Skill                              |
-| ---------------------------- | ---------------------------------- |
-| Full plan pre-build critique | **second-opinion**                 |
-| Plan § until cohesive        | **iterate** (plan-section adapter) |
-| PR / branch diff merge-ready | **code-review**                    |
-
-See [routing.md](routing.md).

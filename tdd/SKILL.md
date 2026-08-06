@@ -1,75 +1,48 @@
 ---
 name: tdd
-description: Test-driven development — build behavior test-first at agreed seams, one red→green slice at a time until the behavior holds. Use when the user wants TDD, red-green-refactor, a failing test before implementation, iterative test→impl until green, or a regression lock after probe Fix. Not for hard-bug loops without a seam (probe), throwaway design spikes (prototype), or find-only hunch checks (probe Evidence).
+description: Test-first build at agreed public seams — one red-green slice at a time. Process skill. Composes on the same Slice as iterate via layered prompts. Not repro-first hard-bug work without seam, throwaway spike, or find-only hunch settlement.
 ---
 
 # Test-Driven Development
 
 **Source of truth for** test-first implementation at public seams.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) `tdd` (MIT © 2026 Matt Pocock).
+**Process skill** — red → green microcycle; tests at public interfaces only. Shared vocabulary → [context-pack.md](../subagents/references/context-pack.md).
 
-The **red → green** microcycle: one vertical slice at a time. Tests verify behavior through **public interfaces**, not implementation details. This skill does **not** claim TDD improves velocity or defect rates — it enforces test-first discipline at agreed seams. For design learning without production commitment, use [`prototype`](../prototype/SKILL.md).
+References: [anti-patterns.md](references/anti-patterns.md) · [output.md](references/output.md) · [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md).
 
-Prefer project glossary / `AGENTS.md` for domain vocabulary — no hard `CONTEXT.md` coupling.
+Read [research-basis.md](references/research-basis.md) only when calibrating seam claims.
 
-Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
+## Entry gate
 
-## Seams — confirm before the first test
+- **Seam** agreed with user — public interface under test (`Seam:` header or explicit confirmation).
+- **Slice** in scope — path glob or module id shared with other active atoms when layered.
+- Without agreed seam → stop and ask; do not write production code or tests at private helpers only.
 
-A **seam** is the public boundary you test at: the interface where you observe behavior without reaching inside. See [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md) for deep modules, information hiding, and seam quality.
+## Non-negotiables
 
-**Test only at pre-agreed seams.** Before writing any test, name the seams under test and confirm them with the user. No test at an unconfirmed seam.
+1. **Red before green** — one vertical slice per cycle.
+2. **Independent expected values** — not tautological to production logic.
+3. **Refactor out of scope** — defer structural cleanup unless user asks.
 
-Ask: "What's the public interface, and which seams should we test?"
+## Workflow
 
-## Protocol
+1. Confirm **Seam** and **Slice**.
+2. Failing test → red → minimal green → stop.
+3. Report per [output.md](references/output.md).
 
-1. **Confirm seams** with the user (public interfaces only). Stop if the seam is unclear — narrow with [`grill`](../grill/SKILL.md) or [`probe`](../probe/SKILL.md) first.
-2. **One vertical slice** — failing test → observe **red** → minimal green → stop. Do not bulk-write tests or implementation.
-3. **Independent expected values** — assertions come from spec, worked examples, or known-good literals — not by recomputing the same logic as production code. See [anti-patterns.md](references/anti-patterns.md).
-4. **Optional information flow** — where possible, author the failing test without the production change in context (write test from spec/interface only), then implement to green.
-5. **Refactoring is out of scope** — defer structural cleanup to [`code-review`](../code-review/SKILL.md), not the red-green loop.
+When **iterate** is also active on the same **Slice**, run tdd microcycles between blind passes — no skill ordering doc required; user prompt selects both.
 
-## Rules of the loop
+## Exit artifact
 
-- **Red before green.** Write the failing test first, then only enough code to pass. No speculative features.
-- **One slice at a time.** One seam, one test, one minimal implementation per cycle.
-- **Run the test.** Observe red, then green — paste or summarize the invocation and outcome when reporting.
-
-## Anti-patterns
-
-Consult [anti-patterns.md](references/anti-patterns.md) before and during the loop — implementation-coupled, tautological, and horizontal-slicing tests are the common failures.
-
-## Output format
-
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). End with:
-
-```markdown
-## TDD slice
-
-**Seams:** [confirmed public boundaries]
-**Cycle:** red → green (one slice)
-
-### Test
-
-[path/to/test — what behavior it specifies]
-
-### Implementation
-
-[path/to/production — minimal change to green]
-
-### Result
-
-[test command + red/green outcome]
-
-### What to do next
-
-- [next slice, code-review, probe, or handoff]
-```
+Per [output.md](references/output.md) — seam, cycle summary, test path citations.
 
 ## Consumer bindings
 
-Project-specific injected context is appended on skill read. Do not edit synced copies in place.
+Project-specific injected context appended on skill read. Do not edit synced copies in place.
+
+## Output format
+
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Details → [references/output.md](references/output.md).

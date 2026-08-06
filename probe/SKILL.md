@@ -14,11 +14,20 @@ description: Narrow a hunch or hard bug — evidence and plain-language verdict 
 - the user explicitly asks to fix/implement/repro-debug, **or**
 - the user describes a broken symptom **and** an on-demand failing signal already exists (command/test/CI you can run).
 
+**Process skill** — shared vocabulary → [context-pack.md](../subagents/references/context-pack.md). Optional parallel gather → **subagents** [explore-escalation-dispatch.md](../subagents/references/explore-escalation-dispatch.md) or local [parallel-*.md](references/parallel-broad.md) recipes.
+
 **Explicit ask vs no-loop:** Explicit ask enters **Fix (loop-building)**, not patch-without-loop. Hypothesize-and-patch without a red signal is banned in all states.
 
 Adapted (Fix path) from [mattpocock/skills](https://github.com/mattpocock/skills) `diagnosing-bugs` (MIT © 2026 Matt Pocock).
 
 Read [references/research-basis.md](references/research-basis.md) (Evidence) or [references/research-basis-fix.md](references/research-basis-fix.md) (Fix) when calibrating a move or making a research claim. Do not load by habit.
+
+## Entry gate
+
+- **Concrete doubt** — specific hunch, claim, or broken symptom to test (not open ideation).
+- Plan file to critique → stop; use **second-opinion**.
+- Fuzzy thinking with no specific target → stop; use **crystallize** first.
+- Greenfield test-first at an agreed seam → stop; use **tdd**.
 
 ## Stance select
 
@@ -29,8 +38,6 @@ Read [references/research-basis.md](references/research-basis.md) (Evidence) or 
 | **Fix (patch)**         | Authority B satisfied **and** on-demand failing signal exists | **Yes** after red                                 | Regression lock; optional **tdd** handoff               |
 
 If locus is unclear → start **Evidence** (even if the user said “broken”).
-
-Routes elsewhere: plan file to critique → **second-opinion**; fuzzy thinking, no specific target → **crystallize** first; greenfield test-first at a seam → **tdd**.
 
 ## Evidence
 

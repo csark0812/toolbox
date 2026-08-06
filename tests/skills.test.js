@@ -67,7 +67,7 @@ describe('toolbox skill SSOT', () => {
   })
 
   it('soft-default recipes stay out of skill trees (canonical + templates only)', () => {
-    const planningSkills = ['crystallize', 'grill', 'handoff', 'second-opinion']
+    const planningSkills = ['grill', 'handoff', 'second-opinion']
     for (const slug of planningSkills) {
       expect(existsSync(join(root, slug, 'references/planning/soft-default'))).toBe(false)
     }
@@ -86,9 +86,12 @@ describe('toolbox skill SSOT', () => {
     const routing = readFileSync(join(root, 'subagents/references/model-routing.md'), 'utf8')
     const types = readFileSync(join(root, 'subagents/references/subagent-types.md'), 'utf8')
     const splitting = readFileSync(join(root, 'subagents/references/task-splitting.md'), 'utf8')
-    const research = readFileSync(join(root, 'probe/references/parallel-research.md'), 'utf8')
+    const research = readFileSync(
+      join(root, 'subagents/references/explore-escalation-dispatch.md'),
+      'utf8',
+    )
     const planEvidence = readFileSync(
-      join(root, 'second-opinion/references/parallel-plan-evidence.md'),
+      join(root, 'subagents/references/second-opinion-evidence-dispatch.md'),
       'utf8',
     )
 
@@ -105,6 +108,7 @@ describe('toolbox skill SSOT', () => {
     expect(routing).toMatch(/Auto reachable: no/)
     expect(routing).toMatch(/Do not use.*\*-fast/)
 
+    expect(research).toMatch(/Parallel research/)
     expect(research).toMatch(/model=inherit-auto/)
     expect(research).not.toMatch(/model=composer-2\.5-fast/)
     expect(planEvidence).toMatch(/model=inherit-auto/)
@@ -124,18 +128,21 @@ describe('toolbox skill SSOT', () => {
       'utf8',
     )
     const perspectiveInvestigate = readFileSync(
-      join(root, 'probe/references/parallel-perspective.md'),
+      join(root, 'subagents/references/explore-escalation-dispatch.md'),
       'utf8',
     )
     const adversarialDebate = readFileSync(
-      join(root, 'second-opinion/references/adversarial-debate.md'),
+      join(root, 'subagents/references/second-opinion-dispatch.md'),
       'utf8',
     )
     const adversarialKernel = readFileSync(
       join(root, 'subagents/references/adversarial.md'),
       'utf8',
     )
-    const broad = readFileSync(join(root, 'probe/references/parallel-broad.md'), 'utf8')
+    const broad = readFileSync(
+      join(root, 'subagents/references/explore-escalation-dispatch.md'),
+      'utf8',
+    )
 
     // Canonical invariant stays in subagents + model-routing.
     expect(skill).toMatch(/model-routing\.md/)
@@ -175,10 +182,10 @@ describe('toolbox skill SSOT', () => {
     expect(taskPrompt).toMatch(/adversarial\.md/)
 
     // Related entry recipes reconciled away from forced slugs
-    expect(perspectiveInvestigate).toMatch(/model=\[inherit-auto \| slug\]/)
+    expect(perspectiveInvestigate).toMatch(/model=inherit-auto/)
     expect(perspectiveInvestigate).not.toMatch(/model=\[slug A\]/)
     expect(perspectiveInvestigate).toMatch(/Goal: adversarial/)
-    expect(adversarialDebate).toMatch(/model=\[inherit-auto \| slug\]/)
+    expect(adversarialDebate).toMatch(/model=inherit-auto/)
     expect(adversarialDebate).not.toMatch(/model=\[slug A\]/)
     expect(adversarialDebate).toMatch(/Goal: adversarial-staged/)
     expect(adversarialDebate).toMatch(/stance=premises/)
@@ -187,58 +194,16 @@ describe('toolbox skill SSOT', () => {
     expect(adversarialKernel).toMatch(/Staged debate/)
     expect(adversarialKernel).toMatch(/Context asymmetry/)
     expect(adversarialKernel).toMatch(/iterate/)
-    expect(broad).toMatch(/model=\[inherit-auto \| slug\]/)
+    expect(broad).toMatch(/model=inherit-auto/)
     expect(broad).not.toMatch(/model=\[cheapest\]/)
-    expect(broad).toMatch(/Parent model: \[Auto \| <named model>\]/)
+    expect(broad).toMatch(/Parent model: \[Auto \| named\]/)
   })
 
-  it('probe enforces Authority B, Evidence no-edit, and Fix no-loop', () => {
-    const skill = readFileSync(join(root, 'probe/SKILL.md'), 'utf8')
-    const desc = skill.match(/^description:\s*(.+)$/m)?.[1] ?? ''
-    expect(skill).toMatch(/Authority B/)
-    expect(skill).toMatch(/Find and verdict only/)
-    expect(skill).toMatch(/Do not propose code edits, diffs/)
-    expect(skill).toMatch(/Completion gate:.*no code fix/s)
-    expect(skill).toMatch(/Fix \(loop-building\)/)
-    expect(skill).toMatch(/no on-demand failing signal/)
-    expect(skill).toMatch(/Do not hypothesize/)
-    expect(skill).toMatch(/loop must be \*\*red\*\*/)
-    for (const kw of [
-      'hunch',
-      'verdict',
-      'concrete doubt',
-      'broken',
-      'throwing',
-      'failing',
-      'diagnose',
-      'debug',
-      'investigate',
-      'second-opinion',
-      'crystallize',
-      'tdd',
-    ]) {
-      expect(desc.toLowerCase()).toContain(kw)
-    }
-  })
-
-  it('hub has no live investigate/diagnose skill trees', () => {
-    expect(existsSync(join(root, 'investigate'))).toBe(false)
-    expect(existsSync(join(root, 'diagnose'))).toBe(false)
-    expect(existsSync(join(root, 'probe/SKILL.md'))).toBe(true)
-    const config = readFileSync(join(root, '.skeleton/config.yaml'), 'utf8')
-    expect(config).toMatch(/retiredSkills:[\s\S]*- investigate[\s\S]*- diagnose/)
-    const owned = config.split(/ownedSlugs:\s*\n/)[1] ?? ''
-    expect(owned).toMatch(/^\s*- probe$/m)
-    expect(owned).not.toMatch(/^\s*- investigate$/m)
-    expect(owned).not.toMatch(/^\s*- diagnose$/m)
-    const readme = readFileSync(join(root, 'README.md'), 'utf8')
-    const tiers = readFileSync(join(root, 'docs/tiers.md'), 'utf8')
-    expect(readme).toMatch(/--skill[^\n]*\bprobe\b/)
-    expect(readme).not.toMatch(/--skill[^\n]*\binvestigate\b/)
-    expect(readme).not.toMatch(/--skill[^\n]*\bdiagnose\b/)
-    expect(tiers).toMatch(/--skill[^\n]*\bprobe\b/)
-    expect(tiers).not.toMatch(/--skill[^\n]*\binvestigate\b/)
-    expect(tiers).not.toMatch(/--skill[^\n]*\bdiagnose\b/)
+  it('verdict ambient ref enforces find-and-verdict-only (no fix in verdict)', () => {
+    const verdict = readFileSync(join(root, '.skeleton/references/verdict.md'), 'utf8')
+    expect(verdict).toMatch(/find and verdict only/i)
+    expect(verdict).toMatch(/Verdict not fix/)
+    expect(verdict).toMatch(/Find and verdict only/)
   })
 
   it('code-review is thin review guidelines without orchestration', () => {
@@ -253,8 +218,9 @@ describe('toolbox skill SSOT', () => {
     expect(skill).toMatch(/Merge-blockers default/)
     expect(skill).not.toMatch(/anti-thrash/)
     expect(skill).not.toMatch(/fix-loop/)
-    expect(skill).not.toMatch(/council-dispatch/)
     expect(skill).not.toMatch(/Escalate only when matched/)
+    expect(skill).toMatch(/review-council-dispatch\.md/)
+    expect(skill).toMatch(/subagents/)
 
     expect(review).toMatch(/Introduced-only/)
     expect(review).toMatch(/path:line/)
@@ -309,7 +275,7 @@ describe('toolbox skill SSOT', () => {
 
     expect(skill).toMatch(/iterate/)
     expect(skill).toMatch(/Closure: ready/)
-    expect(skill).toMatch(/Hard gate/)
+    expect(skill).toMatch(/violation/)
     expect(skill).toMatch(/name: iterate/)
 
     expect(protocol).toMatch(/Hard gate/)
@@ -359,7 +325,51 @@ describe('toolbox skill SSOT', () => {
     expect(subagents).toMatch(/handoff-subagent-dispatch/)
   })
 
-  it('subagents context-pack is SSOT for member envelopes', () => {
+  it('tiers.md defines orchestrator vs process skill groups', () => {
+    const tiers = readFileSync(join(root, 'docs/tiers.md'), 'utf8')
+    expect(tiers).toMatch(/Orchestrators — agent-to-agent/)
+    expect(tiers).toMatch(/Process skills — atoms/)
+    expect(tiers).toMatch(/Composition/)
+    expect(tiers).toMatch(/layered prompts/)
+    expect(tiers).toMatch(/context-pack\.md/)
+    expect(tiers).toMatch(/\*\*subagents\*\*/)
+    expect(tiers).toMatch(/\*\*iterate\*\*/)
+    expect(tiers).toMatch(/\*\*handoff\*\*/)
+    expect(tiers).toMatch(/\*\*code-review\*\*/)
+    expect(tiers).toMatch(/\*\*second-opinion\*\*/)
+    expect(tiers).not.toMatch(/Typical chains/)
+    expect(tiers).not.toMatch(/Subagent kernel/)
+  })
+
+  it('process skills are thin and dispatch lives under subagents', () => {
+    const so = readFileSync(join(root, 'second-opinion/SKILL.md'), 'utf8')
+    const soDispatch = readFileSync(
+      join(root, 'subagents/references/second-opinion-dispatch.md'),
+      'utf8',
+    )
+    const grill = readFileSync(join(root, 'grill/SKILL.md'), 'utf8')
+    const intent = readFileSync(join(root, 'grill/references/intent-phase.md'), 'utf8')
+
+    expect(so).toMatch(/\*\*Process skill\*\*/)
+    expect(so).toMatch(/second-opinion-dispatch\.md/)
+    expect(so).not.toMatch(/adversarial-debate\.md/)
+    expect(existsSync(join(root, 'second-opinion/references/adversarial-debate.md'))).toBe(false)
+    expect(soDispatch).toMatch(/Goal: adversarial-staged/)
+
+    expect(grill).toMatch(/\*\*Process skill\*\*/)
+    expect(grill).toMatch(/intent-phase\.md/)
+    expect(grill).toMatch(/protocol\.md/)
+    expect(grill).not.toMatch(/## Protocol/)
+    expect(intent).toMatch(/Alternate frame/)
+    const crystallize = readFileSync(join(root, 'crystallize/SKILL.md'), 'utf8')
+    expect(crystallize).toMatch(/\*\*Process skill\*\*/)
+    expect(crystallize).toMatch(/protocol\.md/)
+    expect(crystallize).not.toMatch(/## Protocol/)
+    expect(existsSync(join(root, 'investigate/SKILL.md'))).toBe(false)
+    expect(existsSync(join(root, 'diagnose/SKILL.md'))).toBe(false)
+  })
+
+  it('subagents context-pack is SSOT for member envelopes and composability', () => {
     const pack = readFileSync(join(root, 'subagents/references/context-pack.md'), 'utf8')
     const subagents = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
     const adversarial = readFileSync(join(root, 'subagents/references/adversarial.md'), 'utf8')
@@ -367,6 +377,12 @@ describe('toolbox skill SSOT', () => {
     const sliceEnv = readFileSync(join(root, 'iterate/references/slice-envelope.md'), 'utf8')
 
     expect(subagents).toMatch(/context-pack\.md/)
+    expect(subagents).toMatch(/100k|100,000/)
+    expect(pack).toMatch(/Composability \(layered prompts\)/)
+    expect(pack).toMatch(/100k/)
+    expect(pack).toMatch(/Slice/)
+    expect(pack).toMatch(/Closure/)
+    expect(pack).not.toMatch(/Typical chains/)
     expect(pack).toMatch(/Pointers not bodies/)
     expect(pack).toMatch(/Omit empty/)
     expect(pack).toMatch(/Domain recipes/)
@@ -374,5 +390,15 @@ describe('toolbox skill SSOT', () => {
     expect(adversarial).not.toMatch(/Requirements \/ acceptance \(if any\):/)
     expect(handoffPack).toMatch(/context-pack\.md/)
     expect(sliceEnv).toMatch(/context-pack\.md/)
+    expect(existsSync(join(root, 'iterate/references/routing.md'))).toBe(false)
+  })
+
+  it('process skills use entry gates not routing tables', () => {
+    for (const slug of ['grill', 'tdd', 'second-opinion', 'probe', 'code-review', 'crystallize']) {
+      const skill = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
+      expect(skill).toMatch(/## Entry gate/)
+      expect(skill).not.toMatch(/Routes elsewhere/)
+      expect(skill).not.toMatch(/routing\.md/)
+    }
   })
 })

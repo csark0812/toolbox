@@ -11,7 +11,9 @@
 | Package overview             | [README.md](../README.md)                                                      |
 | Agent cold-start             | [AGENTS.md](../AGENTS.md)                                                      |
 | Skill tiers                  | [tiers.md](../docs/tiers.md)                                                   |
+| Composability vocabulary     | [context-pack.md](../subagents/references/context-pack.md)                     |
 | GitHub ambient refs validate | [github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md) |
+| Hunch verdict (ambient)      | [verdict.md](../.skeleton/references/verdict.md)                               |
 | Evidence parity              | [evidence-parity.md](../docs/evidence-parity.md)                               |
 | Skill evolution              | [skill-evolution.md](../docs/skill-evolution.md)                               |
 | Skill organization ablations | [skill-organization-ablations.md](../docs/skill-organization-ablations.md)     |
@@ -25,9 +27,8 @@
 | crystallize          | [crystallize/SKILL.md](../crystallize/SKILL.md)                   |
 | grill                | [grill/SKILL.md](../grill/SKILL.md)                               |
 | second-opinion       | [second-opinion/SKILL.md](../second-opinion/SKILL.md)             |
-| investigate          | [probe/SKILL.md](../probe/SKILL.md)                               |
 | iterate              | [iterate/SKILL.md](../iterate/SKILL.md)                           |
-| diagnose             | [probe/SKILL.md](../probe/SKILL.md)                               |
+| probe                | [probe/SKILL.md](../probe/SKILL.md)                               |
 | tdd                  | [tdd/SKILL.md](../tdd/SKILL.md)                                   |
 | prototype            | [prototype/SKILL.md](../prototype/SKILL.md)                       |
 | domain-model         | [domain-model/SKILL.md](../domain-model/SKILL.md)                 |

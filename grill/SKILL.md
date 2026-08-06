@@ -1,93 +1,46 @@
 ---
 name: grill
-description: Pressure-test a design or implementation plan before code — walk the design tree until major branches resolve; repo-first, joint sense-making. Use when there is a concrete design or decision to align on. Not for fuzzy ideation without a design target (crystallize), reviewing a written plan artifact (second-opinion), or bounded slice closure (iterate).
+description: Shape fuzzy intent and pressure-test a design before code — intent phase then design tree until major branches resolve. Process skill; dialogue-first. Composes with tdd, iterate, and second-opinion on layered prompts. Not written-artifact-only critique, find-only hunch settlement, or blind slice pass loops.
 ---
 
 # Grill
 
-**Source of truth for** design-tree alignment before implementation.
+**Source of truth for** intent shaping and design-tree alignment before implementation.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
-Pressure-test a design before code. Before the first turn, read [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md) (shared behavior).
+**Process skill** — shared vocabulary → [context-pack.md](../subagents/references/context-pack.md).
 
-Read [references/research-basis.md](references/research-basis.md) when calibrating a move or making a research claim. Do not load by habit.
+References: [intent-phase.md](references/intent-phase.md) · [protocol.md](references/protocol.md) · [output.md](references/output.md) · [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md).
 
-Shared understanding before implementation. **Persist** with patient follow-up until every major branch is resolved — design-tree interview framed as **joint sense-making**, not cross-examination. Cover every branch that matters, including unhappy paths.
+Read [research-basis.md](references/research-basis.md) only when calibrating dialogue claims.
 
-## Example opening turn
+## Entry gate
 
-> I'll walk the design tree with you — one decision at a time until we're aligned. What's the decision or plan you want to pressure-test first?
+- User wants **dialogue** — fuzzy intent and/or design alignment before implementation.
+- **Artifact-only critique** of a complete written plan on disk → stop; that mode needs a plan path and perspective dispatch, not Socratic explore here.
 
-## Protocol
+## Non-negotiables
 
-1. **Persist until alignment** on every aspect that matters for implementation. Don't imply the user should already have all answers.
-2. **Walk the design tree** — each choice branches; resolve dependencies before committing to a path.
-3. **Facts vs decisions** — if a _fact_ can be found by exploring the environment (repo, tools, docs), look it up rather than asking. _Decisions_ are the user's — put each one to them and wait for the answer.
-4. **One decision per turn.** Ask one decision question, then **wait**. Asking multiple questions at once is bewildering. Chained follow-ups on the **same branch** only **after** the user answers. When branches are explicit, prefer **AskQuestion** for that single choice (always include **Other / I'll type it**); mirror/context in prose above the card.
-5. **Provisional recommendation** — for every decision question, state your recommended branch and one-line why. Frame it as a default to react to, not the correct answer. Invite pushback; silence is not acceptance.
-6. **Consider-the-opposite / falsifier** — after the user engages the recommendation (accepts or chooses another branch), surface what would show that branch was the wrong bet before leaving the node.
-7. **Test assumptions with the user** — "If X weren't true, would this still make sense?"
-8. **Sharpen domain terms** against the project glossary as they resolve — grill does not own the glossary (no ADR or glossary writes).
-9. **Every major branch resolved** — happy path and the branches that matter beside it.
-10. **Implement only after alignment** — start code, scaffolding, or [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md) only when **When to stop** criteria are met and the user confirms shared understanding (or explicitly asks to skip grill and build).
+1. **One decision per turn** — wait for the user.
+2. **Facts in repo** — look up; don't ask user for knowable facts.
+3. **Falsifier per node** before leaving a branch.
+4. **No implementation** until alignment or explicit user skip.
 
-## Design tree
+## Workflow
 
-At each decision node:
+Fuzzy or incomplete intent → [intent-phase.md](references/intent-phase.md). Concrete design to pressure-test → [protocol.md](references/protocol.md) → [output.md](references/output.md).
 
-- What are the branches here?
-- Which branch are we taking, and why? (Include your provisional recommendation.)
-- What does that branch depend on? (Resolve those first.)
-- What would show this branch was the wrong bet? (Consider-the-opposite before moving on.)
+Optional repo facts for a branch → **subagents** parallel-explore; grill stays dialogue-first.
 
-Repeat until no unresolved branches remain.
+## Exit artifact
 
-## When to stop
-
-- Every significant design choice made explicitly
-- Dependencies between decisions resolved in order
-- **Falsifier recorded** for every decision node before leaving it — what would show the chosen branch was the wrong bet
-- No major "what if X doesn't hold?" questions unanswered _with the user_
-- **Silent-topic scan** done — for failure modes, constraints, ownership, rollback, and NFR tradeoffs: each either decided **or** explicitly marked **in scope / out of scope** in the output (no silent skips)
-- User can describe the plan without ambiguity (or accepts documented open questions)
-- User confirms shared understanding (unless they explicitly skip ahead)
-
-If almost there, **ask the next question** instead of summarizing prematurely.
-
-## Integration
-
-- **planning/build.md** — if the user just finished grill, skip redundant clarification there (Step 4).
-- **Repo exploration for a branch** — optional [parallel-explore.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/parallel-explore.md) via **subagents** when a design branch depends on repo facts; grill stays dialogue-first.
-
-## Output format
-
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). End with this block when **When to stop** criteria are met — not before:
-
-```markdown
-## Decisions reached
-
-- [Decision 1]: [What was decided and why]
-- [Decision 2]: [What was decided and why]
-
-## Open questions (deferred)
-
-- [Anything explicitly punted]
-
-## Scope notes (silent-topic scan)
-
-- [Topic]: in scope | out of scope — [one line why, if out of scope]
-
-## Next step
-
-- Ready to implement → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md) (then [code-review](../code-review/SKILL.md) once code exists)
-- Terms or structural decisions to persist → [`domain-model`](../domain-model/SKILL.md)
-- Written plan for external review → [second-opinion](../second-opinion/SKILL.md) (staged debate)
-- Contested premises needing parallel kill-mandate pass (after writing the plan) → **second-opinion**; keep grill dialogue-first otherwise
-- One concrete code doubt → [probe](../probe/SKILL.md)
-- Still fuzzy on intent → **crystallize** skill
-```
+See [output.md](references/output.md) — decisions, open questions, scope notes.
 
 ## Consumer bindings
 
-Project-specific injected context is appended on skill read. Do not edit synced copies in place.
+Project-specific injected context appended on skill read. Do not edit synced copies in place.
+
+## Output format
+
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Details → [references/output.md](references/output.md).
