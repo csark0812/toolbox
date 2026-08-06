@@ -11,14 +11,15 @@ Extends [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/m
 First line of every review:
 
 ```markdown
-Review · source:[adapter] · Scope: [N files, M loc] · Filing: merge-blockers only
+Review · source:[adapter] · Scope: [N files, M loc] · Lens: [general|security|cleanliness|merge-readiness] · Filing: merge-blockers only
 ```
 
-| Field     | Notes                                                                                       |
-| --------- | ------------------------------------------------------------------------------------------- |
-| `source:` | Adapter from [sources.md](sources.md) (`uncommitted`, `commit`, `branch`, `pr`, `paths`, …) |
-| `Scope:`  | Files and approximate diff size in review scope                                             |
-| `Filing:` | `merge-blockers only` (default) or improvements mode per merge-blockers                     |
+| Field     | Notes                                                                                        |
+| --------- | -------------------------------------------------------------------------------------------- |
+| `source:` | Surface adapter from [sources.md](sources.md) (`paths`, `snapshot`, `branch`, `external`, …) |
+| `Scope:`  | Files and approximate size in review scope                                                   |
+| `Lens:`   | User focus; omit or `general` when unspecified                                               |
+| `Filing:` | `merge-blockers only` (default) or improvements mode per merge-blockers                      |
 
 Optional one-line scope note may precede the header.
 
