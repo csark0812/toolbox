@@ -1,0 +1,24 @@
+{
+  "name": "subagents",
+  "description": "Portable subagents conformance: when-not-to-spawn requires single-pass rival before N≥2",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "sequential repo map: skip parallel",
+      "prompt": "Map how auth works in our sample app. Use subagents to spawn parallel agents.\n\nRead `.claude/skills/subagents/SKILL.md` first. The task is one coherent repo slice — no independent sources.",
+      "replayTrace": "agent-suites/subagents/fixtures/replays/fit-check-skip.json",
+      "rubric": {
+        "must": ["single-pass", "skip"],
+        "mustInvokeSkill": ["subagents"],
+        "mustNot": ["Task(", "subagent", "spawn 2", "spawn two"],
+        "judge": [
+          "The agent invoked subagents, named a single-pass rival, and skipped parallel spawn because independence failed"
+        ]
+      }
+    }
+  ]
+}

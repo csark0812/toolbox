@@ -7,7 +7,7 @@ scan:
     - 'docs/**'
     - '.skeleton/registry.md'
     - 'agent-suites/README.md'
-    - 'multi/**'
+    - 'subagents/**'
     - 'code-review/**'
     - 'crystallize/**'
     - 'grill/**'
@@ -28,6 +28,7 @@ scan:
     - '.claude/skills/**'
   banned: []
   retiredSkills:
+    - multi
     - branch-cleanup
     - product-principles
     - testing
@@ -41,7 +42,7 @@ daysUntilStale: 180
 skillOwnership:
   lockfile: skills-lock.json
   ownedSlugs:
-    - multi
+    - subagents
     - code-review
     - crystallize
     - grill

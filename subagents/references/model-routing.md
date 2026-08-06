@@ -1,6 +1,6 @@
 # Model Routing
 
-Cost-aware model selection for [`multi`](../SKILL.md). Optimize for **cheapest good enough**, not most capable by default. Prefer cheaper / Auto paths for almost all parallel members. Escalate only when slice shape or evidence requires it — and then to the **most appropriate** stronger model, not the most expensive one.
+Cost-aware model selection for [`subagents`](../SKILL.md). Optimize for **cheapest good enough**, not most capable by default. Prefer cheaper / Auto paths for almost all parallel members. Escalate only when slice shape or evidence requires it — and then to the **most appropriate** stronger model, not the most expensive one.
 
 **Heavy bar (Premium / strongest slugs):** Reserve for genuinely heavy work — e.g. multi-thousand-line or Broad+ reviews, architecture spanning multiple subsystems with large blast radius, high-stakes adjudication after cheaper paths fail, or an explicit deepest-analysis request. Ordinary reviews, single-subsystem judgment, moderate research conflict, and typical explore/gather stay Fast or Standard.
 
@@ -223,7 +223,7 @@ Use this as the **default** model path for normal members, and whenever members 
 
 If a member **could not start**, was **stopped**, or returned an error because of **usage limits**, **rate limits**, **quota exhaustion**, or **credit exhaustion** on the chosen model:
 
-1. Enter **usage-constrained mode** for the rest of this `multi` run.
+1. Enter **usage-constrained mode** for the rest of this subagent dispatch run.
 2. Retry that **same** member once via [Reach Auto](#reach-auto). Keep the same `subagent_type`, prompt, and stance; change only the model action to Auto inheritance.
 3. Apply whether the failure came from the Task tool (pre-start) or from the member after start.
 4. Re-route any **not-yet-started** members via Reach Auto as well (do not spawn more paid/API slugs after the first usage failure).

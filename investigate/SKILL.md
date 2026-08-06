@@ -22,8 +22,8 @@ Read [references/research-basis.md](references/research-basis.md) when calibrati
 - Plan file to critique → **second-opinion**
 - Fuzzy thinking, no specific target → **crystallize** first
 - One framework for repo and external material — phases may weave code → research → code. Full loop → [framework.md](references/framework.md)
-- Multiple independent web topics → [parallel-research.md](references/parallel-research.md) via **multi**
-- Mixed/contested evidence or explicit stress-test → [parallel-perspective.md](references/parallel-perspective.md) via **multi** (not the default path)
+- Multiple independent web topics → [parallel-research.md](references/parallel-research.md) via **subagents**
+- Mixed/contested evidence or explicit stress-test → [parallel-perspective.md](references/parallel-perspective.md) via **subagents** (not the default path)
 
 ## Structural checks
 
@@ -33,7 +33,7 @@ When evidence touches structure, apply [dialogue-contract.md](https://raw.github
 
 Follow [framework.md](references/framework.md). Summary:
 
-1. **Target-clarification chain.** Ask **short, invitational** questions until you know _where_ to look. Iterate until the target is concrete enough that reading primary material is purposeful — dimension by dimension if needed. If the user can only gesture at the discomfort, stay with one branch before widening. Start deep investigation only when files, a subsystem, or a primary source is plausible — _unless_ the user explicitly asks you to fish broadly, in which case use [parallel-broad.md](references/parallel-broad.md) via **multi** and say you're doing a wider pass and why.
+1. **Target-clarification chain.** Ask **short, invitational** questions until you know _where_ to look. Iterate until the target is concrete enough that reading primary material is purposeful — dimension by dimension if needed. If the user can only gesture at the discomfort, stay with one branch before widening. Start deep investigation only when files, a subsystem, or a primary source is plausible — _unless_ the user explicitly asks you to fish broadly, in which case use [parallel-broad.md](references/parallel-broad.md) via **subagents** and say you're doing a wider pass and why.
 2. **Form 2–4 ranked, falsifiable hypotheses** before gathering evidence. Prefer mechanism/model hypos over situation guesses. For code: "If `<X>` is the cause, then `<Y>` at `file:line` should show `<Z>`." For claims: "If `<X>` is true, then primary source should show `<Z>`."
 3. **Discriminating checks** — for each ranked hypo, name the cheapest kill test (strong inference: most information per unit cost). Run top kill tests **before** confirmatory forage.
 4. **Read primary material** — actual code, docs, data, or cited sources. Tool rankings or "likely file" lists are not evidence.

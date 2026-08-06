@@ -1,6 +1,6 @@
 # Multi Report Output Format
 
-Use for generic multi runs. Review runs use [output.md](../../code-review/references/output.md) instead.
+Use for generic subagent dispatch runs. Review runs use [output.md](../../code-review/references/output.md) instead.
 
 ```markdown
 # Multi Report: [Task]

@@ -2,7 +2,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-07-22 -->
 
-Review-specific member prompt overlays. Generic template → [multi task-prompt.md](../../multi/references/task-prompt.md). Adversarial kernel → [multi adversarial.md](../../multi/references/adversarial.md).
+Review-specific member prompt overlays. Generic template → [subagents task-prompt.md](../../subagents/references/task-prompt.md). Adversarial kernel → [subagents adversarial.md](../../subagents/references/adversarial.md).
 
 Orchestrated on **escalated** runs only — [escalation.md](escalation.md) + [council-dispatch.md](council-dispatch.md). Primary-only passes do not use member overlays.
 
@@ -39,16 +39,16 @@ Synthesis → [synthesis.md](synthesis.md) then [output.md](output.md).
 
 ## Adversarial overlay (optional — escalated council)
 
-When consumer or user requests adversarial council, append per [multi adversarial.md](../../multi/references/adversarial.md):
+When consumer or user requests adversarial council, append per [subagents adversarial.md](../../subagents/references/adversarial.md):
 
 ```
 Adversarial review:
 - Kill mandate: break ship confidence in your assigned lens — do not rubber-stamp.
 - Context asymmetry: evaluate the diff + requirements only — do not assume parent-chat conclusions.
-- Return Disposition: promote | kill | concede, Kill rationale, Evidence (see multi/references/adversarial.md).
+- Return Disposition: promote | kill | concede, Kill rationale, Evidence (see subagents/references/adversarial.md).
 ```
 
-Cross-model / different-models only when the user asks or named-parent diversity applies — [adversarial.md](../../multi/references/adversarial.md) § Model routing overlay.
+Cross-model / different-models only when the user asks or named-parent diversity applies — [adversarial.md](../../subagents/references/adversarial.md) § Model routing overlay.
 
 ## Invariant overlay (Thorough+ and contextual re-review)
 

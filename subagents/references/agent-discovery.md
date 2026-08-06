@@ -2,7 +2,7 @@
 
 Mechanical steps for discovering workspace council agents and intersecting with the host Task tool. **Selection scoring** (review depth, diff paths, plan keywords) lives in entry-skill recipes — e.g. [code-review agent-selection.md](../../code-review/references/agent-selection.md) for review.
 
-Used by [`multi`](../SKILL.md) and entry-skill recipes that optionally spawn council agents.
+Used by [`subagents`](../SKILL.md) and entry-skill recipes that optionally spawn council agents.
 
 ## Discovery steps
 
@@ -66,10 +66,10 @@ Pass as `task_paths[]` to entry-skill scoring.
 
 Agent `dispatch.model.default` and `premium_when` are **tier metadata**, not spawn instructions.
 
-1. Resolve the member model with [multi routing precedence](model-routing.md#routing-precedence-canonical-order) and validate it with the [pre-spawn gate](model-routing.md#pre-spawn-model-routing-gate).
+1. Resolve the member model with [subagents routing precedence](model-routing.md#routing-precedence-canonical-order) and validate it with the [pre-spawn gate](model-routing.md#pre-spawn-model-routing-gate).
 2. Under an Auto parent without a user override, metadata stays informational: plan `model=inherit-auto` and omit the tool `model` argument.
 3. Tier→slug mapping is only for the named-parent branch; when it applies, use [model-routing.md](model-routing.md) for cost/fit and anti-fast rules.
-4. Usage-limit start/stop failures use [multi usage-limit retry](model-routing.md#usage-limit-retry).
+4. Usage-limit start/stop failures use [subagents usage-limit retry](model-routing.md#usage-limit-retry).
 
 ## Availability log (required in dispatch plan)
 

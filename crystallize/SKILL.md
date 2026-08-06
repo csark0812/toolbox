@@ -63,7 +63,7 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 - Pressure-test the design → **grill** skill
 - Terms or decisions to persist → **domain-model** skill
 - Written plan pressure-test → **second-opinion** (staged debate)
-- Fresh adversarial pass without a plan file → **multi** adversarial
+- Fresh adversarial pass without a plan file → **subagents** adversarial
 - One concrete code doubt → **investigate**
 - PRD or structured plan → [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md)
 ```

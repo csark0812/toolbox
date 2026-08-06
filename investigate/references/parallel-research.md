@@ -1,6 +1,6 @@
 # Parallel Research
 
-Independent web topics in parallel. Uses [`multi`](../../multi/SKILL.md) kernel — [non-negotiables](../../multi/SKILL.md#non-negotiables), [task-prompt.md](../../multi/references/task-prompt.md), [member-schema.md](../../multi/references/member-schema.md).
+Independent web topics in parallel. Uses [`subagents`](../../subagents/SKILL.md) kernel — [non-negotiables](../../subagents/SKILL.md#non-negotiables), [task-prompt.md](../../subagents/references/task-prompt.md), [member-schema.md](../../subagents/references/member-schema.md).
 
 Profile: `web` — skip council agent scoring.
 
@@ -25,7 +25,7 @@ Profile: `web` — skip council agent scoring.
 | Topic A | `docs-researcher` or `generalPurpose` | Standard |
 | Topic B | `docs-researcher` or `generalPurpose` | Standard |
 
-Prefer Auto for all topics (`inherit-auto` or `model=auto` if enum supports it). Explicit model slugs require slice-fit + Cursor cost justification per [model-routing.md](../../multi/references/model-routing.md). Do not use `*-fast` in parallel. Diversify via distinct prompts/stances, not price.
+Prefer Auto for all topics (`inherit-auto` or `model=auto` if enum supports it). Explicit model slugs require slice-fit + Cursor cost justification per [model-routing.md](../../subagents/references/model-routing.md). Do not use `*-fast` in parallel. Diversify via distinct prompts/stances, not price.
 
 ## Dispatch plan template
 
@@ -58,5 +58,5 @@ Fallback: `docs-researcher` unavailable → `generalPurpose` with "web research"
 1. State each topic's answer once with source links and **source class** (primary vs secondary, official vs commentary).
 2. Flag conflicts between sources — do not flatten.
 3. High-stakes claims need **lateral corroboration** (who else says this?) before treating as settled; unresolved conflict → note explicitly or hand a specific claim back to **investigate**.
-4. High-stakes contradiction → sequential tiebreaker per [model-routing.md](../../multi/references/model-routing.md) or ask user.
-5. Output → [multi output-format.md](../../multi/references/output-format.md).
+4. High-stakes contradiction → sequential tiebreaker per [model-routing.md](../../subagents/references/model-routing.md) or ask user.
+5. Output → [subagents output-format.md](../../subagents/references/output-format.md).

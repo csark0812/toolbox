@@ -1,6 +1,6 @@
 /** Canonical skill slugs shipped by this toolbox hub. */
 export const EXPECTED_SKILLS = [
-  'multi',
+  'subagents',
   'code-review',
   'crystallize',
   'grill',

@@ -2,11 +2,11 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Using **code-review** with council escalation per your request.\n\nDispatching specialists via **multi** for security and API lenses after primary pass could not settle domain concerns.\n\nReviewer: primary → council escalation"
+      "content": "Using **code-review** with council escalation per your request.\n\nDispatching specialists via **subagents** for security and API lenses after primary pass could not settle domain concerns.\n\nReviewer: primary → council escalation"
     }
   ],
   "toolCalls": [],
   "shellCommands": [],
-  "skillsInvoked": ["code-review", "multi"],
+  "skillsInvoked": ["code-review", "subagents"],
   "artifacts": {}
 }

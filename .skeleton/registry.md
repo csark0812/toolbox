@@ -1,6 +1,6 @@
 # Registry
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
 **Source of truth for** topic routing in this repo. Edit rows here; edit content in canonical files only.
 
@@ -20,7 +20,7 @@
 
 | Slug                 | Canonical file                                                    |
 | -------------------- | ----------------------------------------------------------------- |
-| multi                | [multi/SKILL.md](../multi/SKILL.md)                               |
+| subagents            | [subagents/SKILL.md](../subagents/SKILL.md)                       |
 | code-review          | [code-review/SKILL.md](../code-review/SKILL.md)                   |
 | crystallize          | [crystallize/SKILL.md](../crystallize/SKILL.md)                   |
 | grill                | [grill/SKILL.md](../grill/SKILL.md)                               |
