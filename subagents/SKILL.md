@@ -49,11 +49,12 @@ Before `N ≥ 2`, name a **single-pass rival**: one coordinator with deeper tool
 
 When an entry skill **mandates** Task spawn, do not re-litigate “one agent suffices.” Follow that skill’s member budget and [Non-negotiables](#non-negotiables).
 
-| Entry skill          | Spawn shape                            | Recipe lives in                                                                                       |
-| -------------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| **code-review**      | Council / specialists (parallel)       | [code-review council-dispatch](../code-review/references/council-dispatch.md)                         |
-| **second-opinion**   | Staged debate (2 attackers + defender) | [adversarial.md](references/adversarial.md) § B                                                       |
-| **iterative-review** | Single blind member per pass           | [iterative-review blind-reviewer-dispatch](../iterative-review/references/blind-reviewer-dispatch.md) |
+| Entry skill        | Spawn shape                            | Recipe lives in                                                                         |
+| ------------------ | -------------------------------------- | --------------------------------------------------------------------------------------- |
+| **code-review**    | Council / specialists (parallel)       | [code-review council-dispatch](../code-review/references/council-dispatch.md)           |
+| **second-opinion** | Staged debate (2 attackers + defender) | [adversarial.md](references/adversarial.md) § B                                         |
+| **iterate**        | Single blind member per pass           | [iterate blind-reviewer-dispatch](../iterate/references/blind-reviewer-dispatch.md)     |
+| **handoff**        | Single compact member (model-invoked)  | [handoff handoff-subagent-dispatch](../handoff/references/handoff-subagent-dispatch.md) |
 
 Type and model defaults for each → [subagent-types.md](references/subagent-types.md).
 

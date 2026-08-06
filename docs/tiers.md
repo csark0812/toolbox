@@ -17,13 +17,13 @@ Generic orchestration, planning, and dialogue — intended for any consumer proj
 | crystallize          | Fuzzy idea → artifact                                                             |
 | grill                | Pressure-test design                                                              |
 | second-opinion       | Unified plan review (staged debate)                                               |
-| iterative-review     | Bounded code/plan-slice closure — blind review loop until cohesive                |
+| iterate              | Bounded code/plan-slice closure — blind review loop until cohesive                |
 | investigate          | Code / claim hunch — find & verdict, not fix (**optional** — see evidence parity) |
 | diagnose             | Hard-bug loop — repro → tighten → fix → regression lock                           |
 | tdd                  | Test-first build at agreed public seams                                           |
 | prototype            | Throwaway design spike (user-invoked)                                             |
 | domain-model         | Persist glossary + ADRs when decisions are ready (user-invoked)                   |
-| handoff              | Session handoff (user-invoked)                                                    |
+| handoff              | Session handoff — model-invoked artifact or user prompt-only                      |
 | writing-great-skills | Skill-authoring vocabulary and predictability (user-invoked)                      |
 
 Shared ambient refs live in [`.skeleton/references/`](../.skeleton/references/) and are opened from skills via GitHub raw URLs (network required). See [github-ambient-refs-validation.md](github-ambient-refs-validation.md). Soft-default planning recipes stay out of skill trees — enable via [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md) only when the consumer has no planning docs remap.
@@ -35,7 +35,7 @@ Skeleton and toolbox are complementary — init skeleton first, then install ski
 ```bash
 npm install -D @csark0812/skeleton
 npx skeleton init --skills
-npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterative-review diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill subagents code-review crystallize grill second-opinion iterate diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
 ```
 
 Optional — install when you need explicit hunch→verdict routing (not in default bundle after 2026-07 evidence parity):

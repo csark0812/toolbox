@@ -185,7 +185,7 @@ describe('toolbox skill SSOT', () => {
     expect(adversarialDebate).toMatch(/stance=defend/)
     expect(adversarialKernel).toMatch(/Staged debate/)
     expect(adversarialKernel).toMatch(/Context asymmetry/)
-    expect(adversarialKernel).toMatch(/iterative-review/)
+    expect(adversarialKernel).toMatch(/iterate/)
     expect(broad).toMatch(/model=\[inherit-auto \| slug\]/)
     expect(broad).not.toMatch(/model=\[cheapest\]/)
     expect(broad).toMatch(/Parent model: \[Auto \| <named model>\]/)
@@ -324,21 +324,21 @@ describe('toolbox skill SSOT', () => {
     expect(selection).toMatch(/Primary-only reviews do not run this doc/)
   })
 
-  it('iterative-review mandates blind Task spawn and split closure semantics', () => {
-    const skill = readFileSync(join(root, 'iterative-review/SKILL.md'), 'utf8')
-    const protocol = readFileSync(join(root, 'iterative-review/references/protocol.md'), 'utf8')
+  it('iterate mandates blind Task spawn and split closure semantics', () => {
+    const skill = readFileSync(join(root, 'iterate/SKILL.md'), 'utf8')
+    const protocol = readFileSync(join(root, 'iterate/references/protocol.md'), 'utf8')
     const dispatch = readFileSync(
-      join(root, 'iterative-review/references/blind-reviewer-dispatch.md'),
+      join(root, 'iterate/references/blind-reviewer-dispatch.md'),
       'utf8',
     )
-    const exitGate = readFileSync(join(root, 'iterative-review/references/exit-gate.md'), 'utf8')
+    const exitGate = readFileSync(join(root, 'iterate/references/exit-gate.md'), 'utf8')
     const multi = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
     const adversarial = readFileSync(join(root, 'subagents/references/adversarial.md'), 'utf8')
 
-    expect(skill).toMatch(/iterative-review/)
+    expect(skill).toMatch(/iterate/)
     expect(skill).toMatch(/Closure: ready/)
     expect(skill).toMatch(/Hard gate/)
-    expect(skill).toMatch(/iterative-review/)
+    expect(skill).toMatch(/name: iterate/)
 
     expect(protocol).toMatch(/Hard gate/)
     expect(protocol).toMatch(/Closure: ready/)
@@ -352,8 +352,29 @@ describe('toolbox skill SSOT', () => {
     expect(exitGate).toMatch(/attested-local/)
     expect(exitGate).toMatch(/Clean streak/)
 
-    expect(multi).toMatch(/iterative-review/)
+    expect(multi).toMatch(/iterate/)
     expect(multi).toMatch(/blind-reviewer-dispatch/)
     expect(adversarial).not.toMatch(/blind-reviewer-dispatch/)
+  })
+
+  it('handoff is model-invoked with subagent artifact path and user prompt-only branch', () => {
+    const skill = readFileSync(join(root, 'handoff/SKILL.md'), 'utf8')
+    const dispatch = readFileSync(
+      join(root, 'handoff/references/handoff-subagent-dispatch.md'),
+      'utf8',
+    )
+    const subagents = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
+
+    expect(skill).not.toMatch(/disable-model-invocation/)
+    expect(skill).toMatch(/User-request/)
+    expect(skill).toMatch(/prompt-only/)
+    expect(skill).toMatch(/Model-invoked/)
+    expect(skill).toMatch(/Hard gate/)
+
+    expect(dispatch).toMatch(/model=inherit-auto/)
+    expect(dispatch).toMatch(/write-handoff-artifact/)
+
+    expect(subagents).toMatch(/handoff/)
+    expect(subagents).toMatch(/handoff-subagent-dispatch/)
   })
 })

@@ -1,6 +1,6 @@
 {
   "name": "handoff",
-  "description": "Portable handoff skill conformance: paths-only artifacts, redaction, and same-root write",
+  "description": "Portable handoff skill conformance: user prompt-only vs model-invoked artifact path",
   "defaults": {
     "host": "replay",
     "profile": "cursor",
@@ -8,32 +8,41 @@
   },
   "scenarios": [
     {
-      "name": "handoff: paths only and redact secrets",
-      "prompt": "Hand off this session for a fresh chat. We worked on auth refactor; plan at `.cursor/plans/auth-refactor.plan.md`, PR #42. API key was mentioned in thread — must not land in the handoff file.\n\nRead `.claude/skills/handoff/SKILL.md` first. Write to `_agent/handoffs/` only.",
+      "name": "user-request: prompt only no artifact",
+      "prompt": "/handoff this session for a fresh chat. We worked on auth refactor; plan at `.cursor/plans/auth-refactor.plan.md`, PR #42. API key was mentioned in thread — must not appear in output.\n\nRead `.claude/skills/handoff/SKILL.md` first. User-request: paste prompt only — do not write `_agent/handoffs/`.",
       "replayTrace": "agent-suites/handoff/fixtures/replays/paths-only-redact.json",
       "rubric": {
-        "must": ["_agent/handoffs", "Redaction", "Path", "Open workspace"],
+        "must": ["Open workspace", "Goal:", "Start with", "prompt-only"],
         "mustInvokeSkill": ["handoff"],
-        "mustNot": ["sk-", "BEGIN PRIVATE KEY", "paste the full plan body"],
+        "mustNot": ["sk-", "BEGIN PRIVATE KEY", "_agent/handoffs/", "paste the full plan body"],
         "judge": [
-          "The agent wrote a handoff under _agent/handoffs with artifact pointers only, noted redaction of secrets, and gave a paste-ready prompt that names the workspace root"
+          "The agent invoked handoff in user-request mode, gave a paste-ready prompt with artifact pointers only, redacted secrets, and did not write an _agent/handoffs file"
         ]
       }
     },
     {
-      "name": "handoff: write into next-session workspace not current root",
-      "prompt": "Current chat is rooted in /tmp/unrelated-app. Next session must edit the voice skill under /tmp/personal-toolbox. /handoff to harden voice em-dash ban.\n\nRead `.claude/skills/handoff/SKILL.md` first. Do not write the handoff under /tmp/unrelated-app.",
+      "name": "user-request: target workspace in prompt not current root",
+      "prompt": "Current chat is rooted in /tmp/unrelated-app. /handoff to harden voice em-dash ban — next session must edit the voice skill under /tmp/personal-toolbox.\n\nRead `.claude/skills/handoff/SKILL.md` first. Prompt-only; do not write any handoff file.",
       "replayTrace": "agent-suites/handoff/fixtures/replays/cross-root-target.json",
       "rubric": {
-        "must": [
-          "/tmp/personal-toolbox/_agent/handoffs",
-          "Open workspace: /tmp/personal-toolbox",
-          "@_agent/handoffs/"
-        ],
+        "must": ["Open workspace: /tmp/personal-toolbox", "prompt-only", "Goal:"],
         "mustInvokeSkill": ["handoff"],
-        "mustNot": ["/tmp/unrelated-app/_agent/handoffs", "paste the handoff body"],
+        "mustNot": ["/tmp/unrelated-app/_agent/handoffs", "_agent/handoffs/"],
         "judge": [
-          "The agent wrote the handoff under the personal-toolbox target workspace (not the unrelated current root) and the paste prompt requires opening that workspace before relative @"
+          "The agent gave a prompt-only handoff naming personal-toolbox as the next workspace and did not write under the unrelated current root"
+        ]
+      }
+    },
+    {
+      "name": "model-invoked: subagent artifact path",
+      "prompt": "Context is nearly full — hand off autonomously so the next session can continue implement on the auth refactor branch.\n\nRead `.claude/skills/handoff/SKILL.md` first. Model-invoked path: spawn subagent to write _agent/handoffs/.",
+      "replayTrace": "agent-suites/handoff/fixtures/replays/model-invoked-artifact.json",
+      "rubric": {
+        "must": ["_agent/handoffs", "Task:", "handoff-subagent-dispatch", "Open workspace"],
+        "mustInvokeSkill": ["handoff"],
+        "mustNot": ["coordinator-primary", "prompt-only"],
+        "judge": [
+          "The agent invoked handoff in model-invoked mode, planned subagent dispatch for artifact write, and gave a paste prompt referencing the handoff path"
         ]
       }
     }

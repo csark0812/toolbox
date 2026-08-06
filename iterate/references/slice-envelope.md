@@ -25,11 +25,11 @@ Mixed entry: user supplies **intent**; coordinator derives a **frozen envelope**
 
 ## Envelope changes
 
-| Change        | When                                 |
-| ------------- | ------------------------------------ |
-| Same envelope | Default across fix-loop rounds       |
-| Expand        | User widens scope explicitly         |
-| New envelope  | New slice = new iterative-review run |
+| Change        | When                           |
+| ------------- | ------------------------------ |
+| Same envelope | Default across fix-loop rounds |
+| Expand        | User widens scope explicitly   |
+| New envelope  | New slice = new iterate run    |
 
 ## Adapter selection
 

@@ -1,9 +1,9 @@
 ---
-name: iterative-review
+name: iterate
 description: Cohesive slice closure — iterative blind review subagent passes until a bounded code or plan section holds together. Use when a named slice needs fix-loop review until cohesive, not merge-ready. Not for PR or diff merge review (code-review), full-plan staged debate (second-opinion), or a single hunch (investigate).
 ---
 
-# Iterative review
+# Iterate
 
 **Source of truth for** bounded slice iterative closure via memoryless blind review subagents.
 
@@ -63,7 +63,7 @@ Project-specific injected context is appended on skill read. Do not edit synced 
 Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Pass headers and findings → [references/output.md](references/output.md). End with:
 
 ```markdown
-## Iterative review summary
+## Iterate summary
 
 **Slice:** [envelope id or path summary]
 **Closure:** ready | open

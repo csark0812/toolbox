@@ -33,10 +33,10 @@ v1 supports **code slice** and **plan section** only. Other artifact types → e
 
 ## Routing overlap
 
-| Ask                          | Skill                                       |
-| ---------------------------- | ------------------------------------------- |
-| Full plan pre-build critique | **second-opinion**                          |
-| Plan § until cohesive        | **iterative-review** (plan-section adapter) |
-| PR / branch diff merge-ready | **code-review**                             |
+| Ask                          | Skill                              |
+| ---------------------------- | ---------------------------------- |
+| Full plan pre-build critique | **second-opinion**                 |
+| Plan § until cohesive        | **iterate** (plan-section adapter) |
+| PR / branch diff merge-ready | **code-review**                    |
 
 See [routing.md](routing.md).
