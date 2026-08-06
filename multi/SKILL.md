@@ -45,7 +45,7 @@ Before planning `N ≥ 2`, name a **single-pass rival**: the same job done by on
 
 **Skip multi** when the single-pass rival suffices, work is sequential, members would duplicate without adding confidence, or the user wants a single authoritative pass.
 
-**Entry-skill carve-out:** When `code-review` (or another entry skill) escalated to parallel dispatch / council, or when `second-opinion` mandates staged debate, Fit check does **not** apply. Do not re-litigate “one agent suffices.” Follow that skill’s member budget and [Non-negotiables](#non-negotiables).
+**Entry-skill carve-out:** When `code-review` (or another entry skill) escalated to parallel dispatch / council, when `second-opinion` mandates staged debate, or when `iterative-review` mandates blind review spawn, Fit check does **not** apply. Do not re-litigate “one agent suffices.” Follow that skill’s member budget and [Non-negotiables](#non-negotiables).
 
 ## Dispatch modes
 

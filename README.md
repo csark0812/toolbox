@@ -21,7 +21,7 @@ Install destinations (skills CLI):
 | Codex       | `.agents/skills/` | `~/.codex/skills/`  |
 
 ```bash
-# All team skills (12 slugs), global — Cursor, Claude Code, and Codex
+# All team skills (13 slugs), global — Cursor, Claude Code, and Codex
 npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex -y
 
 # All team skills, project-scoped (commit under .agents/skills/ and/or .claude/skills/)
@@ -29,7 +29,7 @@ npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex
 npx skills add csark0812/toolbox --skill '*' --agent cursor claude-code codex --copy -y
 
 # Core dialogue/build set (subset) — space-separated skill names (not commas)
-npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion investigate diagnose tdd prototype domain-model handoff writing-great-skills --agent cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion iterative-review investigate diagnose tdd prototype domain-model handoff writing-great-skills --agent cursor claude-code codex --copy -y
 
 # Update after push
 npx skills update -g   # global
@@ -50,7 +50,7 @@ npm install -D @csark0812/skeleton
 npx skeleton init --skills
 
 # 2. Team skills (global or project-scoped)
-npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion investigate diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
+npx skills add csark0812/toolbox --skill multi code-review crystallize grill second-opinion iterative-review investigate diagnose tdd prototype domain-model handoff writing-great-skills -a cursor claude-code codex --copy -y
 ```
 
 After init, edit `.skeleton/config.yaml` for your layout and run `npx skeleton audit self` to verify.
@@ -83,6 +83,7 @@ Canonical recipes live under `.skeleton/references/planning/soft-default/` and a
 | crystallize          | Fuzzy idea → shaped intent                       |
 | grill                | Pressure-test design before implementation       |
 | second-opinion       | Written plan review                              |
+| iterative-review     | Bounded slice closure until cohesive             |
 | investigate          | Confirm/refute a code or approach hunch          |
 | diagnose             | Hard-bug loop — repro, tighten, fix, lock        |
 | tdd                  | Test-first build at agreed public seams          |

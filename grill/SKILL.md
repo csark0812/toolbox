@@ -1,6 +1,6 @@
 ---
 name: grill
-description: Pressure-test a design or implementation plan before code — walk the design tree until major branches resolve; repo-first, joint sense-making. Use when there is a concrete design or decision to align on. Not for fuzzy ideation without a design target (crystallize) or reviewing a written plan artifact (second-opinion).
+description: Pressure-test a design or implementation plan before code — walk the design tree until major branches resolve; repo-first, joint sense-making. Use when there is a concrete design or decision to align on. Not for fuzzy ideation without a design target (crystallize), reviewing a written plan artifact (second-opinion), or bounded slice closure (iterative-review).
 ---
 
 # Grill

@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Primary-first code review for any diff source — surface size sets intensity; specialists/council only on escalation. Use when reviewing code or a diff. Not for find-only hunches (investigate) or PR body authoring.
+description: Primary-first code review for any diff source — surface size sets intensity; specialists/council only on escalation. Use when reviewing code or a diff. Not for find-only hunches (investigate), PR body authoring, or slice cohesion loops (iterative-review).
 ---
 
 # Code review
