@@ -4,7 +4,9 @@
 
 How to **acquire review materials** — not every review is a git diff. Procedure → [review.md](review.md).
 
-**Surface** = the code (or paste) the reviewer reads. **Lens** = what the user wants judged (security, cleanliness, merge-readiness) — set in header `Lens:` and filing mode ([merge-blockers.md](merge-blockers.md)).
+**Surface** = the code (or paste) the reviewer reads. **Lens** = what the user wants judged — set in header `Lens:` and filing mode ([merge-blockers.md](merge-blockers.md)).
+
+Adapters and lens labels below are **starting points**, not a closed set. If the user’s ask does not fit a row, pick the closest adapter, name the actual scope in the header, and follow their wording for emphasis and filing.
 
 ## Pick a surface adapter
 
@@ -35,16 +37,17 @@ Path-scoped diff: append `-- src/module/` to both commands.
 
 ## Lens (user intent — not a separate adapter)
 
-Record in header as `Lens:` when the user names a focus:
+Record in header as `Lens:` when the user names a focus. Use a **kebab-case slug** from the table when it fits; otherwise use the user’s phrase (e.g. `Lens: performance`, `Lens: api-breaking-changes`).
 
-| User ask (examples)             | `Lens:`             | Filing                                                         |
+| User ask (examples)             | `Lens:` (examples)  | Filing hint                                                    |
 | ------------------------------- | ------------------- | -------------------------------------------------------------- |
 | Default / “review my changes”   | `general` (omit ok) | merge-blockers only                                            |
 | “Security review”, “auth flaws” | `security`          | merge-blockers — reachable vulns are Action                    |
 | “Cleanliness”, “style”, “nits”  | `cleanliness`       | **improvements mode** ([merge-blockers.md](merge-blockers.md)) |
 | “Merge-ready”, “ship it”        | `merge-readiness`   | merge-blockers + review status lines ([output.md](output.md))  |
+| Anything else                   | user-named slug     | infer filing from user words; ask once if ambiguous            |
 
-Lens adjusts **what you look for** and **filing breadth** — it does not replace acquiring a surface. “Review `src/auth/` for security” → `source:paths` or `snapshot` + `Lens: security`.
+Lens adjusts **emphasis** and **default filing** — it does not replace acquiring a surface. Combine freely: `source:snapshot` + `Lens: security`, `source:branch` + `Lens: performance`, etc.
 
 ## Framing
 

@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: How to review code — any surface (diff, paths, module, paste), any lens (general, security, cleanliness). Evidence bar, filing, output shape. Use when reviewing code as primary agent or subagent. Not find-only hunches (probe), slice cohesion loops (iterate), or plan debate (second-opinion). Spawn orchestration in subagents; iterative closure in iterate.
+description: How to review code — any surface and any user-named lens. Evidence bar, filing, output shape. Use when reviewing code as primary or subagent. Not find-only hunches (probe), slice cohesion loops (iterate), or plan debate (second-opinion). Spawn orchestration in subagents; iterative closure in iterate.
 ---
 
 # Code review
@@ -33,7 +33,7 @@ Read [references/research-basis.md](references/research-basis.md) when calibrati
 
 ## Workflow
 
-1. **Acquire surface** — [sources.md](references/sources.md): diff, paths, snapshot, or paste; set `Lens:` when user names security, cleanliness, or merge-readiness.
+1. **Acquire surface** — [sources.md](references/sources.md): closest adapter + actual scope in header; set `Lens:` from user wording (not limited to a fixed list).
 2. **Review** — [review.md](references/review.md): trace behavior for the active lens.
 3. **File** — [merge-blockers.md](references/merge-blockers.md) + [output.md](references/output.md).
 

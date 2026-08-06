@@ -4,7 +4,7 @@
 
 Review procedure for primary agents and subagents. Acquire materials first ([sources.md](sources.md)); file per [merge-blockers.md](merge-blockers.md); shape output per [output.md](output.md).
 
-Works for **any surface** — git diff, whole module, path list, pasted snippet — and any **lens** (general, security, cleanliness).
+Works for **any surface** — git diff, whole module, path list, paste, multi-repo path, or user-described scope — and **any lens** the user names (table rows are examples, not limits).
 
 ## Steps
 
@@ -16,12 +16,13 @@ Works for **any surface** — git diff, whole module, path list, pasted snippet 
 
 ## What to look for (by lens)
 
-| Lens                  | Emphasize                                                                                     |
+| Lens                  | Emphasize (extend when user names another focus)                                              |
 | --------------------- | --------------------------------------------------------------------------------------------- |
 | **general** (default) | Correctness, contracts, errors, data, UX on paths the surface touches                         |
 | **security**          | Authz, injection, secret handling, trust boundaries, unsafe defaults                          |
 | **cleanliness**       | Naming, structure, duplication, readability — file as improvements / Deferred per filing mode |
 | **merge-readiness**   | Same as general + explicit ship/no-ship status                                                |
+| **user-named**        | Prioritize what the user asked; keep base checklist as background scan                        |
 
 Base checklist (all lenses):
 
