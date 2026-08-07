@@ -50,7 +50,7 @@
         "mustInvokeSkill": ["grill"],
         "mustNot": ["After you answer", "Why it matters"],
         "judge": [
-          "The agent used Context + Questions with ### stem, --- separator, bullet lettered picks, (recommended) mark, and a one-line Recommended pick-summary blockquote (no Why it matters on N=1; no free-standing Why above options)"
+          "The agent used human-first Context + Questions with ### stem, --- separator, bullet lettered picks, (recommended) mark, and a one-line Recommended pick-summary blockquote (no Why it matters on N=1; no free-standing Why above options; no Where/Deciding/Settled keys)"
         ]
       }
     }

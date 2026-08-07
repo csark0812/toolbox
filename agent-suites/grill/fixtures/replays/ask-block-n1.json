@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Using **grill**.\n\n## Context\n\n- **Where:** New auth service — cookie flags for sessions\n- **Deciding:** Whether session cookies should be httpOnly\n- **Settled:**\n  - Auth service is new; no production cookies yet.\n  - Client JS does not need to read the session token.\n\n---\n\n## Questions\n\n### 1. Should session cookies be httpOnly?\n\n- **A)** Yes — httpOnly (recommended)\n- **B)** No — readable from JavaScript\n\n> **Recommended: A** — blocks XSS from stealing the session cookie when JS does not need the token"
+      "content": "Using **grill**.\n\n## Context\n\nNew auth service — deciding cookie flags for sessions. Nothing is in production yet, and the client does not need to read the session token from JavaScript.\n\n---\n\n## Questions\n\n### 1. Should session cookies be httpOnly?\n\n- **A)** Yes — httpOnly (recommended)\n- **B)** No — readable from JavaScript\n\n> **Recommended: A** — blocks XSS from stealing the session cookie when JS does not need the token"
     }
   ],
   "toolCalls": [],

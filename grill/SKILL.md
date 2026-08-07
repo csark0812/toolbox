@@ -22,7 +22,7 @@ Read [research-basis.md](references/research-basis.md) only when calibrating dia
 
 ## Non-negotiables
 
-1. **Ask via [ask.md](references/ask.md)** — 1–3 same-branch lettered questions in a Context + Questions block; wait for answers. Layout: `---` under Context, `### N.` stems, bullet options, `>` Recommended with pick summary on line 1 and Why it matters on the next (omit Why when N=1) — never one blob.
+1. **Ask via [ask.md](references/ask.md)** — 1–3 same-branch lettered questions in a Context + Questions block; wait for answers. Layout: human-first plain Context (no Where/Deciding/Settled; optional Already agreed), `---` under Context, `### N.` stems, bullet options, `>` Recommended with pick summary on line 1 and Why it matters on the next (omit Why when N=1) — never one blob.
 2. **Facts in repo** — look up; don't ask the user for knowable facts.
 3. **Falsifier per node** before leaving a design-tree branch.
 4. **No implementation** until alignment or explicit user skip.

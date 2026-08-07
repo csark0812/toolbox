@@ -7,8 +7,8 @@ Socratic shaping when intent is fuzzy — **crystallization**, not resolution. S
 ## Core moves
 
 1. **Listen first** — incomplete input is normal.
-2. **Ask via [ask.md](ask.md)** — 1–3 same-branch lettered questions; Context stands alone across hop sessions.
-3. **Reflect before asking** — mirror what you heard (briefly in Context Settled / Deciding).
+2. **Ask via [ask.md](ask.md)** — 1–3 same-branch lettered questions; the ask block (human-first Context + Questions) stands alone across hop sessions.
+3. **Reflect before asking** — mirror what you heard in plain Context sentences (and **Already agreed:** when there are locks); do not invent Where/Deciding/Settled keys; do not restate the decision when the question stem already names it.
 4. **Exhaust the branch** before switching topics.
 5. **Before crystallizing** — surface one tacit assumption or alternate frame; user gate unless skip ahead.
 6. **Follow energy** — go where user lights up.
