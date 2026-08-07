@@ -36,7 +36,7 @@ Toolbox owns generic skill-contract behavior:
 
 - `code-review`: diff adapters, merge-blocker filing, review-only — no orchestration in skill body.
 - `subagents`: Fit check — name single-pass rival before `N ≥ 2`; skip when independence fails.
-- `second-opinion`: staged debate with claim anchoring; unanchored kills tagged `drift`.
+- `second-opinion`: full or light cast with claim anchoring; unanchored kills tagged `drift`; path or paste artifact.
 - `iterate`: blind pass protocol markers (`Pass: blind`, `Cohesion: attested-local`); thrash reopen without sibling mint.
 - `probe-evidence`: discriminating kill tests; leave dead patches after 2–3 no-signal reads (Evidence stance).
 - `probe-evidence-outcomes` / `probe-evidence-transfer` / `probe-evidence-prompt`: discriminating evidence-parity band (2 scenarios). **Manual live cadence only** (not part of `npm run check`). Discriminating scenarios use guard-only fixture seeds; dual-bug `debug-app` remains for ceiling/Fix bands.

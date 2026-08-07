@@ -54,7 +54,7 @@ When an orchestrator or process skill **mandates** Task spawn, do not re-litigat
 
 | Entry skill        | Spawn shape                            | Recipe lives in                                                                         |
 | ------------------ | -------------------------------------- | --------------------------------------------------------------------------------------- |
-| **second-opinion** | Staged debate (2 attackers + defender) | [second-opinion-dispatch.md](references/second-opinion-dispatch.md)                     |
+| **second-opinion** | Full or light cast (path or paste) | [second-opinion-dispatch.md](references/second-opinion-dispatch.md)                     |
 | **iterate**        | Single blind member per pass           | [iterate blind-reviewer-dispatch](../iterate/references/blind-reviewer-dispatch.md)     |
 | **handoff**        | Single compact member (model-invoked)  | [handoff handoff-subagent-dispatch](../handoff/references/handoff-subagent-dispatch.md) |
 

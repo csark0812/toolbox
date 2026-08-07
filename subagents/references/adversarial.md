@@ -97,11 +97,11 @@ Code-review: keep lens selection; every member gets a kill mandate for their len
 
 ## B. Staged debate
 
-Full recipe → [second-opinion-dispatch.md](second-opinion-dispatch.md). Synthesis shape → [second-opinion plan-review.md](../../second-opinion/references/plan-review.md).
+Full and light recipes → [second-opinion-dispatch.md](second-opinion-dispatch.md). Synthesis shape → [second-opinion plan-review.md](../../second-opinion/references/plan-review.md).
 
-- **Always** for **second-opinion** on a written artifact.
+- **Default shape** for **second-opinion** on a written artifact (path or paste) — **full** or **light** cast per plan-review routing; spawn only selected members.
 - Elsewhere only when a process skill cites this shape.
 - Not a substitute for dialogue (**grill**).
 - Single-member orchestrator spawns (e.g. **iterate** blind pass) → [carve-out](../SKILL.md#entry-skill-carve-out), not this section.
 
-Optional pre-wave gather → [second-opinion-evidence-dispatch.md](second-opinion-evidence-dispatch.md).
+Optional pre-wave gather → [second-opinion-evidence-dispatch.md](second-opinion-evidence-dispatch.md) (large **full** cast only).

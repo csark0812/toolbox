@@ -14,7 +14,7 @@ Execution planning and **completeness verify** live here as **reference docs**, 
 | [prd-format.md](prd-format.md)       | PRD template for `docs/prds/`                                                      | After `build.md` when output is a PRD                                                            |
 | [issues-format.md](issues-format.md) | Vertical-slice Linear issues                                                       | After `build.md` when output is issues                                                           |
 
-**Written plan review** (premises + completeness + defender) → **second-opinion** skill, [plan-review.md](../../../../second-opinion/references/plan-review.md) · [second-opinion-dispatch.md](../../../../subagents/references/second-opinion-dispatch.md).
+**Written plan review** (full cast: premises + completeness + defender, or light cast by depth) → **second-opinion** skill, [plan-review.md](../../../../second-opinion/references/plan-review.md) · [second-opinion-dispatch.md](../../../../subagents/references/second-opinion-dispatch.md).
 
 ## Completeness axes
 
@@ -40,7 +40,7 @@ Planning orchestrates work; it does **not** replace other skills:
 | Skill                      | When                                                                                                                                                                                                                                      |
 | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **grill**                  | When intent or assumptions are still fuzzy (`build.md` Step 5) — intent phase then design tree.                                                                                                                                           |
-| **second-opinion**         | Written artifact review via staged debate (premises + completeness attackers, then defender).                                                                                                                                             |
+| **second-opinion**         | Written artifact review (path or paste) via full or light cast — full = both attackers then defender; light = one stance, defender optional.                                                                                              |
 | **probe**                  | One concrete code-path hunch → evidence (`build.md` Step 5).                                                                                                                                                                              |
 | **subagents**              | Parallel surface exploration — [parallel-explore.md](parallel-explore.md) (`build.md` Step 3); optional large-plan evidence — [second-opinion-evidence-dispatch.md](../../../../subagents/references/second-opinion-evidence-dispatch.md) |
 | **Optional tracker skill** | Branch, draft PR, Closes / issue-tracker state **after** a plan exists and you’re starting work (`verify.md` Step 5), if the consumer ships one.                                                                                          |

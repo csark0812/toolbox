@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **second-opinion** with a light cast (adversarial-light) — wording asked “did I miss anything,” so completeness only; fleeting draft → no defender.\n\n**Wave 1 attacker (completeness):** anchored kill — Blast-radius axis: “Ship Friday” has no rollback or feature-flag mention (Draft § session cookie flags).\n\n## Second opinion summary\n\n**Artifact:** session cookie flags (chat draft)\n**Cast:** light · completeness · no-defend\n**Bottom line:** Cookie flags look fine; the Friday ship line is the gap — name a rollback or flag before treating this as ready.\n\n### Action items\n\n- Add rollback or feature-flag note next to “Ship Friday”"
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["second-opinion"],
+  "artifacts": {}
+}

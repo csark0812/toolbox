@@ -6,18 +6,21 @@ Extends [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/m
 
 ## Summary block (required on completion — user-facing)
 
-After both debate waves, end with this block only for the user:
+After the **selected cast** completes, end with this block only for the user:
 
 ```markdown
 ## Second opinion summary
 
 **Artifact:** [path or title]
+**Cast:** [full | light · premises|completeness · defend|no-defend]
 **Bottom line:** [one short paragraph — design holds / holds with edits / reopen grill on X]
 
 ### Action items
 
 - [concrete next step — or "None — ready to implement"]
 ```
+
+**Artifact** is a disk path or a short title for an in-thread paste/draft. **Cast** names what ran so light vs full is visible without dumping debate tags.
 
 Do **not** put Gaps, Risky assumptions, or Debate tags in the user-facing summary. Those stay coordinator-internal while synthesizing — not dumped after a run.
 
@@ -27,6 +30,6 @@ While synthesizing, the coordinator may privately track:
 
 - What's solid / gaps / hidden dependencies / risky assumptions
 - Debate tags (`attacker-convergent` | `defended` | `conceded` | `drift`)
-- Axis / readiness survivors after defender rebuttal
+- Axis / readiness survivors after defender rebuttal (when defender ran)
 
 Fold anything the user needs into **Bottom line** and **Action items** only. Omit empty internal notes — do not pad the user summary.

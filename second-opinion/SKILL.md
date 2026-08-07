@@ -1,6 +1,6 @@
 ---
 name: second-opinion
-description: Multiple independent perspectives on a written plan — premise stress, completeness axes, then defense with primary sources. Process skill; member runs → subagents second-opinion-dispatch. Composes on plan Artifact or plan-section Slice. Not dialogue-only design, blind code slice passes, or find-only hunch settlement.
+description: Multiple independent perspectives on a written plan (path or paste) — full staged debate or light cast by depth. Process skill; member runs → subagents second-opinion-dispatch. Composes on plan Artifact or plan-section Slice. Not dialogue-only design, blind code slice passes, or find-only hunch settlement.
 ---
 
 # Second opinion
@@ -17,23 +17,24 @@ Read [research-basis.md](references/research-basis.md) only when calibrating deb
 
 ## Entry gate
 
-- **Artifact** on disk — plan, PRD, or issue set path.
-- Without artifact path → stop; ask for path (do not substitute live dialogue).
+- **Artifact** — written plan-shaped content: path on disk **or** in-thread paste/chat draft.
+- Fuzzy intent with nothing written → stop; point to **grill** (do not substitute live dialogue for a plan body).
 
 ## Non-negotiables
 
-1. **Both wave-1 perspectives** — `premises` + `completeness`; never ask user to pick one.
+1. **Cast routing** — select full or light per [plan-review.md](references/plan-review.md); light is first-class, not a violation.
 2. **Claim anchoring** — kills map to plan § or premise id; unanchored → `drift`.
-3. **Both waves before final report** — coordinator-only critique without member runs is a **violation** ([dispatch](../subagents/references/second-opinion-dispatch.md)).
+3. **Selected cast before final report** — coordinator-only critique without member runs is a **violation** ([dispatch](../subagents/references/second-opinion-dispatch.md)).
 
 ## Workflow
 
-1. **Locate artifact** — path on disk.
-2. **Premise surface** — [plan-review.md](references/plan-review.md): 3–6 premises; confirm with user if unsettled.
-3. **Run perspectives** — **subagents** [second-opinion-dispatch.md](../subagents/references/second-opinion-dispatch.md); large plans → optional [second-opinion-evidence-dispatch.md](../subagents/references/second-opinion-evidence-dispatch.md).
-4. **Synthesize** — [plan-review.md](references/plan-review.md) + [output.md](references/output.md).
+1. **Locate artifact** — path on disk or paste/draft in thread.
+2. **Select cast** — [plan-review.md](references/plan-review.md): explicit user → clear intent signals → one ask if ambiguous → full when clearly deep.
+3. **Premise surface** — [plan-review.md](references/plan-review.md): 3–6 premises; confirm with user if unsettled (skip or shrink for fleeting light casts when premises are already explicit in the draft).
+4. **Run perspectives** — **subagents** [second-opinion-dispatch.md](../subagents/references/second-opinion-dispatch.md) for the selected cast; large full-cast plans → optional [second-opinion-evidence-dispatch.md](../subagents/references/second-opinion-evidence-dispatch.md).
+5. **Synthesize** — [plan-review.md](references/plan-review.md) + [output.md](references/output.md).
 
-Wave 1: artifact only. Wave 2: artifact + 2–4 cited primary sources + attacker briefs — do not ask user for paths already in the plan.
+**Full cast:** wave 1 `premises` + `completeness` (artifact only) → wave 2 `defend` (artifact + 2–4 cited primary sources + attacker briefs). **Light cast:** exactly one wave-1 stance; defender only if user asked or kills need rebuttal (fleeting default: no defender). Do not ask user for source paths already in the plan.
 
 When **iterate** uses the plan-section adapter on the same sections, second-opinion covers full-artifact perspectives; iterate covers slice cohesion — both may apply if the layered prompt names them.
 

@@ -1,6 +1,6 @@
 {
   "name": "second-opinion",
-  "description": "Portable second-opinion conformance: claim anchoring and drift tagging in debate synthesis",
+  "description": "Portable second-opinion conformance: claim anchoring, light cast routing, and paste artifact entry",
   "defaults": {
     "host": "replay",
     "profile": "cursor",
@@ -17,6 +17,32 @@
         "mustNot": ["manufacture criticism"],
         "judge": [
           "The agent invoked second-opinion, anchored kills to plan sections, and tagged unanchored critique as drift not convergent"
+        ]
+      }
+    },
+    {
+      "name": "light cast: completeness from wording",
+      "prompt": "Quick second opinion — did I miss anything in this fleeting draft?\n\n## Draft: session cookie flags\n\nUse httpOnly + Secure cookies for the new auth service. Ship Friday.\n\nRead `.claude/skills/second-opinion/SKILL.md` and `second-opinion/references/plan-review.md` first. Infer a light completeness cast (no defender).",
+      "replayTrace": "agent-suites/second-opinion/fixtures/replays/light-cast-completeness.json",
+      "rubric": {
+        "must": ["adversarial-light", "completeness", "Cast:", "light"],
+        "mustInvokeSkill": ["second-opinion"],
+        "mustNot": ["adversarial-staged", "Wave 2 defender", "stance=premises"],
+        "judge": [
+          "The agent invoked second-opinion with a light completeness cast (no full staged debate, no premises attacker, no defender)"
+        ]
+      }
+    },
+    {
+      "name": "entry: chat paste without path",
+      "prompt": "Second opinion on this paste (no file path):\n\n## Ephemeral plan: rate-limit login\n\nAdd a 5/min IP bucket in middleware before password check. No Redis — in-process map is fine for v1.\n\nRead `.claude/skills/second-opinion/SKILL.md` first. Accept the paste as the artifact; run a light premises cast.",
+      "replayTrace": "agent-suites/second-opinion/fixtures/replays/paste-artifact-entry.json",
+      "rubric": {
+        "must": ["Artifact:", "rate-limit", "adversarial-light", "premises"],
+        "mustInvokeSkill": ["second-opinion"],
+        "mustNot": ["point to grill", "ask for a path", "provide a file path", "Without artifact path"],
+        "judge": [
+          "The agent accepted the in-thread paste as the artifact without demanding a disk path or redirecting to grill"
         ]
       }
     }
