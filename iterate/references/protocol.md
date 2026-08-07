@@ -43,12 +43,16 @@ Coordinator implements fixes directly (same as `code-review` fix-loop). Update:
 
 Re-run repo validation when the consumer defines an authoritative lane.
 
-### 5 — Re-loop or exit
+### 5 — Pass progress, then re-loop or exit
+
+After Disposition for this round (fixes applied, deferred, or declined — or clean), emit the [pass progress](output.md#pass-progress-required-after-every-blind-task) report. Blind members stay memoryless; this report is the user’s subagent-by-subagent continuity.
+
+Then:
 
 - **Action findings** → return to phase 2 on the **same envelope** (expand envelope only when user widens scope).
 - **No Action** → increment clean streak; evaluate [exit-gate.md](exit-gate.md).
 
-When continuing to another blind pass, emit the [between-pass bridge](output.md#between-pass-bridge-required-before-next-blind-subagent) (3–4 sentences: what happened + why it matters for slice closure) **before** phase 2 dispatch. Skip on the first pass and when emitting final `Closure: ready`.
+When continuing, progress for round N lands **before** spawning pass N+1. Do not skip progress on round 1 or on the final round before `Closure: ready`.
 
 Forbidden: emit `Closure: ready` when any exit layer fails.
 

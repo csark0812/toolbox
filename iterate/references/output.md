@@ -24,29 +24,46 @@ Iterate · Slice: [short id] · Pass: blind · Round: [N] · Clean streak: [n]/[
 
 Missing `Pass: blind` or `Slice:` = incomplete turn.
 
-## Between-pass bridge (required before next blind subagent)
+## Pass progress (required after every blind Task)
 
-When a pass completes and the loop continues to another blind Task (after fixes, or after a clean pass that did not satisfy [exit-gate.md](exit-gate.md)), write a short user-facing bridge **before** the next dispatch plan. Totals **3–4 sentences** across one or two sections:
+Blind members stay memoryless. The **coordinator** owes the user a plain-language progress report after **every** completed blind Task — including round 1 and the final round before `Closure: ready`. This is the human continuity channel; it is **never** pasted into blind member prompts or slice materials ([blind-reviewer-dispatch.md](blind-reviewer-dispatch.md)).
+
+Emit after synthesis and after Disposition for that round (fixes applied, deferred, or declined). When re-looping, emit **before** spawning pass N+1.
 
 ```markdown
-### Round [N] bridge
+### Round [N] progress
 
-**What happened:** [1–2 sentences — blind attestation, Action count, fixes applied, streak or thrash delta]
+**Blind pass:** [Name](id) · Action: [count] · Cohesion: attested-local|not-attested
 
-**Why it matters:** [1–2 sentences — tie outcome to slice closure; what the next blind pass should verify or what still blocks exit]
+**Found:**
+- [plain-language issue] (`theme-id`) — or a single line: No material issues
+
+**Worth acting?**
+- `theme-id` → acted | deferred | declined — [one clause why]
+- (when Action = 0) n/a — clean pass
+
+**Delta:**
+- [concrete slice change this round: path/§ + what improved] — or none (clean; streak [n]/[M])
+
+**Still blocks exit:**
+- [what still fails exit-gate, in plain language] — or none if streak reaches M / gate otherwise green
 ```
 
-| Rule      | Detail                                                                                                                                                      |
-| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Placement | After pass synthesis and any fixes; immediately before spawning pass N+1                                                                                    |
-| Skip      | First pass (nothing prior); final turn when emitting `Closure: ready` ([summary](#iterate-summary-on-exit-or-user-stop) replaces)                           |
-| Blindness | User-facing coordinator prose only — **never** paste into blind member prompt or slice materials ([blind-reviewer-dispatch.md](blind-reviewer-dispatch.md)) |
+| Rule         | Detail                                                                                                                                                                 |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Audience     | User — write so a skimming human can tell whether the round moved the slice                                                              |
+| Plain speech | Lead with English; `Theme:` / kebab ids are secondary labels, not the only text                                                          |
+| Disposition  | Every Action finding gets an explicit **acted / deferred / declined** call — silence is not decline                                      |
+| Net signal   | **Delta** must answer “did this round improve the slice?” — not restating protocol counters alone                                        |
+| Subagent     | Link the member with `[Name](id)` when mentioning it                                                                                     |
+| Blindness    | Coordinator-only — forbidden in member prompts ([blind-reviewer-dispatch.md](blind-reviewer-dispatch.md))                                |
+| Replaces     | Former “between-pass bridge” (3–4 sentence What happened / Why it matters) — progress report is the required continuity artifact         |
 
-Optional split: use `**What happened:**` / `**Why it matters:**` inline labels (above) or separate `#### What happened` / `#### Why it matters` headings — same sentence budget.
+Do not skip progress on round 1. On `Closure: ready`, keep the final round’s progress block, then emit the [Iterate summary](#iterate-summary-on-exit-or-user-stop).
 
 ## Finding blocks (Action)
 
-When material issues exist:
+When material issues exist (also summarized under **Found:** above):
 
 ```markdown
 **[Imperative title]**
@@ -59,7 +76,7 @@ Default filing: merge-blockers / material issues only unless user opted into imp
 
 ## Noted / Deferred tails
 
-Same tier pattern as code-review — out-of-slice polish in **Noted** tail.
+Same tier pattern as code-review — out-of-slice polish in **Noted** tail. Deferred Action items must still appear under **Worth acting?** as `deferred`.
 
 ## Iterate summary (on exit or user stop)
 
@@ -71,11 +88,11 @@ Same tier pattern as code-review — out-of-slice polish in **Noted** tail.
 
 ### Rounds
 
-- Round N: [attested-local / not-attested; Action count; themes touched]
+- Round N · [Name](id): Action [count]; [acted themes / clean]; delta: [one clause]
 ```
 
 On `Closure: ready`, state validation command + result or explicit not-run disclaimer.
 
 ## Contract replay markers
 
-Portable suites may assert presence of: `Pass: blind`, `Slice:`, `Clean streak`, `Cohesion: attested-local`, `Thrash: inventory-required`. Suites do **not** prove Task spawn or blindness isolation.
+Portable suites may assert presence of: `Pass: blind`, `Slice:`, `Clean streak`, `Cohesion: attested-local`, `Thrash: inventory-required`, `### Round`, `**Found:**`, `Worth acting`. Suites do **not** prove Task spawn or blindness isolation.

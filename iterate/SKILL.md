@@ -35,10 +35,10 @@ Follow [protocol.md](references/protocol.md):
 2. **Blind review** — [blind-reviewer-dispatch.md](references/blind-reviewer-dispatch.md): one Task subagent; slice materials only.
 3. **Coordinator synthesis** — user-facing output per [output.md](references/output.md); thrash check against [thrash-ledger.md](references/thrash-ledger.md).
 4. **Fix** — coordinator implements findings; update ledger and streak.
-5. **Between-pass bridge** — when re-looping, 3–4 sentences for the user ([output.md](references/output.md#between-pass-bridge-required-before-next-blind-subagent)); not forwarded to the blind reviewer.
+5. **Pass progress** — after every blind Task, plain-language Found / Worth acting / Delta / Still blocks exit ([output.md](references/output.md#pass-progress-required-after-every-blind-task)); never forwarded to the blind reviewer.
 6. **Re-loop or exit** — [exit-gate.md](references/exit-gate.md).
 
-**Blindness:** Best-effort bias reduction via context asymmetry — not guaranteed isolation. Do not forward prior review text, thrash ledger, fix narrative, or user thread to the blind reviewer.
+**Blindness:** Best-effort bias reduction via context asymmetry — not guaranteed isolation. Do not forward prior review text, thrash ledger, pass progress, fix narrative, or user thread to the blind reviewer.
 
 ## Exit artifact
 
@@ -50,7 +50,7 @@ Follow [protocol.md](references/protocol.md):
 
 ### Rounds
 
-- [Round N summary or "exit gate passed"]
+- Round N · [Name](id): Action [count]; [acted themes / clean]; delta: [one clause]
 ```
 
 ## Consumer bindings

@@ -12,7 +12,7 @@
       "prompt": "Iterate on the session attach slice in src/session until cohesive.\n\nRead `.claude/skills/iterate/SKILL.md` first. Run a blind review pass; emit Pass: blind, Slice:, Clean streak, and Cohesion: attested-local or not-attested. Do not reference prior review text.",
       "replayTrace": "agent-suites/iterate/fixtures/replays/blind-pass-markers.json",
       "rubric": {
-        "must": ["Pass: blind", "Slice:", "Clean streak", "Cohesion: attested-local"],
+        "must": ["Pass: blind", "Slice:", "Clean streak", "Cohesion: attested-local", "**Found:**", "Worth acting"],
         "mustInvokeSkill": ["iterate"],
         "mustNot": ["prior review", "review 1 said", "Closure: ready"],
         "judge": [
@@ -25,7 +25,7 @@
       "prompt": "Re-run iterate on src/session after fixes. Round 2 must detect thrash on theme session-pin-plane-attach and set Thrash: inventory-required; reopen the existing theme_id — do not mint a sibling Action theme.\n\nRead `.claude/skills/iterate/SKILL.md` first.",
       "replayTrace": "agent-suites/iterate/fixtures/replays/thrash-reopen-theme.json",
       "rubric": {
-        "must": ["Thrash: inventory-required", "session-pin-plane-attach", "Pass: blind"],
+        "must": ["Thrash: inventory-required", "session-pin-plane-attach", "Pass: blind", "**Found:**", "Worth acting"],
         "mustInvokeSkill": ["iterate"],
         "mustNot": ["sibling mint", "new theme_id for the same"],
         "judge": [

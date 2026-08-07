@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Using **iterate**.\n\n### Slice envelope\n\n- **Adapter:** code\n- **Intent:** session attach pin/plane coherence\n- **Paths:** `src/session/**`\n\nIterate · Slice: session-attach · Pass: blind · Round: 1 · Clean streak: 0/2 · Cohesion: attested-local · Closure: open\n\n## Matrix\n| Row | Status |\n| Pin identity | checked |\n| Plane reconcile | checked |\n\n## Findings\n\nNo material issues.\n\n## Cohesion\nCohesion: attested-local — attach paths read as one coherent slice this pass.\n\n## Iterate summary\n\n**Slice:** session-attach\n**Closure:** open"
+      "content": "Using **iterate**.\n\n### Slice envelope\n\n- **Adapter:** code\n- **Intent:** session attach pin/plane coherence\n- **Paths:** `src/session/**`\n\nIterate · Slice: session-attach · Pass: blind · Round: 1 · Clean streak: 0/2 · Cohesion: attested-local · Closure: open\n\n## Matrix\n| Row | Status |\n| Pin identity | checked |\n| Plane reconcile | checked |\n\n## Findings\n\nNo material issues.\n\n## Cohesion\nCohesion: attested-local — attach paths read as one coherent slice this pass.\n\n### Round 1 progress\n\n**Blind pass:** [Iterate blind pass round 1](subagent-1) · Action: 0 · Cohesion: attested-local\n\n**Found:**\n- No material issues\n\n**Worth acting?**\n- n/a — clean pass\n\n**Delta:**\n- none (clean; streak 1/2)\n\n**Still blocks exit:**\n- need a second clean blind pass (streak 1/2)\n\n## Iterate summary\n\n**Slice:** session-attach\n**Closure:** open"
     }
   ],
   "toolCalls": [],
