@@ -2,9 +2,9 @@
 
 **Source of truth for** running skill-on vs skill-off outcome comparisons and interpreting transfer tables.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
-Measure whether toolbox skills improve settlement under transfer — without autonomous skill mutation.
+Measure whether toolbox skills improve settlement under transfer. Do this without autonomous skill mutation.
 
 ## Claims under test (investigate)
 
@@ -16,14 +16,14 @@ Do not score “investigate quality” as one number. Split claims:
 | C2  | Leave / red-herring — abandon dead patch, settle elsewhere                       | Secondary corroboration only                                               |
 | C3  | General transfer — ceiling scenarios that pass both arms                         | **Out of scope** for keep/remove (`investigate-*-ceiling`, replay CI only) |
 
-**Bar to stay first-class:** after fixture hygiene (guard-only seeds), N≥3 same-model repeats where `full` majority-beats `none` on C1 settlement **and** correct locus (`sessionGuard.ts`), and `full` beats the **prompt** baseline (skill file ≠ pasted rules).
+**Bar to stay first-class:** After fixture hygiene (guard-only seeds), run N≥3 same-model repeats. `full` must majority-beat `none` on C1 settlement **and** correct locus (`sessionGuard.ts`). `full` must also beat the **prompt** baseline (skill file ≠ pasted rules).
 
 **Falsifiers (summary):**
 
-- **Remove:** C1 `full` never majority-beats `none` after hygiene, or `prompt` ≥ `full` on C1 across majority of runs.
-- **Demote:** C1 `full` > `none` but `prompt` matches `full` on all repeats (verdict-gate in prompt suffices), or weak/unstable lift — shrink install surface; keep routing slug.
-- **Keep (narrow):** C1 `full` majority-beats `none` **and** `full` beats `prompt`; claim only verdict-without-patch under fix pressure.
-- **Invest more:** hygiene flips prior inversion but N&lt;3, judge/locus disagree, or confounds remain.
+- **Remove:** C1 `full` never majority-beats `none` after hygiene. Or `prompt` ≥ `full` on C1 across majority of runs.
+- **Demote:** C1 `full` > `none` but `prompt` matches `full` on all repeats (verdict-gate in prompt suffices). Or weak/unstable lift — shrink install surface. Keep routing slug.
+- **Keep (narrow):** C1 `full` majority-beats `none` **and** `full` beats `prompt`. Claim only verdict-without-patch under fix pressure.
+- **Invest more:** Hygiene flips prior inversion but N&lt;3. Or judge/locus disagree. Or confounds remain.
 
 ## Claims under test (diagnose)
 
@@ -35,17 +35,17 @@ Do not score “diagnose quality” as one number. Split claims:
 | D2  | Loop before cause — names/runs a red test command before stating cause or editing production | Secondary corroboration                                      |
 | D3  | Tight loop construction — loop is red-capable, deterministic, fast (seconds) on debug-app    | Secondary / ceiling candidate (`probe-fix-outcomes-ceiling`) |
 
-**Bar to stay first-class:** N≥3 same-model repeats where `full` majority-beats `none` on D1 **and** `full` beats the **prompt** baseline (skill file ≠ pasted rules).
+**Bar to stay first-class:** Run N≥3 same-model repeats. `full` must majority-beat `none` on D1 **and** `full` must beat the **prompt** baseline (skill file ≠ pasted rules).
 
 **Falsifiers (summary):**
 
 - **Remove:** D1 `full` never majority-beats `none` after hygiene.
 - **Demote:** D1 `full` > `none` but `prompt` matches `full` on all repeats (gate is prompt-teachable).
-- **Keep (narrow):** D1 `full` majority-beats `none` **and** `full` beats `prompt`, **and** transfer fails are classified as _invent_ (cause named without repro)—not forage-only (`mustNotReadPath` / answer-key reads). Claim only “no repro → no hypotheses”.
-- **Invest more (hygiene):** aggregate looks like Keep but transfer fails are forage-only or unknown — fix null-arm hygiene before Keep/Remove.
-- **Invest more:** direction flips, judge/locus disagree, or confounds remain.
+- **Keep (narrow):** D1 `full` majority-beats `none` **and** `full` beats `prompt`. Transfer fails must be classified as _invent_ (cause named without repro)—not forage-only (`mustNotReadPath` / answer-key reads). Claim only “no repro → no hypotheses”.
+- **Invest more (hygiene):** Aggregate looks like Keep but transfer fails are forage-only or unknown. Fix null-arm hygiene before Keep/Remove.
+- **Invest more:** Direction flips. Or judge/locus disagree. Or confounds remain.
 
-Investigate and diagnose parity are **independent manual cadences** — separate commands, manifests, and report dirs.
+Investigate and diagnose parity are **independent manual cadences**. They use separate commands, manifests, and report dirs.
 
 ## Preflight
 
@@ -57,7 +57,7 @@ npm run agent:test:evidence-parity
 
 **One command** runs the discriminating cadence: `agent-test --compare-pairs probe-evidence-outcomes:probe-evidence-transfer` → `probe-evidence-prompt` (prompt baseline) → optional `probe-fix-outcomes` + `organization-ablations` → evolution-note proposals for failures. Writes `_agent/evidence-runs/<id>/manifest.json` and compare HTML/MD/JSON under `_agent/eval-reports/<id>/`. Exits non-zero when any scenario fails (for triage, not CI by default).
 
-Scenarios that pass on both arms (ceiling) live in `probe-evidence-outcomes-ceiling` / `probe-evidence-transfer-ceiling` — replay CI only, not this command.
+Scenarios that pass on both arms (ceiling) live in `probe-evidence-outcomes-ceiling` / `probe-evidence-transfer-ceiling`. They are for replay CI only. They are not part of this command.
 
 **Not in CI:** `npm run check` / `npm test` runs replay contract suites only. Evidence-parity is a **manual** cadence (`CURSOR_API_KEY`, live judges). Do not wire `agent:test:evidence-parity` into `.github/workflows` unless you explicitly want live spend on every PR.
 
@@ -86,7 +86,7 @@ npm run agent:test:diagnose-evidence-parity -- --repeats 3
 
 Outcome and ablation suites must **not** set `"skip": true` (that skips live too). Only [`github-ambient-refs`](../agent-suites/github-ambient-refs/) uses `skip` for replay CI.
 
-If every scenario reports **skipped** under `--live` with a valid `CURSOR_API_KEY`, check subprocess env (key not exported to isolated children) and run `--doctor`. File upstream on `agent-spec` with the session id — do not paper over with JSON noise.
+If every scenario reports **skipped** under `--live` with a valid `CURSOR_API_KEY`, check subprocess env (key not exported to isolated children). Then run `--doctor`. File upstream on `agent-spec` with the session id. Do not paper over with JSON noise.
 
 ## Cadence
 
@@ -114,9 +114,9 @@ npm run agent:test:evidence-parity
    npm run agent:test:ablations -- --debug
    ```
 
-Compare output lands in `_agent/eval-reports/<run-id>/` as `compare-report.html`, `.md`, and `.json`, plus `probe-evidence-outcomes.suite-report.json`, `probe-evidence-transfer.suite-report.json`, and `probe-evidence-prompt.suite-report.json`. Pairing uses `compareId` then band-neutral scenario name (agent-test native). The evidence-parity manifest links the HTML path as `report` and MD as `reportMd`.
+Compare output lands in `_agent/eval-reports/<run-id>/` as `compare-report.html`, `.md`, and `.json`. It also writes `probe-evidence-outcomes.suite-report.json`, `probe-evidence-transfer.suite-report.json`, and `probe-evidence-prompt.suite-report.json`. Pairing uses `compareId` then band-neutral scenario name (agent-test native). The evidence-parity manifest links the HTML path as `report` and MD as `reportMd`.
 
-Transfer-arm failures on C1 (full pass, none fail) are **expected discriminating signal** — the orchestrator continues to the prompt arm and still exits non-zero for triage/proposals.
+Transfer-arm failures on C1 (full pass, none fail) are **expected discriminating signal**. The orchestrator continues to the prompt arm. It still exits non-zero for triage/proposals.
 
 ### Fixture hygiene (discriminating band)
 
@@ -129,16 +129,16 @@ Dual-bug `debug-app` stays for `investigate-*-ceiling` and diagnose ceiling / D2
 
 ### Fixture hygiene (investigate null-arm)
 
-- **Outcomes:** guard-only seeds with answer keys present (skill + suite judges).
-- **Null-arm answer-key hygiene:** same class as diagnose — outcomes run first; then answer-key bytes live only in the orchestrator process (no `$TMPDIR` plaintext park). Deletions are committed on a detached HEAD with `main` / `origin/main` retargeted so `git show` cannot recover keys; refs + bytes restore afterward. Null-arm suite JSON under `_agent/null-arm-suites/` strips `judge` and uses **guard-only** seeds under `_agent/probe-evidence-fixture-seeds/` (bug plant only — no answer-bearing hygiene patch in the agent-visible tree). Scenario display names stay opaque (`session hunch A/B`); keep `compareId` stable.
-- Tracked transfer/prompt `seedPatch` points at `_agent/probe-evidence-null-arm-hygiene.patch` (regenerated, gitignored) for offline worktree checks; live `agent:test:evidence-parity` does **not** apply that patch after park-commit.
+- **Outcomes:** Guard-only seeds with answer keys present (skill + suite judges).
+- **Null-arm answer-key hygiene:** Same class as diagnose. Outcomes run first. Then answer-key bytes live only in the orchestrator process (no `$TMPDIR` plaintext park). Deletions are committed on a detached HEAD with `main` / `origin/main` retargeted so `git show` cannot recover keys. Refs + bytes restore afterward. Null-arm suite JSON under `_agent/null-arm-suites/` strips `judge` and uses **guard-only** seeds under `_agent/probe-evidence-fixture-seeds/` (bug plant only — no answer-bearing hygiene patch in the agent-visible tree). Scenario display names stay opaque (`session hunch A/B`). Keep `compareId` stable.
+- Tracked transfer/prompt `seedPatch` points at `_agent/probe-evidence-null-arm-hygiene.patch` (regenerated, gitignored) for offline worktree checks. Live `agent:test:evidence-parity` does **not** apply that patch after park-commit.
 
 ### Fixture hygiene (diagnose)
 
-- **D1 (no-repro):** no production seed — agent should not touch code; judge checks refusal, not locus file.
-- **D2 (loop-before-cause):** dual-bug `debug-app` is OK if the judge checks **ordering** (test before fix), not which bug file the agent names. Optional later: a guard-only seed if cookie forage confounds D2.
-- **D3 (tight loop):** lives in `probe-fix-outcomes-ceiling` (replay CI only) — likely passes both arms once the model runs tests.
-- **Null-arm answer-key hygiene:** Outcomes run with keys present; then answer-key bytes live only in the orchestrator process (no `$TMPDIR` plaintext park). Deletions are committed on a detached HEAD with `main` / `origin/main` retargeted so `git show` cannot recover keys; refs + bytes restore afterward (restore must not `checkout -f` — that wipes unrelated working-tree edits). Null-arm suite JSON under `_agent/null-arm-suites/` omits `seedPatch` / `judge` / `mustNotReadPath` (path hints teach forage attempts); skill-body cribs go in `mustNot` instead. `mustNotReadPath` in source scenarios still applies via agent-test only on **successful** Reads with content (miss attempts do not fail). Scenario display names stay opaque (`session hunch A/B`); keep `compareId` stable.
+- **D1 (no-repro):** No production seed. The agent must not touch code. The judge checks refusal, not locus file.
+- **D2 (loop-before-cause):** Dual-bug `debug-app` is OK if the judge checks **ordering** (test before fix), not which bug file the agent names. Optional later: a guard-only seed if cookie forage confounds D2.
+- **D3 (tight loop):** Lives in `probe-fix-outcomes-ceiling` (replay CI only). It likely passes both arms once the model runs tests.
+- **Null-arm answer-key hygiene:** Outcomes run with keys present. Then answer-key bytes live only in the orchestrator process (no `$TMPDIR` plaintext park). Deletions are committed on a detached HEAD with `main` / `origin/main` retargeted so `git show` cannot recover keys. Refs + bytes restore afterward. Restore must not `checkout -f` — that wipes unrelated working-tree edits. Null-arm suite JSON under `_agent/null-arm-suites/` omits `seedPatch` / `judge` / `mustNotReadPath` (path hints teach forage attempts). Skill-body cribs go in `mustNot` instead. `mustNotReadPath` in source scenarios still applies via agent-test only on **successful** Reads with content (miss attempts do not fail). Scenario display names stay opaque (`session hunch A/B`). Keep `compareId` stable.
 
 ### Metrics beyond judge pass rate
 
@@ -154,9 +154,9 @@ Dual-bug `debug-app` stays for `investigate-*-ceiling` and diagnose ceiling / D2
 ## Equal-budget discipline
 
 - Same model family for both arms in a comparison row.
-- Primary budget metric: **total tokens** (`usage.total` in `result.json` — agent + judge) when the SDK reports usage; wall time (`durationMs`) remains a secondary proxy.
+- Primary budget metric: **total tokens** (`usage.total` in `result.json` — agent + judge) when the SDK reports usage. Wall time (`durationMs`) remains a secondary proxy.
 - Compare reports include per-arm token columns and Δ tok when usage is present (agent-test HTML/MD compare).
-- If `full` does not beat `none` on settlement judges across repeats → lower **Confidence** or add **Does not transfer** in `research-basis.md`; do not add skill prose.
+- If `full` does not beat `none` on settlement judges across repeats → lower **Confidence** or add **Does not transfer** in `research-basis.md`. Do not add skill prose.
 
 ## Suites
 

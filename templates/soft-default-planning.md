@@ -1,8 +1,8 @@
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 **Source of truth for** bare consumers that want toolbox Linear / `docs/prds/` planning baselines.
 
-**Setup** (only when the project has **no** planning docs remap, e.g. no `docs/developer/planning/`):
+**Setup** (only when the project has **no** planning docs remap, for example no `docs/developer/planning/`):
 
 1. Copy `templates/planning-soft-default/` → `.skeleton/customize/planning-soft-default/`
 2. Copy this file → `.skeleton/customize/soft-default-planning.md`
@@ -12,7 +12,7 @@ Remapping consumers (shared-agent-references → project planning docs) must **n
 
 ## Soft-default planning remap
 
-Operator mapping after setup (copied into customize for hook injection). When a skill cites `references/planning/<file>.md`, the binder + alwaysInclude inject the soft-default pack — agents should use that injected planning context, not skill-local soft-default stubs:
+Operator mapping after setup (copied into customize for hook injection). When a skill cites `references/planning/<file>.md`, the binder + alwaysInclude inject the soft-default pack. Agents must use that injected planning context, not skill-local soft-default stubs:
 
 | Skill cites                               | Soft-default recipe                                             |
 | ----------------------------------------- | --------------------------------------------------------------- |

@@ -7,33 +7,33 @@ description: Test-first build at agreed public seams — one red-green slice at 
 
 **Source of truth for** test-first implementation at public seams.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
-**Process skill** — red → green microcycle; tests at public interfaces only. Shared vocabulary → [context-pack.md](../subagents/references/context-pack.md).
+**Process skill** — red → green microcycle. Tests at public interfaces only. Shared vocabulary → [context-pack.md](../subagents/references/context-pack.md).
 
 References: [anti-patterns.md](references/anti-patterns.md) · [output.md](references/output.md) · [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md).
 
-Read [research-basis.md](references/research-basis.md) only when calibrating seam claims.
+Read [research-basis.md](references/research-basis.md) only when you calibrate seam claims.
 
 ## Entry gate
 
-- **Seam** agreed with user — public interface under test (`Seam:` header or explicit confirmation).
+- **Seam** agreed with the user — public interface under test (`Seam:` header or explicit agreement).
 - **Slice** in scope — path glob or module id shared with other active atoms when layered.
-- Without agreed seam → stop and ask; do not write production code or tests at private helpers only.
+- If there is no agreed seam, stop and ask. Do not write production code or tests at private helpers only.
 
 ## Non-negotiables
 
 1. **Red before green** — one vertical slice per cycle.
 2. **Independent expected values** — not tautological to production logic.
-3. **Refactor out of scope** — defer structural cleanup unless user asks.
+3. **Refactor out of scope** — defer structural cleanup unless the user asks.
 
 ## Workflow
 
-1. Confirm **Seam** and **Slice**.
+1. Make sure that **Seam** and **Slice** are agreed.
 2. Failing test → red → minimal green → stop.
-3. Report per [output.md](references/output.md).
+3. Report per [output.md](references/output.md). User-facing report uses pragmatic STE.
 
-When **iterate** is also active on the same **Slice**, run tdd microcycles between blind passes — no skill ordering doc required; user prompt selects both.
+When **iterate** is also active on the same **Slice**, run tdd microcycles between blind passes. No skill ordering doc is required. The user prompt selects both.
 
 ## Exit artifact
 
@@ -41,7 +41,7 @@ Per [output.md](references/output.md) — seam, cycle summary, test path citatio
 
 ## Consumer bindings
 
-Project-specific injected context appended on skill read. Do not edit synced copies in place.
+Project-specific injected context is appended on skill read. Do not edit synced copies in place.
 
 ## Output format
 

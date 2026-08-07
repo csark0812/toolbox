@@ -1,8 +1,8 @@
 # Slice envelope
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
-Mixed entry: user supplies **intent**; coordinator derives a **frozen envelope** before each blind pass.
+Mixed entry: user supplies **intent**. Coordinator derives a **frozen envelope** before each blind pass.
 
 Member envelope rules → [`subagents` context-pack.md](../../subagents/references/context-pack.md).
 
@@ -10,7 +10,7 @@ Member envelope rules → [`subagents` context-pack.md](../../subagents/referenc
 
 1. **Listen** — capture user intent (feature, plan §, module behavior, invariant class).
 2. **Repo-first expand** — search/read to bound paths, symbols, plan section ids, linked decisions.
-3. **Write envelope block** — explicit, copyable into blind dispatch. Coordinator synthesis header uses short `Slice:` id ([output.md](output.md)); member prompt carries the full block:
+3. **Write envelope block** — explicit, copyable into blind dispatch. Coordinator synthesis header uses short `Slice:` id ([output.md](output.md)). Member prompt carries the full block:
 
 ```markdown
 ### Slice envelope
@@ -23,7 +23,7 @@ Member envelope rules → [`subagents` context-pack.md](../../subagents/referenc
 - **Out of slice:** [explicit exclusions]
 ```
 
-4. **Stability rules** — coordinator MUST NOT embed prior-round finding prose, thrash notes, pass progress / bridge text, or fix rationale into materials sent to the blind reviewer. Updated file contents after fixes are allowed; narrative about prior passes is not.
+4. **Stability rules** — coordinator MUST NOT embed prior-round finding prose into materials sent to the blind reviewer. Also exclude thrash notes, pass progress / bridge text, and fix rationale. Updated file contents after fixes are allowed. Narrative about prior passes is not.
 
 ## Envelope changes
 

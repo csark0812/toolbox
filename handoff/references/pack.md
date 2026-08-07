@@ -1,10 +1,10 @@
 # Handoff pack & channel
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 How to **choose what to include** and **how to deliver** it. Compact procedure → [output.md](output.md). Member write rules → [handoff-subagent-dispatch.md](handoff-subagent-dispatch.md).
 
-**Channel** = delivery to the next session. **Pack** = how much context to include. **Goal** = what the next session should do — kebab-case slug, open vocabulary.
+**Channel** = delivery to the next session. **Pack** = how much context to include. **Goal** = what the next session must do — kebab-case slug, open vocabulary.
 
 Shared member-pack rules → [`subagents` context-pack.md](../../subagents/references/context-pack.md).
 
@@ -34,13 +34,13 @@ Same-root rule: `@_agent/handoffs/...` resolves against the **next chat's worksp
 
 Header `Goal:` — one line. Examples: `implement`, `review`, `probe` (hunch or repro-first bug), `plan-revise`, `iterate-slice`, or user phrase as slug (`harden-auth`).
 
-Infer from session state; ask once if unclear.
+Infer from session state. Ask once if unclear.
 
 ## Gather (coordinator → member or inline prompt)
 
 From thread, take **claims only** — do not invent progress:
 
-1. Original ask (one line) — fold into State for `Pack: pointers`; expand for `full` only if needed
+1. Original ask (one line) — fold into State for `Pack: pointers`. Expand for `full` only if needed
 2. Decisions — bullet if any
 3. Work done / current state (honest)
 4. Pointers (paths, PR, issue, branch, SHAs)

@@ -1,10 +1,12 @@
 # Review output
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 Extends [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md).
 
 **Default filing:** merge-blockers only — [merge-blockers.md](merge-blockers.md).
+
+User-facing blocks (status lines, finding titles, finding bodies, Noted/Deferred lines) must use pragmatic STE. See [docs/skill-evolution.md](../../docs/skill-evolution.md) § Pragmatic STE for toolbox, or `/simple-english`.
 
 ## Status header (required)
 
@@ -18,10 +20,10 @@ Review · source:[adapter] · Scope: [N files, M loc] · Lens: [general|security
 | --------- | --------------------------------------------------------------------------------------------- |
 | `source:` | Surface adapter from [sources.md](sources.md) (`paths`, `snapshot`, `branch`, `external`, …)  |
 | `Scope:`  | Files and approximate size in review scope                                                    |
-| `Lens:`   | User focus; omit, `general`, or any kebab-case slug (examples in sources.md — not exhaustive) |
+| `Lens:`   | User focus. Omit, `general`, or any kebab-case slug (examples in sources.md — not exhaustive) |
 | `Filing:` | `merge-blockers only` (default) or improvements mode per merge-blockers                       |
 
-Optional one-line scope note may precede the header.
+Optional one-line scope note can precede the header.
 
 ## Review status (merge-readiness asks only)
 
@@ -44,14 +46,14 @@ One block per Action issue, severity descending. **Noted** and **Deferred** use 
 
 `<app>/path/File.tsx:71-85` · Severity: high · Scope: ship-blocker
 
-Host navigation updates URL but `panelMode` is never reset — after SPA route change the panel can stay on the wrong mode.
+Host navigation updates URL but `panelMode` is never reset. After SPA route change the panel can stay on the wrong mode.
 ```
 
 **Title** — short imperative phrase.
 
 **Location line** — `` `path:line` `` · Severity: critical|high|medium|low · Scope: ship-blocker|hardening · optional `· Needs confirmation`
 
-**Body** — 1–4 sentences: starting state → trigger → failure → user impact.
+**Body** — 1–4 STE sentences: starting state → trigger → failure → user impact.
 
 ## Noted (out of scope)
 
@@ -78,10 +80,10 @@ Polish, test inventory, refactor — one line each:
 | Level        | Bar                                           |
 | ------------ | --------------------------------------------- |
 | **critical** | Data loss, security exposure, core path break |
-| **high**     | Core action fails; bad state propagation      |
-| **medium**   | Non-core regression; moderate edge case       |
-| **low**      | Rare edge; contained scope                    |
+| **high**     | Core action fails. Bad state propagation.     |
+| **medium**   | Non-core regression. Moderate edge case.      |
+| **low**      | Rare edge. Contained scope.                   |
 
 ## Plain-text fallback
 
-When `<details>` won't render: title line, location + severity + scope, then description paragraph.
+When `<details>` will not render: title line, location + severity + scope, then description paragraph.

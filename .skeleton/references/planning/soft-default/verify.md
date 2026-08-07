@@ -1,19 +1,19 @@
 # Verify (completeness)
 
-**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file — open the consumer planning SSOT instead.
+**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file. Open the consumer planning SSOT instead.
 
-Completeness check on an existing plan, PRD, or issue set. Does not rewrite — flags gaps and suggests specific additions.
+Completeness review on an existing plan, PRD, or issue set. Does not rewrite. Flags gaps and suggests specific additions.
 
-Plan type and axis weighting — see [README.md](README.md) (Completeness axes). This file is the **axis checklist body** loaded by the second-opinion **completeness** attacker ([second-opinion-dispatch.md](../../../../subagents/references/second-opinion-dispatch.md)). Full second-opinion always pairs premises attack + this checklist + a defender — do not treat this doc as a separate “verify stance.”
+Plan type and axis weighting — see [README.md](README.md) (Completeness axes). This file is the **axis checklist body** loaded by the second-opinion **completeness** attacker ([second-opinion-dispatch.md](../../../../subagents/references/second-opinion-dispatch.md)). Full second-opinion always pairs premises attack + this checklist + a defender. Do not treat this doc as a separate “verify stance.”
 
 ## Step 1: Locate the Artifact
 
-| Input                     | Action                                                               |
-| ------------------------- | -------------------------------------------------------------------- |
-| `.plan.md` path           | Read the file                                                        |
-| `docs/prds/*.md` path     | Read the file                                                        |
-| "My plan" / no path given | Check `.cursor/plans/` for recent `.plan.md` files; ask if ambiguous |
-| Linear issue set          | Ask for the project or issue IDs                                     |
+| Input                     | Action                                                                 |
+| ------------------------- | ---------------------------------------------------------------------- |
+| `.plan.md` path           | Read the file                                                          |
+| `docs/prds/*.md` path     | Read the file                                                          |
+| "My plan" / no path given | Look in `.cursor/plans/` for recent `.plan.md` files. Ask if ambiguous |
+| Linear issue set          | Ask for the project or issue IDs                                       |
 
 ## Step 2: Detect Plan Type
 
@@ -23,19 +23,19 @@ Determines axis weighting. State the detected type before proceeding.
 
 ## Step 3: Run the Three Axes
 
-Work through each axis. For each finding, state the specific gap and a concrete suggestion — not just "this could be better."
+Work through each axis. For each finding, state the specific gap and a concrete suggestion. Do not only say "this can be better."
 
 ---
 
 ### Axis 1: Scope
 
-**What to check:**
+**What to examine:**
 
-- Is there an explicit "out of scope" section? If not, what could reasonably be assumed as included but probably isn't?
+- Is there an explicit "out of scope" section? If not, what can reasonably be assumed as included but probably is not?
 - Are the acceptance criteria or success conditions stated?
-- Does the plan's scope match the triggering input (Linear card, description, PRD)?
+- Does the scope of the plan match the triggering input (Linear card, description, PRD)?
 
-**Question to ask yourself:** "If someone picked this plan up cold, what would they reasonably assume is included that actually isn't?"
+**Question to ask yourself:** "If someone picked this plan up cold, what can they reasonably assume is included that actually is not?"
 
 **Bug fix specific:** Is the root cause stated as confirmed, or as a hypothesis? If hypothesis, that needs to be flagged.
 
@@ -43,15 +43,15 @@ Work through each axis. For each finding, state the specific gap and a concrete 
 
 ### Axis 2: Gaps
 
-**What to check:**
+**What to examine:**
 
 - Are there phases or steps that are non-obvious but required?
 - Is there missing infrastructure work (migrations, schema changes, config updates) that code changes depend on?
-- Are tests mentioned? For non-trivial changes, test coverage should appear in the plan.
+- Are tests mentioned? For non-trivial changes, test coverage must appear in the plan.
 - Is cleanup or follow-up (dead code removal, deprecated paths) included if applicable?
 - For bug fixes: is regression testing included?
 
-**Question to ask yourself:** "What will the implementer discover mid-execution that will block them and isn't in this plan?"
+**Question to ask yourself:** "What will the implementer discover mid-execution that will block them and is not in this plan?"
 
 ---
 
@@ -59,7 +59,7 @@ Work through each axis. For each finding, state the specific gap and a concrete 
 
 **Question:** What else does this decision touch or depend on?
 
-**What to check:**
+**What to examine:**
 
 - What shared code, packages, or interfaces does this change? Are they all mentioned?
 - Does the plan account for consumers of the changed code? (callers, dependents in other packages/apps)
@@ -68,7 +68,7 @@ Work through each axis. For each finding, state the specific gap and a concrete 
 - For database schema changes: migrations noted?
 - What other decisions, surfaces, or prior commitments does this affect?
 
-**Question to ask yourself:** "What will break in an adjacent part of the codebase that this plan doesn't mention?" (For non-code plans: what downstream decisions or commitments does this plan assume?)
+**Question to ask yourself:** "What will break in an adjacent part of the codebase that this plan does not mention?" (For non-code plans: what downstream decisions or commitments does this plan assume?)
 
 ---
 
@@ -88,14 +88,14 @@ Work through each axis. For each finding, state the specific gap and a concrete 
 
 ### Readiness
 [Needs work | Mostly there | Ready to build]
-[One sentence explaining the signal — what's the blocker or what's the remaining concern.]
+[One sentence explaining the signal — what is the blocker or what is the remaining concern.]
 ```
 
 **Readiness signals:**
 
-- **Needs work** — A scope gap, missing phase, or unaddressed blast radius item would derail implementation
-- **Mostly there** — Minor gaps; implementer can proceed but should keep these in mind
-- **Ready to build** — All three axes covered; plan is executable as-is
+- **Needs work** — A scope gap, missing phase, or unaddressed blast radius item will derail implementation
+- **Mostly there** — Minor gaps. Implementer can proceed but must keep these in mind
+- **Ready to build** — All three axes covered. Plan is executable as-is
 
 ## Step 5: Offer Next Steps
 

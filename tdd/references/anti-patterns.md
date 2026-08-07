@@ -4,15 +4,15 @@ Consult before and during each red-green cycle.
 
 ## Implementation-coupled
 
-Mocks internal collaborators, tests private methods, or verifies through a side channel (querying the database instead of using the interface).
+Mocks internal collaborators, tests private methods, or asserts through a side channel. Example: querying the database instead of using the interface.
 
-**Tell:** the test breaks when you refactor but behavior hasn't changed.
+**Tell:** the test breaks when you refactor but behavior has not changed.
 
-**Fix:** test at the public seam; use fakes only at boundaries you agreed with the user.
+**Fix:** test at the public seam. Use fakes only at boundaries you agreed with the user.
 
 ## Tautological
 
-The assertion recomputes the expected value the way the code does (`expect(add(a, b)).toBe(a + b)`, a hand-derived snapshot, a constant asserted equal to itself).
+The assertion recomputes the expected value the way the code does. Examples: `expect(add(a, b)).toBe(a + b)`, a hand-derived snapshot, a constant asserted equal to itself.
 
 **Tell:** the test passes by construction and can never disagree with the code.
 
@@ -20,7 +20,7 @@ The assertion recomputes the expected value the way the code does (`expect(add(a
 
 ## Horizontal slicing
 
-Writing all tests first, then all implementation. Bulk tests verify _imagined_ behavior: you test shape before understanding, tests go insensitive to real changes, and you commit to structure too early.
+Writing all tests first, then all implementation. Bulk tests assert _imagined_ behavior. You test shape before understanding. Tests go insensitive to real changes. You commit to structure too early.
 
 **Fix:** **vertical slices** — one test → one implementation → repeat. Each test is a tracer bullet that responds to what the last cycle taught you.
 

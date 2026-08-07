@@ -1,10 +1,10 @@
 # PRD Output Format
 
-**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file — open the consumer planning SSOT instead.
+**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file. Open the consumer planning SSOT instead.
 
-Save to `docs/prds/<feature-slug>.md`. Create the directory if it doesn't exist.
+Save to `docs/prds/<feature-slug>.md`. Create the directory if it does not exist.
 
-The slug should be lowercase and hyphenated: `source-scoring`, `auth-refresh`, `bulk-export`.
+The slug must be lowercase and hyphenated: `source-scoring`, `auth-refresh`, `bulk-export`.
 
 ## Template
 
@@ -24,7 +24,7 @@ The slug should be lowercase and hyphenated: `source-scoring`, `auth-refresh`, `
 
 **Out of scope:**
 
-- [Thing that could be assumed as included but isn't]
+- [Thing that can be assumed as included but is not]
 - [...]
 
 ## User Stories
@@ -57,8 +57,8 @@ The slug should be lowercase and hyphenated: `source-scoring`, `auth-refresh`, `
 
 **Scope:**
 
-- Out-of-scope section is required. If everything is in scope, list adjacent features that could be confused as included.
-- Scope should be specific enough that two engineers reading it would scope the work the same way.
+- Out-of-scope section is required. If everything is in scope, list adjacent features that can be confused as included.
+- Scope must be specific enough that two engineers reading it scope the work the same way.
 
 **User stories:**
 
@@ -67,9 +67,9 @@ The slug should be lowercase and hyphenated: `source-scoring`, `auth-refresh`, `
 
 **Acceptance criteria:**
 
-- Each criterion must be independently testable: someone should be able to say "pass" or "fail"
+- Each criterion must be independently testable: someone must be able to say "pass" or "fail"
 - Cover the main success path + at least one failure/edge case
-- Mirror the user stories — every story should have at least one criterion
+- Mirror the user stories — every story must have at least one criterion
 
 **Modules:**
 
@@ -80,7 +80,7 @@ The slug should be lowercase and hyphenated: `source-scoring`, `auth-refresh`, `
 
 When the session is in plan mode (or the deliverable is a plan artifact, not immediate implementation):
 
-- **Do not** output a plan whose steps are "write PRD," "gather requirements," "save file," etc.
+- **Do not** output a plan whose steps are "write PRD," "gather requirements," "save file," and similar.
 - **Do** write the PRD **as the body of the plan** — same sections as the template above, filled in from context.
 - Treat the plan document as the PRD draft. Optional closing line: "Save to `docs/prds/<slug>.md` during execution."
 

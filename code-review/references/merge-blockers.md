@@ -1,12 +1,12 @@
 # Default filing — merge-blockers only
 
-**SSOT:** Which finding **categories** to file by default on review (merge-blockers vs improvements mode). Edit here; cite from [output.md](output.md) and [SKILL.md](../SKILL.md).
+**SSOT:** Which finding **categories** to file by default on review (merge-blockers vs improvements mode). Edit here. Cite from [output.md](output.md) and [SKILL.md](../SKILL.md).
 
-**Per-finding Action bar** (introduced/reachable/behavior delta/PR-aligned → Action vs Noted/Deferred) → consumer worth-doing gate / customize. Apply **both**: this doc sets filing breadth; worth-doing gate filters individual findings at synthesis.
+**Per-finding Action bar** (introduced/reachable/behavior delta/PR-aligned → Action vs Noted/Deferred) → consumer worth-doing gate / customize. Apply **both**: this doc sets filing breadth. Worth-doing gate filters individual findings at synthesis.
 
 ## Default (no extra keywords)
 
-File **only merge-blockers** — bugs that would **surface in production** and need fixing before merge.
+File **only merge-blockers** — bugs that **surface in production** and need fixing before merge.
 
 | File                                                        | Do not file (default)                                                             |
 | ----------------------------------------------------------- | --------------------------------------------------------------------------------- |
@@ -36,7 +36,7 @@ Then also file:
 
 | `scope`         | File when                                                                                  |
 | --------------- | ------------------------------------------------------------------------------------------ |
-| **hardening**   | Real edge trigger → broken behavior; would affect production under plausible conditions    |
+| **hardening**   | Real edge trigger → broken behavior. Affects production under plausible conditions         |
 | **improvement** | Refactor, test inventory, docs, architecture — use Deferred improvements tail on re-review |
 
 Record in synthesis header: `Filing: merge-blockers + improvements` (or `Filing: exhaustive`).

@@ -1,8 +1,8 @@
 # Blind reviewer dispatch
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
-Single-member Task recipe for each review pass. Spawn mechanics → [`subagents`](../../subagents/SKILL.md) non-negotiables. Slice envelope → [slice-envelope.md](slice-envelope.md); pack rules → [context-pack.md](../../subagents/references/context-pack.md). Model → `model=inherit-auto` (omit tool `model` under Auto parent).
+Single-member Task recipe for each review pass. Spawn mechanics → [`subagents`](../../subagents/SKILL.md) non-negotiables. Slice envelope → [slice-envelope.md](slice-envelope.md). Pack rules → [context-pack.md](../../subagents/references/context-pack.md). Model → `model=inherit-auto` (omit tool `model` under Auto parent).
 
 ## When
 
@@ -22,7 +22,7 @@ Members:
 
 - generalPurpose · tier=Standard · model=inherit-auto · stance=blind: memoryless slice review
 
-Synthesis plan: merge member matrix + findings + Cohesion attested-local; coordinator thrash after return
+Synthesis plan: merge member matrix + findings + Cohesion attested-local. Coordinator thrash after return.
 ```
 
 ## Member prompt template
@@ -43,17 +43,17 @@ Slice envelope:
 [paste envelope block from slice-envelope.md]
 
 Materials:
-[bounded in-slice excerpts — paths + line ranges for code adapter; plan § text for plan adapter — never full PR diffs or coordinator narrative; see context-pack.md iterate row]
+[bounded in-slice excerpts — paths + line ranges for code adapter, plan § text for plan adapter — never full PR diffs or coordinator narrative. See context-pack.md iterate row]
 
 Adapter matrix:
-[applicable rows from adapters.md — check or N/A each]
+[applicable rows from adapters.md — mark checked or N/A each]
 
 Output (required sections):
 ## Matrix
 | Row | Status (checked / N/A + reason) |
 
 ## Findings
-[Action items with Theme: theme-id when invariant-level; or "No material issues"]
+[Action items with Theme: theme-id when invariant-level, or "No material issues"]
 
 ## Cohesion
 Cohesion: attested-local | not-attested
@@ -62,8 +62,8 @@ Cohesion: attested-local | not-attested
 
 ## Member output rules
 
-- `Cohesion: attested-local` only when matrix complete **and** no material Action findings this pass.
-- `Cohesion: not-attested` when Action > 0 or matrix incomplete.
+- `Cohesion: attested-local` only when matrix is complete **and** no material Action findings this pass.
+- `Cohesion: not-attested` when Action > 0 or matrix is incomplete.
 - Member MUST NOT emit `Closure: ready` — coordinator-only ([exit-gate.md](exit-gate.md)).
 
 ## Context asymmetry

@@ -1,10 +1,10 @@
 # Plan format
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-13 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 **Portable stub (incomplete):** Toolbox ships only this baseline. **Do not execute planning recipes from this file.**
 
-Consumer projects remap this path through hook-injected customize / alwaysInclude context (`shared-agent-references` / project planning docs or equivalent). When that injected planning SSOT exists, use it — never Linear / `docs/prds/` soft-defaults from this stub. Soft-default setup for bare consumers is operator-facing (`templates/soft-default-planning.md`), not opened from this stub.
+Consumer projects remap this path through hook-injected customize / alwaysInclude context (`shared-agent-references` / project planning docs or equivalent). When that injected planning SSOT exists, use it. Do not use Linear / `docs/prds/` soft-defaults from this stub. Soft-default setup for bare consumers is operator-facing (`templates/soft-default-planning.md`). That setup is not opened from this stub.
 
 ## What this file is for
 

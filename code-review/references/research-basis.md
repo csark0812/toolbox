@@ -2,7 +2,7 @@
 
 **Source of truth for** evidence behind review filing and evidence bar.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 Read when calibrating filing density or evidence claims. Not for every review.
 
@@ -10,11 +10,11 @@ Read when calibrating filing density or evidence claims. Not for every review.
 
 Reduces speculative noise — file reachable production defects, not test inventory or polish by default.
 
-**Confidence:** High for maintainability; moderate for cold-start agent success.
+**Confidence:** High for maintainability. Moderate for cold-start agent success.
 
 ## Introduced-only default
 
-Review what the diff changed or newly exposed — pre-existing issues belong in Noted unless they block the changed path.
+Review what the diff changed or newly exposed. Pre-existing issues belong in Noted unless they block the changed path.
 
 **Confidence:** Moderate — reduces scope creep on large diffs.
 

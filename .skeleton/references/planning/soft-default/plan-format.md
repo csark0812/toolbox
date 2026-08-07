@@ -1,8 +1,8 @@
 # CreatePlan Output Format
 
-**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file — open the consumer planning SSOT instead.
+**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file. Open the consumer planning SSOT instead.
 
-Use the `CreatePlan` tool to generate the plan artifact. Fill the template below, then run the self-check before submitting.
+Use the `CreatePlan` tool to generate the plan artifact. Fill the template below. Then run the Self-Check before submitting.
 
 ## Template
 
@@ -13,8 +13,8 @@ Use the `CreatePlan` tool to generate the plan artifact. Fill the template below
 [Feature | Refactor | Cleanup | Bug fix | Architecture] — one sentence describing the goal
 
 ## Scope
-In: [bullet list of what's included]
-Out: [bullet list of what's explicitly excluded — even if obvious]
+In: [bullet list of what is included]
+Out: [bullet list of what is explicitly excluded — even if obvious]
 
 ## Phases
 
@@ -26,7 +26,7 @@ Out: [bullet list of what's explicitly excluded — even if obvious]
 - [ ] [Specific action] — [file or directory path]
 
 ## Blast radius
-- [What shared code this touches and how it's accounted for in the plan]
+- [What shared code this touches and how it is accounted for in the plan]
 - [Or: "Contained — only affects [specific area]"]
 
 ## Risks & unknowns
@@ -35,8 +35,8 @@ Out: [bullet list of what's explicitly excluded — even if obvious]
 - [Or: "None identified"]
 
 ## Verification
-- [How to confirm each phase is complete]
-- [Specific test cases or behaviors to verify]
+- [How to make sure that each phase is complete]
+- [Specific test cases or behaviors to observe]
 ```
 
 ## Self-Check
@@ -46,7 +46,7 @@ Run through this before submitting the plan. Fix anything that fails.
 **Todos:**
 
 - [ ] Every todo cites a specific file path or directory — not just "implement X"
-- [ ] No todo is vague enough that two different implementations would satisfy it
+- [ ] No todo is so vague that two different implementations both count as done
 - [ ] Phase ordering respects dependencies (blocked tasks come later, stated as "blocked by Phase N")
 - [ ] Each phase has a clear completion criterion
 
@@ -64,10 +64,10 @@ Run through this before submitting the plan. Fix anything that fails.
 **Risks:**
 
 - [ ] If there are unknowns (root cause not confirmed, external dependency not ready), they are listed
-- [ ] If risks section is empty, that is an intentional statement — confirm it's correct
+- [ ] If risks section is empty, that is an intentional statement — make sure that it is correct
 
 ## Notes
 
-- Plans with 8+ todos should be split into phases with clear handoffs
-- A todo that requires resolving an unknown before it can be executed should be sequenced after a "confirm/investigate" todo
-- `CreatePlan` name should be short and slug-style: `add-source-scoring`, not "Plan to Add Scoring to the Source System"
+- Plans with 8+ todos must be split into phases with clear handoffs
+- A todo that requires resolving an unknown before it can be executed must be sequenced after a "make sure / investigate" todo
+- `CreatePlan` name must be short and slug-style: `add-source-scoring`, not "Plan to Add Scoring to the Source System"

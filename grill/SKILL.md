@@ -1,45 +1,45 @@
 ---
 name: grill
-description: Shape fuzzy intent and pressure-test a design before code — intent phase then design tree until major branches resolve. Use when the idea is half-formed, assumptions need pressure-testing, or the user says crystallize/grill this. Process skill; dialogue-first. Composes with tdd, iterate, and second-opinion on layered prompts. Not written-artifact-only critique, find-only hunch settlement, or blind slice pass loops.
+description: Shape fuzzy intent and pressure-test a design before code — intent phase then design tree until major branches resolve. Use when the idea is half-formed, assumptions need pressure-testing, or the user says crystallize or grill this. Process skill. Dialogue-first. Composes with tdd, iterate, and second-opinion on layered prompts. Not written-artifact-only critique, find-only hunch settlement, or blind slice pass loops.
 ---
 
 # Grill
 
 **Source of truth for** intent shaping and design-tree alignment before implementation.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 **Process skill** — shared vocabulary → [context-pack.md](../subagents/references/context-pack.md). Mid-turn asks → [ask.md](references/ask.md).
 
 References: [ask.md](references/ask.md) · [intent-phase.md](references/intent-phase.md) · [protocol.md](references/protocol.md) · [output.md](references/output.md) · [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md).
 
-Read [research-basis.md](references/research-basis.md) only when calibrating dialogue claims.
+Read [research-basis.md](references/research-basis.md) only when you calibrate dialogue claims.
 
 ## Entry gate
 
 - User wants **dialogue** — fuzzy intent and/or design alignment before implementation (including former “crystallize” asks).
-- **Artifact-only critique** of a complete written plan on disk → stop; that mode needs a plan path and perspective dispatch, not Socratic explore here.
+- If the ask is **artifact-only critique** of a complete written plan on disk, stop. That mode needs a plan path and perspective dispatch. It is not Socratic explore here.
 
 ## Non-negotiables
 
-1. **Ask via [ask.md](references/ask.md)** — 1–3 same-branch lettered questions in a Context + Questions block; wait for answers. Layout: human-first plain Context (no Where/Deciding/Settled; optional Already agreed), `---` under Context, `### N.` stems, bullet options, `>` Recommended with pick summary on line 1 and Why it matters on the next (omit Why when N=1) — never one blob.
-2. **Facts in repo** — look up; don't ask the user for knowable facts.
-3. **Falsifier per node** before leaving a design-tree branch.
-4. **No implementation** until alignment or explicit user skip.
+1. **Ask via [ask.md](references/ask.md)** — 1–3 same-branch lettered questions in a Context + Questions block. Wait for answers. Layout: human-first Context in pragmatic STE (no Where/Deciding/Settled. Optional Already agreed). Then `---` under Context. Then `### N.` stems, bullet options, `>` Recommended with pick summary on line 1 and Why it matters on the next (omit Why when N=1). Never one blob.
+2. **Facts in repo** — look up. Do not ask the user for knowable facts.
+3. **Falsifier per node** before you leave a design-tree branch.
+4. **No implementation** until alignment or an explicit user skip.
 
 ## Workflow
 
-Fuzzy or incomplete intent → [intent-phase.md](references/intent-phase.md). Concrete design to pressure-test → [protocol.md](references/protocol.md) → [output.md](references/output.md). Mid-turn user asks always use [ask.md](references/ask.md).
+If intent is fuzzy or incomplete → [intent-phase.md](references/intent-phase.md). If the design is concrete and needs a pressure-test → [protocol.md](references/protocol.md) → [output.md](references/output.md). Mid-turn user asks always use [ask.md](references/ask.md).
 
-Optional repo facts for a branch → **subagents** parallel-explore; grill stays dialogue-first.
+Optional repo facts for a branch → **subagents** parallel-explore. Grill stays dialogue-first.
 
 ## Exit artifact
 
-Intent exit → [intent-phase.md](references/intent-phase.md) crystallized block. Design-tree exit → [output.md](references/output.md).
+Intent exit → [intent-phase.md](references/intent-phase.md) crystallized block. Design-tree exit → [output.md](references/output.md). User-facing ask and exit blocks use pragmatic STE.
 
 ## Consumer bindings
 
-Project-specific injected context appended on skill read. Do not edit synced copies in place.
+Project-specific injected context is appended on skill read. Do not edit synced copies in place.
 
 ## Output format
 

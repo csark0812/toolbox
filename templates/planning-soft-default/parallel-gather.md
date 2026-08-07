@@ -1,6 +1,6 @@
 # Parallel Gather
 
-**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file — open the consumer planning SSOT instead.
+**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file. Open the consumer planning SSOT instead.
 
 Multi-source collection from independent sources of truth. Uses [`subagents`](../../../../subagents/SKILL.md) kernel — [non-negotiables](../../../../subagents/SKILL.md#non-negotiables), [task-prompt.md](../../../../subagents/references/task-prompt.md), [member-schema.md](../../../../subagents/references/member-schema.md).
 
@@ -28,7 +28,7 @@ Split by **source of truth**, not perspective:
 | Code area A       | `explore` | Fast | service / domain package paths           |
 | Code area B       | `explore` | Fast | client data layer paths                  |
 
-Each member collects from its slice only — no cross-slice inference until synthesis.
+Each member collects from its slice only. No cross-slice inference until synthesis.
 
 ## Dispatch plan template
 
@@ -45,8 +45,8 @@ Selected members:
 - explore · tier=Fast · model=[inherit-auto | slug] · stance=n/a: [doc/policy slice]
 - explore · tier=Fast · model=[inherit-auto | slug] · stance=n/a: [backend slice]
 
-Why these members: independent sources; no cross-member dependencies
-Synthesis plan: merge fact lists; flag conflicts between sources
+Why these members: independent sources. No cross-member dependencies
+Synthesis plan: merge fact lists. Flag conflicts between sources
 ```
 
 Compose prompts per [task-prompt.md](../../../../subagents/references/task-prompt.md).

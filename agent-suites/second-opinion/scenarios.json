@@ -40,7 +40,12 @@
       "rubric": {
         "must": ["Artifact:", "rate-limit", "adversarial-light", "premises"],
         "mustInvokeSkill": ["second-opinion"],
-        "mustNot": ["point to grill", "ask for a path", "provide a file path", "Without artifact path"],
+        "mustNot": [
+          "point to grill",
+          "ask for a path",
+          "provide a file path",
+          "Without artifact path"
+        ],
         "judge": [
           "The agent accepted the in-thread paste as the artifact without demanding a disk path or redirecting to grill"
         ]

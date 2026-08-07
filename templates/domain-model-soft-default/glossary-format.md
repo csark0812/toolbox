@@ -1,6 +1,6 @@
 # Glossary format
 
-**Opt-in soft-default recipe:** Full glossary baseline for consumers with **no** domain-artifact remap. Consumers that remap via customize must **not** use this file — open the consumer SSOT instead.
+**Opt-in soft-default recipe:** Full glossary baseline for consumers with **no** domain-artifact remap. Consumers that remap via customize must **not** use this file. Open the consumer SSOT instead.
 
 Save to `docs/glossary.md` unless customize remaps the path. Create the file if it does not exist.
 

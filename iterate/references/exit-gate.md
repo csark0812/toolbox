@@ -1,18 +1,18 @@
 # Exit gate
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 Layered exit — **not** "zero findings." Split subagent vs coordinator signals.
 
 ## Layers
 
-| Layer            | Actor          | Requirement                                                                                   |
-| ---------------- | -------------- | --------------------------------------------------------------------------------------------- |
-| 1 Matrix         | Blind subagent | Adapter-specific rows checked or N/A with reason ([adapters.md](adapters.md))                 |
-| 2 Local cohesion | Blind subagent | `Cohesion: attested-local` on the pass                                                        |
-| 3 Clean streak   | Coordinator    | `Clean streak: N/M` with default **M=2** consecutive passes with no Action findings           |
-| 4 Thrash clear   | Coordinator    | No open thrash signal ([thrash-ledger.md](thrash-ledger.md)); no reopened theme lacking sweep |
-| 5 Validation     | Coordinator    | Consumer authoritative validation lane passed, or output states what was not run              |
+| Layer            | Actor          | Requirement                                                                                      |
+| ---------------- | -------------- | ------------------------------------------------------------------------------------------------ |
+| 1 Matrix         | Blind subagent | Adapter-specific rows marked checked or N/A with reason ([adapters.md](adapters.md))             |
+| 2 Local cohesion | Blind subagent | `Cohesion: attested-local` on the pass                                                           |
+| 3 Clean streak   | Coordinator    | `Clean streak: N/M` with default **M=2** consecutive passes with no Action findings              |
+| 4 Thrash clear   | Coordinator    | No open thrash signal ([thrash-ledger.md](thrash-ledger.md)). No reopened theme that lacks sweep |
+| 5 Validation     | Coordinator    | Consumer authoritative validation lane passed, or output states what was not run                 |
 
 ## Closure signal
 
@@ -33,10 +33,10 @@ Use summary block `**Closure:** ready` in [SKILL.md](../SKILL.md) output format.
 
 When [thrash-ledger.md](thrash-ledger.md) fires **novelty / diminishing-returns**, or any finding is disposed `deferred-to-user`:
 
-1. Emit pass progress with **Still blocks exit** naming soft stop / pending user judgment.
+1. Emit pass progress with **Still blocks exit** that names soft stop / pending user judgment.
 2. Emit Iterate summary with **`Closure: open`**.
 3. **Must not** spawn pass N+1 until the user says continue (or stops the loop).
-4. Do **not** emit `Closure: ready`. Soft stop parks the loop; it does not close the bar.
+4. Do **not** emit `Closure: ready`. Soft stop parks the loop. It does not close the bar.
 
 No fixed round budgets — soft stop is signal-driven only.
 
@@ -52,14 +52,14 @@ See [fix-loop-ledger § Premature closure](fix-loop-ledger.md#premature-closure-
 
 ## Streak heuristic
 
-M=2 is a default — same model stack may share blind spots across consecutive blind passes. Document moderate confidence in [research-basis.md](research-basis.md). User may ask for M=3 on high-stakes slices.
+M=2 is a default. Same model stack can share blind spots across consecutive blind passes. Document moderate confidence in [research-basis.md](research-basis.md). User can ask for M=3 on high-stakes slices.
 
-Clean streak counts only passes with **no Action findings** from the blind member. Disposing findings as `deferred-to-user` or `declined` does **not** make the pass clean for streak purposes — soft stop leaves `Closure: open`.
+Clean streak counts only passes with **no Action findings** from the blind member. Disposing findings as `deferred-to-user` or `declined` does **not** make the pass clean for streak purposes. Soft stop leaves `Closure: open`.
 
 ## Adapter-specific matrix
 
 **Code slice:** minimum applicable invariant-matrix rows from fix-loop-ledger.
 
-**Plan section:** scope / gaps / sequencing axes — each checked or N/A.
+**Plan section:** scope / gaps / sequencing axes — each marked checked or N/A.
 
 Whole-matrix N/A alone fails under `Thrash: inventory-required`.

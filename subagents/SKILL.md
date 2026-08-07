@@ -7,13 +7,13 @@ description: Agent-to-agent spawn — subagent_type, extremely token-efficient s
 
 **Source of truth for** agent-to-agent Task spawn — type selection, token-efficient splits, and cost-aware model routing.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
-**Orchestrator** — wires coordinator ↔ member agents. Process skills are **atoms** that compose via [context-pack.md](references/context-pack.md); this skill owns _how_ members are spawned and what they receive.
+**Orchestrator** — wires coordinator ↔ member agents. Process skills are **atoms** that compose via [context-pack.md](references/context-pack.md). This skill owns _how_ members are spawned and what they receive.
 
 References: [context-pack.md](references/context-pack.md) · [second-opinion-dispatch.md](references/second-opinion-dispatch.md) · [explore-escalation-dispatch.md](references/explore-escalation-dispatch.md) · [review-council-dispatch.md](references/review-council-dispatch.md) · [subagent-types.md](references/subagent-types.md) · [task-splitting.md](references/task-splitting.md) · [model-routing.md](references/model-routing.md) · [adversarial.md](references/adversarial.md) · [task-prompt.md](references/task-prompt.md) · [member-schema.md](references/member-schema.md) · [output-format.md](references/output-format.md) · [agent-discovery.md](references/agent-discovery.md).
 
-Read [references/research-basis.md](references/research-basis.md) when calibrating spawn or cost claims. Do not load by habit.
+Read [references/research-basis.md](references/research-basis.md) when you calibrate spawn or cost claims. Do not load by habit.
 
 ## Quick reference
 
@@ -34,29 +34,29 @@ Read [references/research-basis.md](references/research-basis.md) when calibrati
 
 When this skill applies (user attached `subagents`, an entry skill invokes dispatch, or the plan includes Task members):
 
-1. **≤100k total context — hard ceiling** — combined coordinator material + every member prompt + cited excerpts in one dispatch run must stay **under 100,000 tokens**. If over budget: split into another dispatch run, shrink slices, drop bodies for pointers, or serialise members — **never** exceed 100k. Budget in the dispatch plan ([task-splitting.md](references/task-splitting.md)).
+1. **≤100k total context — hard ceiling** — combined coordinator material + every member prompt + cited excerpts in one dispatch run must stay **under 100,000 tokens**. If over budget, split into another dispatch run, shrink slices, drop bodies for pointers, or serialise members. **Never** exceed 100k. Budget in the dispatch plan ([task-splitting.md](references/task-splitting.md)).
 2. **Spawn real members** — one host **Task** per planned member with chosen `subagent_type` and model per [Model assignment](#model-assignment). Parallel `read_file` / `grep` / other tools are **not** substitutes for member runs.
 3. **Synthesis runs after members** — merge member outputs before the consolidated report. Writing synthesis **without** completed Task runs is a **violation**.
-4. **Forbidden rationalizations** — do not skip spawns because you already read the repo, want lower latency, or want to save tokens **when entry skill or plan already committed to dispatch**.
-5. **Valid skips** — user declines spawn; [When-not-to-spawn](#when-not-to-spawn) passes **and** no [entry-skill carve-out](#entry-skill-carve-out); host cannot run Task; only one member planned and single-pass suffices **and** no entry-skill carve-out.
+4. **Forbidden rationalizations** — do not skip spawns because you already read the repo, want lower latency, or want to save tokens **when the entry skill or plan already committed to dispatch**.
+5. **Valid skips** — user declines spawn. [When-not-to-spawn](#when-not-to-spawn) passes **and** no [entry-skill carve-out](#entry-skill-carve-out). Host cannot run Task. Only one member planned and single-pass suffices **and** no entry-skill carve-out.
 
-**Cost default:** [Cheapest good enough](references/model-routing.md) — Auto / omit `model` under Auto parent; never default to premium or `*-fast` in parallel.
+**Cost default:** [Cheapest good enough](references/model-routing.md) — Auto / omit `model` under Auto parent. Never default to premium or `*-fast` in parallel.
 
 ## When-not-to-spawn
 
 Before `N ≥ 2`, name a **single-pass rival**: one coordinator with deeper tool use in one context. Spawn only when slices are **independent** and the rival cannot cover them ([task-splitting.md](references/task-splitting.md)).
 
-**Skip subagents** when the rival suffices, work is sequential, members would duplicate without added confidence, or the user wants one authoritative pass.
+**Skip subagents** when the rival suffices, work is sequential, members duplicate without more confidence, or the user wants one authoritative pass.
 
 ## Entry-skill carve-out
 
 When an orchestrator or process skill **mandates** Task spawn, do not re-litigate “one agent suffices.” Follow that recipe’s member budget and [Non-negotiables](#non-negotiables).
 
-| Entry skill        | Spawn shape                            | Recipe lives in                                                                         |
-| ------------------ | -------------------------------------- | --------------------------------------------------------------------------------------- |
-| **second-opinion** | Full or light cast (path or paste) | [second-opinion-dispatch.md](references/second-opinion-dispatch.md)                     |
-| **iterate**        | Single blind member per pass           | [iterate blind-reviewer-dispatch](../iterate/references/blind-reviewer-dispatch.md)     |
-| **handoff**        | Single compact member (model-invoked)  | [handoff handoff-subagent-dispatch](../handoff/references/handoff-subagent-dispatch.md) |
+| Entry skill        | Spawn shape                           | Recipe lives in                                                                         |
+| ------------------ | ------------------------------------- | --------------------------------------------------------------------------------------- |
+| **second-opinion** | Full or light cast (path or paste)    | [second-opinion-dispatch.md](references/second-opinion-dispatch.md)                     |
+| **iterate**        | Single blind member per pass          | [iterate blind-reviewer-dispatch](../iterate/references/blind-reviewer-dispatch.md)     |
+| **handoff**        | Single compact member (model-invoked) | [handoff handoff-subagent-dispatch](../handoff/references/handoff-subagent-dispatch.md) |
 
 Type and model defaults for each → [subagent-types.md](references/subagent-types.md).
 
@@ -68,21 +68,21 @@ Type and model defaults for each → [subagent-types.md](references/subagent-typ
 | **Parallel coverage** | 2–6 typical | Independent sources, areas, or topics ([task-splitting.md](references/task-splitting.md)) |
 | **Staged debate**     | 2 + 1       | Wave attackers → defender ([adversarial.md](references/adversarial.md) § B)               |
 
-More than 10 members — split into multiple dispatch runs.
+If you need more than 10 members, split into multiple dispatch runs.
 
 ## Dispatch modes
 
 - **Coverage** — split by source, subsystem, or artifact ([task-splitting.md](references/task-splitting.md)).
-- **Perspective** — same material, distinct stance; diversify prompts/stances, not premium models by default.
+- **Perspective** — same material, distinct stance. Diversify prompts and stances. Do not default to premium models.
 - **Adversarial** — kill mandates, context asymmetry → [adversarial.md](references/adversarial.md).
 
-**Hard rule:** never parallel members with identical model **and** identical prompt. Shared Auto (`inherit-auto`) is expected — diversify via [subagent-types.md](references/subagent-types.md) and stances.
+**Hard rule:** never parallel members with identical model **and** identical prompt. Shared Auto (`inherit-auto`) is expected. Diversify via [subagent-types.md](references/subagent-types.md) and stances.
 
 ## Workflow
 
 ### 1. Classify
 
-Load the entry skill recipe when one applies; else plan manually:
+Load the entry skill recipe when one applies. Else plan manually:
 
 - Job: `research` \| `explore` \| `gather` \| `review` \| `mixed`
 - Source of truth: `web` \| `repo` \| `plan`
@@ -92,21 +92,21 @@ Load the entry skill recipe when one applies; else plan manually:
 
 ### 2. Plan and spawn
 
-1. **Discover** — [agent-discovery.md](references/agent-discovery.md) when council agents may apply.
+1. **Discover** — [agent-discovery.md](references/agent-discovery.md) when council agents can apply.
 2. **Dispatch plan** — write before spawning (template below). Include **single-pass rival** unless carve-out applies.
-3. **Pre-spawn gate** — [model-routing.md](references/model-routing.md#pre-spawn-model-routing-gate); fail closed on contradictions.
-4. **Spawn** — compose prompts per [task-prompt.md](references/task-prompt.md). `model=inherit-auto` → **omit** tool `model`.
+3. **Pre-spawn gate** — [model-routing.md](references/model-routing.md#pre-spawn-model-routing-gate). Fail closed on contradictions.
+4. **Spawn** — compose prompts per [task-prompt.md](references/task-prompt.md). If `model=inherit-auto`, **omit** tool `model`.
 
 ```markdown
 Task: [What the user asked]
 Classification: [research / explore / gather / review / mixed]
 Source of truth: [web / repo / plan]
 Goal: [coverage / perspectives / adversarial / adversarial-staged]
-Single-pass rival: [why one pass insufficient, or "entry-skill carve-out"]
+Single-pass rival: [why one pass is insufficient, or "entry-skill carve-out"]
 
 Parent model: [Auto | <named model>]
 User model overrides: [none | member=slug, …]
-Cheapest path: [inherit-auto | model=auto | explicit slug + why Auto insufficient]
+Cheapest path: [inherit-auto | model=auto | explicit slug + why Auto is insufficient]
 
 Selected members:
 
@@ -126,9 +126,9 @@ Apply the [synthesis gate](#synthesis-gate).
 **Prerequisite:** at least one completed Task per planned member (unless valid skip).
 
 1. Merge agreeing findings once.
-2. Preserve conflicts — do not flatten.
-3. High-stakes contradiction → one sequential tiebreaker ([model-routing.md](references/model-routing.md)) or ask user.
-4. Report per [output-format.md](references/output-format.md); domain shape → entry skill.
+2. Preserve conflicts. Do not flatten.
+3. If there is a high-stakes contradiction, run one sequential tiebreaker ([model-routing.md](references/model-routing.md)) or ask the user.
+4. Report per [output-format.md](references/output-format.md). Domain shape → entry skill.
 
 ## Model assignment
 
@@ -148,7 +148,7 @@ Log fallbacks in [availability log](references/agent-discovery.md#availability-l
 
 ## Output format
 
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Consolidated runs → [output-format.md](references/output-format.md).
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Consolidated runs → [output-format.md](references/output-format.md). User-facing consolidated reports use pragmatic STE when the entry skill marks them user-facing.
 
 ## Consumer bindings
 

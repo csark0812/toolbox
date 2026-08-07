@@ -2,9 +2,9 @@
 
 **Source of truth for** human-gated skill patches after agent-suite failures.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
-Toolbox skills are static human SSOT — they do not self-mutate from transcripts. This doc defines the **human-gated** loop for turning live eval failures into durable skill improvements.
+Toolbox skills are static human SSOT. They do not self-mutate from transcripts. This doc defines the **human-gated** loop for turning live eval failures into durable skill improvements.
 
 ## When to use
 
@@ -36,16 +36,46 @@ Toolbox skills are static human SSOT — they do not self-mutate from transcript
 
    Writes `_agent/skill-evolution/<timestamp>-<suite>-<scenario>.md`. Human **Keep / Reject / Defer** before any `SKILL.md` edit.
 
-   Optional LLM patch draft: in a fresh chat, attach the filled note plus `transcript.md` from the debug bundle; ask for suggested `SKILL.md` / `research-basis.md` diffs into `_agent/` only — never auto-merge.
+   Optional LLM patch draft: in a fresh chat, attach the filled note plus `transcript.md` from the debug bundle. Ask for suggested `SKILL.md` / `research-basis.md` diffs into `_agent/` only. Never auto-merge.
 
 3. **Draft patch** — minimal change to `SKILL.md` and/or `references/research-basis.md`:
    - Sharpen a completion criterion if the agent **prematurely completed**
    - Add a carve-out under **Does not transfer** if the failure falsifies an overclaim
    - Lower **Confidence** if evidence is mixed
-4. **Authoring gate** — apply skill-authoring vocabulary (e.g. [mattpocock/skills](https://github.com/mattpocock/skills) `writing-for-agents` / `writing-great-skills`): prune no-ops, positive steering, progressive disclosure.
+4. **Authoring gate** — apply skill-authoring vocabulary (for example [mattpocock/skills](https://github.com/mattpocock/skills) `writing-for-agents` / `writing-great-skills`): prune no-ops, positive steering, progressive disclosure. Also apply **Pragmatic STE for toolbox** (below).
 5. **Lock** — add or update a **contract** scenario + replay fixture in `agent-suites/<skill>/`. Outcome scenarios use stub `replayTrace` for replay CI only (no `skip` — that disables live too).
-6. **Optional vitest lock** — add a string invariant in `tests/skills.test.js` only when the new rule is stable prose that regressions should catch globally.
-7. **Record** — copy [`templates/skill-evolution-note.md`](../templates/skill-evolution-note.md) into `_agent/` or the PR description; bump `last-reviewed` on touched research-basis files.
+6. **Optional vitest lock** — add a string invariant in `tests/skills.test.js` only when the new rule is stable prose that regressions must catch globally.
+7. **Record** — copy [`templates/skill-evolution-note.md`](../templates/skill-evolution-note.md) into `_agent/` or the PR description. Then bump `last-reviewed` on touched research-basis files.
+
+### Pragmatic STE for toolbox
+
+Write skill bodies, references, hub docs, and ambient refs in **pragmatic** Simplified Technical English (structural rules). Keep toolbox domain nouns (`Slice`, `Artifact`, `spawn`, `verdict`, skill names, paths, commands). Full catalog: user-level `/simple-english` skill (ASD-STE100 aid). This house note is not official STE compliance.
+
+**House picks (one word, one meaning):**
+
+| Concept           | Use                                                                     |
+| ----------------- | ----------------------------------------------------------------------- |
+| Verification      | `make sure that` (not ensure / verify / confirm / check-as-verb)        |
+| CLI / npm actions | `run` as technical verb                                                 |
+| Modals            | `can` / `will` / `must` only (not should / would / may / might / could) |
+| Compound steps    | vertical lists (one instruction per sentence)                           |
+
+**Structural rules (minimum):**
+
+- Procedural sentences: max 20 words. Descriptive sentences: max 25 words.
+- No contractions. No semicolons as clause joiners.
+- Put conditions before commands: `If X, do Y.`
+- Untouchables: code fences, identifiers, CLI flags, paths, quoted errors.
+
+**User-facing output contracts:** Named blocks that face the human (ask Context + Questions, verdicts, pass progress, review findings, cast summaries, human-facing handoff packs) must **require** pragmatic STE. Examples in those files must show it. Ambient baseline: [`.skeleton/references/output-schema.md`](../.skeleton/references/output-schema.md). Mid-turn free chat outside those blocks is not required to be STE. Coordinator-internal and blind-member envelopes stay schema-dense unless labeled user-facing.
+
+**Self-check before merge:**
+
+1. Count words in the three longest sentences. Split any over the 20/25 limit.
+2. Search for contractions, `has been` / `have been`, `should`, `-ing` verbs after a comma, and semicolons.
+3. Search for every `if` and `when`. Each one must stand at the start of its sentence before the command.
+4. Search for ensure / verify / confirm / check-as-verb. Replace each hit with `make sure that` (or restructure).
+5. If you edit a user-facing output contract, make sure that the file requires pragmatic STE and that examples obey it.
 
 ## What not to do
 

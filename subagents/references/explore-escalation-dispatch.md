@@ -1,6 +1,6 @@
 # Explore escalation dispatch (optional multi-member)
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 A2A recipes when coordinator **explore** (or a single deep pass) is insufficient. Default hunch settlement stays coordinator + [verdict.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/verdict.md). Spawn → [`subagents` SKILL](../SKILL.md).
 
@@ -10,9 +10,9 @@ A2A recipes when coordinator **explore** (or a single deep pass) is insufficient
 
 Independent web topics — not a single hunch verdict by itself.
 
-**When:** multiple unrelated library/API/policy questions; user wants parallel research passes.
+**When:** multiple unrelated library/API/policy questions. User wants parallel research passes.
 
-**Skip:** single topic; answer in repo; single-target code hunch → coordinator explore + verdict.md.
+**Skip:** single topic. Answer in repo. Single-target code hunch → coordinator explore + verdict.md.
 
 ```markdown
 Task: [research goal]
@@ -26,7 +26,7 @@ Selected members:
 - docs-researcher · tier=Standard · model=inherit-auto · stance=n/a: [topic A]
 - docs-researcher · tier=Standard · model=inherit-auto · stance=n/a: [topic B]
 
-Synthesis plan: merge facts + source class; preserve conflicts; verdict per verdict.md if one claim remains
+Synthesis plan: merge facts + source class. Preserve conflicts. Verdict per verdict.md if one claim remains
 ```
 
 Fallback: `docs-researcher` unavailable → `generalPurpose`.
@@ -39,7 +39,7 @@ Contested evidence or explicit stress-test on **one** hunch.
 
 **When:** genuinely mixed evidence or user asks for stress-test.
 
-**Skip:** clear single-target hunch; multi-topic → research section above.
+**Skip:** clear single-target hunch. Multi-topic → research section above.
 
 Uses [adversarial.md](adversarial.md) § Parallel kill mandates.
 
@@ -55,7 +55,7 @@ Selected members:
 - generalPurpose · tier=Standard · model=inherit-auto · stance=steelman: strongest case for hunch
 - generalPurpose · tier=Standard · model=inherit-auto · stance=skeptic: mechanism that refutes
 
-Synthesis plan: preserve conflicts; ACH-lite; verdict per verdict.md if evidence allows
+Synthesis plan: preserve conflicts. ACH-lite. Verdict per verdict.md if evidence allows
 ```
 
 ---
@@ -66,7 +66,7 @@ User explicitly asks to fish broadly across subsystems.
 
 **When:** "fish broadly", "whole subsystem", wiring spans client + backend.
 
-**Skip:** specific file/hook named; plan evidence → [second-opinion-evidence-dispatch.md](second-opinion-evidence-dispatch.md).
+**Skip:** specific file/hook named. Plan evidence → [second-opinion-evidence-dispatch.md](second-opinion-evidence-dispatch.md).
 
 ```markdown
 Task: Broad explore — [user-stated hunch]
@@ -80,7 +80,7 @@ Selected members:
 - explore · tier=Fast · model=inherit-auto · stance=n/a: [area A]
 - explore · tier=Fast · model=inherit-auto · stance=n/a: [area B]
 
-Synthesis plan: merge file:line citations; verdict per verdict.md
+Synthesis plan: merge file:line citations. Verdict per verdict.md
 ```
 
 ---

@@ -1,10 +1,10 @@
 # ADR format (MADR-style)
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 **Opt-in soft-default recipe:** Lightweight architecture decision records for consumers with **no** domain-artifact remap.
 
-Default directory: `docs/adr/` — numbered `NNNN-title.md`. Consumer customize may remap.
+Default directory: `docs/adr/` — numbered `NNNN-title.md`. Consumer customize can remap.
 
 ## Template
 
@@ -43,4 +43,4 @@ Default directory: `docs/adr/` — numbered `NNNN-title.md`. Consumer customize 
 - **No ADR without a stated decision** — if the choice is still open, route to [`grill`](../../../grill/SKILL.md).
 - **Rejected alternatives required** — at least one plausible option you did not take.
 - **Link glossary terms** when the decision introduces or changes ubiquitous language.
-- Structural boundary decisions may cite [codebase-design.md](../codebase-design.md) (deep module, seam, information hiding).
+- Structural boundary decisions can cite [codebase-design.md](../codebase-design.md) (deep module, seam, information hiding).

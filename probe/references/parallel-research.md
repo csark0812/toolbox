@@ -15,7 +15,7 @@ Profile: `web` — skip council agent scoring.
 - Single topic — one agent or context7 MCP is enough
 - Answer is in repo docs — read repo first
 - Code hunch about repo behavior — standard **investigate** (generalized), not this multi-topic recipe
-- Single non-code hunch with a specific target — standard **investigate** (generalized), not this multi-topic recipe. This recipe stays scoped to genuinely independent multi-topic fact-gathering; it does not produce an investigate verdict — that is **investigate**'s core protocol.
+- Single non-code hunch with a specific target — standard **investigate** (generalized), not this multi-topic recipe. This recipe stays scoped to genuinely independent multi-topic fact-gathering. It does not produce an investigate verdict — that is **investigate**'s core protocol.
 - Council code review — **code-review**
 
 ## Members (1 per topic)
@@ -48,15 +48,15 @@ Selected members:
 - docs-researcher · tier=Standard · model=inherit-auto · stance=n/a: [topic A — specific query]
 - docs-researcher · tier=Standard · model=inherit-auto · stance=n/a: [topic B]
 
-Synthesis plan: merge facts; flag source class per claim; flag conflicting sources; cite URLs; preserve conflicts
+Synthesis plan: merge facts. Flag source class per claim. Flag conflicting sources. Cite URLs. Preserve conflicts
 ```
 
 Fallback: `docs-researcher` unavailable → `generalPurpose` with "web research" in sub-task.
 
 ## Synthesis
 
-1. State each topic's answer once with source links and **source class** (primary vs secondary, official vs commentary).
+1. State the answer for each topic once with source links and **source class** (primary vs secondary, official vs commentary).
 2. Flag conflicts between sources — do not flatten.
-3. High-stakes claims need **lateral corroboration** (who else says this?) before treating as settled; unresolved conflict → note explicitly or hand a specific claim back to **investigate**.
+3. High-stakes claims need **lateral corroboration** (who else says this?) before treating as settled. If conflict is unresolved, note it explicitly or hand a specific claim back to **investigate**.
 4. High-stakes contradiction → sequential tiebreaker per [model-routing.md](../../subagents/references/model-routing.md) or ask user.
 5. Output → [subagents output-format.md](../../subagents/references/output-format.md).

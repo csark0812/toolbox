@@ -1,12 +1,12 @@
 # Linear Issues Output Format
 
-**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file — open the consumer planning SSOT instead.
+**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file. Open the consumer planning SSOT instead.
 
 Break a plan or PRD into independently grabbable Linear issues. Each issue is a vertical slice — independently testable and executable without waiting for other issues (except explicit blockers).
 
 ## Vertical Slice Principle
 
-Every issue must be a **tracer bullet**: the thinnest end-to-end slice that solves one specific case, touching all layers required (API + query + UI, or backend + frontend, etc.).
+Every issue must be a **tracer bullet**. It is the thinnest end-to-end slice that solves one specific case. It touches all layers required (API + query + UI, or backend + frontend, and more).
 
 **Horizontal slicing is wrong:**
 
@@ -19,7 +19,7 @@ Every issue must be a **tracer bullet**: the thinnest end-to-end slice that solv
 - ✅ "Display score badge on source card — API endpoint + query + badge component"
 - ✅ "Score sorting in source list — sort param + query update + list UI"
 
-Each slice should have a clear, user-observable pass/fail: either the thing works end-to-end or it doesn't.
+Each slice must have a clear, user-observable pass/fail: either the thing works end-to-end or it does not.
 
 ## Blocking Relationships
 
@@ -53,7 +53,7 @@ save_issue(
 
 ## Issue Description Template
 
-Each issue description should include:
+Each issue description must include:
 
 ```
 ## What
@@ -77,7 +77,7 @@ Each issue description should include:
 6. **Create blocked issues** — Set `blockedBy` using recorded IDs.
 7. **Output** — List created issue IDs/links with the blocking graph summarized.
 
-**After creation:** hand off to the consumer’s optional tracker / issue-workflow skill (branch, draft PR, Closes linking) when someone picks up an issue.
+**After creation:** hand off to the consumer’s optional tracker / issue-workflow skill when someone picks up an issue (branch, draft PR, Closes linking).
 
 ## Output Summary Format
 
@@ -98,6 +98,6 @@ Immediately startable: ISSUE-1
 ## Common Mistakes
 
 - **Slices that are too large**: if an issue takes more than 2–3 days, split it
-- **Slices that are too small**: infrastructure-only issues (just the DB schema) are horizontal slices — combine with the first feature that uses the schema
-- **Missing acceptance criteria**: without them, "done" is undefined and the issue can't be closed confidently
-- **Blocking everything on one setup issue**: if only one person can work at a time, the slices aren't independent enough
+- **Slices that are too small**: infrastructure-only issues (just the DB schema) are horizontal slices. Combine them with the first feature that uses the schema
+- **Missing acceptance criteria**: without them, "done" is undefined and the issue cannot be closed confidently
+- **Blocking everything on one setup issue**: if only one person can work at a time, the slices are not independent enough

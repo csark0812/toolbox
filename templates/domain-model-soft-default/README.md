@@ -2,7 +2,7 @@
 
 **Opt-in soft-default recipe:** Glossary + ADR path defaults for consumers with **no** domain-artifact remap.
 
-Consumers that remap via customize (`shared-agent-references` / project docs) must **not** use this pack — open the consumer SSOT instead.
+Consumers that remap via customize (`shared-agent-references` / project docs) must **not** use this pack. Open the consumer SSOT instead.
 
 ## Setup
 
@@ -24,4 +24,4 @@ Consumers that remap via customize (`shared-agent-references` / project docs) mu
 | [glossary-format.md](glossary-format.md) | Glossary row shape      |
 | [adr-format.md](adr-format.md)           | MADR-style ADR template |
 
-Canonical copies also live under [`.skeleton/references/domain-model/`](../../.skeleton/references/domain-model/) — skills link via GitHub raw URLs.
+Canonical copies also live under [`.skeleton/references/domain-model/`](../../.skeleton/references/domain-model/). Skills link via GitHub raw URLs.

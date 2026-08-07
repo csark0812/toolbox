@@ -1,6 +1,6 @@
 # Parallel review dispatch (optional)
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 When the **parent coordinator** chooses parallel review specialists (user ask or unresolved domain after primary pass). Not part of the [`code-review`](../../code-review/SKILL.md) skill — spawn mechanics live here.
 
@@ -21,7 +21,7 @@ Members:
 
 - [subagent_type] · model=inherit-auto · [lens]: [path slice or concern]
 
-Synthesis plan: merge member findings; validate before Action filing; output per code-review/output.md
+Synthesis plan: merge member findings. Make sure that findings are valid before Action filing. Output per code-review/output.md
 ```
 
 ## Member prompt
@@ -34,7 +34,7 @@ Sub-task: Review your slice per code-review/SKILL.md (merge-blockers default).
 Context pack:
 - Surface: [adapter from sources.md]
 - Lens: [lens slug]
-- Source: [path list or diff stat — read in scope via repo tools; no full diff paste]
+- Source: [path list or diff stat — read in scope via repo tools. No full diff paste.]
 
 Output: finding blocks per code-review/references/output.md
 ```

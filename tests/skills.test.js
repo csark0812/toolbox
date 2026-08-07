@@ -81,6 +81,17 @@ describe('toolbox skill SSOT', () => {
     expect(body).not.toMatch(/POS-12/)
   })
 
+  it('process SKILL.md bodies ban soft STE modals (pragmatic house lock)', () => {
+    // Strip fenced code so template placeholders do not false-positive.
+    const fence = /```[\s\S]*?```/g
+    const banned = /\b(should|would|may|might|could)\b/i
+    for (const slug of EXPECTED_SKILLS) {
+      const text = readFileSync(join(root, slug, 'SKILL.md'), 'utf8').replace(fence, '')
+      const match = text.match(banned)
+      expect(match, `${slug}/SKILL.md contains banned modal ${match?.[0] ?? ''}`).toBeNull()
+    }
+  })
+
   it('subagents model routing is Auto-first and cheapest-good-enough', () => {
     const skill = readFileSync(join(root, 'subagents/SKILL.md'), 'utf8')
     const routing = readFileSync(join(root, 'subagents/references/model-routing.md'), 'utf8')

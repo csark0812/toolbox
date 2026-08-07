@@ -1,6 +1,8 @@
 # Shared output schema
 
-Operational skills that produce user-facing results should follow this baseline. Skill-specific sections extend — not replace — these rules.
+Operational skills that produce user-facing results must follow this baseline. Skill-specific sections extend these rules. They do not replace them.
+
+**User-facing results:** Write outcome text, structured sections, and next steps in pragmatic Simplified Technical English (STE). Prefer short sentences, active voice, and approved modals (`can`, `must`, `will`). Do not use `should`, `would`, `may`, `might`, or `could`. Do not use contractions. Prefer `make sure that` over `ensure`, `verify`, or `confirm` as verbs.
 
 ## Triggers (frontmatter)
 
@@ -10,13 +12,13 @@ Operational skills that produce user-facing results should follow this baseline.
 
 ## Preflight
 
-Before running a skill that needs external tools, verify or state fallback:
+Before you run a skill that needs external tools, make sure that the tool is present, or state the fallback:
 
-| Tool              | Typical use                         | If missing                                               |
-| ----------------- | ----------------------------------- | -------------------------------------------------------- |
-| Docker            | backend dev/test, integration tests | Scope to file lint/typecheck; say backend verify blocked |
-| `gh`              | PR/issue workflows                  | File output only; skip `gh pr edit` when `gh` missing    |
-| Issue tracker MCP | issue `start`/`finish`              | Fail on `start`; warn on `finish`                        |
+| Tool              | Typical use                         | If missing                                                             |
+| ----------------- | ----------------------------------- | ---------------------------------------------------------------------- |
+| Docker            | backend dev/test, integration tests | Scope to file lint/typecheck. State that backend validation is blocked |
+| `gh`              | PR/issue workflows                  | File output only. Skip `gh pr edit` when `gh` is missing               |
+| Issue tracker MCP | issue `start`/`finish`              | Fail on `start`. Warn on `finish`                                      |
 
 ## Final response shape
 
@@ -30,4 +32,4 @@ Use repo-relative paths in backticks. Prefer imperative leads for action items.
 
 ## Validation defaults
 
-For code changes, prefer scoped verification on touched paths — avoid full-repo lint/check for small edits.
+For code changes, prefer scoped validation on touched paths. Avoid full-repo lint/check for small edits.

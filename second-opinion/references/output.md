@@ -1,19 +1,19 @@
 # Second-opinion output
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 Extends [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Synthesis procedure → [plan-review.md](plan-review.md).
 
 ## Summary block (required on completion — user-facing)
 
-After the **selected cast** completes, end with this block only for the user:
+After the **selected cast** completes, end with this block only for the user. User-facing blocks must use pragmatic STE. See [docs/skill-evolution.md](../../docs/skill-evolution.md) § Pragmatic STE for toolbox, or `/simple-english`.
 
 ```markdown
 ## Second opinion summary
 
 **Artifact:** [path or title]
 **Cast:** [full | light · premises|completeness · defend|no-defend]
-**Bottom line:** [one short paragraph — design holds / holds with edits / reopen grill on X]
+**Bottom line:** [one short STE paragraph — design holds / holds with edits / reopen grill on X]
 
 ### Action items
 
@@ -26,9 +26,9 @@ Do **not** put Gaps, Risky assumptions, or Debate tags in the user-facing summar
 
 ## Coordinator-internal notes (optional; not user-facing)
 
-While synthesizing, the coordinator may privately track:
+While synthesizing, the coordinator can privately track:
 
-- What's solid / gaps / hidden dependencies / risky assumptions
+- What is solid / gaps / hidden dependencies / risky assumptions
 - Debate tags (`attacker-convergent` | `defended` | `conceded` | `drift`)
 - Axis / readiness survivors after defender rebuttal (when defender ran)
 

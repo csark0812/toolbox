@@ -2,7 +2,7 @@
 
 **Source of truth for** interpreting live ablation runs that compare skill organization arms.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 Inspired by SkillJuror-style questions: does how skills are **organized** (routing, escalation, fit-check) change runtime behavior?
 
@@ -26,11 +26,11 @@ Requires `CURSOR_API_KEY`. Compare runs under the **same model** and similar tok
 
 ## How to interpret
 
-- **Primary wins** on cost and debuggability when pass rates are equal — matches toolbox default.
-- **Council arm** should pass only when escalation criteria or explicit user ask applies — not on every large diff.
-- **Fit-check skip** should beat forced parallel spawn on single coherent repo slices.
+- **Primary wins** on cost and debuggability when pass rates are equal. That matches the toolbox default.
+- **Council arm** must pass only when escalation criteria or an explicit user ask applies. It must not pass on every large diff.
+- **Fit-check skip** must beat forced parallel spawn on single coherent repo slices.
 
-If an arm consistently fails live while the other passes, open a skill patch via [skill-evolution.md](skill-evolution.md) — do not reorganize skills from one run.
+If an arm fails live on a consistent basis while the other passes, open a skill patch via [skill-evolution.md](skill-evolution.md). Do not reorganize skills from one run.
 
 See [evidence-parity.md](evidence-parity.md) for the full skill-on vs skill-off cadence and compare-report workflow.
 

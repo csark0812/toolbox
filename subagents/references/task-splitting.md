@@ -1,17 +1,17 @@
 # Task splitting (token-efficient)
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 How to divide work across subagents so **total tokens stay under 100k** while independence holds. Model cost → [model-routing.md](model-routing.md) (**cheapest good enough** always).
 
 ## Principles
 
 1. **100k hard ceiling per dispatch run** — count coordinator excerpts + every member prompt + attached file excerpts. Over budget → fewer members, smaller slices, pointers not bodies, or a second dispatch run — never exceed 100k.
-2. **Minimum viable context per member** — each prompt gets only the sub-task, paths, and materials for its slice — not the full user thread or sibling outputs (except staged debate wave 2 briefs).
-3. **No duplicate reads** — if two slices need the same file, either one member owns it or the coordinator read once and passes excerpts (coordinator synthesis), not two full-file spawns.
+2. **Minimum viable context per member** — each prompt gets only the sub-task, paths, and materials for its slice. Do not include the full user thread or sibling outputs (except staged debate wave 2 briefs).
+3. **No duplicate reads** — if two slices need the same file, one member owns it. Or the coordinator reads once and passes excerpts. Do not spawn two full-file reads.
 4. **Split on independence boundaries** — source of truth, subsystem, topic, stance — not arbitrary line counts.
-5. **Prefer fewer members** — `N=2` beats `N=5` when the rival cannot do both slices; each spawn has fixed startup overhead.
-6. **Cheapest model for every slice** — Auto / omit `model`; never pay premium for mechanical gather.
+5. **Prefer fewer members** — `N=2` beats `N=5` when the rival cannot do both slices. Each spawn has fixed startup overhead.
+6. **Cheapest model for every slice** — Auto / omit `model`. Never pay premium for mechanical gather.
 
 ## Split strategies
 
@@ -38,7 +38,7 @@ Sub-task: [one sentence — outcome only]
 Source: [paths or URLs — minimal list]
 Constraints:
 
-- Return only your slice; coordinator synthesizes.
+- Return only your slice. The coordinator synthesizes.
 - Do not assume other members' conclusions.
 ```
 

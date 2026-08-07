@@ -1,4 +1,4 @@
-<!-- doc-meta: owner=eng | last-reviewed=2026-07-29 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 **Source of truth for** bare consumers that want toolbox glossary / ADR path baselines.
 

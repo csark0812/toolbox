@@ -1,6 +1,6 @@
 # Second-opinion dispatch
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 A2A recipe when [**second-opinion**](../../second-opinion/SKILL.md) runs on a written plan (path or paste). Spawn mechanics → [`subagents` SKILL](../SKILL.md). Context pack → [context-pack.md](context-pack.md). Adversarial fields → [adversarial.md](adversarial.md). Cast selection → [plan-review.md](../../second-opinion/references/plan-review.md).
 
@@ -17,13 +17,13 @@ Spawn only the members for the **selected cast**. Optional large-artifact pre-ga
 
 **Full cast:** both stances in parallel. **Light cast:** exactly one stance.
 
-Under Auto parent: `model=inherit-auto` (omit tool `model`); diversify via stances only.
+Under Auto parent: `model=inherit-auto` (omit tool `model`). Diversify via stances only.
 
 ## Wave 2 — defender (when selected)
 
 | Stance   | Subagent         | Mandate                                                                                              |
 | -------- | ---------------- | ---------------------------------------------------------------------------------------------------- |
-| `defend` | `generalPurpose` | Rebut/narrow/concede **anchored** attacker claims; ignore unanchored unless coordinator tags `drift` |
+| `defend` | `generalPurpose` | Rebut/narrow/concede **anchored** attacker claims. Ignore unanchored unless coordinator tags `drift` |
 
 **Full cast:** always after wave 1. **Light cast:** only if user asked or coordinator judges kills need rebuttal (fleeting default: skip).
 
@@ -49,7 +49,7 @@ Wave 2 (after wave 1):
 
 - generalPurpose · tier=Standard · model=inherit-auto · stance=defend: steelman + rebut briefs
 
-Synthesis plan: merge per synthesis gate; coordinator writes second-opinion/references/output.md shape
+Synthesis plan: merge per synthesis gate. Coordinator writes second-opinion/references/output.md shape
 ```
 
 ## Dispatch plan template — light
@@ -71,12 +71,12 @@ Wave 2 (only if defend=yes):
 
 - generalPurpose · tier=Standard · model=inherit-auto · stance=defend: steelman + rebut brief
 
-Synthesis plan: merge per synthesis gate; coordinator writes second-opinion/references/output.md shape
+Synthesis plan: merge per synthesis gate. Coordinator writes second-opinion/references/output.md shape
 ```
 
 ## Hard gate
 
-Selected cast completed before final report — do not fabricate missing stances or defender. Synthesis → [second-opinion plan-review.md](../../second-opinion/references/plan-review.md).
+Selected cast completed before final report. Do not fabricate missing stances or defender. Synthesis → [second-opinion plan-review.md](../../second-opinion/references/plan-review.md).
 
 ## Pre-spawn model-routing gate
 

@@ -7,25 +7,25 @@ description: How to review code — any surface and any user-named lens. Evidenc
 
 **Source of truth for** how to review code and file findings — not agent-to-agent spawn (→ **subagents**) or blind slice pass loops (→ **iterate**).
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 **Process skill** — shared vocabulary → [context-pack.md](../subagents/references/context-pack.md).
 
 References: [review.md](references/review.md) · [sources.md](references/sources.md) · [merge-blockers.md](references/merge-blockers.md) · [output.md](references/output.md).
 
-Read [references/research-basis.md](references/research-basis.md) when calibrating a filing or evidence claim. Do not load by habit.
+Read [references/research-basis.md](references/research-basis.md) when you calibrate a filing or evidence claim. Do not load by habit.
 
 ## Entry gate
 
 - **Surface** acquirable — branch, PR, paths, or snapshot ([sources.md](references/sources.md)).
 - **Lens** from user wording — not limited to a fixed list.
-- Merge-ready full-PR review without a named surface → stop; ask for adapter + scope.
+- If the ask is merge-ready full-PR review without a named surface, stop. Ask for adapter + scope.
 
 ## Non-negotiables
 
-1. **Review only** unless the user explicitly asked to fix — do not edit files or commit during review.
-2. **Evidence** — cite `path:line` for every Action item; match evidence bar to surface shape ([review.md](references/review.md)).
-3. **Merge-blockers default** — reachable production bugs and security flaws in scope ([merge-blockers.md](references/merge-blockers.md)); cleanliness/style only with improvements lens or explicit user ask.
+1. **Review only** unless the user explicitly asked to fix. Do not edit files or commit during review.
+2. **Evidence** — cite `path:line` for every Action item. Match the evidence bar to the surface shape ([review.md](references/review.md)).
+3. **Merge-blockers default** — reachable production bugs and security flaws in scope ([merge-blockers.md](references/merge-blockers.md)). Cleanliness and style only with an improvements lens or an explicit user ask.
 4. **Prefer no finding over speculation** — each Action claim needs trigger, impact, and counter-evidence checked.
 
 ## Workflow
@@ -34,17 +34,17 @@ Read [references/research-basis.md](references/research-basis.md) when calibrati
 2. **Review** — [review.md](references/review.md): trace behavior for the active lens.
 3. **File** — [merge-blockers.md](references/merge-blockers.md) + [output.md](references/output.md).
 
-Parallel members → parent uses [`subagents`](../subagents/SKILL.md) [review-council-dispatch.md](../subagents/references/review-council-dispatch.md); each member loads this skill for **how** to review.
+If you need parallel members, the parent uses [`subagents`](../subagents/SKILL.md) [review-council-dispatch.md](../subagents/references/review-council-dispatch.md). Each member loads this skill for **how** to review.
 
 ## Exit artifact
 
-Per [output.md](references/output.md) — `Review · source:` header, findings, filing class.
+Per [output.md](references/output.md) — `Review · source:` header, findings, filing class. User-facing findings use pragmatic STE.
 
 ## Consumer bindings
 
-Project-specific injected context is appended on skill read. Do not edit installed copies in place — process SSOT is this repo / global install; consumer customize overlays are for product-local docs, not the primary process override path.
+Project-specific injected context is appended on skill read. Do not edit installed copies in place. Process SSOT is this repo / global install. Consumer customize overlays are for product-local docs, not the primary process override path.
 
-When a consumer-local review/standards skill is also loaded, stack that repo opinion with this skill’s evidence/filing bar (layered — neither replaces the other).
+When a consumer-local review or standards skill is also loaded, stack that repo opinion with this skill’s evidence and filing bar (layered — neither replaces the other).
 
 ## Output format
 

@@ -1,13 +1,15 @@
 # Grill output
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
-When **When to stop** criteria met — not before. Mid-turn asks → [ask.md](ask.md) (not this exit block).
+When **When to stop** criteria are met — not before. Mid-turn asks → [ask.md](ask.md) (not this exit block).
+
+User-facing blocks in this exit artifact must use pragmatic STE. See [docs/skill-evolution.md](../../docs/skill-evolution.md) § Pragmatic STE for toolbox, or `/simple-english`.
 
 ```markdown
 ## Decisions reached
 
-- [Decision]: [what and why] — falsifier: [what would show this wrong]
+- [Decision]: [what and why] — falsifier: [what shows this wrong]
 
 ## Open questions (deferred)
 

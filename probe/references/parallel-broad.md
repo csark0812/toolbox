@@ -4,7 +4,7 @@ Wide fish when the user explicitly asks for a broad pass. Uses [`subagents`](../
 
 Profile: `repo`.
 
-Default **probe** Evidence stays single-target — use this recipe only on explicit user request.
+Default **probe** Evidence stays single-target. Use this recipe only on explicit user request.
 
 ## When to use
 
@@ -21,13 +21,13 @@ Default **probe** Evidence stays single-target — use this recipe only on expli
 
 Split by subsystem:
 
-| Slice                 | Subagent                      | Tier |
-| --------------------- | ----------------------------- | ---- |
-| Area A (e.g. client)  | `explore` or `generalPurpose` | Fast |
-| Area B (e.g. backend) | `explore` or `generalPurpose` | Fast |
-| Shared / integration  | `explore`                     | Fast |
+| Slice                        | Subagent                      | Tier |
+| ---------------------------- | ----------------------------- | ---- |
+| Area A (for example client)  | `explore` or `generalPurpose` | Fast |
+| Area B (for example backend) | `explore` or `generalPurpose` | Fast |
+| Shared / integration         | `explore`                     | Fast |
 
-Optional: score council agents on known paths — prefer `correctness` for mutation/cache paths if `contexts` includes `repo`. Path matching → [agent-discovery.md](../../subagents/references/agent-discovery.md).
+Optional: score council agents on known paths. Prefer `correctness` for mutation/cache paths if `contexts` includes `repo`. Path matching → [agent-discovery.md](../../subagents/references/agent-discovery.md).
 
 ## Dispatch plan template
 
@@ -44,19 +44,19 @@ Selected members:
 - explore · tier=Fast · model=[inherit-auto | slug] · stance=n/a: [client slice — hypothesis to test]
 - explore · tier=Fast · model=[inherit-auto | slug] · stance=n/a: [backend slice]
 
-Synthesis plan: merge evidence; verdict per investigate schema (plain-language settlement)
+Synthesis plan: merge evidence. Verdict per investigate schema (plain-language settlement)
 ```
 
 ## Synthesis
 
 1. Merge findings with file:line citations.
 2. Write **probe** verdict — plain-language settlement with evidence from all members.
-3. Conflicting member conclusions → state both; escalate or narrow target.
-4. Output follows **probe** skill final shape; use [subagents output-format.md](../../subagents/references/output-format.md) sections only as supporting detail.
+3. If member conclusions conflict, state both. Escalate or narrow the target.
+4. Output follows **probe** skill final shape. Use [subagents output-format.md](../../subagents/references/output-format.md) sections only as supporting detail.
 
 ## Handoff
 
 - Hunch closed or narrow → close or single-target **probe**
-- Reproducible bug → hub **diagnose** / **tdd** when installed; else consumer **testing** / **debug** or `AGENTS.md`
-- Reproducible bug needing session logs (NDJSON, compose mount) → hub **diagnose** when installed; else consumer **debug** or `AGENTS.md`
-- User explicitly asks to fix after the verdict → exit investigate find-only; follow that request or the named consumer skill
+- Reproducible bug → hub **diagnose** / **tdd** when installed. Else consumer **testing** / **debug** or `AGENTS.md`
+- Reproducible bug needing session logs (NDJSON, compose mount) → hub **diagnose** when installed. Else consumer **debug** or `AGENTS.md`
+- User explicitly asks to fix after the verdict → exit investigate find-only. Follow that request or the named consumer skill

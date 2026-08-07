@@ -1,8 +1,10 @@
 # Handoff output
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 Minimal shape for **prompt** (inline) and **artifact** (file). Omit empty sections — do not pad.
+
+User-facing blocks (Goal, Start with, State, Blockers, Failed, Next, paste stub) must use pragmatic STE. See [docs/skill-evolution.md](../../docs/skill-evolution.md) § Pragmatic STE for toolbox, or `/simple-english`.
 
 ## Header (required)
 
@@ -13,7 +15,7 @@ Handoff · channel:prompt|artifact · Pack:pointers|fix-loop|slice|full · Goal:
 | Field        | Notes                                                 |
 | ------------ | ----------------------------------------------------- |
 | `channel:`   | `prompt` or `artifact`                                |
-| `Pack:`      | Closest pack from [pack.md](pack.md); user-named ok   |
+| `Pack:`      | Closest pack from [pack.md](pack.md). User-named ok.  |
 | `Goal:`      | Next-session intent — slug in header + one line below |
 | `Workspace:` | Where next chat must root for `@` attach              |
 
@@ -65,8 +67,8 @@ Goal: <one line>
 Start with: <one line>
 ```
 
-Prompt-only channel: same fields inline under `---` fences; note `prompt-only` when helpful.
+Prompt-only channel: same fields inline under `---` fences. Note `prompt-only` when helpful.
 
 ## Fix-loop pack shortcut
 
-When `Pack: fix-loop`, State can be one line; Pointers must include PR/commit/theme ids if known. Skip long recap unless cold start requires it.
+When `Pack: fix-loop`, State can be one line. Pointers must include PR/commit/theme ids if known. Skip long recap unless cold start requires it.

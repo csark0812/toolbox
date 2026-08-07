@@ -17,7 +17,7 @@ Copy into `_agent/` or paste into a PR description. Do not commit into skill bod
 
 ## Triage
 
-What did the agent do wrong? (1–3 sentences; cite transcript path in debug bundle)
+What did the agent do wrong? (1–3 sentences. Cite transcript path in debug bundle.)
 
 ## Proposed patch
 

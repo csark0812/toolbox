@@ -1,6 +1,6 @@
 # Handoff subagent dispatch
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 Member recipe for **channel:artifact** only. Spawn → [`subagents`](../../subagents/SKILL.md). Output shape → [output.md](output.md). Context pack → [context-pack.md](../../subagents/references/context-pack.md). **Not** user `channel:prompt`.
 
@@ -31,7 +31,7 @@ Path: [target]/_agent/handoffs/[filename].md
 Coordinator summary (claims only):
 [bullets: state, pointers, blockers/failed/next if any]
 
-Rules: redact secrets; mkdir -p; pointers not bodies; no invented progress
+Rules: redact secrets, mkdir -p, pointers not bodies, no invented progress
 Return: path, Goal, Start with
 ```
 
