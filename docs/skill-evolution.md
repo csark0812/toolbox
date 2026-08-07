@@ -42,7 +42,7 @@ Toolbox skills are static human SSOT — they do not self-mutate from transcript
    - Sharpen a completion criterion if the agent **prematurely completed**
    - Add a carve-out under **Does not transfer** if the failure falsifies an overclaim
    - Lower **Confidence** if evidence is mixed
-4. **Authoring gate** — apply [`writing-great-skills`](../writing-great-skills/SKILL.md): prune no-ops, positive steering, progressive disclosure.
+4. **Authoring gate** — apply skill-authoring vocabulary (e.g. [mattpocock/skills](https://github.com/mattpocock/skills) `writing-for-agents` / `writing-great-skills`): prune no-ops, positive steering, progressive disclosure.
 5. **Lock** — add or update a **contract** scenario + replay fixture in `agent-suites/<skill>/`. Outcome scenarios use stub `replayTrace` for replay CI only (no `skip` — that disables live too).
 6. **Optional vitest lock** — add a string invariant in `tests/skills.test.js` only when the new rule is stable prose that regressions should catch globally.
 7. **Record** — copy [`templates/skill-evolution-note.md`](../templates/skill-evolution-note.md) into `_agent/` or the PR description; bump `last-reviewed` on touched research-basis files.

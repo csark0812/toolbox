@@ -38,12 +38,6 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | **prototype**      | Throwaway spike for one design question (user-invoked)                                                                                                                                         |
 | **domain-model**   | Persist glossary + ADRs when a decision is ready (user-invoked)                                                                                                                                |
 
-### Meta
-
-| Slug                     | Role                                      |
-| ------------------------ | ----------------------------------------- |
-| **writing-great-skills** | Skill-authoring vocabulary (user-invoked) |
-
 ## Process SSOT (`toolbox/`)
 
 This repo is the public home for process and orchestrator skills. Install them **user-level** with `-g` (ownership/install norm — not a CI pin or lockfile). Product repos should not vendor those skill folders.

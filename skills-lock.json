@@ -60,12 +60,6 @@
       "sourceType": "github",
       "skillPath": "tdd/SKILL.md",
       "computedHash": "20d7c1595fb8bcc9f2242a36f6db4e40f16f6d0e7c517287f888da71e045bb80"
-    },
-    "writing-great-skills": {
-      "source": "csark0812/toolbox",
-      "sourceType": "github",
-      "skillPath": "writing-great-skills/SKILL.md",
-      "computedHash": "ed709ed9bbf696f40f178e1f87a44a2d50131906e04dfdd3cc81b936b21a5675"
     }
   }
 }

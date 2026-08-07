@@ -48,7 +48,6 @@ Toolbox owns generic skill-contract behavior:
 - `probe-fix-outcomes-ceiling`: ceiling scenario (tight loop; replay CI only).
 - `domain-model`: entry gate — no stated decision means no ADR; route to grill.
 - `handoff`: `channel:prompt` (user) vs `channel:artifact` (model-invoked); `Pack:` pointers/fix-loop/full — omit empty sections.
-- `writing-great-skills`: user-only skills stay user-invoked (`disable-model-invocation`).
 - `organization-ablations`: live SkillJuror-lite arms — see [docs/skill-organization-ablations.md](../docs/skill-organization-ablations.md).
 - `github-ambient-refs`: live-only dogfood that ambient refs via GitHub raw URLs are fetchable at agent runtime (scenarios skipped in replay CI). See [docs/github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md).
 

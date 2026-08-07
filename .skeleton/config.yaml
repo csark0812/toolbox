@@ -17,7 +17,6 @@ scan:
     - 'prototype/**'
     - 'domain-model/**'
     - 'handoff/**'
-    - 'writing-great-skills/**'
   exclude:
     - '.skeleton/references/**'
     - '**/references/**'
@@ -26,6 +25,7 @@ scan:
     - '.claude/skills/**'
   banned: []
   retiredSkills:
+    - writing-great-skills
     - multi
     - iterative-review
     - investigate
@@ -54,4 +54,3 @@ skillOwnership:
     - prototype
     - domain-model
     - handoff
-    - writing-great-skills
