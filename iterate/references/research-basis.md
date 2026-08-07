@@ -41,3 +41,11 @@ Theme identity and premature closure vocabulary → [fix-loop-ledger.md](fix-loo
 Iterative loops without thrash guards re-file adjacent edges as sibling themes.
 
 **Confidence:** Moderate — see [anti-thrash.md](anti-thrash.md).
+
+## Novel-theme / diminishing-returns thrash
+
+Same-family reopen guards miss loops that mint a **new** `theme_id` every round after the slice already had a clean pass (plan densification / contract-edge polish). Observed on long plan-section iterate runs: early rounds structural; late rounds flip clean ↔ micro-Action and never hold streak M.
+
+**Mitigation:** coordinator novelty thrash → soft stop (`Closure: open`, no auto N+1) plus explicit `deferred-to-user` disposition — not fixed round budgets ([thrash-ledger.md](thrash-ledger.md) · [exit-gate.md](exit-gate.md)).
+
+**Confidence:** Moderate for the failure mode; moderate that soft stop beats lowering M or auto-ready on deferred leftovers.

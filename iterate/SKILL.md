@@ -26,6 +26,8 @@ Read [references/research-basis.md](references/research-basis.md) when calibrati
 1. **Memoryless blind pass** each round — [blind-reviewer-dispatch.md](references/blind-reviewer-dispatch.md); coordinator-only review is a **violation**.
 2. **Coordinator fix loop** + thrash memory ([thrash-ledger.md](references/thrash-ledger.md)).
 3. **Exit** only when [exit-gate.md](references/exit-gate.md) satisfied — `Closure: ready`.
+4. **Soft stop on novelty thrash** — `Thrash: diminishing-returns` or `deferred-to-user` → `Closure: open`, ask user, **no** auto spawn of N+1 ([exit-gate.md](references/exit-gate.md) § Soft stop). Soft stop ≠ ready.
+5. **Explicit dispositions** — every Action finding: `acted` | `deferred-to-user` | `declined` ([output.md](references/output.md)); silence is not decline.
 
 ## Workflow
 
@@ -33,10 +35,10 @@ Follow [protocol.md](references/protocol.md):
 
 1. **Envelope** — [slice-envelope.md](references/slice-envelope.md): user intent → repo read → frozen slice block.
 2. **Blind review** — [blind-reviewer-dispatch.md](references/blind-reviewer-dispatch.md): one Task subagent; slice materials only.
-3. **Coordinator synthesis** — user-facing output per [output.md](references/output.md); thrash check against [thrash-ledger.md](references/thrash-ledger.md).
-4. **Fix** — coordinator implements findings; update ledger and streak.
+3. **Coordinator synthesis** — user-facing output per [output.md](references/output.md); thrash check against [thrash-ledger.md](references/thrash-ledger.md) (inventory **and** novelty).
+4. **Disposition / fix** — `acted` implements; `deferred-to-user` soft-stops for ask; `declined` with why; update ledger and streak.
 5. **Pass progress** — after every blind Task, plain-language Found / Worth acting / Delta / Still blocks exit ([output.md](references/output.md#pass-progress-required-after-every-blind-task)); never forwarded to the blind reviewer.
-6. **Re-loop or exit** — [exit-gate.md](references/exit-gate.md).
+6. **Re-loop, soft stop, or exit** — [exit-gate.md](references/exit-gate.md); no fixed round budgets.
 
 **Blindness:** Best-effort bias reduction via context asymmetry — not guaranteed isolation. Do not forward prior review text, thrash ledger, pass progress, fix narrative, or user thread to the blind reviewer.
 
@@ -50,7 +52,7 @@ Follow [protocol.md](references/protocol.md):
 
 ### Rounds
 
-- Round N · [Name](id): Action [count]; [acted themes / clean]; delta: [one clause]
+- Round N · [Name](id): Action [count]; [acted / deferred-to-user / declined / clean]; delta: [one clause]
 ```
 
 ## Consumer bindings

@@ -23,9 +23,22 @@ Forbidden:
 - `Closure: ready` on a pass with Action > 0
 - `Closure: ready` with `Cohesion: not-attested` on the latest pass
 - `Closure: ready` with `Clean streak` below M
+- `Closure: ready` while `Thrash: diminishing-returns` or `Thrash: inventory-required` is open
+- `Closure: ready` while any finding is still `deferred-to-user` without user resolution
 - Subagent emits `Closure: ready` (coordinator-only)
 
 Use summary block `**Closure:** ready` in [SKILL.md](../SKILL.md) output format.
+
+## Soft stop (not ready)
+
+When [thrash-ledger.md](thrash-ledger.md) fires **novelty / diminishing-returns**, or any finding is disposed `deferred-to-user`:
+
+1. Emit pass progress with **Still blocks exit** naming soft stop / pending user judgment.
+2. Emit Iterate summary with **`Closure: open`**.
+3. **Must not** spawn pass N+1 until the user says continue (or stops the loop).
+4. Do **not** emit `Closure: ready`. Soft stop parks the loop; it does not close the bar.
+
+No fixed round budgets — soft stop is signal-driven only.
 
 ## Premature closure (named failure mode)
 
@@ -40,6 +53,8 @@ See [fix-loop-ledger § Premature closure](fix-loop-ledger.md#premature-closure-
 ## Streak heuristic
 
 M=2 is a default — same model stack may share blind spots across consecutive blind passes. Document moderate confidence in [research-basis.md](research-basis.md). User may ask for M=3 on high-stakes slices.
+
+Clean streak counts only passes with **no Action findings** from the blind member. Disposing findings as `deferred-to-user` or `declined` does **not** make the pass clean for streak purposes — soft stop leaves `Closure: open`.
 
 ## Adapter-specific matrix
 

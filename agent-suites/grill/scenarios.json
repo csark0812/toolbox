@@ -12,11 +12,11 @@
       "prompt": "Grill me on session storage for a new auth service — Redis vs in-memory.\n\nRead `.claude/skills/grill/SKILL.md` and `grill/references/ask.md` first. Use the ask block; include a provisional recommendation and a falsifier before leaving the node.",
       "replayTrace": "agent-suites/grill/fixtures/replays/falsifier-before-leave.json",
       "rubric": {
-        "must": ["falsifier", "Recommended"],
+        "must": ["falsifier", "Recommended", "### 1.", "**A)**", "---"],
         "mustInvokeSkill": ["grill"],
         "mustNot": ["let's implement", "I'll start coding", "After you answer"],
         "judge": [
-          "The agent stated a provisional recommendation and a falsifier for the chosen branch before moving on"
+          "The agent stated a provisional recommendation and a falsifier, using ### stem, --- separator, and bullet lettered picks"
         ]
       }
     },
@@ -38,11 +38,19 @@
       "prompt": "Grill me on one choice: should session cookies be httpOnly for a new auth service?\n\nRead `.claude/skills/grill/SKILL.md` and `grill/references/ask.md` first. Use a single-question ask block (N=1 slim).",
       "replayTrace": "agent-suites/grill/fixtures/replays/ask-block-n1.json",
       "rubric": {
-        "must": ["## Context", "## Questions", "Recommended:", "(recommended)"],
+        "must": [
+          "## Context",
+          "## Questions",
+          "### 1.",
+          "**A)**",
+          "Recommended:",
+          "(recommended)",
+          "---"
+        ],
         "mustInvokeSkill": ["grill"],
         "mustNot": ["After you answer", "Why it matters"],
         "judge": [
-          "The agent used Context + Questions with a lettered pick, (recommended) mark, and Recommended why-row, without After you answer or Why it matters on N=1"
+          "The agent used Context + Questions with ### stem, --- separator, bullet lettered picks, (recommended) mark, and a one-line Recommended pick-summary blockquote (no Why it matters on N=1; no free-standing Why above options)"
         ]
       }
     }

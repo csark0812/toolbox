@@ -30,3 +30,5 @@ v1 supports **code slice** and **plan section** only. Other artifact types → e
 **Matrix rows:** scope / gaps / sequencing — same three-axis overlay as **second-opinion** completeness attacker ([verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) stub points at consumer SSOT). Do not invent a fourth axis set in this skill.
 
 **Blind pack:** cited plan sections only — not full-repo sweeps.
+
+**Filing gravity:** once DoD / Master Locked P / closed-set tables exist in the slice, adjacent wording or env-recipe edges → Noted or `declined` unless they are structural (closed-set orphan, exit-vocab contradiction, phase-ownership hole, DoD vs phase table conflict). Prefer family collapse over novel kebabs ([thrash-ledger.md](thrash-ledger.md)).
