@@ -1,42 +1,45 @@
 # Second-opinion evidence dispatch (optional pre-wave)
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-10 -->
 
-Optional **pre-wave** gather for large plans before [second-opinion-dispatch.md](second-opinion-dispatch.md). **Not** a substitute for staged debate.
+Optional **pre-wave** gather for large artifacts before [second-opinion-dispatch.md](second-opinion-dispatch.md). **Not** a substitute for staged debate. **Deep only** — skip for light and med.
 
 ## When
 
 - Large plan / PRD / issue set with many cited primary sources
-- Attackers/defender lack path context without a coverage split first
+- **Deep** run where defender would lack path context without a coverage split first
 
 ## When to skip
 
-- Small plan — go straight to [second-opinion-dispatch.md](second-opinion-dispatch.md)
-- Dialogue without plan → stop. Need **Artifact** path (see second-opinion entry gate)
+- Light or med depth — go straight to [second-opinion-dispatch.md](second-opinion-dispatch.md) or coordinator-only (light)
+- Small artifact — go straight to dispatch
+- Dialogue without artifact → stop; need **Artifact** path (see second-opinion entry gate)
 
 ## Members
 
-| Slice                       | Prefer                                              | Fallback         |
-| --------------------------- | --------------------------------------------------- | ---------------- |
-| Premises + scope            | `generalPurpose` · stance `premises`                | Plan text only   |
-| Dependencies + blast radius | `architecture` if available. Else `generalPurpose`. | agent-discovery  |
-| Cited paths skim            | `explore`                                           | `generalPurpose` |
+| Slice                       | Prefer                                             | Fallback         |
+| --------------------------- | -------------------------------------------------- | ---------------- |
+| Scope + cited paths skim    | `explore`                                          | `generalPurpose` |
+| Dependencies + blast radius | `architecture` if available; else `generalPurpose` | agent-discovery  |
+
+Coordinator assigns slices from invented lenses — not a fixed premises/completeness split.
 
 ## Dispatch plan template
 
 ```markdown
-Task: Second-opinion — parallel evidence for [plan path]
+Task: Second-opinion — parallel evidence for [artifact path]
 Classification: gather
-Source of truth: plan
+Source of truth: artifact
 Goal: coverage
+Depth: deep (pre-wave only)
 Parent model: [Auto | named]
 
 Selected members:
 
-- generalPurpose · tier=Standard · model=inherit-auto · stance=premises: premises + scope
 - explore · tier=Fast · model=inherit-auto · stance=n/a: skim [cited paths]
+- generalPurpose · tier=Standard · model=inherit-auto · lens=[invented]: [one-line gather mandate]
 
-Synthesis plan: merge into wave-2 defender context. Then follow second-opinion-dispatch.md
+Synthesis plan: merge into wave-2 defender context; then second-opinion-dispatch.md (deep)
 ```
 
-Feed merged reports into wave 2 context pack only. **Do not** skip debate.
+Feed merged reports into wave 2 context pack only — **do not** skip debate.

@@ -1,82 +1,99 @@
 # Second-opinion dispatch
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-10 -->
 
-A2A recipe when [**second-opinion**](../../second-opinion/SKILL.md) runs on a written plan (path or paste). Spawn mechanics → [`subagents` SKILL](../SKILL.md). Context pack → [context-pack.md](context-pack.md). Adversarial fields → [adversarial.md](adversarial.md). Cast selection → [plan-review.md](../../second-opinion/references/plan-review.md).
+A2A recipe when [**second-opinion**](../../second-opinion/SKILL.md) runs on a written artifact (path or paste). Spawn mechanics → [`subagents` SKILL](../SKILL.md). Context pack → [context-pack.md](context-pack.md). Adversarial fields → [adversarial.md](adversarial.md). Lens invention + depth → [plan-review.md](../../second-opinion/references/plan-review.md).
 
-Profile: `plan`. Goal: `adversarial-staged` (full) or `adversarial-light` (light).
+**Light** = no Task spawns (coordinator-only — no dispatch plan). **Med** and **deep** only below.
 
-Spawn only the members for the **selected cast**. Optional large-artifact pre-gather → [second-opinion-evidence-dispatch.md](second-opinion-evidence-dispatch.md) first (full cast only).
+Goals: `adversarial-med` | `adversarial-deep`. (Light uses `adversarial-light` in output only — no member spawn.)
+
+Optional large-artifact pre-gather → [second-opinion-evidence-dispatch.md](second-opinion-evidence-dispatch.md) (**deep** only).
+
+## Lens mandates (open vocabulary)
+
+Coordinator invents kebab-case lenses from the ask. Each attacker gets a **one-line kill mandate** in the member prompt. Examples (not a closed set):
+
+| Lens (example) | Mandate                                                                                    | Overlay                                                                                                                                                   |
+| -------------- | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `premises`     | Outsider premise / goal / constraint attack — anchor each kill to artifact § or premise id | —                                                                                                                                                         |
+| `completeness` | Axis readiness / gaps — anchor each kill to artifact § or criterion                        | [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) **only** when lens is readiness/gaps-shaped |
+| user-named     | Coordinator-written kill mandate from ask wording                                          | —                                                                                                                                                         |
+
+Never load `verify.md` for non-completeness lenses. Never invent filler lenses to match a depth tier.
+
+Under Auto parent: `model=inherit-auto` (omit tool `model`); diversify via mandates only.
 
 ## Wave 1 — attackers (artifact only)
 
-| Stance         | Subagent         | Mandate                                                                                                                                |
-| -------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `premises`     | `generalPurpose` | Outsider premise / goal / constraint attack — **anchor each kill to plan § or premise id**                                             |
-| `completeness` | `generalPurpose` | Axis readiness — [verify.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/verify.md) overlay |
+| Depth    | Spawn                                                                                                            |
+| -------- | ---------------------------------------------------------------------------------------------------------------- |
+| **Med**  | 1 `generalPurpose` attacker — single combined mandate (fold two thin concerns here; independent mandates → deep) |
+| **Deep** | 2–3 `generalPurpose` attackers in parallel — one invented lens each                                              |
 
-**Full cast:** both stances in parallel. **Light cast:** exactly one stance.
-
-Under Auto parent: `model=inherit-auto` (omit tool `model`). Diversify via stances only.
-
-## Wave 2 — defender (when selected)
+## Wave 2 — defender (med/deep default)
 
 | Stance   | Subagent         | Mandate                                                                                              |
 | -------- | ---------------- | ---------------------------------------------------------------------------------------------------- |
-| `defend` | `generalPurpose` | Rebut/narrow/concede **anchored** attacker claims. Ignore unanchored unless coordinator tags `drift` |
+| `defend` | `generalPurpose` | Rebut/narrow/concede **anchored** attacker claims; ignore unanchored unless coordinator tags `drift` |
 
-**Full cast:** always after wave 1. **Light cast:** only if user asked or coordinator judges kills need rebuttal (fleeting default: skip).
+**Med/deep:** defender after wave 1 unless user skips. **Deep multi-round:** second attack+defend cycle only if ≥1 ship-blocking kill stays open after defend, or user asks.
 
-Context pack: artifact path or paste title + 2–4 cited primary sources + structured briefs of attacker report(s) (findings/dispositions/anchors only).
+Context pack: artifact path or paste title + up to 2–4 cited primary sources when available (else artifact §§ — never invent sources) + structured attacker briefs (findings/dispositions/anchors only).
 
-## Dispatch plan template — full
+## Dispatch plan template — med
 
 ```markdown
-Task: Second opinion — staged debate for [plan path or title]
+Task: Second opinion — med for [artifact path or title]
 Classification: mixed
-Source of truth: plan
-Goal: adversarial-staged
-Cast: full
+Source of truth: artifact
+Goal: adversarial-med
+Depth: med
+Lenses: [invented lens slug]
 Parent model: [Auto | named]
 User model overrides: [none | member=slug, …]
 
 Wave 1:
 
-- generalPurpose · tier=Standard · model=inherit-auto · stance=premises: outsider premise attack
-- generalPurpose · tier=Standard · model=inherit-auto · stance=completeness: axis readiness attack
+- generalPurpose · tier=Standard · model=inherit-auto · lens=[slug]: [one-line kill mandate]
 
-Wave 2 (after wave 1):
+Wave 2:
 
 - generalPurpose · tier=Standard · model=inherit-auto · stance=defend: steelman + rebut briefs
 
-Synthesis plan: merge per synthesis gate. Coordinator writes second-opinion/references/output.md shape
+Synthesis plan: merge per synthesis gate; coordinator writes second-opinion/references/output.md shape
 ```
 
-## Dispatch plan template — light
+## Dispatch plan template — deep
 
 ```markdown
-Task: Second opinion — light cast for [plan path or title]
+Task: Second opinion — deep for [artifact path or title]
 Classification: mixed
-Source of truth: plan
-Goal: adversarial-light
-Cast: light · stance=[premises|completeness] · defend=[yes|no]
+Source of truth: artifact
+Goal: adversarial-deep
+Depth: deep
+Lenses: [lens-a, lens-b, lens-c?]
 Parent model: [Auto | named]
 User model overrides: [none | member=slug, …]
 
 Wave 1:
 
-- generalPurpose · tier=Standard · model=inherit-auto · stance=[premises|completeness]: [mandate]
+- generalPurpose · tier=Standard · model=inherit-auto · lens=[lens-a]: [one-line kill mandate]
+- generalPurpose · tier=Standard · model=inherit-auto · lens=[lens-b]: [one-line kill mandate]
+- [optional third parallel attacker]
 
-Wave 2 (only if defend=yes):
+Wave 2:
 
-- generalPurpose · tier=Standard · model=inherit-auto · stance=defend: steelman + rebut brief
+- generalPurpose · tier=Standard · model=inherit-auto · stance=defend: steelman + rebut briefs
 
-Synthesis plan: merge per synthesis gate. Coordinator writes second-opinion/references/output.md shape
+Synthesis plan: merge per synthesis gate; coordinator writes second-opinion/references/output.md shape
 ```
 
 ## Hard gate
 
-Selected cast completed before final report. Do not fabricate missing stances or defender. Synthesis → [second-opinion plan-review.md](../../second-opinion/references/plan-review.md).
+**Med/deep:** selected depth completed before final report — do not fabricate missing members or defender. **Light:** coordinator-only is correct — do not spawn to satisfy an old “member runs always” rule.
+
+Synthesis → [second-opinion plan-review.md](../../second-opinion/references/plan-review.md).
 
 ## Pre-spawn model-routing gate
 

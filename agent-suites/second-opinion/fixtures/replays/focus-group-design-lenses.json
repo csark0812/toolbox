@@ -1,0 +1,12 @@
+{
+	"messages": [
+		{
+			"role": "assistant",
+			"content": "Using **second-opinion** at **deep** depth (adversarial-deep) — “focus group” ask invents design lenses, not plan readiness.\n\n**Wave 1 attacker (brand-fit):** anchored kill — Plan § P1 cites particle field as family signal; brand SSOT marks particles legacy, not canonical.\n\n**Wave 1 attacker (craft):** anchored kill — dashed Library frame reads as marketing decoration, not shared workbench material (Plan § Shared-materials).\n\n**Wave 1 attacker (job-fit):** anchored promote — achromatic surfaces + steel accent + Familjen hold for Library without porting landing atmosphere (Plan § Atmosphere-boundary).\n\n**Wave 2 defender:** narrows brand-fit kill — shared materials path satisfies family resemblance without particles; concedes craft kill on dashed frame unless optional.\n\n## Second opinion summary\n\n**Artifact:** docs/plans/align-app-marketing.plan.md\n**Depth:** deep\n**Lenses:** brand-fit, craft, job-fit · defend\n**Bottom line:** Unify on shared materials; drop particles as north star; treat dashed frame as optional craft, not a Library requirement.\n\n### Action items\n\n- Revise P1 to cite shared materials, not particle field\n- Mark dashed frame optional in Shared-materials"
+		}
+	],
+	"toolCalls": [],
+	"shellCommands": [],
+	"skillsInvoked": ["second-opinion"],
+	"artifacts": {}
+}

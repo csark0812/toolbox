@@ -1,55 +1,84 @@
 # Plan review synthesis
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-10 -->
 
-How to **select cast** and **synthesize** after perspectives return — not how to spawn them ([second-opinion-dispatch.md](../../subagents/references/second-opinion-dispatch.md)).
+How to **invent lenses**, **select depth**, and **synthesize** after perspectives return — not how to spawn them ([second-opinion-dispatch.md](../../subagents/references/second-opinion-dispatch.md)).
 
-Wave-1 stances are `premises` and `completeness`. **Full** runs both then a defender. **Light** runs exactly one wave-1 stance (defender optional).
+**Order:** invent ask-supported lenses → pick cheapest depth ceiling → run → synthesize. Depth is a **token ceiling**, not a fill-to-N quota.
 
-## Cast routing
+## Depth ceilings
 
-Precedence:
+| Depth     | Spawn ceiling                          | When                                                                                       |
+| --------- | -------------------------------------- | ------------------------------------------------------------------------------------------ |
+| **Light** | Coordinator, 1 lens — **no subagents** | Fleeting/narrow; “miss anything” / one concern; user asks quick/light                      |
+| **Med**   | 1 attacker Task + 1 defender           | One lens but user wants debate; two concerns foldable into one thin combined mandate       |
+| **Deep**  | 2–3 parallel attackers + 1 defender    | ≥2 independent kill mandates; “pressure-test” / “focus group” when invent yields ≥2 lenses |
 
-1. **Explicit user cast** — for example “premises only”, “skip defender”, “full debate”.
-2. **Clear intent signals** — for example “did I miss anything?” → completeness-only light. “outsider read / premises wrong?” → premises-only light. “pressure-test this plan” / large multi-section plan / multi-perspective iteration → full.
-3. **Ambiguous depth** — one short ask (full vs light. If light, which stance + defender y/n) before spawn.
-4. **Clearly deep** with no hint → full.
+**Two named concerns** that need **independent** mandates → **deep**, not med fold-and-drop.
 
-**Light cast:** one wave-1 stance. Defender only if user asked or the kill set needs rebuttal (fleeting default: no defender). Light is first-class — not a violation of full-cast norms.
+**Bare / generic ask** (artifact + “second opinion” only) → one pre-spawn ask; do not silently invent premises+completeness.
+
+## Lens invention
+
+1. Invent kebab-case lenses from the ask — each with a **one-line kill mandate**.
+2. Count ask-supported lenses (never filler to match a tier).
+3. Map N → cheapest ceiling:
+   - N=1, no debate ask → **light**
+   - N=1, user wants debate → **med**
+   - N≥2 → **deep** (cap at 3 parallel attackers)
+4. If N exceeds deep capacity → truncate to best ask-fit (user-named first, then most specific).
+
+**Worked examples only** (not a cast menu):
+
+| Ask shape                                    | Depth | Example lenses                                                        |
+| -------------------------------------------- | ----- | --------------------------------------------------------------------- |
+| “Did I miss anything?” short draft           | light | `completeness`                                                        |
+| “Are the premises wrong?”                    | light | `premises`                                                            |
+| “Debate the two risks I named” (independent) | deep  | those two + defend                                                    |
+| “Pressure-test readiness…”                   | deep  | `premises`, `completeness` + defend — because ask is readiness-shaped |
+| “Focus group” visual/brand plan              | deep  | e.g. `brand-fit`, `craft`, `job-fit` — **not** completeness           |
+
+`verify.md` overlay loads **only** when the invented lens is readiness/gaps-shaped `completeness`.
+
+**Premise surface** (optional): only when lenses are premise-like or user listed premises; confirm only if unsettled. Anchors are always artifact § / draft headings.
+
+## Depth routing precedence
+
+1. **Explicit user depth** — e.g. “light”, “no subagents”, “deep debate”, “skip defender”.
+2. **Invent lenses** from ask (or one ask if too vague).
+3. **Map N → ceiling** per table above. Breadth words (“focus group”, “pressure-test”) bias deep **only when invent yields ≥2 lenses**; otherwise stay cheaper.
+4. **Defender override** — user explicit wins (“skip defender” / “defend this”). Else: light never defends; med/deep include defender unless user skips.
 
 ## Coordinator workflow
 
-1. **Locate artifact** — path on disk **or** in-thread paste/chat draft. If only fuzzy intent with no plan-shaped body → stop. Point to **grill**.
-2. **Select cast** — routing above.
-3. **Premise surface** — extract 3–6 implicit premises. If premises are unsettled, make sure that the top 2–3 are settled with the user. For fleeting light casts, skip or shrink when premises are already explicit in the draft.
-4. **Run perspectives** — **subagents** [second-opinion-dispatch.md](../../subagents/references/second-opinion-dispatch.md) for the selected cast. Large full-cast plans can pre-gather via [second-opinion-evidence-dispatch.md](../../subagents/references/second-opinion-evidence-dispatch.md).
-5. **Synthesize** — form a **Bottom line** + **Action items** for the user ([output.md](output.md)). Use the analysis framework below only as coordinator-internal scaffolding.
+1. **Locate artifact** — path on disk **or** in-thread paste/chat draft; if only fuzzy intent with no plan-shaped body → stop; point to **grill**.
+2. **Invent lenses** + **select depth** — routing above.
+3. **Run** — light: coordinator-only. Med/deep: **subagents** [second-opinion-dispatch.md](../../subagents/references/second-opinion-dispatch.md); large deep may pre-gather via [second-opinion-evidence-dispatch.md](../../subagents/references/second-opinion-evidence-dispatch.md).
+4. **Synthesize** — form **Bottom line** + **Action items** ([output.md](output.md)). Use analysis framework below only as coordinator-internal scaffolding.
 
-**Claim anchoring:** Attackers anchor kills to plan § or premise id. Drop unanchored kills from convergent counts or tag `drift` (internal).
+**Deep multi-round:** default stop after one defend. Second cycle only if ≥1 **ship-blocking** kill has no shared disposition after defend **or** user asks — never for polish.
+
+**Claim anchoring:** Attackers anchor kills to artifact §, draft heading, or premise id. Drop unanchored kills from convergent counts or tag `drift` (internal).
 
 ## Analysis framework (coordinator-internal)
 
-Cover briefly while deciding the Bottom line. Do **not** dump these sections to the user.
+Cover briefly while deciding the Bottom line; do **not** dump these sections to the user.
 
 | Internal note            | Use for Bottom line / Action items                           |
 | ------------------------ | ------------------------------------------------------------ |
-| **What is solid**        | Confidence that design holds                                 |
+| **What's solid**         | Confidence that design holds                                 |
 | **Gaps**                 | → Action items if they block land                            |
 | **Hidden dependencies**  | → Action items if unordered prerequisites remain             |
 | **Risky assumptions**    | Mention in Bottom line only if they change the go/no-go call |
 | **Scope / complexity**   | Structural note if under/over-sized                          |
-| **Axis / readiness**     | Completeness survivors (after defender when that stance ran) |
+| **Readiness survivors**  | After defender when readiness/gaps lens ran                  |
 | **Concrete suggestions** | → Action items                                               |
-
-## Structural deepening (brief)
-
-One honest line in the Bottom line when relevant — not a second full audit. Local change vs staged/ground-up per dialogue-contract.
 
 ## Principles
 
 - Honest and objective — no softening filler.
-- Cite plan paths/lines (or draft § anchors) when raising Action items.
-- Say so if genuinely complete — do not manufacture criticism.
+- Cite artifact paths/lines (or draft § anchors) when raising Action items.
+- Say so if genuinely complete — don't manufacture criticism.
 - Preserve unresolved attacker/defender conflict in the Bottom line when both ran — no false consensus.
-- Direct on the work. Never harsh toward the person.
+- Direct on the work; never harsh toward the person.
 - User-facing exit is **Bottom line + Action items** only ([output.md](output.md)).

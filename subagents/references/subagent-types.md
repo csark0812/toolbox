@@ -1,6 +1,6 @@
 # Subagent type selection
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
 
 Which host **`subagent_type`** to pass on Task/Subagent calls. Pair with [task-splitting.md](task-splitting.md) for slice size and [model-routing.md](model-routing.md) for cost.
 
@@ -15,20 +15,20 @@ Which host **`subagent_type`** to pass on Task/Subagent calls. Pair with [task-s
 
 | `subagent_type`       | Use when                                                                                         | Avoid when                                                                 |
 | --------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
-| **`explore`**         | Fast repo map — find files, patterns, call sites. Medium breadth. No deep fix loop.              | Single-file review, sequential debate wave, user already named exact paths |
+| **`explore`**         | Fast repo map — find files, patterns, call sites; medium breadth; no deep fix loop               | Single-file review, sequential debate wave, user already named exact paths |
 | **`generalPurpose`**  | Stance-based review, plan critique, blind review pass, adversarial attacker/defender, tiebreaker | Pure file-tree search (use `explore`)                                      |
 | **`docs-researcher`** | Official docs, API reference, framework version facts on the web                                 | Repo-only questions                                                        |
 | **`computerUse`**     | GUI/manual test of running app                                                                   | Headless code review, plan debate                                          |
 
 ## Entry-skill overrides
 
-| Skill                         | Typical type                                        | Notes                                                                                                                                                                                                         |
-| ----------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **iterate**                   | `generalPurpose` · `stance=blind`                   | One member. Slice materials only.                                                                                                                                                                             |
-| **handoff** (model-invoked)   | `generalPurpose` · `stance=compact`                 | One member. Writes `_agent/handoffs/` artifact — not user `/handoff` prompt-only.                                                                                                                             |
-| **second-opinion**            | `generalPurpose` · premises / completeness / defend | Staged debate. See [adversarial.md](adversarial.md).                                                                                                                                                          |
-| **code-review** (parallel)    | `explore` / `generalPurpose`                        | [review-council-dispatch.md](review-council-dispatch.md). Each member loads code-review skill.                                                                                                                |
-| **probe** (parallel Evidence) | `explore`, `docs-researcher`, `generalPurpose`      | [parallel-research.md](../../probe/references/parallel-research.md), [parallel-broad.md](../../probe/references/parallel-broad.md), [parallel-perspective.md](../../probe/references/parallel-perspective.md) |
+| Skill                         | Typical type                                   | Notes                                                                                                                                                                                                         |
+| ----------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **iterate**                   | `generalPurpose` · `stance=blind`              | One member; slice materials only                                                                                                                                                                              |
+| **handoff** (model-invoked)   | `generalPurpose` · `stance=compact`            | One member; writes `_agent/handoffs/` artifact — not user `/handoff` prompt-only                                                                                                                              |
+| **second-opinion**            | `generalPurpose` · invented lens / defend      | Med 1+1 or deep multi-lens; light = no spawn; see [adversarial.md](adversarial.md)                                                                                                                            |
+| **code-review** (parallel)    | `explore` / `generalPurpose`                   | [review-council-dispatch.md](review-council-dispatch.md); each member loads code-review skill                                                                                                                 |
+| **probe** (parallel Evidence) | `explore`, `docs-researcher`, `generalPurpose` | [parallel-research.md](../../probe/references/parallel-research.md), [parallel-broad.md](../../probe/references/parallel-broad.md), [parallel-perspective.md](../../probe/references/parallel-perspective.md) |
 
 ## Council agents (consumer)
 
@@ -40,6 +40,6 @@ Specialized types do **not** justify premium models by themselves. Under Auto pa
 
 ## Anti-patterns
 
-- **`generalPurpose` for every member** — wastes tokens duplicating full-repo context. Split with `explore` + coordinator synthesis.
+- **`generalPurpose` for every member** — wastes tokens duplicating full-repo context; split with `explore` + coordinator synthesis.
 - **`explore` for adversarial kill mandates** — use stanced `generalPurpose` or council lens.
-- **Distinct premium models per member “for diversity”** — diversify stances and prompts. Share Auto inherit.
+- **Distinct premium models per member “for diversity”** — diversify stances and prompts; share Auto inherit.

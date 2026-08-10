@@ -1,19 +1,19 @@
 ---
 name: second-opinion
-description: Multiple independent perspectives on a written plan (path or paste) — full staged debate or light cast by depth. Process skill. Member runs → subagents second-opinion-dispatch. Composes on plan Artifact or plan-section Slice. Not dialogue-only design, blind code slice passes, or find-only hunch settlement.
+description: Adversarial critique of a written artifact (path or paste) — invent lenses from the ask; light/med/deep token ceilings. Process skill; med/deep → subagents second-opinion-dispatch. Composes on Artifact or plan-section Slice. Not dialogue-only design, blind code slice passes, or find-only hunch settlement.
 ---
 
 # Second opinion
 
-**Source of truth for** what plan review perspectives mean and how to synthesize them.
+**Source of truth for** adversarial artifact review — invent lenses, depth ceilings, synthesis.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-10 -->
 
 **Process skill** — shared vocabulary → [context-pack.md](../subagents/references/context-pack.md). **A2A wiring** → [`subagents`](../subagents/SKILL.md) [second-opinion-dispatch.md](../subagents/references/second-opinion-dispatch.md).
 
 References: [plan-review.md](references/plan-review.md) · [output.md](references/output.md).
 
-Read [research-basis.md](references/research-basis.md) only when you calibrate debate claims.
+Read [research-basis.md](references/research-basis.md) only when calibrating debate claims.
 
 ## Entry gate
 
@@ -22,19 +22,21 @@ Read [research-basis.md](references/research-basis.md) only when you calibrate d
 
 ## Non-negotiables
 
-1. **Cast routing** — select full or light per [plan-review.md](references/plan-review.md). Light is first-class, not a violation.
-2. **Claim anchoring** — kills map to plan § or premise id. Unanchored → `drift`.
-3. **Selected cast before final report** — coordinator-only critique without member runs is a **violation** ([dispatch](../subagents/references/second-opinion-dispatch.md)).
+1. **Invent lenses first** — kebab-case kill-mandate lenses from the ask; then pick the cheapest depth ceiling that fits ([plan-review.md](references/plan-review.md)). Never filler lenses to match a tier.
+2. **Claim anchoring** — kills map to artifact §, draft heading, or premise id; unanchored → `drift`.
+3. **Depth gates** — **light** = coordinator-only (no subagents). **Med/deep** = real member runs before final report ([dispatch](../subagents/references/second-opinion-dispatch.md)).
 
 ## Workflow
 
 1. **Locate artifact** — path on disk or paste or draft in thread.
-2. **Select cast** — [plan-review.md](references/plan-review.md): explicit user → clear intent signals → one ask if ambiguous → full when clearly deep.
-3. **Premise surface** — [plan-review.md](references/plan-review.md): 3–6 premises. If premises are unsettled, make sure that the user agrees. Skip or shrink for fleeting light casts when premises are already explicit in the draft.
-4. **Run perspectives** — **subagents** [second-opinion-dispatch.md](../subagents/references/second-opinion-dispatch.md) for the selected cast. For large full-cast plans, optional [second-opinion-evidence-dispatch.md](../subagents/references/second-opinion-evidence-dispatch.md).
+2. **Invent lenses** — from the ask; one pre-spawn ask if too vague (bare “second opinion” → ask depth + what to pressure; do not silently invent premises+completeness).
+3. **Select depth** — cheapest ceiling for lens count and debate need ([plan-review.md](references/plan-review.md)).
+4. **Run** — light: coordinator applies one lens. Med/deep: **subagents** [second-opinion-dispatch.md](../subagents/references/second-opinion-dispatch.md). Large deep runs → optional [second-opinion-evidence-dispatch.md](../subagents/references/second-opinion-evidence-dispatch.md).
 5. **Synthesize** — [plan-review.md](references/plan-review.md) + [output.md](references/output.md).
 
-**Full cast:** wave 1 `premises` + `completeness` (artifact only) → wave 2 `defend` (artifact + 2–4 cited primary sources + attacker briefs). **Light cast:** exactly one wave-1 stance. Defender only if the user asked or kills need rebuttal (fleeting default: no defender). Do not ask the user for source paths already in the plan.
+**Depth ceilings:** **Light** = 1 lens, no Tasks · **Med** = 1 attacker + 1 defender · **Deep** = 2–3 parallel attackers + 1 defender (extra round only if a ship-block kill stays open after defend, or user asks).
+
+Named lenses (`premises`, `completeness`, `brand-fit`, …) in docs are **worked examples only** — not a cast menu. `verify.md` overlay applies only when the invented lens is readiness/gaps-shaped `completeness`.
 
 When **iterate** uses the plan-section adapter on the same sections, second-opinion covers full-artifact perspectives. Iterate covers slice cohesion. Both apply if the layered prompt names them.
 
