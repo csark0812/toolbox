@@ -7,7 +7,7 @@ description: Shape fuzzy intent and pressure-test a design before code — inten
 
 **Source of truth for** intent shaping and design-tree alignment before implementation.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
 **Process skill** — shared vocabulary → [context-pack.md](../subagents/references/context-pack.md). Mid-turn asks → [ask.md](references/ask.md).
 
@@ -22,7 +22,7 @@ Read [research-basis.md](references/research-basis.md) only when you calibrate d
 
 ## Non-negotiables
 
-1. **Ask via [ask.md](references/ask.md)** — 1–3 same-branch lettered questions in a Context + Questions block. Wait for answers. Layout: human-first Context in pragmatic STE (no Where/Deciding/Settled. Optional Already agreed). Then `---` under Context. Then `### N.` stems, bullet options, `>` Recommended with pick summary on line 1 and Why it matters on the next (omit Why when N=1). Never one blob.
+1. **Ask via [ask.md](references/ask.md)** — 1–3 same-branch lettered questions in a Questions-only block. Wait for answers. Layout: self-contained `### N.` stems and lettered options in pragmatic STE (no Context / Already agreed / Where/Deciding/Settled). Mark `(recommended)` on one pick. Optional `> Why <letter>:` only when the pick is contentious or hard to reverse. Never one blob.
 2. **Facts in repo** — look up. Do not ask the user for knowable facts.
 3. **Falsifier per node** before you leave a design-tree branch.
 4. **No implementation** until alignment or an explicit user skip.

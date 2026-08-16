@@ -12,11 +12,11 @@
       "prompt": "Grill me on session storage for a new auth service — Redis vs in-memory.\n\nRead `.claude/skills/grill/SKILL.md` and `grill/references/ask.md` first. Use the ask block; include a provisional recommendation and a falsifier before leaving the node.",
       "replayTrace": "agent-suites/grill/fixtures/replays/falsifier-before-leave.json",
       "rubric": {
-        "must": ["falsifier", "Recommended", "### 1.", "**A)**", "---"],
+        "must": ["falsifier", "(recommended)", "### 1.", "**A)**"],
         "mustInvokeSkill": ["grill"],
-        "mustNot": ["let's implement", "I'll start coding", "After you answer"],
+        "mustNot": ["let's implement", "I'll start coding", "After you answer", "## Context"],
         "judge": [
-          "The agent stated a provisional recommendation and a falsifier, using ### stem, --- separator, and bullet lettered picks"
+          "The agent stated a provisional recommendation via (recommended) and a falsifier, using ### stem and bullet lettered picks without a Context block"
         ]
       }
     },
@@ -34,23 +34,26 @@
       }
     },
     {
-      "name": "ask block: N=1 slim Context+Questions",
+      "name": "ask block: N=1 slim Questions only",
       "prompt": "Grill me on one choice: should session cookies be httpOnly for a new auth service?\n\nRead `.claude/skills/grill/SKILL.md` and `grill/references/ask.md` first. Use a single-question ask block (N=1 slim).",
       "replayTrace": "agent-suites/grill/fixtures/replays/ask-block-n1.json",
       "rubric": {
         "must": [
-          "## Context",
           "## Questions",
           "### 1.",
           "**A)**",
-          "Recommended:",
-          "(recommended)",
-          "---"
+          "(recommended)"
         ],
         "mustInvokeSkill": ["grill"],
-        "mustNot": ["After you answer", "Why it matters"],
+        "mustNot": [
+          "After you answer",
+          "Why it matters",
+          "## Context",
+          "Recommended:",
+          "Already agreed"
+        ],
         "judge": [
-          "The agent used human-first Context + Questions with ### stem, --- separator, bullet lettered picks, (recommended) mark, and a one-line Recommended pick-summary blockquote (no Why it matters on N=1; no free-standing Why above options; no Where/Deciding/Settled keys)"
+          "The agent used Questions-only with ### stem, bullet lettered picks, and (recommended) mark (no Context; no Recommended blockquote; no Why line on default N=1; no Where/Deciding/Settled keys)"
         ]
       }
     }

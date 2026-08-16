@@ -1,6 +1,6 @@
 # Grill protocol
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
 Design-tree dialogue before implementation. Shared behavior → [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md). Mid-turn asks → [ask.md](ask.md).
 
@@ -10,7 +10,7 @@ Design-tree dialogue before implementation. Shared behavior → [dialogue-contra
 2. **Walk the design tree** — resolve dependencies before you commit to a path.
 3. **Facts vs decisions** — look up facts in repo/tools/docs. Decisions are the user's.
 4. **Ask via [ask.md](ask.md)** — 1–3 same-branch lettered questions. Wait for answers. New tree node → new turn.
-5. **Provisional recommendation** — mark `(recommended)` on one option and a separate Recommended why-row ([ask.md](ask.md)).
+5. **Provisional recommendation** — mark `(recommended)` on one option ([ask.md](ask.md)). Optional `> Why <letter>:` only when the pick is contentious or hard to reverse.
 6. **Falsifier** — after the user engages, what shows the branch wrong? (Record before you leave the node.)
 7. **Sharpen terms** against glossary — grill does not write ADRs/glossary.
 8. **Implement only after alignment** — [build.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/planning/build.md) when **When to stop** is met.

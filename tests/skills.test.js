@@ -412,12 +412,14 @@ describe('toolbox skill SSOT', () => {
 
   it('grill ask.md is mid-turn SSOT without After you answer', () => {
     const ask = readFileSync(join(root, 'grill/references/ask.md'), 'utf8')
-    expect(ask).toMatch(/## Context/)
     expect(ask).toMatch(/## Questions/)
+    expect(ask).toMatch(/Questions only/)
+    expect(ask).toMatch(/\(recommended\)/)
+    expect(ask).toMatch(/Why <letter>/)
     expect(ask).toMatch(/Where/)
-    expect(ask).toMatch(/Recommended:/)
-    expect(ask).toMatch(/N=1/)
+    expect(ask).not.toMatch(/> \*\*Recommended:/)
     expect(ask).not.toMatch(/## After you answer/)
+    expect(ask).not.toMatch(/^## Context$/m)
     const grill = readFileSync(join(root, 'grill/SKILL.md'), 'utf8')
     expect(grill).toMatch(/ask\.md/)
     expect(grill).not.toMatch(/One decision per turn/)

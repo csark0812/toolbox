@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Using **grill**.\n\n## Context\n\nNew auth service — choosing where session data lives before any code. Nothing is in production yet.\n\n---\n\n## Questions\n\n### 1. Where should session data live in v1?\n\n- **A)** Redis (recommended)\n- **B)** In-process memory only\n\n> **Recommended: A** — shared across instances without inventing a new store later\n\nFalsifier: if logout must work across every running instance, keeping sessions only in one process’s memory fails after deploy."
+      "content": "Using **grill**.\n\n## Questions\n\n### 1. For a new auth service with nothing in production yet: where should session data live in v1?\n\n- **A)** Redis (recommended)\n- **B)** In-process memory only\n\n> Why A: shared across instances without inventing a new store later\n\nFalsifier: if logout must work across every running instance, keeping sessions only in one process’s memory fails after deploy."
     }
   ],
   "toolCalls": [],
