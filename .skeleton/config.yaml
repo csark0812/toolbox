@@ -7,11 +7,10 @@ scan:
     - 'docs/**'
     - '.skeleton/registry.md'
     - 'agent-suites/README.md'
-    - 'subagents/**'
+    - 'council/**'
     - 'code-review/**'
     - 'grill/**'
     - 'second-opinion/**'
-    - 'iterate/**'
     - 'probe/**'
     - 'tdd/**'
     - 'prototype/**'
@@ -31,6 +30,8 @@ scan:
     - investigate
     - diagnose
     - crystallize
+    - subagents
+    - iterate
     - branch-cleanup
     - product-principles
     - testing
@@ -44,11 +45,10 @@ daysUntilStale: 180
 skillOwnership:
   lockfile: skills-lock.json
   ownedSlugs:
-    - subagents
+    - council
     - code-review
     - grill
     - second-opinion
-    - iterate
     - probe
     - tdd
     - prototype

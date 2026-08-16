@@ -70,7 +70,7 @@ Each issue description must include:
 ## Process
 
 1. **Locate input** — Read the plan/PRD from path, URL, or search `docs/prds/`.
-2. **Explore codebase** — Use **subagents** or explore subagents for domains the feature touches. Understand existing structure so slices match real boundaries.
+2. **Explore codebase** — Use **council** or explore members for domains the feature touches. Understand existing structure so slices match real boundaries.
 3. **Draft slices** — Break into thinnest vertical slices. Aim for 3–8 issues for a typical feature.
 4. **Establish blocking graph** — Which slices depend on others? An issue blocks another only when the second cannot be started at all without the first.
 5. **Create unblocked issues first** — Record their IDs.

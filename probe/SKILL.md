@@ -14,7 +14,7 @@ description: Narrow a hunch or hard bug — evidence and pragmatic-STE verdict b
 - the user explicitly asks to fix, implement, or repro-debug, **or**
 - the user describes a broken symptom **and** an on-demand failing signal already exists (command, test, or CI you can run).
 
-**Process skill** — shared vocabulary → [context-pack.md](../subagents/references/context-pack.md). Optional parallel gather → **subagents** [explore-escalation-dispatch.md](../subagents/references/explore-escalation-dispatch.md) or local [parallel-*.md](references/parallel-broad.md) recipes.
+**Process skill** — shared vocabulary → [context-pack.md](../council/references/context-pack.md). Optional parallel gather → attach **council**, or local [parallel-*.md](references/parallel-broad.md) recipes.
 
 **Explicit ask vs no-loop:** An explicit ask enters **Fix (loop-building)**, not patch-without-loop. Hypothesize-and-patch without a red signal is banned in all states.
 
@@ -48,8 +48,8 @@ If the locus is unclear, start **Evidence** (even if the user said “broken”)
 ### Evidence stance
 
 - One framework for repo and external material. Phases can weave code → research → code. Full loop → [framework.md](references/framework.md)
-- Multiple independent web topics → [parallel-research.md](references/parallel-research.md) via **subagents**
-- Mixed or contested evidence, or an explicit stress-test → [parallel-perspective.md](references/parallel-perspective.md) via **subagents** (not the default path)
+- Multiple independent web topics → [parallel-research.md](references/parallel-research.md) via **council**
+- Mixed or contested evidence, or an explicit stress-test → [parallel-perspective.md](references/parallel-perspective.md) via **council** (not the default path)
 
 ### Structural checks
 
@@ -59,7 +59,7 @@ When evidence touches structure, apply [dialogue-contract.md](https://raw.github
 
 Follow [framework.md](references/framework.md). Summary:
 
-1. **Target-clarification chain.** Ask **short, invitational** questions until you know _where_ to look. Continue until the target is concrete enough that reading primary material has a purpose. Work dimension by dimension if needed. If the user can only gesture at the discomfort, stay with one branch before you widen. Start deep investigation only when files, a subsystem, or a primary source is plausible. If the user explicitly asks you to fish broadly, use [parallel-broad.md](references/parallel-broad.md) via **subagents**. Then tell the user that you are doing a wider pass and why.
+1. **Target-clarification chain.** Ask **short, invitational** questions until you know _where_ to look. Continue until the target is concrete enough that reading primary material has a purpose. Work dimension by dimension if needed. If the user can only gesture at the discomfort, stay with one branch before you widen. Start deep investigation only when files, a subsystem, or a primary source is plausible. If the user explicitly asks you to fish broadly, use [parallel-broad.md](references/parallel-broad.md) via **council**. Then tell the user that you are doing a wider pass and why.
 2. **Form 2–4 ranked, falsifiable hypotheses** before you gather evidence. Prefer mechanism or model hypos over situation guesses. For code: "If `<X>` is the cause, then `<Y>` at `file:line` must show `<Z>`." For claims: "If `<X>` is true, then the primary source must show `<Z>`."
 3. **Discriminating checks** — for each ranked hypo, name the cheapest kill test (strong inference: most information per unit cost). Run top kill tests **before** confirmatory forage.
 4. **Read primary material** — actual code, docs, data, or cited sources. Tool rankings or "likely file" lists are not evidence.

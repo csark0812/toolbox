@@ -29,7 +29,7 @@ Design-tree dialogue before implementation. Shared behavior → [dialogue-contra
 - Silent-topic scan: failure modes, constraints, ownership, rollback, NFR — decided or marked in/out of scope.
 - User accepts shared understanding (or explicitly skips).
 
-Optional repo explore for a branch → **subagents** + parallel-explore (planning ambient). Grill stays dialogue-first.
+Optional repo explore for a branch → coordinator tools, or attach **council** (or planning soft-default parallel-explore). Grill stays dialogue-first.
 
 ## Question cadence
 

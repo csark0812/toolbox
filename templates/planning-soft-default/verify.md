@@ -4,7 +4,7 @@
 
 Completeness check on an existing plan, PRD, or issue set. Does not rewrite — flags gaps and suggests specific additions.
 
-Plan type and axis weighting — see [README.md](README.md) (Completeness axes). This file is the **axis checklist body** loaded when second-opinion invents a readiness/gaps-shaped **`completeness`** lens. For readiness review, suggest asking for a **deep** second-opinion that invents `premises` + `completeness` — not a fixed cast inside the skill.
+Plan type and axis weighting — see [README.md](README.md) (Completeness axes). This file is the **axis checklist body** loaded when second-opinion invents a readiness/gaps-shaped **`completeness`** lens. For readiness review, suggest asking for a **council** + second-opinion that invents `premises` + `completeness` — not a fixed cast inside the skill.
 
 ## Step 1: Locate the Artifact
 
@@ -106,4 +106,4 @@ After the report:
 - Ready to build → "Want to kick off your tracker / issue-workflow skill to start work?"
 - Before commit → **code-review** staged (includes AI drift hygiene)
 
-See [README.md](README.md) (Peripheral skills) for **probe**, **code-review**, and **subagents** ([parallel-explore.md](parallel-explore.md)).
+See [README.md](README.md) (Peripheral skills) for **probe**, **code-review**, and **council** ([parallel-explore.md](parallel-explore.md)).

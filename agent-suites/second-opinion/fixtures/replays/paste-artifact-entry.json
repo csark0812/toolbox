@@ -2,7 +2,7 @@
 	"messages": [
 		{
 			"role": "assistant",
-			"content": "Using **second-opinion** on the in-thread paste (no disk path) — **light** depth (adversarial-light), `premises` lens, coordinator-only, no defender.\n\n**Coordinator (premises):** anchored kill — “No Redis — in-process map is fine for v1” assumes a single process; multi-instance deploys would not share the bucket (Ephemeral plan: rate-limit login).\n\n## Second opinion summary\n\n**Artifact:** rate-limit login (chat paste)\n**Depth:** light\n**Lenses:** premises · no-defend\n**Bottom line:** Premise holds only for a single-node v1; call that constraint out or plan a shared store before multi-instance.\n\n### Action items\n\n- State single-process assumption explicitly in the draft, or name a shared bucket for multi-instance"
+			"content": "Using **second-opinion** on the in-thread paste (no disk path) — **Mode: single-pass**, `premises` lens, coordinator-only, no council.\n\n**Coordinator (premises):** anchored kill — “No Redis — in-process map is fine for v1” assumes a single process; multi-instance deploys would not share the bucket (Ephemeral plan: rate-limit login).\n\n## Second opinion summary\n\n**Artifact:** rate-limit login (chat paste)\n**Mode:** single-pass\n**Lenses:** premises\n**Bottom line:** Premise holds only for a single-node v1; call that constraint out or plan a shared store before multi-instance.\n\n### Action items\n\n- State single-process assumption explicitly in the draft, or name a shared bucket for multi-instance"
 		}
 	],
 	"toolCalls": [],

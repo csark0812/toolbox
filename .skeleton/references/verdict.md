@@ -4,7 +4,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
-Ambient ref for **hunch → evidence → pragmatic STE verdict** — find and settle only, not fix. Extends [output-schema.md](output-schema.md). Shared vocabulary → [context-pack.md](../../subagents/references/context-pack.md).
+Ambient ref for **hunch → evidence → pragmatic STE verdict** — find and settle only, not fix. Extends [output-schema.md](output-schema.md). Shared vocabulary → [context-pack.md](../../council/references/context-pack.md).
 
 ## Entry gate
 
@@ -29,11 +29,11 @@ Ambient ref for **hunch → evidence → pragmatic STE verdict** — find and se
 
 ## When to escalate (multi-member)
 
-| Situation                                    | Recipe                                                                                                                           |
-| -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| User asks to fish broadly                    | **subagents** [explore-escalation-dispatch.md](../../subagents/references/explore-escalation-dispatch.md) § Parallel broad       |
-| Multiple independent topics, no single hunch | **subagents** [explore-escalation-dispatch.md](../../subagents/references/explore-escalation-dispatch.md) § Parallel research    |
-| Genuinely mixed or contested evidence        | **subagents** [explore-escalation-dispatch.md](../../subagents/references/explore-escalation-dispatch.md) § Parallel perspective |
+| Situation                                    | Recipe                                                                                                      |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| User asks to fish broadly                    | Attach **council**, or [probe parallel-broad.md](../../probe/references/parallel-broad.md)                  |
+| Multiple independent topics, no single hunch | Attach **council**, or [probe parallel-research.md](../../probe/references/parallel-research.md)            |
+| Genuinely mixed or contested evidence        | Attach **council**, or [probe parallel-perspective.md](../../probe/references/parallel-perspective.md)      |
 
 ## Exit artifact
 

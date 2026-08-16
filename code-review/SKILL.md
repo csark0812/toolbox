@@ -1,15 +1,15 @@
 ---
 name: code-review
-description: How to review code — any surface and any user-named lens. Evidence bar, filing, output shape. Composes on the same Slice as tdd and iterate. Not find-only hunch settlement, blind slice pass ownership, or written-plan perspective debate.
+description: How to review code — any surface and any user-named lens. Evidence bar, filing, output shape. Composes on the same Slice as tdd. Not find-only hunch settlement, multi-agent orchestration (→ council), or written-plan perspective debate.
 ---
 
 # Code review
 
-**Source of truth for** how to review code and file findings — not agent-to-agent spawn (→ **subagents**) or blind slice pass loops (→ **iterate**).
+**Source of truth for** how to review code and file findings — not multi-agent spawn (→ **council**).
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
-**Process skill** — shared vocabulary → [context-pack.md](../subagents/references/context-pack.md).
+**Process skill** — shared vocabulary → [context-pack.md](../council/references/context-pack.md).
 
 References: [review.md](references/review.md) · [sources.md](references/sources.md) · [merge-blockers.md](references/merge-blockers.md) · [output.md](references/output.md).
 
@@ -34,7 +34,7 @@ Read [references/research-basis.md](references/research-basis.md) when you calib
 2. **Review** — [review.md](references/review.md): trace behavior for the active lens.
 3. **File** — [merge-blockers.md](references/merge-blockers.md) + [output.md](references/output.md).
 
-If you need parallel members, the parent uses [`subagents`](../subagents/SKILL.md) [review-council-dispatch.md](../subagents/references/review-council-dispatch.md). Each member loads this skill for **how** to review.
+If you need parallel members, attach [`council`](../council/SKILL.md). Each member loads this skill for **how** to review.
 
 ## Exit artifact
 

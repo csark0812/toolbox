@@ -41,7 +41,7 @@ Skip for non-code plans (process docs, team workflows, pure cleanup with obvious
 - **Scope is narrow** — single-component change. Minimal exploration.
 - **Repo exploration already in context** — exploration was just run in this session.
 
-For code plans: follow [parallel-explore.md](parallel-explore.md) via **subagents** (or spawn parallel **explore** subagents per affected domain). State what you are exploring before launching.
+For code plans: follow [parallel-explore.md](parallel-explore.md) via **council** (or parallel explore members). State what you are exploring before launching.
 
 Goal: enough context to ask grounded questions and detect blast radius early. Do not go deep. Surface-level structure is enough.
 
@@ -94,7 +94,7 @@ After the first question batch, evaluate whether a mode shift helps:
 
 Never shift without offering. User decides.
 
-See also [README.md](README.md) (Peripheral skills) for optional tracker skills, **code-review**, **subagents** ([parallel-explore.md](parallel-explore.md)).
+See also [README.md](README.md) (Peripheral skills) for optional tracker skills, **code-review**, **council** ([parallel-explore.md](parallel-explore.md)).
 
 ## Step 6: Sketch modules (PRD output only)
 

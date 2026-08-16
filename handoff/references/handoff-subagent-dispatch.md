@@ -1,8 +1,8 @@
 # Handoff subagent dispatch
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
-Member recipe for **channel:artifact** only. Spawn → [`subagents`](../../subagents/SKILL.md). Output shape → [output.md](output.md). Context pack → [context-pack.md](../../subagents/references/context-pack.md). **Not** user `channel:prompt`.
+Member recipe for **channel:artifact** only. Spawn one host **Task** (`generalPurpose`). Output shape → [output.md](output.md). Pack vocabulary → [context-pack.md](../../council/references/context-pack.md) (shared headers only — handoff does not require attaching council). **Not** user `channel:prompt`.
 
 ## Dispatch plan
 
@@ -17,6 +17,8 @@ Members:
 
 Synthesis: paste stub only — never paste artifact body in chat
 ```
+
+Under Auto parent, omit the Task `model` argument (`inherit-auto`).
 
 ## Member prompt
 

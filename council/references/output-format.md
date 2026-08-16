@@ -1,8 +1,10 @@
 # Consolidated dispatch report
 
-Use for generic subagent dispatch runs. Review runs use [output.md](../../code-review/references/output.md) instead. Entry skills own final shape when they specify one (for example, iterate pass headers, second-opinion summary).
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
-User-facing parts of this consolidated report use pragmatic Simplified Technical English (STE).
+Use for generic **council** runs when no process skill defines the exit shape. Review runs use [code-review output.md](../../code-review/references/output.md). Second-opinion layered runs use [second-opinion output.md](../../second-opinion/references/output.md).
+
+User-facing parts use pragmatic Simplified Technical English (STE).
 
 ```markdown
 # Dispatch report: [Task]

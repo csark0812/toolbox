@@ -2,7 +2,7 @@
 
 **Source of truth for** interpreting live ablation runs that compare skill organization arms.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
 Inspired by SkillJuror-style questions: does how skills are **organized** (routing, escalation, fit-check) change runtime behavior?
 
@@ -14,15 +14,15 @@ Inspired by SkillJuror-style questions: does how skills are **organized** (routi
 npm run agent:test:ablations
 ```
 
-Requires `CURSOR_API_KEY`. Compare runs under the **same model** and similar token budget (equal-budget discipline from [`subagents/references/research-basis.md`](../subagents/references/research-basis.md)).
+Requires `CURSOR_API_KEY`. Compare runs under the **same model** and similar token budget.
 
 ## Arms
 
-| Scenario                                  | Tests                               | Pass signal                                   |
-| ----------------------------------------- | ----------------------------------- | --------------------------------------------- |
-| `ablation review: primary-first arm`      | Default code-review without council | `Reviewer: primary`, no `Task(` spawn         |
-| `ablation review: council escalation arm` | User requests council               | Escalation via `subagents` / council path     |
-| `ablation subagents: fit-check skip arm`  | Sequential repo map                 | Names single-pass rival, skips parallel spawn |
+| Scenario                                  | Tests                               | Pass signal                                          |
+| ----------------------------------------- | ----------------------------------- | ---------------------------------------------------- |
+| `ablation review: primary-first arm`      | Default code-review without council | `Reviewer: primary`, no `Task(` spawn                |
+| `ablation review: council escalation arm` | User requests council               | Escalation via **council** path                      |
+| `ablation council: fit-check skip arm`    | Sequential repo map                 | Names single-pass rival, skips parallel spawn        |
 
 ## How to interpret
 

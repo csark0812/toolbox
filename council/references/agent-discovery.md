@@ -1,8 +1,10 @@
-# Agent Discovery
+# Agent discovery
 
-Mechanical steps for discovering workspace council agents and intersecting with the host Task tool. **Selection scoring** (review depth, diff paths, plan keywords) lives in entry-skill recipes — for example, [code-review agent-selection.md](../../code-review/references/agent-selection.md) for review.
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
-Used by [`subagents`](../SKILL.md) and entry-skill recipes that optionally spawn council agents.
+Mechanical steps for discovering workspace council agents and intersecting with the host Task tool. **Selection scoring** lives in process-skill recipes when they define it — for example, [code-review agent-selection.md](../../code-review/references/agent-selection.md).
+
+Used by [`council`](../SKILL.md) when optionally spawning named council agents.
 
 ## Discovery steps
 
@@ -12,7 +14,7 @@ Used by [`subagents`](../SKILL.md) and entry-skill recipes that optionally spawn
 3. AVAILABLE ← { agent.name | agent in DISCOVER, agent.dispatch.kind ≠ skip, agent.name ∈ HOST }
 4. CONTEXT_FILTER ← exclude agents whose dispatch.contexts does not include active profile
                      (default [review] when omitted. manual/web can name agents explicitly)
-5. If SELECTED empty after entry-skill scoring → fallback: host built-in subagent_type + slice in Task prompt
+5. If SELECTED empty after scoring → fallback: host built-in subagent_type + slice in Task prompt
 ```
 
 ## Dispatch metadata (agent frontmatter)
@@ -46,38 +48,27 @@ dispatch:
 
 ## Path and keyword matching
 
-Shared helpers for entry-skill recipes that score agents:
-
 - **Path prefix:** task path starts with entry in `dispatch.paths` (normalize trailing `/`).
-- **Glob:** match task path against `dispatch.path_globs` (standard glob semantics).
+- **Glob:** match task path against `dispatch.path_globs`.
 - **Keyword:** substring in diff or plan body (case-insensitive). Avoid ultra-common tokens.
 
 ### Plan path extraction
 
-Coordinator reads plan/PRD file and collects:
-
-- Backtick paths (`<app-or-package>/...`, `docs/...`)
-- Markdown links to repo files
-- Explicit "see `path`" citations
-
-Pass as `task_paths[]` to entry-skill scoring.
+Coordinator reads plan/PRD file and collects backtick paths, markdown links to repo files, and explicit “see `path`” citations. Pass as `task_paths[]` to scoring.
 
 ## Model tier from agent metadata
 
 Agent `dispatch.model.default` and `premium_when` are **tier metadata**, not spawn instructions.
 
-1. Resolve the member model with [subagents routing precedence](model-routing.md#routing-precedence-canonical-order).
-2. Make sure that the model passes the [pre-spawn gate](model-routing.md#pre-spawn-model-routing-gate).
-3. Under an Auto parent without a user override, metadata stays informational: plan `model=inherit-auto` and omit the tool `model` argument.
+1. Resolve the member model with [routing precedence](model-routing.md#routing-precedence-canonical-order).
+2. Pass the [pre-spawn gate](model-routing.md#pre-spawn-model-routing-gate).
+3. Under an Auto parent without a user override: plan `model=inherit-auto` and omit the tool `model` argument.
 4. Tier→slug mapping is only for the named-parent branch. When it applies, use [model-routing.md](model-routing.md) for cost/fit and anti-fast rules.
-5. Usage-limit start/stop failures use [subagents usage-limit retry](model-routing.md#usage-limit-retry).
 
 ## Availability log (required in dispatch plan)
 
-Before spawning, log:
-
 ```markdown
-Profile: [review / repo / plan / manual / web — from entry-skill recipe]
+Profile: [review / repo / plan / manual / web]
 Discovered: [all agent names from .claude/agents/]
 Host supports: [subagent_type enum]
 Host model enum: [Task model enum — never invent slugs]
@@ -86,18 +77,16 @@ User model overrides: [none | member=slug, …]
 Auto reachable: [inherit-auto | model=auto | no]
 Billing pool: [first-party | API | mixed]
 Available: [intersection after context filter]
-Depth: [depth or n/a] · Budget: [N or n/a]
-
 Required: [agent — reason]
 Optional selected: [agent — score, matched paths/keywords]
-Skipped: [agent — not eligible | wrong context | below threshold | not in HOST]
+Skipped: [agent — reason]
 Fallbacks: [built-in type chosen when council agent unavailable]
-Explicit model slugs used: [none | slug + slice-fit reason + cost note]
-Fast variants used: [none | slug + explicit latency reason]
+Explicit model slugs used: [none | slug + reason]
+Fast variants used: [none | slug + latency reason]
 ```
 
 ## Adding a new council agent
 
-1. Add `.claude/agents/<name>.md` with body + `dispatch:` frontmatter (include `contexts` when useful outside review).
-2. Make sure that the host Task tool lists `<name>` as a valid `subagent_type`. Or use a built-in type and put the lens in the Task prompt.
+1. Add `.claude/agents/<name>.md` with body + `dispatch:` frontmatter.
+2. Make sure the host Task tool lists `<name>` as a valid `subagent_type`, or use a built-in type and put the lens in the Task prompt.
 3. No skill table updates required.

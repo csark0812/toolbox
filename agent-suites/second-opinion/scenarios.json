@@ -1,6 +1,6 @@
 {
 	"name": "second-opinion",
-	"description": "Portable second-opinion conformance: invent lenses, light/med/deep depth, claim anchoring, paste artifact entry",
+	"description": "Portable second-opinion conformance: invent lenses, single-pass default, claim anchoring, paste artifact entry; council layered for multi-perspective depth",
 	"defaults": {
 		"host": "replay",
 		"profile": "cursor",
@@ -8,42 +8,37 @@
 	},
 	"scenarios": [
 		{
-			"name": "debate: anchor kills tag drift",
-			"prompt": "Second opinion on our auth rollout plan at docs/plans/auth.plan.md.\n\nRead `.claude/skills/second-opinion/SKILL.md` first. Run deep debate; anchor attacker kills to plan sections; tag unanchored claims as drift.",
+			"name": "council: anchor kills tag drift",
+			"prompt": "Second opinion on our auth rollout plan at docs/plans/auth.plan.md.\n\nRead `.claude/skills/second-opinion/SKILL.md` and `.claude/skills/council/SKILL.md` first. Attach both skills. Council invents perspectives; anchor attacker kills to plan sections; tag unanchored claims as drift.",
 			"replayTrace": "agent-suites/second-opinion/fixtures/replays/claim-anchoring-drift.json",
 			"rubric": {
-				"must": ["drift", "anchor", "adversarial-deep"],
-				"mustInvokeSkill": ["second-opinion"],
+				"must": ["drift", "anchor", "Mode:", "council"],
+				"mustInvokeSkill": ["second-opinion", "council"],
 				"mustNot": ["manufacture criticism"],
 				"judge": [
-					"The agent invoked second-opinion, anchored kills to plan sections, and tagged unanchored critique as drift not convergent"
+					"The agent invoked council and second-opinion, anchored kills to plan sections, and tagged unanchored critique as drift not convergent"
 				]
 			}
 		},
 		{
-			"name": "light: completeness from wording",
-			"prompt": "Quick second opinion — did I miss anything in this fleeting draft?\n\n## Draft: session cookie flags\n\nUse httpOnly + Secure cookies for the new auth service. Ship Friday.\n\nRead `.claude/skills/second-opinion/SKILL.md` and `second-opinion/references/plan-review.md` first. Infer light depth with a completeness-ish lens (coordinator-only, no subagents).",
+			"name": "single-pass: completeness from wording",
+			"prompt": "Quick second opinion — did I miss anything in this fleeting draft?\n\n## Draft: session cookie flags\n\nUse httpOnly + Secure cookies for the new auth service. Ship Friday.\n\nRead `.claude/skills/second-opinion/SKILL.md` and `second-opinion/references/plan-review.md` first. Infer a completeness-ish lens; coordinator-only, no council, no Task spawn.",
 			"replayTrace": "agent-suites/second-opinion/fixtures/replays/light-cast-completeness.json",
 			"rubric": {
-				"must": ["adversarial-light", "completeness", "Depth:", "light"],
+				"must": ["completeness", "Mode:", "single-pass"],
 				"mustInvokeSkill": ["second-opinion"],
-				"mustNot": [
-					"adversarial-deep",
-					"adversarial-med",
-					"Wave 2 defender",
-					"stance=premises"
-				],
+				"mustNot": ["Mode: council", "Wave 2 defender", "stance=premises"],
 				"judge": [
-					"The agent invoked second-opinion with light depth and a completeness-ish lens (coordinator-only, no defender, no premises attacker)"
+					"The agent invoked second-opinion alone with a completeness-ish lens (coordinator-only, no council spawn)"
 				]
 			}
 		},
 		{
 			"name": "entry: chat paste without path",
-			"prompt": "Second opinion on this paste (no file path):\n\n## Ephemeral plan: rate-limit login\n\nAdd a 5/min IP bucket in middleware before password check. No Redis — in-process map is fine for v1.\n\nRead `.claude/skills/second-opinion/SKILL.md` first. Accept the paste as the artifact; run light with a premises lens.",
+			"prompt": "Second opinion on this paste (no file path):\n\n## Ephemeral plan: rate-limit login\n\nAdd a 5/min IP bucket in middleware before password check. No Redis — in-process map is fine for v1.\n\nRead `.claude/skills/second-opinion/SKILL.md` first. Accept the paste as the artifact; run single-pass with a premises lens.",
 			"replayTrace": "agent-suites/second-opinion/fixtures/replays/paste-artifact-entry.json",
 			"rubric": {
-				"must": ["Artifact:", "rate-limit", "adversarial-light", "premises"],
+				"must": ["Artifact:", "rate-limit", "single-pass", "premises"],
 				"mustInvokeSkill": ["second-opinion"],
 				"mustNot": [
 					"point to grill",
@@ -57,20 +52,20 @@
 			}
 		},
 		{
-			"name": "deep: focus group invents design lenses",
-			"prompt": "Focus group second opinion on this visual alignment plan at docs/plans/align-app-marketing.plan.md.\n\nRead `.claude/skills/second-opinion/SKILL.md` first. Invent design lenses from the ask (not plan readiness); run deep.",
+			"name": "council: focus group invents design lenses",
+			"prompt": "Focus group second opinion on this visual alignment plan at docs/plans/align-app-marketing.plan.md.\n\nRead `.claude/skills/second-opinion/SKILL.md` and `.claude/skills/council/SKILL.md` first. Attach both. Invent design perspectives from the ask (not plan readiness).",
 			"replayTrace": "agent-suites/second-opinion/fixtures/replays/focus-group-design-lenses.json",
 			"rubric": {
-				"must": ["adversarial-deep", "Depth:", "deep"],
-				"mustInvokeSkill": ["second-opinion"],
+				"must": ["Mode:", "council"],
+				"mustInvokeSkill": ["second-opinion", "council"],
 				"mustNot": [
 					"completeness",
-					"adversarial-light",
+					"Mode: single-pass",
 					"stance=premises",
 					"lens=premises"
 				],
 				"judge": [
-					"The agent invoked second-opinion at deep depth with invented design lenses (e.g. brand-fit, craft, job-fit) and did not spawn completeness or premises as default plan cast"
+					"The agent layered council with second-opinion and invented design perspectives (e.g. brand-fit, craft, job-fit) without defaulting to completeness or premises"
 				]
 			}
 		}

@@ -22,24 +22,24 @@
     },
     {
       "name": "ablation review: council escalation arm",
-      "prompt": "Review staged changes in agent-suites/fixtures/sample-app/src/auth.ts with security and API council escalation. Review only.\n\nRead `.claude/skills/code-review/SKILL.md` and escalate per escalation.md.",
+      "prompt": "Review staged changes in agent-suites/fixtures/sample-app/src/auth.ts with security and API council escalation. Review only.\n\nRead `.claude/skills/code-review/SKILL.md` and `.claude/skills/council/SKILL.md` first. Attach council for parallel specialist perspectives.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/auth-pr.patch",
       "replayTrace": "agent-suites/organization-ablations/fixtures/replays/review-council-arm.json",
       "rubric": {
-        "must": ["council", "subagents"],
-        "mustInvokeSkill": ["code-review"],
+        "must": ["council"],
+        "mustInvokeSkill": ["code-review", "council"],
         "judge": [
           "The agent escalated to council or multi specialists as requested after primary framing"
         ]
       }
     },
     {
-      "name": "ablation multi: fit-check skip arm",
-      "prompt": "Map how auth works in agent-suites/fixtures/sample-app. Use subagents if parallel helps.\n\nRead `.claude/skills/subagents/SKILL.md` first and apply Fit check.",
+      "name": "ablation council: fit-check skip arm",
+      "prompt": "Map how auth works in agent-suites/fixtures/sample-app. Use council if parallel helps.\n\nRead `.claude/skills/council/SKILL.md` first. Name a single-pass rival before spawning N≥2; skip parallel when independence fails.",
       "replayTrace": "agent-suites/organization-ablations/fixtures/replays/multi-fit-skip-arm.json",
       "rubric": {
         "must": ["single-pass", "skip"],
-        "mustInvokeSkill": ["subagents"],
+        "mustInvokeSkill": ["council"],
         "mustNot": ["Task(", "spawn 2"],
         "judge": [
           "The agent named a single-pass rival and skipped parallel spawn for this sequential repo map"

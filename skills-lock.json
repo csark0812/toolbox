@@ -7,6 +7,12 @@
       "skillPath": "code-review/SKILL.md",
       "computedHash": "7ed59859e27013cfecc93728a3d0c298c922fea8e17da9275e6741e30a95af70"
     },
+    "council": {
+      "source": "csark0812/toolbox",
+      "sourceType": "github",
+      "skillPath": "council/SKILL.md",
+      "computedHash": "a41402ba20da2e1c3b5de7753600f801f2b3c066cbaa7f75ab67da38ff95beff"
+    },
     "domain-model": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
@@ -25,12 +31,6 @@
       "skillPath": "handoff/SKILL.md",
       "computedHash": "5d30b2d8074852ca9ea323dab45413102e5d406d51b8d266caaf693a4d5fc08a"
     },
-    "iterate": {
-      "source": "csark0812/toolbox",
-      "sourceType": "github",
-      "skillPath": "iterate/SKILL.md",
-      "computedHash": "0000000000000000000000000000000000000000000000000000000000000000"
-    },
     "probe": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
@@ -47,13 +47,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "second-opinion/SKILL.md",
-      "computedHash": "a9a996c8895f44120aaa310265f63b10e06cd58b4c102e05e82e1f0c8059dfe4"
-    },
-    "subagents": {
-      "source": "csark0812/toolbox",
-      "sourceType": "github",
-      "skillPath": "subagents/SKILL.md",
-      "computedHash": "fcfe47d4f3afa3117ae0ceeb0d18a021f2b3e7a63627206739788a4b6d1b0359"
+      "computedHash": "8078effe6f59ffbe44ceed76cf2e46988170c8c3e871d767ba5f8ddd80570413"
     },
     "tdd": {
       "source": "csark0812/toolbox",

@@ -1,15 +1,15 @@
 ---
 name: tdd
-description: Test-first build at agreed public seams — one red-green slice at a time. Process skill. Composes on the same Slice as iterate via layered prompts. Not repro-first hard-bug work without seam, throwaway spike, or find-only hunch settlement.
+description: Test-first build at agreed public seams — one red-green slice at a time. Process skill. Composes on the same Slice as code-review via layered prompts. Not repro-first hard-bug work without seam, throwaway spike, or find-only hunch settlement.
 ---
 
 # Test-Driven Development
 
 **Source of truth for** test-first implementation at public seams.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
-**Process skill** — red → green microcycle. Tests at public interfaces only. Shared vocabulary → [context-pack.md](../subagents/references/context-pack.md).
+**Process skill** — red → green microcycle. Tests at public interfaces only. Shared vocabulary → [context-pack.md](../council/references/context-pack.md).
 
 References: [anti-patterns.md](references/anti-patterns.md) · [output.md](references/output.md) · [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md).
 
@@ -32,8 +32,6 @@ Read [research-basis.md](references/research-basis.md) only when you calibrate s
 1. Make sure that **Seam** and **Slice** are agreed.
 2. Failing test → red → minimal green → stop.
 3. Report per [output.md](references/output.md). User-facing report uses pragmatic STE.
-
-When **iterate** is also active on the same **Slice**, run tdd microcycles between blind passes. No skill ordering doc is required. The user prompt selects both.
 
 ## Exit artifact
 

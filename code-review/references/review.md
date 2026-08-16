@@ -2,7 +2,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
-Review procedure for primary agents and subagents. Acquire materials first ([sources.md](sources.md)). File per [merge-blockers.md](merge-blockers.md). Shape output per [output.md](output.md).
+Review procedure for primary agents and council members. Acquire materials first ([sources.md](sources.md)). File per [merge-blockers.md](merge-blockers.md). Shape output per [output.md](output.md).
 
 Works for **any surface** — git diff, whole module, path list, paste, multi-repo path, or user-described scope. Works for **any lens** the user names (table rows are examples, not limits).
 

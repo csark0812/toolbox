@@ -1,6 +1,8 @@
 # Model Routing
 
-Cost-aware model selection for [`subagents`](../SKILL.md). Optimize for **cheapest good enough**, not most capable by default. Prefer cheaper / Auto paths for almost all parallel members. Escalate only when slice shape or evidence requires it — and then to the **most appropriate** stronger model, not the most expensive one.
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
+
+Cost-aware model selection for [`council`](../SKILL.md). Optimize for **cheapest good enough**, not most capable by default. Prefer cheaper / Auto paths for almost all parallel members. Escalate only when slice shape or evidence requires it — and then to the **most appropriate** stronger model, not the most expensive one.
 
 **Heavy bar (Premium / strongest slugs):** Reserve for genuinely heavy work. Examples: multi-thousand-line or Broad+ reviews, architecture across many subsystems with large blast radius, high-stakes adjudication after cheaper paths fail, or an explicit deepest-analysis request. Ordinary reviews, single-subsystem judgment, moderate research conflict, and typical explore/gather stay Fast or Standard.
 
@@ -14,7 +16,7 @@ Inspect the current host Task `model` enum before every dispatch. Never invent s
 | **Independent** | Artificial Analysis and similarly harnessed public evals    | Relative escalation signals among families      |
 | **Vendor-only** | Self-reported benches without independent replication       | Soft signals only. Never sole routing reason.   |
 
-Primary sources: [Cursor models & pricing](https://cursor.com/docs/models-and-pricing), [Cursor subagents](https://cursor.com/docs/subagents.md), [Anthropic effort](https://platform.claude.com/docs/en/build-with-claude/effort), [OpenAI reasoning](https://developers.openai.com/api/docs/guides/reasoning), [Composer 2.5](https://cursor.com/blog/composer-2-5), [GPT-5.6](https://openai.com/index/gpt-5-6/), [GPT-5.3 Codex](https://openai.com/index/introducing-gpt-5-3-codex/), [Sonnet 5](https://www.anthropic.com/news/claude-sonnet-5), [Grok 4.5](https://docs.x.ai/developers/grok-4-5), [Kimi K2.7 Code](https://www.kimi.com/resources/kimi-k2-7-code). Independent: [AA Composer 2.5](https://artificialanalysis.ai/articles/cursor-composer-2-5-coding-agent-index), [AA GPT-5.6](https://artificialanalysis.ai/articles/gpt-5-6-has-landed).
+Primary sources: [Cursor models & pricing](https://cursor.com/docs/models-and-pricing), [Cursor council](https://cursor.com/docs/council.md), [Anthropic effort](https://platform.claude.com/docs/en/build-with-claude/effort), [OpenAI reasoning](https://developers.openai.com/api/docs/guides/reasoning), [Composer 2.5](https://cursor.com/blog/composer-2-5), [GPT-5.6](https://openai.com/index/gpt-5-6/), [GPT-5.3 Codex](https://openai.com/index/introducing-gpt-5-3-codex/), [Sonnet 5](https://www.anthropic.com/news/claude-sonnet-5), [Grok 4.5](https://docs.x.ai/developers/grok-4-5), [Kimi K2.7 Code](https://www.kimi.com/resources/kimi-k2-7-code). Independent: [AA Composer 2.5](https://artificialanalysis.ai/articles/cursor-composer-2-5-coding-agent-index), [AA GPT-5.6](https://artificialanalysis.ai/articles/gpt-5-6-has-landed).
 
 ## Cursor cost model
 

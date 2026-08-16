@@ -1,0 +1,12 @@
+{
+	"messages": [
+		{
+			"role": "assistant",
+			"content": "Using **council** on docs/plans/auth.plan.md.\n\n**Perspectives invented:** `premises`, `completeness` (distinct mandates).\n\n**Dispatch plan:** Job=second-opinion-shaped · Goal=adversarial · Single-pass rival: readiness axes need independent kill mandates.\n\nSelected members:\n- generalPurpose · model=inherit-auto · perspective=premises: kill weak deploy premises\n- generalPurpose · model=inherit-auto · perspective=completeness: kill scope/migration gaps\n\nSpawning real **Task** members next; synthesis waits on completed runs."
+		}
+	],
+	"toolCalls": [],
+	"shellCommands": [],
+	"skillsInvoked": ["council"],
+	"artifacts": {}
+}

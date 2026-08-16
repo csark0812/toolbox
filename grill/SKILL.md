@@ -1,6 +1,6 @@
 ---
 name: grill
-description: Shape fuzzy intent and pressure-test a design before code — intent phase then design tree until major branches resolve. Use when the idea is half-formed, assumptions need pressure-testing, or the user says crystallize or grill this. Process skill. Dialogue-first. Composes with tdd, iterate, and second-opinion on layered prompts. Not written-artifact-only critique, find-only hunch settlement, or blind slice pass loops.
+description: Shape fuzzy intent and pressure-test a design before code — intent phase then design tree until major branches resolve. Use when the idea is half-formed, assumptions need pressure-testing, or the user says crystallize or grill this. Process skill. Dialogue-first. Composes with tdd and second-opinion on layered prompts. Not written-artifact-only critique, find-only hunch settlement, or multi-agent orchestration.
 ---
 
 # Grill
@@ -9,7 +9,7 @@ description: Shape fuzzy intent and pressure-test a design before code — inten
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
-**Process skill** — shared vocabulary → [context-pack.md](../subagents/references/context-pack.md). Mid-turn asks → [ask.md](references/ask.md).
+**Process skill** — shared vocabulary → [context-pack.md](../council/references/context-pack.md). Mid-turn asks → [ask.md](references/ask.md).
 
 References: [ask.md](references/ask.md) · [intent-phase.md](references/intent-phase.md) · [protocol.md](references/protocol.md) · [output.md](references/output.md) · [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md).
 
@@ -31,7 +31,7 @@ Read [research-basis.md](references/research-basis.md) only when you calibrate d
 
 If intent is fuzzy or incomplete → [intent-phase.md](references/intent-phase.md). If the design is concrete and needs a pressure-test → [protocol.md](references/protocol.md) → [output.md](references/output.md). Mid-turn user asks always use [ask.md](references/ask.md).
 
-Optional repo facts for a branch → **subagents** parallel-explore. Grill stays dialogue-first.
+Optional repo facts for a branch → coordinator tools, or attach **council** for parallel explore. Grill stays dialogue-first.
 
 ## Exit artifact
 

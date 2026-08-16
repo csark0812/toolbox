@@ -2,7 +2,7 @@
 
 **Source of truth for** skill tier assignment across the agent harness ecosystem.
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-06 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
 Assign each skill to exactly one **group**. Update when adding skills.
 
@@ -10,19 +10,18 @@ Assign each skill to exactly one **group**. Update when adding skills.
 
 Every toolbox skill is either an **orchestrator** (agent-to-agent plumbing) or a **process** skill (what the work means in natural language). One meta skill covers authoring.
 
-**Composition:** Skills compose via **layered prompts** — attach multiple skills or name several modes on the same `Slice` / `Artifact`. Shared vocabulary → [context-pack.md](../subagents/references/context-pack.md). No chains table; each skill defines entry gates and exit artifacts only.
+**Composition:** Skills compose via **layered prompts** — attach multiple skills or name several modes on the same `Slice` / `Artifact`. Shared vocabulary → [context-pack.md](../council/references/context-pack.md). No chains table; each skill defines entry gates and exit artifacts only.
 
 ### Orchestrators — agent-to-agent (A2A)
 
-Define **how agents and sessions connect**: spawn, member envelopes, pass loops, cross-session channels. Process skills **call** orchestrators when their own recipe mandates spawn; they do not re-embed dispatch templates.
+Define **how agents and sessions connect**: multi-perspective spawn, member envelopes, cross-session channels. Process skills stay atoms; they do not embed dispatch templates. Multi-agent depth requires attaching **council**.
 
-| Slug          | A2A role                                                                                          |
-| ------------- | ------------------------------------------------------------------------------------------------- |
-| **subagents** | Task spawn — type, splits, ≤100k context, [context-pack](../subagents/references/context-pack.md) |
-| **iterate**   | In-session pass loop — blind members, fix loop, exit gate until a bounded slice coheres           |
-| **handoff**   | Cross-session channel — `channel` + `Pack` + `Goal`; pointers not bodies                          |
+| Slug        | A2A role                                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------------------- |
+| **council** | In-session multi-agent depth — invent perspectives, spawn Task members, synthesize ([context-pack](../council/references/context-pack.md)) |
+| **handoff** | Cross-session channel — `channel` + `Pack` + `Goal`; pointers not bodies                                |
 
-Dispatch recipes live under orchestrator trees (`*-dispatch.md`, `context-pack.md`, `adversarial.md`) — not under process skills.
+Dispatch and pack refs live under orchestrator trees (`context-pack.md`, `adversarial.md`, handoff `*-dispatch.md`) — not under process skills.
 
 ### Process skills — atoms
 
@@ -31,7 +30,7 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | Slug               | Atom (natural language)                                                                                                                                                                        |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **code-review**    | Review code on any surface through any lens; file merge-blockers with evidence. When a consumer-local review/standards skill is also loaded, stack both opinions (neither replaces the other). |
-| **second-opinion** | Adversarial perspectives on a written artifact — invent lenses; light/med/deep token ceilings                                                                                                  |
+| **second-opinion** | Adversarial critique of a written artifact — invent lenses; single-pass by default; layer **council** for multi-perspective depth                                                              |
 | **grill**          | Shape fuzzy intent (intent phase) and walk the design tree in dialogue until major branches align                                                                                              |
 | **probe**          | Hunch verdict (Evidence) or hard-bug fix (Fix) under Authority B — tight **Repro** before patch                                                                                                |
 | **tdd**            | Test-first build at agreed public seams — red-green on a **Slice**                                                                                                                             |
@@ -89,9 +88,9 @@ Consumer cleanup PRs (delete vendored dirs in other repos) are separate — this
 
 ### Migration notes (skill taxonomy)
 
-**Atomic composition (2026-08):** Retired cross-skill routing tables and chain docs. Compose via [context-pack.md](../subagents/references/context-pack.md) primitives + layered prompts.
+**Atomic composition (2026-08):** Retired cross-skill routing tables and chain docs. Compose via [context-pack.md](../council/references/context-pack.md) primitives + layered prompts.
 
-**Process vs orchestrator (2026-08):** Dispatch refs live under **subagents** (`second-opinion-dispatch`, `explore-escalation-dispatch`, `review-council-dispatch`) or orchestrators (`iterate`, `handoff`). Hunch settlement uses coordinator **explore** + ambient [verdict.md](../.skeleton/references/verdict.md) (retired **investigate** slug).
+**Council + ownership (2026-08):** Retired **subagents** and **iterate**. **Council** owns in-session multi-agent depth (invent perspectives, spawn, synthesize). **Second-opinion** is single-pass by default; multi-perspective depth only when the user also attaches **council**. Hunch settlement uses coordinator **explore** + ambient [verdict.md](../.skeleton/references/verdict.md) (retired **investigate** slug). Cross-session transfer stays **handoff**.
 
 **Crystallize (2026-08):** Retired — use **grill** intent phase ([intent-phase.md](../grill/references/intent-phase.md)) for fuzzy intent; design-tree pressure-test stays in grill protocol.
 

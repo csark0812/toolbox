@@ -30,7 +30,7 @@ After 2–3 primary reads with no confirmatory or disconfirmatory signal, **leav
 
 **Confidence:** Moderate — heuristic threshold, not a formal stopping rule.
 
-**Does not transfer:** Abandoning investigation when the user asked for broad fishing (**parallel-broad** via **subagents**).
+**Does not transfer:** Abandoning investigation when the user asked for broad fishing (**parallel-broad** via **council**).
 
 ## Lateral reading bounds
 

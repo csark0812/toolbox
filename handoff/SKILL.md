@@ -9,9 +9,9 @@ description: Agent-to-agent cross-session transfer — pointers not bodies. Chan
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
-**Orchestrator** — cross-session A2A (`channel:prompt` vs `channel:artifact`). Shared vocabulary → [context-pack.md](../subagents/references/context-pack.md).
+**Orchestrator** — cross-session A2A (`channel:prompt` vs `channel:artifact`). Shared vocabulary → [context-pack.md](../council/references/context-pack.md).
 
-References: [pack.md](references/pack.md) · [output.md](references/output.md) · [handoff-subagent-dispatch.md](references/handoff-subagent-dispatch.md) · [`subagents`](../subagents/SKILL.md).
+References: [pack.md](references/pack.md) · [output.md](references/output.md) · [handoff-subagent-dispatch.md](references/handoff-subagent-dispatch.md)
 
 Read [research-basis.md](references/research-basis.md) only when you calibrate claims.
 

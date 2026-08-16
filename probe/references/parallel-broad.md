@@ -1,6 +1,6 @@
 # Parallel Broad Investigate
 
-Wide fish when the user explicitly asks for a broad pass. Uses [`subagents`](../../subagents/SKILL.md) kernel — [non-negotiables](../../subagents/SKILL.md#non-negotiables), [task-prompt.md](../../subagents/references/task-prompt.md), [member-schema.md](../../subagents/references/member-schema.md).
+Wide fish when the user explicitly asks for a broad pass. Uses [`council`](../../council/SKILL.md) kernel — [non-negotiables](../../council/SKILL.md#non-negotiables), [task-prompt.md](../../council/references/task-prompt.md), [member-schema.md](../../council/references/member-schema.md).
 
 Profile: `repo`.
 
@@ -14,7 +14,7 @@ Default **probe** Evidence stays single-target. Use this recipe only on explicit
 ## When to skip
 
 - Specific file, hook, or endpoint named — standard **probe** Evidence protocol
-- Plan evidence pass — [second-opinion-evidence-dispatch.md](../../subagents/references/second-opinion-evidence-dispatch.md)
+- Plan evidence pass — **council** (large-artifact gather)
 - Code review — **code-review**
 
 ## Members (2–3)
@@ -27,7 +27,7 @@ Split by subsystem:
 | Area B (for example backend) | `explore` or `generalPurpose` | Fast |
 | Shared / integration         | `explore`                     | Fast |
 
-Optional: score council agents on known paths. Prefer `correctness` for mutation/cache paths if `contexts` includes `repo`. Path matching → [agent-discovery.md](../../subagents/references/agent-discovery.md).
+Optional: score council agents on known paths. Prefer `correctness` for mutation/cache paths if `contexts` includes `repo`. Path matching → [agent-discovery.md](../../council/references/agent-discovery.md).
 
 ## Dispatch plan template
 
@@ -52,7 +52,7 @@ Synthesis plan: merge evidence. Verdict per investigate schema (plain-language s
 1. Merge findings with file:line citations.
 2. Write **probe** verdict — plain-language settlement with evidence from all members.
 3. If member conclusions conflict, state both. Escalate or narrow the target.
-4. Output follows **probe** skill final shape. Use [subagents output-format.md](../../subagents/references/output-format.md) sections only as supporting detail.
+4. Output follows **probe** skill final shape. Use [council output-format.md](../../council/references/output-format.md) sections only as supporting detail.
 
 ## Handoff
 

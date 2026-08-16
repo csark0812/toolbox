@@ -1,10 +1,9 @@
 /** Canonical skill slugs shipped by this toolbox hub. */
 export const EXPECTED_SKILLS = [
-  'subagents',
+  'council',
   'code-review',
   'grill',
   'second-opinion',
-  'iterate',
   'probe',
   'tdd',
   'prototype',

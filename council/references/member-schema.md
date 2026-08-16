@@ -1,8 +1,10 @@
 # Member report schema
 
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
+
 Default shape for member Task prompts when the coordinator will **synthesize multiple members** into one report.
 
-**When `N = 1`:** use this schema only if the entry skill does not specify output (for example, generic explore gather). When an entry skill defines output (iterate blind pass, second-opinion debate member fields, probe verdict support), **entry skill output wins**.
+**When `N = 1`:** use this schema only if the process skill does not specify output. When a process skill defines member output (second-opinion adversarial fields, probe verdict support), **that skill wins**.
 
 ```markdown
 ## Scope

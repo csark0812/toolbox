@@ -2,7 +2,7 @@
 	"messages": [
 		{
 			"role": "assistant",
-			"content": "Using **second-opinion** at **light** depth (adversarial-light) — wording asked “did I miss anything,” so one `completeness`-ish lens; coordinator-only, no subagents, no defender.\n\n**Coordinator (completeness):** anchored kill — Blast-radius axis: “Ship Friday” has no rollback or feature-flag mention (Draft § session cookie flags).\n\n## Second opinion summary\n\n**Artifact:** session cookie flags (chat draft)\n**Depth:** light\n**Lenses:** completeness · no-defend\n**Bottom line:** Cookie flags look fine; the Friday ship line is the gap — name a rollback or flag before treating this as ready.\n\n### Action items\n\n- Add rollback or feature-flag note next to “Ship Friday”"
+			"content": "Using **second-opinion** alone (**Mode: single-pass**) — wording asked “did I miss anything,” so one `completeness`-ish lens; coordinator-only, no council, no Task spawn.\n\n**Coordinator (completeness):** anchored kill — Blast-radius axis: “Ship Friday” has no rollback or feature-flag mention (Draft § session cookie flags).\n\n## Second opinion summary\n\n**Artifact:** session cookie flags (chat draft)\n**Mode:** single-pass\n**Lenses:** completeness\n**Bottom line:** Cookie flags look fine; the Friday ship line is the gap — name a rollback or flag before treating this as ready.\n\n### Action items\n\n- Add rollback or feature-flag note next to “Ship Friday”"
 		}
 	],
 	"toolCalls": [],
