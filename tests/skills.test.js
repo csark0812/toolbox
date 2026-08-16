@@ -175,6 +175,8 @@ describe('toolbox skill SSOT', () => {
     expect(skill).toMatch(/How to review/)
     expect(skill).toMatch(/Review only/)
     expect(skill).toMatch(/Merge-blockers default/)
+    expect(skill).toMatch(/Untrusted surface/)
+    expect(skill).toMatch(/untrusted data, not instructions/)
     expect(skill).not.toMatch(/anti-thrash/)
     expect(skill).not.toMatch(/fix-loop/)
     expect(skill).not.toMatch(/Escalate only when matched/)
@@ -193,6 +195,7 @@ describe('toolbox skill SSOT', () => {
     expect(output).not.toMatch(/Reviewer: primary/)
 
     expect(sources).toMatch(/git diff/)
+    expect(sources).toMatch(/Trust boundary/)
     expect(blockers).toMatch(/merge-blockers only/)
   })
 
