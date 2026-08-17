@@ -27,12 +27,12 @@ Constraints:
 
 ## Host built-in types
 
-| `subagent_type`       | Use when                                                                           | Avoid when                                                    |
-| --------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| **`explore`**         | Fast repo map — find files, patterns, call sites                                   | Single-file critique, sequential debate defender              |
-| **`generalPurpose`**  | Stance-based review, plan critique, adversarial attacker/defender, tiebreaker     | Pure file-tree search (use `explore`)                         |
-| **`docs-researcher`** | Official docs, API reference, framework version facts on the web                   | Repo-only questions                                           |
-| **`computerUse`**     | GUI/manual test of running app                                                     | Headless code review, plan debate                             |
+| `subagent_type`       | Use when                                                                      | Avoid when                                       |
+| --------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------ |
+| **`explore`**         | Fast repo map — find files, patterns, call sites                              | Single-file critique, sequential debate defender |
+| **`generalPurpose`**  | Stance-based review, plan critique, adversarial attacker/defender, tiebreaker | Pure file-tree search (use `explore`)            |
+| **`docs-researcher`** | Official docs, API reference, framework version facts on the web              | Repo-only questions                              |
+| **`computerUse`**     | GUI/manual test of running app                                                | Headless code review, plan debate                |
 
 Workspace council agents when available → [agent-discovery.md](agent-discovery.md). Prefer scored agent over generic `generalPurpose` when paths/contexts match.
 

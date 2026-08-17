@@ -2,7 +2,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
-**Source of truth for** shared composability vocabulary and what Task members receive — minimal, pointer-heavy, asymmetric to the parent chat. Spawn mechanics → [`council` SKILL](../SKILL.md). Member prompt shell → [task-prompt.md](task-prompt.md).
+<!-- source-of-truth: shared composability vocabulary and what Task members receive — minimal, pointer-heavy, asymmetric to the parent chat. Spawn mechanics → [`council` SKILL](../SKILL.md). Member prompt shell → [task-prompt.md](task-prompt.md). -->
 
 Process skills define **entry gates, non-negotiables, and exit artifacts** only. **No routing tables** — layered prompts compose by overlapping scope on this vocabulary.
 
@@ -34,16 +34,16 @@ When the user attaches multiple skills or names several modes on the same **Slic
 
 Name reality in the header; tables are starting points, not limits.
 
-| Field      | Used by                     | Examples                                                            |
-| ---------- | --------------------------- | ------------------------------------------------------------------- |
-| `Pack:`    | handoff                     | `pointers`, `fix-loop`, `slice`, `full`, user-named                 |
-| `Goal:`    | handoff                     | `implement`, `review`, `probe`, `explore`, user-named               |
+| Field      | Used by                       | Examples                                                            |
+| ---------- | ----------------------------- | ------------------------------------------------------------------- |
+| `Pack:`    | handoff                       | `pointers`, `fix-loop`, `slice`, `full`, user-named                 |
+| `Goal:`    | handoff                       | `implement`, `review`, `probe`, `explore`, user-named               |
 | `Surface:` | code-review (alias `source:`) | `branch`, `paths`, `snapshot`, `pr` — see code-review output header |
-| `Lens:`    | code-review, council        | `security`, `cleanliness`, `merge-readiness`, user phrase           |
-| `Slice:`   | tdd, code-review            | short id — path glob, plan § id, or intent slug                     |
-| `Seam:`    | tdd                         | public interface under test                                         |
-| `Closure:` | process exits               | `ready` \| `open`                                                   |
-| `channel:` | handoff                     | `prompt`, `artifact`                                                |
+| `Lens:`    | code-review, council          | `security`, `cleanliness`, `merge-readiness`, user phrase           |
+| `Slice:`   | tdd, code-review              | short id — path glob, plan § id, or intent slug                     |
+| `Seam:`    | tdd                           | public interface under test                                         |
+| `Closure:` | process exits                 | `ready` \| `open`                                                   |
+| `channel:` | handoff                       | `prompt`, `artifact`                                                |
 
 `source:` in code-review status headers maps to the same adapter slug as `Surface:` — do not rename output headers without a consumer migration.
 
@@ -63,14 +63,14 @@ Paste into member Task prompts after the [task-prompt.md](task-prompt.md) shell:
 
 ## Domain fill-in (procedure in process skill or council)
 
-| Job                    | Pack shape                      | Fill-in                                                                                                                                 |
-| ---------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| Handoff artifact       | `channel` + `Pack` + `Goal`     | [handoff/pack.md](../../handoff/references/pack.md) · [output.md](../../handoff/references/output.md)                                   |
-| TDD microcycle         | `Slice` + `Seam`                | [tdd/SKILL.md](../../tdd/SKILL.md)                                                                                                      |
-| Parallel review        | `Surface` + `Lens` + path slice | **council** + [code-review](../../code-review/SKILL.md)                                                                                 |
-| Adversarial kill       | artifact + criteria             | [Adversarial pack](#adversarial-pack) · [adversarial.md](adversarial.md)                                                                |
-| Second-opinion (depth) | artifact + perspectives         | **council** invents perspectives; members use [second-opinion](../../second-opinion/SKILL.md) craft                                     |
-| Probe parallel gather  | hunch + slice                   | **council** + [probe](../../probe/SKILL.md) (local parallel refs remain coordinator recipes when council is not attached)               |
+| Job                    | Pack shape                      | Fill-in                                                                                                                   |
+| ---------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Handoff artifact       | `channel` + `Pack` + `Goal`     | [handoff/pack.md](../../handoff/references/pack.md) · [output.md](../../handoff/references/output.md)                     |
+| TDD microcycle         | `Slice` + `Seam`                | [tdd/SKILL.md](../../tdd/SKILL.md)                                                                                        |
+| Parallel review        | `Surface` + `Lens` + path slice | **council** + [code-review](../../code-review/SKILL.md)                                                                   |
+| Adversarial kill       | artifact + criteria             | [Adversarial pack](#adversarial-pack) · [adversarial.md](adversarial.md)                                                  |
+| Second-opinion (depth) | artifact + perspectives         | **council** invents perspectives; members use [second-opinion](../../second-opinion/SKILL.md) craft                       |
+| Probe parallel gather  | hunch + slice                   | **council** + [probe](../../probe/SKILL.md) (local parallel refs remain coordinator recipes when council is not attached) |
 
 Coordinator picks closest row — do not merge domains into one mega-prompt.
 

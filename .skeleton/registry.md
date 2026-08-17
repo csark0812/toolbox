@@ -2,7 +2,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
-**Source of truth for** topic routing in this repo. Edit rows here; edit content in canonical files only.
+<!-- source-of-truth: Registry topic routing for documentation and skills -->
 
 ## Documentation
 

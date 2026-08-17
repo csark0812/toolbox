@@ -5,8 +5,7 @@ description: How to review code — any surface and any user-named lens. Evidenc
 
 # Code review
 
-**Source of truth for** how to review code and file findings — not multi-agent spawn (→ **council**).
-
+<!-- source-of-truth: how to review code and file findings — not multi-agent spawn (→ **council**). -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-17 -->
 
 **Process skill** — shared vocabulary → [context-pack.md](../council/references/context-pack.md).

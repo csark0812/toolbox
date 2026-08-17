@@ -1,12 +1,12 @@
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
-**Source of truth for** bare consumers that want toolbox Linear / `docs/prds/` planning baselines.
+<!-- source-of-truth: bare consumers that want toolbox Linear / `docs/prds/` planning baselines. -->
 
 **Setup** (only when the project has **no** planning docs remap, for example no `docs/developer/planning/`):
 
 1. Copy `templates/planning-soft-default/` → `.skeleton/customize/planning-soft-default/`
 2. Copy this file → `.skeleton/customize/soft-default-planning.md`
-3. Add `soft-default-planning.md` to `customize.alwaysInclude` in `.skeleton/config.yaml`
+3. Add `soft-default-planning.md` to `customize.alwaysInclude` in `skeleton.toml`
 
 Remapping consumers (shared-agent-references → project planning docs) must **not** include this file. Soft-default recipes are **not** shipped inside portable skill trees.
 

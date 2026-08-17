@@ -1,7 +1,6 @@
 # Second opinion research basis
 
-**Source of truth for** evidence and limits behind staged adversarial review.
-
+<!-- source-of-truth: evidence and limits behind staged adversarial review. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-10 -->
 
 Read when calibrating debate shape, anchoring, or claiming MAD benefits. Not for every second-opinion run.

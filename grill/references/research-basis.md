@@ -1,7 +1,6 @@
 # Grill research basis
 
-**Source of truth for** evidence and limits behind design-tree alignment.
-
+<!-- source-of-truth: evidence and limits behind design-tree alignment. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 Read when calibrating falsifiers, silent-topic scan, or making a research claim. Not for every grill session.

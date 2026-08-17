@@ -1,0 +1,46 @@
+# https://github.com/csark0812/skeleton — root config (preferred over .skeleton/config.yaml)
+
+daysUntilStale = 180
+
+[scan]
+include = [
+  "README.md",
+  "AGENTS.md",
+  "docs/**",
+  ".skeleton/registry.md",
+  "agent-suites/README.md",
+  "council/**",
+  "code-review/**",
+  "grill/**",
+  "second-opinion/**",
+  "probe/**",
+  "tdd/**",
+  "prototype/**",
+  "domain-model/**",
+  "handoff/**",
+]
+exclude = [
+  ".skeleton/references/**",
+  "**/references/**",
+  # Install mirrors for Cursor/Codex — SSOT is flat <slug>/; do not treat as registry rows.
+  ".agents/skills/**",
+  ".claude/skills/**",
+]
+
+[deny]
+paths = []
+
+# Hub owns tip bodies even though skills-lock.json uses sourceType: github (install identity).
+[skillOwnership]
+lockfile = "skills-lock.json"
+ownedSlugs = [
+  "council",
+  "code-review",
+  "grill",
+  "second-opinion",
+  "probe",
+  "tdd",
+  "prototype",
+  "domain-model",
+  "handoff",
+]

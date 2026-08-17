@@ -5,8 +5,7 @@ description: Shape fuzzy intent and pressure-test a design before code — inten
 
 # Grill
 
-**Source of truth for** intent shaping and design-tree alignment before implementation.
-
+<!-- source-of-truth: intent shaping and design-tree alignment before implementation. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
 **Process skill** — shared vocabulary → [context-pack.md](../council/references/context-pack.md). Mid-turn asks → [ask.md](references/ask.md).

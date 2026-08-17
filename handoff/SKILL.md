@@ -5,8 +5,7 @@ description: Agent-to-agent cross-session transfer — pointers not bodies. Chan
 
 # Handoff
 
-**Source of truth for** compact session transfer — **what to rip out**, not full orchestration.
-
+<!-- source-of-truth: compact session transfer — **what to rip out**, not full orchestration. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 **Orchestrator** — cross-session A2A (`channel:prompt` vs `channel:artifact`). Shared vocabulary → [context-pack.md](../council/references/context-pack.md).

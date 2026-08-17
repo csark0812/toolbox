@@ -15,12 +15,12 @@ How to **invent lenses** and **synthesize** a second opinion — not how to spaw
 
 **Worked examples only** (not a cast menu):
 
-| Ask shape                                    | Mode                         | Example lenses                                              |
-| -------------------------------------------- | ---------------------------- | ----------------------------------------------------------- |
-| “Did I miss anything?” short draft           | second-opinion alone         | `completeness`                                              |
-| “Are the premises wrong?”                    | second-opinion alone         | `premises`                                                  |
-| “Pressure-test readiness…” + attach council  | council + second-opinion     | e.g. `premises`, `completeness` + optional defend           |
-| “Focus group” visual/brand plan + council    | council + second-opinion     | e.g. `brand-fit`, `craft`, `job-fit` — **not** completeness |
+| Ask shape                                   | Mode                     | Example lenses                                              |
+| ------------------------------------------- | ------------------------ | ----------------------------------------------------------- |
+| “Did I miss anything?” short draft          | second-opinion alone     | `completeness`                                              |
+| “Are the premises wrong?”                   | second-opinion alone     | `premises`                                                  |
+| “Pressure-test readiness…” + attach council | council + second-opinion | e.g. `premises`, `completeness` + optional defend           |
+| “Focus group” visual/brand plan + council   | council + second-opinion | e.g. `brand-fit`, `craft`, `job-fit` — **not** completeness |
 
 `verify.md` overlay loads **only** when the invented lens is readiness/gaps-shaped `completeness`.
 

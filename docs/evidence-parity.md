@@ -1,7 +1,6 @@
 # Evidence parity (agent-test)
 
-**Source of truth for** running skill-on vs skill-off outcome comparisons and interpreting transfer tables.
-
+<!-- source-of-truth: running skill-on vs skill-off outcome comparisons and interpreting transfer tables. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 Measure whether toolbox skills improve settlement under transfer. Do this without autonomous skill mutation.

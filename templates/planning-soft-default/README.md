@@ -9,7 +9,7 @@ Execution planning and **completeness verify** live here as **reference docs**, 
 | File                                 | Purpose                                                                                                     | Usual entry                                                                                      |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
 | [build.md](build.md)                 | Guided planning from scratch → CreatePlan / PRD / Linear issues                                             | **grill** (intent phase or design tree after dialogue), or directly when intent is already clear |
-| [verify.md](verify.md)               | Three-axis completeness checklist (loaded when second-opinion invents a readiness/gaps `completeness` lens) | **second-opinion** (layer **council** when multi-perspective depth is wanted) |
+| [verify.md](verify.md)               | Three-axis completeness checklist (loaded when second-opinion invents a readiness/gaps `completeness` lens) | **second-opinion** (layer **council** when multi-perspective depth is wanted)                    |
 | [plan-format.md](plan-format.md)     | CreatePlan template + self-check                                                                            | After `build.md` when output is todos                                                            |
 | [prd-format.md](prd-format.md)       | PRD template for `docs/prds/`                                                                               | After `build.md` when output is a PRD                                                            |
 | [issues-format.md](issues-format.md) | Vertical-slice Linear issues                                                                                | After `build.md` when output is issues                                                           |
@@ -37,13 +37,13 @@ By plan type:
 
 Planning orchestrates work; it does **not** replace other skills:
 
-| Skill                      | When                                                                                                                                                                                                                                      |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **grill**                  | When intent or assumptions are still fuzzy (`build.md` Step 5) — intent phase then design tree.                                                                                                                                           |
-| **second-opinion**         | Written artifact review (path or paste) — invent lenses; single-pass by default; layer **council** for multi-perspective depth |
-| **probe**                  | One concrete code-path hunch → evidence (`build.md` Step 5).                                                                                                                                                                              |
-| **council**                | Multi-agent depth — invent perspectives and spawn; use with [parallel-explore.md](parallel-explore.md) (`build.md` Step 3) or layered second-opinion                                                                                      |
-| **Optional tracker skill** | Branch, draft PR, Closes / issue-tracker state **after** a plan exists and you’re starting work (`verify.md` Step 5), if the consumer ships one.                                                                                          |
-| **code-review**            | Holistic PR / implementation review **after** code exists; AI drift / hygiene on staged/unstaged (consumer AI-drift doc / customize).                                                                                                     |
+| Skill                      | When                                                                                                                                                 |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **grill**                  | When intent or assumptions are still fuzzy (`build.md` Step 5) — intent phase then design tree.                                                      |
+| **second-opinion**         | Written artifact review (path or paste) — invent lenses; single-pass by default; layer **council** for multi-perspective depth                       |
+| **probe**                  | One concrete code-path hunch → evidence (`build.md` Step 5).                                                                                         |
+| **council**                | Multi-agent depth — invent perspectives and spawn; use with [parallel-explore.md](parallel-explore.md) (`build.md` Step 3) or layered second-opinion |
+| **Optional tracker skill** | Branch, draft PR, Closes / issue-tracker state **after** a plan exists and you’re starting work (`verify.md` Step 5), if the consumer ships one.     |
+| **code-review**            | Holistic PR / implementation review **after** code exists; AI drift / hygiene on staged/unstaged (consumer AI-drift doc / customize).                |
 
 Structural checks in plans → **second-opinion** ([plan-review.md](../../../../second-opinion/references/plan-review.md)).

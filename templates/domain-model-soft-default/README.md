@@ -8,7 +8,7 @@ Consumers that remap via customize (`shared-agent-references` / project docs) mu
 
 1. Copy `templates/domain-model-soft-default/` → `.skeleton/customize/domain-model-soft-default/`
 2. Copy `templates/soft-default-domain-model.md` → `.skeleton/customize/soft-default-domain-model.md`
-3. Add `soft-default-domain-model.md` to `customize.alwaysInclude` in `.skeleton/config.yaml`
+3. Add `soft-default-domain-model.md` to `customize.alwaysInclude` in `skeleton.toml`
 
 ## Default paths (override in customize stub)
 

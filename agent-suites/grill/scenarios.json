@@ -38,12 +38,7 @@
       "prompt": "Grill me on one choice: should session cookies be httpOnly for a new auth service?\n\nRead `.claude/skills/grill/SKILL.md` and `grill/references/ask.md` first. Use a single-question ask block (N=1 slim).",
       "replayTrace": "agent-suites/grill/fixtures/replays/ask-block-n1.json",
       "rubric": {
-        "must": [
-          "## Questions",
-          "### 1.",
-          "**A)**",
-          "(recommended)"
-        ],
+        "must": ["## Questions", "### 1.", "**A)**", "(recommended)"],
         "mustInvokeSkill": ["grill"],
         "mustNot": [
           "After you answer",

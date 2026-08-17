@@ -6,8 +6,7 @@ disable-model-invocation: true
 
 # Prototype
 
-**Source of truth for** throwaway design spikes.
-
+<!-- source-of-truth: throwaway design spikes. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 **Process skill** — declare question + mode up front. Never silent graduation to production.

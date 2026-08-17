@@ -1,7 +1,6 @@
 # Handoff research basis
 
-**Source of truth for** evidence and limits behind session context transfer.
-
+<!-- source-of-truth: evidence and limits behind session context transfer. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 Read when calibrating a move or making a research claim. Not for every handoff.

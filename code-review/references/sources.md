@@ -12,16 +12,16 @@ Adapters and lens labels below are **starting points**, not a closed set. If the
 
 ## Pick a surface adapter
 
-| Adapter         | When                                                    | Named material                                                                             |
-| --------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| **uncommitted** | Working tree changes                                    | Working-tree and index diffs for `.` (commands below)                                      |
-| **staged-only** | Staged / pre-commit only                                | Index-only diffs (commands below)                                                          |
-| **commit**      | Single commit                                           | That commit’s show output (commands below)                                                 |
-| **branch**      | Branch vs base                                          | Base…HEAD diff (commands below)                                                            |
-| **pr**          | Open PR                                                 | Same as **branch**. Optional PR metadata for context only (commands below)                 |
-| **paths**       | Named files, module, directory — **no diff required**   | Files in the named scope. Optional recent `git log` for churn context only                 |
-| **snapshot**    | “Review this code”, security/cleanliness pass on a area | Same as **paths** — holistic read of in-scope files, not hunk-by-hunk                      |
-| **external**    | Paste or attachment already provided in the user turn   | That named paste only. Repo paths only when the user references them                       |
+| Adapter         | When                                                    | Named material                                                             |
+| --------------- | ------------------------------------------------------- | -------------------------------------------------------------------------- |
+| **uncommitted** | Working tree changes                                    | Working-tree and index diffs for `.` (commands below)                      |
+| **staged-only** | Staged / pre-commit only                                | Index-only diffs (commands below)                                          |
+| **commit**      | Single commit                                           | That commit’s show output (commands below)                                 |
+| **branch**      | Branch vs base                                          | Base…HEAD diff (commands below)                                            |
+| **pr**          | Open PR                                                 | Same as **branch**. Optional PR metadata for context only (commands below) |
+| **paths**       | Named files, module, directory — **no diff required**   | Files in the named scope. Optional recent `git log` for churn context only |
+| **snapshot**    | “Review this code”, security/cleanliness pass on a area | Same as **paths** — holistic read of in-scope files, not hunk-by-hunk      |
+| **external**    | Paste or attachment already provided in the user turn   | That named paste only. Repo paths only when the user references them       |
 
 **Change-shaped** surfaces (diff adapters) → default **introduced-only** evidence ([review.md](review.md)). **Snapshot/path** surfaces → judge **in-scope material**. Pre-existing issues are in scope unless user narrowed to “changes only”.
 

@@ -5,9 +5,8 @@ description: Multi-agent orchestrator — invent useful perspectives for a named
 
 # Council
 
-**Source of truth for** in-session multi-agent depth — invent perspectives, spawn differentiated Task members, synthesize.
-
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
+<!-- source-of-truth: in-session multi-agent depth — invent perspectives, spawn differentiated Task members, synthesize. -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-17 -->
 
 **Orchestrator** — wires coordinator ↔ member agents for a named job. Process skills are **atoms** (what the work means); this skill owns _how_ multi-perspective members are spawned and merged. Shared vocabulary → [context-pack.md](references/context-pack.md).
 
@@ -31,12 +30,16 @@ References: [context-pack.md](references/context-pack.md) · [task-prompt.md](re
 
 ## When layered with a process skill
 
-| Layer                             | Who invents perspectives                         | Member craft                                      | Exit shape                          |
-| --------------------------------- | ------------------------------------------------ | ------------------------------------------------- | ----------------------------------- |
-| **council** + **second-opinion**  | Council invents; each member gets one perspective | Second-opinion critique craft under that mandate  | second-opinion Bottom line / Action |
-| **council** + **code-review**     | Council invents lenses / path slices             | Each member loads code-review how-to              | code-review findings                |
-| **council** + **probe**           | Council invents gather/perspective slices        | Probe Evidence / Fix gates on the subject         | probe Evidence / Fix shape          |
-| **council** alone                 | Council invents for the user-named task          | Member schema + coordinator [output-format.md](references/output-format.md) | Consolidated dispatch report        |
+Council invents perspectives (or coverage slices). Each member runs the **layered process skill’s** craft under one mandate. Synthesis emits that skill’s exit shape. Council alone → [output-format.md](references/output-format.md).
+
+Worked examples (not an exclusive set) — same pattern for any other process skill the user layers:
+
+| Layer                            | Perspective invent          | Member craft                                                                | Exit                         |
+| -------------------------------- | --------------------------- | --------------------------------------------------------------------------- | ---------------------------- |
+| **council** + **second-opinion** | one perspective each        | critique craft under that mandate                                           | Bottom line / Action         |
+| **council** + **code-review**    | lenses / path slices        | review how-to                                                               | findings                     |
+| **council** + **probe**          | gather / perspective slices | Evidence / Fix gates on the subject                                         | Evidence / Fix shape         |
+| **council** alone                | for the user-named task     | Member schema + coordinator [output-format.md](references/output-format.md) | Consolidated dispatch report |
 
 ## Workflow
 
@@ -55,7 +58,7 @@ References: [context-pack.md](references/context-pack.md) · [task-prompt.md](re
 
 ```markdown
 Task: [What the user asked]
-Job: [second-opinion | code-review | probe | user-named]
+Job: [process skill | user-named task]
 Subject: [artifact / slice / surface]
 Goal: [perspectives / coverage / adversarial]
 Single-pass rival: [why one coordinator pass is insufficient]

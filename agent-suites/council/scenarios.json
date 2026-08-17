@@ -1,37 +1,37 @@
 {
-	"name": "council",
-	"description": "Portable council conformance: invent perspectives, real Task members, skip when single-pass rival suffices",
-	"defaults": {
-		"host": "replay",
-		"profile": "cursor",
-		"skills": "full"
-	},
-	"scenarios": [
-		{
-			"name": "perspectives: invent and spawn",
-			"prompt": "Use council on this plan at docs/plans/auth.plan.md for a multi-perspective readiness look.\n\nRead `.claude/skills/council/SKILL.md` first. Invent at least two distinct perspectives, write a dispatch plan, and spawn real Task members (do not synthesize without Tasks).",
-			"replayTrace": "agent-suites/council/fixtures/replays/perspectives-spawn.json",
-			"rubric": {
-				"must": ["perspective", "dispatch", "Task"],
-				"mustInvokeSkill": ["council"],
-				"mustNot": ["identical prompt"],
-				"judge": [
-					"The agent invoked council, invented distinct perspectives, and planned real Task member spawns before synthesis"
-				]
-			}
-		},
-		{
-			"name": "fit-check: skip parallel",
-			"prompt": "Map how auth works in agent-suites/fixtures/sample-app. Attach council if parallel helps.\n\nRead `.claude/skills/council/SKILL.md` first. Name a single-pass rival; skip parallel spawn when slices are not independent.",
-			"replayTrace": "agent-suites/council/fixtures/replays/fit-check-skip.json",
-			"rubric": {
-				"must": ["single-pass", "skip"],
-				"mustInvokeSkill": ["council"],
-				"mustNot": ["Task(", "spawn 2"],
-				"judge": [
-					"The agent named a single-pass rival and skipped parallel spawn for a sequential repo map"
-				]
-			}
-		}
-	]
+  "name": "council",
+  "description": "Portable council conformance: invent perspectives, real Task members, skip when single-pass rival suffices",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "perspectives: invent and spawn",
+      "prompt": "Use council on this plan at docs/plans/auth.plan.md for a multi-perspective readiness look.\n\nRead `.claude/skills/council/SKILL.md` first. Invent at least two distinct perspectives, write a dispatch plan, and spawn real Task members (do not synthesize without Tasks).",
+      "replayTrace": "agent-suites/council/fixtures/replays/perspectives-spawn.json",
+      "rubric": {
+        "must": ["perspective", "dispatch", "Task"],
+        "mustInvokeSkill": ["council"],
+        "mustNot": ["identical prompt"],
+        "judge": [
+          "The agent invoked council, invented distinct perspectives, and planned real Task member spawns before synthesis"
+        ]
+      }
+    },
+    {
+      "name": "fit-check: skip parallel",
+      "prompt": "Map how auth works in agent-suites/fixtures/sample-app. Attach council if parallel helps.\n\nRead `.claude/skills/council/SKILL.md` first. Name a single-pass rival; skip parallel spawn when slices are not independent.",
+      "replayTrace": "agent-suites/council/fixtures/replays/fit-check-skip.json",
+      "rubric": {
+        "must": ["single-pass", "skip"],
+        "mustInvokeSkill": ["council"],
+        "mustNot": ["Task(", "spawn 2"],
+        "judge": [
+          "The agent named a single-pass rival and skipped parallel spawn for a sequential repo map"
+        ]
+      }
+    }
+  ]
 }

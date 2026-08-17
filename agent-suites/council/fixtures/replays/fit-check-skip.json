@@ -1,12 +1,12 @@
 {
-	"messages": [
-		{
-			"role": "assistant",
-			"content": "Using **council**.\n\n**Single-pass rival:** one coordinator can map auth in sample-app sequentially — no independent sources.\n\n**Valid skip:** skip parallel spawn; deeper primary pass instead."
-		}
-	],
-	"toolCalls": [],
-	"shellCommands": [],
-	"skillsInvoked": ["council"],
-	"artifacts": {}
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **council**.\n\n**Single-pass rival:** one coordinator can map auth in sample-app sequentially — no independent sources.\n\n**Valid skip:** skip parallel spawn; deeper primary pass instead."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["council"],
+  "artifacts": {}
 }

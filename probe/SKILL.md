@@ -5,8 +5,7 @@ description: Narrow a hunch or hard bug — evidence and pragmatic-STE verdict b
 
 # Probe
 
-**Source of truth for** evidence-based hunch settlement and hard-bug fix loops under one Authority B gate.
-
+<!-- source-of-truth: evidence-based hunch settlement and hard-bug fix loops under one Authority B gate. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 **Authority B** — Evidence and verdict by default. Enter the Fix family only when:

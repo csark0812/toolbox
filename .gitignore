@@ -10,6 +10,7 @@ _agent/
 coverage/
 agent-test-debug/
 agent-test-live.log
+.skeleton/catalog.md
 .env
 .env.*
 !.env.example

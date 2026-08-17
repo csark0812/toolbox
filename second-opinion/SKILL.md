@@ -5,8 +5,7 @@ description: Adversarial critique of a written artifact (path or paste) — inve
 
 # Second opinion
 
-**Source of truth for** adversarial artifact review — invent lenses, claim anchoring, Bottom line + Action items.
-
+<!-- source-of-truth: adversarial artifact review — invent lenses, claim anchoring, Bottom line + Action items. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
 **Process skill** — shared vocabulary → [context-pack.md](../council/references/context-pack.md). Multi-agent depth → [`council`](../council/SKILL.md) (user must attach or name council; this skill does **not** spawn).

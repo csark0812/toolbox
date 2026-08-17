@@ -209,7 +209,7 @@ describe('toolbox skill SSOT', () => {
   })
 
   it('excludes install-mirror skill trees from scan perimeter (registry SSOT is flat)', () => {
-    const config = readFileSync(join(root, '.skeleton/config.yaml'), 'utf8')
+    const config = readFileSync(join(root, 'skeleton.toml'), 'utf8')
     expect(config).toMatch(/\.agents\/skills\/\*\*/)
     expect(config).toMatch(/\.claude\/skills\/\*\*/)
   })

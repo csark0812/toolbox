@@ -1,17 +1,16 @@
 # Adversarial dispatch
 
-**Source of truth for** adversarial parallel and staged-debate shapes under [`council`](../SKILL.md).
-
+<!-- source-of-truth: adversarial parallel and staged-debate shapes under [`council`](../SKILL.md). -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
 Spawn mechanics and synthesis → [`council` SKILL](../SKILL.md). Member shape → [member-schema.md](member-schema.md). Process skills own domain craft and final report shape.
 
 ## Shapes
 
-| Shape             | Waves | Who                                                     | When                                                                 |
-| ----------------- | ----- | ------------------------------------------------------- | -------------------------------------------------------------------- |
-| **Parallel**      | One   | Independent kill-mandate members                        | code-review / probe stress-test via council                          |
-| **Staged debate** | Two   | Wave 1 attackers → Wave 2 defender (sees wave-1 briefs) | Critique-shaped council jobs (e.g. layered with second-opinion)      |
+| Shape             | Waves | Who                                                     | When                                                            |
+| ----------------- | ----- | ------------------------------------------------------- | --------------------------------------------------------------- |
+| **Parallel**      | One   | Independent kill-mandate members                        | code-review / probe stress-test via council                     |
+| **Staged debate** | Two   | Wave 1 attackers → Wave 2 defender (sees wave-1 briefs) | Critique-shaped council jobs (e.g. layered with second-opinion) |
 
 **Hard rule (same wave):** Members do not communicate. Never identical model + identical prompt.
 

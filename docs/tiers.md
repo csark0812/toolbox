@@ -1,7 +1,6 @@
 # Skill tiers
 
-**Source of truth for** skill tier assignment across the agent harness ecosystem.
-
+<!-- source-of-truth: skill tier assignment across the agent harness ecosystem. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
 Assign each skill to exactly one **group**. Update when adding skills.
@@ -16,10 +15,10 @@ Every toolbox skill is either an **orchestrator** (agent-to-agent plumbing) or a
 
 Define **how agents and sessions connect**: multi-perspective spawn, member envelopes, cross-session channels. Process skills stay atoms; they do not embed dispatch templates. Multi-agent depth requires attaching **council**.
 
-| Slug        | A2A role                                                                                                |
-| ----------- | ------------------------------------------------------------------------------------------------------- |
+| Slug        | A2A role                                                                                                                                   |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | **council** | In-session multi-agent depth — invent perspectives, spawn Task members, synthesize ([context-pack](../council/references/context-pack.md)) |
-| **handoff** | Cross-session channel — `channel` + `Pack` + `Goal`; pointers not bodies                                |
+| **handoff** | Cross-session channel — `channel` + `Pack` + `Goal`; pointers not bodies                                                                   |
 
 Dispatch and pack refs live under orchestrator trees (`context-pack.md`, `adversarial.md`, handoff `*-dispatch.md`) — not under process skills.
 

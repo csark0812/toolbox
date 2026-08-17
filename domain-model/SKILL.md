@@ -6,8 +6,7 @@ disable-model-invocation: true
 
 # Domain model
 
-**Source of truth for** persisting glossary terms and ADRs after decisions land.
-
+<!-- source-of-truth: persisting glossary terms and ADRs after decisions land. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 **Process skill** — content is repo-specific. Paths from customize / `AGENTS.md`.

@@ -15,12 +15,12 @@ How to divide work across members so **total tokens stay under 100k** while inde
 
 ## Split strategies
 
-| Job shape        | Split by                         | Example                                                                             |
-| ---------------- | -------------------------------- | ----------------------------------------------------------------------------------- |
-| Multi-source     | One member per **source**        | API docs vs repo vs plan file                                                       |
-| Repo exploration | **Subsystem** or directory band  | `src/auth/` vs `src/billing/`                                                       |
-| Research         | **Independent topic**            | OAuth spec vs session storage pattern                                               |
-| Review / critique| **Perspective** / lens           | Same subject, different stances — not duplicate full bodies per member              |
+| Job shape         | Split by                        | Example                                                                |
+| ----------------- | ------------------------------- | ---------------------------------------------------------------------- |
+| Multi-source      | One member per **source**       | API docs vs repo vs plan file                                          |
+| Repo exploration  | **Subsystem** or directory band | `src/auth/` vs `src/billing/`                                          |
+| Research          | **Independent topic**           | OAuth spec vs session storage pattern                                  |
+| Review / critique | **Perspective** / lens          | Same subject, different stances — not duplicate full bodies per member |
 
 ## When **not** to split
 

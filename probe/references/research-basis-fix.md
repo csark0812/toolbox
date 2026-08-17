@@ -1,7 +1,6 @@
 # Diagnose research basis
 
-**Source of truth for** evidence and limits behind tight-loop diagnosis.
-
+<!-- source-of-truth: evidence and limits behind tight-loop diagnosis. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
 Read when calibrating loop-first gates or making a research claim. Not for every debug session.
