@@ -1,7 +1,6 @@
 ---
 name: prototype
-description: Throwaway artifact answering one design question — logic/state or UI. Process skill (user-invoked). Not production red-green (tdd) or repro-first debug (probe Fix).
-disable-model-invocation: true
+description: Throwaway artifact answering one design question — logic/state or UI. Process skill. Not production red-green (tdd) or repro-first debug (probe Fix).
 ---
 
 # Prototype

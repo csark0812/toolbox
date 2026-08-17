@@ -1,7 +1,6 @@
 ---
 name: domain-model
-description: Persist glossary entries and ADRs after a term or decision is ready. Process skill (user-invoked). Not open design dialogue.
-disable-model-invocation: true
+description: Persist glossary entries and ADRs after a term or decision is ready. Process skill. Not open design dialogue.
 ---
 
 # Domain model

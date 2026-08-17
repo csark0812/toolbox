@@ -33,8 +33,8 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | **grill**          | Shape fuzzy intent (intent phase) and walk the design tree in dialogue until major branches align                                                                                              |
 | **probe**          | Hunch verdict (Evidence) or hard-bug fix (Fix) under Authority B — tight **Repro** before patch                                                                                                |
 | **tdd**            | Test-first build at agreed public seams — red-green on a **Slice**                                                                                                                             |
-| **prototype**      | Throwaway spike for one design question (user-invoked)                                                                                                                                         |
-| **domain-model**   | Persist glossary + ADRs when a decision is ready (user-invoked)                                                                                                                                |
+| **prototype**      | Throwaway spike for one design question                                                                                                                                                        |
+| **domain-model**   | Persist glossary + ADRs when a decision is ready                                                                                                                                               |
 
 ## Process SSOT (`toolbox/`)
 

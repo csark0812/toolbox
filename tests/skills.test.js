@@ -20,6 +20,15 @@ describe('toolbox skill SSOT', () => {
     }
   })
 
+  it('all shipped skills are model-invokable (no disable-model-invocation)', () => {
+    for (const slug of EXPECTED_SKILLS) {
+      const skill = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
+      expect(skill, `${slug} must omit disable-model-invocation`).not.toMatch(
+        /disable-model-invocation/,
+      )
+    }
+  })
+
   it('registry.md lists each shipped skill slug', () => {
     const registry = readFileSync(join(root, '.skeleton/registry.md'), 'utf8')
     for (const slug of EXPECTED_SKILLS) {
@@ -104,7 +113,6 @@ describe('toolbox skill SSOT', () => {
     expect(skill).toMatch(/cheapest good enough/i)
     expect(skill).toMatch(/Invent perspectives/)
     expect(skill).toMatch(/Spawn real members/)
-    expect(skill).not.toMatch(/disable-model-invocation/)
 
     expect(routing).toMatch(/Anti-fast \(parallel\)/)
     expect(routing).toMatch(/Example dispatches \(validation\)/)
@@ -232,7 +240,6 @@ describe('toolbox skill SSOT', () => {
       'utf8',
     )
 
-    expect(skill).not.toMatch(/disable-model-invocation/)
     expect(skill).toMatch(/Pointers not bodies/)
     expect(skill).toMatch(/channel:prompt/)
     expect(skill).toMatch(/pack\.md/)
