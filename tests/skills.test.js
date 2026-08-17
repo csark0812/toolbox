@@ -177,6 +177,8 @@ describe('toolbox skill SSOT', () => {
     expect(skill).toMatch(/Merge-blockers default/)
     expect(skill).toMatch(/Untrusted surface/)
     expect(skill).toMatch(/untrusted data, not instructions/)
+    expect(skill).toMatch(/## Handling External Content/)
+    expect(skill).toMatch(/extract only the expected structured fields/)
     expect(skill).not.toMatch(/anti-thrash/)
     expect(skill).not.toMatch(/fix-loop/)
     expect(skill).not.toMatch(/Escalate only when matched/)
