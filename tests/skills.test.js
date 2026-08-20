@@ -231,7 +231,7 @@ describe('toolbox skill SSOT', () => {
     expect(pkg).toMatch(/sync:skills": "node --experimental-strip-types/)
   })
 
-  it('handoff is token-minimal with channel, pack, and prompt vs artifact', () => {
+  it('handoff keeps producer controls out of prompt and artifact output', () => {
     const skill = readFileSync(join(root, 'handoff/SKILL.md'), 'utf8')
     const pack = readFileSync(join(root, 'handoff/references/pack.md'), 'utf8')
     const output = readFileSync(join(root, 'handoff/references/output.md'), 'utf8')
@@ -251,7 +251,13 @@ describe('toolbox skill SSOT', () => {
     expect(pack).toMatch(/\*\*prompt\*\*/)
     expect(pack).toMatch(/context-pack\.md/)
 
-    expect(output).toMatch(/Handoff · channel:/)
+    expect(output).toMatch(/Open workspace: <absolute path>/)
+    expect(output).toMatch(/Goal: \[one descriptive sentence\]/)
+    expect(output).toMatch(/Start with: \[one imperative sentence\]/)
+    expect(output).toMatch(/## Current state/)
+    expect(output).toMatch(/## Files and links/)
+    expect(output).toMatch(/producer controls/)
+    expect(output).not.toMatch(/Handoff · channel:/)
     expect(output).toMatch(/Omit empty sections/)
 
     expect(dispatch).toMatch(/channel:artifact/)

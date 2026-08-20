@@ -1,74 +1,110 @@
 # Handoff output
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
 
-Minimal shape for **prompt** (inline) and **artifact** (file). Omit empty sections — do not pad.
+Use this minimal shape for a **prompt** or an **artifact**. Omit empty sections.
 
-User-facing blocks (Goal, Start with, State, Blockers, Failed, Next, paste stub) must use pragmatic STE. See [docs/skill-evolution.md](../../docs/skill-evolution.md) § Pragmatic STE for toolbox, or `/simple-english`.
+Write all receiving-agent content in pragmatic STE. Use short sentences, active voice, and one instruction per sentence.
 
-## Header (required)
+Channel and pack values are producer controls. Do not put them in the receiving prompt or handoff artifact.
 
-```markdown
-Handoff · channel:prompt|artifact · Pack:pointers|fix-loop|slice|full · Goal:[slug] · Workspace:[absolute path]
-```
+## Prompt output
 
-| Field        | Notes                                                 |
-| ------------ | ----------------------------------------------------- |
-| `channel:`   | `prompt` or `artifact`                                |
-| `Pack:`      | Closest pack from [pack.md](pack.md). User-named ok.  |
-| `Goal:`      | Next-session intent — slug in header + one line below |
-| `Workspace:` | Where next chat must root for `@` attach              |
+For `channel:prompt`, return one fenced block. Do not write a handoff file.
 
-## Body (artifact file or prompt fence)
+```text
+Open workspace: <absolute path>
 
-```markdown
-Goal: [one line]
-Start with: [first action — one line]
+Continue this task.
 
-## State
+Goal: [one descriptive sentence]
+Start with: [one imperative sentence]
 
-- [done / in-progress / broken — minimal bullets]
+## Current state
 
-## Pointers
+- [complete sentence]
 
-| kind | path or URL |
-| plan | `.cursor/plans/foo.plan.md` |
-| pr | https://github.com/.../pull/N |
+## Files and links
+
+| Type | Path or URL |
+| --- | --- |
+| Plan | `.cursor/plans/foo.plan.md` |
+| Pull request | https://github.com/.../pull/N |
 
 ## Blockers
 
-- [only if non-empty]
+- [complete sentence]
 
-## Failed
+## Failed attempts
 
-- [only if non-empty — pointer + one-line why]
+- [path or URL and one sentence about the result]
 
-## Next
+## Next actions
 
-- [only if non-empty]
+- [imperative sentence]
 
-## Redaction
+## Redacted information
 
-[what was redacted, or omit if none]
+- [one sentence about what was removed]
 ```
 
-**Do not** paste plan bodies, diff hunks, or full review synthesis. **Do not** fill Blockers/Failed/Next with `none` — delete the section.
+Do not add a header above `Open workspace`. Delete each empty section instead of writing `none`.
+
+## Artifact output
+
+For `channel:artifact`, write the following body to the handoff file. Start the file with `Goal:`.
+
+```markdown
+Goal: [one descriptive sentence]
+Start with: [one imperative sentence]
+
+## Current state
+
+- [complete sentence]
+
+## Files and links
+
+| Type         | Path or URL                   |
+| ------------ | ----------------------------- |
+| Plan         | `.cursor/plans/foo.plan.md`   |
+| Pull request | https://github.com/.../pull/N |
+
+## Blockers
+
+- [complete sentence]
+
+## Failed attempts
+
+- [path or URL and one sentence about the result]
+
+## Next actions
+
+- [imperative sentence]
+
+## Redacted information
+
+- [one sentence about what was removed]
+```
+
+Do not add a header above `Goal:`. Delete each empty section instead of writing `none`.
+
+Do not paste plan bodies, diff hunks, or full review summaries. Link to these artifacts.
 
 ## Paste stub (after artifact write)
 
-Coordinator ends with — do **not** paste artifact body:
+After the subagent writes the artifact, return this stub:
 
 ```text
 Open workspace: <absolute path>
 
 Read @_agent/handoffs/<filename>.md and continue.
 
-Goal: <one line>
-Start with: <one line>
+Goal: <one descriptive sentence>
+Start with: <one imperative sentence>
 ```
 
-Prompt-only channel: same fields inline under `---` fences. Note `prompt-only` when helpful.
+Do not paste the artifact body. You can note `prompt-only` outside the receiving block.
 
 ## Fix-loop pack shortcut
 
-When `Pack: fix-loop`, State can be one line. Pointers must include PR/commit/theme ids if known. Skip long recap unless cold start requires it.
+For a `fix-loop` pack, current state can be one line. Include known pull requests, commits, and review-theme identifiers.

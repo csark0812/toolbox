@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Using **handoff** — user-request, **prompt-only** (no artifact file).\n\nPaste into a new agent:\n\n```text\nOpen workspace: /workspace\n\nContinue this session from the summary below.\n\nGoal: Continue auth refactor from the plan\nStart with: Read `.cursor/plans/auth-refactor.plan.md` and resume implementation\n\n---\nOriginal ask: Auth refactor\nDecisions: —\nWork completed: In-progress refactor\nCurrent state: Plan at `.cursor/plans/auth-refactor.plan.md`; PR https://github.com/org/repo/pull/42\nOpen questions: —\nArtifacts: Plan `.cursor/plans/auth-refactor.plan.md`; PR #42\nRedaction: API key [REDACTED]\n---\n```"
+      "content": "Using **handoff** — user-request, **prompt-only** (no artifact file).\n\nPaste this prompt into a new agent:\n\n```text\nOpen workspace: /workspace\n\nContinue this task.\n\nGoal: Continue the auth refactor from the plan.\nStart with: Read `.cursor/plans/auth-refactor.plan.md`.\n\n## Current state\n\n- The auth refactor is in progress.\n\n## Files and links\n\n| Type | Path or URL |\n| --- | --- |\n| Plan | `.cursor/plans/auth-refactor.plan.md` |\n| Pull request | https://github.com/org/repo/pull/42 |\n\n## Redacted information\n\n- An API key was removed.\n```"
     }
   ],
   "toolCalls": [],

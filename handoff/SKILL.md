@@ -6,13 +6,13 @@ description: Agent-to-agent cross-session transfer — pointers not bodies. Chan
 # Handoff
 
 <!-- source-of-truth: compact session transfer — **what to rip out**, not full orchestration. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
 
 **Orchestrator** — cross-session A2A (`channel:prompt` vs `channel:artifact`). Shared vocabulary → [context-pack.md](../council/references/context-pack.md).
 
 References: [pack.md](references/pack.md) · [output.md](references/output.md) · [handoff-subagent-dispatch.md](references/handoff-subagent-dispatch.md)
 
-Read [research-basis.md](references/research-basis.md) only when you calibrate claims.
+When you calibrate claims, read [research-basis.md](references/research-basis.md).
 
 ## Entry gate
 
@@ -22,20 +22,20 @@ Read [research-basis.md](references/research-basis.md) only when you calibrate c
 ## Non-negotiables
 
 1. **Pointers not bodies** — paths, URLs, SHAs. Never paste plans, PRDs, or diffs into handoff.
-2. **Honest state** — done vs in-progress vs broken. Cite commits or tests when you claim progress.
+2. **Honest state** — done vs in-progress vs broken. When you claim progress, cite commits or tests.
 3. **Redact** secrets, tokens, and PII before write or paste.
 4. **Channel prompt** — user `/handoff` → **no disk** (`_agent/handoffs/` forbidden).
 5. **Channel artifact** — model-invoked → subagent write mandatory. Coordinator-primary write is a **violation**.
 
 ## Workflow
 
-1. **Pick channel + pack + goal** — [pack.md](references/pack.md): closest menu rows. Header names reality.
+1. **Pick the channel, pack, and goal** — use the closest rows in [pack.md](references/pack.md). These values control production only.
 2. **Gather** — minimal bullets from thread. Omit empty categories.
 3. **Deliver** —
-   - `channel:prompt` → fenced block per [output.md](references/output.md) in pragmatic STE for human-readable packs
+   - `channel:prompt` → fenced receiving prompt per [output.md](references/output.md) in pragmatic STE
    - `channel:artifact` → [handoff-subagent-dispatch.md](references/handoff-subagent-dispatch.md) → paste stub only
 
-For fix-loop-only continuation, you can use consumer overlay blocks instead of `Pack: full` when the next session needs only review state.
+If the next session needs only review state, use consumer overlay blocks instead of `Pack: full`.
 
 ## Consumer bindings
 
