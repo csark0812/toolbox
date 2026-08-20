@@ -6,7 +6,7 @@ description: Persist glossary entries and ADRs after a term or decision is ready
 # Domain model
 
 <!-- source-of-truth: persisting glossary terms and ADRs after decisions land. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
 
 **Process skill** — content is repo-specific. Paths from customize / `AGENTS.md`.
 

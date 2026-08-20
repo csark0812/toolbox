@@ -1,7 +1,7 @@
 # GitHub ambient refs — validation results
 
 <!-- source-of-truth: whether toolbox can use remote GitHub URLs as ambient skill reference SSOT. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
 
 ## Gate (from plan)
 

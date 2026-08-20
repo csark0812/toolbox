@@ -1,6 +1,6 @@
 # Registry
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
 
 <!-- source-of-truth: Registry topic routing for documentation and skills -->
 

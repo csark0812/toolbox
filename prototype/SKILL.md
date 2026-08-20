@@ -6,7 +6,7 @@ description: Throwaway artifact answering one design question — logic/state or
 # Prototype
 
 <!-- source-of-truth: throwaway design spikes. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
 
 **Process skill** — declare question + mode up front. Never silent graduation to production.
 

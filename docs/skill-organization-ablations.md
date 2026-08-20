@@ -1,7 +1,7 @@
 # Skill organization ablations
 
 <!-- source-of-truth: interpreting live ablation runs that compare skill organization arms. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
 
 Inspired by SkillJuror-style questions: does how skills are **organized** (routing, escalation, fit-check) change runtime behavior?
 
