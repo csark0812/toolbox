@@ -1,6 +1,6 @@
 # Review surface adapters
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-17 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-24 -->
 
 How to **name and bound review materials** — not every review is a git diff. Procedure → [review.md](review.md).
 
@@ -57,6 +57,24 @@ git show
 gh pr view
 ```
 
+### Merge-readiness identity
+
+For `Lens: merge-readiness`, bind the review to remote commit objects before reading code. Record the remote base ref, its full base-tip SHA, the full merge-base SHA used by the three-dot diff, and the full reviewed head SHA. Review the remote head commit, not an arbitrary local `HEAD`.
+
+Resolve equivalent values with the available Git host adapter. A local Git path can use:
+
+```bash
+git fetch origin <base-ref> <head-ref>
+git rev-parse origin/<base-ref>
+git merge-base origin/<base-ref> origin/<head-ref>
+git rev-parse origin/<head-ref>
+git diff <merge-base-sha>..<head-sha>
+```
+
+If local files are used, require local `HEAD` to equal the reviewed remote head and require the reviewed paths to have no staged, unstaged, or untracked changes. Otherwise read commit-object content or report `State: INCOMPLETE`.
+
+Immediately before synthesis, resolve the remote base and head again. Display the current remote head SHA. A changed base or head makes the review `STALE` and suppresses the clean signal. Full rules and output fields → [merge-readiness.md](merge-readiness.md).
+
 ## Lens (user intent — not a separate adapter)
 
 Record in header as `Lens:` when the user names a focus. Use a **kebab-case slug** from the table when it fits. Otherwise use the user’s phrase (for example `Lens: performance`, `Lens: api-breaking-changes`).
@@ -75,6 +93,6 @@ Lens adjusts **emphasis** and **default filing** — it does not replace naming 
 
 - **paths** / **snapshot** — If directory or symbol scope is ambiguous, make sure that scope is clear.
 - **uncommitted** — can include unrelated dirty files. If scope is ambiguous, make sure that scope is clear.
-- **merge-readiness** — include review status per [output.md](output.md).
+- **merge-readiness** — bind the immutable review identity per [merge-readiness.md](merge-readiness.md), then include review status per [output.md](output.md).
 
 If surface or lens is unclear, ask once before reviewing.

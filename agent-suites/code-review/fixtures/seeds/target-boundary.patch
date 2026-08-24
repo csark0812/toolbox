@@ -1,0 +1,35 @@
+diff --git a/agent-suites/fixtures/sample-app/src/targetBoundary.ts b/agent-suites/fixtures/sample-app/src/targetBoundary.ts
+new file mode 100644
+--- /dev/null
++++ b/agent-suites/fixtures/sample-app/src/targetBoundary.ts
+@@ -0,0 +1,28 @@
++export type TargetDecision =
++  | { kind: 'accepted'; path: string }
++  | { kind: 'blocked' }
++  | { kind: 'fallback'; path: string }
++
++/** Classify a user-provided navigation target. */
++export function classifyTarget(rawTarget: string | undefined): TargetDecision {
++  if (!rawTarget) {
++    return { kind: 'fallback', path: '/dashboard' }
++  }
++
++  const target = rawTarget.trim()
++  if (!target) {
++    return { kind: 'fallback', path: '/dashboard' }
++  }
++
++  if (target.startsWith('/')) {
++    if (target.startsWith('//')) {
++      return { kind: 'blocked' }
++    }
++    return { kind: 'accepted', path: target }
++  }
++
++  if (target.includes('://')) {
++    const parsed = new URL(target)
++    return parsed.protocol === 'https:' ? { kind: 'accepted', path: parsed.pathname } : { kind: 'blocked' }
++  }
++
++  return { kind: 'blocked' }
++}

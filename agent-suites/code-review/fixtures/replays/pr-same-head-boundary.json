@@ -1,0 +1,16 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Review · source:branch · Scope: 1 file, 28 loc · Lens: merge-readiness · Filing: merge-blockers only\nReviewed base: main@1111111111111111111111111111111111111111\nDiff base: 2222222222222222222222222222222222222222\nReviewed head: 3333333333333333333333333333333333333333\nCurrent remote head: 3333333333333333333333333333333333333333 · match\nContract: reconciled · Sources: prompt contract@sha256:ee8c3721\nCoverage: full · Lenses: general, security, merge-readiness\nState: BLOCKED\n\n## Reject malformed absolute targets without throwing\n\n`agent-suites/fixtures/sample-app/src/targetBoundary.ts:24` · Severity: high · Scope: ship-blocker · Identity: repeat\n\nThe general and security lenses reach the same `new URL` root cause. Malformed authorities and malformed escape sequences are distinct triggers for the same uncaught exception, so they are consolidated in one finding.\n\n## Boundary matrix\n\n- empty: fallback\n- safe relative with query or fragment: accepted unchanged\n- scheme-relative: blocked\n- allowed absolute HTTPS: accepted per the reconciled contract\n- malformed absolute: controlled blocked result required\n- non-HTTP protocol: blocked\n\n1 merge-blocker · malformed absolute target handling."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [
+    "git diff origin/main...HEAD -- agent-suites/fixtures/sample-app/src/targetBoundary.ts",
+    "git status --short -- agent-suites/fixtures/sample-app/src/targetBoundary.ts",
+    "git ls-remote origin refs/heads/review-head"
+  ],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

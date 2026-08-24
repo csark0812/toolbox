@@ -1,0 +1,17 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Review · source:branch · Scope: 1 file, 1 loc · Lens: merge-readiness · Filing: merge-blockers only\nReviewed base: main@1111111111111111111111111111111111111111\nDiff base: 2222222222222222222222222222222222222222\nReviewed head: 3333333333333333333333333333333333333333\nCurrent remote head: 4444444444444444444444444444444444444444 · mismatch\nContract: frozen · Sources: prompt contract@sha256:4fd27a12\nCoverage: full · Lenses: merge-readiness\nState: STALE\nReview stale: the remote head changed after the review was bound. Review the current head before issuing a code-quality gate."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [
+    "git rev-parse origin/main",
+    "git merge-base origin/main HEAD",
+    "git rev-parse HEAD",
+    "git ls-remote origin refs/heads/review-head"
+  ],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

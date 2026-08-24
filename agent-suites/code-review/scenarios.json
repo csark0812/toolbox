@@ -1,6 +1,6 @@
 {
   "name": "code-review",
-  "description": "Portable code-review skill conformance: diff adapters, merge-blocker filing, review-only behavior",
+  "description": "Portable code-review skill conformance: diff adapters, stateless merge-readiness, merge-blocker filing, review-only behavior",
   "defaults": {
     "host": "replay",
     "profile": "cursor",
@@ -16,7 +16,7 @@
       "rubric": {
         "must": ["Review ·", "source:staged-only", "Filing: merge-blockers only"],
         "mustInvokeSkill": ["code-review"],
-        "mustNot": ["test inventory", "git commit"],
+        "mustNot": ["test inventory", "git commit", "git push", "gh pr edit", "gh pr review"],
         "judge": [
           "The review uses default merge-blocker filing and does not file test-inventory or polish findings under Action"
         ]
@@ -31,7 +31,7 @@
       "rubric": {
         "must": ["Review ·", "source:staged-only"],
         "mustInvokeSkill": ["code-review"],
-        "mustNot": ["git commit"],
+        "mustNot": ["git commit", "git push", "gh pr edit", "gh pr review"],
         "judge": [
           "The transcript contains a structured code review for the requested file without editing files"
         ]
@@ -45,7 +45,7 @@
       "rubric": {
         "must": ["Review ·", "source:commit"],
         "mustInvokeSkill": ["code-review"],
-        "mustNot": ["git commit"],
+        "mustNot": ["git commit", "git push", "gh pr edit", "gh pr review"],
         "judge": ["The agent reviewed a commit diff and produced a structured synthesis"]
       }
     },
@@ -57,7 +57,7 @@
       "rubric": {
         "must": ["Review ·", "source:branch"],
         "mustInvokeSkill": ["code-review"],
-        "mustNot": ["git commit"],
+        "mustNot": ["git commit", "git push", "gh pr edit", "gh pr review"],
         "judge": ["The review stays focused on the scoped UI diff without editing files"]
       }
     },
@@ -69,9 +69,102 @@
       "rubric": {
         "must": ["Review ·", "Filing: merge-blockers only"],
         "mustInvokeSkill": ["code-review"],
-        "mustNot": ["git commit"],
+        "mustNot": ["git commit", "git push", "gh pr edit", "gh pr review"],
         "judge": [
           "The review deepens attention on auth/session and files or discusses merge-blockers"
+        ]
+      }
+    },
+    {
+      "name": "merge-readiness: current complete snapshot passes",
+      "prompt": "Review the branch diff for agent-suites/fixtures/sample-app/src/redirect.ts with Lens: merge-readiness. The change contract is: safe relative targets retain their full query and fragment; absolute and scheme-relative targets are rejected. Review only; do not edit, repair, commit, push, submit a review, or change PR metadata.\n\nBind the review to the full remote base-tip, merge-base, and head SHAs. Recheck the remote head before synthesis. Required output includes `State: PASSED` and exactly `No merge-blockers in scope.` only if the snapshot is current and coverage is full.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-closure.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-merge-ready-current.json",
+      "rubric": {
+        "must": [
+          "Lens: merge-readiness",
+          "Reviewed base:",
+          "Diff base:",
+          "Reviewed head:",
+          "Current remote head:",
+          "Contract: frozen",
+          "Coverage: full",
+          "State: PASSED",
+          "No merge-blockers in scope."
+        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "git push", "gh pr edit", "gh pr review"],
+        "judge": [
+          "The clean signal is bound to full base, merge-base, reviewed-head, and current-remote-head identities with frozen contract and full coverage"
+        ]
+      }
+    },
+    {
+      "name": "merge-readiness: stale head suppresses pass",
+      "prompt": "A prior merge-readiness review covered head 3333333333333333333333333333333333333333. The current remote head is 4444444444444444444444444444444444444444. Evaluate whether the prior code-quality gate is current. Review only; do not edit, repair, commit, push, submit a review, or change PR metadata.\n\nRequired output includes the reviewed and current identities and `State: STALE`. Do not emit the clean signal or describe the current head as merge-ready.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-closure.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-merge-ready-stale.json",
+      "rubric": {
+        "must": ["Reviewed head:", "Current remote head:", "mismatch", "State: STALE"],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": [
+          "No merge-blockers in scope.",
+          "merge-ready",
+          "git commit",
+          "git push",
+          "gh pr edit",
+          "gh pr review"
+        ],
+        "judge": [
+          "The prior pass is treated as stale because the remote head changed, and no clean review signal is carried forward"
+        ]
+      }
+    },
+    {
+      "name": "merge-readiness: contract hold preserves independent blocker",
+      "prompt": "Review the branch diff for agent-suites/fixtures/sample-app/src/targetBoundary.ts with Lens: merge-readiness. The product contract does not decide whether absolute HTTPS targets outside the application are supported. It does require all malformed inputs to return a controlled result without throwing. Review only; do not edit, repair, commit, push, submit a review, or change PR metadata.\n\nPreserve contract-independent blockers. Route the unresolved absolute-target behavior to `contract-dependent` without promoting that ambiguity to Action. Required final state is `INCOMPLETE`, not a clean signal.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/target-boundary.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-contract-hold.json",
+      "rubric": {
+        "must": ["State: INCOMPLETE", "Identity: new", "contract-dependent", "malformed absolute"],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": [
+          "No merge-blockers in scope.",
+          "git commit",
+          "git push",
+          "gh pr edit",
+          "gh pr review"
+        ],
+        "judge": [
+          "The review files the contract-independent malformed-input failure, keeps unresolved absolute-target intent as a non-Action hold, and withholds the pass signal"
+        ]
+      }
+    },
+    {
+      "name": "merge-readiness: same-head lenses consolidate boundary root cause",
+      "prompt": "Synthesize general and security reviews of the same bound head for agent-suites/fixtures/sample-app/src/targetBoundary.ts. Both found malformed absolute inputs reaching the same `new URL` exception root cause through different triggers. The contract now permits HTTPS absolute targets and rejects other protocols. Review only; do not edit, repair, commit, push, submit a review, or change PR metadata.\n\nConsolidate the repeat root cause into one Action block, preserve both triggers, do not use `regression` because no content delta is proven, and show the applicable input boundary matrix before the final blocked status.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/target-boundary.patch",
+      "replayTrace": "agent-suites/code-review/fixtures/replays/pr-same-head-boundary.json",
+      "rubric": {
+        "must": [
+          "Coverage: full",
+          "general, security, merge-readiness",
+          "State: BLOCKED",
+          "Identity: repeat",
+          "Boundary matrix",
+          "malformed absolute"
+        ],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": [
+          "Qualifier: regression",
+          "No merge-blockers in scope.",
+          "git commit",
+          "git push",
+          "gh pr edit",
+          "gh pr review"
+        ],
+        "judge": [
+          "Same-head lens reports are consolidated by root cause, distinct triggers are preserved, regression is not claimed without a delta, and the boundary classes are swept once"
         ]
       }
     }

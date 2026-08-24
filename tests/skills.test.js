@@ -179,6 +179,10 @@ describe('toolbox skill SSOT', () => {
     const output = readFileSync(join(root, 'code-review/references/output.md'), 'utf8')
     const sources = readFileSync(join(root, 'code-review/references/sources.md'), 'utf8')
     const blockers = readFileSync(join(root, 'code-review/references/merge-blockers.md'), 'utf8')
+    const mergeReadiness = readFileSync(
+      join(root, 'code-review/references/merge-readiness.md'),
+      'utf8',
+    )
 
     expect(skill).toMatch(/How to review/)
     expect(skill).toMatch(/Review only/)
@@ -195,18 +199,43 @@ describe('toolbox skill SSOT', () => {
 
     expect(review).toMatch(/Introduced-only/)
     expect(review).toMatch(/path:line/)
+    expect(review).toMatch(/Action bar for change-shaped surfaces/)
+    expect(review).toMatch(/contract-dependent/)
+    expect(review).toMatch(/input, state, transport, or lifecycle classes/)
     expect(review).not.toMatch(/Hard stop/)
     expect(review).not.toMatch(/Task\/Subagent/)
 
     expect(output).toMatch(/Review · source:/)
     expect(output).toMatch(/Filing: merge-blockers only/)
+    expect(output).toMatch(/Reviewed base:/)
+    expect(output).toMatch(/Current remote head:/)
+    expect(output).toMatch(/State: PASSED \| BLOCKED \| INCOMPLETE \| STALE/)
+    expect(output).toMatch(/No findings in scope.` is not a merge-readiness success signal/)
     expect(output).not.toMatch(/Pass class:/)
     expect(output).not.toMatch(/Thrash:/)
     expect(output).not.toMatch(/Reviewer: primary/)
 
     expect(sources).toMatch(/git diff/)
     expect(sources).toMatch(/Trust boundary/)
+    expect(sources).toMatch(/full base-tip SHA/)
+    expect(sources).toMatch(/full merge-base SHA/)
+    expect(sources).toMatch(/Immediately before synthesis/)
     expect(blockers).toMatch(/merge-blockers only/)
+
+    expect(mergeReadiness).toMatch(/BOUND -> REVIEWING -> PASSED \| BLOCKED \| INCOMPLETE/)
+    expect(mergeReadiness).toMatch(/State: STALE/)
+    expect(mergeReadiness).toMatch(/No merge-blockers in scope\./)
+    expect(mergeReadiness).toMatch(/\*\*new\*\*/)
+    expect(mergeReadiness).toMatch(/\*\*repeat\*\*/)
+    expect(mergeReadiness).toMatch(/\*\*regression\*\*/)
+    expect(mergeReadiness).toMatch(/\*\*contract-dependent\*\*/)
+    expect(mergeReadiness).toMatch(/\*\*CI-only\*\*/)
+    expect(mergeReadiness).toMatch(/Do not create a ledger/)
+    expect(mergeReadiness).not.toMatch(/Pass class:/)
+    expect(mergeReadiness).not.toMatch(/Thrash:/)
+    expect(mergeReadiness).not.toMatch(/Reviewer: primary/)
+    expect(mergeReadiness).not.toMatch(/REVIEW_LEDGER/)
+    expect(mergeReadiness).not.toMatch(/git commit|git push|gh pr edit|gh pr review/)
   })
 
   it('retired skills are gone (subagents, iterate)', () => {

@@ -20,6 +20,8 @@ File **only merge-blockers** — bugs that **surface in production** and need fi
 
 **Audit depth:** filing is what gets narrowed, not read scope — still read the full in-scope surface.
 
+For `Lens: merge-readiness`, the status line is a stateless current-snapshot attestation. Apply the identity, contract, coverage, and state rules in [merge-readiness.md](merge-readiness.md); zero filed blockers alone is not sufficient.
+
 **Synthesis status line** (when zero merge-blockers):
 
 ```markdown
