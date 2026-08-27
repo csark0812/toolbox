@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Using **review-walkthrough**.\n\nThe prompt did not name a source. The current worktree is non-empty, so I bind only that change.\n\nWalkthrough · source:working-tree · Scope: `agent-suites/fixtures/sample-app/src/redirect.ts`\n\n## Change map\n\nThe worktree change preserves query and hash values for safe relative redirects and keeps the unsafe-target fallback.\n\n### Behavior groups\n\n1. Safe relative targets keep their complete destination.\n2. External and scheme-relative targets use `/dashboard`.\n\n### Proposed order\n\nStart with safe relative targets, then explain the fallback.\n\nPaused at the change map."
+      "content": "The prompt did not name a source. The current worktree is non-empty, so I bind only that change.\n\nThe worktree change preserves query and hash values for safe relative redirects and keeps the unsafe-target fallback. The story has two chapters: safe relative targets keep their complete destination, then external and scheme-relative targets use `/dashboard`.\n\nReview frame: source:working-tree · scope: `agent-suites/fixtures/sample-app/src/redirect.ts` · current version: selected worktree change\n\nPaused before Chapter 1."
     }
   ],
   "toolCalls": [],

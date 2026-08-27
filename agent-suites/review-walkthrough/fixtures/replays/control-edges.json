@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Using **review-walkthrough**.\n\nWalkthrough · source:staged-only · Scope: `agent-suites/fixtures/sample-app/src/redirect.ts`\n\n## Change map\n\n1. Safe relative redirects.\n2. External-target fallback.\n\nPaused at the map."
+      "content": "A user returns to the app after login. The staged change preserves safe relative redirects and keeps the unsafe-target fallback.\n\nThe story has two beats: the safe target passes through, then the fallback catches unsafe targets.\n\nReview frame: source:staged-only · scope: `agent-suites/fixtures/sample-app/src/redirect.ts` · current version: staged index diff\n\nPaused at the map."
     },
     {
       "role": "user",

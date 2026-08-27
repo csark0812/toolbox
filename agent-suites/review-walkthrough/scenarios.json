@@ -14,9 +14,16 @@
       "seedStageOnly": true,
       "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/map-paused.json",
       "rubric": {
-        "must": ["Walkthrough ·", "source:staged-only", "Change map", "Behavior", "Paused"],
+        "must": ["a user follows", "source:staged-only", "chapters", "Review frame", "Paused"],
         "mustInvokeSkill": ["review-walkthrough"],
-        "mustNot": ["merge-ready", "git commit", "git push", "No merge-blockers in scope"],
+        "mustNot": [
+          "Walkthrough ·",
+          "Here is the story",
+          "merge-ready",
+          "git commit",
+          "git push",
+          "No merge-blockers in scope"
+        ],
         "judge": [
           "The agent binds the staged surface, gives a plain-language behavior map, and pauses before a detailed code explanation"
         ]
@@ -29,17 +36,16 @@
       "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/behavior-across-files.json",
       "rubric": {
         "must": [
+          "a user logs in",
           "source:branch",
           "Step 1",
-          "Purpose",
-          "Flow",
-          "Key lines",
-          "Observed",
-          "Interpretation",
+          "The important code",
+          "Fact",
+          "Reading",
           "Paused"
         ],
         "mustInvokeSkill": ["review-walkthrough"],
-        "mustNot": ["git commit", "git push", "merge-ready"],
+        "mustNot": ["Walkthrough ·", "Here is the story", "git commit", "git push", "merge-ready"],
         "judge": [
           "The agent explains the login behavior across auth, storage, and entry-point files instead of producing an unrelated file inventory"
         ]
@@ -54,7 +60,15 @@
       "rubric": {
         "must": ["next", "go deeper", "why", "show the code", "back", "skip", "stop"],
         "mustInvokeSkill": ["review-walkthrough"],
-        "mustNot": ["REVIEW_LEDGER", "checkpoint file", "git commit", "git push"],
+        "mustNot": [
+          "Walkthrough ·",
+          "Here is the story",
+          "Using **review-walkthrough**",
+          "REVIEW_LEDGER",
+          "checkpoint file",
+          "git commit",
+          "git push"
+        ],
         "judge": [
           "The agent defines natural-language controls that preserve the current step, move between groups, or end with a summary"
         ]
@@ -68,7 +82,14 @@
       "rubric": {
         "must": ["unverified", "trigger", "impact", "code-review"],
         "mustInvokeSkill": ["review-walkthrough"],
-        "mustNot": ["git commit", "git push", "merge-ready", "No merge-blockers in scope"],
+        "mustNot": [
+          "Walkthrough ·",
+          "Here is the story",
+          "git commit",
+          "git push",
+          "merge-ready",
+          "No merge-blockers in scope"
+        ],
         "judge": [
           "The agent labels a concern with its trigger and impact, keeps the walkthrough read-only, and points to code-review for formal review"
         ]
@@ -80,9 +101,16 @@
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/large-change.patch",
       "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/large-change-paced.json",
       "rubric": {
-        "must": ["Change map", "Behavior groups", "proposed order", "skip", "revisit", "Paused"],
+        "must": ["The app receives", "chapters", "causal path", "skip", "revisit", "Paused"],
         "mustInvokeSkill": ["review-walkthrough"],
-        "mustNot": ["line-by-line", "git commit", "git push", "merge-ready"],
+        "mustNot": [
+          "Walkthrough ·",
+          "Here is the story",
+          "line-by-line",
+          "git commit",
+          "git push",
+          "merge-ready"
+        ],
         "judge": [
           "The agent groups a multi-file change into behavior-sized sections and describes user-controlled pacing"
         ]
@@ -94,7 +122,7 @@
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/redirect-staged.patch",
       "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/entry-worktree-fallback.json",
       "rubric": {
-        "must": ["source:working-tree", "non-empty", "Change map", "Paused"],
+        "must": ["source:working-tree", "non-empty", "The story", "Paused"],
         "mustInvokeSkill": ["review-walkthrough"],
         "mustNot": ["merge-ready", "git commit", "git push"],
         "judge": [
@@ -134,7 +162,7 @@
       "prompt": "Walk me through the current files agent-suites/fixtures/sample-app/src/auth.ts and agent-suites/fixtures/sample-app/src/session-store.ts. There is no diff to use. Bind this as a path source and pause at the map.",
       "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/entry-paths.json",
       "rubric": {
-        "must": ["source:paths", "exact paths", "no Git diff", "Change map", "Paused"],
+        "must": ["source:paths", "exact paths", "no Git diff", "The story", "Paused"],
         "mustInvokeSkill": ["review-walkthrough"],
         "mustNot": ["merge-ready", "git commit", "git push"],
         "judge": ["The agent explains that named current files form the source even without a diff"]
@@ -146,7 +174,7 @@
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch",
       "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/snapshot-recheck.json",
       "rubric": {
-        "must": ["head", "changed", "rebuilding the change map", "Step 1", "not mix"],
+        "must": ["head", "changed", "rebuilding the story", "Step 1", "not mix"],
         "mustInvokeSkill": ["review-walkthrough"],
         "mustNot": ["merge-ready", "git commit", "git push"],
         "judge": [
@@ -177,7 +205,14 @@
       "rubric": {
         "must": ["confirmed", "failing test", "trigger", "impact", "read-only"],
         "mustInvokeSkill": ["review-walkthrough"],
-        "mustNot": ["merge-ready", "git commit", "git push", "No merge-blockers in scope"],
+        "mustNot": [
+          "Walkthrough ·",
+          "Here is the story",
+          "merge-ready",
+          "git commit",
+          "git push",
+          "No merge-blockers in scope"
+        ],
         "judge": [
           "The agent uses confirmed only after stating code and test or reproduction evidence for both the trigger and impact"
         ]

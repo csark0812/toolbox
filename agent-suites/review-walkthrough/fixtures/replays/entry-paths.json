@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Using **review-walkthrough**.\n\nWalkthrough · source:paths · Scope: `agent-suites/fixtures/sample-app/src/auth.ts`, `agent-suites/fixtures/sample-app/src/session-store.ts`\n\nThe named files are the source even though there is no Git diff. I bind these exact paths at their current version and will report the current file version when available.\n\n## Change map\n\n1. Session creation and expiry in `auth.ts`.\n2. Token-based session lookup in `session-store.ts`.\n\n### Proposed order\n\nStart with session creation, then follow the token into storage.\n\nPaused at the change map."
+      "content": "The two named files are the source even though there is no Git diff. I bind these exact paths at their current version.\n\nThe story is a session created in `auth.ts` and then moved into token-based storage in `session-store.ts`. I’ll follow that path in execution order.\n\nReview frame: source:paths · scope: `agent-suites/fixtures/sample-app/src/auth.ts`, `agent-suites/fixtures/sample-app/src/session-store.ts` · current version: named files\n\nPaused before Chapter 1."
     }
   ],
   "toolCalls": [],

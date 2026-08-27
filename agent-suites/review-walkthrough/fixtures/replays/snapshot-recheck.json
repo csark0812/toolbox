@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Using **review-walkthrough**.\n\nWalkthrough · source:branch · Scope: `agent-suites/fixtures/sample-app/src`\n\nBound version: base `main` at `aaaaaaaa`, merge-base `cccccccc`, head `feature/login` at `11111111`. I will recheck the branch identity before reading the next group.\n\n## Change map\n\n1. Login creates and stores a session.\n2. Later requests recover that session by token.\n\nPaused at the map. Say `next` when ready."
+      "content": "A user logs in with a token. The login entry point creates a session and stores it so a later request can find it. I’ll follow that request one beat at a time.\n\nReview frame: source:branch · scope: `agent-suites/fixtures/sample-app/src` · base `main` at `aaaaaaaa` · merge-base `cccccccc` · head `feature/login` at `11111111`\n\nThe story has two beats: login creates and stores a session, then a later request recovers it. I will recheck the branch identity before reading the next beat.\n\nPaused before Step 1. Say `next` when ready."
     },
     {
       "role": "user",
@@ -10,7 +10,7 @@
     },
     {
       "role": "assistant",
-      "content": "The branch source changed before I read the next group: the bound head was `11111111`, and the current head is `22222222`. I will not mix the two versions. The earlier map and any Step 1 explanation are stale.\n\nI have rebound the current branch as head `feature/login` at `22222222`, with base `main` at `aaaaaaaa`; the merge-base must also be rechecked. I am rebuilding the change map now and restarting at Step 1.\n\n## Step 1 — Current branch map\n\nThe new current version must be mapped again before I explain its behavior.\n\nPaused at Step 1."
+      "content": "The branch changed before I read the next beat: the bound head was `11111111`, and the current head is `22222222`. I will not mix the two versions. The earlier story map is stale.\n\nI have rebound the current branch at head `22222222`, with base `main` at `aaaaaaaa`; the merge-base must also be rechecked. I am rebuilding the story now and restarting at Step 1.\n\n## Step 1 — The current branch\n\nThe new version needs a fresh story before I explain its behavior. Paused at Step 1."
     }
   ],
   "toolCalls": [],

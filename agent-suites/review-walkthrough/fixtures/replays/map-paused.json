@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Using **review-walkthrough**.\n\nWalkthrough · source:staged-only · Scope: `agent-suites/fixtures/sample-app/src/redirect.ts`\n\n## Change map\n\nThe staged change documents the safe relative login-redirect behavior and keeps the existing external-target fallback.\n\n### Behavior groups\n\n1. Safe relative targets keep their query and hash.\n2. External and scheme-relative targets continue to use `/dashboard`.\n\n### Proposed order\n\nStart with safe relative targets because that is the changed behavior. Then connect it to the fallback boundary.\n\nTests or proof: the staged diff is available; no test result is included in this walkthrough surface.\n\nPaused at the change map. Say `next` to start Step 1, name a behavior, or ask a question."
+      "content": "After login, a user follows a redirect back into the app. The change keeps the useful query and hash on a safe relative target, while unsafe targets still go to `/dashboard`.\n\nThe story has two chapters: the safe target makes it through, then the unsafe-target fallback catches everything else. I’ll follow that order.\n\nTests or proof: the staged diff shows the redirect change; no test result is included here.\n\nReview frame: source:staged-only · scope: `agent-suites/fixtures/sample-app/src/redirect.ts` · current version: staged index diff\n\nPaused before Chapter 1. Say `next` to begin, name a chapter, or ask a question."
     }
   ],
   "toolCalls": [],
