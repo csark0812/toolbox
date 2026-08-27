@@ -20,14 +20,15 @@
 
 ## Skills
 
-| Slug           | Canonical file                                        |
-| -------------- | ----------------------------------------------------- |
-| council        | [council/SKILL.md](../council/SKILL.md)               |
-| code-review    | [code-review/SKILL.md](../code-review/SKILL.md)       |
-| grill          | [grill/SKILL.md](../grill/SKILL.md)                   |
-| second-opinion | [second-opinion/SKILL.md](../second-opinion/SKILL.md) |
-| probe          | [probe/SKILL.md](../probe/SKILL.md)                   |
-| tdd            | [tdd/SKILL.md](../tdd/SKILL.md)                       |
-| prototype      | [prototype/SKILL.md](../prototype/SKILL.md)           |
-| domain-model   | [domain-model/SKILL.md](../domain-model/SKILL.md)     |
-| handoff        | [handoff/SKILL.md](../handoff/SKILL.md)               |
+| Slug               | Canonical file                                                |
+| ------------------ | ------------------------------------------------------------- |
+| council            | [council/SKILL.md](../council/SKILL.md)                       |
+| code-review        | [code-review/SKILL.md](../code-review/SKILL.md)               |
+| review-walkthrough | [review-walkthrough/SKILL.md](../review-walkthrough/SKILL.md) |
+| grill              | [grill/SKILL.md](../grill/SKILL.md)                           |
+| second-opinion     | [second-opinion/SKILL.md](../second-opinion/SKILL.md)         |
+| probe              | [probe/SKILL.md](../probe/SKILL.md)                           |
+| tdd                | [tdd/SKILL.md](../tdd/SKILL.md)                               |
+| prototype          | [prototype/SKILL.md](../prototype/SKILL.md)                   |
+| domain-model       | [domain-model/SKILL.md](../domain-model/SKILL.md)             |
+| handoff            | [handoff/SKILL.md](../handoff/SKILL.md)                       |

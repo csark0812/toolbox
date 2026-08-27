@@ -1,0 +1,51 @@
+diff --git a/agent-suites/fixtures/sample-app/src/auth.ts b/agent-suites/fixtures/sample-app/src/auth.ts
+index 0f11aa1..1a22bb2 100644
+--- a/agent-suites/fixtures/sample-app/src/auth.ts
++++ b/agent-suites/fixtures/sample-app/src/auth.ts
+@@ -3,6 +3,10 @@ export interface Session {
+   expiresAt: number
+ }
+ 
++export function createSession(userId: string, now = Date.now()): Session {
++  return { userId, expiresAt: now + 60 * 60 * 1000 }
++}
++
+ export function isSessionActive(session: Session | undefined, now = Date.now()): boolean {
+   if (!session) {
+     return false
+   }
+diff --git a/agent-suites/fixtures/sample-app/src/form.tsx b/agent-suites/fixtures/sample-app/src/form.tsx
+index 2d11aa1..2e66bb7 100644
+--- a/agent-suites/fixtures/sample-app/src/form.tsx
++++ b/agent-suites/fixtures/sample-app/src/form.tsx
+@@ -7,6 +7,13 @@ export interface SampleFormState {
+   error?: string
+ }
+ 
++export function optimisticSubmit(state: SampleFormState): SampleFormState {
++  return {
++    ...state,
++    status: 'success',
++  }
++}
++
+ export function nextSubmitState(state: SampleFormState, serverError?: string): SampleFormState {
+   if (serverError) {
+     return {
+diff --git a/agent-suites/fixtures/sample-app/src/session-store.ts b/agent-suites/fixtures/sample-app/src/session-store.ts
+new file mode 100644
+index 0000000..2b33cc4
+--- /dev/null
++++ b/agent-suites/fixtures/sample-app/src/session-store.ts
+@@ -0,0 +1,11 @@
++import type { Session } from './auth'
++
++const sessions = new Map<string, Session>()
++
++export function saveSession(token: string, session: Session): void {
++  sessions.set(token, session)
++}
++
++export function loadSession(token: string): Session | undefined {
++  return sessions.get(token)
++}

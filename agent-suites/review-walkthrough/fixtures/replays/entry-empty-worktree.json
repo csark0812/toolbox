@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "I cannot start the walkthrough because no source was named and the current worktree is empty. I will not infer a source from recent agent actions. Please name a change source: staged changes, working-tree changes, a commit, a branch, a pull request, or exact paths."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["review-walkthrough"],
+  "artifacts": {}
+}

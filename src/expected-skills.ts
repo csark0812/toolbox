@@ -2,6 +2,7 @@
 export const EXPECTED_SKILLS = [
   'council',
   'code-review',
+  'review-walkthrough',
   'grill',
   'second-opinion',
   'probe',

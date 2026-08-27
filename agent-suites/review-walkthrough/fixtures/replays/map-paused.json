@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **review-walkthrough**.\n\nWalkthrough · source:staged-only · Scope: `agent-suites/fixtures/sample-app/src/redirect.ts`\n\n## Change map\n\nThe staged change documents the safe relative login-redirect behavior and keeps the existing external-target fallback.\n\n### Behavior groups\n\n1. Safe relative targets keep their query and hash.\n2. External and scheme-relative targets continue to use `/dashboard`.\n\n### Proposed order\n\nStart with safe relative targets because that is the changed behavior. Then connect it to the fallback boundary.\n\nTests or proof: the staged diff is available; no test result is included in this walkthrough surface.\n\nPaused at the change map. Say `next` to start Step 1, name a behavior, or ask a question."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["review-walkthrough"],
+  "artifacts": {}
+}

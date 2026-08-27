@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **review-walkthrough**.\n\n## Named commit\n\nWalkthrough · source:commit · Scope: `agent-suites/fixtures/sample-app/src`\n\nBound version: commit `0123456789abcdef0123456789abcdef01234567`; the full commit ID keeps this explanation tied to one version. I will explain the selected files from that commit and will not replace it with a branch tip.\n\n## Named pull request\n\nWalkthrough · source:pr · Scope: `agent-suites/fixtures/sample-app/src`\n\nFor a pull request, bind the pull-request number and the current base and head refs and IDs, for example `PR #42`, base `main` at `aaaaaaaa`, head `feature/login` at `bbbbbbbb`. Recheck those identities before each step. If the base or head changes, rebuild the map.\n\nThe source identities are separate: the commit uses one full commit ID; the pull request uses its current base and head."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["review-walkthrough"],
+  "artifacts": {}
+}

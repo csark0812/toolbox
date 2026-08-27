@@ -35,6 +35,7 @@ Consumer repos own product integration outcomes (app paths, private docs, `valid
 Toolbox owns generic skill-contract behavior:
 
 - `code-review`: diff adapters, merge-blocker filing, review-only — no orchestration in skill body.
+- `review-walkthrough`: behavior-first, user-paced change explanation, evidence anchors, read-only concern callouts — no merge-readiness filing.
 - `council`: invent perspectives; real Task spawns; ≤100k; skip when single-pass rival suffices.
 - `second-opinion`: invent lenses from ask; single-pass by default; layer council for multi-perspective depth; claim anchoring; unanchored kills tagged `drift`; path or paste artifact.
 - `probe-evidence`: discriminating kill tests; leave dead patches after 2–3 no-signal reads (Evidence stance).

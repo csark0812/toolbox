@@ -26,15 +26,16 @@ Dispatch and pack refs live under orchestrator trees (`context-pack.md`, `advers
 
 Each process skill is an **atom**: entry gate → non-negotiables → workflow → exit artifact → non-goals (frontmatter `Not …`). Atoms stack on overlapping **Slice** / **Artifact** / **Seam** without naming siblings.
 
-| Slug               | Atom (natural language)                                                                                                                                                                        |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **code-review**    | Review code on any surface through any lens; file merge-blockers with evidence. When a consumer-local review/standards skill is also loaded, stack both opinions (neither replaces the other). |
-| **second-opinion** | Adversarial critique of a written artifact — invent lenses; single-pass by default; layer **council** for multi-perspective depth                                                              |
-| **grill**          | Shape fuzzy intent (intent phase) and walk the design tree in dialogue until major branches align                                                                                              |
-| **probe**          | Hunch verdict (Evidence) or hard-bug fix (Fix) under Authority B — tight **Repro** before patch                                                                                                |
-| **tdd**            | Test-first build at agreed public seams — red-green on a **Slice**                                                                                                                             |
-| **prototype**      | Throwaway spike for one design question                                                                                                                                                        |
-| **domain-model**   | Persist glossary + ADRs when a decision is ready                                                                                                                                               |
+| Slug                   | Atom (natural language)                                                                                                                                                                        |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **code-review**        | Review code on any surface through any lens; file merge-blockers with evidence. When a consumer-local review/standards skill is also loaded, stack both opinions (neither replaces the other). |
+| **review-walkthrough** | Explain a bounded code change one behavior at a time with evidence anchors; do not make merge-readiness claims.                                                                                |
+| **second-opinion**     | Adversarial critique of a written artifact — invent lenses; single-pass by default; layer **council** for multi-perspective depth                                                              |
+| **grill**              | Shape fuzzy intent (intent phase) and walk the design tree in dialogue until major branches align                                                                                              |
+| **probe**              | Hunch verdict (Evidence) or hard-bug fix (Fix) under Authority B — tight **Repro** before patch                                                                                                |
+| **tdd**                | Test-first build at agreed public seams — red-green on a **Slice**                                                                                                                             |
+| **prototype**          | Throwaway spike for one design question                                                                                                                                                        |
+| **domain-model**       | Persist glossary + ADRs when a decision is ready                                                                                                                                               |
 
 ## Process SSOT (`toolbox/`)
 

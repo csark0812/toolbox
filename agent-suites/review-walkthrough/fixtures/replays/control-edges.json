@@ -1,0 +1,60 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **review-walkthrough**.\n\nWalkthrough · source:staged-only · Scope: `agent-suites/fixtures/sample-app/src/redirect.ts`\n\n## Change map\n\n1. Safe relative redirects.\n2. External-target fallback.\n\nPaused at the map."
+    },
+    {
+      "role": "user",
+      "content": "back"
+    },
+    {
+      "role": "assistant",
+      "content": "There is no earlier group than the change map. I stay at the map. Say `next` to begin."
+    },
+    {
+      "role": "user",
+      "content": "next"
+    },
+    {
+      "role": "assistant",
+      "content": "## Step 1 — Safe relative redirects\n\nObserved: the staged code keeps the full relative target.\nInterpretation: its query and hash remain available to the caller.\n\nPaused at Step 1/2."
+    },
+    {
+      "role": "user",
+      "content": "skip"
+    },
+    {
+      "role": "assistant",
+      "content": "Step 1 is skipped. Step 2 — External-target fallback is now active. Paused at Step 2/2."
+    },
+    {
+      "role": "user",
+      "content": "back"
+    },
+    {
+      "role": "assistant",
+      "content": "Step 1 is reopened and is no longer marked skipped. Safe relative redirects remain the previous group. Paused at Step 1/2."
+    },
+    {
+      "role": "user",
+      "content": "next"
+    },
+    {
+      "role": "assistant",
+      "content": "Step 2 — External-target fallback is active again. Paused at the last group."
+    },
+    {
+      "role": "user",
+      "content": "skip"
+    },
+    {
+      "role": "assistant",
+      "content": "The last group is marked skipped, so the walkthrough ends.\n\n## Understanding summary\n\n- Covered: safe relative redirects.\n- Skipped: external-target fallback.\n- The walkthrough stayed in the conversation and remained read-only."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["review-walkthrough"],
+  "artifacts": {}
+}

@@ -1,0 +1,20 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **review-walkthrough**.\n\nWalkthrough · source:branch · Scope: `agent-suites/fixtures/sample-app/src`\n\nBound version: base `main` at `aaaaaaaa`, merge-base `cccccccc`, head `feature/login` at `11111111`. I will recheck the branch identity before reading the next group.\n\n## Change map\n\n1. Login creates and stores a session.\n2. Later requests recover that session by token.\n\nPaused at the map. Say `next` when ready."
+    },
+    {
+      "role": "user",
+      "content": "next — the branch head changed to 22222222 before you continue"
+    },
+    {
+      "role": "assistant",
+      "content": "The branch source changed before I read the next group: the bound head was `11111111`, and the current head is `22222222`. I will not mix the two versions. The earlier map and any Step 1 explanation are stale.\n\nI have rebound the current branch as head `feature/login` at `22222222`, with base `main` at `aaaaaaaa`; the merge-base must also be rechecked. I am rebuilding the change map now and restarting at Step 1.\n\n## Step 1 — Current branch map\n\nThe new current version must be mapped again before I explain its behavior.\n\nPaused at Step 1."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["review-walkthrough"],
+  "artifacts": {}
+}

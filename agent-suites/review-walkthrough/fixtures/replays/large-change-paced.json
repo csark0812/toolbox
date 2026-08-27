@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **review-walkthrough**.\n\nWalkthrough · source:branch · Scope: `agent-suites/fixtures/sample-app/src`\n\n## Change map\n\nThis branch contains separate behavior groups rather than one long file tour:\n\n1. Session creation and storage — `auth.ts` and `session-store.ts`.\n2. Form submission feedback — `form.tsx`.\n\n### Proposed order\n\nStart with session creation and storage because it is the state-flow group. Then explain optimistic form feedback.\n\nFor each group, `next` continues, `go deeper` expands the current group, `skip` moves past it, and `back` revisits the previous group.\n\n## Step 1 — Session creation and storage\n\nThe session group connects the new expiry-producing function in `auth.ts:6` to the token map in `session-store.ts:5`. The form group is separate and can be revisited later.\n\nObserved: three changed files participate in two behavior groups.\nInterpretation: grouping by behavior keeps the explanation shorter and easier to inspect.\n\nPaused at Step 1/2."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["review-walkthrough"],
+  "artifacts": {}
+}

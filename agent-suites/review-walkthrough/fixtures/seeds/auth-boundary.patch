@@ -1,0 +1,11 @@
+diff --git a/agent-suites/fixtures/sample-app/src/auth.ts b/agent-suites/fixtures/sample-app/src/auth.ts
+index 0f11aa1..4e55cc6 100644
+--- a/agent-suites/fixtures/sample-app/src/auth.ts
++++ b/agent-suites/fixtures/sample-app/src/auth.ts
+@@ -6,5 +6,5 @@ export function isSessionActive(session: Session | undefined, now = Date.now()): boolean {
+     return false
+   }
+ 
+-  return session.expiresAt > now
++  return session.expiresAt >= now
+ }

@@ -27,7 +27,7 @@ npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex
 npx skills update -g
 
 # Core dialogue/build set (subset) — space-separated skill names (not commas)
-npx skills add csark0812/toolbox --skill council code-review grill second-opinion probe tdd prototype domain-model handoff -g --agent cursor claude-code codex -y
+npx skills add csark0812/toolbox --skill council code-review review-walkthrough grill second-opinion probe tdd prototype domain-model handoff -g --agent cursor claude-code codex -y
 ```
 
 Shorthand for `https://github.com/csark0812/toolbox`. The `@` prefix (npm-style scopes) is not supported by the skills CLI — use `csark0812/toolbox`.
@@ -75,17 +75,18 @@ Existing committed toolbox process skill dirs keep loading until removed. Delete
 
 ## Skills
 
-| Group        | Slug           | Purpose                                                                                         |
-| ------------ | -------------- | ----------------------------------------------------------------------------------------------- |
-| Orchestrator | council        | Multi-agent depth — invent perspectives, spawn Task members, synthesize                         |
-| Orchestrator | handoff        | A2A cross-session — channel + pack + goal; pointers not bodies                                  |
-| Process      | code-review    | Review any surface + lens; merge-blockers with evidence                                         |
-| Process      | second-opinion | Adversarial critique of a written artifact — invent lenses; layer council for multi-agent depth |
-| Process      | grill          | Fuzzy intent + design pressure-test before implementation                                       |
-| Process      | probe          | Hunch verdict or hard-bug fix under Authority B                                                 |
-| Process      | tdd            | Test-first build at agreed public seams                                                         |
-| Process      | prototype      | Throwaway artifact for one design question                                                      |
-| Process      | domain-model   | Persist glossary + ADRs when decisions are ready                                                |
+| Group        | Slug               | Purpose                                                                                         |
+| ------------ | ------------------ | ----------------------------------------------------------------------------------------------- |
+| Orchestrator | council            | Multi-agent depth — invent perspectives, spawn Task members, synthesize                         |
+| Orchestrator | handoff            | A2A cross-session — channel + pack + goal; pointers not bodies                                  |
+| Process      | code-review        | Review any surface + lens; merge-blockers with evidence                                         |
+| Process      | review-walkthrough | Explain a bounded change one behavior at a time with evidence anchors                           |
+| Process      | second-opinion     | Adversarial critique of a written artifact — invent lenses; layer council for multi-agent depth |
+| Process      | grill              | Fuzzy intent + design pressure-test before implementation                                       |
+| Process      | probe              | Hunch verdict or hard-bug fix under Authority B                                                 |
+| Process      | tdd                | Test-first build at agreed public seams                                                         |
+| Process      | prototype          | Throwaway artifact for one design question                                                      |
+| Process      | domain-model       | Persist glossary + ADRs when decisions are ready                                                |
 
 Orchestrators define **agent-to-agent** wiring; process skills describe **what happens** and point at orchestrators when another agent or pass is needed. See [docs/tiers.md](docs/tiers.md).
 

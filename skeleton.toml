@@ -11,6 +11,7 @@ include = [
   "agent-suites/README.md",
   "council/**",
   "code-review/**",
+  "review-walkthrough/**",
   "grill/**",
   "second-opinion/**",
   "probe/**",
@@ -36,6 +37,7 @@ lockfile = "skills-lock.json"
 ownedSlugs = [
   "council",
   "code-review",
+  "review-walkthrough",
   "grill",
   "second-opinion",
   "probe",

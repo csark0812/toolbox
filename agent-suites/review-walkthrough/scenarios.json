@@ -1,0 +1,187 @@
+{
+  "name": "review-walkthrough",
+  "description": "Portable review-walkthrough skill conformance: behavior map, paced steps, natural controls, evidence anchors, and read-only boundaries",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "map: pause before first behavior",
+      "prompt": "Walk me through my staged changes in agent-suites/fixtures/sample-app/src/redirect.ts. I want to understand the change before I ask for any formal review.\n\nRead `.claude/skills/review-walkthrough/SKILL.md` first. Build a change map before explaining the first behavior, then pause for my instruction. Review only; do not edit or commit.",
+      "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/redirect-staged.patch",
+      "seedStageOnly": true,
+      "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/map-paused.json",
+      "rubric": {
+        "must": ["Walkthrough ·", "source:staged-only", "Change map", "Behavior", "Paused"],
+        "mustInvokeSkill": ["review-walkthrough"],
+        "mustNot": ["merge-ready", "git commit", "git push", "No merge-blockers in scope"],
+        "judge": [
+          "The agent binds the staged surface, gives a plain-language behavior map, and pauses before a detailed code explanation"
+        ]
+      }
+    },
+    {
+      "name": "behavior: connect files in flow order",
+      "prompt": "Walk me through the branch changes for the login session flow in agent-suites/fixtures/sample-app/src. Explain the behavior across files in execution order, with key path and line anchors. Pause after the first behavior group.\n\nRead `.claude/skills/review-walkthrough/SKILL.md` first. Review only; do not edit or commit.",
+      "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch",
+      "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/behavior-across-files.json",
+      "rubric": {
+        "must": [
+          "source:branch",
+          "Step 1",
+          "Purpose",
+          "Flow",
+          "Key lines",
+          "Observed",
+          "Interpretation",
+          "Paused"
+        ],
+        "mustInvokeSkill": ["review-walkthrough"],
+        "mustNot": ["git commit", "git push", "merge-ready"],
+        "judge": [
+          "The agent explains the login behavior across auth, storage, and entry-point files instead of producing an unrelated file inventory"
+        ]
+      }
+    },
+    {
+      "name": "controls: natural language pacing",
+      "prompt": "Use the review walkthrough for the staged redirect change. Demonstrate how you handle natural controls: next, go deeper, why, show the code, back, skip, and stop. Keep progress in the conversation and do not create a review file.\n\nRead `.claude/skills/review-walkthrough/SKILL.md` first. Review only; do not edit or commit.",
+      "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/redirect-staged.patch",
+      "seedStageOnly": true,
+      "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/natural-controls.json",
+      "rubric": {
+        "must": ["next", "go deeper", "why", "show the code", "back", "skip", "stop"],
+        "mustInvokeSkill": ["review-walkthrough"],
+        "mustNot": ["REVIEW_LEDGER", "checkpoint file", "git commit", "git push"],
+        "judge": [
+          "The agent defines natural-language controls that preserve the current step, move between groups, or end with a summary"
+        ]
+      }
+    },
+    {
+      "name": "concern: call out without repairing",
+      "prompt": "Walk me through the branch change in agent-suites/fixtures/sample-app/src/auth.ts. Explain the behavior and call out any concern you see, but do not repair it or turn this into a merge-readiness review.\n\nRead `.claude/skills/review-walkthrough/SKILL.md` first. Review only; do not edit, commit, push, or submit a review.",
+      "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/auth-boundary.patch",
+      "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/concern-read-only.json",
+      "rubric": {
+        "must": ["unverified", "trigger", "impact", "code-review"],
+        "mustInvokeSkill": ["review-walkthrough"],
+        "mustNot": ["git commit", "git push", "merge-ready", "No merge-blockers in scope"],
+        "judge": [
+          "The agent labels a concern with its trigger and impact, keeps the walkthrough read-only, and points to code-review for formal review"
+        ]
+      }
+    },
+    {
+      "name": "large change: group and pace",
+      "prompt": "Walk me through this large branch change in agent-suites/fixtures/sample-app/src. Group related changes by behavior, show the proposed order, and explain how I can skip or revisit a group. Do not force a line-by-line tour.\n\nRead `.claude/skills/review-walkthrough/SKILL.md` first. Review only; do not edit or commit.",
+      "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/large-change.patch",
+      "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/large-change-paced.json",
+      "rubric": {
+        "must": ["Change map", "Behavior groups", "proposed order", "skip", "revisit", "Paused"],
+        "mustInvokeSkill": ["review-walkthrough"],
+        "mustNot": ["line-by-line", "git commit", "git push", "merge-ready"],
+        "judge": [
+          "The agent groups a multi-file change into behavior-sized sections and describes user-controlled pacing"
+        ]
+      }
+    },
+    {
+      "name": "entry: unnamed source uses worktree only when non-empty",
+      "prompt": "Walk me through the changes in agent-suites/fixtures/sample-app/src/redirect.ts. I did not name a source, so use the current worktree only if it has changes. State which source you bind and pause after the map. Review only; do not edit or commit.",
+      "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/redirect-staged.patch",
+      "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/entry-worktree-fallback.json",
+      "rubric": {
+        "must": ["source:working-tree", "non-empty", "Change map", "Paused"],
+        "mustInvokeSkill": ["review-walkthrough"],
+        "mustNot": ["merge-ready", "git commit", "git push"],
+        "judge": [
+          "The agent uses the worktree fallback only because the worktree has a change and states that binding explicitly"
+        ]
+      }
+    },
+    {
+      "name": "entry: empty worktree asks for a source",
+      "prompt": "Walk me through the changes. The current worktree is empty. Do not guess from recent agent actions; tell me what you need from me.",
+      "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/entry-empty-worktree.json",
+      "rubric": {
+        "must": ["empty", "name a change source", "not infer"],
+        "mustInvokeSkill": ["review-walkthrough"],
+        "mustNot": ["Change map", "merge-ready", "git commit", "git push"],
+        "judge": [
+          "The agent stops at the entry gate and asks for a named source instead of inventing one"
+        ]
+      }
+    },
+    {
+      "name": "entry: named commit and pull request sources",
+      "prompt": "Explain this named commit first, then tell me how the source binding differs for a pull request. Keep the two source identities separate and stay read-only.",
+      "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch",
+      "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/entry-commit-pr.json",
+      "rubric": {
+        "must": ["source:commit", "full commit ID", "source:pr", "base", "head"],
+        "mustInvokeSkill": ["review-walkthrough"],
+        "mustNot": ["merge-ready", "git commit", "git push"],
+        "judge": [
+          "The agent binds a commit by full ID and describes a pull request with its current base and head identities without mixing them"
+        ]
+      }
+    },
+    {
+      "name": "entry: named paths do not need a diff",
+      "prompt": "Walk me through the current files agent-suites/fixtures/sample-app/src/auth.ts and agent-suites/fixtures/sample-app/src/session-store.ts. There is no diff to use. Bind this as a path source and pause at the map.",
+      "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/entry-paths.json",
+      "rubric": {
+        "must": ["source:paths", "exact paths", "no Git diff", "Change map", "Paused"],
+        "mustInvokeSkill": ["review-walkthrough"],
+        "mustNot": ["merge-ready", "git commit", "git push"],
+        "judge": ["The agent explains that named current files form the source even without a diff"]
+      }
+    },
+    {
+      "name": "snapshot: changed source rebuilds the map",
+      "prompt": "Walk me through this branch change one behavior at a time. After the first pause, assume the branch head changes before I say next. Explain the stale-source response and keep old and new versions separate.",
+      "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch",
+      "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/snapshot-recheck.json",
+      "rubric": {
+        "must": ["head", "changed", "rebuilding the change map", "Step 1", "not mix"],
+        "mustInvokeSkill": ["review-walkthrough"],
+        "mustNot": ["merge-ready", "git commit", "git push"],
+        "judge": [
+          "The agent binds branch identity, rechecks it before advancing, and restarts from a new map when the head changes"
+        ]
+      }
+    },
+    {
+      "name": "controls: first and last group boundaries",
+      "prompt": "Use the walkthrough controls on the staged redirect change. Test back at the map, skip and revisit a group, and skip the last group. Keep the result as an understanding summary.",
+      "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/redirect-staged.patch",
+      "seedStageOnly": true,
+      "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/control-edges.json",
+      "rubric": {
+        "must": ["no earlier group", "skipped", "reopened", "last group", "Understanding summary"],
+        "mustInvokeSkill": ["review-walkthrough"],
+        "mustNot": ["merge-ready", "git commit", "git push"],
+        "judge": [
+          "The agent handles map and last-group boundaries, and a revisited skipped group is no longer treated as skipped"
+        ]
+      }
+    },
+    {
+      "name": "concern: confirmed requires trigger and impact evidence",
+      "prompt": "Explain this branch change and label a concern as confirmed only if the code and a failing test or reproduction show both its trigger and impact. Keep the walkthrough read-only and do not make a merge decision.",
+      "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/auth-boundary.patch",
+      "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/concern-confirmed-evidence.json",
+      "rubric": {
+        "must": ["confirmed", "failing test", "trigger", "impact", "read-only"],
+        "mustInvokeSkill": ["review-walkthrough"],
+        "mustNot": ["merge-ready", "git commit", "git push", "No merge-blockers in scope"],
+        "judge": [
+          "The agent uses confirmed only after stating code and test or reproduction evidence for both the trigger and impact"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Using **review-walkthrough**.\n\nWalkthrough · source:paths · Scope: `agent-suites/fixtures/sample-app/src/auth.ts`, `agent-suites/fixtures/sample-app/src/session-store.ts`\n\nThe named files are the source even though there is no Git diff. I bind these exact paths at their current version and will report the current file version when available.\n\n## Change map\n\n1. Session creation and expiry in `auth.ts`.\n2. Token-based session lookup in `session-store.ts`.\n\n### Proposed order\n\nStart with session creation, then follow the token into storage.\n\nPaused at the change map."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["review-walkthrough"],
+  "artifacts": {}
+}

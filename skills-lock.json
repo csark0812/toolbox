@@ -43,6 +43,12 @@
       "skillPath": "prototype/SKILL.md",
       "computedHash": "0c2745f23989208ff1079f38c92f3a0ec581cf23e1c34a637888c2c832cd2a67"
     },
+    "review-walkthrough": {
+      "source": "csark0812/toolbox",
+      "sourceType": "github",
+      "skillPath": "review-walkthrough/SKILL.md",
+      "computedHash": "37eaf1a0543fc2407fa7b18bc7e63e3359532e458e5eb84a9fc596d88ba713d1"
+    },
     "second-opinion": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
