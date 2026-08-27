@@ -6,7 +6,7 @@ description: Explain a bounded code change as a paced, story-first walkthrough w
 # Review walkthrough
 
 <!-- source-of-truth: story-first explanation of a bounded code change. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-26 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-27 -->
 
 **Process skill** — guide the user through the change as a short story about one request, event, or user action moving through the system. Use code references to support the story, not to replace it. This skill is read-only and does not replace formal `code-review`.
 
@@ -105,6 +105,10 @@ Paused at Step 1/<total>. Say `next`, `go deeper`, `why`, `show the code`, `back
 ```
 
 Follow data and control flow in execution order. Keep the step active when the user asks `why`, `go deeper`, or `show the code`. Use a short excerpt only when the user asks to see the code or a line reference is not enough.
+
+#### Match detail to the code
+
+Treat self-explanatory helpers as context. Summarize their observable effect in one sentence. Spend the story beat on non-obvious control flow, state transitions, ownership, and rationale. Do not unpack a straightforward helper in detail unless the user asks to go deeper.
 
 ### 3. Apply natural controls
 

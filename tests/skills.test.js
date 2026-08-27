@@ -20,6 +20,14 @@ describe('toolbox skill SSOT', () => {
     }
   })
 
+  it('review walkthrough calibrates detail to code complexity', () => {
+    const skill = readFileSync(join(root, 'review-walkthrough/SKILL.md'), 'utf8')
+    expect(skill).toMatch(/Treat self-explanatory helpers as context/)
+    expect(skill).toMatch(/observable effect in one sentence/)
+    expect(skill).toMatch(/non-obvious control flow, state transitions, ownership, and rationale/)
+    expect(skill).toMatch(/unless the user asks to go deeper/)
+  })
+
   it('all shipped skills are model-invokable (no disable-model-invocation)', () => {
     for (const slug of EXPECTED_SKILLS) {
       const skill = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
