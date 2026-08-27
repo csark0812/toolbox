@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "A user logs in with a token. The login entry point creates a session and stores it so a later request can find it. I’ll follow that request one beat at a time.\n\nReview frame: source:branch · scope: `agent-suites/fixtures/sample-app/src` · base `main` at `aaaaaaaa` · merge-base `cccccccc` · head `feature/login` at `11111111`\n\nThe story has two beats: login creates and stores a session, then a later request recovers it. I will recheck the branch identity before reading the next beat.\n\nPaused before Step 1. Say `next` when ready."
+      "content": "## Step 1 — Login creates and stores a session\n\nA user logs in with a token. The login entry point creates a session and stores it so a later request can find it.\n\nReview frame: source:branch · scope: `agent-suites/fixtures/sample-app/src` · base `main` at `aaaaaaaa` · merge-base `cccccccc` · head `feature/login` at `11111111`\n\n```ts\nconst session = createSession(userId)\nsessions.set(token, session)\n```\n\nSummary: login-time creation and storage make the session available through its token.\n\nI will recheck the branch identity before reading the next beat. Paused at Step 1/2. Say `next` when ready."
     },
     {
       "role": "user",
@@ -10,7 +10,7 @@
     },
     {
       "role": "assistant",
-      "content": "The branch changed before I read the next beat: the bound head was `11111111`, and the current head is `22222222`. I will not mix the two versions. The earlier story map is stale.\n\nI have rebound the current branch at head `22222222`, with base `main` at `aaaaaaaa`; the merge-base must also be rechecked. I am rebuilding the story now and restarting at Step 1.\n\n## Step 1 — The current branch\n\nThe new version needs a fresh story before I explain its behavior. Paused at Step 1."
+      "content": "The branch changed before I read the next beat: the bound head was `11111111`, and the current head is `22222222`. I will not mix the two versions.\n\nI rebound the current branch at head `22222222`, with base `main` at `aaaaaaaa`; the merge-base is also rechecked. Step 1 remains accepted, so I am resuming at the next causal position.\n\n## Step 2 — A later request recovers the session\n\nA later request presents the token, and the session store returns the session created by the login.\n\nReview frame: source:branch · scope: `agent-suites/fixtures/sample-app/src` · base `main` at `aaaaaaaa` · merge-base `dddddddd` · head `feature/login` at `22222222`\n\n```ts\nreturn sessions.get(token)\n```\n\nSummary: the new branch version continues from the approved login behavior and follows the token to the stored session.\nProof: no test result is included in this replay.\n\nPaused at Step 2/2."
     }
   ],
   "toolCalls": [],

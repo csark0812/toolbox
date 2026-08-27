@@ -8,8 +8,8 @@
   },
   "scenarios": [
     {
-      "name": "map: pause before first behavior",
-      "prompt": "Walk me through my staged changes in agent-suites/fixtures/sample-app/src/redirect.ts. I want to understand the change before I ask for any formal review.\n\nRead `.claude/skills/review-walkthrough/SKILL.md` first. Build a change map before explaining the first behavior, then pause for my instruction. Review only; do not edit or commit.",
+      "name": "map: explicit request before first behavior",
+      "prompt": "Walk me through my staged changes in agent-suites/fixtures/sample-app/src/redirect.ts. I want to understand the change before I ask for any formal review.\n\nRead `.claude/skills/review-walkthrough/SKILL.md` first. Show me a compact change map before explaining the first behavior, then pause for my instruction. Review only; do not edit or commit.",
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/redirect-staged.patch",
       "seedStageOnly": true,
       "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/map-paused.json",
@@ -25,7 +25,7 @@
           "No merge-blockers in scope"
         ],
         "judge": [
-          "The agent binds the staged surface, gives a plain-language behavior map, and pauses before a detailed code explanation"
+          "The agent binds the staged surface, gives a compact map because the user asked for one, and pauses before a detailed code explanation"
         ]
       }
     },
@@ -36,12 +36,12 @@
       "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/behavior-across-files.json",
       "rubric": {
         "must": [
-          "a user logs in",
+          "A user submits their login",
           "source:branch",
           "Step 1",
-          "The important code",
-          "Fact",
-          "Reading",
+          "The excerpt shows",
+          "Code",
+          "Summary",
           "Paused"
         ],
         "mustInvokeSkill": ["review-walkthrough"],
@@ -101,7 +101,7 @@
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/large-change.patch",
       "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/large-change-paced.json",
       "rubric": {
-        "must": ["The app receives", "chapters", "causal path", "skip", "revisit", "Paused"],
+        "must": ["The app receives", "two stories", "causal path", "skip", "revisit", "Paused"],
         "mustInvokeSkill": ["review-walkthrough"],
         "mustNot": [
           "Walkthrough ·",
@@ -118,11 +118,11 @@
     },
     {
       "name": "entry: unnamed source uses worktree only when non-empty",
-      "prompt": "Walk me through the changes in agent-suites/fixtures/sample-app/src/redirect.ts. I did not name a source, so use the current worktree only if it has changes. State which source you bind and pause after the map. Review only; do not edit or commit.",
+      "prompt": "Walk me through the changes in agent-suites/fixtures/sample-app/src/redirect.ts. I did not name a source, so use the current worktree only if it has changes. State which source you bind and start with the first behavior. Review only; do not edit or commit.",
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/redirect-staged.patch",
       "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/entry-worktree-fallback.json",
       "rubric": {
-        "must": ["source:working-tree", "non-empty", "The story", "Paused"],
+        "must": ["source:working-tree", "non-empty", "Step 1", "Summary", "Paused"],
         "mustInvokeSkill": ["review-walkthrough"],
         "mustNot": ["merge-ready", "git commit", "git push"],
         "judge": [
@@ -159,26 +159,26 @@
     },
     {
       "name": "entry: named paths do not need a diff",
-      "prompt": "Walk me through the current files agent-suites/fixtures/sample-app/src/auth.ts and agent-suites/fixtures/sample-app/src/session-store.ts. There is no diff to use. Bind this as a path source and pause at the map.",
+      "prompt": "Walk me through the current files agent-suites/fixtures/sample-app/src/auth.ts and agent-suites/fixtures/sample-app/src/session-store.ts. There is no diff to use. Bind this as a path source and start with the first behavior.",
       "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/entry-paths.json",
       "rubric": {
-        "must": ["source:paths", "exact paths", "no Git diff", "The story", "Paused"],
+        "must": ["source:paths", "two named files", "no Git diff", "Step 1", "Summary", "Paused"],
         "mustInvokeSkill": ["review-walkthrough"],
         "mustNot": ["merge-ready", "git commit", "git push"],
         "judge": ["The agent explains that named current files form the source even without a diff"]
       }
     },
     {
-      "name": "snapshot: changed source rebuilds the map",
+      "name": "snapshot: changed source resumes the current beat",
       "prompt": "Walk me through this branch change one behavior at a time. After the first pause, assume the branch head changes before I say next. Explain the stale-source response and keep old and new versions separate.",
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch",
       "replayTrace": "agent-suites/review-walkthrough/fixtures/replays/snapshot-recheck.json",
       "rubric": {
-        "must": ["head", "changed", "rebuilding the story", "Step 1", "not mix"],
+        "must": ["head", "changed", "rebound", "Step 2", "Step 1", "accepted", "not mix"],
         "mustInvokeSkill": ["review-walkthrough"],
         "mustNot": ["merge-ready", "git commit", "git push"],
         "judge": [
-          "The agent binds branch identity, rechecks it before advancing, and restarts from a new map when the head changes"
+          "The agent binds branch identity, rechecks it before advancing, and resumes at the current story position after the head changes while retaining the earlier beat as accepted"
         ]
       }
     },

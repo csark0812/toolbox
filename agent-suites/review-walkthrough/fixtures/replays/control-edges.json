@@ -18,7 +18,7 @@
     },
     {
       "role": "assistant",
-      "content": "## Step 1 — Safe relative redirects\n\nObserved: the staged code keeps the full relative target.\nInterpretation: its query and hash remain available to the caller.\n\nPaused at Step 1/2."
+      "content": "## Step 1 — Safe relative redirects\n\nA user follows a safe relative target, and the staged code keeps the full destination.\n\n```ts\nif (isSafeRelativeTarget(target)) return target\n```\n\nSummary: the target’s query and hash remain available to the caller.\n\nPaused at Step 1/2."
     },
     {
       "role": "user",

@@ -8,7 +8,7 @@ description: Explain a bounded code change as a paced, story-first walkthrough w
 <!-- source-of-truth: story-first explanation of a bounded code change. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-27 -->
 
-**Process skill** — guide the user through the change as a short story about one request, event, or user action moving through the system. Use code references to support the story, not to replace it. This skill is read-only and does not replace formal `code-review`.
+**Process skill** — guide the user through the change as a short story about one request, event, or user action moving through the system. Start at the first causal beat and use compact code excerpts to support the story. This skill is read-only and does not replace formal `code-review`.
 
 ## Entry gate
 
@@ -31,10 +31,10 @@ description: Explain a bounded code change as a paced, story-first walkthrough w
 
 ## Non-negotiables
 
-1. **Story first** — begin with a person, request, event, or system trigger. Follow it through the changed code to its result. Do not begin with a file inventory or a block of revision metadata.
+1. **Immediate story** — begin with `Step 1` and a person, request, event, or system trigger. Follow it through the changed code to its result. Do not begin with a file inventory, chapter-map pause, test preamble, or block of revision metadata.
 2. **One story thread** — keep each step focused on one causal path. Group files because they participate in that path, not because they share a folder.
-3. **Light evidence** — use two to five useful `path:line` anchors per step. Explain what each anchor proves in the sentence around it.
-4. **Facts and reading** — label what the code or tests show as `Fact`. Label the plain-language meaning inferred from them as `Reading`.
+3. **Code plus evidence** — use two to five useful `path:line` anchors per step and include a compact excerpt from the current source. Explain what each anchor and excerpt proves in the sentence around it.
+4. **Short summary** — replace separate `Fact` and `Reading` labels with one concise `Summary` that combines the observable behavior and its plain-language meaning.
 5. **One step at a time** — tell one story beat, then pause for the user’s next instruction.
 6. **Read-only** — do not edit files, create review records, commit, push, submit reviews, or change pull-request metadata.
 7. **No merge claim** — do not emit a merge-ready decision or formal merge-blocker filing. When a concern appears, label it `confirmed` or `unverified`, state its trigger and impact, and point to `code-review` for formal risk or merge-readiness analysis.
@@ -46,7 +46,7 @@ The “current version” is the exact code selected for this walkthrough. Bind 
 
 - State the source type, selected paths, and the identity details from the source table.
 - Before a control reads new code (`next`, `back`, `skip`, `go deeper`, `why`, or `show the code`), recheck that identity.
-- If the source changed, stop the old walkthrough. Tell the user what changed, bind the new version, rebuild the story spine, and restart at Step 1. Never mix lines or conclusions from two versions.
+- If the source changed, stop before reading more code. Tell the user what changed, bind the new version, preserve the current step plus covered and skipped state, and resume at the same causal position. Treat earlier covered beats as accepted unless the user asks to revisit them. If the current beat uses changed code, explain that beat again from the new version before continuing. Never mix lines or conclusions from two versions.
 - If the source identity cannot be checked, say so and label conclusions that depend on it `unverified`.
 
 ## Plain words
@@ -55,66 +55,59 @@ The “current version” is the exact code selected for this walkthrough. Bind 
 - **Current version** — the exact files and revision being explained.
 - **Story beat** — one request or event moving from cause to result.
 - **Evidence** — code, tests, or runtime results that support a statement.
-- **Reading** — the plain-language meaning inferred from that evidence.
+- **Summary** — the short plain-language meaning of the observable behavior.
 
 ## Walkthrough
 
-### 1. Open with the story spine
+### 1. Start with the first causal beat
 
-Start directly with the human story, before revision details. Do not add a banner, a skill name, or a phrase such as “Here is the story.”
+After binding the source, begin the response with `## Step 1 — ...` and the first actor, request, event, or system trigger. Do not add a banner, skill name, story-spine preamble, chapter-map pause, or test/proof preamble before that beat.
 
-1. In two to four sentences, say who or what starts the action, what changed, and what result follows.
-2. Give the story a natural order with two to five short chapter names. Name the action in each chapter, not a collection of files or subsystems.
-3. Add one sentence about tests, runtime evidence, or missing proof.
-4. After that, add one quiet `Review frame:` line with the source type, scope, and current-version identity. Keep hashes and counts out of the opening unless they explain an important boundary.
+Keep the `Review frame:` line after the opening causal explanation so source identity remains visible without delaying the walkthrough. For a large change, choose the first independent causal path and introduce the remaining order as later steps. If the user explicitly asks for a map or order, show a compact two-to-five-item map and follow the requested pacing.
 
-Example shape:
-
-```markdown
-Someone opens a paper page. The extension recognizes the page, gathers enough evidence to identify it, and sends one ingest request. The change makes that trip durable when the page redirects or the request needs a retry.
-
-The story has three chapters: the visit starts, the evidence becomes an ingest command, and the result reaches the extension and backend. I’ll follow that order.
-
-Tests or proof: focused navigation tests cover the new attempt identity; full runtime behavior is not established here.
-
-Review frame: source:branch · scope: extension ingest path · current version: <bound identity>
-
-Paused before Chapter 1. Say `next` to begin.
-```
-
-Do not list every changed file in the story spine. Mention cleanup, docs, analytics, and compatibility work later as supporting details or side notes when they matter to the story.
+Do not list every changed file. Mention cleanup, docs, analytics, and compatibility work inside the causal step where they matter.
 
 ### 2. Tell one story beat
 
 Use prose as the default shape. Do not lead with `Purpose`, `Flow`, `Key lines`, or a table. Start with the actor or trigger and use present-tense causal language:
 
-```markdown
+````markdown
 ## Step 1 — The visit becomes one attempt
 
 Someone opens a page. The browser reports that navigation, and `path/to/navigation.ts:line` turns that report into the attempt the coordinator can track. If a redirect or second navigation arrives, `path/to/coordinator.ts:line` replaces the stale attempt before it can submit old evidence. The result is one current attempt moving forward.
 
-The important code is `path/to/navigation.ts:line`, where the story starts, and `path/to/coordinator.ts:line`, where stale work is stopped.
+Review frame: source:branch · scope: extension ingest path · current version: <bound identity>
 
-Fact: the current change creates an opaque attempt ID and checks it before continuing.
-Reading: this keeps an older page visit from being attached to the newer page.
+```ts
+const attemptId = createAttemptId()
+coordinator.start(attemptId)
+if (isStale(attemptId)) return
+```
+
+The excerpt shows the new attempt identity and the guard that stops stale work.
+
+Summary: the current attempt owns the continuation, so an older page visit does not attach its evidence to the newer page.
 Proof: <relevant test, runtime evidence, or missing proof>.
 
 Concern: None observed, or `confirmed` / `unverified` with the trigger and impact.
 
 Paused at Step 1/<total>. Say `next`, `go deeper`, `why`, `show the code`, `back`, `skip`, or `stop`.
-```
+````
 
-Follow data and control flow in execution order. Keep the step active when the user asks `why`, `go deeper`, or `show the code`. Use a short excerpt only when the user asks to see the code or a line reference is not enough.
+Follow data and control flow in execution order. Keep the step active when the user asks `why`, `go deeper`, or `show the code`. Use a larger excerpt or a line-by-line explanation only when the user asks for more detail.
 
 #### Match detail to the code
 
-Treat self-explanatory helpers as context. Summarize their observable effect in one sentence. Spend the story beat on non-obvious control flow, state transitions, ownership, and rationale. Do not unpack a straightforward helper in detail unless the user asks to go deeper.
+Include a compact, relevant excerpt in every story beat. Treat self-explanatory helpers as context: show the smallest relevant excerpt and summarize their observable effect in one sentence. Spend the story beat on non-obvious control flow, state transitions, ownership, and rationale. Do not unpack a straightforward helper in detail unless the user asks to go deeper.
+
+Copy excerpts from the bound current source. Keep them short and contiguous when possible. Do not reconstruct or invent code. Use `show the code` or `go deeper` for a larger excerpt or a line-by-line explanation.
 
 ### 3. Apply natural controls
 
 - `next` or `continue` — advance to the next story beat.
 - `go deeper`, `why`, or `show the code` — add context or a focused excerpt to the current beat, then pause on that same beat.
-- `back` — retell the previous beat and its connection. At the story spine or first beat, say that no earlier beat exists and stay where you are.
+- `show the map` or `what is the order` — show the short causal order and preserve the current position. If the walkthrough has not started, stay at the requested map until the user asks to begin.
+- `back` — retell the previous beat and its connection. At Step 1, say that no earlier story beat exists and stay where you are. If the user is at an explicitly requested map, stay at that map.
 - `skip` — mark the current beat skipped and continue. If it is the last beat, mark it skipped and produce the final summary.
 - `stop` — stop the tour and produce the understanding summary.
 - A question without a control — answer it inside the current story and remain on the current beat.
@@ -145,6 +138,6 @@ End with the user’s current understanding, not a merge decision. A request for
 - Put source identity and counts after the opening in a compact review-frame line.
 - Prefer short paragraphs over repeated headings and tables.
 - Use exact path and line references, but keep them in service of the story.
-- Distinguish `Fact`, `Reading`, `Proof`, and uncertainty.
+- Use `Summary`, `Proof`, and uncertainty labels.
 - Keep each response small enough for the user to inspect before continuing.
 - Never claim that a green test or a completed walkthrough proves merge readiness.

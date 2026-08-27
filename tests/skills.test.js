@@ -20,12 +20,21 @@ describe('toolbox skill SSOT', () => {
     }
   })
 
-  it('review walkthrough calibrates detail to code complexity', () => {
+  it('review walkthrough starts directly, shows code, and preserves detail calibration', () => {
     const skill = readFileSync(join(root, 'review-walkthrough/SKILL.md'), 'utf8')
+    expect(skill).toMatch(/begin the response with `## Step 1/)
+    expect(skill).toMatch(/compact excerpt from the current source/)
+    expect(skill).toMatch(/replace separate `Fact` and `Reading` labels with one concise `Summary`/)
+    expect(skill).toMatch(/^Summary:/m)
+    expect(skill).not.toMatch(/^(Fact|Reading):/m)
     expect(skill).toMatch(/Treat self-explanatory helpers as context/)
     expect(skill).toMatch(/observable effect in one sentence/)
     expect(skill).toMatch(/non-obvious control flow, state transitions, ownership, and rationale/)
     expect(skill).toMatch(/unless the user asks to go deeper/)
+    expect(skill).toMatch(/preserve the current step plus covered and skipped state/)
+    expect(skill).toMatch(/earlier covered beats as accepted/)
+    expect(skill).toMatch(/This skill is read-only/)
+    expect(skill).toMatch(/No merge claim/)
   })
 
   it('all shipped skills are model-invokable (no disable-model-invocation)', () => {
