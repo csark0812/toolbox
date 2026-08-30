@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "The refactor model records one direct implementation path as the target shape.\n\nMeaningful complexity:\n- Source: the two entry points and callback wrapper\n- Domain name: public entry-point compatibility\n- Owner: the public contract boundary\n- Public contract: unresolved\n- Failure and recovery behavior: preserve the supported path until the contract is decided\n- Test seam: the public entry point\n\n## Questions\n\n### 1. When the refactor leaves one direct implementation path, does the old entry point remain as a supported public contract?\n\n- **A)** Keep it as a compatibility entry point and document the boundary\n- **B)** Remove it and update all in-repository callers and tests (recommended)\n\nThis is one focused question about the public contract. I will inspect the repository for callers and contract evidence before applying your choice. I will not edit the wrapper or entry point while this decision is open."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["refactor-companion"],
+  "artifacts": {}
+}

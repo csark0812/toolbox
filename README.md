@@ -1,7 +1,7 @@
 # toolbox
 
 <!-- source-of-truth: user-level process and orchestrator Cursor/Claude agent skills. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-17 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-30 -->
 
 Public process SSOT. Engineers install skills globally (`-g`). Product repos keep product workflows and shared standards — they should not vendor these process skill folders.
 
@@ -27,7 +27,7 @@ npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex
 npx skills update -g
 
 # Core dialogue/build set (subset) — space-separated skill names (not commas)
-npx skills add csark0812/toolbox --skill council code-review review-walkthrough grill second-opinion probe tdd prototype domain-model handoff -g --agent cursor claude-code codex -y
+npx skills add csark0812/toolbox --skill council code-review review-walkthrough grill second-opinion probe tdd prototype domain-model handoff refactor-companion -g --agent cursor claude-code codex -y
 ```
 
 Shorthand for `https://github.com/csark0812/toolbox`. The `@` prefix (npm-style scopes) is not supported by the skills CLI — use `csark0812/toolbox`.
@@ -87,6 +87,7 @@ Existing committed toolbox process skill dirs keep loading until removed. Delete
 | Process      | tdd                | Test-first build at agreed public seams                                                         |
 | Process      | prototype          | Throwaway artifact for one design question                                                      |
 | Process      | domain-model       | Persist glossary + ADRs when decisions are ready                                                |
+| Process      | refactor-companion | Intent-led refactor collaboration in small slices through review handoff                        |
 
 Orchestrators define **agent-to-agent** wiring; process skills describe **what happens** and point at orchestrators when another agent or pass is needed. See [docs/tiers.md](docs/tiers.md).
 

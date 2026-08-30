@@ -1,6 +1,6 @@
 # Registry
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-30 -->
 
 <!-- source-of-truth: Registry topic routing for documentation and skills -->
 
@@ -32,3 +32,4 @@
 | prototype          | [prototype/SKILL.md](../prototype/SKILL.md)                   |
 | domain-model       | [domain-model/SKILL.md](../domain-model/SKILL.md)             |
 | handoff            | [handoff/SKILL.md](../handoff/SKILL.md)                       |
+| refactor-companion | [refactor-companion/SKILL.md](../refactor-companion/SKILL.md) |

@@ -10,6 +10,7 @@ export const EXPECTED_SKILLS = [
   'prototype',
   'domain-model',
   'handoff',
+  'refactor-companion',
 ] as const
 
 export type SkillSlug = (typeof EXPECTED_SKILLS)[number]

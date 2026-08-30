@@ -6,9 +6,9 @@ description: Explain a bounded code change as a paced, story-first walkthrough w
 # Review walkthrough
 
 <!-- source-of-truth: story-first explanation of a bounded code change. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-27 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-30 -->
 
-**Process skill** — guide the user through the change as a short story about one request, event, or user action moving through the system. Start at the first causal beat and use compact code excerpts to support the story. This skill is read-only and does not replace formal `code-review`.
+**Process skill** — guide the user through the change as a short story about one request, event, or user action moving through the system. Start at the first causal beat and use compact code excerpts to support the story. When the story depends on state, identity, lifecycle, ownership, policy, or a test seam, use the shared vocabulary in [codebase-design.md](../.skeleton/references/codebase-design.md). This skill is read-only and does not replace formal `code-review`.
 
 ## Entry gate
 
@@ -33,7 +33,7 @@ description: Explain a bounded code change as a paced, story-first walkthrough w
 
 1. **Immediate story** — begin with `Step 1` and a person, request, event, or system trigger. Follow it through the changed code to its result. Do not begin with a file inventory, chapter-map pause, test preamble, or block of revision metadata.
 2. **One story thread** — keep each step focused on one causal path. Group files because they participate in that path, not because they share a folder.
-3. **Code plus evidence** — use two to five useful `path:line` anchors per step and include a compact excerpt from the current source. Explain what each anchor and excerpt proves in the sentence around it.
+3. **Code plus evidence** — use two to five useful `path:line` anchors per step and include a compact excerpt from the current source. Explain what each anchor and excerpt proves in the sentence around it. If the beat carries meaningful complexity, name its domain concept, owner, and observable seam; do not infer those from file placement alone.
 4. **Short summary** — replace separate `Fact` and `Reading` labels with one concise `Summary` that combines the observable behavior and its plain-language meaning.
 5. **One step at a time** — tell one story beat, then pause for the user’s next instruction.
 6. **Read-only** — do not edit files, create review records, commit, push, submit reviews, or change pull-request metadata.
@@ -98,7 +98,7 @@ Follow data and control flow in execution order. Keep the step active when the u
 
 #### Match detail to the code
 
-Include a compact, relevant excerpt in every story beat. Treat self-explanatory helpers as context: show the smallest relevant excerpt and summarize their observable effect in one sentence. Spend the story beat on non-obvious control flow, state transitions, ownership, and rationale. Do not unpack a straightforward helper in detail unless the user asks to go deeper.
+Include a compact, relevant excerpt in every story beat. Treat self-explanatory helpers as context: show the smallest relevant excerpt and summarize their observable effect in one sentence. Spend the story beat on non-obvious control flow, state transitions, ownership, and rationale. When a change moves or introduces meaningful complexity, make the state, identity, lifecycle, policy, owner, and test seam visible in the causal explanation. Do not unpack a straightforward helper in detail unless the user asks to go deeper.
 
 Copy excerpts from the bound current source. Keep them short and contiguous when possible. Do not reconstruct or invent code. Use `show the code` or `go deeper` for a larger excerpt or a line-by-line explanation.
 

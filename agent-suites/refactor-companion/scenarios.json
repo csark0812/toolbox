@@ -1,0 +1,24 @@
+{
+  "name": "refactor-companion",
+  "description": "Portable refactor-companion skill conformance: preserve developer intent, ask at design conflicts, and simplify residue before handoff",
+  "defaults": {
+    "host": "replay",
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "conflicting design: ask before editing",
+      "prompt": "I am vibe-coding a refactor branch. The current code has two entry points and a generic callback wrapper. I want one direct path, but I have not decided whether the public contract keeps the old entry point. Read `.claude/skills/refactor-companion/SKILL.md` first. Inspect the repository for facts, then ask me one focused question before editing because the contract choice changes the design.",
+      "replayTrace": "agent-suites/refactor-companion/fixtures/replays/conflicting-design-ask.json",
+      "rubric": {
+        "must": ["refactor model", "one focused question", "public contract"],
+        "mustInvokeSkill": ["refactor-companion"],
+        "mustNot": ["inline the wrapper", "delete the old entry point", "commit", "push"],
+        "judge": [
+          "The agent treated the developer's design choice as unresolved, asked one focused question, and did not edit or silently choose a compatibility policy."
+        ]
+      }
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 # Codebase design vocabulary
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- source-of-truth: reusable code-design vocabulary for explicit complexity, module boundaries, ownership, and test seams. -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-30 -->
 
 **Portable ambient reference** — named concepts for module boundaries and test seams. Not a staged workflow. Load on context pointer only.
 
@@ -24,6 +25,23 @@ A **seam** is where you can observe or alter behavior **without editing the modu
 
 Aligns with [`tdd`](../../tdd/SKILL.md) seam confirmation: agree the public boundary before writing tests.
 
+## Making complexity explicit
+
+Make every meaningful source of complexity visible, named, owned, and testable.
+
+Meaningful complexity includes domain state, temporal identity, async lifecycles, cross-context coordination, cache mutation, retries, recovery, policy decisions, side effects, and trust boundaries. Treat these as design concerns, not incidental implementation details.
+
+| Requirement  | Meaning                                                                                                                                                                                                      |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Visible**  | Represent behavior that depends on sequence or history explicitly. Do not hide lifecycle state in unrelated booleans, callback order, effects, or ambient globals.                                           |
+| **Named**    | Use domain terms for important states, transitions, identities, policies, and failure outcomes. A reader should not need to infer the concept from infrastructure code.                                      |
+| **Owned**    | Give each mutable concern, lifecycle, policy decision, and source of truth one clear owner. Separate policy from mechanism and core behavior from platform, transport, persistence, and UI adapters.         |
+| **Testable** | Expose public contracts and load-bearing seams that tests can control and observe. Cover races, cancellation, recovery, stale work, restart behavior, and trust boundaries when they are part of the design. |
+
+File decomposition alone does not satisfy this principle. Several named files can still conceal shared state, duplicate ownership, or an implicit lifecycle. An abstraction earns its place when it clarifies ownership, hides real complexity, or creates a useful test seam.
+
+Use the smallest structure that makes the design explicit. This principle does not require a class, state machine, port, or adapter when a direct function and value model express the behavior clearly.
+
 ## Anti-patterns
 
 - **Shallow module** — interface nearly as complex as the implementation. No abstraction win.
@@ -35,8 +53,10 @@ Aligns with [`tdd`](../../tdd/SKILL.md) seam confirmation: agree the public boun
 Open this ref when:
 
 - Agreeing **test seams** (`tdd`)
-- Discussing **module boundaries** after a structural bug (`diagnose`)
+- Discussing **module boundaries** after a structural bug (`probe`)
 - Writing an ADR that documents a boundary decision (`domain-model`)
 - Pressure-testing whether a design hides the right decisions (`grill`)
+- Reviewing ownership and evidence on a changed path (`code-review`)
+- Refactoring through small, proven slices (`refactor-companion`)
 
 Do not load as always-on context. Use pointer only.
