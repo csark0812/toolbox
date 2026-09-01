@@ -1,6 +1,6 @@
 # Grill ask block
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
 Mid-turn ask SSOT when grill needs user judgment. Exit artifacts → [output.md](output.md) or intent-phase exit block — not this file.
 
@@ -31,7 +31,7 @@ Every non-exit turn that waits on the user ends with **Questions only**. Do not 
 1. **Self-contained stems** — other grill chats can be open. Put everything needed to answer in the stem and options. No separate Context preamble.
 2. **Human-first prose** — ban skill jargon in stems and options (`thrash`, `Closure`, `soft stop`, `falsifier`, theme ids, and more). Prefer everyday words over labels the skill invented.
 3. **No Context block** — do not use `## Context`, **Already agreed:**, or Where / Deciding / Settled keys. Those are retired.
-4. **Pragmatic STE for the user** — Questions prose that faces the user must use pragmatic STE. See [docs/skill-evolution.md](../../docs/skill-evolution.md) § Pragmatic STE for toolbox, or `/simple-english`.
+4. **Pragmatic STE for the user** — Questions prose must use short sentences, concrete subjects and verbs, and one meaning per sentence. If `simple-english` is installed, it can provide additional guidance; this ask contract does not require it.
 5. **1–3 questions, same branch only** — facets of one thread. New tree node → new turn.
 6. **Always this block** when waiting on the user (Questions only).
 7. **Closed pick by default** — lettered lists. Short free-text only when options cannot be named.

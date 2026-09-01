@@ -6,14 +6,14 @@ description: Narrow a hunch or hard bug — evidence and pragmatic-STE verdict b
 # Probe
 
 <!-- source-of-truth: evidence-based hunch settlement and hard-bug fix loops under one Authority B gate. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
 **Authority B** — Evidence and verdict by default. Enter the Fix family only when:
 
 - the user explicitly asks to fix, implement, or repro-debug, **or**
 - the user describes a broken symptom **and** an on-demand failing signal already exists (command, test, or CI you can run).
 
-**Process skill** — shared vocabulary → [context-pack.md](../council/references/context-pack.md). Optional parallel gather → attach **council**, or local [parallel-*.md](references/parallel-broad.md) recipes.
+**Process skill** — one concrete doubt, one evidence boundary, and one cited verdict or verified fix. Optional parallel gather uses the local [parallel-*.md](references/parallel-broad.md) recipes when `council` is installed and attached. Without `council`, perform the same reads serially and keep this skill's evidence and verdict shape.
 
 **Explicit ask vs no-loop:** An explicit ask enters **Fix (loop-building)**, not patch-without-loop. Hypothesize-and-patch without a red signal is banned in all states.
 
@@ -47,8 +47,8 @@ If the locus is unclear, start **Evidence** (even if the user said “broken”)
 ### Evidence stance
 
 - One framework for repo and external material. Phases can weave code → research → code. Full loop → [framework.md](references/framework.md)
-- Multiple independent web topics → [parallel-research.md](references/parallel-research.md) via **council**
-- Mixed or contested evidence, or an explicit stress-test → [parallel-perspective.md](references/parallel-perspective.md) via **council** (not the default path)
+- Multiple independent web topics → [parallel-research.md](references/parallel-research.md) when `council` is installed and attached; otherwise research the topics serially.
+- Mixed or contested evidence, or an explicit stress-test → [parallel-perspective.md](references/parallel-perspective.md) when `council` is installed and attached; otherwise test the competing explanations serially (not the default path).
 
 ### Structural checks
 
@@ -58,13 +58,13 @@ When evidence touches structure, apply [dialogue-contract.md](https://raw.github
 
 Follow [framework.md](references/framework.md). Summary:
 
-1. **Target-clarification chain.** Ask **short, invitational** questions until you know _where_ to look. Continue until the target is concrete enough that reading primary material has a purpose. Work dimension by dimension if needed. If the user can only gesture at the discomfort, stay with one branch before you widen. Start deep investigation only when files, a subsystem, or a primary source is plausible. If the user explicitly asks you to fish broadly, use [parallel-broad.md](references/parallel-broad.md) via **council**. Then tell the user that you are doing a wider pass and why.
+1. **Target-clarification chain.** Ask **short, invitational** questions until you know _where_ to look. Continue until the target is concrete enough that reading primary material has a purpose. Work dimension by dimension if needed. If the user can only gesture at the discomfort, stay with one branch before you widen. Start deep investigation only when files, a subsystem, or a primary source is plausible. If the user explicitly asks you to fish broadly, use [parallel-broad.md](references/parallel-broad.md) when `council` is installed and attached; otherwise inspect the independent areas serially. Then tell the user that you are doing a wider pass and why.
 2. **Form 2–4 ranked, falsifiable hypotheses** before you gather evidence. Prefer mechanism or model hypos over situation guesses. For code: "If `<X>` is the cause, then `<Y>` at `file:line` must show `<Z>`." For claims: "If `<X>` is true, then the primary source must show `<Z>`."
 3. **Discriminating checks** — for each ranked hypo, name the cheapest kill test (strong inference: most information per unit cost). Run top kill tests **before** confirmatory forage.
 4. **Read primary material** — actual code, docs, data, or cited sources. Tool rankings or "likely file" lists are not evidence.
 5. **Forage or leave** — follow scent (callers, tests, citations, error sites). **Leave** the patch when 2–3 reads yield no confirmatory or disconfirmatory signal. Then re-rank hypos. You can switch material class (for example repo → docs → repo). Leaving is completion, not failure.
 6. **Locate enough to cite** — the verdict needs domain-appropriate citations. For behavioral code hunches, narrow to a citable locus, then stop.
-7. **When evidence is external** — do a lateral check and name the source class before you settle. If independents conflict, say so in the verdict or escalate to [parallel-perspective.md](references/parallel-perspective.md). If you gather multiple topics without a single hunch, use [parallel-research.md](references/parallel-research.md). Then return to this loop if a specific claim remains.
+7. **When evidence is external** — do a lateral check and name the source class before you settle. If independents conflict, say so in the verdict and test competing explanations with [parallel-perspective.md](references/parallel-perspective.md) when `council` is available, or serially when it is not. If you gather multiple topics without a single hunch, use [parallel-research.md](references/parallel-research.md) with the same parallel-or-serial rule. Then return to this loop if a specific claim remains.
 8. **Return a verdict** — one pragmatic-STE settlement (what holds, what does not, what stays open). Always cite specific locations in the primary material. If the hunch is unfounded, say so. Do not invent problems to validate it. When evidence supports multiple mechanisms, report them separately. Do not force a single narrative root cause. **Completion gate:** no code fix, patch, or implementation steps in the verdict or evidence. Put those only in **What to do next** when you route onward.
 
 ### Evidence standard
@@ -82,7 +82,7 @@ A verdict earns its close when it:
 
 ### Evidence output
 
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). **Verdict** and **What to do next** are user-facing. Write them in pragmatic STE (see `/simple-english` and [docs/skill-evolution.md](../docs/skill-evolution.md) § Pragmatic STE for toolbox).
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). **Verdict** and **What to do next** are user-facing. Use short sentences, concrete subjects and verbs, and one meaning per sentence. If `simple-english` is installed, it can provide additional guidance; `probe` does not require it.
 
 End with this block when the clarification chain (when needed) and evidence pass are complete — not before. If the hunch is still too vague, **ask the next narrowing question** instead of forcing a verdict.
 
@@ -145,7 +145,7 @@ A fail-to-pass test is a **diagnostic instrument**, not a patch spec. It proves 
 
 ### Phase 3 — Lock the regression
 
-Hand the loop to [`tdd`](../tdd/SKILL.md) to turn the diagnostic into a kept regression test at an agreed seam. Structural root causes can reference [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md). Then [`code-review`](../code-review/SKILL.md) for structural cleanup if needed.
+Turn the diagnostic into a kept regression test at the agreed seam. If `tdd` is installed, use its red-green cycle for that handoff. Structural root causes can reference [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md). If `code-review` is installed, use it for independent structural review when needed.
 
 ### Fix output
 

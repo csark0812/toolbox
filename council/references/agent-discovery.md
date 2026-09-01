@@ -1,8 +1,8 @@
 # Agent discovery
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-Mechanical steps for discovering workspace council agents and intersecting with the host Task tool. **Selection scoring** lives in process-skill recipes when they define it — for example, [code-review agent-selection.md](../../code-review/references/agent-selection.md).
+Mechanical steps for discovering workspace council agents and intersecting with the host Task tool. **Selection scoring** lives in process-skill recipes when they define it.
 
 Used by [`council`](../SKILL.md) when optionally spawning named council agents.
 

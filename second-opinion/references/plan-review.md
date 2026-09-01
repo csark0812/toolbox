@@ -1,8 +1,8 @@
 # Plan review synthesis
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-How to **invent lenses** and **synthesize** a second opinion — not how to spawn members. Multi-agent depth → [`council`](../../council/SKILL.md) when the user attaches it.
+How to **invent lenses** and **synthesize** a second opinion — not how to spawn members. Multi-agent depth → [`council`](https://raw.githubusercontent.com/csark0812/toolbox/main/council/SKILL.md) when the user attaches it.
 
 ## Lens invention
 

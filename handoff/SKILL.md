@@ -6,9 +6,9 @@ description: Agent-to-agent cross-session transfer — pointers not bodies. Chan
 # Handoff
 
 <!-- source-of-truth: compact session transfer — **what to rip out**, not full orchestration. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-**Orchestrator** — cross-session A2A (`channel:prompt` vs `channel:artifact`). Shared vocabulary → [context-pack.md](../council/references/context-pack.md).
+**Orchestrator** — cross-session A2A (`channel:prompt` vs `channel:artifact`). Shared vocabulary → [context-pack.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/context-pack.md).
 
 References: [pack.md](references/pack.md) · [output.md](references/output.md) · [handoff-subagent-dispatch.md](references/handoff-subagent-dispatch.md)
 

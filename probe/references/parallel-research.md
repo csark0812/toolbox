@@ -1,6 +1,8 @@
 # Parallel Research
 
-Independent web topics in parallel. Uses [`council`](../../council/SKILL.md) kernel — [non-negotiables](../../council/SKILL.md#non-negotiables), [task-prompt.md](../../council/references/task-prompt.md), [member-schema.md](../../council/references/member-schema.md).
+**Availability:** This parallel recipe requires `council` to be installed and attached. Without it, research the independent topics serially and preserve the same source-class and conflict checks.
+
+Independent web topics in parallel. Uses [`council`](https://raw.githubusercontent.com/csark0812/toolbox/main/council/SKILL.md) kernel — [non-negotiables](https://raw.githubusercontent.com/csark0812/toolbox/main/council/SKILL.md#non-negotiables), [task-prompt.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/task-prompt.md), [member-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/member-schema.md).
 
 Profile: `web` — skip council agent scoring.
 
@@ -25,7 +27,7 @@ Profile: `web` — skip council agent scoring.
 | Topic A | `docs-researcher` or `generalPurpose` | Standard |
 | Topic B | `docs-researcher` or `generalPurpose` | Standard |
 
-Prefer Auto for all topics (`inherit-auto` or `model=auto` if enum supports it). Explicit model slugs require slice-fit + Cursor cost justification per [model-routing.md](../../council/references/model-routing.md). Do not use `*-fast` in parallel. Diversify via distinct prompts/stances, not price.
+Prefer Auto for all topics (`inherit-auto` or `model=auto` if enum supports it). Explicit model slugs require slice-fit + Cursor cost justification per [model-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/model-routing.md). Do not use `*-fast` in parallel. Diversify via distinct prompts/stances, not price.
 
 ## Dispatch plan template
 
@@ -58,5 +60,5 @@ Fallback: `docs-researcher` unavailable → `generalPurpose` with "web research"
 1. State the answer for each topic once with source links and **source class** (primary vs secondary, official vs commentary).
 2. Flag conflicts between sources — do not flatten.
 3. High-stakes claims need **lateral corroboration** (who else says this?) before treating as settled. If conflict is unresolved, note it explicitly or hand a specific claim back to **investigate**.
-4. High-stakes contradiction → sequential tiebreaker per [model-routing.md](../../council/references/model-routing.md) or ask user.
-5. Output → [council output-format.md](../../council/references/output-format.md).
+4. High-stakes contradiction → sequential tiebreaker per [model-routing.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/model-routing.md) or ask user.
+5. Output → [council output-format.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/output-format.md).

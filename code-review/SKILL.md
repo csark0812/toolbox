@@ -6,7 +6,7 @@ description: How to review code — any surface and any user-named lens. Evidenc
 # Code review
 
 <!-- source-of-truth: how to review code and file findings — not multi-agent spawn (→ **council**). -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-30 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
 **Process skill** — review one named surface through one named lens. For architecture, state, ownership, or testability concerns, use the concepts named in Non-negotiable 7. The canonical extended vocabulary is available in [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md), but `code-review` remains complete without it.
 

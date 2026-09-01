@@ -1,10 +1,10 @@
 # Consolidated dispatch report
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-Use for generic **council** runs when no process skill defines the exit shape. Review runs use [code-review output.md](../../code-review/references/output.md). Second-opinion layered runs use [second-opinion output.md](../../second-opinion/references/output.md).
+Use for generic **council** runs when no process skill defines the exit shape. Review runs use [code-review output.md](https://raw.githubusercontent.com/csark0812/toolbox/main/code-review/references/output.md). Second-opinion layered runs use [second-opinion output.md](https://raw.githubusercontent.com/csark0812/toolbox/main/second-opinion/references/output.md).
 
-User-facing parts use pragmatic Simplified Technical English (STE).
+User-facing parts use pragmatic Simplified Technical English (STE): short sentences, concrete subjects and verbs, and one meaning per sentence.
 
 ```markdown
 # Dispatch report: [Task]

@@ -1,6 +1,8 @@
 # Parallel Broad Investigate
 
-Wide fish when the user explicitly asks for a broad pass. Uses [`council`](../../council/SKILL.md) kernel — [non-negotiables](../../council/SKILL.md#non-negotiables), [task-prompt.md](../../council/references/task-prompt.md), [member-schema.md](../../council/references/member-schema.md).
+**Availability:** This parallel recipe requires `council` to be installed and attached. Without it, inspect the independent areas serially and return the normal `probe` evidence and verdict shape.
+
+Wide fish when the user explicitly asks for a broad pass. Uses [`council`](https://raw.githubusercontent.com/csark0812/toolbox/main/council/SKILL.md) kernel — [non-negotiables](https://raw.githubusercontent.com/csark0812/toolbox/main/council/SKILL.md#non-negotiables), [task-prompt.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/task-prompt.md), [member-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/member-schema.md).
 
 Profile: `repo`.
 
@@ -27,7 +29,7 @@ Split by subsystem:
 | Area B (for example backend) | `explore` or `generalPurpose` | Fast |
 | Shared / integration         | `explore`                     | Fast |
 
-Optional: score council agents on known paths. Prefer `correctness` for mutation/cache paths if `contexts` includes `repo`. Path matching → [agent-discovery.md](../../council/references/agent-discovery.md).
+Optional: score council agents on known paths. Prefer `correctness` for mutation/cache paths if `contexts` includes `repo`. Path matching → [agent-discovery.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/agent-discovery.md).
 
 ## Dispatch plan template
 
@@ -52,7 +54,7 @@ Synthesis plan: merge evidence. Verdict per investigate schema (plain-language s
 1. Merge findings with file:line citations.
 2. Write **probe** verdict — plain-language settlement with evidence from all members.
 3. If member conclusions conflict, state both. Escalate or narrow the target.
-4. Output follows **probe** skill final shape. Use [council output-format.md](../../council/references/output-format.md) sections only as supporting detail.
+4. Output follows **probe** skill final shape. Use [council output-format.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/output-format.md) sections only as supporting detail.
 
 ## Handoff
 

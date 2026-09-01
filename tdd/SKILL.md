@@ -6,9 +6,9 @@ description: Test-first build at agreed public seams — one red-green slice at 
 # Test-Driven Development
 
 <!-- source-of-truth: test-first implementation at public seams. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-**Process skill** — red → green microcycle. Tests at public interfaces only. Shared vocabulary → [context-pack.md](../council/references/context-pack.md).
+**Process skill** — red → green microcycle. Tests at public interfaces only. Shared vocabulary → [context-pack.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/context-pack.md).
 
 References: [anti-patterns.md](references/anti-patterns.md) · [output.md](references/output.md) · [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md).
 

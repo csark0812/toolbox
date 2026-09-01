@@ -1,7 +1,7 @@
 # Diagnose research basis
 
 <!-- source-of-truth: evidence and limits behind tight-loop diagnosis. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
 Read when calibrating loop-first gates or making a research claim. Not for every debug session.
 
@@ -37,6 +37,6 @@ Live skill-on vs skill-off transfer for diagnose is measured with `npm run agent
 
 ## Handoff to TDD
 
-Diagnostic instrument ≠ regression spec. [`tdd`](../../tdd/SKILL.md) locks the seam after the mechanism is understood.
+Diagnostic instrument ≠ regression spec. [`tdd`](https://raw.githubusercontent.com/csark0812/toolbox/main/tdd/SKILL.md) locks the seam after the mechanism is understood.
 
 **Confidence:** High for separation of concerns. Not a claim about TDD effect sizes.

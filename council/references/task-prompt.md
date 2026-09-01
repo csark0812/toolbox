@@ -1,10 +1,10 @@
 # Task prompt template
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
 Each member Task `prompt` is composed by the coordinator. Members do not receive the full user thread or the `council` skill body.
 
-Review overlays → [code-review/references/task-prompt-review.md](../../code-review/references/task-prompt-review.md).
+When a process skill is layered, add only that skill's member constraints and output shape.
 
 **Model is not part of the prompt body.** Resolve `model` on the Task call per [model-routing.md](model-routing.md): plan `model=inherit-auto` → omit the tool `model` argument.
 

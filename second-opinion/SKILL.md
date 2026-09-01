@@ -6,9 +6,9 @@ description: Adversarial critique of a written artifact (path or paste) — inve
 # Second opinion
 
 <!-- source-of-truth: adversarial artifact review — invent lenses, claim anchoring, Bottom line + Action items. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-**Process skill** — shared vocabulary → [context-pack.md](../council/references/context-pack.md). Multi-agent depth → [`council`](../council/SKILL.md) (user must attach or name council; this skill does **not** spawn).
+**Process skill** — shared vocabulary → [context-pack.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/context-pack.md). Multi-agent depth → [`council`](https://raw.githubusercontent.com/csark0812/toolbox/main/council/SKILL.md) (user must attach or name council; this skill does **not** spawn).
 
 References: [plan-review.md](references/plan-review.md) · [output.md](references/output.md).
 
@@ -30,7 +30,7 @@ Read [research-basis.md](references/research-basis.md) only when calibrating deb
 
 1. **Locate artifact** — path on disk or paste or draft in thread.
 2. **Invent lenses** — from the ask; one ask if too vague (bare “second opinion” → ask what to pressure; do not silently invent premises+completeness).
-3. **Run** — if council is **not** active: coordinator applies lenses in one pass. If council **is** active: follow [`council`](../council/SKILL.md); members load this skill’s craft; coordinator synthesizes.
+3. **Run** — if council is **not** active: coordinator applies lenses in one pass. If council **is** active: follow [`council`](https://raw.githubusercontent.com/csark0812/toolbox/main/council/SKILL.md); members load this skill’s craft; coordinator synthesizes.
 4. **Synthesize** — [plan-review.md](references/plan-review.md) + [output.md](references/output.md).
 
 Named lenses (`premises`, `completeness`, `brand-fit`, …) in docs are **worked examples only** — not a cast menu. `verify.md` overlay applies only when the invented lens is readiness/gaps-shaped `completeness`.

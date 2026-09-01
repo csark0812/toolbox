@@ -1,7 +1,7 @@
 # Second opinion research basis
 
 <!-- source-of-truth: evidence and limits behind staged adversarial review. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-10 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
 Read when calibrating debate shape, anchoring, or claiming MAD benefits. Not for every second-opinion run.
 
@@ -38,4 +38,4 @@ Wave-1 attackers see the artifact only; wave-2 defender sees cited primary sourc
 
 **Confidence:** Moderate as process hygiene; not a guarantee of correctness.
 
-- [`council` adversarial.md](../../council/references/adversarial.md) — claim anchoring and kill mandates operationalize drift control.
+- [`council` adversarial.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/adversarial.md) — claim anchoring and kill mandates operationalize drift control.

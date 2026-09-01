@@ -1,12 +1,12 @@
 # Handoff pack & channel
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
 How to **choose what to include** and **how to deliver** it. Compact procedure → [output.md](output.md). Member write rules → [handoff-subagent-dispatch.md](handoff-subagent-dispatch.md).
 
 **Channel** = delivery to the next session. **Pack** = how much context to include. **Goal** = what the next session must do.
 
-Shared member-pack rules → [context-pack.md](../../council/references/context-pack.md).
+Shared member-pack rules → [context-pack.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/context-pack.md).
 
 The menus below are **starting points**, not limits. Pick the closest row. Omit empty sections.
 

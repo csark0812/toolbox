@@ -1,6 +1,6 @@
 # How to review
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-30 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
 Review procedure for primary agents and council members. Name the surface first ([sources.md](sources.md)). File per [merge-blockers.md](merge-blockers.md). Shape output per [output.md](output.md).
 

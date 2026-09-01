@@ -12,23 +12,25 @@ description: >-
 # Refactor companion
 
 <!-- source-of-truth: iterative refactor collaboration from intent to handoff. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-30 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
 **Process skill** — guide one developer through an intent-led refactor. Keep
 the developer's logic visible in the work. Optimize for code that reads like
 the developer wrote it, not generic agent code.
 
-References: [`grill`](../grill/SKILL.md) · [`review-walkthrough`](../review-walkthrough/SKILL.md) · [`code-review`](../code-review/SKILL.md) · [shared code-design vocabulary](../.skeleton/references/codebase-design.md).
+Optional companions when installed: `grill` for a dedicated intent phase, `review-walkthrough` for explanation, and `code-review` for independent review. The canonical extended design vocabulary is available in [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md), but this skill remains complete without those companions.
 
 ## Entry gate
 
 - The developer asks for implementation, refactoring, rewriting, simplification, a cutover, an architecture replacement, or review preparation.
 - A repository, branch, working tree, commit, pull request, or named code path is in scope.
 - The desired behavior or design is stated, implied by the task, or ready to shape through focused questions.
-- Edit authority exists for the current work. If the request is analysis-only, stay read-only and route to [`code-review`](../code-review/SKILL.md) or [`review-walkthrough`](../review-walkthrough/SKILL.md).
+- Edit authority exists for the current work. If the request is analysis-only, stay read-only and explain that this implementation workflow is not active. Recommend `code-review` or `review-walkthrough` only when the relevant skill is installed.
 
 If the task has no concrete code surface, ask for one. If the design has
-several unresolved architecture branches, route the dialogue to [`grill`](../grill/SKILL.md) before implementation.
+several unresolved architecture branches, resolve one decision boundary at a
+time in this dialogue before implementation. If `grill` is installed and
+attached, it can own a dedicated intent phase.
 
 ## Non-negotiables
 
@@ -227,9 +229,11 @@ Stop editing and report the boundary when:
 - Validation cannot distinguish a source problem from an environment problem.
 - The diff no longer represents one coherent refactor.
 
-Do not turn uncertainty into a speculative cleanup. Route unresolved design
-intent to `grill`. Route a written plan critique to `second-opinion`. Route a
-runtime symptom to `probe`.
+Do not turn uncertainty into a speculative cleanup. Resolve one design
+decision at a time in this dialogue. When the relevant companion is installed,
+`grill` can own unresolved intent, `second-opinion` can critique a written plan,
+and `probe` can investigate a runtime symptom. Otherwise stop and report the
+boundary directly.
 
 ## Handoff
 
@@ -248,7 +252,7 @@ Proof: [searches, tests, typechecks, runtime evidence, and limits]
 Next: [next slice, focused question, or handoff]
 ```
 
-At completion, route the final code to [`review-walkthrough`](../review-walkthrough/SKILL.md) for a story-first explanation and [`code-review`](../code-review/SKILL.md) for independent review. Do not present this report as a merge-readiness result.
+At completion, offer a story-first explanation and an independent review. If `review-walkthrough` or `code-review` is installed, use the relevant skill for that follow-up. Do not present this report as a merge-readiness result.
 
 ## Non-goals
 

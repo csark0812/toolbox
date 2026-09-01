@@ -53,6 +53,24 @@ describe('toolbox skill SSOT', () => {
     }
   })
 
+  it('skill lock and ownership exactly match shipped skills', () => {
+    const expected = [...EXPECTED_SKILLS].sort()
+    const lock = JSON.parse(readFileSync(join(root, 'skills-lock.json'), 'utf8'))
+    expect(Object.keys(lock.skills).sort()).toEqual(expected)
+
+    for (const slug of expected) {
+      expect(lock.skills[slug].skillPath).toBe(`${slug}/SKILL.md`)
+      expect(existsSync(join(root, lock.skills[slug].skillPath))).toBe(true)
+      expect(lock.skills[slug].computedHash).toMatch(/^[a-f0-9]{64}$/)
+      expect(lock.skills[slug].computedHash).not.toMatch(/^0+$/)
+    }
+
+    const config = readFileSync(join(root, 'skeleton.toml'), 'utf8')
+    const ownedBlock = config.match(/ownedSlugs\s*=\s*\[([\s\S]*?)\]/)?.[1] ?? ''
+    const owned = [...ownedBlock.matchAll(/"([^"]+)"/g)].map((match) => match[1]).sort()
+    expect(owned).toEqual(expected)
+  })
+
   it('AGENTS.md documents Cursor, Claude Code, and Codex destinations', () => {
     const agents = readFileSync(join(root, 'AGENTS.md'), 'utf8')
     expect(agents).toMatch(/Cursor/)
@@ -257,26 +275,51 @@ describe('toolbox skill SSOT', () => {
     expect(mergeReadiness).not.toMatch(/git commit|git push|gh pr edit|gh pr review/)
   })
 
-  it('code-review markdown links survive a standalone skill install', () => {
-    const skillRoot = join(root, 'code-review')
-    const markdownFiles = [
-      join(skillRoot, 'SKILL.md'),
-      ...readdirSync(join(skillRoot, 'references')).map((name) =>
-        join(skillRoot, 'references', name),
-      ),
-    ]
+  it('every skill markdown link survives a standalone install', () => {
+    for (const slug of EXPECTED_SKILLS) {
+      const skillRoot = join(root, slug)
+      const referencesRoot = join(skillRoot, 'references')
+      const markdownFiles = [
+        join(skillRoot, 'SKILL.md'),
+        ...(existsSync(referencesRoot)
+          ? readdirSync(referencesRoot, { recursive: true })
+              .filter((name) => name.endsWith('.md'))
+              .map((name) => join(referencesRoot, name))
+          : []),
+      ]
 
-    for (const file of markdownFiles) {
-      const body = readFileSync(file, 'utf8')
-      for (const match of body.matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {
-        const target = match[1].split('#')[0]
-        if (!target || /^[a-z]+:/i.test(target)) continue
+      for (const file of markdownFiles) {
+        const body = readFileSync(file, 'utf8')
+        for (const match of body.matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {
+          const target = match[1].split('#')[0]
+          const toolboxRaw = 'https://raw.githubusercontent.com/csark0812/toolbox/main/'
+          if (target.startsWith(toolboxRaw)) {
+            const repositoryTarget = join(root, target.slice(toolboxRaw.length))
+            expect(existsSync(repositoryTarget), `${file} links to missing ${target}`).toBe(true)
+            continue
+          }
+          if (!target || /^[a-z]+:/i.test(target)) continue
 
-        const resolved = resolve(dirname(file), target)
-        expect(resolved.startsWith(`${skillRoot}${sep}`), `${file} escapes to ${target}`).toBe(true)
-        expect(existsSync(resolved), `${file} links to missing ${target}`).toBe(true)
+          const resolved = resolve(dirname(file), target)
+          expect(resolved.startsWith(`${skillRoot}${sep}`), `${file} escapes to ${target}`).toBe(
+            true,
+          )
+          expect(existsSync(resolved), `${file} links to missing ${target}`).toBe(true)
+        }
       }
     }
+  })
+
+  it('standalone workflows keep required behavior when companion skills are absent', () => {
+    const probe = readFileSync(join(root, 'probe/SKILL.md'), 'utf8')
+    const walkthrough = readFileSync(join(root, 'review-walkthrough/SKILL.md'), 'utf8')
+    const refactor = readFileSync(join(root, 'refactor-companion/SKILL.md'), 'utf8')
+
+    expect(probe).toMatch(/Without `council`, perform the same reads serially/)
+    expect(walkthrough).toMatch(/Use the source choices and binding rules below/)
+    expect(walkthrough).not.toMatch(/code-review surface adapters/)
+    expect(refactor).toMatch(/resolve one decision boundary at a\s+time in this dialogue/)
+    expect(refactor).toMatch(/only when the relevant skill is installed/)
   })
 
   it('retired skills are gone (subagents, iterate)', () => {

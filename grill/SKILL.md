@@ -6,9 +6,9 @@ description: Shape fuzzy intent and pressure-test a design before code — inten
 # Grill
 
 <!-- source-of-truth: intent shaping and design-tree alignment before implementation. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-**Process skill** — shared vocabulary → [context-pack.md](../council/references/context-pack.md). Mid-turn asks → [ask.md](references/ask.md).
+**Process skill** — shared vocabulary → [context-pack.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/context-pack.md). Mid-turn asks → [ask.md](references/ask.md).
 
 References: [ask.md](references/ask.md) · [intent-phase.md](references/intent-phase.md) · [protocol.md](references/protocol.md) · [output.md](references/output.md) · [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md).
 

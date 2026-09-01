@@ -1,8 +1,8 @@
 # Handoff subagent dispatch
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-Member recipe for **channel:artifact** only. Spawn one host **Task** (`generalPurpose`). Output shape → [output.md](output.md). Pack vocabulary → [context-pack.md](../../council/references/context-pack.md) (shared headers only — handoff does not require attaching council). **Not** user `channel:prompt`.
+Member recipe for **channel:artifact** only. Spawn one host **Task** (`generalPurpose`). Output shape → [output.md](output.md). Pack vocabulary → [context-pack.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/context-pack.md) (shared headers only — handoff does not require attaching council). **Not** user `channel:prompt`.
 
 ## Dispatch plan
 

@@ -1,6 +1,6 @@
 # Context pack
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
 <!-- source-of-truth: shared composability vocabulary and what Task members receive — minimal, pointer-heavy, asymmetric to the parent chat. Spawn mechanics → [`council` SKILL](../SKILL.md). Member prompt shell → [task-prompt.md](task-prompt.md). -->
 
@@ -63,14 +63,14 @@ Paste into member Task prompts after the [task-prompt.md](task-prompt.md) shell:
 
 ## Domain fill-in (procedure in process skill or council)
 
-| Job                    | Pack shape                      | Fill-in                                                                                                                   |
-| ---------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| Handoff artifact       | `channel` + `Pack` + `Goal`     | [handoff/pack.md](../../handoff/references/pack.md) · [output.md](../../handoff/references/output.md)                     |
-| TDD microcycle         | `Slice` + `Seam`                | [tdd/SKILL.md](../../tdd/SKILL.md)                                                                                        |
-| Parallel review        | `Surface` + `Lens` + path slice | **council** + [code-review](../../code-review/SKILL.md)                                                                   |
-| Adversarial kill       | artifact + criteria             | [Adversarial pack](#adversarial-pack) · [adversarial.md](adversarial.md)                                                  |
-| Second-opinion (depth) | artifact + perspectives         | **council** invents perspectives; members use [second-opinion](../../second-opinion/SKILL.md) craft                       |
-| Probe parallel gather  | hunch + slice                   | **council** + [probe](../../probe/SKILL.md) (local parallel refs remain coordinator recipes when council is not attached) |
+| Job                    | Pack shape                      | Fill-in                                                                                                                                                                                                     |
+| ---------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Handoff artifact       | `channel` + `Pack` + `Goal`     | [handoff/pack.md](https://raw.githubusercontent.com/csark0812/toolbox/main/handoff/references/pack.md) · [output.md](https://raw.githubusercontent.com/csark0812/toolbox/main/handoff/references/output.md) |
+| TDD microcycle         | `Slice` + `Seam`                | [tdd/SKILL.md](https://raw.githubusercontent.com/csark0812/toolbox/main/tdd/SKILL.md)                                                                                                                       |
+| Parallel review        | `Surface` + `Lens` + path slice | **council** + [code-review](https://raw.githubusercontent.com/csark0812/toolbox/main/code-review/SKILL.md)                                                                                                  |
+| Adversarial kill       | artifact + criteria             | [Adversarial pack](#adversarial-pack) · [adversarial.md](adversarial.md)                                                                                                                                    |
+| Second-opinion (depth) | artifact + perspectives         | **council** invents perspectives; members use [second-opinion](https://raw.githubusercontent.com/csark0812/toolbox/main/second-opinion/SKILL.md) craft                                                      |
+| Probe parallel gather  | hunch + slice                   | **council** + [probe](https://raw.githubusercontent.com/csark0812/toolbox/main/probe/SKILL.md); probe supplies a serial fallback when council is unavailable                                                |
 
 Coordinator picks closest row — do not merge domains into one mega-prompt.
 

@@ -5,61 +5,67 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "code-review/SKILL.md",
-      "computedHash": "7ed59859e27013cfecc93728a3d0c298c922fea8e17da9275e6741e30a95af70"
+      "computedHash": "c07250e95992c66b484608a5922353bd9c099c55f41f7a48101a7ea656e3a053"
     },
     "council": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "council/SKILL.md",
-      "computedHash": "a41402ba20da2e1c3b5de7753600f801f2b3c066cbaa7f75ab67da38ff95beff"
+      "computedHash": "cc256c8ba5ec2be41b87f97ec3fecab5477dc14e4cbd5faa8204772c76faeb4e"
     },
     "domain-model": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "domain-model/SKILL.md",
-      "computedHash": "6cf3a372207dd116d00e9420992bffa2222cc95f4b3636da3cfd6db6e2bfcd97"
+      "computedHash": "13d3734ed0577d3a2bbab44fc87d41e94bd6e9e6606f7b6cff4f5ed0f6397397"
     },
     "grill": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "grill/SKILL.md",
-      "computedHash": "01d253ac54eb163db206485c3eff9ce823b24d59bfbdaa2ec5c07ee7bcad011b"
+      "computedHash": "1af1a195ddc291efc6040c8778fb7e60201d9a83f30c3286f227a4a44c64a92e"
     },
     "handoff": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "handoff/SKILL.md",
-      "computedHash": "5d30b2d8074852ca9ea323dab45413102e5d406d51b8d266caaf693a4d5fc08a"
+      "computedHash": "af11994fe71c73a9a83f1a4d6e22e16c1a0319d9135fc0ec32458ef28acc63bb"
     },
     "probe": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "probe/SKILL.md",
-      "computedHash": "0000000000000000000000000000000000000000000000000000000000000000"
+      "computedHash": "e441b6b64a0b951e3f58974baf37f2e4bd5f540a3d91fd1055613388d55511bd"
     },
     "prototype": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "prototype/SKILL.md",
-      "computedHash": "0c2745f23989208ff1079f38c92f3a0ec581cf23e1c34a637888c2c832cd2a67"
+      "computedHash": "4b843a27cd0849a74702b4df702684c4cbcb856813de7a7b054eabb1df179524"
+    },
+    "refactor-companion": {
+      "source": "csark0812/toolbox",
+      "sourceType": "github",
+      "skillPath": "refactor-companion/SKILL.md",
+      "computedHash": "11df544b7d5d3cff9943805576211c73c1cbdf46e52b82b0285cae3b433cbbda"
     },
     "review-walkthrough": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "review-walkthrough/SKILL.md",
-      "computedHash": "fbb98cce9fcba6d2f0595b1e61fc708cebeebf07c93155b7d0e8703bae4994bb"
+      "computedHash": "da6c514087b4ff28a3fdaa154dd11611e4edbbe635be04308ff1699271e996ea"
     },
     "second-opinion": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "second-opinion/SKILL.md",
-      "computedHash": "8078effe6f59ffbe44ceed76cf2e46988170c8c3e871d767ba5f8ddd80570413"
+      "computedHash": "4d2ead28684004a0eeb472001622ed704ddf8b19b164926f46355a12719515b1"
     },
     "tdd": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "tdd/SKILL.md",
-      "computedHash": "20d7c1595fb8bcc9f2242a36f6db4e40f16f6d0e7c517287f888da71e045bb80"
+      "computedHash": "838286a1f269df1b15ef13903395eb4511f5e9a61112fa126ae3f2644ae77416"
     }
   }
 }
