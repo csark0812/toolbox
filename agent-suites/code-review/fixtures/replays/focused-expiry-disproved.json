@@ -1,0 +1,15 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "The `>=` change is not a proved blocker. It changes only the exact `expiresAt === now` boundary, but this repository has no reachable caller for `isSessionActive` and no contract or test that defines expiry as exclusive.\n\nNext proof: provide the authoritative expiry contract or a real caller plus a boundary test for `expiresAt === now`."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [
+    "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/auth.ts",
+    "rg -n \"isSessionActive|expiresAt\" agent-suites/fixtures/sample-app"
+  ],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

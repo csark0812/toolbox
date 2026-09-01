@@ -1,0 +1,18 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Merge gate · main...3333333 · current head: match\nContract: current\nCoverage: full · Lenses: general, merge-readiness\nState: PASSED\nNo merge-blockers in scope."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [
+    "git rev-parse origin/main",
+    "git merge-base origin/main HEAD",
+    "git rev-parse HEAD",
+    "git diff origin/main...HEAD -- agent-suites/fixtures/sample-app/src/redirect.ts",
+    "git ls-remote origin refs/heads/review-head"
+  ],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

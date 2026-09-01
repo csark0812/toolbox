@@ -1,0 +1,13 @@
+diff --git a/agent-suites/fixtures/sample-app/src/form.tsx b/agent-suites/fixtures/sample-app/src/form.tsx
+index 50eb6ee..c04f1a2 100644
+--- a/agent-suites/fixtures/sample-app/src/form.tsx
++++ b/agent-suites/fixtures/sample-app/src/form.tsx
+@@ -9,7 +9,7 @@ export function nextSubmitState(state: SampleFormState, serverError?: string): S
+   if (serverError) {
+     return {
+       ...state,
+-      status: 'error',
++      status: 'success',
+       error: serverError,
+     }
+   }

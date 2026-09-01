@@ -81,7 +81,7 @@ Existing committed toolbox process skill dirs keep loading until removed. Delete
 | ------------ | ------------------ | ----------------------------------------------------------------------------------------------- |
 | Orchestrator | council            | Multi-agent depth — create task personas, choose an interaction, run members, synthesize        |
 | Orchestrator | handoff            | A2A cross-session — channel + pack + goal; pointers not bodies                                  |
-| Process      | code-review        | Review any surface + lens; merge-blockers with evidence                                         |
+| Process      | code-review        | Choose a task-shaped review mode and file only evidence-backed findings                         |
 | Process      | review-walkthrough | Explain a bounded change through the smallest useful causal story                               |
 | Process      | second-opinion     | Adversarial critique of a written artifact — invent lenses; layer council for multi-agent depth |
 | Process      | grill              | Fuzzy intent + design pressure-test before implementation                                       |

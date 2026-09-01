@@ -1,0 +1,15 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Verdict: not fixed\nChecked: malformed authority and malformed escape sequence inputs under the same absolute-target invariant.\nEvidence: both reach the same unguarded `new URL` call in `targetBoundary.ts:24`, which can throw instead of returning a controlled decision. This is one root cause with two triggers."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [
+    "sed -n '1,120p' agent-suites/fixtures/sample-app/src/targetBoundary.ts",
+    "node -e \"for (const value of ['https://[', 'https://x/%zz']) { try { new URL(value); console.log('ok') } catch { console.log('throws') } }\""
+  ],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

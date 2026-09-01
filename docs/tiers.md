@@ -26,17 +26,17 @@ Persona, interaction, and pack references live under orchestrator trees. Process
 
 Each process skill is an **atom**: entry gate → non-negotiables → workflow → exit artifact → non-goals (frontmatter `Not …`). Atoms stack on overlapping **Slice** / **Artifact** / **Seam** without naming siblings.
 
-| Slug                   | Atom (natural language)                                                                                                                                                                        |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **code-review**        | Review code on any surface through any lens; file merge-blockers with evidence. When a consumer-local review/standards skill is also loaded, stack both opinions (neither replaces the other). |
-| **review-walkthrough** | Explain a bound code change through the smallest useful causal story; stay read-only and separate formal review.                                                                               |
-| **second-opinion**     | Adversarial critique of a written artifact — invent lenses; single-pass by default; layer **council** for multi-perspective depth                                                              |
-| **grill**              | Shape fuzzy intent (intent phase) and walk the design tree in dialogue until major branches align                                                                                              |
-| **probe**              | Hunch verdict (Evidence) or hard-bug fix (Fix) under Authority B — tight **Repro** before patch                                                                                                |
-| **tdd**                | Test-first build at agreed public seams — red-green on a **Slice**                                                                                                                             |
-| **prototype**          | Throwaway spike for one design question                                                                                                                                                        |
-| **domain-model**       | Persist glossary + ADRs when a decision is ready                                                                                                                                               |
-| **refactor-companion** | Preserve a developer's target design through evidence-led slices, focused proof, and an explicit cutover sweep.                                                                                |
+| Slug                   | Atom (natural language)                                                                                                                                       |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **code-review**        | Choose a focused check, standard review, closure check, or strict merge gate; file only evidence-backed findings. Consumer-local standards add project rules. |
+| **review-walkthrough** | Explain a bound code change through the smallest useful causal story; stay read-only and separate formal review.                                              |
+| **second-opinion**     | Adversarial critique of a written artifact — invent lenses; single-pass by default; layer **council** for multi-perspective depth                             |
+| **grill**              | Shape fuzzy intent (intent phase) and walk the design tree in dialogue until major branches align                                                             |
+| **probe**              | Hunch verdict (Evidence) or hard-bug fix (Fix) under Authority B — tight **Repro** before patch                                                               |
+| **tdd**                | Test-first build at agreed public seams — red-green on a **Slice**                                                                                            |
+| **prototype**          | Throwaway spike for one design question                                                                                                                       |
+| **domain-model**       | Persist glossary + ADRs when a decision is ready                                                                                                              |
+| **refactor-companion** | Preserve a developer's target design through evidence-led slices, focused proof, and an explicit cutover sweep.                                               |
 
 ## Process SSOT (`toolbox/`)
 

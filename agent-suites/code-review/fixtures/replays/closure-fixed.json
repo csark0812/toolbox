@@ -1,0 +1,15 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Verdict: fixed\nChecked: safe relative targets keep both query and fragment text; absolute and scheme-relative targets still return the dashboard fallback.\nEvidence: `nextUrlAfterLogin` returns the accepted relative target unchanged after the safety guards."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [
+    "sed -n '1,120p' agent-suites/fixtures/sample-app/src/redirect.ts",
+    "rg -n \"nextUrlAfterLogin\" agent-suites/fixtures/sample-app"
+  ],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

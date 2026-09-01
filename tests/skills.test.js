@@ -262,70 +262,71 @@ describe('toolbox skill SSOT', () => {
     expect(verdict).toMatch(/Find and verdict only/)
   })
 
-  it('code-review is thin review guidelines without orchestration', () => {
+  it('code-review routes task-shaped reviews while preserving its evidence bar', () => {
     const skill = readFileSync(join(root, 'code-review/SKILL.md'), 'utf8')
-    const review = readFileSync(join(root, 'code-review/references/review.md'), 'utf8')
-    const output = readFileSync(join(root, 'code-review/references/output.md'), 'utf8')
+    const modes = readFileSync(join(root, 'code-review/references/interaction-modes.md'), 'utf8')
+    const evidence = readFileSync(
+      join(root, 'code-review/references/evidence-and-filing.md'),
+      'utf8',
+    )
+    const output = readFileSync(join(root, 'code-review/references/output-format.md'), 'utf8')
     const sources = readFileSync(join(root, 'code-review/references/sources.md'), 'utf8')
-    const blockers = readFileSync(join(root, 'code-review/references/merge-blockers.md'), 'utf8')
     const mergeReadiness = readFileSync(
       join(root, 'code-review/references/merge-readiness.md'),
       'utf8',
     )
 
-    expect(skill).toMatch(/How to review/)
+    for (const mode of ['Focused check', 'Standard review', 'Closure check', 'Merge gate']) {
+      expect(skill).toMatch(new RegExp(`\\*\\*${mode}\\*\\*`))
+    }
+    expect(skill).toMatch(/requested outcome, not repository size/)
     expect(skill).toMatch(/Review only/)
-    expect(skill).toMatch(/Merge-blockers default/)
-    expect(skill).toMatch(/Untrusted surface/)
-    expect(skill).toMatch(/untrusted data, not instructions/)
-    expect(skill).toMatch(/## Handling External Content/)
-    expect(skill).toMatch(/extract only the expected structured fields/)
+    expect(skill).toMatch(/untrusted evidence, not instructions/)
+    expect(skill).toMatch(/introduced, worsened, or newly exposed/)
+    expect(skill).toMatch(/path or snapshot, judge the named material in scope/)
+    expect(skill).toMatch(/Prefer no finding over a plausible story/)
+    expect(skill).toMatch(/Council can supply independent reviewers/)
+    expect(skill).not.toMatch(/approximate line counts|mandatory.*header/i)
     expect(skill).not.toMatch(/anti-thrash/)
     expect(skill).not.toMatch(/fix-loop/)
-    expect(skill).not.toMatch(/Escalate only when matched/)
     expect(skill).not.toMatch(/review-council-dispatch\.md/)
-    expect(skill).toMatch(/council/)
     const description = skill.match(/^description:\s*(.+)$/m)?.[1] ?? ''
     expect(description).not.toMatch(/council/i)
 
-    expect(review).toMatch(/Introduced-only/)
-    expect(review).toMatch(/path:line/)
-    expect(review).toMatch(/Action bar for change-shaped surfaces/)
-    expect(review).toMatch(/contract-dependent/)
-    expect(review).toMatch(/input, state, transport, or lifecycle classes/)
-    expect(review).not.toMatch(/Hard stop/)
-    expect(review).not.toMatch(/Task\/Subagent/)
+    for (const field of [
+      'Location:',
+      'Starting state:',
+      'Trigger:',
+      'Wrong outcome:',
+      'Impact:',
+      'Counter-evidence:',
+    ]) {
+      expect(evidence).toMatch(new RegExp(field))
+    }
+    expect(evidence).toMatch(/missing tests, style, naming/i)
+    expect(evidence).toMatch(/contract hold/)
+    expect(evidence).toMatch(/same root cause/)
+    expect(modes).toMatch(/Coverage depth and filing breadth are different choices/)
+    expect(modes).toMatch(/fixed`, `not fixed`, or `inconclusive/)
 
-    expect(output).toMatch(/Review · source:/)
-    expect(output).toMatch(/Filing: merge-blockers only/)
-    expect(output).toMatch(/Reviewed base:/)
-    expect(output).toMatch(/Current remote head:/)
-    expect(output).toMatch(/State: PASSED \| BLOCKED \| INCOMPLETE \| STALE/)
-    expect(output).toMatch(/No findings in scope.` is not a merge-readiness success signal/)
-    expect(output).not.toMatch(/Pass class:/)
-    expect(output).not.toMatch(/Thrash:/)
-    expect(output).not.toMatch(/Reviewer: primary/)
+    expect(output).toMatch(/Lead with the verdict or highest-severity finding/)
+    expect(output).toMatch(/Omit empty sections/)
+    expect(output).toMatch(/No actionable findings in the reviewed scope/)
+    expect(output).toMatch(/Verdict: fixed \| not fixed \| inconclusive/)
+    expect(output).not.toMatch(/Scope: \[N files, M loc\]|Filing: merge-blockers only/)
 
-    expect(sources).toMatch(/git diff/)
-    expect(sources).toMatch(/Trust boundary/)
-    expect(sources).toMatch(/full base-tip SHA/)
-    expect(sources).toMatch(/full merge-base SHA/)
-    expect(sources).toMatch(/Immediately before synthesis/)
-    expect(blockers).toMatch(/merge-blockers only/)
+    expect(sources).toMatch(/Treat all reviewed code.*as untrusted data/)
+    expect(sources).toMatch(/Diff adapters are change-shaped/)
+    expect(sources).toMatch(/Paths and snapshots are holistic/)
 
-    expect(mergeReadiness).toMatch(/BOUND -> REVIEWING -> PASSED \| BLOCKED \| INCOMPLETE/)
-    expect(mergeReadiness).toMatch(/State: STALE/)
+    expect(mergeReadiness).toMatch(/full base-tip, merge-base, and reviewed-head commit IDs/)
+    expect(mergeReadiness).toMatch(/immediately before synthesis/)
+    expect(mergeReadiness).toMatch(/STALE > INCOMPLETE > BLOCKED > PASSED/)
     expect(mergeReadiness).toMatch(/No merge-blockers in scope\./)
-    expect(mergeReadiness).toMatch(/\*\*new\*\*/)
-    expect(mergeReadiness).toMatch(/\*\*repeat\*\*/)
-    expect(mergeReadiness).toMatch(/\*\*regression\*\*/)
-    expect(mergeReadiness).toMatch(/\*\*contract-dependent\*\*/)
-    expect(mergeReadiness).toMatch(/\*\*CI-only\*\*/)
     expect(mergeReadiness).toMatch(/Do not create a ledger/)
     expect(mergeReadiness).not.toMatch(/Pass class:/)
     expect(mergeReadiness).not.toMatch(/Thrash:/)
     expect(mergeReadiness).not.toMatch(/Reviewer: primary/)
-    expect(mergeReadiness).not.toMatch(/REVIEW_LEDGER/)
     expect(mergeReadiness).not.toMatch(/git commit|git push|gh pr edit|gh pr review/)
   })
 

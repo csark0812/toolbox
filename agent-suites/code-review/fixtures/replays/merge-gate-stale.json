@@ -1,0 +1,16 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Merge gate · main...3333333 · current head: changed to 4444444\nContract: current\nCoverage: full · Lenses: merge-readiness\nState: STALE\n\nThe prior result does not cover the current remote head. The new head requires a new merge gate."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [
+    "git rev-parse origin/main",
+    "git merge-base origin/main 3333333333333333333333333333333333333333",
+    "git ls-remote origin refs/heads/review-head"
+  ],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}

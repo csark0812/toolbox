@@ -1,0 +1,15 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "## Keep failed submissions in the error state\n\n`agent-suites/fixtures/sample-app/src/form.tsx:12` · High\n\nWhen `serverError` is present, `nextSubmitState` now returns `status: 'success'` while retaining the error message. Any caller that renders from the returned public state can show a failed submission as successful. The existing branch and `SampleFormState` contract confirm that this path previously returned the error state."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [
+    "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/form.tsx",
+    "rg -n \"nextSubmitState|SampleFormState\" agent-suites/fixtures/sample-app"
+  ],
+  "skillsInvoked": ["code-review"],
+  "artifacts": {}
+}
