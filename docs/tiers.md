@@ -31,7 +31,7 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | **code-review**        | Choose a focused check, standard review, closure check, or strict merge gate; file only evidence-backed findings. Consumer-local standards add project rules. |
 | **review-walkthrough** | Explain a bound code change through the smallest useful causal story; stay read-only and separate formal review.                                              |
 | **second-opinion**     | Adversarial critique of a written artifact — invent lenses; single-pass by default; layer **council** for multi-perspective depth                             |
-| **grill**              | Shape fuzzy intent (intent phase) and walk the design tree in dialogue until major branches align                                                             |
+| **grill**              | Clarify intent or pressure-test consequential design choices through focused dialogue before implementation                                                   |
 | **probe**              | Hunch verdict (Evidence) or hard-bug fix (Fix) under Authority B — tight **Repro** before patch                                                               |
 | **tdd**                | Test-first build at agreed public seams — red-green on a **Slice**                                                                                            |
 | **prototype**          | Throwaway spike for one design question                                                                                                                       |
@@ -93,7 +93,7 @@ Consumer cleanup PRs (delete vendored dirs in other repos) are separate — this
 
 **Council + ownership (2026-09):** Retired **subagents** and **iterate**. **Council** owns task-persona design, interaction choice, real member runs, and synthesis. **Second-opinion** is single-pass by default; multi-perspective depth only when the user also attaches **council**. Hunch settlement uses coordinator **explore** + ambient [verdict.md](../.skeleton/references/verdict.md) (retired **investigate** slug). Cross-session transfer stays **handoff**.
 
-**Crystallize (2026-08):** Retired — use **grill** intent phase ([intent-phase.md](../grill/references/intent-phase.md)) for fuzzy intent; design-tree pressure-test stays in grill protocol.
+**Crystallize (2026-08):** Retired — use [**grill**](../grill/SKILL.md) to clarify fuzzy intent or pressure-test a concrete design.
 
 **Code-review (2026-07):** Process-only — see [code-review/SKILL.md](../code-review/SKILL.md). When a consumer-local review/standards skill is also loaded, stack both (composition example; general stacking already exists).
 

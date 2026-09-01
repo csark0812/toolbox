@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Server-side sessions remain settled. The agreed revisit condition—an offline verification requirement—has not changed.\n\nWhen the session store is unavailable, should login fail closed, or may an already verified user continue for a short grace period?"
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["grill"],
+  "artifacts": {}
+}

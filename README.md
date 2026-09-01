@@ -84,7 +84,7 @@ Existing committed toolbox process skill dirs keep loading until removed. Delete
 | Process      | code-review        | Choose a task-shaped review mode and file only evidence-backed findings                         |
 | Process      | review-walkthrough | Explain a bounded change through the smallest useful causal story                               |
 | Process      | second-opinion     | Adversarial critique of a written artifact — invent lenses; layer council for multi-agent depth |
-| Process      | grill              | Fuzzy intent + design pressure-test before implementation                                       |
+| Process      | grill              | Decision-focused dialogue for unclear intent and consequential design choices                   |
 | Process      | probe              | Hunch verdict or hard-bug fix under Authority B                                                 |
 | Process      | tdd                | Test-first build at agreed public seams                                                         |
 | Process      | prototype          | Throwaway artifact for one design question                                                      |

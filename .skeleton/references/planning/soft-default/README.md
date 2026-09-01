@@ -6,13 +6,13 @@ Execution planning and **completeness verify** live here as **reference docs**, 
 
 ## Files
 
-| File                                 | Purpose                                                                                                     | Usual entry                                                                                      |
-| ------------------------------------ | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| [build.md](build.md)                 | Guided planning from scratch → CreatePlan / PRD / Linear issues                                             | **grill** (intent phase or design tree after dialogue), or directly when intent is already clear |
-| [verify.md](verify.md)               | Three-axis completeness checklist (loaded when second-opinion invents a readiness/gaps `completeness` lens) | **second-opinion** (layer **council** when multi-perspective depth is wanted)                    |
-| [plan-format.md](plan-format.md)     | CreatePlan template + self-check                                                                            | After `build.md` when output is todos                                                            |
-| [prd-format.md](prd-format.md)       | PRD template for `docs/prds/`                                                                               | After `build.md` when output is a PRD                                                            |
-| [issues-format.md](issues-format.md) | Vertical-slice Linear issues                                                                                | After `build.md` when output is issues                                                           |
+| File                                 | Purpose                                                                                                     | Usual entry                                                                                 |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [build.md](build.md)                 | Guided planning from scratch → CreatePlan / PRD / Linear issues                                             | **grill** after focused intent or design dialogue, or directly when intent is already clear |
+| [verify.md](verify.md)               | Three-axis completeness checklist (loaded when second-opinion invents a readiness/gaps `completeness` lens) | **second-opinion** (layer **council** when multi-perspective depth is wanted)               |
+| [plan-format.md](plan-format.md)     | CreatePlan template + self-check                                                                            | After `build.md` when output is todos                                                       |
+| [prd-format.md](prd-format.md)       | PRD template for `docs/prds/`                                                                               | After `build.md` when output is a PRD                                                       |
+| [issues-format.md](issues-format.md) | Vertical-slice Linear issues                                                                                | After `build.md` when output is issues                                                      |
 
 **Written plan review** → **second-opinion** skill ([plan-review.md](../../../../second-opinion/references/plan-review.md)). For readiness-shaped asks, suggest wording that invents `premises` + `completeness` lenses (layer **council** for multi-perspective depth) — not a skill default.
 
@@ -39,7 +39,7 @@ Planning orchestrates work; it does **not** replace other skills:
 
 | Skill                      | When                                                                                                                                                 |
 | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **grill**                  | When intent or assumptions are still fuzzy (`build.md` Step 5) — intent phase then design tree.                                                      |
+| **grill**                  | When intent or assumptions are still fuzzy (`build.md` Step 5) — clarify the outcome, then pressure-test material choices.                           |
 | **second-opinion**         | Written artifact review (path or paste) — invent lenses; single-pass by default; layer **council** for multi-perspective depth                       |
 | **probe**                  | One concrete code-path hunch → evidence (`build.md` Step 5).                                                                                         |
 | **council**                | Multi-agent depth — invent perspectives and spawn; use with [parallel-explore.md](parallel-explore.md) (`build.md` Step 3) or layered second-opinion |

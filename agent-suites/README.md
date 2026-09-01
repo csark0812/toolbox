@@ -42,7 +42,7 @@ Toolbox owns generic skill-contract behavior:
 - `probe-evidence`: discriminating kill tests; leave dead patches after 2–3 no-signal reads (Evidence stance).
 - `probe-evidence-outcomes` / `probe-evidence-transfer` / `probe-evidence-prompt`: discriminating evidence-parity band (2 scenarios). **Manual live cadence only** (not part of `npm run check`). Discriminating scenarios use guard-only fixture seeds; dual-bug `debug-app` remains for ceiling/Fix bands.
 - `probe-evidence-outcomes-ceiling` / `probe-evidence-transfer-ceiling`: ceiling scenarios (replay CI only).
-- `grill`: ask-block Context+Questions (N=1 slim); alternate frame before crystallized output; falsifier before leaving a decision node.
+- `grill`: repo facts before questions; honest question forms; one active branch; supported recommendations and revisit triggers; alignment before implementation.
 - `tdd`: seam confirmation before the first test; red-green slice discipline.
 - `probe-fix`: entry gate — no repro means no hypotheses; route to Evidence stance or get a repro.
 - `probe-fix-outcomes` / `probe-fix-transfer` / `probe-fix-prompt`: discriminating evidence-parity band (2 scenarios: `no-repro-refuse`, `loop-before-cause`). **Manual live cadence only** — `npm run agent:test:probe-fix-evidence-parity` (not part of `npm run check`). Independent of Evidence parity.

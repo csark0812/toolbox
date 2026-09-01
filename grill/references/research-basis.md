@@ -1,31 +1,16 @@
 # Grill research basis
 
-<!-- source-of-truth: evidence and limits behind design-tree alignment. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- source-of-truth: evidence and limits behind alternate-frame and revisit-trigger checks. -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-Read when calibrating falsifiers, silent-topic scan, or making a research claim. Not for every grill session.
+Read this file only when making a research claim about Grill's method.
 
-## Evidence posture
+## Durable cautions
 
-- Design trees explore branches. Premature aggregation before falsifiers invites false alignment.
-- Consider-the-opposite is a debiasing move. It is not proof that the rejected branch was wrong.
-- Human owns decisions. Agent owns repo-lookupable facts.
+- Considering a credible alternative can reduce confirmation bias. It does not prove that the alternative or the selected choice is correct.
+- Naming evidence that would reverse a consequential choice makes assumptions testable. It is a decision-hygiene technique, not a completeness guarantee.
+- The user owns value judgments and authorization. The agent owns inspection of facts available in repositories, documents, tools, and cited sources.
 
-## Consider-the-opposite / falsifier
+These findings support selective checks for material choices. They do not support a mandatory alternate frame, formal decision tree, or falsifier for every question.
 
-Before you leave a decision node, state what shows that the chosen branch was the wrong bet. Silence is not acceptance.
-
-**Confidence:** Moderate to high as debiasing hygiene. Low as guarantee of optimal design.
-
-**Does not transfer:** Scored tree search (MCTS/beam) — grill is dialogue with a human branch chooser, not automated search.
-
-- Lord, C. G., Lepper, M. R., & Preston, E. (1984). Considering the opposite: A corrective strategy for social judgment. _Journal of Personality and Social Psychology._
-- Yao et al. (2023). Tree of Thoughts — exploration with aggregation. Grill borrows branch thinking without formal scoring.
-
-## Silent-topic scan
-
-Failure modes, rollback, ownership, constraints, and NFR tradeoffs must be decided or explicitly marked in/out of scope. This prevents “aligned” summaries that skipped unhappy paths.
-
-**Confidence:** Moderate — process gate. Not validated as a completeness oracle.
-
-**Does not transfer:** Exhaustive enterprise architecture review checklists in one grill pass.
+Source: Lord, C. G., Lepper, M. R., & Preston, E. (1984), “Considering the opposite: A corrective strategy for social judgment,” _Journal of Personality and Social Psychology_.

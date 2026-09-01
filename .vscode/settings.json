@@ -1,7 +1,0 @@
-{
-  "markdown.styles": [],
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "marksman": {}
-}

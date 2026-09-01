@@ -1,45 +1,62 @@
 ---
 name: grill
-description: Shape fuzzy intent and pressure-test a design before code — intent phase then design tree until major branches resolve. Use when the idea is half-formed, assumptions need pressure-testing, or the user says crystallize or grill this. Process skill. Dialogue-first. Composes with tdd and second-opinion on layered prompts. Not written-artifact-only critique, find-only hunch settlement, or multi-agent orchestration.
+description: Clarify fuzzy intent and pressure-test design choices through focused dialogue before implementation. Use when the user wants to shape an idea, resolve consequential tradeoffs, or says to grill or crystallize it. Not written-artifact critique, bug diagnosis, or implementation.
 ---
 
 # Grill
 
-<!-- source-of-truth: intent shaping and design-tree alignment before implementation. -->
+<!-- source-of-truth: decision-focused dialogue before implementation. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-**Process skill** — shared vocabulary → [context-pack.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/context-pack.md). Mid-turn asks → [ask.md](references/ask.md).
+Grill helps the user make the decisions that must be clear before implementation. It is a dialogue, not a questionnaire or a design checklist.
 
-References: [ask.md](references/ask.md) · [intent-phase.md](references/intent-phase.md) · [protocol.md](references/protocol.md) · [output.md](references/output.md) · [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md).
-
-Read [research-basis.md](references/research-basis.md) only when you calibrate dialogue claims.
+Read [interaction.md](references/interaction.md) when choosing how to ask or challenge. Read [research-basis.md](references/research-basis.md) only when making a research claim about the method.
 
 ## Entry gate
 
-- User wants **dialogue** — fuzzy intent and/or design alignment before implementation (including former “crystallize” asks).
-- If the ask is **artifact-only critique** of a complete written plan on disk, stop. That mode needs a plan path and perspective dispatch. It is not Socratic explore here.
+- The user wants to shape unclear intent or pressure-test a design before implementation.
+- If the user supplied a complete written artifact for critique, use an artifact-review process instead.
+- If the user wants a concrete hunch investigated, use a diagnostic process instead.
 
-## Non-negotiables
+## Core contract
 
-1. **Ask via [ask.md](references/ask.md)** — 1–3 same-branch lettered questions in a Questions-only block. Wait for answers. Layout: self-contained `### N.` stems and lettered options in pragmatic STE (no Context / Already agreed / Where/Deciding/Settled). Mark `(recommended)` on one pick. Optional `> Why <letter>:` only when the pick is contentious or hard to reverse. Never one blob.
-2. **Facts in repo** — look up. Do not ask the user for knowable facts.
-3. **Falsifier per node** before you leave a design-tree branch.
-4. **No implementation** until alignment or an explicit user skip.
+1. **Bind the uncertainty.** State the desired outcome and the choice or ambiguity that blocks progress.
+2. **Inspect knowable facts.** Read relevant repository files, documents, tests, or available sources before asking the user. Ask the user for judgment, preference, or authority that tools cannot supply.
+3. **Ask only decision-changing questions.** A useful answer changes scope, behavior, ownership, risk, or the next design branch.
+4. **Keep one branch active.** Resolve its material dependencies before moving to a sibling branch. Do not dump a questionnaire.
+5. **Use honest question forms.** Ask a short open question when the real options are not known. Offer choices only when they are credible and meaningfully distinct. Recommend one only when evidence and known user priorities support it.
+6. **Preserve settled decisions.** Carry accepted choices forward. Reopen one only when new evidence conflicts or the user asks.
+7. **Challenge consequential choices.** For a material or hard-to-reverse choice, test the strongest plausible alternative or failure case. Record the future evidence that can reopen the choice. Do not require this ceremony for minor choices.
+8. **Wait for alignment.** Do not implement while a material decision remains open. Continue only after the user accepts the shared understanding or explicitly says to skip the remaining dialogue.
 
-## Workflow
+Use pragmatic Simple English for all user-facing text. Internal analysis can remain technical.
 
-If intent is fuzzy or incomplete → [intent-phase.md](references/intent-phase.md). If the design is concrete and needs a pressure-test → [protocol.md](references/protocol.md) → [output.md](references/output.md). Mid-turn user asks always use [ask.md](references/ask.md).
+## Choose the mode
 
-Optional repo facts for a branch → coordinator tools, or attach **council** for parallel explore. Grill stays dialogue-first.
+| Mode                 | Use when                                          | Goal                                                                                  |
+| -------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Shape intent         | The problem, user outcome, or boundary is unclear | Produce a clear outcome and name material uncertainty without jumping to solutions    |
+| Pressure-test design | A concrete approach or tradeoff exists            | Resolve implementation-shaping choices, dependencies, failure behavior, and ownership |
 
-## Exit artifact
+Move from intent shaping to design pressure-testing only when the problem is clear enough. Do not force both modes when one is sufficient.
 
-Intent exit → [intent-phase.md](references/intent-phase.md) crystallized block. Design-tree exit → [output.md](references/output.md). User-facing ask and exit blocks use pragmatic STE.
+## Dialogue loop
+
+1. Briefly reflect the current understanding.
+2. Inspect any facts that can narrow the active branch.
+3. Ask one focused question that the user is best placed to answer.
+4. Wait. Incorporate the answer and keep settled choices fixed.
+5. Before closing unclear intent, test one plausible alternate frame when it has the power to change the outcome.
+6. Before closing a consequential design choice, name a real revisit trigger.
+
+Do not close fuzzy intent after one prompt while material uncertainty remains. Do not invent prior user statements, options, evidence, or agreement.
+
+## Exit
+
+Stop when the intent and implementation-shaping choices are clear enough for the next safe action, or when the user explicitly skips the remaining dialogue.
+
+Summarize proportionally using [output-format.md](references/output-format.md). Omit empty sections. Grill does not implement the result.
 
 ## Consumer bindings
 
-Project-specific injected context is appended on skill read. Do not edit synced copies in place.
-
-## Output format
-
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Details → [references/output.md](references/output.md).
+Project-specific context can arrive when the skill loads. Do not edit installed copies in place.

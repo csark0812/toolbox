@@ -45,13 +45,13 @@ flowchart LR
 
 ## Handoffs (after verdict)
 
-| Next need                                       | Where                                                                                                                                 |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| Implement the fix, repro, make tests pass       | Hub **diagnose** / **tdd** when installed. Else consumer **testing** / **debug** or project `AGENTS.md`.                              |
-| User explicitly asks to fix / repro / implement | **Exit find-only** — stop applying investigate no-fix constraints. Follow the request or the named consumer skill.                    |
-| Still fuzzy on intent                           | **grill** intent phase ([intent-phase.md](https://raw.githubusercontent.com/csark0812/toolbox/main/grill/references/intent-phase.md)) |
-| Written plan to critique                        | **second-opinion**                                                                                                                    |
-| Pressure-test design before build               | **grill**                                                                                                                             |
+| Next need                                       | Where                                                                                                              |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Implement the fix, repro, make tests pass       | Hub **diagnose** / **tdd** when installed. Else consumer **testing** / **debug** or project `AGENTS.md`.           |
+| User explicitly asks to fix / repro / implement | **Exit find-only** — stop applying investigate no-fix constraints. Follow the request or the named consumer skill. |
+| Still fuzzy on intent                           | [**grill**](https://raw.githubusercontent.com/csark0812/toolbox/main/grill/SKILL.md)                               |
+| Written plan to critique                        | **second-opinion**                                                                                                 |
+| Pressure-test design before build               | **grill**                                                                                                          |
 
 ## Anti-patterns
 
