@@ -1,11 +1,13 @@
 # toolbox
 
 <!-- source-of-truth: user-level process and orchestrator Cursor/Claude agent skills. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-30 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-08-31 -->
 
 Public process SSOT. Engineers install skills globally (`-g`). Product repos keep product workflows and shared standards — they should not vendor these process skill folders.
 
 New skill packages can start from the public [skeleton](https://github.com/csark0812/skeleton) template. Private preference skills live in a separate global install outside this repo.
+
+See [Christopher's profile](https://github.com/csark0812) for the mobile infrastructure, state tooling, and agent-workflow projects around this repository.
 
 Requires **Node ≥ 22**. Contributor cold-start: [AGENTS.md](AGENTS.md). No runtime environment variables are required (see `.env.example`).
 
