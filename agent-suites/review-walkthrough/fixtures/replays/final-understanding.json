@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "## Understanding summary\n\n- **Step 1 covered:** login creates and stores a session before returning its token.\n- **Step 2 skipped:** token-based session recovery was not explained.\n- **Evidence:** the login entry point and session store establish the covered ordering.\n- **Missing proof:** the skipped recovery path and its tests remain unread."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["review-walkthrough"],
+  "artifacts": {}
+}

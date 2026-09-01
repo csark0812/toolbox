@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "**Trigger:** a user submits valid login details.\n\n**Purpose:** create one server-side session that later requests can recover without logging in again.\n\n**End state:** the user has a token, and that token points to the stored session.\n\n**Path:** login request → create session → store session under token → return token → later request loads session.\n\nDoes this frame make sense? If it does, I will return to the active beat and connect it to the code."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["review-walkthrough"],
+  "artifacts": {}
+}

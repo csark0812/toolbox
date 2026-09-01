@@ -1,0 +1,17 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Mode: Direct slice\n\nSlice: Make login the single owner of session creation and storage.\n\n- Change: move the expiry construction into login.ts and remove createSession after updating its only caller.\n- Scope: src/login.ts, src/auth.ts, and focused auth tests.\n- Proof: trace createSession callers, run the focused tests, type-check, inspect the diff, and search for the removed symbol.\n- Stop if: a public export or another live consumer appears.\n\nRepository inspection found one caller and no contradictory in-repository contract, so I can start this slice without another design question."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [
+    "git status --short",
+    "rg -n \"createSession|login\\(\" agent-suites/fixtures/sample-app",
+    "sed -n '1,180p' agent-suites/fixtures/sample-app/src/auth.ts",
+    "sed -n '1,180p' agent-suites/fixtures/sample-app/src/login.ts"
+  ],
+  "skillsInvoked": ["refactor-companion"],
+  "artifacts": {}
+}

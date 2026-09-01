@@ -35,7 +35,8 @@ Consumer repos own product integration outcomes (app paths, private docs, `valid
 Toolbox owns generic skill-contract behavior:
 
 - `code-review`: diff adapters, merge-blocker filing, review-only — no orchestration in skill body.
-- `review-walkthrough`: behavior-first, user-paced change explanation, evidence anchors, read-only concern callouts — no merge-readiness filing.
+- `review-walkthrough`: choose the smallest useful story mode, bind source versions, use proportional evidence, and remain read-only.
+- `refactor-companion`: inspect before asking, preserve resolved design decisions, prove coherent slices, protect unrelated work, and sweep old-design residue.
 - `council`: create distinct task personas; select a useful interaction; run real members; skip when one pass is enough.
 - `second-opinion`: invent lenses from ask; single-pass by default; layer council for multi-perspective depth; claim anchoring; unanchored kills tagged `drift`; path or paste artifact.
 - `probe-evidence`: discriminating kill tests; leave dead patches after 2–3 no-signal reads (Evidence stance).

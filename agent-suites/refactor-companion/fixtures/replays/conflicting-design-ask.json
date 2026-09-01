@@ -2,11 +2,15 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "The refactor model records one direct implementation path as the target shape.\n\nMeaningful complexity:\n- Source: the two entry points and callback wrapper\n- Domain name: public entry-point compatibility\n- Owner: the public contract boundary\n- Public contract: unresolved\n- Failure and recovery behavior: preserve the supported path until the contract is decided\n- Test seam: the public entry point\n\n## Questions\n\n### 1. When the refactor leaves one direct implementation path, does the old entry point remain as a supported public contract?\n\n- **A)** Keep it as a compatibility entry point and document the boundary\n- **B)** Remove it and update all in-repository callers and tests (recommended)\n\nThis is one focused question about the public contract. I will inspect the repository for callers and contract evidence before applying your choice. I will not edit the wrapper or entry point while this decision is open."
+      "content": "Mode: Decision checkpoint\n\nEvidence: repository search finds one createSession caller in src/login.ts and no package export map that settles use outside this repository. Removing the function is safe for known internal callers, but the request says external compatibility is still possible.\n\nQuestion: Which contract owns the cutover?\n\n- A) Remove createSession and update the known caller. Treat it as repository-internal. (Recommended)\n- B) Keep a documented compatibility export while login moves to the direct path.\n\nI will not edit the disputed export until this contract choice is resolved."
     }
   ],
   "toolCalls": [],
-  "shellCommands": [],
+  "shellCommands": [
+    "rg -n \"createSession|exports|main\" agent-suites/fixtures/sample-app package.json",
+    "sed -n '1,160p' agent-suites/fixtures/sample-app/src/auth.ts",
+    "sed -n '1,160p' agent-suites/fixtures/sample-app/src/login.ts"
+  ],
   "skillsInvoked": ["refactor-companion"],
   "artifacts": {}
 }

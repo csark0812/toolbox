@@ -1,274 +1,109 @@
 ---
 name: refactor-companion
-description: >-
-  Collaborate with a developer through a full refactor loop: clarify intent,
-  model the target design, ask focused questions, implement small slices,
-  match the developer's local code style, simplify leftover abstractions, and
-  validate each step. Use when a developer is vibe-coding a branch or asks to
-  refactor, rewrite, simplify, cut over, replace architecture, or prepare the
-  resulting code for review or handoff.
+description: Preserve a developer's target design through evidence-led, proven refactor slices. Use for existing-code replacement, simplification, migration, cutover, ownership change, or deliberate removal of an old shape. Not ordinary feature work, analysis-only review, or autonomous Git operations.
 ---
 
 # Refactor companion
 
-<!-- source-of-truth: iterative refactor collaboration from intent to handoff. -->
+<!-- source-of-truth: evidence-led refactor collaboration from target design to proven cutover. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-**Process skill** — guide one developer through an intent-led refactor. Keep
-the developer's logic visible in the work. Optimize for code that reads like
-the developer wrote it, not generic agent code.
+Preserve the developer's target design while changing existing code in small, coherent, proven slices. Read facts first. Ask only for material human decisions. Remove obsolete design residue and protect unrelated work.
 
-Optional companions when installed: `grill` for a dedicated intent phase, `review-walkthrough` for explanation, and `code-review` for independent review. The canonical extended design vocabulary is available in [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md), but this skill remains complete without those companions.
+Internal record → [refactor-card.md](references/refactor-card.md). Mode selection → [interaction-modes.md](references/interaction-modes.md). Slice proof → [slice-proof.md](references/slice-proof.md). Cutover rules → [residue-and-cutover.md](references/residue-and-cutover.md). User-facing reports → [output-format.md](references/output-format.md).
+
+Extended design vocabulary is available in [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md). The core workflow remains complete without companion skills.
 
 ## Entry gate
 
-- The developer asks for implementation, refactoring, rewriting, simplification, a cutover, an architecture replacement, or review preparation.
-- A repository, branch, working tree, commit, pull request, or named code path is in scope.
-- The desired behavior or design is stated, implied by the task, or ready to shape through focused questions.
-- Edit authority exists for the current work. If the request is analysis-only, stay read-only and explain that this implementation workflow is not active. Recommend `code-review` or `review-walkthrough` only when the relevant skill is installed.
+- The user authorizes edits to an existing code surface.
+- The task replaces, simplifies, migrates, cuts over, reassigns ownership, or removes an old design shape.
+- A repository, branch, worktree, commit, pull request, or named path is in scope.
+- If the request is analysis-only, stay read-only and explain that implementation is not active. Offer an installed walkthrough or review skill only when available.
+- If no concrete surface exists, ask for one. Do not invent code from a scenario description.
 
-If the task has no concrete code surface, ask for one. If the design has
-several unresolved architecture branches, resolve one decision boundary at a
-time in this dialogue before implementation. If `grill` is installed and
-attached, it can own a dedicated intent phase.
+## Core contract
 
-## Non-negotiables
+1. Treat the developer's stated target, required shape, and prohibited shape as design authority.
+2. Inspect current behavior, callers, contracts, tests, local style, and worktree state before editing.
+3. Ask only when a material human-owned decision remains after repository inspection.
+4. Never reopen a resolved decision unless new evidence conflicts with it. Show that evidence first.
+5. Define one coherent slice and its proof before editing.
+6. Implement, prove, and inspect the slice for residue from the old design.
+7. Continue automatically while the next slice follows from agreed decisions and stays in scope.
+8. Stop at contract, authority, scope, or evidence boundaries.
+9. Preserve unrelated work. Git state changes need explicit user authority.
+10. Use pragmatic Simple English for previews, questions, progress, and reports.
 
-1. Treat the developer's stated refactor logic as the design authority. Do not silently replace it with a convenient pattern.
-2. Keep a conversation-local refactor model with goals, constraints, invariants, required shape, prohibited shape, decisions, rejected alternatives, evidence, and the next slice.
-3. Ask only for human decisions. Read the repository for facts. Ask one focused question at a decision boundary, then pause.
-4. Work in one small coherent slice at a time. State the slice intent and proof target before editing.
-5. Match local idioms from evidence. Do not copy local defects, stale structure, or accidental complexity.
-6. Stop when code conflicts with the refactor model. Show the exact conflict and ask the developer to choose before changing the design.
-7. After each slice, inspect the changed path for residue from the previous design. Do not defer an obvious, in-scope simplification to human review.
-8. Preserve unrelated work. Do not commit, push, merge, reset, rebase, or clean unknown changes unless the developer explicitly requests that action.
-9. Finish with focused proof and a review handoff. Do not claim that this process replaces tests, walkthroughs, or formal review.
+## Refactor card
 
-## Refactor model
-
-Maintain this model in the conversation. Update it after every decision and
-slice. Do not create a project file unless the developer requests one.
+Keep this record internal and current:
 
 ```text
-Goal: the result the developer wants
-Current behavior: the path that exists now
-Target behavior: the path that must exist after the refactor
-Invariants: behavior, contract, safety, and data rules that remain true
-Meaningful complexity:
-- Source:
-- Domain name:
-- Owner:
-- Public contract:
-- Failure and recovery behavior:
-- Test seam:
-Required shape: structures or ownership the developer explicitly wants
-Prohibited shape: structures the refactor must not introduce or retain
-Style evidence: nearby code and accepted patterns that define local idioms
-Decisions: choices already made
-Rejected alternatives: choices no longer under consideration
-Open decisions: choices that need the developer
-Evidence: code, tests, commands, and search results
-Next slice: one bounded change and its proof target
+Outcome:
+Invariants:
+Required shape:
+Prohibited shape:
+Style evidence:
+Resolved decisions:
+Open decision:
+Current slice:
+Proof:
+Stop if:
 ```
 
-Use the complexity map for each meaningful source of state, temporal identity,
-async lifecycle, cross-context coordination, cache mutation, retry, recovery,
-policy, side effect, or trust boundary. Keep the model short. Record only
-decisions that affect implementation, architecture, style, scope, or proof.
+Do not dump the card into routine user updates. Details → [refactor-card.md](references/refactor-card.md).
 
-## Collaborative loop
+## Choose the current mode
 
-### 1. Bind the work
+| Mode                        | Use when                                                                 |
+| --------------------------- | ------------------------------------------------------------------------ |
+| **Discovery before change** | Behavior, consumers, or invariants are unclear                           |
+| **Decision checkpoint**     | Two credible choices change behavior, ownership, compatibility, or scope |
+| **Direct slice**            | Target, contract, and scope are clear                                    |
+| **Cutover sweep**           | A path, concept, or abstraction was replaced                             |
 
-Read the repository instructions, relevant package scripts, the named code,
-nearby implementations, callers, tests, and applicable contracts. Inspect
-the working-tree state before editing. Treat existing branch changes as
-developer-owned until proven unrelated.
+Use one mode for the current turn. A refactor can move between modes. Read [interaction-modes.md](references/interaction-modes.md).
 
-Record the source, scope, current revision when relevant, and unrelated work
-that must remain untouched. Do not widen the scope because nearby code looks
-interesting.
+Several unresolved architecture branches need dedicated design dialogue before implementation. One local blocking decision stays inside this workflow.
 
-### 2. Learn the developer's code
+## Slice loop
 
-Sample the closest working examples before choosing an implementation shape.
-Look for:
+1. Bind the worktree, scope, and protected unrelated changes.
+2. Fill the card from the request and repository evidence.
+3. Select the current mode.
+4. For a direct slice, state its outcome, change, scope, proof, and stop condition in compact form.
+5. Make the smallest coherent edit that expresses the target design.
+6. Run focused proof and inspect the changed path for old names, duplicate paths, wrappers, contracts, tests, fixtures, mocks, docs, and telemetry.
+7. Remove confirmed in-scope residue or retain it for a named live reason.
+8. Update the internal card. Continue or report the exact boundary.
 
-- Functions, classes, records, hooks, and module boundaries.
-- Naming, argument order, return shapes, and error handling.
-- Control-flow style, early returns, callbacks, async patterns, and ownership.
-- Test setup, fixture shape, assertion style, and test naming.
-- Comment density, documentation style, and the level of abstraction used.
-- Recent accepted changes when branch history provides them.
+## Questions
 
-Follow the strongest local pattern. Do not average contradictory examples. If
-the developer's stated preference conflicts with local code, ask which one
-defines the target. Preserve correctness, security, and explicit contracts.
+Before asking, search callers, read the controlling contract, inspect nearby accepted code, and remove choices that evidence settles.
 
-### 3. Shape intent before code
+When a human decision remains:
 
-Fill the refactor model from repository evidence and the developer's request.
-Separate these statements:
+- show the controlling evidence;
+- ask one decision branch with one to three lettered options;
+- mark one recommendation when evidence supports it;
+- pause without editing the disputed shape.
 
-- What the code does today.
-- What the developer wants it to do.
-- Which design shape carries that behavior.
-- Which historical shape must disappear.
-- Which constraints remain in force.
+Do not ask for repository facts or routine edit permission inside an agreed slice.
 
-State required and prohibited shapes explicitly. Map each meaningful
-complexity to a domain name, one owner, its contract, failure/recovery
-behavior, and a test seam. Include ownership and source of defaults. Include
-behavior counts when the choice concerns wrappers, entrypoints, classes,
-records, or duplicated logic.
+## Boundaries
 
-### 4. Ask at decision boundaries
+- Stop when the requested shape conflicts with a live caller, public contract, user decision, authority boundary, or coherent scope.
+- Separate source failures from missing dependencies, unavailable services, permissions, and other environment limits.
+- A green test does not prove that the target architecture exists. Use caller, contract, search, diff, and runtime evidence as relevant.
+- Do not turn uncertainty into speculative cleanup.
+- Do not commit, push, merge, reset, rebase, or clean unless the user explicitly authorizes that action.
+- Formal findings and merge decisions remain separate review work.
 
-Ask a question when two credible designs remain, when code conflicts with the
-model, or when a choice changes ownership, public shape, behavior, or scope.
+## Finish
 
-Use one to three lettered options from one decision branch. Mark one option as
-recommended when a clear fit exists. Ask in plain language. Pause after the
-question. Do not bury a question inside a progress report.
-
-Do not ask for repository facts. Read them. Do not ask permission for routine
-edits inside the agreed slice. Ask before changing the stated design.
-
-### 5. Choose one implementation slice
-
-State the slice in four short parts:
-
-1. Intent — what changes for the user or system.
-2. Shape — which owner, boundary, or abstraction changes.
-3. Scope — exact files, symbols, and related tests.
-4. Proof — the focused search, test, typecheck, or runtime signal.
-
-Prefer a direct readable path. Keep compatibility code only when a named
-consumer or contract requires it. Keep a wrapper only when it owns an
-independent policy, boundary, behavior, or supported extension point.
-
-### 6. Implement and inspect
-
-Make the smallest coherent edit that satisfies the slice. Then inspect the
-result as a refactor author, not only as a test author.
-
-Ask:
-
-- Does the code express the target design directly?
-- Does each meaningful complexity have a named owner and an observable seam?
-- Does the ownership match the refactor model?
-- Does the code use the developer's established idioms?
-- Did the old entry point, fallback, retry, callback wrapper, or contract survive without a current reason?
-- Did one behavior gain multiple names or paths?
-- Did a generic helper keep historical structure while serving one caller?
-- Do names, comments, tests, fixtures, mocks, and docs describe the current design?
-
-Collapse or remove confirmed residue in the same slice. Do not start a
-separate cleanup project.
-
-### 7. Prove the slice
-
-Use the strongest cheap evidence available:
-
-- Search removed symbols, aliases, exports, old terms, and old message names.
-- Trace callers and consumers of the changed boundary.
-- Inspect the diff and run `git diff --check`.
-- Run focused tests and type checks for the changed path.
-- Run the repository's normal validation when the slice is complete.
-- Use runtime or end-to-end proof only when the task requires it and the environment supports it.
-
-For each mapped complexity, verify the owner, contract, failure/recovery
-behavior, and seam against code or tests. Separate source failures from
-missing dependencies, unavailable services, permission errors, cache failures,
-and other environment limits. A green test does not prove that the
-architecture matches the refactor model.
-
-Update the evidence and decisions in the model. Choose the next slice only
-after the current slice has proof or a clearly stated limitation.
-
-### 8. Repeat without thrashing
-
-Continue automatically when the next slice follows from an agreed decision
-and no material conflict exists. Re-read the current code after each slice.
-
-Pause for the developer when:
-
-- The implementation exposes a new design choice.
-- The stated logic conflicts with an existing contract or live caller.
-- Two abstractions have different plausible owners.
-- The requested shape changes behavior or compatibility.
-- The next edit expands beyond the agreed scope.
-
-When a pause is necessary, show the current evidence, the competing choices,
-and the smallest decision needed to continue.
-
-### 9. Run the final simplification pass
-
-Before review or handoff, trace every removed or replaced pathway through:
-
-- Callers, exports, routes, and entrypoints.
-- Public contracts, types, messages, schemas, and adapters.
-- Names, comments, docs, telemetry, and error text.
-- Tests, fixtures, mocks, and snapshots.
-- Helpers, callbacks, retries, fallbacks, and compatibility layers.
-
-Retain an abstraction only when it has an independent live reason to exist.
-Remove, inline, merge, or rename confirmed residue. Search again for removed
-symbols and old concepts. Make sure the final diff reflects the target
-architecture and contains no unrelated refactor.
-
-## Stop conditions
-
-Stop editing and report the boundary when:
-
-- The developer has not chosen between material design alternatives.
-- Current code or an external contract conflicts with the stated logic.
-- A proposed simplification depends on unknown external consumers.
-- The next change needs a new requirement, new authority, or a wider scope.
-- The remaining abstraction has a real independent caller, policy, boundary, behavior, or extension reason.
-- Validation cannot distinguish a source problem from an environment problem.
-- The diff no longer represents one coherent refactor.
-
-Do not turn uncertainty into a speculative cleanup. Resolve one design
-decision at a time in this dialogue. When the relevant companion is installed,
-`grill` can own unresolved intent, `second-opinion` can critique a written plan,
-and `probe` can investigate a runtime symptom. Otherwise stop and report the
-boundary directly.
-
-## Handoff
-
-Use this compact report after a slice or at completion:
-
-```markdown
-Refactor companion · source:[adapter] · Scope:[paths] · Slice:[name]
-
-Intent: [one sentence]
-Decision: [the design choice applied]
-Change: [what changed and why it matches the model]
-Complexity: [named state/lifecycle/policy, owner, contract, failure/recovery behavior, and seam]
-Style: [local evidence followed]
-Residue: [removed, retained with reason, or none found]
-Proof: [searches, tests, typechecks, runtime evidence, and limits]
-Next: [next slice, focused question, or handoff]
-```
-
-At completion, offer a story-first explanation and an independent review. If `review-walkthrough` or `code-review` is installed, use the relevant skill for that follow-up. Do not present this report as a merge-readiness result.
-
-## Non-goals
-
-- Generic lint cleanup or dead-code hunting without a refactor model.
-- Replacing the developer's design with a framework pattern.
-- Copying local defects to imitate style.
-- Broad architecture redesign outside the agreed refactor.
-- Formal review findings, merge decisions, commits, pushes, or pull-request actions.
+Use [output-format.md](references/output-format.md). Offer an installed walkthrough or formal review as a next action. Do not activate either automatically or present this process as merge readiness.
 
 ## Consumer bindings
 
-Project-specific instructions, validation commands, contracts, and style
-evidence come from the consumer repository. Do not edit installed copies in
-place.
-
-## Output format
-
-Use the compact handoff format above. User-facing questions and reports use
-pragmatic Simplified Technical English.
+Project instructions supply local contracts, validation commands, and accepted style evidence. Do not edit installed copies in place.

@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "A missing redirect target still returns `/dashboard`. The staged change is comment-only, so it does not change that fallback or any executable path.\n\nSource: source:staged-only · `redirect.ts`\n\nSummary: the missing redirect target behaves exactly as before; this patch only documents the safe-target path."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": ["git diff --cached -- agent-suites/fixtures/sample-app/src/redirect.ts"],
+  "skillsInvoked": ["review-walkthrough"],
+  "artifacts": {}
+}

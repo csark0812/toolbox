@@ -2,11 +2,11 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "After login, a user follows a redirect back into the app. The change keeps the useful query and hash on a safe relative target, while unsafe targets still go to `/dashboard`.\n\nThe story has two chapters: the safe target makes it through, then the unsafe-target fallback catches everything else. I’ll follow that order.\n\nTests or proof: the staged diff shows the redirect change; no test result is included here.\n\nReview frame: source:staged-only · scope: `agent-suites/fixtures/sample-app/src/redirect.ts` · current version: staged index diff\n\nPaused before Chapter 1. Say `next` to begin, name a chapter, or ask a question."
+      "content": "A login redirect has two causal paths.\n\nSource: source:staged-only · `redirect.ts`\n\n1. **Safe target:** preserve the relative path, query, and hash.\n2. **Unsafe target:** fall back to `/dashboard`.\n\nChoose the path you want to inspect first."
     }
   ],
   "toolCalls": [],
-  "shellCommands": [],
+  "shellCommands": ["git diff --cached -- agent-suites/fixtures/sample-app/src/redirect.ts"],
   "skillsInvoked": ["review-walkthrough"],
   "artifacts": {}
 }

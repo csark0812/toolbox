@@ -2,11 +2,11 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "## Step 1 — The expiry boundary\n\nA request reaches `isSessionActive` at the exact moment the session expires. `agent-suites/fixtures/sample-app/src/auth.ts:6` still rejects a missing session, while `auth.ts:9` uses the changed `>=` comparison and accepts an expiry time equal to `now`.\n\nReview frame: source:branch · scope: `agent-suites/fixtures/sample-app/src/auth.ts` · current version: bound branch head\n\n```ts\nreturn session.expiresAt >= now\n```\n\nThe excerpt shows the boundary comparison that decides whether the request passes.\n\nSummary: a session remains accepted at the exact expiry timestamp.\nProof: no boundary test is included in this selected source.\n\nConcern: `unverified`. Trigger: `session.expiresAt === now`. Impact: protected access can remain accepted at the boundary if expiry is intended to be exclusive. This is a walkthrough callout; use **code-review** for formal risk analysis.\n\nPaused at Step 1/1. The walkthrough remains read-only."
+      "content": "## Step 1 — The expiry boundary accepts equality\n\nA request reaches `isSessionActive` when `expiresAt` equals `now`. The changed `>=` comparison treats that session as active.\n\nSummary: equality remains inside the accepted window.\n\nConcern: `unverified`. **Trigger:** `session.expiresAt === now`. **Impact:** protected access can remain accepted at the boundary if expiry is exclusive. No boundary test or contract in this source proves that expectation.\n\nThis is a read-only explanation, not a formal finding."
     }
   ],
   "toolCalls": [],
-  "shellCommands": [],
+  "shellCommands": ["git diff main...HEAD -- agent-suites/fixtures/sample-app/src/auth.ts"],
   "skillsInvoked": ["review-walkthrough"],
   "artifacts": {}
 }

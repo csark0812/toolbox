@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Changed: the direct-path refactor is complete in source.\nProof: focused tests pass and establish the changed auth behavior.\nLimit: full validation did not start because the required local database service is unavailable. This is an environment limit, not evidence of a source defect. The application code remains unchanged by this failure.\nNext: start the required service and rerun the normal repository gate."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": ["npm test -- auth", "npm run check"],
+  "skillsInvoked": ["refactor-companion"],
+  "artifacts": {}
+}

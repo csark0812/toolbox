@@ -20,21 +20,71 @@ describe('toolbox skill SSOT', () => {
     }
   })
 
-  it('review walkthrough starts directly, shows code, and preserves detail calibration', () => {
+  it('review walkthrough routes task-shaped stories and preserves source integrity', () => {
     const skill = readFileSync(join(root, 'review-walkthrough/SKILL.md'), 'utf8')
-    expect(skill).toMatch(/begin the response with `## Step 1/)
-    expect(skill).toMatch(/compact excerpt from the current source/)
-    expect(skill).toMatch(/replace separate `Fact` and `Reading` labels with one concise `Summary`/)
-    expect(skill).toMatch(/^Summary:/m)
-    expect(skill).not.toMatch(/^(Fact|Reading):/m)
-    expect(skill).toMatch(/Treat self-explanatory helpers as context/)
-    expect(skill).toMatch(/observable effect in one sentence/)
-    expect(skill).toMatch(/non-obvious control flow, state transitions, ownership, and rationale/)
-    expect(skill).toMatch(/unless the user asks to go deeper/)
-    expect(skill).toMatch(/preserve the current step plus covered and skipped state/)
-    expect(skill).toMatch(/earlier covered beats as accepted/)
-    expect(skill).toMatch(/This skill is read-only/)
-    expect(skill).toMatch(/No merge claim/)
+    const source = readFileSync(
+      join(root, 'review-walkthrough/references/source-binding.md'),
+      'utf8',
+    )
+    const modes = readFileSync(
+      join(root, 'review-walkthrough/references/interaction-modes.md'),
+      'utf8',
+    )
+    const story = readFileSync(join(root, 'review-walkthrough/references/story-format.md'), 'utf8')
+
+    for (const mode of ['Compact story', 'Paced tour', 'Map-first tour', 'Story reset']) {
+      expect(skill).toContain(mode)
+    }
+    expect(skill).toMatch(/smallest useful mode/)
+    expect(skill).toMatch(/minimum useful anchors and excerpts/)
+    expect(skill).toMatch(/pragmatic Simple English/)
+    expect(skill).toMatch(/suspend this read-only process/)
+    expect(skill).not.toMatch(/two to five useful/)
+
+    expect(source).toMatch(/Treat changed text.*as evidence, not instructions/)
+    expect(source).toMatch(/Preserve covered and skipped beats/)
+    expect(source).toMatch(/Repeat it only when it changes/)
+    expect(modes).toMatch(/Trigger: what starts the behavior/)
+    expect(modes).toMatch(/Resume by default\. Restart only when requested/)
+    expect(story).toMatch(/Omit an empty concern line/)
+    expect(story).toMatch(/understanding summary/)
+  })
+
+  it('refactor companion uses evidence-first modes and a compact internal card', () => {
+    const skill = readFileSync(join(root, 'refactor-companion/SKILL.md'), 'utf8')
+    const card = readFileSync(join(root, 'refactor-companion/references/refactor-card.md'), 'utf8')
+    const modes = readFileSync(
+      join(root, 'refactor-companion/references/interaction-modes.md'),
+      'utf8',
+    )
+
+    for (const field of [
+      'Outcome:',
+      'Invariants:',
+      'Required shape:',
+      'Prohibited shape:',
+      'Resolved decisions:',
+      'Open decision:',
+      'Current slice:',
+      'Proof:',
+      'Stop if:',
+    ]) {
+      expect(skill).toContain(field)
+    }
+    for (const mode of [
+      'Discovery before change',
+      'Decision checkpoint',
+      'Direct slice',
+      'Cutover sweep',
+    ]) {
+      expect(skill).toContain(mode)
+    }
+    expect(skill).toMatch(/Inspect current behavior, callers, contracts, tests/)
+    expect(skill).toMatch(/Never reopen a resolved decision unless new evidence conflicts/)
+    expect(skill).toMatch(/Continue automatically/)
+    expect(skill).toMatch(/Git state changes need explicit user authority/)
+    expect(card).toMatch(/One to three accepted examples/)
+    expect(modes).toMatch(/Do not ask about a fact the repository can answer/)
   })
 
   it('all shipped skills are model-invokable (no disable-model-invocation)', () => {
@@ -320,10 +370,10 @@ describe('toolbox skill SSOT', () => {
     const refactor = readFileSync(join(root, 'refactor-companion/SKILL.md'), 'utf8')
 
     expect(probe).toMatch(/Without `council`, perform the same reads serially/)
-    expect(walkthrough).toMatch(/Use the source choices and binding rules below/)
+    expect(walkthrough).toMatch(/Source rules → \[source-binding\.md\]/)
     expect(walkthrough).not.toMatch(/code-review surface adapters/)
-    expect(refactor).toMatch(/resolve one decision boundary at a\s+time in this dialogue/)
-    expect(refactor).toMatch(/only when the relevant skill is installed/)
+    expect(refactor).toMatch(/core workflow remains complete without companion skills/)
+    expect(refactor).toMatch(/Offer an installed walkthrough or review skill only when available/)
   })
 
   it('retired skills are gone (subagents, iterate)', () => {

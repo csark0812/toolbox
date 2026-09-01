@@ -2,11 +2,14 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "## Step 1 — The expiry boundary\n\nA request reaches the session check at the exact moment the session expires. `agent-suites/fixtures/sample-app/src/auth.ts:9` uses `>=`, so `session.expiresAt === now` returns active. The failing test at `auth.test.ts:18` expects that exact boundary to be rejected.\n\nReview frame: source:branch · scope: `agent-suites/fixtures/sample-app/src/auth.ts` · current version: bound branch head\n\n```ts\nreturn session.expiresAt >= now\n```\n\nThe excerpt shows the comparator, and the failing test supplies the expected boundary behavior.\n\nSummary: the code violates the exclusive-expiry contract at a precisely demonstrated trigger.\n\nConcern: `confirmed`. Trigger: `session.expiresAt === now`. Impact: protected access can continue for that boundary instant. The code and failing test demonstrate both parts. This remains a walkthrough callout; use **code-review** for formal risk analysis.\n\nThe walkthrough remains read-only. This is not a merge decision."
+      "content": "## Step 1 — The expiry boundary accepts equality\n\nThe code returns active when `expiresAt === now`, while the failing test expects that exact boundary to be rejected.\n\nSummary: the comparator conflicts with the tested exclusive-expiry behavior.\n\nConcern: `confirmed`. **Trigger:** `session.expiresAt === now`. **Impact:** protected access remains accepted at that boundary. The comparator and failing test prove both parts.\n\nThis remains an explanation, not a merge decision."
     }
   ],
   "toolCalls": [],
-  "shellCommands": [],
+  "shellCommands": [
+    "git diff main...HEAD -- agent-suites/fixtures/sample-app/src/auth.ts",
+    "npm test -- auth.test.ts"
+  ],
   "skillsInvoked": ["review-walkthrough"],
   "artifacts": {}
 }

@@ -82,14 +82,14 @@ Existing committed toolbox process skill dirs keep loading until removed. Delete
 | Orchestrator | council            | Multi-agent depth — create task personas, choose an interaction, run members, synthesize        |
 | Orchestrator | handoff            | A2A cross-session — channel + pack + goal; pointers not bodies                                  |
 | Process      | code-review        | Review any surface + lens; merge-blockers with evidence                                         |
-| Process      | review-walkthrough | Explain a bounded change one behavior at a time with evidence anchors                           |
+| Process      | review-walkthrough | Explain a bounded change through the smallest useful causal story                               |
 | Process      | second-opinion     | Adversarial critique of a written artifact — invent lenses; layer council for multi-agent depth |
 | Process      | grill              | Fuzzy intent + design pressure-test before implementation                                       |
 | Process      | probe              | Hunch verdict or hard-bug fix under Authority B                                                 |
 | Process      | tdd                | Test-first build at agreed public seams                                                         |
 | Process      | prototype          | Throwaway artifact for one design question                                                      |
 | Process      | domain-model       | Persist glossary + ADRs when decisions are ready                                                |
-| Process      | refactor-companion | Intent-led refactor collaboration in small slices through review handoff                        |
+| Process      | refactor-companion | Preserve a target design through evidence-led, proven refactor slices                           |
 
 Orchestrators define **agent-to-agent** wiring; process skills describe **what happens** and point at orchestrators when another agent or pass is needed. See [docs/tiers.md](docs/tiers.md).
 

@@ -2,19 +2,22 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "## Step 1 — Login creates and stores a session\n\nA user logs in with a token. The login entry point creates a session and stores it so a later request can find it.\n\nReview frame: source:branch · scope: `agent-suites/fixtures/sample-app/src` · base `main` at `aaaaaaaa` · merge-base `cccccccc` · head `feature/login` at `11111111`\n\n```ts\nconst session = createSession(userId)\nsessions.set(token, session)\n```\n\nSummary: login-time creation and storage make the session available through its token.\n\nI will recheck the branch identity before reading the next beat. Paused at Step 1/2. Say `next` when ready."
+      "content": "## Step 1 — Login creates and stores a session\n\nA user logs in, and the entry point stores the created session under its token.\n\nSource: source:branch · head `11111111`\n\nSummary: the token has a stored session before it reaches the caller.\n\nPaused at Step 1."
     },
     {
       "role": "user",
-      "content": "next — the branch head changed to 22222222 before you continue"
+      "content": "next — the branch head changed to 22222222"
     },
     {
       "role": "assistant",
-      "content": "The branch changed before I read the next beat: the bound head was `11111111`, and the current head is `22222222`. I will not mix the two versions.\n\nI rebound the current branch at head `22222222`, with base `main` at `aaaaaaaa`; the merge-base is also rechecked. Step 1 remains accepted, so I am resuming at the next causal position.\n\n## Step 2 — A later request recovers the session\n\nA later request presents the token, and the session store returns the session created by the login.\n\nReview frame: source:branch · scope: `agent-suites/fixtures/sample-app/src` · base `main` at `aaaaaaaa` · merge-base `dddddddd` · head `feature/login` at `22222222`\n\n```ts\nreturn sessions.get(token)\n```\n\nSummary: the new branch version continues from the approved login behavior and follows the token to the stored session.\nProof: no test result is included in this replay.\n\nPaused at Step 2/2."
+      "content": "The source changed from head `11111111` to `22222222`. I stopped before reading the next beat, rebound the branch, and will not mix the two versions.\n\nStep 1 remains accepted because its code did not change. I am resuming at the same causal position.\n\n## Step 2 — A later request recovers the session\n\nThe later request uses the token to load the stored session.\n\nSummary: the rebound source preserves the accepted login path and continues into token lookup."
     }
   ],
   "toolCalls": [],
-  "shellCommands": [],
+  "shellCommands": [
+    "git rev-parse HEAD",
+    "git diff main...HEAD -- agent-suites/fixtures/sample-app/src"
+  ],
   "skillsInvoked": ["review-walkthrough"],
   "artifacts": {}
 }
