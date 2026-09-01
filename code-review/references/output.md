@@ -6,7 +6,7 @@ Extends [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/m
 
 **Default filing:** merge-blockers only — [merge-blockers.md](merge-blockers.md).
 
-User-facing blocks (status lines, finding titles, finding bodies, Noted/Deferred lines) must use pragmatic STE. See [docs/skill-evolution.md](../../docs/skill-evolution.md) § Pragmatic STE for toolbox, or `/simple-english`.
+User-facing blocks (status lines, finding titles, finding bodies, Noted/Deferred lines) must use pragmatic STE: short sentences, concrete subjects and verbs, and one meaning per sentence. If `simple-english` is installed, it can provide additional guidance; `code-review` does not require it.
 
 ## Status header (required)
 

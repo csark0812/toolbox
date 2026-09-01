@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
-import { join } from 'node:path'
+import { dirname, join, resolve, sep } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { EXPECTED_SKILLS } from '../src/expected-skills.ts'
 
@@ -213,6 +213,8 @@ describe('toolbox skill SSOT', () => {
     expect(skill).not.toMatch(/Escalate only when matched/)
     expect(skill).not.toMatch(/review-council-dispatch\.md/)
     expect(skill).toMatch(/council/)
+    const description = skill.match(/^description:\s*(.+)$/m)?.[1] ?? ''
+    expect(description).not.toMatch(/council/i)
 
     expect(review).toMatch(/Introduced-only/)
     expect(review).toMatch(/path:line/)
@@ -253,6 +255,28 @@ describe('toolbox skill SSOT', () => {
     expect(mergeReadiness).not.toMatch(/Reviewer: primary/)
     expect(mergeReadiness).not.toMatch(/REVIEW_LEDGER/)
     expect(mergeReadiness).not.toMatch(/git commit|git push|gh pr edit|gh pr review/)
+  })
+
+  it('code-review markdown links survive a standalone skill install', () => {
+    const skillRoot = join(root, 'code-review')
+    const markdownFiles = [
+      join(skillRoot, 'SKILL.md'),
+      ...readdirSync(join(skillRoot, 'references')).map((name) =>
+        join(skillRoot, 'references', name),
+      ),
+    ]
+
+    for (const file of markdownFiles) {
+      const body = readFileSync(file, 'utf8')
+      for (const match of body.matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {
+        const target = match[1].split('#')[0]
+        if (!target || /^[a-z]+:/i.test(target)) continue
+
+        const resolved = resolve(dirname(file), target)
+        expect(resolved.startsWith(`${skillRoot}${sep}`), `${file} escapes to ${target}`).toBe(true)
+        expect(existsSync(resolved), `${file} links to missing ${target}`).toBe(true)
+      }
+    }
   })
 
   it('retired skills are gone (subagents, iterate)', () => {
