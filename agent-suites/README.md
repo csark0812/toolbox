@@ -36,7 +36,7 @@ Toolbox owns generic skill-contract behavior:
 
 - `code-review`: diff adapters, merge-blocker filing, review-only — no orchestration in skill body.
 - `review-walkthrough`: behavior-first, user-paced change explanation, evidence anchors, read-only concern callouts — no merge-readiness filing.
-- `council`: invent perspectives; real Task spawns; ≤100k; skip when single-pass rival suffices.
+- `council`: create distinct task personas; select a useful interaction; run real members; skip when one pass is enough.
 - `second-opinion`: invent lenses from ask; single-pass by default; layer council for multi-perspective depth; claim anchoring; unanchored kills tagged `drift`; path or paste artifact.
 - `probe-evidence`: discriminating kill tests; leave dead patches after 2–3 no-signal reads (Evidence stance).
 - `probe-evidence-outcomes` / `probe-evidence-transfer` / `probe-evidence-prompt`: discriminating evidence-parity band (2 scenarios). **Manual live cadence only** (not part of `npm run check`). Discriminating scenarios use guard-only fixture seeds; dual-bug `debug-app` remains for ceiling/Fix bands.

@@ -1,41 +1,35 @@
 # Second opinion research basis
 
-<!-- source-of-truth: evidence and limits behind staged adversarial review. -->
+<!-- source-of-truth: evidence and limits behind adversarial artifact review. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-Read when calibrating debate shape, anchoring, or claiming MAD benefits. Not for every second-opinion run.
+Read this file when changing critique interaction, anchoring, or claims about multi-agent review.
 
 ## Evidence posture
 
-- Staged adversarial debate can surface gaps single-pass critique misses — when roles and asymmetry are structured.
-- Unconstrained debate drifts off-artifact and can amplify persuasion without truth.
-- Context asymmetry (attackers artifact-only; defender with primary sources) is intentional, not unfair.
-- **Light** coordinator-only passes trade debate asymmetry for token cost — appropriate for narrow asks.
+- Claim anchoring keeps critique tied to the written artifact.
+- Unconstrained debate can drift from the artifact and reward persuasion over truth.
+- Council can use an independent panel, structured challenge, or another fitting interaction.
+- Staged attack and defense is optional. It is not the default for every critique.
+- Another round needs a named conflict or evidence gap that can change the result.
 
-## Multi-agent debate benefits
+## Multi-agent critique
 
-Parallel attackers with kill mandates and a defender with related context can break premature confidence on written artifacts. Applies across invented lenses — plan premises/completeness is one worked example, not the transferable claim.
+Structured challenge can expose weak premises and missing evidence. It does not make the final answer ground truth.
 
-**Confidence:** Moderate for artifact critique; low for treating debate output as ground truth without primary evidence.
+**Confidence:** Moderate for finding additional artifact risks. Low for treating agreement as proof.
 
-**Does not transfer:** Dialogue without an artifact (use **grill**); code-path hunches (**probe**).
-
-- Du et al. (2023). _Improving Factuality and Reasoning in Language Models through Multiagent Debate._ arXiv:2305.14325
-- Liang et al. (2023) — debate patterns in reasoning surveys (arXiv:2504.09037).
+- Du et al. (2023). [Improving Factuality and Reasoning in Language Models through Multiagent Debate](https://arxiv.org/abs/2305.14325).
+- Zhang et al. (2025). [If Multi-Agent Debate is the Answer, What is the Question?](https://arxiv.org/abs/2502.08788).
 
 ## Problem drift
 
-Debate that is not anchored to artifact sections wanders; coordinators should tag unanchored kills as `drift`, not convergent.
+Every kill must cite an artifact section, premise, or criterion. Treat an unanchored claim as drift.
 
-**Confidence:** Moderate — emerging empirical work on MAD failure modes.
+**Confidence:** Moderate. Evidence on multi-agent debate failure remains task-dependent.
 
-- Becker et al. (2025). _Stay Focused: Problem Drift in Multi-Agent Debate._
-- Huang et al. (2026). _Socratic Elenchus-inspired multi-agent debate for mitigating hallucinations in large language models._
+- Becker et al. (2026). [Stay Focused: Problem Drift in Multi-Agent Debate](https://aclanthology.org/2026.findings-eacl.268/).
 
-## Context asymmetry
+## Composition
 
-Wave-1 attackers see the artifact only; wave-2 defender sees cited primary sources plus structured attacker briefs. Prevents attackers from anchoring on coordinator or parent-chat conclusions.
-
-**Confidence:** Moderate as process hygiene; not a guarantee of correctness.
-
-- [`council` adversarial.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/adversarial.md) — claim anchoring and kill mandates operationalize drift control.
+Second Opinion owns critique craft, claim anchoring, and its final summary. [Council](https://raw.githubusercontent.com/csark0812/toolbox/main/council/SKILL.md) owns task personas, interaction choice, and member orchestration.

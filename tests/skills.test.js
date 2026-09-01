@@ -136,69 +136,73 @@ describe('toolbox skill SSOT', () => {
     }
   })
 
-  it('council model routing is Auto-first and cheapest-good-enough', () => {
+  it('council creates distinct task personas and selects an interaction', () => {
     const skill = readFileSync(join(root, 'council/SKILL.md'), 'utf8')
-    const routing = readFileSync(join(root, 'council/references/model-routing.md'), 'utf8')
-    const taskPrompt = readFileSync(join(root, 'council/references/task-prompt.md'), 'utf8')
-    const splitting = readFileSync(join(root, 'council/references/task-splitting.md'), 'utf8')
+    const personaPrompt = readFileSync(join(root, 'council/references/persona-prompt.md'), 'utf8')
+    const patterns = readFileSync(join(root, 'council/references/interaction-patterns.md'), 'utf8')
+    const output = readFileSync(join(root, 'council/references/output-format.md'), 'utf8')
 
-    expect(existsSync(join(root, 'council/references/model-routing.md'))).toBe(true)
-    expect(skill).toMatch(/model-routing\.md/)
-    expect(skill).toMatch(/task-splitting\.md/)
-    expect(skill).toMatch(/cheapest good enough/i)
-    expect(skill).toMatch(/Invent perspectives/)
+    expect(skill).toMatch(/Derive task personas from decision risks/)
+    expect(skill).toMatch(/Usually use two to four personas/)
     expect(skill).toMatch(/Spawn real members/)
+    expect(skill).toMatch(/If fewer than two useful personas remain/)
+    expect(skill).toMatch(/Does it ask a distinct question/)
+    expect(skill).toMatch(/Does it inspect distinct evidence/)
+    expect(skill).toMatch(/Can its answer change or narrow the decision/)
+    expect(skill).toMatch(/Council preview/)
+    expect(skill).toMatch(/pragmatic Simple English for all user-facing text/)
 
-    expect(routing).toMatch(/Anti-fast \(parallel\)/)
-    expect(routing).toMatch(/Example dispatches \(validation\)/)
-    expect(routing).toMatch(/Auto reachable: no/)
-    expect(routing).toMatch(/Do not use.*\*-fast/)
+    for (const field of [
+      'Persona:',
+      'Purpose:',
+      'Question:',
+      'Evidence:',
+      'Falsifier:',
+      'Boundary:',
+    ]) {
+      expect(personaPrompt).toContain(field)
+    }
 
-    expect(taskPrompt).toMatch(/explore/)
-    expect(taskPrompt).toMatch(/generalPurpose/)
-    expect(splitting).toMatch(/Minimum viable context/)
+    for (const pattern of [
+      'Independent panel',
+      'Structured challenge',
+      'Competing proposals',
+      'Nominal ideation',
+      'Delphi revision',
+      'Socratic seminar',
+    ]) {
+      expect(patterns).toContain(pattern)
+    }
+
+    expect(output).toMatch(/Disagreement or uncertainty/)
+    expect(output).toMatch(/Do not hide disagreement by reporting a vote/)
   })
 
-  it('Auto-parent model inheritance is a fail-closed pre-spawn invariant', () => {
+  it('council excludes runtime routing policy and deleted compatibility files', () => {
     const skill = readFileSync(join(root, 'council/SKILL.md'), 'utf8')
-    const routing = readFileSync(join(root, 'council/references/model-routing.md'), 'utf8')
-    const discovery = readFileSync(join(root, 'council/references/agent-discovery.md'), 'utf8')
-    const taskPrompt = readFileSync(join(root, 'council/references/task-prompt.md'), 'utf8')
-    const adversarialKernel = readFileSync(join(root, 'council/references/adversarial.md'), 'utf8')
+    const referenceDir = join(root, 'council/references')
+    const councilText = [
+      skill,
+      ...readdirSync(referenceDir)
+        .filter((name) => name.endsWith('.md'))
+        .map((name) => readFileSync(join(referenceDir, name), 'utf8')),
+    ].join('\n')
 
-    expect(skill).toMatch(/model-routing\.md/)
-    expect(skill).toMatch(/Pre-spawn gate/)
+    for (const deleted of [
+      'model-routing.md',
+      'agent-discovery.md',
+      'member-schema.md',
+      'task-splitting.md',
+      'adversarial.md',
+      'task-prompt.md',
+    ]) {
+      expect(existsSync(join(referenceDir, deleted))).toBe(false)
+    }
 
-    expect(routing).toMatch(/Routing precedence \(canonical order\)/)
-    expect(routing).toMatch(/Pre-spawn model-routing gate/)
-    expect(routing).toMatch(/Fail closed \(do not spawn\)/)
-    expect(routing).toMatch(/Plan vs tool syntax/)
-    expect(routing).toMatch(/Explicit routing \(named parent only\)/)
-    expect(routing).toMatch(/Correct — Auto parent/)
-    expect(routing).toMatch(/tier=Premium · model=inherit-auto/)
-    expect(routing).toMatch(/Incorrect — Auto parent with an explicit slug/)
-    expect(routing).toMatch(/model=gpt-5\.3-codex-high-fast/)
-    expect(routing).toMatch(/Correct — named parent/)
-    expect(routing).toMatch(/Correct — explicit user override/)
-    expect(routing).toMatch(/User model overrides: reviewer=gpt-5\.3-codex-high-fast/)
-    expect(routing).toMatch(/Correct — usage-limit retry/)
-    expect(routing).toMatch(/Task\/Subagent\(/)
-    expect(routing).toMatch(/There is \*\*no\*\* `model` argument/)
-
-    expect(routing).toMatch(/Plan says `Parent model: Auto` but any member has an explicit slug/)
-    expect(routing).toMatch(
-      /Plan says `model=inherit-auto` but the generated Task\/Subagent call contains a `model` property/,
+    expect(councilText).not.toMatch(
+      /inherit-auto|billing pool|token budget|parent model|host enum/i,
     )
-
-    expect(discovery).toMatch(/tier metadata.*not spawn instructions/s)
-    expect(discovery).toMatch(/Tier→slug mapping is only for the named-parent branch/)
-    expect(discovery).toMatch(/Parent model: \[Auto \| <named model>\]/)
-    expect(taskPrompt).toMatch(/plan `model=inherit-auto` → omit the tool `model` argument/)
-    expect(taskPrompt).toMatch(/adversarial\.md/)
-
-    expect(adversarialKernel).toMatch(/Staged debate/)
-    expect(adversarialKernel).toMatch(/Context asymmetry/)
-    expect(adversarialKernel).not.toMatch(/blind-reviewer-dispatch/)
+    expect(councilText).not.toMatch(/100k|100,000/)
   })
 
   it('verdict ambient ref enforces find-and-verdict-only (no fix in verdict)', () => {
@@ -424,25 +428,22 @@ describe('toolbox skill SSOT', () => {
     expect(existsSync(join(root, 'diagnose/SKILL.md'))).toBe(false)
   })
 
-  it('council context-pack is SSOT for member envelopes and composability', () => {
+  it('council context-pack keeps shared vocabulary and minimum context rules', () => {
     const pack = readFileSync(join(root, 'council/references/context-pack.md'), 'utf8')
     const council = readFileSync(join(root, 'council/SKILL.md'), 'utf8')
-    const adversarial = readFileSync(join(root, 'council/references/adversarial.md'), 'utf8')
     const handoffPack = readFileSync(join(root, 'handoff/references/pack.md'), 'utf8')
 
     expect(council).toMatch(/context-pack\.md/)
-    expect(council).toMatch(/100k|100,000/)
-    expect(pack).toMatch(/Composability \(layered prompts\)/)
-    expect(pack).toMatch(/100k/)
+    expect(pack).toMatch(/Shared vocabulary/)
+    expect(pack).toMatch(/Composition/)
     expect(pack).toMatch(/Slice/)
+    expect(pack).toMatch(/Artifact/)
+    expect(pack).toMatch(/Surface/)
     expect(pack).toMatch(/Closure/)
-    expect(pack).not.toMatch(/Typical chains/)
-    expect(pack).toMatch(/Pointers not bodies/)
-    expect(pack).toMatch(/Omit empty/)
-    expect(pack).toMatch(/Domain fill-in/)
-    expect(pack).not.toMatch(/iterate/)
-    expect(adversarial).toMatch(/context-pack\.md/)
-    expect(adversarial).not.toMatch(/Requirements \/ acceptance \(if any\):/)
+    expect(pack).toMatch(/minimum relevant facts/)
+    expect(pack).toMatch(/Prefer paths, URLs, section names/)
+    expect(pack).toMatch(/Omit empty fields/)
+    expect(pack).toMatch(/Do not give first-round members sibling conclusions/)
     expect(handoffPack).toMatch(/context-pack\.md/)
   })
 

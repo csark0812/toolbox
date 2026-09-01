@@ -1,7 +1,7 @@
 # Skill tiers
 
 <!-- source-of-truth: skill tier assignment across the agent harness ecosystem. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-30 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
 Assign each skill to exactly one **group**. Update when adding skills.
 
@@ -13,14 +13,14 @@ Every toolbox skill is either an **orchestrator** (agent-to-agent plumbing) or a
 
 ### Orchestrators — agent-to-agent (A2A)
 
-Define **how agents and sessions connect**: multi-perspective spawn, member envelopes, cross-session channels. Process skills stay atoms; they do not embed dispatch templates. Multi-agent depth requires attaching **council**.
+Define **how agents and sessions connect**: task-persona councils, purposeful interaction, and cross-session channels. Process skills stay atoms. Multi-agent depth requires attaching **council**.
 
-| Slug        | A2A role                                                                                                                                   |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| **council** | In-session multi-agent depth — invent perspectives, spawn Task members, synthesize ([context-pack](../council/references/context-pack.md)) |
-| **handoff** | Cross-session channel — `channel` + `Pack` + `Goal`; pointers not bodies                                                                   |
+| Slug        | A2A role                                                                                                                                                        |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **council** | In-session multi-agent depth — create task personas, choose an interaction, run members, and synthesize ([context-pack](../council/references/context-pack.md)) |
+| **handoff** | Cross-session channel — `channel` + `Pack` + `Goal`; pointers not bodies                                                                                        |
 
-Dispatch and pack refs live under orchestrator trees (`context-pack.md`, `adversarial.md`, handoff `*-dispatch.md`) — not under process skills.
+Persona, interaction, and pack references live under orchestrator trees. Process skills keep their own craft and final output contracts.
 
 ### Process skills — atoms
 
@@ -91,7 +91,7 @@ Consumer cleanup PRs (delete vendored dirs in other repos) are separate — this
 
 **Atomic composition (2026-08):** Retired cross-skill routing tables and chain docs. Compose via [context-pack.md](../council/references/context-pack.md) primitives + layered prompts.
 
-**Council + ownership (2026-08):** Retired **subagents** and **iterate**. **Council** owns in-session multi-agent depth (invent perspectives, spawn, synthesize). **Second-opinion** is single-pass by default; multi-perspective depth only when the user also attaches **council**. Hunch settlement uses coordinator **explore** + ambient [verdict.md](../.skeleton/references/verdict.md) (retired **investigate** slug). Cross-session transfer stays **handoff**.
+**Council + ownership (2026-09):** Retired **subagents** and **iterate**. **Council** owns task-persona design, interaction choice, real member runs, and synthesis. **Second-opinion** is single-pass by default; multi-perspective depth only when the user also attaches **council**. Hunch settlement uses coordinator **explore** + ambient [verdict.md](../.skeleton/references/verdict.md) (retired **investigate** slug). Cross-session transfer stays **handoff**.
 
 **Crystallize (2026-08):** Retired — use **grill** intent phase ([intent-phase.md](../grill/references/intent-phase.md)) for fuzzy intent; design-tree pressure-test stays in grill protocol.
 

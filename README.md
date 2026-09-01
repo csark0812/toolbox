@@ -1,7 +1,7 @@
 # toolbox
 
 <!-- source-of-truth: user-level process and orchestrator Cursor/Claude agent skills. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-31 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
 Public process SSOT. Engineers install skills globally (`-g`). Product repos keep product workflows and shared standards — they should not vendor these process skill folders.
 
@@ -79,7 +79,7 @@ Existing committed toolbox process skill dirs keep loading until removed. Delete
 
 | Group        | Slug               | Purpose                                                                                         |
 | ------------ | ------------------ | ----------------------------------------------------------------------------------------------- |
-| Orchestrator | council            | Multi-agent depth — invent perspectives, spawn Task members, synthesize                         |
+| Orchestrator | council            | Multi-agent depth — create task personas, choose an interaction, run members, synthesize        |
 | Orchestrator | handoff            | A2A cross-session — channel + pack + goal; pointers not bodies                                  |
 | Process      | code-review        | Review any surface + lens; merge-blockers with evidence                                         |
 | Process      | review-walkthrough | Explain a bounded change one behavior at a time with evidence anchors                           |

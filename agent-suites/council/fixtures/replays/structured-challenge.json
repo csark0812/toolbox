@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "## Council preview\n\n- proposal-risk — Can the rollout fail under the stated traffic and rollback assumptions?\n- recovery-defense — Which existing controls make the rollout safe, and what evidence would defeat that defense?\n\nFormat: Structured challenge — one proposal needs an objective attack and defense.\n\nBoth real members formed independent first views from the plan. One focused follow-up tests only the unresolved rollback claim. The synthesis preserves any conflict that evidence does not settle."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["council"],
+  "artifacts": {}
+}

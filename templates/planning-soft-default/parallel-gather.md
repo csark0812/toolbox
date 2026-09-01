@@ -1,64 +1,29 @@
 # Parallel Gather
 
-**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file. Open the consumer planning SSOT instead.
+**Opt-in soft-default recipe:** Use this only when the consumer has no planning remap.
 
-Multi-source collection from independent sources of truth. Uses [`council`](../../../../council/SKILL.md) kernel — [non-negotiables](../../../../council/SKILL.md#non-negotiables), [task-prompt.md](../../../../council/references/task-prompt.md), [member-schema.md](../../../../council/references/member-schema.md).
-
-Profile: `manual` or `repo` (web topics → `research` via [parallel-research.md](../../../../probe/references/parallel-research.md)).
+Collection from independent sources of truth. Uses the [council](../../../../council/SKILL.md) persona contract and [persona prompt](../../../../council/references/persona-prompt.md).
 
 ## When to use
 
-- Need facts from **multiple independent sources** (repo areas, doc hubs, config files) without overlap
-- Planning step requires collecting constraints from separate SSOT files before synthesis
-- User asks to "gather" context across domains in parallel
+- Planning needs constraints from separate source-of-truth files or domains.
+- The user asks to gather context across independent areas.
 
 ## When to skip
 
-- Single file or hub already in context — read directly
-- Blast-radius mapping across subsystems — use [parallel-explore.md](parallel-explore.md)
-- Independent web topics — use [parallel-research.md](../../../../probe/references/parallel-research.md)
+- One file or documentation hub already owns the answer.
+- The task needs blast-radius mapping rather than fact collection.
+- The topics require independent web research.
 
-## Members (2–4)
+## Task personas
 
-Split by **source of truth**, not perspective:
+Create one persona per source of truth. Each persona owns one question, one evidence boundary, and one falsifier for stale or conflicting guidance.
 
-| Slice             | Subagent  | Tier | Example                                  |
-| ----------------- | --------- | ---- | ---------------------------------------- |
-| Doc / policy SSOT | `explore` | Fast | consumer validation / SSOT registry docs |
-| Code area A       | `explore` | Fast | service / domain package paths           |
-| Code area B       | `explore` | Fast | client data layer paths                  |
-
-Each member collects from its slice only. No cross-slice inference until synthesis.
-
-## Dispatch plan template
-
-```markdown
-Task: [gather goal — e.g. "collect auth + validation constraints for MCP change"]
-Classification: gather
-Source of truth: repo
-Goal: coverage
-Parent model: [Auto | <named model>]
-User model overrides: [none | member=slug, …]
-
-Selected members:
-
-- explore · tier=Fast · model=[inherit-auto | slug] · stance=n/a: [doc/policy slice]
-- explore · tier=Fast · model=[inherit-auto | slug] · stance=n/a: [backend slice]
-
-Why these members: independent sources. No cross-member dependencies
-Synthesis plan: merge fact lists. Flag conflicts between sources
-```
-
-Compose prompts per [task-prompt.md](../../../../council/references/task-prompt.md).
+Use **independent panel**. No member makes cross-source conclusions during the first round.
 
 ## Synthesis
 
-1. Merge non-overlapping facts per source.
-2. Surface **conflicts** between sources (two SSOTs disagree).
-3. Preserve source attribution (path per fact).
-4. Output → [council output-format.md](../../../../council/references/output-format.md).
-
-## Handoff
-
-- Planning continues in **build** / **grill** / **second-opinion** with gathered facts.
-- Does not produce verdicts — use **probe** after gather if a specific doubt remains.
+1. Merge facts by source.
+2. Preserve path attribution.
+3. Surface conflicts between sources.
+4. Continue planning with the gathered facts. Use **probe** when one specific doubt remains.

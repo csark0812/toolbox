@@ -2,63 +2,43 @@
 
 **Availability:** This parallel recipe requires `council` to be installed and attached. Without it, inspect the independent areas serially and return the normal `probe` evidence and verdict shape.
 
-Wide fish when the user explicitly asks for a broad pass. Uses [`council`](https://raw.githubusercontent.com/csark0812/toolbox/main/council/SKILL.md) kernel — [non-negotiables](https://raw.githubusercontent.com/csark0812/toolbox/main/council/SKILL.md#non-negotiables), [task-prompt.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/task-prompt.md), [member-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/member-schema.md).
+Wide evidence pass when the user explicitly asks for a broad search. Uses the [council](https://raw.githubusercontent.com/csark0812/toolbox/main/council/SKILL.md) persona contract and [persona prompt](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/persona-prompt.md).
 
-Profile: `repo`.
-
-Default **probe** Evidence stays single-target. Use this recipe only on explicit user request.
+Default **probe** Evidence stays single-target. Use this recipe only when the hunch crosses independent subsystems.
 
 ## When to use
 
-- User says "fish broadly", "check the whole subsystem", or names multiple areas without a single file target
-- Hunch spans wiring across client + backend + shared packages
+- The user asks to check a whole subsystem or several distinct areas.
+- The hunch spans wiring across client, backend, and shared packages.
 
 ## When to skip
 
-- Specific file, hook, or endpoint named — standard **probe** Evidence protocol
-- Plan evidence pass — **council** (large-artifact gather)
-- Code review — **code-review**
+- One file, hook, or endpoint can settle the hunch.
+- The work is a plan review or code review.
 
-## Members (2–3)
+## Task personas
 
-Split by subsystem:
+Create one persona per independent ownership boundary. Usually use two or three.
 
-| Slice                        | Subagent                      | Tier |
-| ---------------------------- | ----------------------------- | ---- |
-| Area A (for example client)  | `explore` or `generalPurpose` | Fast |
-| Area B (for example backend) | `explore` or `generalPurpose` | Fast |
-| Shared / integration         | `explore`                     | Fast |
+| Persona example      | Question                                           | Evidence                                                   |
+| -------------------- | -------------------------------------------------- | ---------------------------------------------------------- |
+| client-path          | Can the client path produce the reported behavior? | Client state, requests, and rendering path                 |
+| backend-path         | Can the backend path produce or prevent it?        | Handler, service, persistence, and logs                    |
+| integration-boundary | Does the contract fail between areas?              | Shared types, transport, configuration, and runtime wiring |
 
-Optional: score council agents on known paths. Prefer `correctness` for mutation/cache paths if `contexts` includes `repo`. Path matching → [agent-discovery.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/agent-discovery.md).
+Merge a persona when it asks the same question and reads the same evidence as another.
 
-## Dispatch plan template
-
-```markdown
-Task: Broad investigate — [user-stated hunch]
-Classification: explore
-Source of truth: repo
-Goal: coverage
-Parent model: [Auto | <named model>]
-User model overrides: [none | member=slug, …]
-
-Selected members:
-
-- explore · tier=Fast · model=[inherit-auto | slug] · stance=n/a: [client slice — hypothesis to test]
-- explore · tier=Fast · model=[inherit-auto | slug] · stance=n/a: [backend slice]
-
-Synthesis plan: merge evidence. Verdict per investigate schema (plain-language settlement)
-```
+Use **independent panel**. Compose each member from [persona-prompt.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/persona-prompt.md).
 
 ## Synthesis
 
-1. Merge findings with file:line citations.
-2. Write **probe** verdict — plain-language settlement with evidence from all members.
-3. If member conclusions conflict, state both. Escalate or narrow the target.
-4. Output follows **probe** skill final shape. Use [council output-format.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/output-format.md) sections only as supporting detail.
+1. Merge findings with file and line evidence.
+2. Follow the **probe** verdict shape.
+3. Preserve conflicts between subsystems.
+4. If one safe read or test can settle the conflict, run it. Otherwise narrow the target.
 
 ## Handoff
 
-- Hunch closed or narrow → close or single-target **probe**
-- Reproducible bug → hub **diagnose** / **tdd** when installed. Else consumer **testing** / **debug** or `AGENTS.md`
-- Reproducible bug needing session logs (NDJSON, compose mount) → hub **diagnose** when installed. Else consumer **debug** or `AGENTS.md`
-- User explicitly asks to fix after the verdict → exit investigate find-only. Follow that request or the named consumer skill
+- If the hunch closes, stop.
+- If one target remains, continue with single-target **probe**.
+- If a reproducible bug remains and the user asks for a fix, follow the requested fix workflow.

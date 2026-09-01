@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "## Council preview\n\n- implementation-range — Estimate work from code and migration scope.\n- operations-range — Estimate work from deployment, monitoring, and rollback needs.\n- validation-range — Estimate work from test and acceptance requirements.\n\nFormat: Delphi revision — uncertain estimates benefit from controlled feedback.\n\nThe real members return independent estimates. The coordinator shares a neutral summary and allows one revision. The result reports the range and dissent. It does not force consensus."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["council"],
+  "artifacts": {}
+}

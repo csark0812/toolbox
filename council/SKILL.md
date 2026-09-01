@@ -1,98 +1,94 @@
 ---
 name: council
-description: Multi-agent orchestrator — invent useful perspectives for a named job, spawn Task members with relevant-but-different context, synthesize. Use when the user attaches or names council for multi-perspective depth on a plan, review, probe, or similar job. Not single-pass process critique (second-opinion alone), cross-session handoff, or blind iterate pass loops.
+description: Multi-agent orchestrator that creates task-specific personas, selects a useful interaction pattern, runs real independent members, and synthesizes one clear answer. Use when the user attaches or names council for multi-perspective depth on a concrete task. Not single-pass critique, cross-session handoff, or repeated pass loops.
 ---
 
 # Council
 
-<!-- source-of-truth: in-session multi-agent depth — invent perspectives, spawn differentiated Task members, synthesize. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-17 -->
+<!-- source-of-truth: in-session multi-agent depth through task personas, purposeful interaction, and synthesis. -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-**Orchestrator** — wires coordinator ↔ member agents for a named job. Process skills are **atoms** (what the work means); this skill owns _how_ multi-perspective members are spawned and merged. Shared vocabulary → [context-pack.md](references/context-pack.md).
+Council owns persona design, member orchestration, and synthesis. A layered process skill owns the member craft and final output shape.
 
-References: [context-pack.md](references/context-pack.md) · [task-prompt.md](references/task-prompt.md) · [task-splitting.md](references/task-splitting.md) · [model-routing.md](references/model-routing.md) · [adversarial.md](references/adversarial.md) · [agent-discovery.md](references/agent-discovery.md) · [member-schema.md](references/member-schema.md) · [output-format.md](references/output-format.md).
+Read [interaction-patterns.md](references/interaction-patterns.md) when the task needs more than an independent panel. Member prompt → [persona-prompt.md](references/persona-prompt.md). Shared composition vocabulary → [context-pack.md](references/context-pack.md).
 
 ## Entry gate
 
-- User **attaches or names council** (alone or layered with a process skill) and wants multi-perspective depth on a concrete job + subject (artifact, slice, hunch, review surface).
-- If the user only wants a single-pass critique with no multi-agent depth, stop pointing at council — use the process skill alone (e.g. **second-opinion**).
+- The user attaches or names **council** for a concrete task where independent views can change the answer.
+- If fewer than two useful personas remain after deduplication, use one coordinator pass. State the reason in plain language.
 
 ## Non-negotiables
 
-1. **Invent perspectives** — kebab-case stances or lenses from the job and ask. Never filler-cast to hit a headcount.
-2. **≤100k total context — hard ceiling** — coordinator material + every member prompt + cited excerpts in one dispatch run must stay **under 100,000 tokens**. Split, shrink, or serialise — never exceed ([task-splitting.md](references/task-splitting.md)).
-3. **Spawn real members** — one host **Task** per planned member. Parallel `read_file` / `grep` are **not** substitutes.
-4. **Differentiated context** — never parallel members with identical model **and** identical prompt. Diversify via perspective mandates and packs. Shared Auto (`inherit-auto`) is expected.
-5. **Synthesis after members** — merge only after planned Tasks complete. Writing synthesis without completed Task runs is a **violation**.
-6. **Cheapest good enough** — [model-routing.md](references/model-routing.md); Auto parent ⇒ omit tool `model`.
+1. **Derive task personas from decision risks.** Do not cast generic jobs, biographies, demographics, temperaments, or stereotypes.
+2. **Use the smallest useful council.** Usually use two to four personas. Use more only when distinct coverage requires it.
+3. **Spawn real members.** One member runs each selected persona.
+4. **Keep first views independent.** Do not give members sibling conclusions during the first round.
+5. **Wait before synthesis.** If a member fails, name the missing view. Never invent its result.
+6. **Synthesize without voting.** Preserve material disagreement and uncertainty.
+7. **Use pragmatic Simple English for all user-facing text.** This includes previews, progress, questions, and final answers.
 
-**Valid skips:** user declines spawn; host cannot run Task; single invented perspective and user accepts coordinator-only (record why).
+## Create task personas
 
-## When layered with a process skill
-
-Council invents perspectives (or coverage slices). Each member runs the **layered process skill’s** craft under one mandate. Synthesis emits that skill’s exit shape. Council alone → [output-format.md](references/output-format.md).
-
-Worked examples (not an exclusive set) — same pattern for any other process skill the user layers:
-
-| Layer                            | Perspective invent          | Member craft                                                                | Exit                         |
-| -------------------------------- | --------------------------- | --------------------------------------------------------------------------- | ---------------------------- |
-| **council** + **second-opinion** | one perspective each        | critique craft under that mandate                                           | Bottom line / Action         |
-| **council** + **code-review**    | lenses / path slices        | review how-to                                                               | findings                     |
-| **council** + **probe**          | gather / perspective slices | Evidence / Fix gates on the subject                                         | Evidence / Fix shape         |
-| **council** alone                | for the user-named task     | Member schema + coordinator [output-format.md](references/output-format.md) | Consolidated dispatch report |
-
-## Workflow
-
-### 1. Classify
-
-- Job: process skill name if attached, else user-named task
-- Subject: artifact path/paste, slice, hunch target, or review surface
-- Goal: `perspectives` \| `coverage` \| `adversarial` (critique-shaped → [adversarial.md](references/adversarial.md))
-
-### 2. Invent and plan
-
-1. Invent 2–6 useful perspectives (or coverage slices) — ask once if the job is too vague.
-2. Optional: [agent-discovery.md](references/agent-discovery.md) when workspace council agents apply.
-3. Write a dispatch plan before spawning (template below).
-4. Pre-spawn gate → [model-routing.md](references/model-routing.md#pre-spawn-model-routing-gate).
+1. State the decision and success criteria.
+2. List the main ways the answer can be wrong.
+3. Create one candidate persona for each material risk or evidence gap.
+4. Give each candidate this card:
 
 ```markdown
-Task: [What the user asked]
-Job: [process skill | user-named task]
-Subject: [artifact / slice / surface]
-Goal: [perspectives / coverage / adversarial]
-Single-pass rival: [why one coordinator pass is insufficient]
-
-Parent model: [Auto | <named model>]
-User model overrides: [none | member=slug, …]
-Cheapest path: [inherit-auto | model=auto | explicit slug + why]
-
-Selected members:
-
-- [subagent_type] · tier=[Fast|Standard|Premium] · model=[inherit-auto | slug] · perspective=[id]: [one-line mandate]
-
-Why these perspectives: [one clause]
-Token budget: [estimated — must sum <100k]
-Synthesis plan: [merge into job-skill exit shape | output-format.md]
+Persona: [short task-specific name]
+Purpose: [decision risk that this persona protects]
+Question: [one question that this persona owns]
+Evidence: [controlling sources or evaluation rules]
+Falsifier: [finding that can change or defeat its expected view]
+Boundary: [work that belongs to another persona]
 ```
 
-### 3. Spawn
+5. Apply the distinct-value test:
+   - Does it ask a distinct question?
+   - Does it inspect distinct evidence or apply a distinct evaluation rule?
+   - Can its answer change or narrow the decision?
+6. If any answer is no, merge or remove the persona.
 
-Compose prompts per [task-prompt.md](references/task-prompt.md) + [context-pack.md](references/context-pack.md). `model=inherit-auto` → **omit** tool `model`.
+Good names describe the work, such as `migration-recovery` or `new-user-comprehension`. Weak names describe a character, such as `optimist`, `senior-engineer`, or `busy-user`.
 
-**Type defaults:** repo map → `explore`; web docs → `docs-researcher`; critique / stance → `generalPurpose`; workspace council agent when scored available ([agent-discovery.md](references/agent-discovery.md)).
+## Choose the interaction
 
-### 4. Synthesize
+Use **independent panel** by default. Read [interaction-patterns.md](references/interaction-patterns.md) when another pattern fits the task.
 
-1. Merge agreeing findings once.
-2. Preserve conflicts — do not flatten.
-3. High-stakes contradiction → one sequential tiebreaker ([model-routing.md](references/model-routing.md)) or ask user.
-4. Emit the **job skill’s** exit artifact when layered; else [output-format.md](references/output-format.md).
+Choose one primary pattern. Add at most one focused follow-up when a named conflict or evidence gap can change the result.
 
-## Output format
+Before the first spawn, show a short preview in pragmatic Simple English:
 
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Job skill owns final shape when layered; generic runs → [output-format.md](references/output-format.md).
+```markdown
+## Council preview
+
+- [Persona]: [question]
+- [Persona]: [question]
+
+Format: [interaction pattern] — [one short reason]
+```
+
+Do not show internal dispatch mechanics unless the user asks.
+
+## Run and synthesize
+
+1. Give each member the shared task facts, success criteria, its persona card, and only the sources it needs.
+2. Run first views independently.
+3. If a small in-scope read, search, or non-mutating test can settle a conflict, run it.
+4. If evidence still does not settle the conflict, use one focused follow-up or name the smallest next proof.
+5. State agreements once. Preserve material conflicts, missing evidence, and uncertainty.
+6. Suggest the strongest supported conclusion. Do not use majority vote as evidence.
+
+When another process skill is active, follow its member rules and final output. Council still owns persona design, interaction choice, and member orchestration.
+
+Council alone → [output-format.md](references/output-format.md).
+
+## Boundaries
+
+- Council does not authorize code edits or external state changes to settle a disagreement.
+- Host permissions, safety rules, and runtime behavior remain outside this skill.
+- Cross-session transfer belongs to **handoff**.
 
 ## Consumer bindings
 
-Project recipe index and council agent paths arrive as injected context on skill read. Do not edit synced copies in place.
+Project-specific context can arrive when the skill loads. Do not edit installed copies in place.

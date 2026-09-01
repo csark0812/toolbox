@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "## Council preview\n\n- first-session-friction — Generate changes from observed first-session failures.\n- value-comprehension — Generate changes from comprehension evidence and user questions.\n- recovery-path — Generate changes for users who stall or make an error.\n\nFormat: Nominal ideation — generate independently before group influence narrows the options.\n\nEach real member uses distinct evidence. The coordinator will cluster duplicates, then evaluate the remaining options against impact and effort."
+    }
+  ],
+  "toolCalls": [],
+  "shellCommands": [],
+  "skillsInvoked": ["council"],
+  "artifacts": {}
+}

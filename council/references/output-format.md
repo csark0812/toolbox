@@ -1,4 +1,4 @@
-# Consolidated dispatch report
+# Council synthesis
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
@@ -7,29 +7,21 @@ Use for generic **council** runs when no process skill defines the exit shape. R
 User-facing parts use pragmatic Simplified Technical English (STE): short sentences, concrete subjects and verbs, and one meaning per sentence.
 
 ```markdown
-# Dispatch report: [Task]
+## Verdict
 
-## Summary
+[Strongest supported conclusion]
 
-[High-level synthesis]
+## Agreement
 
-## Findings by Area
+- [Shared finding, stated once]
 
-### [Area 1]
+## Disagreement or uncertainty
 
-[Consolidated findings]
+- [Material conflict, missing view, or evidence gap]
 
-### [Area 2]
+## Next proof or action
 
-[Consolidated findings]
-
-## Key Insights
-
-- [Cross-cutting insight]
-- [Conflict or tension worth flagging]
-
-## Recommendations
-
-- [Actionable recommendation with rationale]
-- [Actionable recommendation with rationale]
+- [Smallest useful proof or action]
 ```
+
+Omit a section when it has no useful content. Do not hide disagreement by reporting a vote.
