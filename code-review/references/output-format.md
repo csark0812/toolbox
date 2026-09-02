@@ -31,7 +31,7 @@ Clean:
 No actionable findings in the reviewed scope.
 ```
 
-When findings exist, list them by severity. Add improvements only when requested.
+When findings exist, list them by severity. Add advisory findings only when requested.
 
 ## Closure check
 
@@ -45,7 +45,7 @@ Next proof: [only when inconclusive]
 ## Action finding
 
 ```markdown
-## Reject malformed absolute targets
+## [merge-blocker] Reject malformed absolute targets
 
 `src/target.ts:24` · High
 
@@ -53,6 +53,22 @@ Next proof: [only when inconclusive]
 ```
 
 Add one short evidence sentence when the counter-evidence check is not obvious. Use severity only when it helps prioritize multiple findings.
+
+For merge-gate outputs, every finding should be tagged as one of:
+
+- `merge-blocker`
+- `glaring-issue`
+- `advisory`
+
+If advisory exists, keep it in its own section and do not use it in the merge verdict.
+
+```markdown
+## Advisory: split ownership for async state transitions
+
+`src/form.tsx:9`
+
+[Useful follow-up with explicit trigger and rationale for follow-up value.]
+```
 
 ## Uncertainty or contract hold
 

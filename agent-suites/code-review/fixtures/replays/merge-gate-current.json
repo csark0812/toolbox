@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "Merge gate · main...3333333 · current head: match\nContract: current\nCoverage: full · Lenses: general, merge-readiness\nState: PASSED\nNo merge-blockers in scope."
+      "content": "Merge gate · main...3333333 · current head: match\nContract: current\nCoverage: full · Lenses: general, merge-readiness\nState: PASSED\nNo merge-blockers or glaring issues in scope."
     }
   ],
   "toolCalls": [],

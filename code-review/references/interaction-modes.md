@@ -41,10 +41,10 @@ Use only when the user asks whether a branch or pull request passes code review 
 - Bind immutable remote identity and current contract evidence.
 - Cover the full declared scope, lenses, and applicable behavior classes.
 - Recheck freshness immediately before the final status.
-- Only a current and complete `PASSED` result can emit `No merge-blockers in scope.`
+- Only a current and complete `PASSED` result can emit `No merge-blockers or glaring issues in scope.`
 
 ## Filing breadth
 
 - **Blockers only** is the default for every mode.
-- **Improvements** adds hardening, cleanliness, test inventory, documentation, architecture, and polish when the user asks.
+- **Advisory** adds hardening, cleanliness, standards, test inventory, documentation, architecture, and follow-up design work when the user asks.
 - Coverage depth and filing breadth are different choices. A thorough or exhaustive review does not automatically request improvement categories.

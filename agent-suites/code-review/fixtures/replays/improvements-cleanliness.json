@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "No proved ship blocker.\n\n## Improvement: give optimistic submission one owner\n\n`agent-suites/fixtures/sample-app/src/form.tsx:9`\n\n`optimisticSubmit` and `nextSubmitState` can both move the same form to success. The split ownership makes the transition policy harder to trace and test. This is a cleanliness improvement, not a ship blocker, because the repository has no caller that proves wrong behavior."
+      "content": "No proven blocker.\n\n## Advisory: give optimistic submission one owner\n\n`agent-suites/fixtures/sample-app/src/form.tsx:9`\n\n`optimisticSubmit` and `nextSubmitState` can both move the same form to success. This is a non-blocking cleanliness follow-up, because the repository has no caller that proves wrong behavior. The split ownership makes the transition policy harder to trace and test."
     }
   ],
   "toolCalls": [],

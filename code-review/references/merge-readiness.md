@@ -23,6 +23,10 @@ Review immutable commit content. If local files supply evidence, require local `
 - Conflicting or missing intent is a `contract hold` and makes the result `INCOMPLETE`.
 - Contract-independent crashes, corruption, and security flaws remain findings.
 - Full coverage includes every in-scope hunk and file, relevant callers and contracts, every requested lens, and every applicable behavior class.
+- Merge outcome uses three finding classes:
+  - `merge-blocker`: a proved defect that makes the change unsafe to merge now.
+  - `glaring-issue`: a proved correctness/security/performance/maintainability issue with immediate merge risk.
+  - `advisory`: hardening, standards coverage, compatibility, follow-up, or design clarity work that is provable but non-blocking.
 - Consolidate the same root cause across lenses. Preserve each distinct trigger.
 
 ## Recheck before the verdict
@@ -35,12 +39,12 @@ Use this precedence:
 STALE > INCOMPLETE > BLOCKED > PASSED
 ```
 
-| State        | Meaning                                                                                          |
-| ------------ | ------------------------------------------------------------------------------------------------ |
-| `STALE`      | Bound identity, contract basis, or scope changed                                                 |
-| `INCOMPLETE` | Coverage, evidence, or expected behavior remains unresolved                                      |
-| `BLOCKED`    | One or more proved code-quality merge blockers remain                                            |
-| `PASSED`     | Identity is current, coverage is full, contract basis is current, and no blocker or hold remains |
+| State        | Meaning                                                                                                          |
+| ------------ | ---------------------------------------------------------------------------------------------------------------- |
+| `STALE`      | Bound identity, contract basis, or scope changed                                                                 |
+| `INCOMPLETE` | Coverage, evidence, or expected behavior remains unresolved                                                      |
+| `BLOCKED`    | One or more proved code-quality merge blockers remain                                                            |
+| `PASSED`     | Identity is current, coverage is full, contract basis is current, and no blocker, glaring issue, or hold remains |
 
 Preserve proved findings when the result is incomplete, but do not issue a complete blocking or passing attestation until the hold is resolved.
 
@@ -58,7 +62,7 @@ State: PASSED | BLOCKED | INCOMPLETE | STALE
 For `PASSED`, emit exactly:
 
 ```text
-No merge-blockers in scope.
+No merge-blockers or glaring issues in scope.
 ```
 
 Never emit that signal when identity changed, coverage is partial, contract intent is unresolved, a blocker remains, or review work is pending.

@@ -5,7 +5,7 @@ description: Review code through a user-named surface and lens. Use for focused 
 
 # Code review
 
-<!-- source-of-truth: evidence-led code review with task-shaped interaction and strict optional merge gating. -->
+<!-- source-of-truth: evidence-led code review with explicit blockers-vs-advisory output and strict optional merge gating. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-02 -->
 
 Find reachable code defects with enough evidence to act. Match the review to the result the user requested. Keep ordinary reviews light. Keep merge-gate conclusions strict.
@@ -29,8 +29,12 @@ Extended design vocabulary is available in [codebase-design.md](https://raw.gith
 4. Derive review questions from changed behavior and the named lens. Inspect the callers, contracts, types, tests, and runtime semantics needed to answer them.
 5. For a diff-shaped surface, file only defects introduced, worsened, or newly exposed by the change. For a path or snapshot, judge the named material in scope.
 6. File an Action finding only with a precise location, reachable trigger, wrong outcome, concrete impact, and checked counter-evidence.
+   - For merge-related claims, classify each finding as `merge-blocker`, `glaring-issue`, or `advisory`.
+   - `merge-blocker` and `glaring-issue` are merge-impacting in this pass. `advisory` is non-blocking.
 7. Prefer no finding over a plausible story. Put unresolved material under uncertainty with the smallest next proof.
-8. File reachable production and security defects by default. Include hardening, cleanliness, test inventory, documentation, or polish only when the user asks for improvements.
+8. File reachable production/security/ correctness/performance/maintainability defects by default.
+   - Include hardening, standards coverage, test inventory, documentation, and cleanliness only as advisory follow-up opportunities.
+   - In merge gate, advisory findings are always separate and do not change merge attestation.
 9. Keep unresolved intent separate from defect evidence. A contract-dependent question is a hold, not an Action finding. Contract-independent crashes, corruption, and security flaws remain fileable.
 10. Consolidate the same root cause into one finding and preserve each distinct trigger.
 11. Use pragmatic Simple English for all user-facing text.
@@ -53,16 +57,18 @@ Choose one primary mode from the requested outcome, not repository size. A lens 
 3. Trace the relevant behavior through the changed or named surface. Follow evidence beyond the hunk when needed.
 4. Test each candidate concern against the Action proof card in [evidence-and-filing.md](references/evidence-and-filing.md).
 5. Run safe read-only checks or non-mutating tests when they can settle a material concern.
-6. Consolidate findings by root cause. Omit empty sections and repeated synthesis.
-7. For a merge gate, recheck identity and mutable contract evidence immediately before the final status.
+6. Consolidate findings by root cause. For merge requests, include only blocked findings plus an explicit advisory section for non-blocking opportunities.
+7. Omit empty sections and repeated synthesis.
+8. For a merge gate, recheck identity and mutable contract evidence immediately before the final status.
 
 When the reviewed path has meaningful state, identity, lifecycle, policy, side effects, recovery, or a trust boundary, name the concept, owner, public contract, and test seam before judging its design. File movement alone does not prove a boundary.
 
 ## Boundaries and composition
 
-- Missing tests alone are not a blocker. Tie a test concern to a reachable risk or report it only in improvements mode.
+- Missing tests alone are not a blocker. Tie a test concern to a reachable risk or report it only in advisory mode.
 - A clean focused or standard review is not a merge attestation.
 - A passing merge gate covers code quality for the displayed snapshot, contract, scope, and lenses. It does not cover CI, approvals, conflicts, branch protection, deployment health, merge permission, or the merge action.
+- A passing merge gate runs on fixed scope and identity only. Repeated merge-gate runs for the same bound must not widen scope to chase advisory-only gaps.
 - Council can supply independent reviewers. Each member follows this skill for evidence and output. Code Review remains functional alone.
 - A consumer-local review or standards skill adds project rules. It does not replace this evidence bar.
 

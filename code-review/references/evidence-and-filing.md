@@ -13,6 +13,7 @@ Starting state: state required before the trigger
 Trigger: reachable action, input, event, or caller
 Wrong outcome: behavior the code produces
 Impact: concrete user, data, security, or system effect
+Why it blocks merge or is advisory-only: one short reason tied to this pass
 Counter-evidence: callers, contracts, tests, runtime rules, or fallbacks checked
 ```
 
@@ -28,7 +29,7 @@ For a diff, staged change, commit, branch, or pull request, also require:
 
 For paths, modules, snapshots, and pasted code, judge the named material in scope. Do not force introduced-only logic onto a holistic review.
 
-## Filing breadth
+## Filing breadth and merge taxonomy
 
 Default to blockers only:
 
@@ -40,7 +41,13 @@ Default to blockers only:
 
 Do not file missing tests, style, naming, module placement, duplication, documentation, or polish as blockers by themselves.
 
-When the user asks for improvements, report proved hardening risks and useful non-blocking improvements. Label them as improvements, not ship blockers.
+For merge-gate work:
+
+- classify findings as `merge-blocker`, `glaring-issue`, or `advisory`;
+- `merge-blocker` and `glaring-issue` remain blocking to merge-gate PASS;
+- `advisory` stays visible for follow-up but does not affect merge PASS.
+
+When the user asks for additional review depth, report proven hardening risks and useful follow-up work as `advisory`, not blockers by default.
 
 ## Contracts and duplicate findings
 

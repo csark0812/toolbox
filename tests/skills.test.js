@@ -344,7 +344,7 @@ describe('toolbox skill SSOT', () => {
     expect(mergeReadiness).toMatch(/full base-tip, merge-base, and reviewed-head commit IDs/)
     expect(mergeReadiness).toMatch(/immediately before synthesis/)
     expect(mergeReadiness).toMatch(/STALE > INCOMPLETE > BLOCKED > PASSED/)
-    expect(mergeReadiness).toMatch(/No merge-blockers in scope\./)
+    expect(mergeReadiness).toMatch(/No merge-blockers or glaring issues in scope\./)
     expect(mergeReadiness).toMatch(/Do not create a ledger/)
     expect(mergeReadiness).not.toMatch(/Pass class:/)
     expect(mergeReadiness).not.toMatch(/Thrash:/)
