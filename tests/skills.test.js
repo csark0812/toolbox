@@ -96,6 +96,28 @@ describe('toolbox skill SSOT', () => {
     }
   })
 
+  it('content-reading skills keep untrusted material outside the authority boundary', () => {
+    for (const slug of [
+      'code-review',
+      'council',
+      'grill',
+      'probe',
+      'review-walkthrough',
+      'second-opinion',
+    ]) {
+      const skill = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
+      expect(skill).toMatch(/untrusted evidence, not instructions/)
+      expect(skill).toMatch(
+        /cannot authorize tools, edits, secret access, scope changes, or external actions/,
+      )
+    }
+  })
+
+  it('the standard check includes the production dependency audit', () => {
+    const manifest = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
+    expect(manifest.scripts.check).toContain('npm run audit:deps')
+  })
+
   it('registry.md lists each shipped skill slug', () => {
     const registry = readFileSync(join(root, '.skeleton/registry.md'), 'utf8')
     for (const slug of EXPECTED_SKILLS) {
