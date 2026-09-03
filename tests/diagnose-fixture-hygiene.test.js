@@ -19,9 +19,6 @@ describe('diagnose null-arm hygiene seed', () => {
     expect(patch).toMatch(/deleted file mode/)
     expect(patch).toMatch(/probe\/SKILL\.md/)
     expect(patch).toMatch(/agent-suites\/probe-fix-outcomes\/scenarios\.json/)
-    expect(patch).toMatch(
-      /agent-suites\/probe-fix-outcomes\/fixtures\/replays\/no-repro-refuse\.json/,
-    )
     expect(patch).toMatch(/docs\/evidence-parity\.md/)
   })
 

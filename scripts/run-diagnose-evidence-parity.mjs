@@ -235,7 +235,7 @@ async function runSingleParity(
   if (!args.compareOnly) {
     syncSkills()
 
-    const liveBase = ['--live', '--debug', '--debug-dir', debugParent, ...args.agentArgs]
+    const liveBase = ['--debug', '--debug-dir', debugParent, ...args.agentArgs]
 
     const placeholderPath = join(runReportDir, '_placeholder-null.suite-report.json')
     await writePlaceholderNullReport(placeholderPath)

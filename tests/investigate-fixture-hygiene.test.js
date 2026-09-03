@@ -19,9 +19,6 @@ describe('investigate null-arm hygiene seed', () => {
     expect(patch).toMatch(/deleted file mode/)
     expect(patch).toMatch(/probe\/SKILL\.md/)
     expect(patch).toMatch(/agent-suites\/probe-evidence-outcomes\/scenarios\.json/)
-    expect(patch).toMatch(
-      /agent-suites\/probe-evidence-outcomes\/fixtures\/replays\/fix-invention-pressure\.json/,
-    )
     expect(patch).toMatch(/docs\/evidence-parity\.md/)
   })
 

@@ -133,7 +133,7 @@ ${summary ? `\n### summary.md excerpt\n\n${summary.split('\n').slice(0, 24).join
 
 - [ ] \`SKILL.md\` —
 - [ ] \`references/research-basis.md\` —
-- [ ] New contract scenario + replay fixture —
+- [ ] New contract scenario —
 - [ ] vitest string lock —
 
 ## Decision

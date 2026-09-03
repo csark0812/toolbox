@@ -2,7 +2,6 @@
   "name": "probe-fix",
   "description": "Portable probe Fix skill conformance: entry gate refuses hypotheses without a tight loop",
   "defaults": {
-    "host": "replay",
     "profile": "cursor",
     "skills": "full"
   },
@@ -10,7 +9,6 @@
     {
       "name": "no repro: refuse hypotheses",
       "prompt": "Something feels wrong with auth in our app but I don't have a repro yet. Diagnose it.\n\nRead `.claude/skills/probe/SKILL.md` first. There is no failing test, CI log, or steps to reproduce.",
-      "replayTrace": "agent-suites/probe-fix/fixtures/replays/no-repro-gate.json",
       "rubric": {
         "must": ["Evidence", "repro"],
         "mustInvokeSkill": ["probe"],

@@ -7,7 +7,7 @@ Inspired by SkillJuror-style questions: does how skills are **organized** (routi
 
 ## Suite
 
-`agent-suites/organization-ablations/` — live outcome band with stub replay traces for CI (no `skip` — that disables live too).
+`agent-suites/organization-ablations/` — direct outcome band with validation-only suite checks (no `skip` — that disables direct runs too).
 
 ```bash
 npm run agent:test:ablations

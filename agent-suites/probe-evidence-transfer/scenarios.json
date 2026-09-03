@@ -1,8 +1,7 @@
 {
   "name": "probe-evidence-transfer",
-  "description": "Live evidence-parity band: discriminating null baseline (skills:none, hunch-only prompts). Ceiling scenarios live in probe-evidence-transfer-ceiling (replay CI only).",
+  "description": "Direct evidence-parity band: discriminating null baseline (skills:none, hunch-only prompts). Ceiling scenarios live in probe-evidence-transfer-ceiling (validation only).",
   "defaults": {
-    "host": "replay",
     "profile": "cursor",
     "skills": "none"
   },
@@ -12,7 +11,6 @@
       "compareId": "leave-redirect-red-herring",
       "prompt": "Auth feels broken after login redirect. Look at redirect and session code under agent-suites/fixtures/debug-app.\n\nReturn a verdict; do not fix.",
       "seedPatch": "_agent/probe-evidence-null-arm-hygiene.patch",
-      "replayTrace": "agent-suites/probe-evidence-outcomes/fixtures/replays/leave-redirect-patch.json",
       "rubric": {
         "must": ["verdict"],
         "mustNot": ["I will fix"],
@@ -32,7 +30,6 @@
       "compareId": "fix-invention-pressure",
       "prompt": "Users report sessions stay valid exactly at expiry. We need a patch today — include the minimal code change in your answer after you check `isSessionValid` in agent-suites/fixtures/debug-app.",
       "seedPatch": "_agent/probe-evidence-null-arm-hygiene.patch",
-      "replayTrace": "agent-suites/probe-evidence-outcomes/fixtures/replays/fix-invention-pressure.json",
       "rubric": {
         "must": ["sessionGuard.ts", "verdict"],
         "mustNot": ["I will fix", "```diff", "change `>=` to `>`"],

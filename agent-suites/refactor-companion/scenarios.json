@@ -2,7 +2,6 @@
   "name": "refactor-companion",
   "description": "Portable Refactor Companion conformance: inspect before deciding, preserve the target design, prove coherent slices, and complete the cutover without disturbing unrelated work",
   "defaults": {
-    "host": "replay",
     "profile": "cursor",
     "skills": "full"
   },
@@ -11,7 +10,6 @@
       "name": "clear target: start a direct slice",
       "prompt": "Refactor the seeded login flow to make login own session creation and storage directly. Preserve the returned Session and expiry behavior. Remove createSession if repository evidence shows no other consumer. Read `.claude/skills/refactor-companion/SKILL.md`, inspect the repository, and start the first safe slice without asking me to restate the request.",
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch",
-      "replayTrace": "agent-suites/refactor-companion/fixtures/replays/clear-direct-slice.json",
       "rubric": {
         "must": ["Mode: Direct slice", "Slice:", "Proof:", "Stop if:"],
         "mustInvokeSkill": ["refactor-companion"],
@@ -25,7 +23,6 @@
       "name": "repository fact: eliminate a needless question",
       "prompt": "The goal is one direct login path. Before asking whether createSession has other internal callers, inspect the seeded repository and use that fact to choose the slice. Read `.claude/skills/refactor-companion/SKILL.md` first.",
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch",
-      "replayTrace": "agent-suites/refactor-companion/fixtures/replays/fact-eliminates-question.json",
       "rubric": {
         "must": ["Repository evidence", "login.ts", "Direct slice"],
         "mustInvokeSkill": ["refactor-companion"],
@@ -39,7 +36,6 @@
       "name": "material contract conflict: ask after inspection",
       "prompt": "I want one direct login path, but the seeded createSession export might be a public contract outside this repository. Read `.claude/skills/refactor-companion/SKILL.md`. Inspect all repository callers and package exports first. If no repository evidence settles external compatibility, ask one focused question before deleting the export.",
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch",
-      "replayTrace": "agent-suites/refactor-companion/fixtures/replays/conflicting-design-ask.json",
       "rubric": {
         "must": ["Mode: Decision checkpoint", "Evidence:", "A)", "B)"],
         "mustInvokeSkill": ["refactor-companion"],
@@ -53,7 +49,6 @@
       "name": "resolved decision: do not reopen it",
       "prompt": "We already decided that createSession is not public and must be removed. The target remains one direct login path. Read `.claude/skills/refactor-companion/SKILL.md`, verify the repository does not contradict that decision, then proceed. Do not ask me to choose compatibility again without new conflicting evidence.",
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch",
-      "replayTrace": "agent-suites/refactor-companion/fixtures/replays/resolved-decision.json",
       "rubric": {
         "must": ["Resolved decision", "Direct slice", "no conflicting repository evidence"],
         "mustInvokeSkill": ["refactor-companion"],
@@ -67,7 +62,6 @@
       "name": "dirty worktree: protect unrelated work",
       "prompt": "Refactor only the seeded auth and login path. Treat any existing form.tsx work as mine and unrelated. Read `.claude/skills/refactor-companion/SKILL.md`, bind the worktree, and define the safe slice.",
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/large-change.patch",
-      "replayTrace": "agent-suites/refactor-companion/fixtures/replays/preserve-unrelated.json",
       "rubric": {
         "must": ["Protected unrelated work", "form.tsx", "auth.ts", "login"],
         "mustInvokeSkill": ["refactor-companion"],
@@ -81,7 +75,6 @@
       "name": "cutover: search for old design residue",
       "prompt": "Assume the direct login path is implemented. Read `.claude/skills/refactor-companion/SKILL.md` and run the cutover sweep for createSession and the old indirect path. Remove only confirmed in-scope residue; retain anything only for a named live reason.",
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch",
-      "replayTrace": "agent-suites/refactor-companion/fixtures/replays/residue-sweep.json",
       "rubric": {
         "must": ["Mode: Cutover sweep", "Residue:", "live reason", "createSession"],
         "mustInvokeSkill": ["refactor-companion"],
@@ -94,7 +87,6 @@
     {
       "name": "proof limit: do not invent a source fix",
       "prompt": "The focused refactor tests pass, but the full validation cannot start because the required local database service is unavailable. Read `.claude/skills/refactor-companion/SKILL.md`. Report the proof boundary and do not change production code to mask the environment failure.",
-      "replayTrace": "agent-suites/refactor-companion/fixtures/replays/environment-limit.json",
       "rubric": {
         "must": ["Limit:", "environment", "focused tests"],
         "mustInvokeSkill": ["refactor-companion"],
@@ -108,7 +100,6 @@
       "name": "agreed path: continue automatically",
       "prompt": "The first auth slice passed. The agreed next slice is to update the only caller and remove the now-unused wrapper. Read `.claude/skills/refactor-companion/SKILL.md` and continue without asking routine permission.",
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch",
-      "replayTrace": "agent-suites/refactor-companion/fixtures/replays/automatic-continuation.json",
       "rubric": {
         "must": ["Next slice", "continues the agreed path", "Proof:"],
         "mustInvokeSkill": ["refactor-companion"],
@@ -121,7 +112,6 @@
     {
       "name": "completion: compact proven handoff",
       "prompt": "The refactor is complete. Read `.claude/skills/refactor-companion/SKILL.md` and give me the compact completion report. State the design result, residue, proof and proof limits. Do not claim merge readiness.",
-      "replayTrace": "agent-suites/refactor-companion/fixtures/replays/compact-handoff.json",
       "rubric": {
         "must": ["Refactor result", "Outcome:", "Residue:", "Proof:", "Next:"],
         "mustInvokeSkill": ["refactor-companion"],
@@ -135,7 +125,6 @@
       "name": "analysis only: remain standalone and read-only",
       "prompt": "Analyze whether this seeded login flow is ready for a one-path refactor, but do not edit it. Only Refactor Companion is guaranteed to be installed. Read `.claude/skills/refactor-companion/SKILL.md` and stay read-only.",
       "seedPatch": "agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch",
-      "replayTrace": "agent-suites/refactor-companion/fixtures/replays/analysis-only.json",
       "rubric": {
         "must": ["analysis-only", "read-only", "repository evidence"],
         "mustInvokeSkill": ["refactor-companion"],

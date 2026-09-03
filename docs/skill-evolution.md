@@ -1,7 +1,7 @@
 # Skill evolution (AFTER-lite)
 
 <!-- source-of-truth: human-gated skill patches after agent-suite failures. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-17 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-03 -->
 
 Toolbox skills are static human SSOT. They do not self-mutate from transcripts. This doc defines the **human-gated** loop for turning live eval failures into durable skill improvements.
 
@@ -42,7 +42,7 @@ Toolbox skills are static human SSOT. They do not self-mutate from transcripts. 
    - Add a carve-out under **Does not transfer** if the failure falsifies an overclaim
    - Lower **Confidence** if evidence is mixed
 4. **Authoring gate** — apply skill-authoring vocabulary (for example [mattpocock/skills](https://github.com/mattpocock/skills) `writing-for-agents` / `writing-great-skills`): prune no-ops, positive steering, progressive disclosure. Also apply **Pragmatic STE for toolbox** (below).
-5. **Lock** — add or update a **contract** scenario + replay fixture in `agent-suites/<skill>/`. Outcome scenarios use stub `replayTrace` for replay CI only (no `skip` — that disables live too).
+5. **Lock** — add or update a **contract** scenario in `agent-suites/<skill>/`. Validate suite shape and run direct scenarios when live evidence is needed.
 6. **Optional vitest lock** — add a string invariant in `tests/skills.test.js` only when the new rule is stable prose that regressions must catch globally.
 7. **Record** — copy [`templates/skill-evolution-note.md`](../templates/skill-evolution-note.md) into `_agent/` or the PR description. Then bump `last-reviewed` on touched research-basis files.
 

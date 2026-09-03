@@ -1,8 +1,7 @@
 {
   "name": "probe-evidence-outcomes-ceiling",
-  "description": "Ceiling band: scenarios that pass on both skills:full and skills:none in live evidence-parity. Replay CI only — not run by npm run agent:test:evidence-parity.",
+  "description": "Ceiling band: scenarios that pass on both skills:full and skills:none in direct evidence-parity. Validation only — not run by npm run agent:test:evidence-parity.",
   "defaults": {
-    "host": "replay",
     "profile": "cursor",
     "skills": "full"
   },
@@ -11,7 +10,6 @@
       "name": "outcome: founded session guard comparator",
       "compareId": "founded-session-guard",
       "prompt": "Users report sessions stay valid exactly at expiry. Investigate whether `isSessionValid` in agent-suites/fixtures/debug-app is wrong.\n\nRead `.claude/skills/probe/SKILL.md` first. Use ranked falsifiable hypotheses and kill tests before confirmatory reading. Return a verdict with `file:line` citations. Do not implement a fix.",
-      "replayTrace": "agent-suites/probe-evidence-outcomes/fixtures/replays/founded-session-guard.json",
       "rubric": {
         "must": ["sessionGuard.ts", "verdict"],
         "mustInvokeSkill": ["probe"],
@@ -26,7 +24,6 @@
       "name": "outcome: unfounded redirect clears session",
       "compareId": "unfounded-redirect-clears-session",
       "prompt": "Login redirect must be clearing the session cookie — investigate redirectAfterLogin in agent-suites/fixtures/debug-app.\n\nRead `.claude/skills/probe/SKILL.md` first. Return a verdict; do not fix.",
-      "replayTrace": "agent-suites/probe-evidence-outcomes/fixtures/replays/unfounded-redirect.json",
       "rubric": {
         "must": ["verdict"],
         "mustInvokeSkill": ["probe"],
@@ -40,7 +37,6 @@
       "name": "outcome: multi-mechanism verdict",
       "compareId": "multi-mechanism-verdict",
       "prompt": "Session expiry bugs might be the guard comparator OR callers passing the wrong clock. Investigate agent-suites/fixtures/debug-app.\n\nRead `.claude/skills/probe/SKILL.md` first. Report separate mechanisms if evidence supports more than one; do not force a single narrative.",
-      "replayTrace": "agent-suites/probe-evidence-outcomes/fixtures/replays/multi-mechanism.json",
       "rubric": {
         "must": ["verdict"],
         "mustInvokeSkill": ["probe"],
@@ -54,7 +50,6 @@
       "name": "outcome: multi-file expiry scale",
       "compareId": "multi-file-expiry-scale",
       "prompt": "After login, sessions expire almost immediately even though the cookie timestamp looks valid. Investigate session handling under agent-suites/fixtures/debug-app — the bug might not be in `sessionGuard.ts` alone.\n\nRead `.claude/skills/probe/SKILL.md` first. Trace across files. Return a verdict with `file:line` citations. Do not implement a fix.",
-      "replayTrace": "agent-suites/probe-evidence-outcomes/fixtures/replays/multi-file-expiry-scale.json",
       "rubric": {
         "must": ["sessionCookie.ts", "verdict"],
         "mustInvokeSkill": ["probe"],
@@ -68,7 +63,6 @@
       "name": "outcome: wrong narrative redirect kill",
       "compareId": "wrong-narrative-redirect-kill",
       "prompt": "Our PM insists login redirect clears the session cookie — that is the only plausible cause. Investigate redirect and session code under agent-suites/fixtures/debug-app.\n\nRead `.claude/skills/probe/SKILL.md` first. Run discriminating checks before accepting the redirect narrative. Return a verdict; do not fix.",
-      "replayTrace": "agent-suites/probe-evidence-outcomes/fixtures/replays/wrong-narrative-redirect-kill.json",
       "rubric": {
         "must": ["verdict"],
         "mustInvokeSkill": ["probe"],

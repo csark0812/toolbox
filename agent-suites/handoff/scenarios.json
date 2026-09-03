@@ -2,7 +2,6 @@
   "name": "handoff",
   "description": "Portable handoff skill conformance: user prompt-only vs model-invoked artifact path",
   "defaults": {
-    "host": "replay",
     "profile": "cursor",
     "skills": "full"
   },
@@ -10,7 +9,6 @@
     {
       "name": "user-request: prompt only no artifact",
       "prompt": "/handoff this session for a fresh chat. We worked on auth refactor; plan at `.cursor/plans/auth-refactor.plan.md`, PR #42. API key was mentioned in thread — must not appear in output.\n\nRead `.claude/skills/handoff/SKILL.md` first. User-request: paste prompt only — do not write `_agent/handoffs/`.",
-      "replayTrace": "agent-suites/handoff/fixtures/replays/paths-only-redact.json",
       "rubric": {
         "must": [
           "Open workspace",
@@ -31,7 +29,6 @@
     {
       "name": "user-request: target workspace in prompt not current root",
       "prompt": "Current chat is rooted in /tmp/unrelated-app. /handoff to harden voice em-dash ban — next session must edit the voice skill under /tmp/personal-toolbox.\n\nRead `.claude/skills/handoff/SKILL.md` first. Prompt-only; do not write any handoff file.",
-      "replayTrace": "agent-suites/handoff/fixtures/replays/cross-root-target.json",
       "rubric": {
         "must": [
           "Open workspace: /tmp/personal-toolbox",
@@ -50,7 +47,6 @@
     {
       "name": "client-interface: cursor prompt handoff",
       "prompt": "/handoff this work to a fresh Cursor chat. Use prompt mode, include `Open workspace: /tmp/personal-toolbox`, and keep next actions imperative.\n\nRead `.claude/skills/handoff/SKILL.md` first.",
-      "replayTrace": "agent-suites/handoff/fixtures/replays/paths-only-redact.json",
       "rubric": {
         "must": [
           "Open workspace: /tmp/personal-toolbox",
@@ -74,7 +70,6 @@
     {
       "name": "client-interface: claude prompt handoff",
       "prompt": "Prepare a handoff prompt for a fresh Claude Code chat and target `/tmp/claude-workspace`.\n\nRead `.claude/skills/handoff/SKILL.md` first.",
-      "replayTrace": "agent-suites/handoff/fixtures/paths-only-redact.json",
       "rubric": {
         "must": [
           "Open workspace: /tmp/claude-workspace",
@@ -90,7 +85,6 @@
     {
       "name": "client-interface: unknown-client fallback to prompt",
       "prompt": "The next recipient is an unsupported custom client with no artifact path. Hand off to a fresh chat in `/tmp/legacy-client` and do prompt-only only.\n\nRead `.claude/skills/handoff/SKILL.md` first.",
-      "replayTrace": "agent-suites/handoff/fixtures/replays/paths-only-redact.json",
       "rubric": {
         "must": [
           "Open workspace: /tmp/legacy-client",
@@ -107,7 +101,6 @@
     {
       "name": "client-interface: chatgpt continuation",
       "prompt": "Hand off this work to a fresh ChatGPT chat for `/tmp/chatgpt-workspace`. Keep the format strict and include workspace target at top.\n\nRead `.claude/skills/handoff/SKILL.md` first.",
-      "replayTrace": "agent-suites/handoff/fixtures/replays/paths-only-redact.json",
       "rubric": {
         "must": [
           "Open workspace: /tmp/chatgpt-workspace",
@@ -123,7 +116,6 @@
     {
       "name": "client-interface: copilot continuation",
       "prompt": "Prepare a handoff to GitHub Copilot Chat into `/tmp/copilot-workspace` using the standard handoff prompt block.\n\nRead `.claude/skills/handoff/SKILL.md` first.",
-      "replayTrace": "agent-suites/handoff/fixtures/replays/paths-only-redact.json",
       "rubric": {
         "must": [
           "Open workspace: /tmp/copilot-workspace",
@@ -139,7 +131,6 @@
     {
       "name": "model-invoked: subagent artifact path",
       "prompt": "Context is nearly full — hand off autonomously so the next session can continue implement on the auth refactor branch.\n\nRead `.claude/skills/handoff/SKILL.md` first. Model-invoked path: spawn subagent to write _agent/handoffs/.",
-      "replayTrace": "agent-suites/handoff/fixtures/replays/model-invoked-artifact.json",
       "rubric": {
         "must": ["_agent/handoffs", "Task:", "handoff-subagent-dispatch", "Open workspace"],
         "mustInvokeSkill": ["handoff"],

@@ -1,8 +1,7 @@
 {
   "name": "organization-ablations",
-  "description": "Live SkillJuror-lite ablations: compare skill organization arms under equal-budget live runs. Replay CI uses stub traces only (no LLM judge).",
+  "description": "Direct SkillJuror-lite ablations: compare skill organization arms under equal-budget direct runs. Default validation checks configuration only.",
   "defaults": {
-    "host": "replay",
     "profile": "cursor",
     "skills": "full"
   },
@@ -12,7 +11,6 @@
       "prompt": "Review staged changes in agent-suites/fixtures/sample-app/src/redirect.ts. Review only; do not edit or commit.\n\nRead `.claude/skills/code-review/SKILL.md` first. Default primary-first — no council unless escalation criteria match.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-staged.patch",
       "seedStageOnly": true,
-      "replayTrace": "agent-suites/organization-ablations/fixtures/replays/review-primary-arm.json",
       "rubric": {
         "must": ["Reviewer: primary"],
         "mustInvokeSkill": ["code-review"],
@@ -24,7 +22,6 @@
       "name": "ablation review: council escalation arm",
       "prompt": "Review staged changes in agent-suites/fixtures/sample-app/src/auth.ts with security and API council escalation. Review only.\n\nRead `.claude/skills/code-review/SKILL.md` and `.claude/skills/council/SKILL.md` first. Attach council for parallel specialist perspectives.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/auth-pr.patch",
-      "replayTrace": "agent-suites/organization-ablations/fixtures/replays/review-council-arm.json",
       "rubric": {
         "must": ["council"],
         "mustInvokeSkill": ["code-review", "council"],
@@ -36,7 +33,6 @@
     {
       "name": "ablation council: fit-check skip arm",
       "prompt": "Map how auth works in agent-suites/fixtures/sample-app. Use council if parallel helps.\n\nRead `.claude/skills/council/SKILL.md` first. Name a single-pass rival before spawning N≥2; skip parallel when independence fails.",
-      "replayTrace": "agent-suites/organization-ablations/fixtures/replays/multi-fit-skip-arm.json",
       "rubric": {
         "must": ["single-pass", "skip"],
         "mustInvokeSkill": ["council"],

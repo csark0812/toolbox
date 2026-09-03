@@ -54,15 +54,12 @@ describe('diagnose prompt baseline', () => {
     expect(loop.prompt).toMatch(/before naming a cause|before.*editing production/i)
   })
 
-  it('prompt and transfer share hygiene seed and replayTrace with outcomes', () => {
+  it('prompt and transfer share hygiene seed with outcomes', () => {
     for (const compareId of outcome.scenarios.map((s) => s.compareId)) {
-      const outcomeRow = outcome.scenarios.find((s) => s.compareId === compareId)
       const promptRow = prompt.scenarios.find((s) => s.compareId === compareId)
       const transferRow = transfer.scenarios.find((s) => s.compareId === compareId)
       expect(promptRow.seedPatch).toBe(HYGIENE_SEED)
       expect(transferRow.seedPatch).toBe(HYGIENE_SEED)
-      expect(promptRow.replayTrace).toBe(outcomeRow.replayTrace)
-      expect(transferRow.replayTrace).toBe(outcomeRow.replayTrace)
     }
   })
 })

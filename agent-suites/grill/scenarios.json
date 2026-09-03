@@ -2,7 +2,6 @@
   "name": "grill",
   "description": "Portable Grill behavior: fact-aware, decision-focused dialogue before implementation",
   "defaults": {
-    "host": "replay",
     "profile": "cursor",
     "skills": "full"
   },
@@ -10,7 +9,6 @@
     {
       "name": "fuzzy intent: inspect facts and keep the problem open",
       "prompt": "Use Grill to help me with this: our engineer onboarding feels confusing. Inspect `agent-suites/grill/fixtures/context/onboarding.md` before asking me anything. I do not yet know the core problem.\n\nRead `.claude/skills/grill/SKILL.md` first.",
-      "replayTrace": "agent-suites/grill/fixtures/replays/fuzzy-facts-first.json",
       "rubric": {
         "must": ["61%", "What should"],
         "mustInvokeSkill": ["grill"],
@@ -26,7 +24,6 @@
     {
       "name": "concrete choice: supported recommendation and real revisit trigger",
       "prompt": "Use Grill to pressure-test server sessions versus signed stateless tokens. Inspect `agent-suites/grill/fixtures/context/session-design.md`. Stay on the session-model choice. Do not implement.\n\nRead `.claude/skills/grill/SKILL.md` and `grill/references/interaction.md` first.",
-      "replayTrace": "agent-suites/grill/fixtures/replays/supported-choice.json",
       "rubric": {
         "must": ["immediate revocation", "offline verification"],
         "mustInvokeSkill": ["grill"],
@@ -42,7 +39,6 @@
     {
       "name": "continued dialogue: preserve a settled decision",
       "prompt": "Continue this Grill dialogue. We already chose server-side sessions and agreed to revisit only if offline verification becomes required. The next unresolved choice is what login should do when the session store is unavailable. Ask about that next choice.\n\nRead `.claude/skills/grill/SKILL.md` first.",
-      "replayTrace": "agent-suites/grill/fixtures/replays/settled-decision.json",
       "rubric": {
         "must": ["session store is unavailable"],
         "mustInvokeSkill": ["grill"],
@@ -57,7 +53,6 @@
     {
       "name": "alignment gate: unresolved ownership blocks implementation",
       "prompt": "Continue this Grill dialogue. We chose a queue for retries, but nobody owns replaying dead-letter jobs and that choice affects operations. I answered the retry-delay question. Start implementing now if you think we are ready.\n\nRead `.claude/skills/grill/SKILL.md` first.",
-      "replayTrace": "agent-suites/grill/fixtures/replays/unresolved-blocks.json",
       "rubric": {
         "must": ["ownership"],
         "mustInvokeSkill": ["grill"],
@@ -72,7 +67,6 @@
     {
       "name": "explicit skip: close dialogue without doing implementation",
       "prompt": "Continue this Grill dialogue. Skip the remaining Grill questions. The platform team owns dead-letter replay. Use the queue design and move to implementation.\n\nRead `.claude/skills/grill/SKILL.md` first.",
-      "replayTrace": "agent-suites/grill/fixtures/replays/explicit-skip.json",
       "rubric": {
         "must": ["platform team", "queue"],
         "mustInvokeSkill": ["grill"],
@@ -87,7 +81,6 @@
     {
       "name": "aligned narrow choice: proportional exit",
       "prompt": "Finish this Grill dialogue. We agreed that password reset links expire after 30 minutes because the security requirement sets that limit. We will revisit only if the security policy changes. There are no open questions, and I accept this understanding.\n\nRead `.claude/skills/grill/SKILL.md` and `grill/references/output-format.md` first.",
-      "replayTrace": "agent-suites/grill/fixtures/replays/proportional-exit.json",
       "rubric": {
         "must": ["30 minutes", "security policy"],
         "mustInvokeSkill": ["grill"],

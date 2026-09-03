@@ -122,7 +122,7 @@ pre-commit install          # runs npm test on commit
 
 ### Agent suites
 
-Portable agent conformance lives under [`agent-suites/`](agent-suites/). Suites prove **portable process contracts**, not consumer product workflows. Replay mode is credential-free:
+Portable agent conformance lives under [`agent-suites/`](agent-suites/). Suites prove **portable process contracts**, not consumer product workflows. Suite validation is credential-free:
 
 ```bash
 npm run agent:test

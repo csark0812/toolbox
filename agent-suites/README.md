@@ -1,27 +1,27 @@
 # Agent Suites
 
-Toolbox agent suites are portable conformance checks for public process skills. They prove **portable process contracts**, not consumer product workflows. They use neutral fixture files and replay traces so they can run outside any consumer repo.
+Toolbox agent suites are portable conformance checks for public process skills. They prove **portable process contracts**, not consumer product workflows. They use neutral fixture files and JSON scenario definitions so they can run outside any consumer repo.
 
 ## Suite bands
 
-| Band             | Purpose                                                                        | CI default                    | Command                                |
-| ---------------- | ------------------------------------------------------------------------------ | ----------------------------- | -------------------------------------- |
-| **Contract**     | Process gates — did the agent follow the skill protocol?                       | Replay (`npm run agent:test`) | `agent-test --suites-dir agent-suites` |
-| **Outcome**      | Task settlement — did the agent reach the right verdict / loop?                | Stub replay (no judge)        | `npm run agent:test:outcomes` (live)   |
-| **Transfer**     | Same judges as outcome with `skills: none` (null baseline; hunch-only prompts) | Stub replay (no judge)        | `npm run agent:test:transfer` (live)   |
-| **Prompt**       | Verdict-gate rules in prompt, `skills: none` (no skill file)                   | Stub replay (no judge)        | `npm run agent:test:evidence-parity`   |
-| **Ceiling**      | Scenarios that pass on both arms — replay CI only, not evidence-parity         | Stub replay (no judge)        | `npm run agent:test` only              |
-| **Ablation**     | Organization arms — primary vs council, fit-check vs forced spawn              | Stub replay (no judge)        | `npm run agent:test:ablations` (live)  |
-| **Ambient live** | Network fetch of GitHub raw ambient refs                                       | Skipped (`skip: true`)        | `npm run agent:test:live`              |
+| Band             | Purpose                                                                        | CI default             | Command                              |
+| ---------------- | ------------------------------------------------------------------------------ | ---------------------- | ------------------------------------ |
+| **Contract**     | Process gates — did the agent follow the skill protocol?                       | Validation only        | `npm run agent:test`                 |
+| **Outcome**      | Task settlement — did the agent reach the right verdict / loop?                | Direct agent run       | `npm run agent:test:outcomes`        |
+| **Transfer**     | Same judges as outcome with `skills: none` (null baseline; hunch-only prompts) | Direct agent run       | `npm run agent:test:transfer`        |
+| **Prompt**       | Verdict-gate rules in prompt, `skills: none` (no skill file)                   | Direct agent run       | `npm run agent:test:evidence-parity` |
+| **Ceiling**      | Scenarios that pass on both arms — validation only, not evidence-parity        | Validation only        | `npm run agent:test`                 |
+| **Ablation**     | Organization arms — primary vs council, fit-check vs forced spawn              | Direct agent run       | `npm run agent:test:ablations`       |
+| **Ambient live** | Network fetch of GitHub raw ambient refs                                       | Skipped (`skip: true`) | `npm run agent:test:live`            |
 
-Contract suites use golden `replayTrace` JSON. Outcome and ablation suites ship placeholder traces for live staging and stub replay in CI; the LLM judge runs only under `--live`.
+JSON remains the scenario-authoring adapter. Validation checks suite shape, paths, and seeds without launching agents. Direct outcome and ablation runs launch agents and can incur provider usage.
 
 ### Authoring outcome scenarios
 
 1. Plant bugs in neutral fixtures — see `agent-suites/fixtures/debug-app/`.
-2. Write a prompt with a **held-out hunch** the agent has not seen in contract replays.
+2. Write a prompt with a **held-out hunch** the agent has not seen in other scenarios.
 3. Tie `judge` questions to a `research-basis.md` claim (e.g. kill tests before forage, loop before cause).
-4. Ship a placeholder `replayTrace` for CI stub replay and live staging (judge criteria evaluate only under `--live`).
+4. Run the direct scenario against a real host when live evidence is needed.
 5. Record goldens after a good live run: `npm run agent:test:live -- --suite <suite> --record-fixtures`.
 
 **Good judge question:** “The agent cited sessionGuard.ts with a boundary comparator issue and did not invent a fix.”
@@ -41,16 +41,16 @@ Toolbox owns generic skill-contract behavior:
 - `second-opinion`: invent lenses from ask; single-pass by default; layer council for multi-perspective depth; claim anchoring; unanchored kills tagged `drift`; path or paste artifact.
 - `probe-evidence`: discriminating kill tests; leave dead patches after 2–3 no-signal reads (Evidence stance).
 - `probe-evidence-outcomes` / `probe-evidence-transfer` / `probe-evidence-prompt`: discriminating evidence-parity band (2 scenarios). **Manual live cadence only** (not part of `npm run check`). Discriminating scenarios use guard-only fixture seeds; dual-bug `debug-app` remains for ceiling/Fix bands.
-- `probe-evidence-outcomes-ceiling` / `probe-evidence-transfer-ceiling`: ceiling scenarios (replay CI only).
+- `probe-evidence-outcomes-ceiling` / `probe-evidence-transfer-ceiling`: ceiling scenarios (validation only).
 - `grill`: repo facts before questions; honest question forms; one active branch; supported recommendations and revisit triggers; alignment before implementation.
 - `tdd`: seam confirmation before the first test; red-green slice discipline.
 - `probe-fix`: entry gate — no repro means no hypotheses; route to Evidence stance or get a repro.
 - `probe-fix-outcomes` / `probe-fix-transfer` / `probe-fix-prompt`: discriminating evidence-parity band (2 scenarios: `no-repro-refuse`, `loop-before-cause`). **Manual live cadence only** — `npm run agent:test:probe-fix-evidence-parity` (not part of `npm run check`). Independent of Evidence parity.
-- `probe-fix-outcomes-ceiling`: ceiling scenario (tight loop; replay CI only).
+- `probe-fix-outcomes-ceiling`: ceiling scenario (tight loop; validation only).
 - `domain-model`: entry gate — no stated decision means no ADR; route to grill.
 - `handoff`: `channel:prompt` (user) vs `channel:artifact` (model-invoked); `Pack:` pointers/fix-loop/full — omit empty sections.
 - `organization-ablations`: live SkillJuror-lite arms — see [docs/skill-organization-ablations.md](../docs/skill-organization-ablations.md).
-- `github-ambient-refs`: live-only dogfood that ambient refs via GitHub raw URLs are fetchable at agent runtime (scenarios skipped in replay CI). See [docs/github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md).
+- `github-ambient-refs`: direct-only dogfood that ambient refs via GitHub raw URLs are fetchable at agent runtime (scenarios skipped by default validation). See [docs/github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md).
 
 After live failures, follow [docs/skill-evolution.md](../docs/skill-evolution.md) for human-gated patches.
 
@@ -62,19 +62,19 @@ Consumer repos own integration dogfood suites for local product paths, rules, va
 npm run agent:test
 ```
 
-Replay mode is the default and does not require live credentials. Install dependencies with `npm ci`. The `@post-print/agent-test` CLI runs under Node ≥ 22.
+Validation is the default and does not require live credentials. Install dependencies with `npm ci`. The `@post-print/agent-test` CLI runs under Node ≥ 22.
 
 ```bash
 npm run agent:test:outcomes
 ```
 
-Live outcome band for `probe-evidence-outcomes` and `probe-fix-outcomes`. Requires `CURSOR_API_KEY`.
+Direct outcome band for `probe-evidence-outcomes` and `probe-fix-outcomes`. Requires `CURSOR_API_KEY`.
 
 ```bash
 npm run agent:test:transfer
 ```
 
-Live transfer band via native compare: `agent-test --compare-pairs probe-evidence-outcomes:probe-evidence-transfer` (or the full automated cadence):
+Direct transfer band via native compare: `agent-test --compare-pairs probe-evidence-outcomes:probe-evidence-transfer` (or the full automated cadence):
 
 ```bash
 npm run agent:test:evidence-parity
@@ -98,7 +98,7 @@ Live organization ablation suite. Requires `CURSOR_API_KEY`.
 npm run agent:test:live
 ```
 
-Live mode uses the installed `@cursor/sdk` in isolated worktrees and requires `CURSOR_API_KEY` (copy `.env.example` to `.env`).
+Direct mode uses the installed `@cursor/sdk` in isolated worktrees and requires `CURSOR_API_KEY` (copy `.env.example` to `.env`).
 
 ### Live debug
 
@@ -115,4 +115,4 @@ npm run agent:test:live:debug
 
 Live runs already use **git worktree isolation** for agent edits (`$TMPDIR/agent-harness-wt-…`). The worktree leak guard watches your **caller checkout** (where you ran npm). Harness staging under `--debug-dir` is excluded from that check as of `@post-print/agent-test` 0.1.18; prefer `$TMPDIR` anyway.
 
-`skip: true` skips a scenario in **both** replay and live. Use it only for suites that must never run in CI (e.g. `github-ambient-refs` network dogfood). Outcome and ablation scenarios must not set `skip` if you want `npm run agent:test:outcomes` / `agent:test:ablations` to invoke the agent.
+`skip: true` skips a scenario in **both** validation and direct runs. Use it only for suites that must never run by default (e.g. `github-ambient-refs` network dogfood). Outcome and ablation scenarios must not set `skip` if you want `npm run agent:test:outcomes` / `agent:test:ablations` to invoke the agent.
