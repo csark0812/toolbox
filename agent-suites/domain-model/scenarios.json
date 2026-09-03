@@ -2,7 +2,7 @@
   "name": "domain-model",
   "description": "Portable domain-model skill conformance: entry gate refuses ADR without stated decision",
   "defaults": {
-    "host": "replay",
+    "host": "cursor",
     "profile": "cursor",
     "skills": "full"
   },
@@ -10,7 +10,6 @@
     {
       "name": "no decision: refuse ADR",
       "prompt": "Write an ADR for how we should handle authentication in this app — we haven't decided yet.\n\nRead `.claude/skills/domain-model/SKILL.md` first. No decision has been stated; alternatives are still open.",
-      "replayTrace": "agent-suites/domain-model/fixtures/replays/no-decision-adr-gate.json",
       "rubric": {
         "must": ["grill", "decision"],
         "mustInvokeSkill": ["domain-model"],

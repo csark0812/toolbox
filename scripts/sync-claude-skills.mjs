@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Ephemeral install mirrors for local dogfood / agent-test live.
+ * Ephemeral install mirrors for local direct agent tests.
  * Flat `<slug>/` remains SSOT; `.claude/skills/` and `.agents/skills/` are gitignored.
  *
  * Cursor + Codex project path: `.agents/skills/`

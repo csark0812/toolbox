@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
  * Diagnose evidence-parity cadence (independent of investigate):
- *   sync skills → live probe-fix-outcomes
+ *   sync skills → direct probe-fix-outcomes
  *   → materialize null suites to $TMPDIR → park answer keys on open tree
- *   → live probe-fix-transfer (+ prompt) → restore → offline compare → propose notes
+ *   → direct probe-fix-transfer (+ prompt) → restore → offline compare → propose notes
  *
- * Caller park is required: live Cursor Shell often targets the IDE-open root,
+ * Caller park is required: Cursor Shell can target the IDE-open root,
  * not the seeded worktree — worktree-only deletes do not stop forage.
  *
  * Does NOT edit SKILL.md — human Keep / Reject / Defer only.
@@ -21,7 +21,7 @@
  *   --ablations       also run organization-ablations
  *   --no-propose      skip evolution-note autofill
  *   --repeats N       run parity cadence N times (default 1); writes batch manifest
- *   --compare-only    re-render compare from prior suite-report JSON (no live runs)
+ *   --compare-only    re-render compare from prior suite-report JSON (no agent runs)
  */
 import { spawnSync } from 'node:child_process'
 import { existsSync } from 'node:fs'
@@ -122,7 +122,7 @@ function syncSkills() {
   if (result.status !== 0) process.exit(result.status ?? 1)
 }
 
-/** Minimal B-side so compare-pairs can dump outcomes.suite-report without a second live suite. */
+/** Minimal B-side so compare-pairs can dump outcomes.suite-report without a second direct suite. */
 async function writePlaceholderNullReport(path) {
   const report = {
     suite: 'placeholder-null',
@@ -235,7 +235,7 @@ async function runSingleParity(
   if (!args.compareOnly) {
     syncSkills()
 
-    const liveBase = ['--live', '--debug', '--debug-dir', debugParent, ...args.agentArgs]
+    const directBase = ['--debug', '--debug-dir', debugParent, ...args.agentArgs]
 
     const placeholderPath = join(runReportDir, '_placeholder-null.suite-report.json')
     await writePlaceholderNullReport(placeholderPath)
@@ -247,7 +247,7 @@ async function runSingleParity(
       [
         '--suites-dir',
         'agent-suites',
-        ...liveBase,
+        ...directBase,
         '--compare-pairs',
         `${DIAGNOSE_OUTCOMES_SUITE}:${placeholderPath}`,
         '--compare-out',
@@ -321,7 +321,7 @@ async function runSingleParity(
         [
           '--suites-dir',
           transferMat.suitesDirArg,
-          ...liveBase,
+          ...directBase,
           '--compare-pairs',
           `${reportPaths.suiteReports.outcomes}:${DIAGNOSE_TRANSFER_SUITE}`,
           '--compare-out',
@@ -358,7 +358,7 @@ async function runSingleParity(
           [
             '--suites-dir',
             promptMat.suitesDirArg,
-            ...liveBase,
+            ...directBase,
             '--compare-pairs',
             `${reportPaths.suiteReports.outcomes}:${DIAGNOSE_PROMPT_SUITE}`,
             '--compare-out',
@@ -388,7 +388,7 @@ async function runSingleParity(
         syncSkills()
         run(
           'organization-ablations',
-          ['--suites-dir', 'agent-suites', ...liveBase, '--suite', 'organization-ablations'],
+          ['--suites-dir', 'agent-suites', ...directBase, '--suite', 'organization-ablations'],
           { allowFail: true },
         )
         const ablationSession = await newestSessionAfter(sessionsParent, knownSessions)
@@ -417,7 +417,7 @@ async function runSingleParity(
       compareOnly: true,
       debugParent,
     })
-    run('agent-test compare (replay)', [
+    run('agent-test compare (offline reports)', [
       '--suites-dir',
       'agent-suites',
       'compare',
@@ -553,7 +553,7 @@ Flags:
   --ablations       also run organization-ablations
   --no-propose      skip evolution-note autofill
   --repeats N       run parity cadence N times (default 1)
-  --compare-only    re-render compare from prior suite-report JSON (no live runs)
+  --compare-only    re-render compare from prior suite-report JSON (no agent runs)
   --debug-dir PATH  staging parent (default: $TMPDIR/toolbox-diagnose-evidence-<ts>)`)
     process.exit(0)
   }

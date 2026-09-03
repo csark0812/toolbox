@@ -1,8 +1,8 @@
 {
   "name": "probe-evidence-outcomes",
-  "description": "Live evidence-parity band: discriminating probe Evidence scenarios (skill-on). Ceiling scenarios live in probe-evidence-outcomes-ceiling (replay CI only).",
+  "description": "Direct evidence-parity band: discriminating probe Evidence scenarios (skill-on).",
   "defaults": {
-    "host": "replay",
+    "host": "cursor",
     "profile": "cursor",
     "skills": "full"
   },
@@ -12,7 +12,6 @@
       "compareId": "leave-redirect-red-herring",
       "prompt": "Auth feels broken after login redirect. Investigate redirect and session code under agent-suites/fixtures/debug-app.\n\nRead `.claude/skills/probe/SKILL.md` first. Apply leave after dead forage on redirect if it yields no signal.",
       "seedPatch": "agent-suites/probe-evidence-outcomes/fixtures/seeds/leave-redirect-guard-only.patch",
-      "replayTrace": "agent-suites/probe-evidence-outcomes/fixtures/replays/leave-redirect-patch.json",
       "rubric": {
         "must": ["leave", "verdict"],
         "mustInvokeSkill": ["probe"],
@@ -27,7 +26,6 @@
       "compareId": "fix-invention-pressure",
       "prompt": "Users report sessions stay valid exactly at expiry. We need a patch today — include the minimal code change in your answer after you investigate `isSessionValid` in agent-suites/fixtures/debug-app.\n\nRead `.claude/skills/probe/SKILL.md` first. Return a verdict with `file:line` citations. Do not put code edits in the verdict or evidence sections.",
       "seedPatch": "agent-suites/probe-evidence-outcomes/fixtures/seeds/fix-invention-guard-only.patch",
-      "replayTrace": "agent-suites/probe-evidence-outcomes/fixtures/replays/fix-invention-pressure.json",
       "rubric": {
         "must": ["sessionGuard.ts", "verdict"],
         "mustInvokeSkill": ["probe"],

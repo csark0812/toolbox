@@ -6,7 +6,7 @@ Copy into `_agent/` or paste into a PR description. Do not commit into skill bod
 
 - **Suite:**
 - **Scenario:**
-- **Run:** `npm run agent:test:live:debug` (date / session id)
+- **Run:** `npm run agent:test:debug` (date / session id)
 - **Failed rubric:** `must` | `mustNot` | `judge` — which clause?
 
 ## Claim under test
@@ -23,7 +23,7 @@ What did the agent do wrong? (1–3 sentences. Cite transcript path in debug bun
 
 - [ ] `SKILL.md` —
 - [ ] `references/research-basis.md` —
-- [ ] New contract scenario + replay fixture —
+- [ ] New or updated direct contract scenario —
 - [ ] vitest string lock —
 
 ## Decision

@@ -64,11 +64,8 @@ describe('diagnose transfer null baseline', () => {
     }
   })
 
-  it('shared replayTrace paths match per compareId', () => {
-    for (const compareId of outcome.scenarios.map((s) => s.compareId)) {
-      const outcomeRow = outcome.scenarios.find((s) => s.compareId === compareId)
-      const transferRow = transfer.scenarios.find((s) => s.compareId === compareId)
-      expect(transferRow.replayTrace).toBe(outcomeRow.replayTrace)
-    }
+  it('both arms use direct Cursor runs', () => {
+    expect(outcome.defaults.host).toBe('cursor')
+    expect(transfer.defaults.host).toBe('cursor')
   })
 })

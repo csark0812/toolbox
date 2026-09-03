@@ -2,7 +2,7 @@
 /**
  * Rebuild probe-fix null-arm hygiene seed under `_agent/` (gitignored).
  *
- * Live worktrees are detached at HEAD and do **not** include `_agent/`, so
+ * Direct-run worktrees are detached at HEAD and do **not** include `_agent/`, so
  * agents cannot forage the answer-bearing patch.
  *
  * Run automatically by `npm run agent:test:probe-fix-evidence-parity`.
@@ -26,7 +26,6 @@ const pathArgs = [
   'agent-suites/probe-fix-outcomes/**',
   'agent-suites/probe-fix-transfer/**',
   'agent-suites/probe-fix-prompt/**',
-  'agent-suites/probe-fix-outcomes-ceiling/**',
   'docs/evidence-parity.md',
   'tests/diagnose-transfer-prompts.test.js',
   'tests/diagnose-prompt-baseline.test.js',

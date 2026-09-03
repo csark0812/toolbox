@@ -1,7 +1,7 @@
 /**
- * Park probe Evidence-band answer keys off the open (caller) tree during null-arm live runs.
+ * Park probe Evidence-band answer keys off the open caller tree during null-arm direct runs.
  *
- * Live Cursor Shell often targets the IDE-open root — worktree-only deletes do not
+ * Cursor Shell can target the IDE-open root, so worktree-only deletes do not
  * stop forage. Guard-only debug-app seeds are re-materialized under `_agent/` for
  * the harness; answer-bearing hygiene patches stay out of the agent-visible tree.
  */
@@ -19,10 +19,8 @@ export const INVESTIGATE_CALLER_PARK_PATHS = [
   'probe',
   'agent-suites/probe-evidence',
   'agent-suites/probe-evidence-outcomes',
-  'agent-suites/probe-evidence-outcomes-ceiling',
   'agent-suites/probe-evidence-transfer',
   'agent-suites/probe-evidence-prompt',
-  'agent-suites/probe-evidence-transfer-ceiling',
   'docs/evidence-parity.md',
   '_agent/probe-evidence-null-arm-hygiene.patch',
   'tests/investigate-transfer-prompts.test.js',

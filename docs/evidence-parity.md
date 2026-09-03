@@ -1,7 +1,7 @@
 # Evidence parity (agent-test)
 
 <!-- source-of-truth: running skill-on vs skill-off outcome comparisons and interpreting transfer tables. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-02 -->
 
 Measure whether toolbox skills improve settlement under transfer. Do this without autonomous skill mutation.
 
@@ -9,11 +9,11 @@ Measure whether toolbox skills improve settlement under transfer. Do this withou
 
 Do not score “investigate quality” as one number. Split claims:
 
-| ID  | Claim                                                                            | Keep/remove gate                                                           |
-| --- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| C1  | Fix-invention verdict gate — cited verdict without patch/diff under fix pressure | **Primary** — only C1 can earn Keep-narrow                                 |
-| C2  | Leave / red-herring — abandon dead patch, settle elsewhere                       | Secondary corroboration only                                               |
-| C3  | General transfer — ceiling scenarios that pass both arms                         | **Out of scope** for keep/remove (`investigate-*-ceiling`, replay CI only) |
+| ID  | Claim                                                                            | Keep/remove gate                           |
+| --- | -------------------------------------------------------------------------------- | ------------------------------------------ |
+| C1  | Fix-invention verdict gate — cited verdict without patch/diff under fix pressure | **Primary** — only C1 can earn Keep-narrow |
+| C2  | Leave / red-herring — abandon dead patch, settle elsewhere                       | Secondary corroboration only               |
+| C3  | General transfer — scenarios that pass both arms                                 | Retired with the removed ceiling suites    |
 
 **Bar to stay first-class:** After fixture hygiene (guard-only seeds), run N≥3 same-model repeats. `full` must majority-beat `none` on C1 settlement **and** correct locus (`sessionGuard.ts`). `full` must also beat the **prompt** baseline (skill file ≠ pasted rules).
 
@@ -28,11 +28,11 @@ Do not score “investigate quality” as one number. Split claims:
 
 Do not score “diagnose quality” as one number. Split claims:
 
-| ID  | Claim                                                                                        | Keep/remove gate                                             |
-| --- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| D1  | No-repro gate — without a failing signal, agent refuses to hypothesize (repro / investigate) | **Primary** — only D1 can earn Keep-narrow                   |
-| D2  | Loop before cause — names/runs a red test command before stating cause or editing production | Secondary corroboration                                      |
-| D3  | Tight loop construction — loop is red-capable, deterministic, fast (seconds) on debug-app    | Secondary / ceiling candidate (`probe-fix-outcomes-ceiling`) |
+| ID  | Claim                                                                                        | Keep/remove gate                           |
+| --- | -------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| D1  | No-repro gate — without a failing signal, agent refuses to hypothesize (repro / investigate) | **Primary** — only D1 can earn Keep-narrow |
+| D2  | Loop before cause — names/runs a red test command before stating cause or editing production | Secondary corroboration                    |
+| D3  | Tight loop construction — loop is red-capable, deterministic, fast (seconds) on debug-app    | Retired with the removed ceiling suite     |
 
 **Bar to stay first-class:** Run N≥3 same-model repeats. `full` must majority-beat `none` on D1 **and** `full` must beat the **prompt** baseline (skill file ≠ pasted rules).
 
@@ -56,9 +56,9 @@ npm run agent:test:evidence-parity
 
 **One command** runs the discriminating cadence: `agent-test --compare-pairs probe-evidence-outcomes:probe-evidence-transfer` → `probe-evidence-prompt` (prompt baseline) → optional `probe-fix-outcomes` + `organization-ablations` → evolution-note proposals for failures. Writes `_agent/evidence-runs/<id>/manifest.json` and compare HTML/MD/JSON under `_agent/eval-reports/<id>/`. Exits non-zero when any scenario fails (for triage, not CI by default).
 
-Scenarios that pass on both arms (ceiling) live in `probe-evidence-outcomes-ceiling` / `probe-evidence-transfer-ceiling`. They are for replay CI only. They are not part of this command.
+Ceiling-only suites were removed. Evidence parity contains only intentional direct agent comparisons.
 
-**Not in CI:** `npm run check` / `npm test` runs replay contract suites only. Evidence-parity is a **manual** cadence (`CURSOR_API_KEY`, live judges). Do not wire `agent:test:evidence-parity` into `.github/workflows` unless you explicitly want live spend on every PR.
+**Not in CI:** `npm run check` and `npm test` run offline repository validation only. Evidence parity is a **manual** credentialed cadence with real agents and judges. It can incur provider usage. Do not wire it into `.github/workflows` unless you explicitly want that usage on every PR.
 
 ```bash
 # Faster: investigate transfer only, no diagnose/ablations (forage-safe park between arms)
@@ -70,7 +70,7 @@ npm run agent:test:evidence-parity -- --no-prompt
 # N≥3 repeats (same model; writes batch manifest under _agent/evidence-runs/)
 npm run agent:test:evidence-parity -- --no-diagnose --no-ablations --repeats 3
 
-# Re-render compare from prior suite-report JSON (no live spend)
+# Re-render compare from prior suite-report JSON (no provider usage)
 npm run agent:test:evidence-parity -- --compare-only
 
 # Diagnose parity (independent cadence; no investigate suites; ablations off by default)
@@ -83,9 +83,9 @@ npm run agent:test:diagnose-evidence-parity -- --no-prompt
 npm run agent:test:diagnose-evidence-parity -- --repeats 3
 ```
 
-Outcome and ablation suites must **not** set `"skip": true` (that skips live too). Only [`github-ambient-refs`](../agent-suites/github-ambient-refs/) uses `skip` for replay CI.
+Suites must not use `skip: true` as a credential-free fallback because it also skips direct execution. Use `--validate-only` for offline configuration checks.
 
-If every scenario reports **skipped** under `--live` with a valid `CURSOR_API_KEY`, check subprocess env (key not exported to isolated children). Then run `--doctor`. File upstream on `agent-spec` with the session id. Do not paper over with JSON noise.
+If a direct run cannot start with valid credentials, check that the key is exported to isolated child processes. Then run `--doctor`. File upstream on `agent-spec` with the session id. Do not paper over the failure with JSON noise.
 
 ## Cadence
 
@@ -99,10 +99,10 @@ npm run agent:test:evidence-parity
 
 **Manual steps** (same pipeline the orchestrator runs):
 
-1. **Evidence parity (compare-pairs)** — one live invocation runs both arms and writes compare artifacts:
+1. **Evidence parity (compare-pairs)** — one direct invocation runs both arms and writes compare artifacts:
 
    ```bash
-   npm run sync:claude-skills && agent-test --suites-dir agent-suites --live --debug \
+   npm run sync:claude-skills && agent-test --suites-dir agent-suites --debug \
      --compare-pairs probe-evidence-outcomes:probe-evidence-transfer \
      --compare-out "_agent/eval-reports/$(date -u +%Y-%m-%dT%H-%M-%S)"
    ```
@@ -119,24 +119,24 @@ Transfer-arm failures on C1 (full pass, none fail) are **expected discriminating
 
 ### Fixture hygiene (discriminating band)
 
-The shared `debug-app` fixture plants **two** session bugs (`sessionGuard.ts` `>=`, `sessionCookie.ts` ms→s) for ceiling / diagnose scenarios. The **discriminating** band applies per-scenario seeds so only the guard bug remains:
+The shared `debug-app` fixture plants **two** session bugs (`sessionGuard.ts` `>=`, `sessionCookie.ts` ms→s). The **discriminating** band applies per-scenario seeds so only the guard bug remains:
 
 - `fix-invention-guard-only.patch` — C1 symptom (“valid exactly at expiry”)
 - `leave-redirect-guard-only.patch` — redirect comment + guard-only cookie path
 
-Dual-bug `debug-app` stays for `investigate-*-ceiling` and diagnose ceiling / D2.
+The dual-bug `debug-app` stays for diagnose D2.
 
 ### Fixture hygiene (investigate null-arm)
 
 - **Outcomes:** Guard-only seeds with answer keys present (skill + suite judges).
 - **Null-arm answer-key hygiene:** Same class as diagnose. Outcomes run first. Then answer-key bytes live only in the orchestrator process (no `$TMPDIR` plaintext park). Deletions are committed on a detached HEAD with `main` / `origin/main` retargeted so `git show` cannot recover keys. Refs + bytes restore afterward. Null-arm suite JSON under `_agent/null-arm-suites/` strips `judge` and uses **guard-only** seeds under `_agent/probe-evidence-fixture-seeds/` (bug plant only — no answer-bearing hygiene patch in the agent-visible tree). Scenario display names stay opaque (`session hunch A/B`). Keep `compareId` stable.
-- Tracked transfer/prompt `seedPatch` points at `_agent/probe-evidence-null-arm-hygiene.patch` (regenerated, gitignored) for offline worktree checks. Live `agent:test:evidence-parity` does **not** apply that patch after park-commit.
+- Tracked transfer/prompt `seedPatch` points at `_agent/probe-evidence-null-arm-hygiene.patch` (regenerated, gitignored) for source-level checks. Direct `agent:test:evidence-parity` does **not** apply that patch after park-commit.
 
 ### Fixture hygiene (diagnose)
 
 - **D1 (no-repro):** No production seed. The agent must not touch code. The judge checks refusal, not locus file.
 - **D2 (loop-before-cause):** Dual-bug `debug-app` is OK if the judge checks **ordering** (test before fix), not which bug file the agent names. Optional later: a guard-only seed if cookie forage confounds D2.
-- **D3 (tight loop):** Lives in `probe-fix-outcomes-ceiling` (replay CI only). It likely passes both arms once the model runs tests.
+- **D3 (tight loop):** Retired with the ceiling suite. D1 and D2 remain the intentional direct comparison band.
 - **Null-arm answer-key hygiene:** Outcomes run with keys present. Then answer-key bytes live only in the orchestrator process (no `$TMPDIR` plaintext park). Deletions are committed on a detached HEAD with `main` / `origin/main` retargeted so `git show` cannot recover keys. Refs + bytes restore afterward. Restore must not `checkout -f` — that wipes unrelated working-tree edits. Null-arm suite JSON under `_agent/null-arm-suites/` omits `seedPatch` / `judge` / `mustNotReadPath` (path hints teach forage attempts). Skill-body cribs go in `mustNot` instead. `mustNotReadPath` in source scenarios still applies via agent-test only on **successful** Reads with content (miss attempts do not fail). Scenario display names stay opaque (`session hunch A/B`). Keep `compareId` stable.
 
 ### Metrics beyond judge pass rate
@@ -159,18 +159,15 @@ Dual-bug `debug-app` stays for `investigate-*-ceiling` and diagnose ceiling / D2
 
 ## Suites
 
-| Suite                             | `skills` | Purpose                                   |
-| --------------------------------- | -------- | ----------------------------------------- |
-| `probe-evidence-outcomes`         | `full`   | Skill-on settlement (discriminating band) |
-| `probe-evidence-transfer`         | `none`   | Hunch-only null baseline (discriminating) |
-| `probe-evidence-prompt`           | `none`   | Prompt-instructed verdict-gate baseline   |
-| `probe-evidence-outcomes-ceiling` | `full`   | Replay CI only — ceiling scenarios        |
-| `probe-evidence-transfer-ceiling` | `none`   | Replay CI only — ceiling scenarios        |
-| `probe-fix-outcomes`              | `full`   | Skill-on discriminating band (D1/D2)      |
-| `probe-fix-transfer`              | `none`   | Hunch-only null baseline (discriminating) |
-| `probe-fix-prompt`                | `none`   | Prompt-instructed entry-gate baseline     |
-| `probe-fix-outcomes-ceiling`      | `full`   | Replay CI only — ceiling (D3)             |
-| `organization-ablations`          | `full`   | Primary vs council vs fit-check           |
+| Suite                     | `skills` | Purpose                                   |
+| ------------------------- | -------- | ----------------------------------------- |
+| `probe-evidence-outcomes` | `full`   | Skill-on settlement (discriminating band) |
+| `probe-evidence-transfer` | `none`   | Hunch-only null baseline (discriminating) |
+| `probe-evidence-prompt`   | `none`   | Prompt-instructed verdict-gate baseline   |
+| `probe-fix-outcomes`      | `full`   | Skill-on discriminating band (D1/D2)      |
+| `probe-fix-transfer`      | `none`   | Hunch-only null baseline (discriminating) |
+| `probe-fix-prompt`        | `none`   | Prompt-instructed entry-gate baseline     |
+| `organization-ablations`  | `full`   | Primary vs council vs fit-check           |
 
 Diagnose compare artifacts land under `_agent/eval-reports/diagnose-<id>/` with `probe-fix-outcomes.suite-report.json` / `probe-fix-transfer.suite-report.json` / `probe-fix-prompt.suite-report.json`. Manifests under `_agent/evidence-runs/diagnose-<id>/manifest.json` record the D1 pass matrix (`full` vs `none` vs `prompt`).
 
