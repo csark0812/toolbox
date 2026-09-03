@@ -1,19 +1,19 @@
 # Skill organization ablations
 
-<!-- source-of-truth: interpreting live ablation runs that compare skill organization arms. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- source-of-truth: interpreting direct ablation runs that compare skill organization arms. -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-02 -->
 
 Inspired by SkillJuror-style questions: does how skills are **organized** (routing, escalation, fit-check) change runtime behavior?
 
 ## Suite
 
-`agent-suites/organization-ablations/` — live outcome band with stub replay traces for CI (no `skip` — that disables live too).
+`agent-suites/organization-ablations/` — direct outcome band for comparing organization choices with real agent runs.
 
 ```bash
 npm run agent:test:ablations
 ```
 
-Requires `CURSOR_API_KEY`. Compare runs under the **same model** and similar token budget.
+Requires `CURSOR_API_KEY` and can incur provider usage. Compare runs under the **same model** and similar token budget.
 
 ## Arms
 
@@ -29,7 +29,7 @@ Requires `CURSOR_API_KEY`. Compare runs under the **same model** and similar tok
 - **Council arm** must pass only when escalation criteria or an explicit user ask applies. It must not pass on every large diff.
 - **Fit-check skip** must beat forced parallel spawn on single coherent repo slices.
 
-If an arm fails live on a consistent basis while the other passes, open a skill patch via [skill-evolution.md](skill-evolution.md). Do not reorganize skills from one run.
+If an arm fails consistently while the other passes, open a skill patch via [skill-evolution.md](skill-evolution.md). Do not reorganize skills from one run.
 
 See [evidence-parity.md](evidence-parity.md) for the full skill-on vs skill-off cadence and compare-report workflow.
 

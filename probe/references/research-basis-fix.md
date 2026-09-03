@@ -1,7 +1,7 @@
 # Diagnose research basis
 
 <!-- source-of-truth: evidence and limits behind tight-loop diagnosis. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-02 -->
 
 Read when calibrating loop-first gates or making a research claim. Not for every debug session.
 
@@ -23,17 +23,17 @@ No on-demand red signal → no hypotheses. The tight loop must be red-capable, d
 
 ## Evidence parity
 
-Live skill-on vs skill-off transfer for diagnose is measured with `npm run agent:test:diagnose-evidence-parity` (manual cadence). See [evidence-parity.md](https://raw.githubusercontent.com/csark0812/toolbox/main/docs/evidence-parity.md).
+Direct skill-on versus skill-off transfer for diagnose uses `npm run agent:test:diagnose-evidence-parity` (manual cadence). See [evidence-parity.md](https://raw.githubusercontent.com/csark0812/toolbox/main/docs/evidence-parity.md).
 
 | ID  | Claim                                               |
 | --- | --------------------------------------------------- |
 | D1  | No-repro gate — refuse hypotheses without a signal  |
 | D2  | Loop before cause — red test before production edit |
-| D3  | Tight loop construction (ceiling band)              |
+| D3  | Tight loop construction (retired ceiling band)      |
 
 **Confidence:** TBD until N≥3 same-model repeats meet all of these. `full` majority-beats `none` on D1. `full` beats the prompt baseline. Transfer fails classify as invent (not forage-only). Batch `decisionHint` is `invest-more-hygiene` until forensics are clean.
 
-**Does not transfer:** Placeholder until live parity data exists — do not claim skill lift from contract replay alone.
+**Does not transfer:** Placeholder until repeated direct parity data exists. Do not claim skill lift from contract scenarios alone.
 
 ## Handoff to TDD
 

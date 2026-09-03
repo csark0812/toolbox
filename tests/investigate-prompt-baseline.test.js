@@ -55,15 +55,15 @@ describe('investigate prompt baseline', () => {
     expect(fix.prompt).toMatch(/Do not put code edits/i)
   })
 
-  it('prompt and transfer share hygiene seed and replayTrace with outcomes', () => {
+  it('prompt and transfer share the hygiene seed and use direct Cursor runs', () => {
+    expect(outcome.defaults.host).toBe('cursor')
+    expect(prompt.defaults.host).toBe('cursor')
+    expect(transfer.defaults.host).toBe('cursor')
     for (const compareId of outcome.scenarios.map((s) => s.compareId)) {
-      const outcomeRow = outcome.scenarios.find((s) => s.compareId === compareId)
       const promptRow = prompt.scenarios.find((s) => s.compareId === compareId)
       const transferRow = transfer.scenarios.find((s) => s.compareId === compareId)
       expect(promptRow.seedPatch).toBe(HYGIENE_SEED)
       expect(transferRow.seedPatch).toBe(HYGIENE_SEED)
-      expect(promptRow.replayTrace).toBe(outcomeRow.replayTrace)
-      expect(transferRow.replayTrace).toBe(outcomeRow.replayTrace)
       expect(promptRow.rubric.mustNotReadPath?.length ?? 0).toBeGreaterThan(0)
     }
   })

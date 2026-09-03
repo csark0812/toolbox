@@ -2,7 +2,7 @@
   "name": "council",
   "description": "Portable council conformance: task personas, useful interaction choice, independent first views, real members, and single-pass fit",
   "defaults": {
-    "host": "replay",
+    "host": "cursor",
     "profile": "cursor",
     "skills": "full"
   },
@@ -10,7 +10,6 @@
     {
       "name": "independent panel: persona preview and safe proof",
       "prompt": "Use council on the plan at docs/plans/auth.plan.md for a multi-perspective readiness review. Create task personas, show the plain-English preview, run independent first views, and settle a narrow conflict with a safe read when possible.",
-      "replayTrace": "agent-suites/council/fixtures/replays/independent-panel.json",
       "rubric": {
         "must": [
           "Council preview",
@@ -39,7 +38,6 @@
     {
       "name": "structured challenge: independent attack and defense",
       "prompt": "Use council to stress-test the rollout proposal at docs/plans/auth.plan.md. Choose the interaction pattern that fits one proposal with meaningful attack and defense.",
-      "replayTrace": "agent-suites/council/fixtures/replays/structured-challenge.json",
       "rubric": {
         "must": [
           "Structured challenge",
@@ -58,7 +56,6 @@
     {
       "name": "competing proposals: compare complete alternatives",
       "prompt": "Use council to compare two complete session-storage proposals against the same reliability and maintenance criteria.",
-      "replayTrace": "agent-suites/council/fixtures/replays/competing-proposals.json",
       "rubric": {
         "must": [
           "Competing proposals",
@@ -77,7 +74,6 @@
     {
       "name": "nominal ideation: generate before evaluation",
       "prompt": "Use council to generate and prioritize ways to reduce onboarding abandonment without early group influence.",
-      "replayTrace": "agent-suites/council/fixtures/replays/nominal-ideation.json",
       "rubric": {
         "must": [
           "Nominal ideation",
@@ -96,7 +92,6 @@
     {
       "name": "delphi revision: controlled estimate update",
       "prompt": "Use council to estimate a migration timeline under uncertain operational constraints and preserve meaningful dissent.",
-      "replayTrace": "agent-suites/council/fixtures/replays/delphi-revision.json",
       "rubric": {
         "must": [
           "Delphi revision",
@@ -116,7 +111,6 @@
     {
       "name": "socratic seminar: clarify premises",
       "prompt": "Use council to clarify what ready to launch means in a draft that mixes reliability, usability, and support assumptions.",
-      "replayTrace": "agent-suites/council/fixtures/replays/socratic-seminar.json",
       "rubric": {
         "must": [
           "Socratic seminar",
@@ -134,7 +128,6 @@
     {
       "name": "fit check: use one pass",
       "prompt": "Map how auth works in agent-suites/fixtures/sample-app. Use council only if two distinct task personas can change the answer.",
-      "replayTrace": "agent-suites/council/fixtures/replays/fit-check-skip.json",
       "rubric": {
         "must": ["fewer than two", "single pass"],
         "mustInvokeSkill": ["council"],

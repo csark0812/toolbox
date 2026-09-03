@@ -45,7 +45,7 @@ Treat skills as adjacent, independently complete roles. Descriptions route by us
 | Hub docs (`README.md`, `docs/**`) | `npm run validate:changed -- <path>`                                        |
 | Ambient shared refs               | Edit `references/`. Skill bodies already point at raw GitHub URLs on `main` |
 | Skill bodies / unsure             | `npm run check` (or `npm test` / `audit:skills` + `validate:ci`)            |
-| Agent suite scenarios             | `npm run agent:test` (replay)                                               |
+| Agent suite scenarios             | `agent-test --validate-only --validate-paths --suites-dir agent-suites`     |
 | Style (md/yaml)                   | `npm run lint` + `npm run format:check`                                     |
 | Shared `src/` TypeScript          | `npm run typecheck`                                                         |
 
@@ -53,7 +53,7 @@ Path-scoped `validate:changed` on skill-only paths exits non-zero and redirects 
 
 `npm test` = unit fixtures + `audit:hub` + `audit:skills` + `validate:ci`. `npm run check` / `npm start` also runs format, lint, typecheck, and `npm audit --omit=dev` (CI + First hour). Optional deeper pass: `npm run audit:self` (docs + skills — SSOT-bearing files need `<!-- source-of-truth: … -->` + doc-meta). Skill-path redirect needs `@csark0812/skeleton` ≥ 2.0.0.
 
-`npm run agent:test` runs replay-based portable conformance suites for public toolbox skills. `npm run agent:test:live` uses Cursor SDK dogfood in isolated worktrees and requires `CURSOR_API_KEY`. `npm run agent:test:live:debug` adds verbose failures and keeps staging under `$TMPDIR/agent-spec` by default (see `agent-suites/README.md`). Keep consumer and product-specific suites (for example PostPrint app paths, private docs, and repo validation commands) in the consumer repo.
+`npm run agent:test` launches Cursor for every portable conformance scenario in an isolated worktree. It requires `CURSOR_API_KEY` and can incur provider usage. Use `--host claude` with `ANTHROPIC_API_KEY` for Claude. `npm run agent:test:debug` adds verbose failures and keeps staging under `$TMPDIR/agent-spec` by default. Offline `--validate-only`, seed validation, and report comparison do not launch agents. See `agent-suites/README.md`.
 
 ## Install destinations
 

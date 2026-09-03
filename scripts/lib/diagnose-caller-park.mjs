@@ -1,5 +1,5 @@
 /**
- * Park probe Fix-band answer keys off the open (caller) tree during null-arm live runs.
+ * Park probe Fix-band answer keys off the open caller tree during null-arm direct runs.
  *
  * Thin wrapper over shared caller-park with probe-fix path list.
  *
@@ -28,7 +28,6 @@ export const DIAGNOSE_CALLER_PARK_PATHS = [
   'probe',
   'agent-suites/probe-fix',
   'agent-suites/probe-fix-outcomes',
-  'agent-suites/probe-fix-outcomes-ceiling',
   'agent-suites/probe-fix-transfer',
   'agent-suites/probe-fix-prompt',
   'docs/evidence-parity.md',

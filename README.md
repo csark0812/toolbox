@@ -122,19 +122,19 @@ pre-commit install          # runs npm test on commit
 
 ### Agent suites
 
-Portable agent conformance lives under [`agent-suites/`](agent-suites/). Suites prove **portable process contracts**, not consumer product workflows. Replay mode is credential-free:
+Portable agent conformance lives under [`agent-suites/`](agent-suites/). Suites prove **portable process contracts**, not consumer product workflows. Every execution launches Cursor or Claude and can incur provider usage. Export `CURSOR_API_KEY` for the default Cursor host, or `ANTHROPIC_API_KEY` for `--host claude`.
 
 ```bash
 npm run agent:test
 ```
 
-Live dogfood uses the installed `@cursor/sdk` in isolated worktrees. Copy `.env.example` to `.env`, set `CURSOR_API_KEY`, then run:
+Use the debug command to keep staging traces and write failure bundles:
 
 ```bash
-npm run agent:test:live
+npm run agent:test:debug
 ```
 
-For verbose failures and kept staging traces, use `npm run agent:test:live:debug`. Debug output defaults to `$TMPDIR/agent-spec` (outside the repo). Avoid `--debug-dir ./…` inside the repo unless you want artifacts in the working tree — `@post-print/agent-test` ≥ 0.1.18 excludes harness staging from worktree leak checks, but `$TMPDIR` keeps `git status` clean. See [`agent-suites/README.md`](agent-suites/README.md).
+Debug output defaults to `$TMPDIR/agent-spec` (outside the repo). Avoid `--debug-dir ./…` inside the repo unless you want artifacts in the working tree. `$TMPDIR` keeps `git status` clean. Offline suite validation and report comparison do not launch agents. See [`agent-suites/README.md`](agent-suites/README.md).
 
 Toolbox owns portable process-contract behavior (`code-review`, `grill`, …). Consumer repos keep product-specific integration suites that mention local app paths, private docs, custom validation commands, or repo-specific overlays.
 

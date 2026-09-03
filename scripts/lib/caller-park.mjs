@@ -1,7 +1,7 @@
 /**
- * Generic answer-key park for null-arm live runs.
+ * Generic answer-key park for null-arm direct runs.
  *
- * Live Cursor agents often Shell against the IDE-open repo root, not the seeded
+ * Cursor agents can use Shell against the IDE-open repo root, not the seeded
  * scenario worktree. Store parked file bytes in process memory (no $TMPDIR
  * plaintext), delete from the tree, then commit those deletions on a detached
  * HEAD and temporarily retarget main / origin/main so `git show` cannot recover

@@ -1,7 +1,7 @@
 # GitHub ambient refs — validation results
 
 <!-- source-of-truth: whether toolbox can use remote GitHub URLs as ambient skill reference SSOT. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-02 -->
 
 ## Gate (from plan)
 
@@ -18,11 +18,10 @@ Ship link migration only if **T1 + T2** pass on a supported host. **T2 hard-fail
 | T2       | Agent follows URL in prompt        | **PASS**            | Live Cursor SDK (`2026-07-15`): suite scenario quoted remote `dialogue-contract` markers + `REMOTE_AMBIENT_OK` |
 | T2-skill | Agent follows URL in fixture skill | **PASS**            | Live Cursor SDK (`2026-07-15`): followed fixture `SKILL.md` GitHub URL                                         |
 
-Replay scenarios under `agent-suites/github-ambient-refs` stay `skip: true` (replay cannot prove network fetch). Each scenario needs a `replayTrace` path so isolated live runs can stage traces for the parent judge. Re-run live:
+The `agent-suites/github-ambient-refs` scenarios run directly because only a real agent can prove network fetch. Re-run them with kept diagnostic traces:
 
 ```bash
-# Set skip: false on the scenario(s), then:
-npm run agent:test:live -- --suite github-ambient-refs --keep-recordings
+npm run agent:test -- --suite github-ambient-refs --keep-recordings
 ```
 
 ## Manual checklist
@@ -32,7 +31,7 @@ npm run agent:test:live -- --suite github-ambient-refs --keep-recordings
 | T3  | Project `skills add` + GitHub links   | Pending consumer dogfood | No local ambient copies under skill `references/`      |
 | T4  | Global `-g` install, no toolbox clone | Pending                  | Same ambient URLs. Network required                    |
 | T5  | Offline / no network                  | **known limitation**     | Remote SSOT requires network                           |
-| T7  | Replay suite                          | **N/A**                  | Cannot validate fetch via replay                       |
+| T7  | Direct agent suite                    | **PASS**                 | Required because offline validation cannot prove fetch |
 | T8  | Customize coexistence                 | Pending                  | Local customize / alwaysInclude must win when injected |
 
 ## URL shape (shipped)

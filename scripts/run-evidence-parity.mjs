@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
  * Investigate evidence-parity cadence:
- *   sync skills → live probe-evidence-outcomes
+ *   sync skills → direct probe-evidence-outcomes
  *   → park answer keys on open tree → materialize null suites
- *   → live probe-evidence-transfer (+ prompt) → restore → offline compare → propose notes
+ *   → direct probe-evidence-transfer (+ prompt) → restore → offline compare → propose notes
  *
- * Caller park is required: live Cursor Shell often targets the IDE-open root,
+ * Caller park is required: Cursor Shell can target the IDE-open root,
  * not the seeded worktree — worktree-only deletes do not stop forage.
  * After park-commit, null arms get guard-only debug-app seeds only (no
  * answer-bearing hygiene patch in the agent-visible tree).
@@ -23,7 +23,7 @@
  *   --no-propose      skip evolution-note autofill
  *   --no-prompt       skip probe-evidence-prompt baseline arm
  *   --repeats N       run parity cadence N times (default 1); writes batch manifest
- *   --compare-only    re-render compare from prior suite-report JSON (no live runs)
+ *   --compare-only    re-render compare from prior suite-report JSON (no agent runs)
  */
 import { spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
@@ -150,7 +150,7 @@ function materializeGuardOnlySeeds(parkedFiles) {
   return byCompareId
 }
 
-/** Minimal B-side so compare-pairs can dump outcomes.suite-report without a second live suite. */
+/** Minimal B-side so compare-pairs can dump outcomes.suite-report without a second direct suite. */
 async function writePlaceholderNullReport(path) {
   const report = {
     suite: 'placeholder-null',
@@ -263,7 +263,7 @@ async function runSingleParity(
   if (!args.compareOnly) {
     syncSkills()
 
-    const liveBase = ['--live', '--debug', '--debug-dir', debugParent, ...args.agentArgs]
+    const directBase = ['--debug', '--debug-dir', debugParent, ...args.agentArgs]
 
     const placeholderPath = join(runReportDir, '_placeholder-null.suite-report.json')
     await writePlaceholderNullReport(placeholderPath)
@@ -275,7 +275,7 @@ async function runSingleParity(
       [
         '--suites-dir',
         'agent-suites',
-        ...liveBase,
+        ...directBase,
         '--compare-pairs',
         `${OUTCOMES_SUITE}:${placeholderPath}`,
         '--compare-out',
@@ -345,7 +345,7 @@ async function runSingleParity(
         [
           '--suites-dir',
           transferMat.suitesDirArg,
-          ...liveBase,
+          ...directBase,
           '--compare-pairs',
           `${reportPaths.suiteReports.outcomes}:${TRANSFER_SUITE}`,
           '--compare-out',
@@ -378,7 +378,7 @@ async function runSingleParity(
           [
             '--suites-dir',
             promptMat.suitesDirArg,
-            ...liveBase,
+            ...directBase,
             '--compare-pairs',
             `${reportPaths.suiteReports.outcomes}:${PROMPT_SUITE}`,
             '--compare-out',
@@ -410,7 +410,7 @@ async function runSingleParity(
         if (args.diagnose) {
           run(
             'probe-fix-outcomes (skills: full)',
-            ['--suites-dir', 'agent-suites', ...liveBase, '--suite', 'probe-fix-outcomes'],
+            ['--suites-dir', 'agent-suites', ...directBase, '--suite', 'probe-fix-outcomes'],
             { allowFail: true },
           )
           const diagnoseSession = await newestSessionAfter(sessionsParent, knownSessions)
@@ -423,7 +423,7 @@ async function runSingleParity(
         if (args.ablations) {
           run(
             'organization-ablations',
-            ['--suites-dir', 'agent-suites', ...liveBase, '--suite', 'organization-ablations'],
+            ['--suites-dir', 'agent-suites', ...directBase, '--suite', 'organization-ablations'],
             { allowFail: true },
           )
           const ablationSession = await newestSessionAfter(sessionsParent, knownSessions)
@@ -453,7 +453,7 @@ async function runSingleParity(
       compareOnly: true,
       debugParent,
     })
-    run('agent-test compare (replay)', [
+    run('agent-test compare (offline reports)', [
       '--suites-dir',
       'agent-suites',
       'compare',
@@ -611,7 +611,7 @@ Flags:
   --no-propose      skip evolution-note autofill
   --no-prompt       skip probe-evidence-prompt baseline arm
   --repeats N       run parity cadence N times (default 1)
-  --compare-only    re-render compare from prior suite-report JSON (no live runs)
+  --compare-only    re-render compare from prior suite-report JSON (no agent runs)
   --debug-dir PATH  staging parent (default: $TMPDIR/toolbox-evidence-<ts>)`)
     process.exit(0)
   }
@@ -640,7 +640,7 @@ Flags:
     const seed = regenerateInvestigateNullArmHygieneSeed({ outPath: seedPath })
     console.log(`  ${seed.out} (${seed.pathCount} files, ${seed.bytes} bytes)`)
     // Also refresh the conventional _agent/ path for suite JSON / offline checks —
-    // live null arms do not apply this answer-bearing patch (park-commit + guard-only).
+    // Direct null arms do not apply this answer-bearing patch (park-commit + guard-only).
     regenerateInvestigateNullArmHygieneSeed({})
   }
 

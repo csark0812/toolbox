@@ -1,13 +1,13 @@
 # Skill evolution (AFTER-lite)
 
 <!-- source-of-truth: human-gated skill patches after agent-suite failures. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-17 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-02 -->
 
-Toolbox skills are static human SSOT. They do not self-mutate from transcripts. This doc defines the **human-gated** loop for turning live eval failures into durable skill improvements.
+Toolbox skills are static human SSOT. They do not self-mutate from transcripts. This doc defines the **human-gated** loop for turning direct-run failures into durable skill improvements.
 
 ## When to use
 
-- A **contract** or **outcome** scenario fails on `agent:test:live` / `agent:test:live:debug` / `agent:test:outcomes`
+- A **contract** or **outcome** scenario fails on `agent:test` / `agent:test:debug` / `agent:test:outcomes`
 - You want to attach a failure to a specific claim in `references/research-basis.md`
 - You are deciding whether to patch `SKILL.md`, add a contract scenario, or both
 
@@ -15,7 +15,7 @@ Toolbox skills are static human SSOT. They do not self-mutate from transcripts. 
 
 1. **Reproduce** — run the failing suite with debug:
    ```bash
-   npm run agent:test:live:debug -- --suite <suite> --scenario "<name>"
+   npm run agent:test:debug -- --suite <suite> --scenario "<name>"
    ```
    Outcome band only:
    ```bash
@@ -42,7 +42,7 @@ Toolbox skills are static human SSOT. They do not self-mutate from transcripts. 
    - Add a carve-out under **Does not transfer** if the failure falsifies an overclaim
    - Lower **Confidence** if evidence is mixed
 4. **Authoring gate** — apply skill-authoring vocabulary (for example [mattpocock/skills](https://github.com/mattpocock/skills) `writing-for-agents` / `writing-great-skills`): prune no-ops, positive steering, progressive disclosure. Also apply **Pragmatic STE for toolbox** (below).
-5. **Lock** — add or update a **contract** scenario + replay fixture in `agent-suites/<skill>/`. Outcome scenarios use stub `replayTrace` for replay CI only (no `skip` — that disables live too).
+5. **Lock** — add or update a direct **contract** scenario in `agent-suites/<skill>/`. Every execution launches Cursor or Claude.
 6. **Optional vitest lock** — add a string invariant in `tests/skills.test.js` only when the new rule is stable prose that regressions must catch globally.
 7. **Record** — copy [`templates/skill-evolution-note.md`](../templates/skill-evolution-note.md) into `_agent/` or the PR description. Then bump `last-reviewed` on touched research-basis files.
 
@@ -79,7 +79,7 @@ Write skill bodies, references, hub docs, and ambient refs in **pragmatic** Simp
 ## What not to do
 
 - Auto-apply skill patches from agent transcripts without human review
-- Treat a single live judge pass as proof of transfer
+- Treat a single judge pass as proof of transfer
 - Paste failure transcripts into `SKILL.md` (sediment)
 
 ## Related

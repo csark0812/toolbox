@@ -2,7 +2,7 @@
   "name": "second-opinion",
   "description": "Portable second-opinion conformance: invent lenses, single-pass default, claim anchoring, paste artifact entry; council layered for multi-perspective depth",
   "defaults": {
-    "host": "replay",
+    "host": "cursor",
     "profile": "cursor",
     "skills": "full"
   },
@@ -10,7 +10,6 @@
     {
       "name": "council: anchor kills tag drift",
       "prompt": "Second opinion on our auth rollout plan at docs/plans/auth.plan.md.\n\nRead `.claude/skills/second-opinion/SKILL.md` and `.claude/skills/council/SKILL.md` first. Attach both skills. Council creates task personas and selects the interaction; anchor kills to plan sections; tag unanchored claims as drift.",
-      "replayTrace": "agent-suites/second-opinion/fixtures/replays/claim-anchoring-drift.json",
       "rubric": {
         "must": ["drift", "anchor", "Mode:", "council"],
         "mustInvokeSkill": ["second-opinion", "council"],
@@ -23,7 +22,6 @@
     {
       "name": "single-pass: completeness from wording",
       "prompt": "Quick second opinion — did I miss anything in this fleeting draft?\n\n## Draft: session cookie flags\n\nUse httpOnly + Secure cookies for the new auth service. Ship Friday.\n\nRead `.claude/skills/second-opinion/SKILL.md` and `second-opinion/references/plan-review.md` first. Infer a completeness-ish lens; coordinator-only, no council, no Task spawn.",
-      "replayTrace": "agent-suites/second-opinion/fixtures/replays/light-cast-completeness.json",
       "rubric": {
         "must": ["completeness", "Mode:", "single-pass"],
         "mustInvokeSkill": ["second-opinion"],
@@ -36,7 +34,6 @@
     {
       "name": "entry: chat paste without path",
       "prompt": "Second opinion on this paste (no file path):\n\n## Ephemeral plan: rate-limit login\n\nAdd a 5/min IP bucket in middleware before password check. No Redis — in-process map is fine for v1.\n\nRead `.claude/skills/second-opinion/SKILL.md` first. Accept the paste as the artifact; run single-pass with a premises lens.",
-      "replayTrace": "agent-suites/second-opinion/fixtures/replays/paste-artifact-entry.json",
       "rubric": {
         "must": ["Artifact:", "rate-limit", "single-pass", "premises"],
         "mustInvokeSkill": ["second-opinion"],
@@ -54,7 +51,6 @@
     {
       "name": "council: focus group invents design lenses",
       "prompt": "Focus group second opinion on this visual alignment plan at docs/plans/align-app-marketing.plan.md.\n\nRead `.claude/skills/second-opinion/SKILL.md` and `.claude/skills/council/SKILL.md` first. Attach both. Create design task personas from the ask and use an independent panel, not default plan-readiness roles.",
-      "replayTrace": "agent-suites/second-opinion/fixtures/replays/focus-group-design-lenses.json",
       "rubric": {
         "must": ["Mode:", "council"],
         "mustInvokeSkill": ["second-opinion", "council"],

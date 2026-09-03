@@ -23,8 +23,6 @@ const pathArgs = [
   'agent-suites/probe-evidence-outcomes/**',
   'agent-suites/probe-evidence-transfer/**',
   'agent-suites/probe-evidence-prompt/**',
-  'agent-suites/probe-evidence-outcomes-ceiling/**',
-  'agent-suites/probe-evidence-transfer-ceiling/**',
   'docs/evidence-parity.md',
   'tests/investigate-transfer-prompts.test.js',
   'tests/investigate-prompt-baseline.test.js',

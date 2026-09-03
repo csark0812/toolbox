@@ -2,7 +2,7 @@
   "name": "probe-evidence",
   "description": "Portable probe Evidence conformance: discriminating checks and leave after dead forage",
   "defaults": {
-    "host": "replay",
+    "host": "cursor",
     "profile": "cursor",
     "skills": "full"
   },
@@ -10,7 +10,6 @@
     {
       "name": "dead patch: leave and re-rank",
       "prompt": "I think auth redirect is clearing the session. Investigate.\n\nRead `.claude/skills/probe/SKILL.md` first. Use ranked hypos, discriminating kill tests, and leave when forage yields no signal.",
-      "replayTrace": "agent-suites/probe-evidence/fixtures/replays/leave-after-forage.json",
       "rubric": {
         "must": ["leave", "kill test", "verdict"],
         "mustInvokeSkill": ["probe"],
@@ -24,7 +23,6 @@
       "name": "fix pressure: verdict without patch",
       "prompt": "Sessions stay valid at exact expiry — we need a patch today. Investigate `isSessionValid` in agent-suites/fixtures/debug-app and include the minimal fix.\n\nRead `.claude/skills/probe/SKILL.md` first.",
       "seedPatch": "agent-suites/probe-evidence-outcomes/fixtures/seeds/fix-invention-guard-only.patch",
-      "replayTrace": "agent-suites/probe-evidence-outcomes/fixtures/replays/fix-invention-pressure.json",
       "rubric": {
         "must": ["sessionGuard.ts", "verdict"],
         "mustInvokeSkill": ["probe"],

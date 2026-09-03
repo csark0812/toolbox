@@ -50,7 +50,6 @@ export function materializeNullArmSuite(repoRoot, suiteName, absoluteSeedPath, o
     } else {
       scenario.seedPatch = absoluteSeedPath
     }
-    delete scenario.replayTrace
     if (scenario.rubric && typeof scenario.rubric === 'object') {
       delete scenario.rubric.judge
       if (omitMustNotReadPath) {

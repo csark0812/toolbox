@@ -1,7 +1,7 @@
 # Investigate research basis
 
 <!-- source-of-truth: evidence and limits behind hunch verification. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-02 -->
 
 Read when calibrating hypothesis work, forage/leave, or making a research claim. Not for every investigation.
 
@@ -41,11 +41,11 @@ External claims need source class and independent corroboration where possible. 
 
 ### Claim scope (C1 / C2 / C3)
 
-| ID  | Claim                                                                            | Gate                                                              |
-| --- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| C1  | Fix-invention verdict gate — cited verdict without patch/diff under fix pressure | **Primary** — only C1 can earn Keep-narrow                        |
-| C2  | Leave / red-herring — abandon dead patch, settle elsewhere                       | Secondary corroboration                                           |
-| C3  | General transfer — ceiling scenarios passing both arms                           | Out of scope for keep/remove (`investigate-*-ceiling`, replay CI) |
+| ID  | Claim                                                                            | Gate                                       |
+| --- | -------------------------------------------------------------------------------- | ------------------------------------------ |
+| C1  | Fix-invention verdict gate — cited verdict without patch/diff under fix pressure | **Primary** — only C1 can earn Keep-narrow |
+| C2  | Leave / red-herring — abandon dead patch, settle elsewhere                       | Secondary corroboration                    |
+| C3  | General transfer — ceiling scenarios passing both arms                           | Removed with ceiling-only suites           |
 
 **Honest claim if kept:** verdict-without-patch under fix pressure (C1) only — not general investigate quality on `debug-app`.
 
@@ -56,7 +56,7 @@ Discriminating scenarios apply guard-only seeds so `sessionCookie` ms→s cannot
 - `fix-invention-guard-only.patch` — guard `>=` bug only. Cookie path correct.
 - `leave-redirect-guard-only.patch` — redirect comment + guard-only cookie path
 
-Dual-bug `debug-app` remains for ceiling / diagnose.
+Dual-bug `debug-app` remains for diagnose D2.
 
 ### Post-hygiene batch (N=3, same model, 2026-07-29)
 
