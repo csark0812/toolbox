@@ -2,7 +2,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "No actionable findings in the reviewed scope.\n\nSource: staged changes · `agent-suites/fixtures/sample-app/src/redirect.ts`\n\nThe patch adds a comment. It does not change redirect behavior."
+      "content": "## Review result\n\nVerdict: No actionable findings\n\nThe patch adds a comment. It does not change redirect behavior."
     }
   ],
   "toolCalls": [],

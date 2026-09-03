@@ -28,7 +28,7 @@
       "seedStageOnly": true,
       "replayTrace": "agent-suites/code-review/fixtures/replays/standard-clean.json",
       "rubric": {
-        "must": ["No actionable findings in the reviewed scope.", "Source: staged changes"],
+        "must": ["## Review result", "Verdict: No actionable findings"],
         "mustInvokeSkill": ["code-review"],
         "mustNot": ["## Findings", "Review synthesis", "Filing:", "git commit", "git push"],
         "judge": [
@@ -69,7 +69,7 @@
       "prompt": "Review `agent-suites/fixtures/sample-app/src/auth.ts` as a current code snapshot, not as a diff. Focus on session lifecycle correctness. Read `.claude/skills/code-review/SKILL.md`. Review only.",
       "replayTrace": "agent-suites/code-review/fixtures/replays/snapshot-holistic.json",
       "rubric": {
-        "must": ["Source: snapshot", "in-scope code", "session lifecycle"],
+        "must": ["## Review result", "in-scope code", "session lifecycle"],
         "mustInvokeSkill": ["code-review"],
         "mustNot": ["introduced by this change", "git commit", "git push"],
         "judge": [

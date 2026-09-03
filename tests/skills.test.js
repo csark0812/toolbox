@@ -367,7 +367,7 @@ describe('toolbox skill SSOT', () => {
 
     expect(output).toMatch(/Lead with the verdict or highest-severity finding/)
     expect(output).toMatch(/Omit empty sections/)
-    expect(output).toMatch(/No actionable findings in the reviewed scope/)
+    expect(output).toMatch(/Verdict: No actionable findings/)
     expect(output).toMatch(/Verdict: fixed \| not fixed \| inconclusive/)
     expect(output).not.toMatch(/Scope: \[N files, M loc\]|Filing: merge-blockers only/)
 

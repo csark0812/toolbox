@@ -5,20 +5,36 @@
 
 Lead with the verdict or highest-severity finding. Use pragmatic Simple English. Omit empty sections and do not repeat findings in a synthesis.
 
-Show one compact source line when it helps establish scope:
+For ordinary reviews, use this order:
 
 ```markdown
-Source: staged changes · `src/auth.ts` · lens: session expiry
+## Review result
+
+Verdict: [result] · [finding count and severity when needed]
+Review limit: [only when a material check or boundary limits confidence]
+
+### [severity] · _[finding title]_
+
+[Trigger, wrong outcome, and impact.]
+
+Evidence:
+
+- [Proof point with inline links to relevant files and lines.]
+- [Additional proof point when needed.]
+
+Fix direction: [one concise repair direction.]
 ```
 
-Do not require approximate line counts, adapter labels, filing labels, or a process preamble in ordinary reviews.
+Put severity and the finding title on one heading line. Link files in the sentences they support, like citations; do not add a separate location block. Use `Fix direction` bullets only when the repair has multiple concrete actions. Keep review-wide limits beside the verdict, not inside a finding. Do not repeat source, lens, or merge-gate metadata in ordinary reviews.
 
 ## Focused check
 
 Clean:
 
 ```markdown
-No issue found for [question] in [scope].
+## Review result
+
+Verdict: No actionable findings
 ```
 
 Otherwise show the finding or uncertainty directly.
@@ -28,7 +44,9 @@ Otherwise show the finding or uncertainty directly.
 Clean:
 
 ```markdown
-No actionable findings in the reviewed scope.
+## Review result
+
+Verdict: No actionable findings
 ```
 
 When findings exist, list them by severity. Add advisory findings only when requested.
@@ -45,14 +63,18 @@ Next proof: [only when inconclusive]
 ## Action finding
 
 ```markdown
-## [merge-blocker] Reject malformed absolute targets
+## High · _Reject malformed absolute targets_
 
-`src/target.ts:24` · High
+[Trigger, wrong outcome, and concrete impact.]
 
-[Starting state and trigger.] [Wrong outcome and concrete impact.]
+Evidence:
+
+- [Proof point with an inline link to `src/target.ts:24`.]
+
+Fix direction: [one concise repair direction.]
 ```
 
-Add one short evidence sentence when the counter-evidence check is not obvious. Use severity only when it helps prioritize multiple findings.
+Use `Evidence` bullets when there is more than one proof point. Inline file links in the relevant sentences. Use severity when it helps prioritize multiple findings.
 
 For merge-gate outputs, every finding should be tagged as one of:
 
@@ -63,9 +85,9 @@ For merge-gate outputs, every finding should be tagged as one of:
 If advisory exists, keep it in its own section and do not use it in the merge verdict.
 
 ```markdown
-## Advisory: split ownership for async state transitions
+## Advisory · _Split ownership for async state transitions_
 
-`src/form.tsx:9`
+[Inline link to `src/form.tsx:9`]
 
 [Useful follow-up with explicit trigger and rationale for follow-up value.]
 ```
