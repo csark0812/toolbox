@@ -5,6 +5,19 @@
 
 Use prose as the default. Evidence supports the story; it does not define the layout.
 
+```mermaid
+flowchart LR
+  Trigger[Trigger] --> Path[Primary causal path]
+  Path --> Beat[Beat payload]
+  Beat --> Evidence[Anchors + excerpts]
+  Evidence --> Consequence[Observed outcome]
+  Consequence --> Concern{Concern?}
+  Concern -->|none| Continue[Next beat or summary]
+  Concern -->|material| Mark[Concern: confirmed/unverified]
+  Continue --> Controls[Paced controls if enabled]
+  Mark --> Controls
+```
+
 ## One paced beat
 
 ```markdown
@@ -22,6 +35,15 @@ Paused at Step 2. Say `next`, or ask about this step.
 Use one or more decisive anchors. Do not set an arbitrary anchor quota. Copy excerpts from the bound source and keep them short. Do not reconstruct code.
 
 ## Evidence and concerns
+
+```mermaid
+flowchart TD
+  Claim[Claim] --> TriggerCheck{Trigger proven?}
+  TriggerCheck -->|yes| ImpactCheck{Impact proven?}
+  ImpactCheck -->|yes| Confirmed[confirmed]
+  ImpactCheck -->|no| Unverified[unverified]
+  TriggerCheck -->|no| Unverified
+```
 
 - Include `Proof` only when a test, reproduction, runtime result, or contract supports a consequential claim.
 - Omit an empty concern line.

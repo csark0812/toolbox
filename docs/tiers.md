@@ -9,16 +9,16 @@ Assign each skill to exactly one **group**. Update when adding skills.
 
 Every toolbox skill is either an **orchestrator** (agent-to-agent plumbing) or a **process** skill (what the work means in natural language). One meta skill covers authoring.
 
-**Composition:** Skills compose via **layered prompts** — attach multiple skills or name several modes on the same `Slice` / `Artifact`. Shared vocabulary → [context-pack.md](../council/references/context-pack.md). No chains table; each skill defines entry gates and exit artifacts only.
+**Composition:** Skills are adjacent, independently complete roles. Descriptions route by user intent. Layered prompts apply multiple contracts to the same `Slice` or `Artifact`. Skill bodies do not invoke peers. Shared vocabulary and dependency rules → [process-skill-composition.md](../references/process-skill-composition.md).
 
 ### Orchestrators — agent-to-agent (A2A)
 
 Define **how agents and sessions connect**: task-persona councils, purposeful interaction, and cross-session channels. Process skills stay atoms. Multi-agent depth requires attaching **council**.
 
-| Slug        | A2A role                                                                                                                                                        |
-| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **council** | In-session multi-agent depth — create task personas, choose an interaction, run members, and synthesize ([context-pack](../council/references/context-pack.md)) |
-| **handoff** | Cross-session channel — `channel` + `Pack` + `Goal`; pointers not bodies                                                                                        |
+| Slug        | A2A role                                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------------------- |
+| **council** | In-session multi-agent depth — create task personas, choose an interaction, run members, and synthesize |
+| **handoff** | Cross-session channel — `channel` + `Pack` + `Goal`; pointers not bodies                                |
 
 Persona, interaction, and pack references live under orchestrator trees. Process skills keep their own craft and final output contracts.
 
@@ -37,6 +37,7 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | **prototype**          | Throwaway spike for one design question                                                                                                                       |
 | **domain-model**       | Persist glossary + ADRs when a decision is ready                                                                                                              |
 | **refactor-companion** | Preserve a developer's target design through evidence-led slices, focused proof, and an explicit cutover sweep.                                               |
+| **refine-agent-work**  | Walk through agent-created work, test it against developer preferences, and refine it through bounded proven slices.                                          |
 
 ## Process SSOT (`toolbox/`)
 
@@ -52,7 +53,7 @@ Private preference skills live in a separate global install outside this repo. D
 
 Soft-default planning recipes stay out of skill trees — hosted here as a **copyable template** under [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md). After opt-in they live in the consumer (`.skeleton/customize/` **or** a consumer-local skill). Not a process skill installed by `--skill '*'`. Fail-loud stubs stay ambient; see [github-ambient-refs-validation.md](github-ambient-refs-validation.md).
 
-Shared ambient refs live in [`.skeleton/references/`](../.skeleton/references/) and are opened from skills via GitHub raw URLs (network required).
+Shared ambient refs live in [`references/`](../references/) and are opened from skills via GitHub raw URLs (network required).
 
 ### Install (global only)
 
@@ -89,9 +90,9 @@ Consumer cleanup PRs (delete vendored dirs in other repos) are separate — this
 
 ### Migration notes (skill taxonomy)
 
-**Atomic composition (2026-08):** Retired cross-skill routing tables and chain docs. Compose via [context-pack.md](../council/references/context-pack.md) primitives + layered prompts.
+**Atomic composition (2026-09):** Peer skills are not runtime dependencies. Compose through discriminating descriptions, layered prompts, shared state, and the ambient [composition contract](../references/process-skill-composition.md).
 
-**Council + ownership (2026-09):** Retired **subagents** and **iterate**. **Council** owns task-persona design, interaction choice, real member runs, and synthesis. **Second-opinion** is single-pass by default; multi-perspective depth only when the user also attaches **council**. Hunch settlement uses coordinator **explore** + ambient [verdict.md](../.skeleton/references/verdict.md) (retired **investigate** slug). Cross-session transfer stays **handoff**.
+**Council + ownership (2026-09):** Retired **subagents** and **iterate**. **Council** owns task-persona design, interaction choice, real member runs, and synthesis. **Second-opinion** is single-pass by default; multi-perspective depth only when the user also attaches **council**. Hunch settlement uses coordinator **explore** + ambient [verdict.md](../references/verdict.md) (retired **investigate** slug). Cross-session transfer stays **handoff**.
 
 **Crystallize (2026-08):** Retired — use [**grill**](../grill/SKILL.md) to clarify fuzzy intent or pressure-test a concrete design.
 

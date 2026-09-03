@@ -3,6 +3,23 @@
 <!-- source-of-truth: task-shaped interaction router for review walkthrough. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
+```mermaid
+flowchart TD
+  Start[User asks for walkthrough] --> Scope{Source and complexity}
+  Scope -->|Single causal line| Compact[Compact story]
+  Scope -->|Dependent sequence| Paced[Paced tour]
+  Scope -->|Independent paths| Map[Map-first tour]
+  Scope -->|Reframing requested| Reset[Story reset]
+  Compact --> Output[No pause controls, finish with summary]
+  Paced --> Controls[Wait for next/why/back/skip/stop]
+  Map --> Controls
+  Reset --> Controls
+  Controls -->|next or continue| Advance[Advance path]
+  Controls -->|why / go deeper / show the code| Expand[Expand current beat]
+  Controls -->|back| Rewind[Reopen previous beat]
+  Controls -->|stop| Finish[Finish with uncertainty list]
+```
+
 Choose one current mode. Change modes only when the task or user signal changes.
 
 ## Compact story
@@ -19,11 +36,11 @@ Paused at Step 2. Say `next`, or ask about this step.
 
 Natural controls:
 
-- `next` or `continue`: advance.
-- `why`, `show the code`, or `go deeper`: expand the active beat and stay there.
-- `back`: return to the previous beat.
-- `skip`: mark the active beat skipped and advance.
-- `stop`: finish with the covered and skipped state.
+`next` or `continue`: advance.
+`why`, `show the code`, or `go deeper`: expand the active beat and stay there.
+`back`: return to the previous beat.
+`skip`: mark the active beat skipped and advance.
+`stop`: finish with the covered and skipped state.
 
 Apply the first clear control in a message. Answer an ordinary question inside the current beat.
 

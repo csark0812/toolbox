@@ -6,7 +6,7 @@ How to **choose what to include** and **how to deliver** it. Compact procedure �
 
 **Channel** = delivery to the next session. **Pack** = how much context to include. **Goal** = what the next session must do.
 
-Shared member-pack rules → [context-pack.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/context-pack.md).
+Shared composition rules → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/process-skill-composition.md).
 
 The menus below are **starting points**, not limits. Pick the closest row. Omit empty sections.
 
@@ -49,3 +49,26 @@ From thread, take **claims only** — do not invent progress:
 5. Blockers, failed attempts, and next actions. **If a category is empty, omit it.**
 
 For **prompt** channel: compact into fenced block per [output.md](output.md). For **artifact** channel: pass bullets to subagent per [handoff-subagent-dispatch.md](handoff-subagent-dispatch.md).
+
+## Interface matrix
+
+Use this map when the ask names a target client or API.
+
+| Interface                                | Channel preference                                      | Required action                                                                           | Notes                                                                      |
+| ---------------------------------------- | ------------------------------------------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Codex API / UI                           | `prompt` for user handoff; `artifact` for model-invoked | `prompt`: emit fenced block; `artifact`: write handoff file under `_agent/handoffs`       | Keep path output in the next workspace root                                |
+| Cursor                                   | `prompt`                                                | Emit prompt block and include target workspace absolute path                              | Use artifact only if the caller explicitly supports subagent handoff write |
+| Claude Code                              | `prompt`                                                | Emit prompt block; if an API exists, post block as first user message in new conversation | Do not claim a specific client method unless verified in context           |
+| Claude API / GPT-style interface         | `prompt`                                                | Convert canonical payload into a seed user message                                        | Keep one-line blocks and short instructions                                |
+| ChatGPT UI / Assistant                   | `prompt`                                                | Create a fresh conversation with the prompt payload                                       | Include exact `Open workspace` target for handoff context                  |
+| GitHub Copilot Chat                      | `prompt`                                                | Provide prompt payload to the new IDE chat thread                                         | Avoid claiming workspace automation unless plugin confirms it              |
+| Model-invoked automation / subagent host | `artifact` when supported                               | Write handoff file in `_agent/handoffs`; return stub                                      | Same-root resolution uses target workspace                                 |
+| Unknown or unsupported interface         | `prompt`                                                | Emit strict prompt block only                                                             | Add note in `Current state` when degrading to prompt                       |
+
+### Client execution checklist
+
+1. Confirm channel and target interface.
+2. Build the same payload from minimal sections.
+3. Choose the interface branch from the matrix.
+4. Emit only what that branch permits (prompt block or artifact path stub).
+5. Validate redaction, workspace correctness, and forbidden fields (`channel`, `pack`) are absent.

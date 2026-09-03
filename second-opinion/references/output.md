@@ -2,7 +2,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
 
-Extends [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Synthesis procedure → [plan-review.md](plan-review.md).
+Extends [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/output-schema.md). Synthesis procedure → [plan-review.md](plan-review.md).
 
 ## Summary block (required on completion — user-facing)
 

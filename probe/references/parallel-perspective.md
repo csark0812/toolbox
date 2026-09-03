@@ -2,7 +2,7 @@
 
 **Availability:** This parallel recipe requires `council` to be installed and attached. Without it, test the competing explanations serially and return the normal `probe` evidence and verdict shape.
 
-Structured challenge for genuinely mixed evidence. Uses the [council](https://raw.githubusercontent.com/csark0812/toolbox/main/council/SKILL.md) persona contract and [interaction patterns](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/interaction-patterns.md).
+Use structured challenge for genuinely mixed evidence. The active orchestration layer owns persona design, interaction choice, and member execution.
 
 Default **probe** Evidence stays single-target and single-pass. Use this recipe only when evidence is contested or the user requests a stress test.
 
@@ -27,7 +27,7 @@ Use **structured challenge** with two independent first views:
 
 Both personas use primary evidence. Neither receives the other's first conclusion.
 
-If a material conflict remains, run one safe proof or one focused response round. Compose prompts with [persona-prompt.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/persona-prompt.md).
+If a material conflict remains, run one safe proof or one focused response round.
 
 ## Synthesis
 

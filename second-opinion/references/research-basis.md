@@ -32,4 +32,4 @@ Every kill must cite an artifact section, premise, or criterion. Treat an unanch
 
 ## Composition
 
-Second Opinion owns critique craft, claim anchoring, and its final summary. [Council](https://raw.githubusercontent.com/csark0812/toolbox/main/council/SKILL.md) owns task personas, interaction choice, and member orchestration.
+This process owns critique craft, claim anchoring, and its final summary. An active orchestration layer owns personas, interaction choice, and member execution.

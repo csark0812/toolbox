@@ -10,7 +10,34 @@ description: Bind a code change and explain it through the smallest useful causa
 
 Explain one bound version of a code change as a causal story. Use only the evidence needed for understanding. Keep formal review and implementation separate.
 
+Composition boundaries → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/process-skill-composition.md). This workflow remains complete without another skill.
+
 Source rules → [source-binding.md](references/source-binding.md). Interaction choice → [interaction-modes.md](references/interaction-modes.md). Beat and finish shapes → [story-format.md](references/story-format.md).
+
+## Chart-first operation
+
+Default to causal diagrams for planning, mode transitions, and beat control.
+
+```mermaid
+flowchart TD
+  User[User names source] --> Gate{Entry gate passed?}
+  Gate -->|No| Ask[Ask for source]
+  Gate -->|Yes| Bind[Bind source once]
+  Bind --> Recheck[Recheck before any new read]
+  Recheck --> Plan{Interaction mode}
+  Plan -->|Compact| Compact[Single-beat causal path]
+  Plan -->|Paced| Paced[Paced beat sequence]
+  Plan -->|Map-first| Map[Independent path selection]
+  Compact --> Explain[Evidence-backed walkthrough]
+  Paced --> Explain
+  Map --> Explain
+  Explain --> Control{User control}
+  Control -->|next/continue| Explain
+  Control -->|why / deeper| Explain
+  Control -->|back / skip| Explain
+  Explain --> End[Covered summary + uncertainty]
+  End --> Archive[Keep conversation state only]
+```
 
 ## Entry gate
 
@@ -29,6 +56,19 @@ Source rules → [source-binding.md](references/source-binding.md). Interaction 
 6. Match detail to complexity. Summarize direct helpers and explain non-obvious control flow, state, ownership, policy, and rationale.
 7. Let the user control pace and depth in natural language.
 8. Use pragmatic Simple English.
+9. Prefer short Mermaid diagrams for source flow, beat state transitions, and control-command effects.
+
+```mermaid
+flowchart LR
+  Trigger[User trigger] --> Path[Changed file path]
+  Path --> Role[Owner/Boundary/Policy]
+  Role --> Evidence[Anchors + excerpts]
+  Evidence --> Output[Beat narrative]
+  Output --> Control[User says pause, next, why, stop]
+  Control -->|pause| Hold[Preserve beat position]
+  Control -->|next| Advance[Advance current beat]
+  Control -->|stop| Finish[Uncertainty and skipped beats]
+```
 
 ## Choose the interaction
 
@@ -52,6 +92,20 @@ Read [interaction-modes.md](references/interaction-modes.md) for selection and t
 5. If the source changes, stop, rebind, preserve covered and skipped beats, and resume at the same causal position. Re-explain changed code before advancing.
 6. If the user authorizes an edit, suspend this read-only process. After the separate implementation finishes, rebind and resume. Restart only when the user asks.
 7. Finish with an understanding summary of covered behavior, skipped areas, evidence, and material uncertainty.
+
+```mermaid
+sequenceDiagram
+  autonumber
+  User->>System: provide source
+  System->>System: bind + verify version
+  System->>User: opening causal explanation + source
+  loop Beats
+    System->>User: one beat (cause -> consequence -> ownership)
+    User-->>System: next | why | show the code | go deeper | back | skip | stop
+    System->>System: update beat cursor
+  end
+  System->>User: final understanding summary + concerns + uncertainty
+```
 
 ## Boundaries
 

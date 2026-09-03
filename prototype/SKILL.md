@@ -1,6 +1,6 @@
 ---
 name: prototype
-description: Throwaway artifact answering one design question — logic/state or UI. Process skill. Not production red-green (tdd) or repro-first debug (probe Fix).
+description: Create a throwaway logic, state, or UI artifact that answers one design question. Not production test-first implementation or repro-first debugging.
 ---
 
 # Prototype
@@ -42,4 +42,4 @@ Project-specific injected context is appended on skill read. Do not edit synced 
 
 ## Output format
 
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Details → [references/output.md](references/output.md).
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/output-schema.md). Details → [references/output.md](references/output.md).

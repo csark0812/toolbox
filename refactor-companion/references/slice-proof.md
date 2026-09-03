@@ -3,6 +3,18 @@
 <!-- source-of-truth: bounded slice preview and proof selection for refactor companion. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
+```mermaid
+flowchart LR
+  SlicePreview[Slice preview] --> Proof1[Search old symbols]
+  Proof1 --> Proof2[Trace callers/consumers]
+  Proof2 --> Proof3[Inspect diff + git diff --check]
+  Proof3 --> Proof4[Focused tests + type checks]
+  Proof4 --> Proof5[Repo validation if complete]
+  Proof5 --> Result{Distinguish proof vs limits}
+  Result -->|proved| Advance[Continue/refine]
+  Result -->|inconclusive| Boundary[Report boundary and stop]
+```
+
 ## Slice preview
 
 Before editing, state:

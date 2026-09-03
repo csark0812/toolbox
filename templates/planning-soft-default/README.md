@@ -14,7 +14,7 @@ Execution planning and **completeness verify** live here as **reference docs**, 
 | [prd-format.md](prd-format.md)       | PRD template for `docs/prds/`                                                                               | After `build.md` when output is a PRD                                                       |
 | [issues-format.md](issues-format.md) | Vertical-slice Linear issues                                                                                | After `build.md` when output is issues                                                      |
 
-**Written plan review** → **second-opinion** skill ([plan-review.md](../../../../second-opinion/references/plan-review.md)). For readiness-shaped asks, suggest wording that invents `premises` + `completeness` lenses (layer **council** for multi-perspective depth) — not a skill default.
+**Written plan review** → use the installed artifact-critique process. For readiness-shaped asks, suggest `premises` and `completeness` lenses. Add multi-agent depth only when the user requests it.
 
 ## Completeness axes
 
@@ -46,4 +46,4 @@ Planning orchestrates work; it does **not** replace other skills:
 | **Optional tracker skill** | Branch, draft PR, Closes / issue-tracker state **after** a plan exists and you’re starting work (`verify.md` Step 5), if the consumer ships one.     |
 | **code-review**            | Holistic PR / implementation review **after** code exists; AI drift / hygiene on staged/unstaged (consumer AI-drift doc / customize).                |
 
-Structural checks in plans → **second-opinion** ([plan-review.md](../../../../second-opinion/references/plan-review.md)).
+Structural checks in plans belong to the installed artifact-critique process.

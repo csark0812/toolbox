@@ -12,7 +12,7 @@ Find reachable code defects with enough evidence to act. Match the review to the
 
 Mode choice → [interaction-modes.md](references/interaction-modes.md). Surface binding → [sources.md](references/sources.md). Finding bar and filing breadth → [evidence-and-filing.md](references/evidence-and-filing.md). User-facing reports → [output-format.md](references/output-format.md). Strict merge gate → [merge-readiness.md](references/merge-readiness.md).
 
-Extended design vocabulary is available in [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md). The core workflow remains complete without it or another skill.
+Extended design vocabulary is available in [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/codebase-design.md). The core workflow remains complete without it or another skill.
 
 ## Entry gate
 

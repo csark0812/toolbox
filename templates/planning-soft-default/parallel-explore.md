@@ -2,7 +2,7 @@
 
 **Opt-in soft-default recipe:** Use this only when the consumer has no planning remap.
 
-Blast-radius mapping across independent product domains. Uses the [council](../../../../council/SKILL.md) persona contract and [persona prompt](../../../../council/references/persona-prompt.md).
+Map blast radius across independent product domains. Use this recipe only when multi-agent orchestration is active.
 
 ## When to use
 

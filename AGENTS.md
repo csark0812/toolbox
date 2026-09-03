@@ -30,20 +30,24 @@ pre-commit install
 - Shared module: `src/expected-skills.ts` (canonical slug list — `npm run typecheck`)
 - Tests: `tests/`
 - Agent conformance suites: `agent-suites/` (`npm run agent:test`)
-- Canonical ambient refs: `.skeleton/references/` — skills link via GitHub raw URLs (see [docs/github-ambient-refs-validation.md](docs/github-ambient-refs-validation.md)). No per-skill materialization.
+- Canonical ambient refs: `references/` — skills link via GitHub raw URLs (see [docs/github-ambient-refs-validation.md](docs/github-ambient-refs-validation.md)). No per-skill materialization.
 - Hub taxonomy: `docs/tiers.md`, `.skeleton/registry.md`
 - This clone ships process skills + skeleton config. Private preference skills live in a separate global install outside this repo. See [tiers](docs/tiers.md).
 
+## Skill composition
+
+Treat skills as adjacent, independently complete roles. Descriptions route by user intent. Skill bodies do not invoke peers or use peer trees as shared libraries. Shared vocabulary belongs in `references/`; conversation state and artifacts carry continuity across roles. See [process-skill-composition.md](references/process-skill-composition.md).
+
 ## Validation
 
-| Change                            | Run                                                                                   |
-| --------------------------------- | ------------------------------------------------------------------------------------- |
-| Hub docs (`README.md`, `docs/**`) | `npm run validate:changed -- <path>`                                                  |
-| Ambient shared refs               | Edit `.skeleton/references/`. Skill bodies already point at raw GitHub URLs on `main` |
-| Skill bodies / unsure             | `npm run check` (or `npm test` / `audit:skills` + `validate:ci`)                      |
-| Agent suite scenarios             | `npm run agent:test` (replay)                                                         |
-| Style (md/yaml)                   | `npm run lint` + `npm run format:check`                                               |
-| Shared `src/` TypeScript          | `npm run typecheck`                                                                   |
+| Change                            | Run                                                                         |
+| --------------------------------- | --------------------------------------------------------------------------- |
+| Hub docs (`README.md`, `docs/**`) | `npm run validate:changed -- <path>`                                        |
+| Ambient shared refs               | Edit `references/`. Skill bodies already point at raw GitHub URLs on `main` |
+| Skill bodies / unsure             | `npm run check` (or `npm test` / `audit:skills` + `validate:ci`)            |
+| Agent suite scenarios             | `npm run agent:test` (replay)                                               |
+| Style (md/yaml)                   | `npm run lint` + `npm run format:check`                                     |
+| Shared `src/` TypeScript          | `npm run typecheck`                                                         |
 
 Path-scoped `validate:changed` on skill-only paths exits non-zero and redirects to `audit skills` / `audit self`. Skill-body rules are global. Path-scoped coverage is empty. Use `npm test` or `npm run check` for skill edits. Pre-commit runs `npm test` so local hooks match the skill gate.
 

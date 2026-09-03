@@ -10,7 +10,7 @@ description: Persist glossary entries and ADRs after a term or decision is ready
 
 **Process skill** — content is repo-specific. Paths from customize / `AGENTS.md`.
 
-References: [output.md](references/output.md) · [glossary-format.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/domain-model/glossary-format.md) · [adr-format.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/domain-model/adr-format.md).
+References: [output.md](references/output.md) · [glossary-format.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/domain-model/glossary-format.md) · [adr-format.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/domain-model/adr-format.md).
 
 Read [research-basis.md](references/research-basis.md) only when you calibrate persistence claims.
 
@@ -40,4 +40,4 @@ Project-specific injected context is appended on skill read. Do not edit synced 
 
 ## Output format
 
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Details → [references/output.md](references/output.md).
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/output-schema.md). Details → [references/output.md](references/output.md).

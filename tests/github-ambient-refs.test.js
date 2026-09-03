@@ -8,7 +8,8 @@ import process from 'node:process'
 import { describe, expect, it } from 'vitest'
 
 const root = join(import.meta.dirname, '..')
-const REL = '.skeleton/references/dialogue-contract.md'
+const REL = 'references/dialogue-contract.md'
+const PINNED_REL = '.skeleton/references/dialogue-contract.md'
 const MARKERS = {
   h1: '# Dialogue contract',
   portableStub: '**Portable stub',
@@ -19,8 +20,8 @@ function localBody() {
   return readFileSync(join(root, REL), 'utf8')
 }
 
-function rawUrl(ref) {
-  return `https://raw.githubusercontent.com/csark0812/toolbox/${ref}/${REL}`
+function rawUrl(ref, rel = REL) {
+  return `https://raw.githubusercontent.com/csark0812/toolbox/${ref}/${rel}`
 }
 
 async function fetchText(url) {
@@ -32,7 +33,7 @@ describe('github ambient refs validation (T1/T6)', () => {
   it('T1: pinned commit raw URL returns 200 and known markers', async () => {
     // Prefer a published tip; fall back to main if this SHA is not on GitHub yet.
     const sha = process.env.GITHUB_AMBIENT_REF_SHA ?? 'e8f6519d9c737f55ba71c16932e1a8cf06d3acc6'
-    const primary = await fetchText(rawUrl(sha))
+    const primary = await fetchText(rawUrl(sha, PINNED_REL))
     const used = primary.status === 200 ? primary : await fetchText(rawUrl('main'))
 
     expect(used.status).toBe(200)
@@ -50,7 +51,7 @@ describe('github ambient refs validation (T1/T6)', () => {
 
   it('T6: commit-SHA pin matches a fixed marker set; main may differ', async () => {
     const sha = 'e8f6519d9c737f55ba71c16932e1a8cf06d3acc6'
-    const pinned = await fetchText(rawUrl(sha))
+    const pinned = await fetchText(rawUrl(sha, PINNED_REL))
     if (pinned.status !== 200) {
       // Unpushed / unavailable SHA — still prove main is fetchable and local disk has markers.
       expect(localBody()).toContain(MARKERS.h1)
@@ -82,7 +83,7 @@ describe('github ambient refs tool capability (T2 gate input)', () => {
     let threw = false
     try {
       readFileSync(
-        'https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/dialogue-contract.md',
+        'https://raw.githubusercontent.com/csark0812/toolbox/main/references/dialogue-contract.md',
         'utf8',
       )
     } catch {

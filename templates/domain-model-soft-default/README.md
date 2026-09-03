@@ -24,4 +24,4 @@ Consumers that remap via customize (`shared-agent-references` / project docs) mu
 | [glossary-format.md](glossary-format.md) | Glossary row shape      |
 | [adr-format.md](adr-format.md)           | MADR-style ADR template |
 
-Canonical copies also live under [`.skeleton/references/domain-model/`](../../.skeleton/references/domain-model/). Skills link via GitHub raw URLs.
+Canonical copies also live under [`references/domain-model/`](../../references/domain-model/). Skills link via GitHub raw URLs.

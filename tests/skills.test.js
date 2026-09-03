@@ -164,11 +164,12 @@ describe('toolbox skill SSOT', () => {
     const ambient = [
       'dialogue-contract.md',
       'output-schema.md',
+      'process-skill-composition.md',
       'planning/build.md',
       'planning/verify.md',
       'planning/parallel-explore.md',
     ]
-    const raw = 'https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/'
+    const raw = 'https://raw.githubusercontent.com/csark0812/toolbox/main/references/'
     for (const slug of EXPECTED_SKILLS) {
       for (const rel of ambient) {
         expect(existsSync(join(root, slug, 'references', rel))).toBe(false)
@@ -179,7 +180,40 @@ describe('toolbox skill SSOT', () => {
         expect(skill).toContain(raw)
       }
     }
-    expect(existsSync(join(root, '.skeleton/references/dialogue-contract.md'))).toBe(true)
+    expect(existsSync(join(root, 'references/dialogue-contract.md'))).toBe(true)
+    expect(existsSync(join(root, 'references/process-skill-composition.md'))).toBe(true)
+    expect(existsSync(join(root, '.skeleton/references'))).toBe(false)
+  })
+
+  it('adjacent ownership skills stay independently complete without peer routing', () => {
+    const roles = ['review-walkthrough', 'refine-agent-work', 'refactor-companion']
+    for (const slug of roles) {
+      const body = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
+      for (const peer of roles.filter((candidate) => candidate !== slug)) {
+        expect(body, `${slug} directly names peer ${peer}`).not.toContain(peer)
+      }
+      expect(body).toContain('process-skill-composition.md')
+    }
+  })
+
+  it('skill packages do not link into peer skill trees', () => {
+    const peerPath = new RegExp(`/(${EXPECTED_SKILLS.join('|')})/(?:SKILL\\.md|references/)`)
+    for (const slug of EXPECTED_SKILLS) {
+      const skillRoot = join(root, slug)
+      const files = [
+        join(skillRoot, 'SKILL.md'),
+        ...(existsSync(join(skillRoot, 'references'))
+          ? readdirSync(join(skillRoot, 'references'), { recursive: true })
+              .filter((name) => name.endsWith('.md'))
+              .map((name) => join(skillRoot, 'references', name))
+          : []),
+      ]
+      for (const file of files) {
+        expect(readFileSync(file, 'utf8'), `${file} links to a peer skill tree`).not.toMatch(
+          peerPath,
+        )
+      }
+    }
   })
 
   it('soft-default recipes stay out of skill trees (canonical + templates only)', () => {
@@ -187,7 +221,7 @@ describe('toolbox skill SSOT', () => {
     for (const slug of planningSkills) {
       expect(existsSync(join(root, slug, 'references/planning/soft-default'))).toBe(false)
     }
-    const canonical = join(root, '.skeleton/references/planning/soft-default/prd-format.md')
+    const canonical = join(root, 'references/planning/soft-default/prd-format.md')
     const pack = join(root, 'templates/planning-soft-default/prd-format.md')
     expect(existsSync(canonical)).toBe(true)
     expect(existsSync(pack)).toBe(true)
@@ -278,7 +312,7 @@ describe('toolbox skill SSOT', () => {
   })
 
   it('verdict ambient ref enforces find-and-verdict-only (no fix in verdict)', () => {
-    const verdict = readFileSync(join(root, '.skeleton/references/verdict.md'), 'utf8')
+    const verdict = readFileSync(join(root, 'references/verdict.md'), 'utf8')
     expect(verdict).toMatch(/find and verdict only/i)
     expect(verdict).toMatch(/Verdict not fix/)
     expect(verdict).toMatch(/Find and verdict only/)
@@ -392,11 +426,10 @@ describe('toolbox skill SSOT', () => {
     const walkthrough = readFileSync(join(root, 'review-walkthrough/SKILL.md'), 'utf8')
     const refactor = readFileSync(join(root, 'refactor-companion/SKILL.md'), 'utf8')
 
-    expect(probe).toMatch(/Without `council`, perform the same reads serially/)
+    expect(probe).toMatch(/Otherwise perform the same reads serially/)
     expect(walkthrough).toMatch(/Source rules → \[source-binding\.md\]/)
     expect(walkthrough).not.toMatch(/code-review surface adapters/)
     expect(refactor).toMatch(/core workflow remains complete without companion skills/)
-    expect(refactor).toMatch(/Offer an installed walkthrough or review skill only when available/)
   })
 
   it('retired skills are gone (subagents, iterate)', () => {
@@ -439,7 +472,7 @@ describe('toolbox skill SSOT', () => {
     expect(pack).toMatch(/not limits/)
     expect(pack).toMatch(/\*\*pointers\*\*/)
     expect(pack).toMatch(/\*\*prompt\*\*/)
-    expect(pack).toMatch(/context-pack\.md/)
+    expect(pack).toMatch(/process-skill-composition\.md/)
 
     expect(output).toMatch(/Open workspace: <absolute path>/)
     expect(output).toMatch(/Goal: \[one descriptive sentence\]/)
@@ -461,7 +494,7 @@ describe('toolbox skill SSOT', () => {
     expect(tiers).toMatch(/Process skills — atoms/)
     expect(tiers).toMatch(/Composition/)
     expect(tiers).toMatch(/layered prompts/)
-    expect(tiers).toMatch(/context-pack\.md/)
+    expect(tiers).toMatch(/process-skill-composition\.md/)
     expect(tiers).toMatch(/\*\*council\*\*/)
     expect(tiers).toMatch(/\*\*handoff\*\*/)
     expect(tiers).toMatch(/\*\*code-review\*\*/)
@@ -471,7 +504,7 @@ describe('toolbox skill SSOT', () => {
     expect(tiers).not.toMatch(/Subagent kernel/)
   })
 
-  it('second-opinion is thin; multi-agent depth is council', () => {
+  it('second-opinion stays thin under optional orchestration', () => {
     const so = readFileSync(join(root, 'second-opinion/SKILL.md'), 'utf8')
     const planReview = readFileSync(join(root, 'second-opinion/references/plan-review.md'), 'utf8')
     const grill = readFileSync(join(root, 'grill/SKILL.md'), 'utf8')
@@ -479,13 +512,13 @@ describe('toolbox skill SSOT', () => {
     expect(so).toMatch(/\*\*Process skill\*\*/)
     expect(so).toMatch(/Invent lenses first/)
     expect(so).toMatch(/Coordinator-only by default/)
-    expect(so).toMatch(/council/)
+    expect(so).toMatch(/multi-agent orchestration/)
     expect(so).not.toMatch(/second-opinion-dispatch/)
     expect(so).not.toMatch(/adversarial-debate\.md/)
     expect(existsSync(join(root, 'second-opinion/references/adversarial-debate.md'))).toBe(false)
     expect(existsSync(join(root, 'council/references/second-opinion-dispatch.md'))).toBe(false)
     expect(planReview).toMatch(/Do not own multi-agent orchestration/)
-    expect(planReview).toMatch(/council/)
+    expect(planReview).toMatch(/active orchestration layer/)
 
     expect(grill).toMatch(/Shape intent/)
     expect(grill).toMatch(/Pressure-test design/)
@@ -506,14 +539,14 @@ describe('toolbox skill SSOT', () => {
     expect(existsSync(join(root, 'diagnose/SKILL.md'))).toBe(false)
   })
 
-  it('council context-pack keeps shared vocabulary and minimum context rules', () => {
-    const pack = readFileSync(join(root, 'council/references/context-pack.md'), 'utf8')
+  it('ambient composition contract keeps shared vocabulary and minimum context rules', () => {
+    const pack = readFileSync(join(root, 'references/process-skill-composition.md'), 'utf8')
     const council = readFileSync(join(root, 'council/SKILL.md'), 'utf8')
     const handoffPack = readFileSync(join(root, 'handoff/references/pack.md'), 'utf8')
 
-    expect(council).toMatch(/context-pack\.md/)
+    expect(council).toMatch(/process-skill-composition\.md/)
     expect(pack).toMatch(/Shared vocabulary/)
-    expect(pack).toMatch(/Composition/)
+    expect(pack).toMatch(/compose through/)
     expect(pack).toMatch(/Slice/)
     expect(pack).toMatch(/Artifact/)
     expect(pack).toMatch(/Surface/)
@@ -521,8 +554,8 @@ describe('toolbox skill SSOT', () => {
     expect(pack).toMatch(/minimum relevant facts/)
     expect(pack).toMatch(/Prefer paths, URLs, section names/)
     expect(pack).toMatch(/Omit empty fields/)
-    expect(pack).toMatch(/Do not give first-round members sibling conclusions/)
-    expect(handoffPack).toMatch(/context-pack\.md/)
+    expect(pack).toMatch(/sibling conclusions/)
+    expect(handoffPack).toMatch(/process-skill-composition\.md/)
   })
 
   it('grill chooses question form and challenge effort by decision value', () => {

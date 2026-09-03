@@ -10,7 +10,7 @@ description: Multi-agent orchestrator that creates task-specific personas, selec
 
 Council owns persona design, member orchestration, and synthesis. A layered process skill owns the member craft and final output shape.
 
-Read [interaction-patterns.md](references/interaction-patterns.md) when the task needs more than an independent panel. Member prompt → [persona-prompt.md](references/persona-prompt.md). Shared composition vocabulary → [context-pack.md](references/context-pack.md).
+Read [interaction-patterns.md](references/interaction-patterns.md) when the task needs more than an independent panel. Member prompt → [persona-prompt.md](references/persona-prompt.md). Shared composition vocabulary → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/process-skill-composition.md).
 
 ## Entry gate
 
@@ -88,7 +88,7 @@ Council alone → [output-format.md](references/output-format.md).
 
 - Council does not authorize code edits or external state changes to settle a disagreement.
 - Host permissions, safety rules, and runtime behavior remain outside this skill.
-- Cross-session transfer belongs to **handoff**.
+- Cross-session transfer is outside this skill.
 
 ## Consumer bindings
 

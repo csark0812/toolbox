@@ -108,3 +108,75 @@ Do not paste the artifact body. You can note `prompt-only` outside the receiving
 ## Fix-loop pack shortcut
 
 For a `fix-loop` pack, current state can be one line. Include known pull requests, commits, and review-theme identifiers.
+
+## Cross-client execution examples
+
+Use the same sections, then change only transport mode.
+
+### Prompt payload (all clients)
+
+```text
+Open workspace: /abs/target/workspace
+
+Continue this task.
+
+Goal: implement the next slice
+Start with: Fix the auth race in the data layer.
+
+## Current state
+
+- The auth reducer now handles token-refresh callbacks.
+
+## Files and links
+
+| Type | Path or URL |
+| --- | --- |
+| Plan | .cursor/plans/hand-off.plan.md |
+
+## Blockers
+
+- The CI token fixture is unstable on macOS.
+
+## Next actions
+
+- Run token-refresh matrix with stale-cookie edge cases.
+
+## Redacted information
+
+- API key and internal email addresses were removed.
+```
+
+### Cursor continuation
+
+- Use the same block above as the user-visible handoff message.
+- Set `Open workspace` to the requested target workspace when it differs from current root.
+
+### Claude Code continuation
+
+- Use the same prompt block as the new conversation seed message.
+- Do not include tool-specific control text inside the handoff body.
+
+### Codex continuation
+
+- `prompt` channel: send the block directly for fresh chat handoff.
+- `artifact` channel: write the handoff markdown at `<workspace>/_agent/handoffs/<slug>.md` and return the paste stub only.
+
+### Claude API / GPT-style continuation
+
+- Use the same fenced block as the first user/content message for the new thread.
+- Keep the body minimal and do not include transport metadata.
+
+### ChatGPT or chat-like UI continuation
+
+- Use the same block above as the opening handoff message.
+- Include absolute workspace in `Open workspace`.
+
+### GitHub Copilot Chat continuation
+
+- Use the same prompt block in a fresh chat.
+- Never claim IDE action APIs unless directly visible in the request context.
+
+### Generic client fallback
+
+- Keep sections unchanged.
+- Send the same prompt block as the initial message in a new chat.

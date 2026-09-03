@@ -3,6 +3,23 @@
 <!-- source-of-truth: evidence-led interaction router for refactor work. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
+```mermaid
+flowchart TD
+  Trigger[User request] --> Mode{Select mode}
+  Mode --> Discovery[Discovery before change]
+  Mode --> Decision[Decision checkpoint]
+  Mode --> Direct[Direct slice]
+  Mode --> Cutover[Cutover sweep]
+  Discovery -->|Repo trace complete| DiscoveryOut{Decision needed?}
+  DiscoveryOut -->|Yes| Decision
+  DiscoveryOut -->|No| Direct
+  Decision -->|Choice made| Direct
+  Direct -->|Replacement path| Cutover
+  Direct -->|Blocked| Done[Boundary-safe stop]
+  Cutover --> Resume[Next explicit action]
+  Done --> Resume
+```
+
 Select one mode for the current turn.
 
 ## Discovery before change

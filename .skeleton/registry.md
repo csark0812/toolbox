@@ -13,7 +13,7 @@
 | Skill tiers                  | [tiers.md](../docs/tiers.md)                                                   |
 | Composability vocabulary     | [context-pack.md](../council/references/context-pack.md)                       |
 | GitHub ambient refs validate | [github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md) |
-| Hunch verdict (ambient)      | [verdict.md](../.skeleton/references/verdict.md)                               |
+| Hunch verdict (ambient)      | [verdict.md](../references/verdict.md)                                         |
 | Evidence parity              | [evidence-parity.md](../docs/evidence-parity.md)                               |
 | Skill evolution              | [skill-evolution.md](../docs/skill-evolution.md)                               |
 | Skill organization ablations | [skill-organization-ablations.md](../docs/skill-organization-ablations.md)     |
@@ -33,3 +33,4 @@
 | domain-model       | [domain-model/SKILL.md](../domain-model/SKILL.md)             |
 | handoff            | [handoff/SKILL.md](../handoff/SKILL.md)                       |
 | refactor-companion | [refactor-companion/SKILL.md](../refactor-companion/SKILL.md) |
+| refine-agent-work  | [refine-agent-work/SKILL.md](../refine-agent-work/SKILL.md)   |

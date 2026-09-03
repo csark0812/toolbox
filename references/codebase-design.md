@@ -23,7 +23,7 @@ Each module hides a **design decision likely to change**. Stable callers depend 
 
 A **seam** is where you can observe or alter behavior **without editing the module under test** (Feathers). Tests belong at seams — public interfaces, not internals.
 
-Aligns with [`tdd`](../../tdd/SKILL.md) seam confirmation: agree the public boundary before writing tests.
+Agree the public boundary before writing tests.
 
 ## Making complexity explicit
 
@@ -52,11 +52,11 @@ Use the smallest structure that makes the design explicit. This principle does n
 
 Open this ref when:
 
-- Agreeing **test seams** (`tdd`)
-- Discussing **module boundaries** after a structural bug (`probe`)
-- Writing an ADR that documents a boundary decision (`domain-model`)
-- Pressure-testing whether a design hides the right decisions (`grill`)
-- Reviewing ownership and evidence on a changed path (`code-review`)
-- Refactoring through small, proven slices (`refactor-companion`)
+- Agreeing test seams
+- Discussing module boundaries after a structural bug
+- Writing an ADR that records a boundary decision
+- Pressure-testing whether a design hides the right decisions
+- Reviewing ownership and evidence on a changed path
+- Refactoring through small, proven slices
 
 Do not load as always-on context. Use pointer only.

@@ -29,7 +29,7 @@ npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex
 npx skills update -g
 
 # Core dialogue/build set (subset) — space-separated skill names (not commas)
-npx skills add csark0812/toolbox --skill council code-review review-walkthrough grill second-opinion probe tdd prototype domain-model handoff refactor-companion -g --agent cursor claude-code codex -y
+npx skills add csark0812/toolbox --skill council code-review review-walkthrough grill second-opinion probe tdd prototype domain-model handoff refactor-companion refine-agent-work -g --agent cursor claude-code codex -y
 ```
 
 Shorthand for `https://github.com/csark0812/toolbox`. The `@` prefix (npm-style scopes) is not supported by the skills CLI — use `csark0812/toolbox`.
@@ -54,22 +54,24 @@ After init, edit `skeleton.toml` for your layout and run `npx skeleton audit sel
 
 ### Roles
 
-| Piece                       | Role                                                                                                  |
-| --------------------------- | ----------------------------------------------------------------------------------------------------- |
-| **toolbox** (this repo)     | Process skill SSOT — installed user-level (`-g`), not vendored into consumer repos                    |
-| **skeleton**                | Docs/skill registry linter — validates links, banners, and scan perimeter                             |
-| **`.skeleton/customize/`**  | Consumer-local overlays (product docs, alwaysInclude, soft-default binders) — **consumer repos only** |
-| **`.skeleton/references/`** | Canonical ambient reference docs — skills link via GitHub raw URLs (not copied into each skill)       |
+| Piece                      | Role                                                                                                  |
+| -------------------------- | ----------------------------------------------------------------------------------------------------- |
+| **toolbox** (this repo)    | Process skill SSOT — installed user-level (`-g`), not vendored into consumer repos                    |
+| **skeleton**               | Docs/skill registry linter — validates links, banners, and scan perimeter                             |
+| **`.skeleton/customize/`** | Consumer-local overlays (product docs, alwaysInclude, soft-default binders) — **consumer repos only** |
+| **`references/`**          | Canonical ambient reference docs — skills link via GitHub raw URLs (not copied into each skill)       |
 
 Do not edit installed `SKILL.md` copies in place. Process SSOT updates via global install / this repo. Consumer customize overlays carry product-local context. See [skeleton customize docs](https://github.com/csark0812/skeleton/blob/main/docs/developer/customize.md).
 
-Ambient shared refs live once under [`.skeleton/references/`](.skeleton/references/). Skill bodies open them via `raw.githubusercontent.com/csark0812/toolbox/main/...` (network required). Validation: [docs/github-ambient-refs-validation.md](docs/github-ambient-refs-validation.md). Skill-local refs (unique to one skill) stay under `{slug}/references/`.
+Ambient shared refs live once under [`references/`](references/). Skill bodies open them via `raw.githubusercontent.com/csark0812/toolbox/main/...` (network required). Validation: [docs/github-ambient-refs-validation.md](docs/github-ambient-refs-validation.md). Skill-local refs (unique to one skill) stay under `{slug}/references/`.
+
+Process skills are independently complete. Their descriptions route by user intent; their bodies do not invoke peer skills. Shared vocabulary and seam contracts live in [process-skill-composition.md](references/process-skill-composition.md).
 
 ### Planning references (fail-loud vs soft-default)
 
-Fail-loud planning stubs live under `.skeleton/references/planning/*.md` and are linked from skills via GitHub raw URLs — do not execute Linear / `docs/prds/` recipes from them. Soft-default recipe trees are **not** shipped inside portable skill trees and are **not** installed by `--skill '*'`.
+Fail-loud planning stubs live under `references/planning/*.md` and are linked from skills via GitHub raw URLs — do not execute Linear / `docs/prds/` recipes from them. Soft-default recipe trees are **not** shipped inside portable skill trees and are **not** installed by `--skill '*'`.
 
-Canonical recipes live under `.skeleton/references/planning/soft-default/` and are packaged as [`templates/planning-soft-default/`](templates/planning-soft-default/) plus the binder [`templates/soft-default-planning.md`](templates/soft-default-planning.md). Opt in by copying the pack to `.skeleton/customize/planning-soft-default/`, the binder to `.skeleton/customize/soft-default-planning.md`, and listing that basename in `customize.alwaysInclude` — or re-home equivalent recipes in a consumer-local skill. Remapping consumers must omit that binder and map planning paths to project docs instead.
+Canonical recipes live under `references/planning/soft-default/` and are packaged as [`templates/planning-soft-default/`](templates/planning-soft-default/) plus the binder [`templates/soft-default-planning.md`](templates/soft-default-planning.md). Opt in by copying the pack to `.skeleton/customize/planning-soft-default/`, the binder to `.skeleton/customize/soft-default-planning.md`, and listing that basename in `customize.alwaysInclude` — or re-home equivalent recipes in a consumer-local skill. Remapping consumers must omit that binder and map planning paths to project docs instead.
 
 ### Migration (from project `--copy`)
 
@@ -90,8 +92,9 @@ Existing committed toolbox process skill dirs keep loading until removed. Delete
 | Process      | prototype          | Throwaway artifact for one design question                                                      |
 | Process      | domain-model       | Persist glossary + ADRs when decisions are ready                                                |
 | Process      | refactor-companion | Preserve a target design through evidence-led, proven refactor slices                           |
+| Process      | refine-agent-work  | Walk through agent-created work, check it against your preferences, and refine bounded slices   |
 
-Orchestrators define **agent-to-agent** wiring; process skills describe **what happens** and point at orchestrators when another agent or pass is needed. See [docs/tiers.md](docs/tiers.md).
+Orchestrators define **agent-to-agent** wiring; process skills describe **what happens**. Layered prompts compose them without peer runtime dependencies. See [docs/tiers.md](docs/tiers.md).
 
 Consumer projects may add product/standards slugs locally. Ambient shared refs are remote (GitHub); skill-local `references/` stay skill-specific. Consumers remap project docs via `.skeleton/customize/` + `customize.alwaysInclude`. See [docs/tiers.md](docs/tiers.md).
 
@@ -140,10 +143,10 @@ Toolbox owns portable process-contract behavior (`code-review`, `grill`, …). C
 1. `npm ci` (needs `@csark0812/skeleton` for audit/CLI scripts)
 2. Create `<slug>/SKILL.md`
 3. Update `docs/tiers.md` and `.skeleton/registry.md` / scan include as needed
-4. If sharing ambient refs: edit `.skeleton/references/…`, link from the skill with a GitHub raw URL (`https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/…`)
+4. If sharing ambient refs: edit `references/…`, link from the skill with a GitHub raw URL (`https://raw.githubusercontent.com/csark0812/toolbox/main/references/…`)
 5. Stage changes (`git add`), then `npm test` (preferred) or `npm run audit:skills && npm run validate:ci`
 6. Push → CI green → `npx skills update -g`
 
 **Validation honesty:** path-scoped `npm run validate:changed -- <skill-path>` barely checks skill bodies — skills suite rules are global. Rely on `npm test` / CI for skill edits. Hub docs (`README.md`, `docs/*`) are fine under `validate:changed`.
 
-Inter-toolbox links use relative paths (`../council/SKILL.md`). Project-local skills must not use `/SKILL.md` links from toolbox — see [docs/tiers.md](docs/tiers.md).
+Skill-local links use relative paths. Shared contracts use `references/` raw URLs. Peer skill trees are not dependency targets; see [docs/tiers.md](docs/tiers.md).

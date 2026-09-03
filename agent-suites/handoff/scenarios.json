@@ -48,6 +48,95 @@
       }
     },
     {
+      "name": "client-interface: cursor prompt handoff",
+      "prompt": "/handoff this work to a fresh Cursor chat. Use prompt mode, include `Open workspace: /tmp/personal-toolbox`, and keep next actions imperative.\n\nRead `.claude/skills/handoff/SKILL.md` first.",
+      "replayTrace": "agent-suites/handoff/fixtures/replays/paths-only-redact.json",
+      "rubric": {
+        "must": [
+          "Open workspace: /tmp/personal-toolbox",
+          "Continue this task.",
+          "Goal:",
+          "Start with:",
+          "## Current state",
+          "## Next actions",
+          "prompt-only"
+        ],
+        "mustInvokeSkill": ["handoff"],
+        "mustNot": [
+          "_agent/handoffs/",
+          "artifact",
+          "coordinator-primary",
+          "paste the full plan body"
+        ],
+        "judge": ["The agent used the cursor transfer path and prompt-only channel"]
+      }
+    },
+    {
+      "name": "client-interface: claude prompt handoff",
+      "prompt": "Prepare a handoff prompt for a fresh Claude Code chat and target `/tmp/claude-workspace`.\n\nRead `.claude/skills/handoff/SKILL.md` first.",
+      "replayTrace": "agent-suites/handoff/fixtures/paths-only-redact.json",
+      "rubric": {
+        "must": [
+          "Open workspace: /tmp/claude-workspace",
+          "Goal:",
+          "Start with:",
+          "## Files and links",
+          "prompt-only"
+        ],
+        "mustInvokeSkill": ["handoff"],
+        "mustNot": ["_agent/handoffs/"]
+      }
+    },
+    {
+      "name": "client-interface: unknown-client fallback to prompt",
+      "prompt": "The next recipient is an unsupported custom client with no artifact path. Hand off to a fresh chat in `/tmp/legacy-client` and do prompt-only only.\n\nRead `.claude/skills/handoff/SKILL.md` first.",
+      "replayTrace": "agent-suites/handoff/fixtures/replays/paths-only-redact.json",
+      "rubric": {
+        "must": [
+          "Open workspace: /tmp/legacy-client",
+          "Continue this task.",
+          "Goal:",
+          "Start with:",
+          "## Current state",
+          "prompt-only"
+        ],
+        "mustInvokeSkill": ["handoff"],
+        "mustNot": ["_agent/handoff", "artifact"]
+      }
+    },
+    {
+      "name": "client-interface: chatgpt continuation",
+      "prompt": "Hand off this work to a fresh ChatGPT chat for `/tmp/chatgpt-workspace`. Keep the format strict and include workspace target at top.\n\nRead `.claude/skills/handoff/SKILL.md` first.",
+      "replayTrace": "agent-suites/handoff/fixtures/replays/paths-only-redact.json",
+      "rubric": {
+        "must": [
+          "Open workspace: /tmp/chatgpt-workspace",
+          "Continue this task.",
+          "Goal:",
+          "Start with:",
+          "prompt-only"
+        ],
+        "mustInvokeSkill": ["handoff"],
+        "mustNot": ["_agent/handoffs/"]
+      }
+    },
+    {
+      "name": "client-interface: copilot continuation",
+      "prompt": "Prepare a handoff to GitHub Copilot Chat into `/tmp/copilot-workspace` using the standard handoff prompt block.\n\nRead `.claude/skills/handoff/SKILL.md` first.",
+      "replayTrace": "agent-suites/handoff/fixtures/replays/paths-only-redact.json",
+      "rubric": {
+        "must": [
+          "Open workspace: /tmp/copilot-workspace",
+          "Continue this task.",
+          "Goal:",
+          "Start with:",
+          "prompt-only"
+        ],
+        "mustInvokeSkill": ["handoff"],
+        "mustNot": ["_agent/handoffs/"]
+      }
+    },
+    {
       "name": "model-invoked: subagent artifact path",
       "prompt": "Context is nearly full — hand off autonomously so the next session can continue implement on the auth refactor branch.\n\nRead `.claude/skills/handoff/SKILL.md` first. Model-invoked path: spawn subagent to write _agent/handoffs/.",
       "replayTrace": "agent-suites/handoff/fixtures/replays/model-invoked-artifact.json",

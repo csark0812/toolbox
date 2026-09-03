@@ -20,9 +20,10 @@ include = [
   "domain-model/**",
   "handoff/**",
   "refactor-companion/**",
+  "refine-agent-work/**",
 ]
 exclude = [
-  ".skeleton/references/**",
+  "references/**",
   "**/references/**",
   # Install mirrors for Cursor/Codex — SSOT is flat <slug>/; do not treat as registry rows.
   ".agents/skills/**",
@@ -47,4 +48,5 @@ ownedSlugs = [
   "domain-model",
   "handoff",
   "refactor-companion",
+  "refine-agent-work",
 ]

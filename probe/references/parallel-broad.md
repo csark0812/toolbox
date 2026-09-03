@@ -1,8 +1,8 @@
 # Parallel Broad Investigate
 
-**Availability:** This parallel recipe requires `council` to be installed and attached. Without it, inspect the independent areas serially and return the normal `probe` evidence and verdict shape.
+**Availability:** Use this parallel recipe only when multi-agent orchestration is active. Otherwise inspect independent areas serially and return the normal evidence and verdict shape.
 
-Wide evidence pass when the user explicitly asks for a broad search. Uses the [council](https://raw.githubusercontent.com/csark0812/toolbox/main/council/SKILL.md) persona contract and [persona prompt](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/persona-prompt.md).
+Wide evidence pass when the user explicitly asks for a broad search. The active orchestration layer owns persona design and member execution.
 
 Default **probe** Evidence stays single-target. Use this recipe only when the hunch crosses independent subsystems.
 
@@ -28,7 +28,7 @@ Create one persona per independent ownership boundary. Usually use two or three.
 
 Merge a persona when it asks the same question and reads the same evidence as another.
 
-Use **independent panel**. Compose each member from [persona-prompt.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/persona-prompt.md).
+Use an independent panel. Give each member one question, one evidence boundary, and one falsifier.
 
 ## Synthesis
 

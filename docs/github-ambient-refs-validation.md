@@ -39,22 +39,22 @@ npm run agent:test:live -- --suite github-ambient-refs --keep-recordings
 
 Production skill bodies use **raw + `main`**:
 
-`https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/<file>.md`
+`https://raw.githubusercontent.com/csark0812/toolbox/main/references/<file>.md`
 
 Pinned SHA URLs remain preferred for deterministic tests. `main` drifts with hub pushes. Consumers pick up ambient edits on next skill-follow (network). They do not wait for `skills update` for those files alone.
 
-## Migration notes
+## Repository contract
 
-- Skill bodies and skill-local refs must not use bare `(references/<ambient>)` or sibling `(output-schema.md)` / `(planning/verify.md)` targets when those paths exist under `.skeleton/references/`. The `generated-references` rule in skeleton demands materialization for those short forms.
-- Prefer full GitHub raw URLs for ambient links. Use short labels (`[output-schema.md](https://…)`).
+- Shared references are ordinary public files under root `references/`.
+- Skill bodies use full GitHub raw URLs. Use short labels (`[output-schema.md](https://…)`).
+- Toolbox does not use generated per-skill copies or Skeleton reference materialization.
+- Skeleton audits these files through the normal Markdown scan perimeter.
 - Offline / no-network: known limitation (T5).
 
 ## Rollback
 
 If remote ambient resolution regresses in supported hosts:
 
-1. Restore local ambient resolution: companion `shared` skill with `../shared/references/...`, or reintroduce per-skill copies.
+1. Restore local copies only if supported hosts cannot fetch public GitHub files.
 2. Document the host/tool failure mode here.
 3. Keep this file as the experiment record.
-
-Companion `shared` skill fallback: one portable skill owns ambient refs. Other skills link via sibling paths. Documented install sets always include `shared`. No N-way `references:sync` fan-out.

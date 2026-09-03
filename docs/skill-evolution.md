@@ -66,7 +66,7 @@ Write skill bodies, references, hub docs, and ambient refs in **pragmatic** Simp
 - Put conditions before commands: `If X, do Y.`
 - Untouchables: code fences, identifiers, CLI flags, paths, quoted errors.
 
-**User-facing output contracts:** Named blocks that face the human (ask Questions, verdicts, pass progress, review findings, cast summaries, human-facing handoff packs) must **require** pragmatic STE. Examples in those files must show it. Ambient baseline: [`.skeleton/references/output-schema.md`](../.skeleton/references/output-schema.md). Mid-turn free chat outside those blocks is not required to be STE. Coordinator-internal and blind-member envelopes stay schema-dense unless labeled user-facing.
+**User-facing output contracts:** Named blocks that face the human (ask Questions, verdicts, pass progress, review findings, cast summaries, human-facing handoff packs) must **require** pragmatic STE. Examples in those files must show it. Ambient baseline: [`references/output-schema.md`](../references/output-schema.md). Mid-turn free chat outside those blocks is not required to be STE. Coordinator-internal and blind-member envelopes stay schema-dense unless labeled user-facing.
 
 **Self-check before merge:**
 

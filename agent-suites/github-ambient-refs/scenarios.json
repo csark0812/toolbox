@@ -10,7 +10,7 @@
     {
       "name": "T2: fetch remote dialogue-contract and quote markers",
       "skip": true,
-      "prompt": "Do not use any local file under .skeleton/references/ or */references/dialogue-contract.md. Open this URL with a network fetch tool (not local Read): https://raw.githubusercontent.com/csark0812/toolbox/e8f6519d9c737f55ba71c16932e1a8cf06d3acc6/.skeleton/references/dialogue-contract.md\n\nQuote the exact H1 and the first **Portable stub** sentence. End with a line exactly: REMOTE_AMBIENT_OK",
+      "prompt": "Do not use any local file under references/ or */references/dialogue-contract.md. Open this historical pinned URL with a network fetch tool (not local Read): https://raw.githubusercontent.com/csark0812/toolbox/e8f6519d9c737f55ba71c16932e1a8cf06d3acc6/.skeleton/references/dialogue-contract.md\n\nQuote the exact H1 and the first **Portable stub** sentence. End with a line exactly: REMOTE_AMBIENT_OK",
       "replayTrace": "agent-suites/github-ambient-refs/fixtures/replays/t2-fetch.json",
       "rubric": {
         "must": ["Dialogue contract", "Portable stub", "REMOTE_AMBIENT_OK"],
@@ -23,7 +23,7 @@
     {
       "name": "T2-skill: follow GitHub link in fixture skill",
       "skip": true,
-      "prompt": "Read agent-suites/github-ambient-refs/fixtures/remote-ambient-probe/SKILL.md and follow its ambient-ref instruction exactly. Do not open local .skeleton/references copies.",
+      "prompt": "Read agent-suites/github-ambient-refs/fixtures/remote-ambient-probe/SKILL.md and follow its ambient-ref instruction exactly. Do not open local references copies.",
       "replayTrace": "agent-suites/github-ambient-refs/fixtures/replays/t2-skill.json",
       "rubric": {
         "must": ["Dialogue contract", "REMOTE_AMBIENT_OK"],

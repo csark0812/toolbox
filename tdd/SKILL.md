@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Test-first build at agreed public seams — one red-green slice at a time. Process skill. Composes on the same Slice as code-review via layered prompts. Not repro-first hard-bug work without seam, throwaway spike, or find-only hunch settlement.
+description: Test-first build at agreed public seams, one red-green slice at a time. Process skill. Not repro-first hard-bug work without a seam, a throwaway spike, or find-only hunch settlement.
 ---
 
 # Test-Driven Development
@@ -8,9 +8,9 @@ description: Test-first build at agreed public seams — one red-green slice at 
 <!-- source-of-truth: test-first implementation at public seams. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-**Process skill** — red → green microcycle. Tests at public interfaces only. Shared vocabulary → [context-pack.md](https://raw.githubusercontent.com/csark0812/toolbox/main/council/references/context-pack.md).
+**Process skill** — red → green microcycle. Tests at public interfaces only. Shared vocabulary → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/process-skill-composition.md).
 
-References: [anti-patterns.md](references/anti-patterns.md) · [output.md](references/output.md) · [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md).
+References: [anti-patterns.md](references/anti-patterns.md) · [output.md](references/output.md) · [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/codebase-design.md).
 
 Read [research-basis.md](references/research-basis.md) only when you calibrate seam claims.
 
@@ -42,4 +42,4 @@ Project-specific injected context is appended on skill read. Do not edit synced 
 
 ## Output format
 
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/output-schema.md). Details → [references/output.md](references/output.md).
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/output-schema.md). Details → [references/output.md](references/output.md).

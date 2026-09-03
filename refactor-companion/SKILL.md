@@ -8,18 +8,46 @@ description: Preserve a developer's target design through evidence-led, proven r
 <!-- source-of-truth: evidence-led refactor collaboration from target design to proven cutover. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
+```mermaid
+flowchart TD
+  Source[Authorized edit request] --> Gate{Entry gate met}
+  Gate -->|No| Ask[Ask for concrete surface]
+  Gate -->|Yes| Bind[Bind scope + boundary]
+  Bind --> Mode{Mode choice}
+  Mode -->|Discovery| Discover[Evidence trace]
+  Mode -->|Decision| Decide[Show one branch question]
+  Mode -->|Direct slice| Slice[Define one slice]
+  Mode -->|Cutover| Cutover[Residue sweep]
+  Discover --> DecisionPoint{Has decision?}
+  DecisionPoint -->|Yes| Decide --> DecisionOut[Pause for human choice]
+  DecisionPoint -->|No| Slice
+  Decide --> Next{User answers?}
+  Next -->|Yes| Slice
+  Slice --> Edit[Small coherent edit]
+  Edit --> Proof[Slice proof ladder]
+  Proof --> CheckCutover{Replace concept?}
+  CheckCutover -->|Yes| Cutover
+  CheckCutover -->|No| Report[Internal card + boundary]
+  Cutover --> Report
+  Report --> NextStep{Boundary permits continue}
+  NextStep -->|Yes| Slice
+  NextStep -->|No| Done[Finish handoff]
+```
+
 Preserve the developer's target design while changing existing code in small, coherent, proven slices. Read facts first. Ask only for material human decisions. Remove obsolete design residue and protect unrelated work.
 
 Internal record → [refactor-card.md](references/refactor-card.md). Mode selection → [interaction-modes.md](references/interaction-modes.md). Slice proof → [slice-proof.md](references/slice-proof.md). Cutover rules → [residue-and-cutover.md](references/residue-and-cutover.md). User-facing reports → [output-format.md](references/output-format.md).
 
-Extended design vocabulary is available in [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/.skeleton/references/codebase-design.md). The core workflow remains complete without companion skills.
+Extended design vocabulary is available in [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/codebase-design.md). The core workflow remains complete without companion skills.
+
+Composition boundaries → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/process-skill-composition.md).
 
 ## Entry gate
 
 - The user authorizes edits to an existing code surface.
 - The task replaces, simplifies, migrates, cuts over, reassigns ownership, or removes an old design shape.
 - A repository, branch, worktree, commit, pull request, or named path is in scope.
-- If the request is analysis-only, stay read-only and explain that implementation is not active. Offer an installed walkthrough or review skill only when available.
+- If the request is analysis-only, stay read-only and explain that implementation is not active.
 - If no concrete surface exists, ask for one. Do not invent code from a scenario description.
 
 ## Core contract
@@ -34,6 +62,7 @@ Extended design vocabulary is available in [codebase-design.md](https://raw.gith
 8. Stop at contract, authority, scope, or evidence boundaries.
 9. Preserve unrelated work. Git state changes need explicit user authority.
 10. Use pragmatic Simple English for previews, questions, progress, and reports.
+11. Use short Mermaid charts for transitions between modes, slice lifecycle, and residue decision points.
 
 ## Refactor card
 
@@ -53,6 +82,16 @@ Stop if:
 ```
 
 Do not dump the card into routine user updates. Details → [refactor-card.md](references/refactor-card.md).
+
+```mermaid
+flowchart LR
+  RequestedShape[Target shape] --> Outcome[Outcome]
+  Outcome --> Invariants[Invariant checks]
+  Invariants --> CurrentSlice[Current slice]
+  CurrentSlice --> Proof[Evidence proof]
+  Proof --> Residue[Residue decision]
+  Residue --> StopIf[Stop condition]
+```
 
 ## Choose the current mode
 

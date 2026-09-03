@@ -2,7 +2,7 @@
 
 **Opt-in soft-default recipe:** Use this only when the consumer has no planning remap.
 
-Collection from independent sources of truth. Uses the [council](../../../../council/SKILL.md) persona contract and [persona prompt](../../../../council/references/persona-prompt.md).
+Collect from independent sources of truth. Use this recipe only when multi-agent orchestration is active.
 
 ## When to use
 
