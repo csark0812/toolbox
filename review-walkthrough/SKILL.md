@@ -6,7 +6,7 @@ description: Bind a code change and explain it through the smallest useful causa
 # Review walkthrough
 
 <!-- source-of-truth: task-shaped, story-first explanation of a bounded code change. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-02 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-03 -->
 
 Explain one bound version of a code change as a causal story. Use only the evidence needed for understanding. Keep formal review and implementation separate.
 
@@ -57,6 +57,7 @@ flowchart TD
 7. Let the user control pace and depth in natural language.
 8. Use pragmatic Simple English.
 9. Prefer short Mermaid diagrams for source flow, beat state transitions, and control-command effects.
+10. Link every source-backed claim to the exact file and line that supports it. Use a clickable Markdown file link with a repo-relative label and an absolute workspace target; the target is the absolute workspace path followed by `:line` (for example, label `src/router.ts:42`, target `/absolute/workspace/app/src/router.ts:42`). Never leave a source path or `file:line` citation as bare text when a link can be made.
 
 ```mermaid
 flowchart LR
@@ -87,7 +88,7 @@ Read [interaction-modes.md](references/interaction-modes.md) for selection and t
 
 1. State the bound source once, after the opening causal explanation. Repeat it only when it changes or becomes uncertain.
 2. Start with the user-named concern when one exists. Otherwise start at the first causal beat.
-3. Explain behavior in execution order. Use the minimum useful anchors and excerpts.
+3. Explain behavior in execution order. Use the minimum useful anchors and excerpts. Make each anchor a clickable link to the exact supporting file and line; link every excerpt to the lines it copies.
 4. In a paced tour, pause after one beat. Keep `why`, `show the code`, and `go deeper` on the current beat.
 5. If the source changes, stop, rebind, preserve covered and skipped beats, and resume at the same causal position. Re-explain changed code before advancing.
 6. If the user authorizes an edit, suspend this read-only process. After the separate implementation finishes, rebind and resume. Restart only when the user asks.

@@ -1,7 +1,7 @@
 # Refactor slice and proof
 
 <!-- source-of-truth: bounded slice preview and proof selection for refactor companion. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-03 -->
 
 ```mermaid
 flowchart LR
@@ -22,10 +22,10 @@ Before editing, state:
 ```markdown
 Slice: [plain-English outcome]
 
-- Change: [owner, boundary, or path that changes]
-- Scope: [files, symbols, and related tests]
-- Proof: [focused verification]
-- Stop if: [contract or evidence that blocks the slice]
+- Change: [owner, boundary, or path that changes, with clickable file-and-line links]
+- Scope: [files, symbols, and related tests, with clickable file-and-line links]
+- Proof: [focused verification, with clickable evidence links]
+- Stop if: [contract or evidence that blocks the slice, with clickable evidence links]
 ```
 
 Omit fields only when they add no information. Do not paste the full refactor card.
@@ -41,6 +41,6 @@ Use the strongest cheap evidence relevant to the slice:
 5. Run the repository's normal validation when the slice is complete.
 6. Use runtime or end-to-end proof when the task depends on live behavior.
 
-State what each proof establishes. Separate architecture shape from passing tests. Separate source defects from environment limits.
+State what each proof establishes and link it to the exact file and line when applicable. Use the absolute workspace path followed by `:line` as the link target. Separate architecture shape from passing tests. Separate source defects from environment limits. If an exact line cannot be resolved, say that the claim is unlinked and keep it `unverified`.
 
 If proof cannot distinguish the two, stop and report the boundary. Do not invent a source fix for a missing service, dependency, credential, or permission.

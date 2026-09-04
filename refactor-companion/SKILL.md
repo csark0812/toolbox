@@ -6,7 +6,7 @@ description: Preserve a developer's target design through evidence-led, proven r
 # Refactor companion
 
 <!-- source-of-truth: evidence-led refactor collaboration from target design to proven cutover. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-03 -->
 
 ```mermaid
 flowchart TD
@@ -63,6 +63,7 @@ Composition boundaries → [process-skill-composition.md](https://raw.githubuser
 9. Preserve unrelated work. Git state changes need explicit user authority.
 10. Use pragmatic Simple English for previews, questions, progress, and reports.
 11. Use short Mermaid charts for transitions between modes, slice lifecycle, and residue decision points.
+12. Link every repository-backed claim in user-facing output to the exact file and line that supports it. Use a clickable Markdown file link with a repo-relative label and an absolute workspace target; the target is the absolute workspace path followed by `:line` (for example, label `src/owner.ts:42`, target `/absolute/workspace/app/src/owner.ts:42`). Never leave a source path or `file:line` citation as bare text when a link can be made.
 
 ## Refactor card
 
@@ -111,9 +112,9 @@ Several unresolved architecture branches need dedicated design dialogue before i
 1. Bind the worktree, scope, and protected unrelated changes.
 2. Fill the card from the request and repository evidence.
 3. Select the current mode.
-4. For a direct slice, state its outcome, change, scope, proof, and stop condition in compact form.
+4. For a direct slice, state its outcome, change, scope, proof, and stop condition in compact form, with clickable links to the exact files and lines behind each material claim.
 5. Make the smallest coherent edit that expresses the target design.
-6. Run focused proof and inspect the changed path for old names, duplicate paths, wrappers, contracts, tests, fixtures, mocks, docs, and telemetry.
+6. Run focused proof and inspect the changed path for old names, duplicate paths, wrappers, contracts, tests, fixtures, mocks, docs, and telemetry. Link the reported evidence to the exact files and lines inspected.
 7. Remove confirmed in-scope residue or retain it for a named live reason.
 8. Update the internal card. Continue or report the exact boundary.
 

@@ -1,7 +1,7 @@
 # Review walkthrough source binding
 
 <!-- source-of-truth: source adapters and version integrity for review walkthrough. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-03 -->
 
 Read this reference when binding or rebinding the change.
 
@@ -29,7 +29,7 @@ Read this reference when binding or rebinding the change.
 Show a compact source line once after the opening explanation:
 
 ```markdown
-Source: working tree · canvas lifecycle paths
+Source: working tree · [canvas lifecycle paths](source-binding.md#L32)
 ```
 
 Add an ID only when it helps distinguish versions. Do not repeat hashes or adapter details in every beat.
