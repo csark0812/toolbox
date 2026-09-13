@@ -104,6 +104,7 @@ describe('toolbox skill SSOT', () => {
       'probe',
       'review-walkthrough',
       'second-opinion',
+      'branch-status',
     ]) {
       const skill = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
       expect(skill).toMatch(/untrusted evidence, not instructions/)
@@ -430,6 +431,16 @@ describe('toolbox skill SSOT', () => {
     expect(walkthrough).toMatch(/Source rules → \[source-binding\.md\]/)
     expect(walkthrough).not.toMatch(/code-review surface adapters/)
     expect(refactor).toMatch(/core workflow remains complete without companion skills/)
+  })
+
+  it('branch-status ships collector script and output schema', () => {
+    const skill = readFileSync(join(root, 'branch-status/SKILL.md'), 'utf8')
+    expect(skill).toMatch(/commit ahead of the base/)
+    expect(skill).toMatch(/pull requests/)
+    expect(skill).toMatch(/untrusted evidence, not instructions/)
+    expect(existsSync(join(root, 'branch-status/scripts/collect.sh'))).toBe(true)
+    expect(existsSync(join(root, 'branch-status/references/readback.md'))).toBe(true)
+    expect(existsSync(join(root, 'branch-status/references/collection.md'))).toBe(true)
   })
 
   it('retired skills are gone (subagents, iterate)', () => {

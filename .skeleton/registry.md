@@ -1,6 +1,6 @@
 # Registry
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-30 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-13 -->
 
 <!-- source-of-truth: Registry topic routing for documentation and skills -->
 
@@ -11,7 +11,7 @@
 | Package overview             | [README.md](../README.md)                                                      |
 | Agent cold-start             | [AGENTS.md](../AGENTS.md)                                                      |
 | Skill tiers                  | [tiers.md](../docs/tiers.md)                                                   |
-| Composability vocabulary     | [context-pack.md](../council/references/context-pack.md)                       |
+| Composability vocabulary     | [process-skill-composition.md](../references/process-skill-composition.md)     |
 | GitHub ambient refs validate | [github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md) |
 | Hunch verdict (ambient)      | [verdict.md](../references/verdict.md)                                         |
 | Evidence parity              | [evidence-parity.md](../docs/evidence-parity.md)                               |
@@ -34,3 +34,4 @@
 | handoff            | [handoff/SKILL.md](../handoff/SKILL.md)                       |
 | refactor-companion | [refactor-companion/SKILL.md](../refactor-companion/SKILL.md) |
 | refine-agent-work  | [refine-agent-work/SKILL.md](../refine-agent-work/SKILL.md)   |
+| branch-status      | [branch-status/SKILL.md](../branch-status/SKILL.md)           |

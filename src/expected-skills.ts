@@ -12,6 +12,7 @@ export const EXPECTED_SKILLS = [
   'handoff',
   'refactor-companion',
   'refine-agent-work',
+  'branch-status',
 ] as const
 
 export type SkillSlug = (typeof EXPECTED_SKILLS)[number]

@@ -48,6 +48,7 @@ Toolbox owns generic skill-contract behavior:
 - `probe-fix-outcomes` / `probe-fix-transfer` / `probe-fix-prompt`: discriminating evidence-parity band (2 scenarios: `no-repro-refuse`, `loop-before-cause`). **Manual live cadence only** — `npm run agent:test:probe-fix-evidence-parity` (not part of `npm run check`). Independent of Evidence parity.
 - `probe-fix-outcomes-ceiling`: ceiling scenario (tight loop; validation only).
 - `domain-model`: entry gate — no stated decision means no ADR; route to grill.
+- `branch-status`: read-only workstream map; no fetch, push, or cleanup without explicit authority.
 - `handoff`: `channel:prompt` (user) vs `channel:artifact` (model-invoked); `Pack:` pointers/fix-loop/full — omit empty sections.
 - `organization-ablations`: live SkillJuror-lite arms — see [docs/skill-organization-ablations.md](../docs/skill-organization-ablations.md).
 - `github-ambient-refs`: direct-only dogfood that ambient refs via GitHub raw URLs are fetchable at agent runtime (scenarios skipped by default validation). See [docs/github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md).

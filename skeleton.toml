@@ -21,6 +21,7 @@ include = [
   "handoff/**",
   "refactor-companion/**",
   "refine-agent-work/**",
+  "branch-status/**",
 ]
 exclude = [
   "references/**",
@@ -49,4 +50,5 @@ ownedSlugs = [
   "handoff",
   "refactor-companion",
   "refine-agent-work",
+  "branch-status",
 ]

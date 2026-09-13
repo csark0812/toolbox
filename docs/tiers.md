@@ -1,7 +1,7 @@
 # Skill tiers
 
 <!-- source-of-truth: skill tier assignment across the agent harness ecosystem. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-09-13 -->
 
 Assign each skill to exactly one **group**. Update when adding skills.
 
@@ -38,6 +38,7 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | **domain-model**       | Persist glossary + ADRs when a decision is ready                                                                                                              |
 | **refactor-companion** | Preserve a developer's target design through evidence-led slices, focused proof, and an explicit cutover sweep.                                               |
 | **refine-agent-work**  | Walk through agent-created work, test it against developer preferences, and refine it through bounded proven slices.                                          |
+| **branch-status**      | Report unique-ahead branches as workstreams, stacks, and stale vs active labels; stay read-only.                                                              |
 
 ## Process SSOT (`toolbox/`)
 

@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "branch-status": {
+      "source": "csark0812/toolbox",
+      "sourceType": "github",
+      "skillPath": "branch-status/SKILL.md",
+      "computedHash": "e52dba024160bed9102d63637e6a51d5cee6790e25b0813265058383302d3bbc"
+    },
     "code-review": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
