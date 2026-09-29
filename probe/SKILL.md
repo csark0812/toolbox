@@ -1,6 +1,6 @@
 ---
 name: probe
-description: Narrow a hunch or hard bug through evidence and a pragmatic-STE verdict. Fix only with explicit authority and an on-demand failing signal. Not written-artifact critique, open ideation, or greenfield test-first work.
+description: Diagnose a concrete suspected bug or visual behavior, such as a layout jump, clipped control, or CSS override. Find a tight signal and give an evidence-backed verdict; fix only when authorized and the signal fails on demand. Not open ideation or routine visual polish.
 ---
 
 # Probe

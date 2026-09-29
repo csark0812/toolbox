@@ -1,6 +1,6 @@
 ---
 name: review-walkthrough
-description: Bind a code change and explain it through the smallest useful causal story. Use when a user wants to understand staged, working-tree, commit, branch, pull-request, or scoped-path changes before deciding what to do next. Read-only; not formal review or repair.
+description: Explain a staged or working-tree diff, commit, branch, PR, or named path as a causal story. Use when the user asks what changed, what is about to be committed or pushed, or whether a change contains unrelated work. Read-only; not a commit gate, formal review, or repair.
 ---
 
 # Review walkthrough

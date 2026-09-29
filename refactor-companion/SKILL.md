@@ -1,6 +1,6 @@
 ---
 name: refactor-companion
-description: Preserve a developer's target design through evidence-led, proven refactor slices. Use for existing-code replacement, simplification, migration, cutover, ownership change, or deliberate removal of an old shape. Not ordinary feature work, analysis-only review, or autonomous Git operations.
+description: Change an existing design through proven refactor slices when the user asks to replace or consolidate controls, move state or lifecycle ownership, migrate an editor or API, or remove an old path. Preserve the stated target and unrelated work. Not routine feature work, read-only review, or autonomous Git operations.
 ---
 
 # Refactor companion
