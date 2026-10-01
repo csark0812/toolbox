@@ -6,6 +6,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import process from 'node:process'
 import { describe, expect, it } from 'vitest'
+const networkDescribe = process.env.TOOLBOX_NETWORK_TESTS === '1' ? describe : describe.skip
 
 const root = join(import.meta.dirname, '..')
 const REL = 'references/dialogue-contract.md'
@@ -29,7 +30,7 @@ async function fetchText(url) {
   return { status: res.status, text: await res.text() }
 }
 
-describe('github ambient refs validation (T1/T6)', () => {
+networkDescribe('github ambient refs validation (T1/T6)', () => {
   it('T1: pinned commit raw URL returns 200 and known markers', async () => {
     // Prefer a published tip; fall back to main if this SHA is not on GitHub yet.
     const sha = process.env.GITHUB_AMBIENT_REF_SHA ?? 'e8f6519d9c737f55ba71c16932e1a8cf06d3acc6'
@@ -71,7 +72,7 @@ describe('github ambient refs validation (T1/T6)', () => {
   })
 })
 
-describe('github ambient refs tool capability (T2 gate input)', () => {
+networkDescribe('github ambient refs tool capability (T2 gate input)', () => {
   it('T2a: Node fetch can load raw content (WebFetch-class)', async () => {
     const { status, text } = await fetchText(rawUrl('main'))
     expect(status).toBe(200)

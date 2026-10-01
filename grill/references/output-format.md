@@ -2,7 +2,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-Use only the sections that help the next action. Write in pragmatic Simple English.
+Use only the sections that help the next action. Write in clear English.
 
 ```markdown
 ## What we agreed

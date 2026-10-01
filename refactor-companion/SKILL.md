@@ -40,7 +40,7 @@ Internal record → [refactor-card.md](references/refactor-card.md). Mode select
 
 Extended design vocabulary is available in [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/codebase-design.md). The core workflow remains complete without companion skills.
 
-Composition boundaries → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/process-skill-composition.md).
+Composition boundaries → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md).
 
 ## Entry gate
 
@@ -61,7 +61,7 @@ Composition boundaries → [process-skill-composition.md](https://raw.githubuser
 7. Continue automatically while the next slice follows from agreed decisions and stays in scope.
 8. Stop at contract, authority, scope, or evidence boundaries.
 9. Preserve unrelated work. Git state changes need explicit user authority.
-10. Use pragmatic Simple English for previews, questions, progress, and reports.
+10. Use clear English for previews, questions, progress, and reports.
 11. Use short Mermaid charts for transitions between modes, slice lifecycle, and residue decision points.
 12. Link every repository-backed claim in user-facing output to the exact file and line that supports it. Use a clickable Markdown file link with a repo-relative label and an absolute workspace target; the target is the absolute workspace path followed by `:line` (for example, label `src/owner.ts:42`, target `/absolute/workspace/app/src/owner.ts:42`). Never leave a source path or `file:line` citation as bare text when a link can be made.
 
@@ -106,6 +106,12 @@ flowchart LR
 Use one mode for the current turn. A refactor can move between modes. Read [interaction-modes.md](references/interaction-modes.md).
 
 Several unresolved architecture branches need dedicated design dialogue before implementation. One local blocking decision stays inside this workflow.
+
+## Behavior and handoff
+
+Before structural edits establish the public-seam behavior baseline. Reuse adequate tests; otherwise characterize preserved behavior. Record approved deltas separately, and never turn known defects into the target contract. For compatibility/defensive paths inspect targeted history and distinguish recorded rationale from inference. Reopen only affected decisions when repeated workarounds, caller leakage, type escapes or conflicting lifecycle needs supply evidence.
+
+When composed, return changed source identity, affected parts, proof and residue to the outer owner without advancing its cursor. A direct invocation owns its temporary refactor card. Revalidate integrated output rather than combining green slice claims.
 
 ## Slice loop
 

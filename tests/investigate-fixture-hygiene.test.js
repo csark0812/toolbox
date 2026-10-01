@@ -44,7 +44,7 @@ describe('investigate null-arm hygiene seed', () => {
       })
       expect(apply.status, apply.stderr || apply.stdout).toBe(0)
       expect(existsSync(join(parent, 'probe/SKILL.md'))).toBe(false)
-      expect(existsSync(join(parent, 'agent-suites/probe-evidence-outcomes/scenarios.json'))).toBe(
+      expect(existsSync(join(parent, 'agent-suites/probe-evidence-outcomes/claims.json'))).toBe(
         false,
       )
       expect(existsSync(join(parent, '_agent/probe-evidence-null-arm-hygiene.patch'))).toBe(false)

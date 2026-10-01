@@ -32,7 +32,7 @@ export function materializeNullArmSuite(repoRoot, suiteName, absoluteSeedPath, o
   const srcText = options.scenariosJson
     ? String(options.scenariosJson)
     : readFileSync(
-        options.scenariosPath ?? join(repoRoot, 'agent-suites', suiteName, 'scenarios.json'),
+        options.scenariosPath ?? join(repoRoot, 'agent-suites', suiteName, 'claims.json'),
         'utf8',
       )
   const suitesDir = join(repoRoot, '_agent', 'null-arm-suites', `${suiteName}-${Date.now()}`)
@@ -61,7 +61,7 @@ export function materializeNullArmSuite(repoRoot, suiteName, absoluteSeedPath, o
       }
     }
   }
-  writeFileSync(join(suiteDir, 'scenarios.json'), `${JSON.stringify(doc, null, '\t')}\n`)
+  writeFileSync(join(suiteDir, 'claims.json'), `${JSON.stringify(doc, null, '\t')}\n`)
   return {
     suitesDir,
     suitesDirArg: relative(repoRoot, suitesDir),

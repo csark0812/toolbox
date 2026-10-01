@@ -21,7 +21,7 @@ describe('investigate caller park', () => {
       writeFileSync(join(repo, 'probe', 'SKILL.md'), 'verdict gate secret\n')
       mkdirSync(join(repo, 'agent-suites', 'probe-evidence-transfer'), { recursive: true })
       writeFileSync(
-        join(repo, 'agent-suites', 'probe-evidence-transfer', 'scenarios.json'),
+        join(repo, 'agent-suites', 'probe-evidence-transfer', 'claims.json'),
         '{"name":"probe-evidence-transfer"}\n',
       )
       mkdirSync(join(repo, 'docs'), { recursive: true })
@@ -56,7 +56,7 @@ describe('investigate caller park', () => {
     writeFileSync(join(repo, 'probe', 'SKILL.md'), 'verdict without patch\n')
     mkdirSync(join(repo, 'agent-suites', 'probe-evidence-transfer'), { recursive: true })
     writeFileSync(
-      join(repo, 'agent-suites', 'probe-evidence-transfer', 'scenarios.json'),
+      join(repo, 'agent-suites', 'probe-evidence-transfer', 'claims.json'),
       JSON.stringify({
         name: 'probe-evidence-transfer',
         scenarios: [
@@ -109,7 +109,7 @@ describe('investigate caller park', () => {
       }),
     ).toThrow()
 
-    const transferBuf = handle.files.get('agent-suites/probe-evidence-transfer/scenarios.json')
+    const transferBuf = handle.files.get('agent-suites/probe-evidence-transfer/claims.json')
     const mat = materializeNullArmSuite(repo, 'probe-evidence-transfer', null, {
       scenariosJson: transferBuf,
       seedPatchByCompareId: {
@@ -117,7 +117,7 @@ describe('investigate caller park', () => {
           '_agent/probe-evidence-fixture-seeds/fix-invention-guard-only.patch',
       },
     })
-    const onDisk = JSON.parse(readFileSync(join(mat.suiteDir, 'scenarios.json'), 'utf8'))
+    const onDisk = JSON.parse(readFileSync(join(mat.suiteDir, 'claims.json'), 'utf8'))
     expect(onDisk.scenarios[0].rubric.judge).toBeUndefined()
     expect(onDisk.scenarios[0].seedPatch).toBe(
       '_agent/probe-evidence-fixture-seeds/fix-invention-guard-only.patch',

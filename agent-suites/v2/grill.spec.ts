@@ -1,0 +1,244 @@
+import { describe, z } from '@post-print/agent-test'
+import { executeClaim } from './support'
+const test = describe('grill', ({ agent, judge }) => ({
+  coder: agent(),
+  reviewer: judge({
+    prompt:
+      'Evaluate only the supplied claims against the supplied evidence. Skill availability or self-assertion does not prove use. Return passed only if every claim is supported. Explain missing evidence.',
+    schema: z.object({ passed: z.boolean(), reason: z.string() }),
+  }),
+}))
+test(
+  'fuzzy intent: inspect facts and keep the problem open',
+  {
+    description:
+      'Portable Grill behavior: fact-aware, decision-focused dialogue before implementation',
+    criteria: [
+      '61%',
+      'What should',
+      'The agent inspected the supplied repository fact source before asking',
+      'The agent used known evidence without asking the user to repeat it',
+      'The agent asked one open question about the user-owned outcome because honest solution choices were not yet known',
+      'The agent did not pretend the intent was settled or design a fix',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'grill:1',
+        suite: 'grill',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'fuzzy intent: inspect facts and keep the problem open',
+        prompt:
+          'Use Grill to help me with this: our engineer onboarding feels confusing. Inspect `agent-suites/grill/fixtures/context/onboarding.md` before asking me anything. I do not yet know the core problem.\n\nRead `.claude/skills/grill/SKILL.md` first.',
+        rubric: {
+          must: ['61%', 'What should'],
+          mustInvokeSkill: ['grill'],
+          mustNot: ['Crystallized idea', 'recommended', 'implement', 'A)', 'B)'],
+          judge: [
+            'The agent inspected the supplied repository fact source before asking',
+            'The agent used known evidence without asking the user to repeat it',
+            'The agent asked one open question about the user-owned outcome because honest solution choices were not yet known',
+            'The agent did not pretend the intent was settled or design a fix',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+test(
+  'concrete choice: supported recommendation and real revisit trigger',
+  {
+    description:
+      'Portable Grill behavior: fact-aware, decision-focused dialogue before implementation',
+    criteria: [
+      'immediate revocation',
+      'offline verification',
+      'The agent compared only credible session-model options using the supplied evidence',
+      'The recommendation followed the revocation requirement and existing central store',
+      'The revisit trigger could defeat the recommended server-session approach rather than merely attack the rejected option',
+      'The agent stayed on one branch and did not implement',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'grill:2',
+        suite: 'grill',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'concrete choice: supported recommendation and real revisit trigger',
+        prompt:
+          'Use Grill to pressure-test server sessions versus signed stateless tokens. Inspect `agent-suites/grill/fixtures/context/session-design.md`. Stay on the session-model choice. Do not implement.\n\nRead `.claude/skills/grill/SKILL.md` and `grill/references/interaction.md` first.',
+        rubric: {
+          must: ['immediate revocation', 'offline verification'],
+          mustInvokeSkill: ['grill'],
+          mustNot: ['cookie duration', 'UI', 'start coding'],
+          judge: [
+            'The agent compared only credible session-model options using the supplied evidence',
+            'The recommendation followed the revocation requirement and existing central store',
+            'The revisit trigger could defeat the recommended server-session approach rather than merely attack the rejected option',
+            'The agent stayed on one branch and did not implement',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+test(
+  'continued dialogue: preserve a settled decision',
+  {
+    description:
+      'Portable Grill behavior: fact-aware, decision-focused dialogue before implementation',
+    criteria: [
+      'session store is unavailable',
+      'The agent carried the accepted server-session choice forward without reopening it',
+      'The agent asked one focused question about the unresolved failure policy',
+      'The agent did not repeat settled facts or move to an unrelated branch',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'grill:3',
+        suite: 'grill',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'continued dialogue: preserve a settled decision',
+        prompt:
+          'Continue this Grill dialogue. We already chose server-side sessions and agreed to revisit only if offline verification becomes required. The next unresolved choice is what login should do when the session store is unavailable. Ask about that next choice.\n\nRead `.claude/skills/grill/SKILL.md` first.',
+        rubric: {
+          must: ['session store is unavailable'],
+          mustInvokeSkill: ['grill'],
+          mustNot: ['Redis or tokens', 'Which session model', 'implement'],
+          judge: [
+            'The agent carried the accepted server-session choice forward without reopening it',
+            'The agent asked one focused question about the unresolved failure policy',
+            'The agent did not repeat settled facts or move to an unrelated branch',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+test(
+  'alignment gate: unresolved ownership blocks implementation',
+  {
+    description:
+      'Portable Grill behavior: fact-aware, decision-focused dialogue before implementation',
+    criteria: [
+      'ownership',
+      'The agent recognized dead-letter ownership as a material unresolved choice',
+      'The agent refused to infer full alignment from an answer about retry delay',
+      'The agent asked the smallest ownership question and did not edit or implement',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'grill:4',
+        suite: 'grill',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'alignment gate: unresolved ownership blocks implementation',
+        prompt:
+          'Continue this Grill dialogue. We chose a queue for retries, but nobody owns replaying dead-letter jobs and that choice affects operations. I answered the retry-delay question. Start implementing now if you think we are ready.\n\nRead `.claude/skills/grill/SKILL.md` first.',
+        rubric: {
+          must: ['ownership'],
+          mustInvokeSkill: ['grill'],
+          mustNot: ['I started', 'implemented', 'edited'],
+          judge: [
+            'The agent recognized dead-letter ownership as a material unresolved choice',
+            'The agent refused to infer full alignment from an answer about retry delay',
+            'The agent asked the smallest ownership question and did not edit or implement',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+test(
+  'explicit skip: close dialogue without doing implementation',
+  {
+    description:
+      'Portable Grill behavior: fact-aware, decision-focused dialogue before implementation',
+    criteria: [
+      'platform team',
+      'queue',
+      "The agent treated the user's instruction as an explicit end to Grill rather than silently claiming every design question was resolved",
+      'The agent preserved the selected direction and ownership in a compact handoff',
+      'The agent named implementation as the next action but did not perform it inside Grill',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'grill:5',
+        suite: 'grill',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'explicit skip: close dialogue without doing implementation',
+        prompt:
+          'Continue this Grill dialogue. Skip the remaining Grill questions. The platform team owns dead-letter replay. Use the queue design and move to implementation.\n\nRead `.claude/skills/grill/SKILL.md` first.',
+        rubric: {
+          must: ['platform team', 'queue'],
+          mustInvokeSkill: ['grill'],
+          mustNot: ['I implemented', 'files changed', '## Still open'],
+          judge: [
+            "The agent treated the user's instruction as an explicit end to Grill rather than silently claiming every design question was resolved",
+            'The agent preserved the selected direction and ownership in a compact handoff',
+            'The agent named implementation as the next action but did not perform it inside Grill',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+test(
+  'aligned narrow choice: proportional exit',
+  {
+    description:
+      'Portable Grill behavior: fact-aware, decision-focused dialogue before implementation',
+    criteria: [
+      '30 minutes',
+      'security policy',
+      'The agent gave a short exit that preserved the decision, reason, revisit condition, and next action',
+      'The agent omitted empty sections, repeated history, and an invented completeness checklist',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'grill:6',
+        suite: 'grill',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'aligned narrow choice: proportional exit',
+        prompt:
+          'Finish this Grill dialogue. We agreed that password reset links expire after 30 minutes because the security requirement sets that limit. We will revisit only if the security policy changes. There are no open questions, and I accept this understanding.\n\nRead `.claude/skills/grill/SKILL.md` and `grill/references/output-format.md` first.',
+        rubric: {
+          must: ['30 minutes', 'security policy'],
+          mustInvokeSkill: ['grill'],
+          mustNot: ['## Still open', 'failure modes', 'rollback', 'non-functional'],
+          judge: [
+            'The agent gave a short exit that preserved the decision, reason, revisit condition, and next action',
+            'The agent omitted empty sections, repeated history, and an invented completeness checklist',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)

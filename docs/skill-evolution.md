@@ -41,40 +41,16 @@ Toolbox skills are static human SSOT. They do not self-mutate from transcripts. 
    - Sharpen a completion criterion if the agent **prematurely completed**
    - Add a carve-out under **Does not transfer** if the failure falsifies an overclaim
    - Lower **Confidence** if evidence is mixed
-4. **Authoring gate** — apply skill-authoring vocabulary (for example [mattpocock/skills](https://github.com/mattpocock/skills) `writing-for-agents` / `writing-great-skills`): prune no-ops, positive steering, progressive disclosure. Also apply **Pragmatic STE for toolbox** (below).
+4. **Authoring gate** — apply skill-authoring vocabulary (for example [mattpocock/skills](https://github.com/mattpocock/skills) `writing-for-agents` / `writing-great-skills`): prune no-ops, positive steering, progressive disclosure. Apply the public writing contract below.
 5. **Lock** — add or update a **contract** scenario in `agent-suites/<skill>/`. Validate suite shape and run direct scenarios when live evidence is needed.
 6. **Optional vitest lock** — add a string invariant in `tests/skills.test.js` only when the new rule is stable prose that regressions must catch globally.
 7. **Record** — copy [`templates/skill-evolution-note.md`](../templates/skill-evolution-note.md) into `_agent/` or the PR description. Then bump `last-reviewed` on touched research-basis files.
 
-### Pragmatic STE for toolbox
+### Public writing and evaluation
 
-Write skill bodies, references, hub docs, and ambient refs in **pragmatic** Simplified Technical English (structural rules). Keep toolbox domain nouns (`Slice`, `Artifact`, `spawn`, `verdict`, skill names, paths, commands). Full catalog: user-level `/simple-english` skill (ASD-STE100 aid). This house note is not official STE compliance.
+Use the [versioned writing contract](../references/v2/output-schema.md): preserve facts, uncertainty, technical terms and reader purpose. Constrained English is an explicit strict-english mode, not the default authoring gate. Evaluate observable decisions, public behavior and evidence instead of sentence length or modal presence.
 
-**House picks (one word, one meaning):**
-
-| Concept           | Use                                                                     |
-| ----------------- | ----------------------------------------------------------------------- |
-| Verification      | `make sure that` (not ensure / verify / confirm / check-as-verb)        |
-| CLI / npm actions | `run` as technical verb                                                 |
-| Modals            | `can` / `will` / `must` only (not should / would / may / might / could) |
-| Compound steps    | vertical lists (one instruction per sentence)                           |
-
-**Structural rules (minimum):**
-
-- Procedural sentences: max 20 words. Descriptive sentences: max 25 words.
-- No contractions. No semicolons as clause joiners.
-- Put conditions before commands: `If X, do Y.`
-- Untouchables: code fences, identifiers, CLI flags, paths, quoted errors.
-
-**User-facing output contracts:** Named blocks that face the human (ask Questions, verdicts, pass progress, review findings, cast summaries, human-facing handoff packs) must **require** pragmatic STE. Examples in those files must show it. Ambient baseline: [`references/output-schema.md`](../references/output-schema.md). Mid-turn free chat outside those blocks is not required to be STE. Coordinator-internal and blind-member envelopes stay schema-dense unless labeled user-facing.
-
-**Self-check before merge:**
-
-1. Count words in the three longest sentences. Split any over the 20/25 limit.
-2. Search for contractions, `has been` / `have been`, `should`, `-ing` verbs after a comma, and semicolons.
-3. Search for every `if` and `when`. Each one must stand at the start of its sentence before the command.
-4. Search for ensure / verify / confirm / check-as-verb. Replace each hit with `make sure that` (or restructure).
-5. If you edit a user-facing output contract, make sure that the file requires pragmatic STE and that examples obey it.
+Current suites use the TypeScript SDK and normalized evidence v1. Inspect agent-suites/migration-index.json for each claim's assertion, selected judge inputs, metric and parser. Historical legacy debug/compare readers remain for old evidence only; new execution uses agent:test:live and agent:test:comparisons. Proposals remain human-reviewed and no automatic skill patch or external backlog write follows an evaluation.
 
 ## What not to do
 

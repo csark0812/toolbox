@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { dirname, join, resolve, sep } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { EXPECTED_SKILLS } from '../src/expected-skills.ts'
+import { EXPECTED_SKILLS, SKILLS } from '../src/expected-skills.ts'
 
 const root = join(import.meta.dirname, '..')
 
@@ -37,7 +37,7 @@ describe('toolbox skill SSOT', () => {
     }
     expect(skill).toMatch(/smallest useful mode/)
     expect(skill).toMatch(/minimum useful anchors and excerpts/)
-    expect(skill).toMatch(/pragmatic Simple English/)
+    expect(skill).toMatch(/clear English/)
     expect(skill).toMatch(/suspend this read-only process/)
     expect(skill).not.toMatch(/two to five useful/)
 
@@ -87,12 +87,15 @@ describe('toolbox skill SSOT', () => {
     expect(modes).toMatch(/Do not ask about a fact the repository can answer/)
   })
 
-  it('all shipped skills are model-invokable (no disable-model-invocation)', () => {
-    for (const slug of EXPECTED_SKILLS) {
-      const skill = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
-      expect(skill, `${slug} must omit disable-model-invocation`).not.toMatch(
-        /disable-model-invocation/,
-      )
+  it('explicit skills have matching host policies', () => {
+    for (const metadata of SKILLS) {
+      const body = readFileSync(join(root, metadata.slug, 'SKILL.md'), 'utf8')
+      if (metadata.invocation === 'explicit') {
+        expect(body).toContain('disable-model-invocation: true')
+        expect(readFileSync(join(root, metadata.slug, 'agents/openai.yaml'), 'utf8')).toContain(
+          'allow_implicit_invocation: false',
+        )
+      } else expect(body).not.toContain('disable-model-invocation: true')
     }
   })
 
@@ -187,7 +190,7 @@ describe('toolbox skill SSOT', () => {
   })
 
   it('adjacent ownership skills stay independently complete without peer routing', () => {
-    const roles = ['review-walkthrough', 'refine-agent-work', 'refactor-companion']
+    const roles = ['review-walkthrough', 'refactor-companion']
     for (const slug of roles) {
       const body = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
       for (const peer of roles.filter((candidate) => candidate !== slug)) {
@@ -232,17 +235,6 @@ describe('toolbox skill SSOT', () => {
     expect(body).not.toMatch(/POS-12/)
   })
 
-  it('process SKILL.md bodies ban soft STE modals (pragmatic house lock)', () => {
-    // Strip fenced code so template placeholders do not false-positive.
-    const fence = /```[\s\S]*?```/g
-    const banned = /\b(should|would|may|might|could)\b/i
-    for (const slug of EXPECTED_SKILLS) {
-      const text = readFileSync(join(root, slug, 'SKILL.md'), 'utf8').replace(fence, '')
-      const match = text.match(banned)
-      expect(match, `${slug}/SKILL.md contains banned modal ${match?.[0] ?? ''}`).toBeNull()
-    }
-  })
-
   it('council creates distinct task personas and selects an interaction', () => {
     const skill = readFileSync(join(root, 'council/SKILL.md'), 'utf8')
     const personaPrompt = readFileSync(join(root, 'council/references/persona-prompt.md'), 'utf8')
@@ -257,7 +249,7 @@ describe('toolbox skill SSOT', () => {
     expect(skill).toMatch(/Does it inspect distinct evidence/)
     expect(skill).toMatch(/Can its answer change or narrow the decision/)
     expect(skill).toMatch(/Council preview/)
-    expect(skill).toMatch(/pragmatic Simple English for all user-facing text/)
+    expect(skill).toMatch(/clear English for all user-facing text/)
 
     for (const field of [
       'Persona:',
@@ -380,7 +372,7 @@ describe('toolbox skill SSOT', () => {
     expect(mergeReadiness).toMatch(/immediately before synthesis/)
     expect(mergeReadiness).toMatch(/STALE > INCOMPLETE > BLOCKED > PASSED/)
     expect(mergeReadiness).toMatch(/No merge-blockers or glaring issues in scope\./)
-    expect(mergeReadiness).toMatch(/Do not create a ledger/)
+    expect(existsSync(join(root, 'code-review/scripts/review.mjs'))).toBe(true)
     expect(mergeReadiness).not.toMatch(/Pass class:/)
     expect(mergeReadiness).not.toMatch(/Thrash:/)
     expect(mergeReadiness).not.toMatch(/Reviewer: primary/)
@@ -443,8 +435,9 @@ describe('toolbox skill SSOT', () => {
     expect(existsSync(join(root, 'branch-status/references/collection.md'))).toBe(true)
   })
 
-  it('retired skills are gone (subagents, iterate)', () => {
+  it('retired skills are gone (subagents, iterate, refine-agent-work)', () => {
     expect(existsSync(join(root, 'subagents/SKILL.md'))).toBe(false)
+    expect(existsSync(join(root, 'refine-agent-work'))).toBe(false)
     expect(existsSync(join(root, 'iterate/SKILL.md'))).toBe(false)
     expect(existsSync(join(root, 'agent-suites/subagents'))).toBe(false)
     expect(existsSync(join(root, 'agent-suites/iterate'))).toBe(false)

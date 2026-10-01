@@ -2,7 +2,7 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-User-facing blocks must use pragmatic STE: short sentences, concrete subjects and verbs, and one meaning per sentence. If `simple-english` is installed, it can provide additional guidance; this output contract does not require it.
+User-facing blocks must use clear English: short sentences, concrete subjects and verbs, and one meaning per sentence.
 
 ```markdown
 ## Prototype

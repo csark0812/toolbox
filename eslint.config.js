@@ -12,6 +12,8 @@ export default [
       '.cursor/**',
       '_agent/**',
       'dist/**',
+      '.agent-test/**',
+      '.toolbox/**',
       // Skill-local references/ (not ambient GitHub SSOT)
       '*/references/**',
     ],
@@ -42,7 +44,7 @@ export default [
     },
   },
   {
-    files: ['scripts/**/*.{js,mjs,cjs}'],
+    files: ['scripts/**/*.{js,mjs,cjs}', '*/scripts/**/*.{js,mjs,cjs}'],
     languageOptions: {
       globals: globals.node,
     },

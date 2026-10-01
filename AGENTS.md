@@ -27,7 +27,7 @@ pre-commit install
 ## Layout
 
 - Flat skills: `<slug>/SKILL.md` (for example `council/SKILL.md`)
-- Shared module: `src/expected-skills.ts` (canonical slug list — `npm run typecheck`)
+- Shared module: `src/expected-skills.ts` (canonical composition metadata — `npm run typecheck`)
 - Tests: `tests/`
 - Agent conformance suites: `agent-suites/` (`npm run agent:test`)
 - Canonical ambient refs: `references/` — skills link via GitHub raw URLs (see [docs/github-ambient-refs-validation.md](docs/github-ambient-refs-validation.md)). No per-skill materialization.
@@ -36,7 +36,7 @@ pre-commit install
 
 ## Skill composition
 
-Treat skills as adjacent, independently complete roles. Descriptions route by user intent. Skill bodies do not invoke peers or use peer trees as shared libraries. Shared vocabulary belongs in `references/`; conversation state and artifacts carry continuity across roles. See [process-skill-composition.md](references/process-skill-composition.md).
+Treat skills as adjacent, independently complete roles. Descriptions route by user intent. Declared workflow/orchestrate composition and fresh code-review dispatch may invoke companions through host discovery; specialists remain independently complete. Shared vocabulary belongs in `references/`; conversation state and artifacts carry continuity across roles. See [process-skill-composition.md](references/v2/process-skill-composition.md).
 
 ## Validation
 
@@ -53,7 +53,7 @@ Path-scoped `validate:changed` on skill-only paths exits non-zero and redirects 
 
 `npm test` = unit fixtures + `audit:hub` + `audit:skills` + `validate:ci`. `npm run check` / `npm start` also runs format, lint, typecheck, and `npm audit --omit=dev` (CI + First hour). Optional deeper pass: `npm run audit:self` (docs + skills — SSOT-bearing files need `<!-- source-of-truth: … -->` + doc-meta). Skill-path redirect needs `@csark0812/skeleton` ≥ 2.0.0.
 
-`npm run agent:test` runs replay-based portable conformance suites for public toolbox skills. `npm run agent:test:live` uses Cursor SDK dogfood in isolated worktrees and requires `CURSOR_API_KEY`. `npm run agent:test:live:debug` adds verbose failures and keeps staging under `$TMPDIR/agent-spec` by default (see `agent-suites/README.md`). Keep consumer and product-specific suites (for example PostPrint app paths, private docs, and repo validation commands) in the consumer repo.
+`npm run agent:test` validates current TypeScript suite discovery, fixtures and claim mappings offline. `agent:test:live` executes independent Codex subscription sessions; comparisons repeat paired scenarios three times. Publication and network proof are explicit commands. Keep application-specific integration in its consumer repository.
 
 ## Install destinations
 

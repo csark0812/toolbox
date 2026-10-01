@@ -3,8 +3,8 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 const root = join(import.meta.dirname, '..')
-const transferPath = join(root, 'agent-suites/probe-evidence-transfer/scenarios.json')
-const outcomePath = join(root, 'agent-suites/probe-evidence-outcomes/scenarios.json')
+const transferPath = join(root, 'agent-suites/probe-evidence-transfer/claims.json')
+const outcomePath = join(root, 'agent-suites/probe-evidence-outcomes/claims.json')
 
 const HYGIENE_SEED = '_agent/probe-evidence-null-arm-hygiene.patch'
 

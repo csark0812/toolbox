@@ -1,0 +1,140 @@
+{
+  "name": "council",
+  "description": "Portable council conformance: task personas, useful interaction choice, independent first views, real members, and single-pass fit",
+  "defaults": {
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "independent panel: persona preview and safe proof",
+      "prompt": "Use council on the plan at docs/plans/auth.plan.md for a multi-perspective readiness review. Create task personas, show the plain-English preview, run independent first views, and settle a narrow conflict with a safe read when possible.",
+      "rubric": {
+        "must": [
+          "Council preview",
+          "Independent panel",
+          "Question",
+          "Evidence",
+          "Falsifier",
+          "Boundary",
+          "safe proof",
+          "real member"
+        ],
+        "mustInvokeSkill": ["council"],
+        "mustNot": [
+          "optimist",
+          "pessimist",
+          "senior-engineer",
+          "busy-user",
+          "model=",
+          "token budget"
+        ],
+        "judge": [
+          "The agent created distinct task personas, previewed the format, kept first views independent, ran real members, and used a safe read to settle one conflict"
+        ]
+      }
+    },
+    {
+      "name": "structured challenge: independent attack and defense",
+      "prompt": "Use council to stress-test the rollout proposal at docs/plans/auth.plan.md. Choose the interaction pattern that fits one proposal with meaningful attack and defense.",
+      "rubric": {
+        "must": [
+          "Structured challenge",
+          "proposal-risk",
+          "recovery-defense",
+          "independent",
+          "focused follow-up"
+        ],
+        "mustInvokeSkill": ["council"],
+        "mustNot": ["vote", "model=", "token"],
+        "judge": [
+          "The agent selected structured challenge, gave attacker and defender distinct evidence and falsifiers, and kept their first views independent"
+        ]
+      }
+    },
+    {
+      "name": "competing proposals: compare complete alternatives",
+      "prompt": "Use council to compare two complete session-storage proposals against the same reliability and maintenance criteria.",
+      "rubric": {
+        "must": [
+          "Competing proposals",
+          "shared criteria",
+          "database-case",
+          "redis-case",
+          "material disagreement"
+        ],
+        "mustInvokeSkill": ["council"],
+        "mustNot": ["select the winner by vote", "model="],
+        "judge": [
+          "The agent selected competing proposals and compared complete alternatives against shared criteria without reducing the result to a vote"
+        ]
+      }
+    },
+    {
+      "name": "nominal ideation: generate before evaluation",
+      "prompt": "Use council to generate and prioritize ways to reduce onboarding abandonment without early group influence.",
+      "rubric": {
+        "must": [
+          "Nominal ideation",
+          "generate independently",
+          "cluster",
+          "evaluate",
+          "distinct evidence"
+        ],
+        "mustInvokeSkill": ["council"],
+        "mustNot": ["brainstorm together first", "model="],
+        "judge": [
+          "The agent selected nominal ideation, preserved independent option generation, and delayed clustering and evaluation until synthesis"
+        ]
+      }
+    },
+    {
+      "name": "delphi revision: controlled estimate update",
+      "prompt": "Use council to estimate a migration timeline under uncertain operational constraints and preserve meaningful dissent.",
+      "rubric": {
+        "must": [
+          "Delphi revision",
+          "independent estimates",
+          "neutral summary",
+          "one revision",
+          "range",
+          "dissent"
+        ],
+        "mustInvokeSkill": ["council"],
+        "mustNot": ["hide dissent", "model="],
+        "judge": [
+          "The agent selected Delphi revision, used controlled feedback, and kept the final estimate range and dissent visible"
+        ]
+      }
+    },
+    {
+      "name": "socratic seminar: clarify premises",
+      "prompt": "Use council to clarify what ready to launch means in a draft that mixes reliability, usability, and support assumptions.",
+      "rubric": {
+        "must": [
+          "Socratic seminar",
+          "evidence-led questions",
+          "clarified premises",
+          "unresolved question"
+        ],
+        "mustInvokeSkill": ["council"],
+        "mustNot": ["majority vote", "model="],
+        "judge": [
+          "The agent selected Socratic seminar and used task personas to clarify assumptions without pretending that the council owns the user's decision"
+        ]
+      }
+    },
+    {
+      "name": "fit check: use one pass",
+      "prompt": "Map how auth works in agent-suites/fixtures/sample-app. Use council only if two distinct task personas can change the answer.",
+      "rubric": {
+        "must": ["fewer than two", "single pass"],
+        "mustInvokeSkill": ["council"],
+        "mustNot": ["real member", "Council preview", "model="],
+        "judge": [
+          "The agent applied the persona fit test and used one coordinator pass when only one useful question remained"
+        ]
+      }
+    }
+  ]
+}

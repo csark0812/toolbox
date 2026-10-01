@@ -10,11 +10,11 @@ description: Report open Git branches as active workstreams, stacks, and stale w
 
 **Process skill** — report what work is still alive, how it relates, and what needs a decision.
 
-Composition boundaries → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/process-skill-composition.md). This workflow remains complete without another skill.
+Composition boundaries → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md). This workflow remains complete without another skill.
 
 References: [collection.md](references/collection.md) · [readback.md](references/readback.md).
 
-User-facing readback uses pragmatic Simple English. Shared baseline → [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/output-schema.md).
+User-facing readback uses clear English. Shared baseline → [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/output-schema.md).
 
 ## Entry gate
 

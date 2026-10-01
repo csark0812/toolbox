@@ -28,7 +28,7 @@ Read [research-basis.md](references/research-basis.md) only when you calibrate p
 
 1. Make sure that the target is glossary, ADR, or both.
 2. Read existing files. Dedupe or update in place.
-3. Write per ambient formats → [output.md](references/output.md). User-facing summary uses pragmatic STE.
+3. Write per ambient formats → [output.md](references/output.md). User-facing summary uses clear English.
 
 ## Exit artifact
 
@@ -40,4 +40,4 @@ Project-specific injected context is appended on skill read. Do not edit synced 
 
 ## Output format
 
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/output-schema.md). Details → [references/output.md](references/output.md).
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/output-schema.md). Details → [references/output.md](references/output.md).

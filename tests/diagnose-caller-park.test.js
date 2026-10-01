@@ -30,7 +30,7 @@ describe('diagnose caller park', () => {
       writeFileSync(join(repo, 'probe', 'SKILL.md'), 'gate text secret\n')
       mkdirSync(join(repo, 'agent-suites', 'probe-fix-transfer'), { recursive: true })
       writeFileSync(
-        join(repo, 'agent-suites', 'probe-fix-transfer', 'scenarios.json'),
+        join(repo, 'agent-suites', 'probe-fix-transfer', 'claims.json'),
         '{"name":"probe-fix-transfer"}\n',
       )
       mkdirSync(join(repo, 'docs'), { recursive: true })
@@ -71,7 +71,7 @@ describe('diagnose caller park', () => {
       symlinkSync('../../probe', join(repo, '.claude', 'skills', 'probe'))
       mkdirSync(join(repo, 'agent-suites', 'probe-fix-transfer'), { recursive: true })
       writeFileSync(
-        join(repo, 'agent-suites', 'probe-fix-transfer', 'scenarios.json'),
+        join(repo, 'agent-suites', 'probe-fix-transfer', 'claims.json'),
         '{"name":"probe-fix-transfer"}\n',
       )
 
@@ -132,7 +132,7 @@ describe('diagnose caller park', () => {
     writeFileSync(join(repo, 'probe', 'SKILL.md'), 'entry gate refuse\n')
     mkdirSync(join(repo, 'agent-suites', 'probe-fix-transfer'), { recursive: true })
     writeFileSync(
-      join(repo, 'agent-suites', 'probe-fix-transfer', 'scenarios.json'),
+      join(repo, 'agent-suites', 'probe-fix-transfer', 'claims.json'),
       JSON.stringify({
         name: 'probe-fix-transfer',
         scenarios: [
@@ -178,12 +178,12 @@ describe('diagnose caller park', () => {
       }),
     ).toThrow()
 
-    const transferBuf = handle.files.get('agent-suites/probe-fix-transfer/scenarios.json')
+    const transferBuf = handle.files.get('agent-suites/probe-fix-transfer/claims.json')
     const mat = materializeNullArmSuite(repo, 'probe-fix-transfer', null, {
       scenariosJson: transferBuf,
       omitSeed: true,
     })
-    const onDisk = JSON.parse(readFileSync(join(mat.suiteDir, 'scenarios.json'), 'utf8'))
+    const onDisk = JSON.parse(readFileSync(join(mat.suiteDir, 'claims.json'), 'utf8'))
     expect(onDisk.scenarios[0].rubric.judge).toBeUndefined()
     expect(onDisk.scenarios[0].seedPatch).toBeUndefined()
 

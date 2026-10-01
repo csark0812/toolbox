@@ -1,0 +1,34 @@
+import { cp, mkdir, rm, writeFile, readdir } from 'node:fs/promises'
+import { join, resolve } from 'node:path'
+import { EXPECTED_SKILLS } from '../src/expected-skills.ts'
+const source = process.cwd()
+const target = resolve('_agent/public-workspace')
+await rm(target, { recursive: true, force: true })
+await mkdir(target, { recursive: true })
+await cp(join(source, 'agent-suites/fixtures'), join(target, 'agent-suites/fixtures'), {
+  recursive: true,
+})
+for (const slug of EXPECTED_SKILLS)
+  await cp(join(source, slug), join(target, slug), { recursive: true })
+await writeFile(
+  join(target, 'package.json'),
+  JSON.stringify(
+    {
+      private: true,
+      type: 'module',
+      scripts: { test: 'bun test agent-suites/fixtures/debug-app/tests' },
+    },
+    null,
+    2,
+  ),
+)
+const inventory = await readdir(target, { recursive: true })
+if (
+  inventory.some((path) =>
+    /(^|\/)(\.env[^/]*|node_modules|\.git|claims\.json|migration-index\.json)$/.test(path),
+  )
+)
+  throw new Error('Unexpected confidential or answer-key surface in public fixture')
+console.log(
+  `Prepared ${inventory.length} paths: allowlisted public sample fixtures and Toolbox skill sources only. No user repository state, credentials, claims, judges or history copied.`,
+)

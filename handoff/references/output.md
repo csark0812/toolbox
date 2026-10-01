@@ -4,7 +4,7 @@
 
 Use this minimal shape for a **prompt** or an **artifact**. Omit empty sections.
 
-Write all receiving-agent content in pragmatic STE. Use short sentences, active voice, and one instruction per sentence.
+Write all receiving-agent content in clear English. Use short sentences, active voice, and one instruction per sentence.
 
 Channel and pack values are producer controls. Do not put them in the receiving prompt or handoff artifact.
 

@@ -44,7 +44,7 @@ describe('diagnose null-arm hygiene seed', () => {
       })
       expect(apply.status, apply.stderr || apply.stdout).toBe(0)
       expect(existsSync(join(parent, 'probe/SKILL.md'))).toBe(false)
-      expect(existsSync(join(parent, 'agent-suites/probe-fix-outcomes/scenarios.json'))).toBe(false)
+      expect(existsSync(join(parent, 'agent-suites/probe-fix-outcomes/claims.json'))).toBe(false)
       // Applied tree must not still contain the seed file (patch text = crib).
       expect(existsSync(join(parent, '_agent/probe-fix-null-arm-hygiene.patch'))).toBe(false)
     } finally {

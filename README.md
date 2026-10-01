@@ -29,7 +29,6 @@ npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex
 npx skills update -g
 
 # Core dialogue/build set (subset) — space-separated skill names (not commas)
-npx skills add csark0812/toolbox --skill council code-review review-walkthrough grill second-opinion probe tdd prototype domain-model handoff refactor-companion refine-agent-work branch-status -g --agent cursor claude-code codex -y
 ```
 
 Shorthand for `https://github.com/csark0812/toolbox`. The `@` prefix (npm-style scopes) is not supported by the skills CLI — use `csark0812/toolbox`.
@@ -65,7 +64,7 @@ Do not edit installed `SKILL.md` copies in place. Process SSOT updates via globa
 
 Ambient shared refs live once under [`references/`](references/). Skill bodies open them via `raw.githubusercontent.com/csark0812/toolbox/main/...` (network required). Validation: [docs/github-ambient-refs-validation.md](docs/github-ambient-refs-validation.md). Skill-local refs (unique to one skill) stay under `{slug}/references/`.
 
-Process skills are independently complete. Their descriptions route by user intent; their bodies do not invoke peer skills. Shared vocabulary and seam contracts live in [process-skill-composition.md](references/process-skill-composition.md).
+Process skills are independently complete. Their descriptions route by user intent; declared orchestrators invoke discovered companions. Shared vocabulary and seam contracts live in [process-skill-composition.md](references/v2/process-skill-composition.md).
 
 ### Planning references (fail-loud vs soft-default)
 
@@ -92,7 +91,6 @@ Existing committed toolbox process skill dirs keep loading until removed. Delete
 | Process      | prototype          | Throwaway artifact for one design question                                                      |
 | Process      | domain-model       | Persist glossary + ADRs when decisions are ready                                                |
 | Process      | refactor-companion | Preserve a target design through evidence-led, proven refactor slices                           |
-| Process      | refine-agent-work  | Walk through agent-created work, check it against your preferences, and refine bounded slices   |
 | Process      | branch-status      | Map unique-ahead branches, stacks, and stale work                                               |
 
 Orchestrators define **agent-to-agent** wiring; process skills describe **what happens**. Layered prompts compose them without peer runtime dependencies. See [docs/tiers.md](docs/tiers.md).
@@ -151,3 +149,11 @@ Toolbox owns portable process-contract behavior (`code-review`, `grill`, …). C
 **Validation honesty:** path-scoped `npm run validate:changed -- <skill-path>` barely checks skill bodies — skills suite rules are global. Rely on `npm test` / CI for skill edits. Hub docs (`README.md`, `docs/*`) are fine under `validate:changed`.
 
 Skill-local links use relative paths. Shared contracts use `references/` raw URLs. Peer skill trees are not dependency targets; see [docs/tiers.md](docs/tiers.md).
+
+## Workflow additions
+
+- [workflow](https://github.com/csark0812/toolbox/tree/main/workflow): routing and ownership
+- [orchestrate](https://github.com/csark0812/toolbox/tree/main/orchestrate): explicit durable programs
+- [verification](https://github.com/csark0812/toolbox/tree/main/verification): executable consumer recipes
+- [technical-writing](https://github.com/csark0812/toolbox/tree/main/technical-writing): reader-task writing
+- [strict-english](https://github.com/csark0812/toolbox/tree/main/strict-english): explicit constrained writing

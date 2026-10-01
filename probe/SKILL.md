@@ -67,7 +67,7 @@ Follow [framework.md](references/framework.md). Summary:
 5. **Forage or leave** — follow scent (callers, tests, citations, error sites). **Leave** the patch when 2–3 reads yield no confirmatory or disconfirmatory signal. Then re-rank hypos. You can switch material class (for example repo → docs → repo). Leaving is completion, not failure.
 6. **Locate enough to cite** — the verdict needs domain-appropriate citations. For behavioral code hunches, narrow to a citable locus, then stop.
 7. **When evidence is external** — do a lateral check and name the source class before you settle. If independents conflict, say so in the verdict and test competing explanations with [parallel-perspective.md](references/parallel-perspective.md) when multi-agent orchestration is active, or serially when it is not. If you gather multiple topics without a single hunch, use [parallel-research.md](references/parallel-research.md) with the same rule. Then return to this loop if a specific claim remains.
-8. **Return a verdict** — one pragmatic-STE settlement (what holds, what does not, what stays open). Always cite specific locations in the primary material. If the hunch is unfounded, say so. Do not invent problems to validate it. When evidence supports multiple mechanisms, report them separately. Do not force a single narrative root cause. **Completion gate:** no code fix, patch, or implementation steps in the verdict or evidence. Put those only in **What to do next** when you route onward.
+8. **Return a verdict** — one clear-English settlement (what holds, what does not, what stays open). Always cite specific locations in the primary material. If the hunch is unfounded, say so. Do not invent problems to validate it. When evidence supports multiple mechanisms, report them separately. Do not force a single narrative root cause. **Completion gate:** no code fix, patch, or implementation steps in the verdict or evidence. Put those only in **What to do next** when you route onward.
 
 ### Evidence standard
 
@@ -84,14 +84,14 @@ A verdict earns its close when it:
 
 ### Evidence output
 
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/output-schema.md). **Verdict** and **What to do next** are user-facing. Use short sentences, concrete subjects and verbs, and one meaning per sentence.
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/output-schema.md). **Verdict** and **What to do next** are user-facing. Use short sentences, concrete subjects and verbs, and one meaning per sentence.
 
 End with this block when the clarification chain (when needed) and evidence pass are complete — not before. If the hunch is still too vague, **ask the next narrowing question** instead of forcing a verdict.
 
 ```markdown
 ## Hunch: [one-line restatement]
 
-**Verdict:** [1–3 lines. Pragmatic STE settlement — what holds, what does not, what stays open. No fixed label required.]
+**Verdict:** [1–3 lines. Clear English settlement — what holds, what does not, what stays open. No fixed label required.]
 
 ### Evidence
 
@@ -151,7 +151,7 @@ Turn the diagnostic into a kept regression test at the agreed seam. Structural r
 
 ### Fix output
 
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/output-schema.md). User-facing sections below use pragmatic STE.
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/output-schema.md). User-facing sections below use clear English.
 
 End with:
 

@@ -8,7 +8,7 @@
  *
  * Run via `npm run sync:skills` (Node strip-types for the shared slug list).
  */
-import { mkdir, rm, symlink } from 'node:fs/promises'
+import { mkdir, rm, symlink, lstat, readlink, rename } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { EXPECTED_SKILLS } from '../src/expected-skills.ts'
@@ -24,6 +24,22 @@ const MIRRORS = [join(root, '.claude', 'skills'), join(root, '.agents', 'skills'
 for (const skillsRoot of MIRRORS) {
   await mkdir(skillsRoot, { recursive: true })
 
+  const retired = join(skillsRoot, 'refine-agent-work')
+  try {
+    const stat = await lstat(retired)
+    if (
+      stat.isSymbolicLink() &&
+      (await readlink(retired)) === join(RELATIVE_TARGET, 'refine-agent-work')
+    )
+      await rm(retired)
+    else {
+      const backup = join(root, '_agent', 'install-backups')
+      await mkdir(backup, { recursive: true })
+      await rename(retired, join(backup, `refine-agent-work-${Date.now()}`))
+    }
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error
+  }
   for (const slug of SKILL_SLUGS) {
     const linkPath = join(skillsRoot, slug)
     const target = join(RELATIVE_TARGET, slug)

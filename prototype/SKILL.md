@@ -30,7 +30,7 @@ Read [research-basis.md](references/research-basis.md) only when you calibrate s
 
 1. State question, mode, branch (LOGIC vs UI refs).
 2. Build minimal runnable artifact.
-3. Report per [output.md](references/output.md). User-facing report uses pragmatic STE.
+3. Report per [output.md](references/output.md). User-facing report uses clear English.
 
 ## Exit artifact
 
@@ -42,4 +42,4 @@ Project-specific injected context is appended on skill read. Do not edit synced 
 
 ## Output format
 
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/output-schema.md). Details → [references/output.md](references/output.md).
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/output-schema.md). Details → [references/output.md](references/output.md).

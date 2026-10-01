@@ -20,8 +20,12 @@ include = [
   "domain-model/**",
   "handoff/**",
   "refactor-companion/**",
-  "refine-agent-work/**",
   "branch-status/**",
+  "workflow/**",
+  "orchestrate/**",
+  "verification/**",
+  "technical-writing/**",
+  "strict-english/**",
 ]
 exclude = [
   "references/**",
@@ -49,6 +53,10 @@ ownedSlugs = [
   "domain-model",
   "handoff",
   "refactor-companion",
-  "refine-agent-work",
   "branch-status",
+  "workflow",
+  "orchestrate",
+  "verification",
+  "technical-writing",
+  "strict-english",
 ]

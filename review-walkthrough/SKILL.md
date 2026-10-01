@@ -10,7 +10,7 @@ description: Explain a staged or working-tree diff, commit, branch, PR, or named
 
 Explain one bound version of a code change as a causal story. Use only the evidence needed for understanding. Keep formal review and implementation separate.
 
-Composition boundaries → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/process-skill-composition.md). This workflow remains complete without another skill.
+Composition boundaries → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md). This workflow remains complete without another skill.
 
 Source rules → [source-binding.md](references/source-binding.md). Interaction choice → [interaction-modes.md](references/interaction-modes.md). Beat and finish shapes → [story-format.md](references/story-format.md).
 
@@ -55,7 +55,7 @@ flowchart TD
 5. Use exact evidence anchors. Show code only when it improves understanding.
 6. Match detail to complexity. Summarize direct helpers and explain non-obvious control flow, state, ownership, policy, and rationale.
 7. Let the user control pace and depth in natural language.
-8. Use pragmatic Simple English.
+8. Use clear English.
 9. Prefer short Mermaid diagrams for source flow, beat state transitions, and control-command effects.
 10. Link every source-backed claim to the exact file and line that supports it. Use a clickable Markdown file link with a repo-relative label and an absolute workspace target; the target is the absolute workspace path followed by `:line` (for example, label `src/router.ts:42`, target `/absolute/workspace/app/src/router.ts:42`). Never leave a source path or `file:line` citation as bare text when a link can be made.
 
@@ -119,3 +119,7 @@ sequenceDiagram
 ## Consumer bindings
 
 Project instructions supply local contracts and validation context. Do not edit installed copies in place.
+
+## Composed sessions
+
+When an outer workflow owns the cursor, return explanation, source identity and affected beats without advancing that cursor. Direct invocation retains its own temporary position. Rebinding preserves accepted intent; changed covered implementation requires explanation and needs recheck.

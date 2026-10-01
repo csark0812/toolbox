@@ -4,7 +4,7 @@
 
 Use for generic orchestration runs when no layered process defines the exit shape. If a process is layered, preserve its output contract.
 
-User-facing parts use pragmatic Simplified Technical English (STE): short sentences, concrete subjects and verbs, and one meaning per sentence.
+User-facing parts use clear English: short sentences, concrete subjects and verbs, and one meaning per sentence.
 
 ```markdown
 ## Verdict

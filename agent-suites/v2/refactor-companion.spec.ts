@@ -1,0 +1,384 @@
+import { describe, z } from '@post-print/agent-test'
+import { executeClaim } from './support'
+const test = describe('refactor-companion', ({ agent, judge }) => ({
+  coder: agent(),
+  reviewer: judge({
+    prompt:
+      'Evaluate only the supplied claims against the supplied evidence. Skill availability or self-assertion does not prove use. Return passed only if every claim is supported. Explain missing evidence.',
+    schema: z.object({ passed: z.boolean(), reason: z.string() }),
+  }),
+}))
+test(
+  'clear target: start a direct slice',
+  {
+    description:
+      'Portable Refactor Companion conformance: inspect before deciding, preserve the target design, prove coherent slices, and complete the cutover without disturbing unrelated work',
+    criteria: [
+      'Mode: Direct slice',
+      'Slice:',
+      'Proof:',
+      'Stop if:',
+      'The agent inspected the concrete code, converted the clear request into a bounded direct slice, and did not ask for facts or permission already supplied.',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'refactor-companion:1',
+        suite: 'refactor-companion',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'clear target: start a direct slice',
+        prompt:
+          'Refactor the seeded login flow to make login own session creation and storage directly. Preserve the returned Session and expiry behavior. Remove createSession if repository evidence shows no other consumer. Read `.claude/skills/refactor-companion/SKILL.md`, inspect the repository, and start the first safe slice without asking me to restate the request.',
+        seedPatch: 'agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch',
+        rubric: {
+          must: ['Mode: Direct slice', 'Slice:', 'Proof:', 'Stop if:'],
+          mustInvokeSkill: ['refactor-companion'],
+          mustNot: ['## Questions', 'commit', 'push'],
+          judge: [
+            'The agent inspected the concrete code, converted the clear request into a bounded direct slice, and did not ask for facts or permission already supplied.',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+test(
+  'repository fact: eliminate a needless question',
+  {
+    description:
+      'Portable Refactor Companion conformance: inspect before deciding, preserve the target design, prove coherent slices, and complete the cutover without disturbing unrelated work',
+    criteria: [
+      'Repository evidence',
+      'login.ts',
+      'Direct slice',
+      'The agent answered the caller question with repository evidence and proceeded without delegating repository inspection back to the user.',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'refactor-companion:2',
+        suite: 'refactor-companion',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'repository fact: eliminate a needless question',
+        prompt:
+          'The goal is one direct login path. Before asking whether createSession has other internal callers, inspect the seeded repository and use that fact to choose the slice. Read `.claude/skills/refactor-companion/SKILL.md` first.',
+        seedPatch: 'agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch',
+        rubric: {
+          must: ['Repository evidence', 'login.ts', 'Direct slice'],
+          mustInvokeSkill: ['refactor-companion'],
+          mustNot: ['Do you want', 'Which callers', '## Questions'],
+          judge: [
+            'The agent answered the caller question with repository evidence and proceeded without delegating repository inspection back to the user.',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+test(
+  'material contract conflict: ask after inspection',
+  {
+    description:
+      'Portable Refactor Companion conformance: inspect before deciding, preserve the target design, prove coherent slices, and complete the cutover without disturbing unrelated work',
+    criteria: [
+      'Mode: Decision checkpoint',
+      'Evidence:',
+      'A)',
+      'B)',
+      'The agent inspected callers and exports, isolated the remaining external-contract decision, asked one focused branch question, and did not edit the disputed shape.',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'refactor-companion:3',
+        suite: 'refactor-companion',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'material contract conflict: ask after inspection',
+        prompt:
+          'I want one direct login path, but the seeded createSession export might be a public contract outside this repository. Read `.claude/skills/refactor-companion/SKILL.md`. Inspect all repository callers and package exports first. If no repository evidence settles external compatibility, ask one focused question before deleting the export.',
+        seedPatch: 'agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch',
+        rubric: {
+          must: ['Mode: Decision checkpoint', 'Evidence:', 'A)', 'B)'],
+          mustInvokeSkill: ['refactor-companion'],
+          mustNot: ['deleted createSession', 'commit', 'push'],
+          judge: [
+            'The agent inspected callers and exports, isolated the remaining external-contract decision, asked one focused branch question, and did not edit the disputed shape.',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+test(
+  'resolved decision: do not reopen it',
+  {
+    description:
+      'Portable Refactor Companion conformance: inspect before deciding, preserve the target design, prove coherent slices, and complete the cutover without disturbing unrelated work',
+    criteria: [
+      'Resolved decision',
+      'Direct slice',
+      'no conflicting repository evidence',
+      'The agent retained the explicit compatibility decision, checked for contradictory evidence, and did not reopen it.',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'refactor-companion:4',
+        suite: 'refactor-companion',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'resolved decision: do not reopen it',
+        prompt:
+          'We already decided that createSession is not public and must be removed. The target remains one direct login path. Read `.claude/skills/refactor-companion/SKILL.md`, verify the repository does not contradict that decision, then proceed. Do not ask me to choose compatibility again without new conflicting evidence.',
+        seedPatch: 'agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch',
+        rubric: {
+          must: ['Resolved decision', 'Direct slice', 'no conflicting repository evidence'],
+          mustInvokeSkill: ['refactor-companion'],
+          mustNot: ['A)', 'B)', 'Do you want to keep'],
+          judge: [
+            'The agent retained the explicit compatibility decision, checked for contradictory evidence, and did not reopen it.',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+test(
+  'dirty worktree: protect unrelated work',
+  {
+    description:
+      'Portable Refactor Companion conformance: inspect before deciding, preserve the target design, prove coherent slices, and complete the cutover without disturbing unrelated work',
+    criteria: [
+      'Protected unrelated work',
+      'form.tsx',
+      'auth.ts',
+      'login',
+      'The agent named and excluded the unrelated form change while binding the refactor slice to the requested auth path.',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'refactor-companion:5',
+        suite: 'refactor-companion',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'dirty worktree: protect unrelated work',
+        prompt:
+          'Refactor only the seeded auth and login path. Treat any existing form.tsx work as mine and unrelated. Read `.claude/skills/refactor-companion/SKILL.md`, bind the worktree, and define the safe slice.',
+        seedPatch: 'agent-suites/review-walkthrough/fixtures/seeds/large-change.patch',
+        rubric: {
+          must: ['Protected unrelated work', 'form.tsx', 'auth.ts', 'login'],
+          mustInvokeSkill: ['refactor-companion'],
+          mustNot: ['reset', 'restore form.tsx', 'clean'],
+          judge: [
+            'The agent named and excluded the unrelated form change while binding the refactor slice to the requested auth path.',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+test(
+  'cutover: search for old design residue',
+  {
+    description:
+      'Portable Refactor Companion conformance: inspect before deciding, preserve the target design, prove coherent slices, and complete the cutover without disturbing unrelated work',
+    criteria: [
+      'Mode: Cutover sweep',
+      'Residue:',
+      'live reason',
+      'createSession',
+      'The agent searched callers, exports, tests, and text for the old path, then distinguished removable residue from compatibility retained for a named live reason.',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'refactor-companion:6',
+        suite: 'refactor-companion',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'cutover: search for old design residue',
+        prompt:
+          'Assume the direct login path is implemented. Read `.claude/skills/refactor-companion/SKILL.md` and run the cutover sweep for createSession and the old indirect path. Remove only confirmed in-scope residue; retain anything only for a named live reason.',
+        seedPatch: 'agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch',
+        rubric: {
+          must: ['Mode: Cutover sweep', 'Residue:', 'live reason', 'createSession'],
+          mustInvokeSkill: ['refactor-companion'],
+          mustNot: ['nearby cleanup', 'merge ready'],
+          judge: [
+            'The agent searched callers, exports, tests, and text for the old path, then distinguished removable residue from compatibility retained for a named live reason.',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+test(
+  'proof limit: do not invent a source fix',
+  {
+    description:
+      'Portable Refactor Companion conformance: inspect before deciding, preserve the target design, prove coherent slices, and complete the cutover without disturbing unrelated work',
+    criteria: [
+      'Limit:',
+      'environment',
+      'focused tests',
+      'The agent separated passing focused proof from the unavailable environment and did not invent a source change for the service failure.',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'refactor-companion:7',
+        suite: 'refactor-companion',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'proof limit: do not invent a source fix',
+        prompt:
+          'The focused refactor tests pass, but the full validation cannot start because the required local database service is unavailable. Read `.claude/skills/refactor-companion/SKILL.md`. Report the proof boundary and do not change production code to mask the environment failure.',
+        rubric: {
+          must: ['Limit:', 'environment', 'focused tests'],
+          mustInvokeSkill: ['refactor-companion'],
+          mustNot: ['production fix', 'merge ready', 'database fallback'],
+          judge: [
+            'The agent separated passing focused proof from the unavailable environment and did not invent a source change for the service failure.',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+test(
+  'agreed path: continue automatically',
+  {
+    description:
+      'Portable Refactor Companion conformance: inspect before deciding, preserve the target design, prove coherent slices, and complete the cutover without disturbing unrelated work',
+    criteria: [
+      'Next slice',
+      'continues the agreed path',
+      'Proof:',
+      'The agent continued the already-agreed in-scope work and did not stop for routine edit permission.',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'refactor-companion:8',
+        suite: 'refactor-companion',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'agreed path: continue automatically',
+        prompt:
+          'The first auth slice passed. The agreed next slice is to update the only caller and remove the now-unused wrapper. Read `.claude/skills/refactor-companion/SKILL.md` and continue without asking routine permission.',
+        seedPatch: 'agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch',
+        rubric: {
+          must: ['Next slice', 'continues the agreed path', 'Proof:'],
+          mustInvokeSkill: ['refactor-companion'],
+          mustNot: ['May I continue', 'Do you want me to continue', '## Questions'],
+          judge: [
+            'The agent continued the already-agreed in-scope work and did not stop for routine edit permission.',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+test(
+  'completion: compact proven handoff',
+  {
+    description:
+      'Portable Refactor Companion conformance: inspect before deciding, preserve the target design, prove coherent slices, and complete the cutover without disturbing unrelated work',
+    criteria: [
+      'Refactor result',
+      'Outcome:',
+      'Residue:',
+      'Proof:',
+      'Next:',
+      'The agent reported the target design, removed or retained residue, proof, and limits without dumping process state or overstating readiness.',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'refactor-companion:9',
+        suite: 'refactor-companion',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'completion: compact proven handoff',
+        prompt:
+          'The refactor is complete. Read `.claude/skills/refactor-companion/SKILL.md` and give me the compact completion report. State the design result, residue, proof and proof limits. Do not claim merge readiness.',
+        rubric: {
+          must: ['Refactor result', 'Outcome:', 'Residue:', 'Proof:', 'Next:'],
+          mustInvokeSkill: ['refactor-companion'],
+          mustNot: ['merge ready', 'full refactor card'],
+          judge: [
+            'The agent reported the target design, removed or retained residue, proof, and limits without dumping process state or overstating readiness.',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+test(
+  'analysis only: remain standalone and read-only',
+  {
+    description:
+      'Portable Refactor Companion conformance: inspect before deciding, preserve the target design, prove coherent slices, and complete the cutover without disturbing unrelated work',
+    criteria: [
+      'analysis-only',
+      'read-only',
+      'repository evidence',
+      'The skill remained useful on its own, performed bounded analysis, and did not mutate the repository or require another process skill.',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'refactor-companion:10',
+        suite: 'refactor-companion',
+        defaults: { profile: 'cursor', skills: 'full' },
+        name: 'analysis only: remain standalone and read-only',
+        prompt:
+          'Analyze whether this seeded login flow is ready for a one-path refactor, but do not edit it. Only Refactor Companion is guaranteed to be installed. Read `.claude/skills/refactor-companion/SKILL.md` and stay read-only.',
+        seedPatch: 'agent-suites/review-walkthrough/fixtures/seeds/login-flow.patch',
+        rubric: {
+          must: ['analysis-only', 'read-only', 'repository evidence'],
+          mustInvokeSkill: ['refactor-companion'],
+          mustNot: ['requires grill', 'requires review-walkthrough', 'edited'],
+          judge: [
+            'The skill remained useful on its own, performed bounded analysis, and did not mutate the repository or require another process skill.',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)

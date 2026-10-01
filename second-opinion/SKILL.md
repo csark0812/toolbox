@@ -8,7 +8,7 @@ description: Adversarial critique of a written artifact through task-specific le
 <!-- source-of-truth: adversarial artifact review — invent lenses, claim anchoring, Bottom line + Action items. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-02 -->
 
-**Process skill** — shared vocabulary → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/process-skill-composition.md). This skill owns critique craft and never spawns members.
+**Process skill** — shared vocabulary → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md). This skill owns critique craft and never spawns members.
 
 References: [plan-review.md](references/plan-review.md) · [output.md](references/output.md).
 
@@ -38,7 +38,7 @@ Named lenses (`premises`, `completeness`, `brand-fit`, …) in docs are **worked
 
 ## Exit artifact
 
-Per [output.md](references/output.md) — user-facing **Bottom line** + **Action items** only. Write those blocks in pragmatic STE.
+Per [output.md](references/output.md) — user-facing **Bottom line** + **Action items** only. Write those blocks in clear English.
 
 ## Consumer bindings
 
@@ -46,4 +46,4 @@ Plan artifact paths arrive as injected context on skill read. Do not edit instal
 
 ## Output format
 
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/output-schema.md). Details → [references/output.md](references/output.md).
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/output-schema.md). Details → [references/output.md](references/output.md).

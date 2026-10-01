@@ -8,7 +8,7 @@ description: Test-first build at agreed public seams, one red-green slice at a t
 <!-- source-of-truth: test-first implementation at public seams. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-**Process skill** — red → green microcycle. Tests at public interfaces only. Shared vocabulary → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/process-skill-composition.md).
+**Process skill** — red → green microcycle. Tests at public interfaces only. Shared vocabulary → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md).
 
 References: [anti-patterns.md](references/anti-patterns.md) · [output.md](references/output.md) · [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/codebase-design.md).
 
@@ -30,7 +30,7 @@ Read [research-basis.md](references/research-basis.md) only when you calibrate s
 
 1. Make sure that **Seam** and **Slice** are agreed.
 2. Failing test → red → minimal green → stop.
-3. Report per [output.md](references/output.md). User-facing report uses pragmatic STE.
+3. Report per [output.md](references/output.md). User-facing report uses clear English.
 
 ## Exit artifact
 
@@ -42,4 +42,4 @@ Project-specific injected context is appended on skill read. Do not edit synced 
 
 ## Output format
 
-Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/output-schema.md). Details → [references/output.md](references/output.md).
+Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/output-schema.md). Details → [references/output.md](references/output.md).

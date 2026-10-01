@@ -6,7 +6,7 @@ How to **choose what to include** and **how to deliver** it. Compact procedure �
 
 **Channel** = delivery to the next session. **Pack** = how much context to include. **Goal** = what the next session must do.
 
-Shared composition rules → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/process-skill-composition.md).
+Shared composition rules → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md).
 
 The menus below are **starting points**, not limits. Pick the closest row. Omit empty sections.
 

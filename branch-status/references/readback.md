@@ -5,7 +5,7 @@
 
 Default response: the readback only. No preamble, no "here's a summary".
 
-Write the readback in pragmatic Simple English.
+Write the readback in clear English.
 
 ## Shape
 

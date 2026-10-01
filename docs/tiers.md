@@ -9,7 +9,7 @@ Assign each skill to exactly one **group**. Update when adding skills.
 
 Every toolbox skill is either an **orchestrator** (agent-to-agent plumbing) or a **process** skill (what the work means in natural language). One meta skill covers authoring.
 
-**Composition:** Skills are adjacent, independently complete roles. Descriptions route by user intent. Layered prompts apply multiple contracts to the same `Slice` or `Artifact`. Skill bodies do not invoke peers. Shared vocabulary and dependency rules → [process-skill-composition.md](../references/process-skill-composition.md).
+**Composition:** Skills are adjacent, independently complete roles. Descriptions route by user intent. Layered prompts apply multiple contracts to the same `Slice` or `Artifact`. Declared orchestration may invoke companions; specialists stay independently complete. Shared vocabulary and dependency rules → [process-skill-composition.md](../references/v2/process-skill-composition.md).
 
 ### Orchestrators — agent-to-agent (A2A)
 
@@ -37,7 +37,6 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | **prototype**          | Throwaway spike for one design question                                                                                                                       |
 | **domain-model**       | Persist glossary + ADRs when a decision is ready                                                                                                              |
 | **refactor-companion** | Preserve a developer's target design through evidence-led slices, focused proof, and an explicit cutover sweep.                                               |
-| **refine-agent-work**  | Walk through agent-created work, test it against developer preferences, and refine it through bounded proven slices.                                          |
 | **branch-status**      | Report unique-ahead branches as workstreams, stacks, and stale vs active labels; stay read-only.                                                              |
 
 ## Process SSOT (`toolbox/`)
@@ -91,7 +90,7 @@ Consumer cleanup PRs (delete vendored dirs in other repos) are separate — this
 
 ### Migration notes (skill taxonomy)
 
-**Atomic composition (2026-09):** Peer skills are not runtime dependencies. Compose through discriminating descriptions, layered prompts, shared state, and the ambient [composition contract](../references/process-skill-composition.md).
+**Atomic composition (2026-09):** Peer skills are not runtime dependencies. Compose through discriminating descriptions, layered prompts, shared state, and the ambient [composition contract](../references/v2/process-skill-composition.md).
 
 **Council + ownership (2026-09):** Retired **subagents** and **iterate**. **Council** owns task-persona design, interaction choice, real member runs, and synthesis. **Second-opinion** is single-pass by default; multi-perspective depth only when the user also attaches **council**. Hunch settlement uses coordinator **explore** + ambient [verdict.md](../references/verdict.md) (retired **investigate** slug). Cross-session transfer stays **handoff**.
 

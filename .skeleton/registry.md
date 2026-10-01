@@ -33,5 +33,12 @@
 | domain-model       | [domain-model/SKILL.md](../domain-model/SKILL.md)             |
 | handoff            | [handoff/SKILL.md](../handoff/SKILL.md)                       |
 | refactor-companion | [refactor-companion/SKILL.md](../refactor-companion/SKILL.md) |
-| refine-agent-work  | [refine-agent-work/SKILL.md](../refine-agent-work/SKILL.md)   |
 | branch-status      | [branch-status/SKILL.md](../branch-status/SKILL.md)           |
+
+## Workflow additions
+
+- [workflow](https://github.com/csark0812/toolbox/tree/main/workflow): routing and ownership
+- [orchestrate](https://github.com/csark0812/toolbox/tree/main/orchestrate): explicit durable programs
+- [verification](https://github.com/csark0812/toolbox/tree/main/verification): executable consumer recipes
+- [technical-writing](https://github.com/csark0812/toolbox/tree/main/technical-writing): reader-task writing
+- [strict-english](https://github.com/csark0812/toolbox/tree/main/strict-english): explicit constrained writing

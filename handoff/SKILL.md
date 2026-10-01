@@ -8,7 +8,7 @@ description: Agent-to-agent cross-session transfer — pointers not bodies. Chan
 <!-- source-of-truth: compact session transfer — **what to rip out**, not full orchestration. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
 
-**Orchestrator** — cross-session A2A (`channel:prompt` vs `channel:artifact`). Shared vocabulary → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/process-skill-composition.md).
+**Orchestrator** — cross-session A2A (`channel:prompt` vs `channel:artifact`). Shared vocabulary → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md).
 
 References: [pack.md](references/pack.md) · [output.md](references/output.md) · [handoff-subagent-dispatch.md](references/handoff-subagent-dispatch.md)
 
@@ -32,7 +32,7 @@ When you calibrate claims, read [research-basis.md](references/research-basis.md
 1. **Pick the channel, pack, and goal** — use the closest rows in [pack.md](references/pack.md). These values control production only.
 2. **Gather** — minimal bullets from thread. Omit empty categories.
 3. **Deliver** —
-   - `channel:prompt` → fenced receiving prompt per [output.md](references/output.md) in pragmatic STE
+   - `channel:prompt` → fenced receiving prompt per [output.md](references/output.md) in clear English
    - `channel:artifact` → [handoff-subagent-dispatch.md](references/handoff-subagent-dispatch.md) → paste stub only
 
 ## Execution interface map

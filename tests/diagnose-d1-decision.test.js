@@ -206,7 +206,7 @@ describe('post-park null-arm surfaces have no leak phrases', () => {
       )
       mkdirSync(join(repo, 'agent-suites', 'probe-fix-transfer'), { recursive: true })
       writeFileSync(
-        join(repo, 'agent-suites', 'probe-fix-transfer', 'scenarios.json'),
+        join(repo, 'agent-suites', 'probe-fix-transfer', 'claims.json'),
         JSON.stringify({
           name: 'probe-fix-transfer',
           scenarios: [
@@ -230,12 +230,12 @@ describe('post-park null-arm surfaces have no leak phrases', () => {
         parkGlobalSkills: false,
       })
       const mat = materializeNullArmSuite(repo, 'probe-fix-transfer', null, {
-        scenariosJson: handle.files.get('agent-suites/probe-fix-transfer/scenarios.json'),
+        scenariosJson: handle.files.get('agent-suites/probe-fix-transfer/claims.json'),
         omitSeed: true,
         omitMustNotReadPath: true,
         extraMustNot: ['Entry gate — no loop, no hypotheses'],
       })
-      const scenariosText = readFileSync(join(mat.suiteDir, 'scenarios.json'), 'utf8')
+      const scenariosText = readFileSync(join(mat.suiteDir, 'claims.json'), 'utf8')
       // Judge crib must stay out; skill-body mustNot is intentional (forbidden output).
       expect(scenariosText).not.toContain('Refused to hypothesize')
       expect(scenariosText).not.toContain('mustNotReadPath')
