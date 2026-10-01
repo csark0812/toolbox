@@ -1,7 +1,7 @@
 # toolbox
 
 <!-- source-of-truth: user-level process and orchestrator Cursor/Claude agent skills. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-13 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-01 -->
 
 Public process SSOT. Engineers install skills globally (`-g`). Product repos keep product workflows and shared standards — they should not vendor these process skill folders.
 

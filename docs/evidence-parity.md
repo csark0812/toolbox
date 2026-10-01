@@ -1,7 +1,7 @@
 # Evidence parity
 
 <!-- source-of-truth: paired current evidence and preserved historical reports -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-30 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-01 -->
 
 Use npm run agent:test:evidence-parity for probe evidence arms or npm run agent:test:diagnose-evidence-parity for repair arms. Both execute current SDK suites with three repetitions, explicit inputs and independent task sessions. Normalized artifacts record scenario/compare identity, variant, repetition, input context, outcomes and measurements. Missing or failed arms do not form a completed passing pair.
 

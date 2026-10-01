@@ -1,7 +1,7 @@
 # Skill evolution (AFTER-lite)
 
 <!-- source-of-truth: human-gated skill patches after agent-suite failures. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-03 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-01 -->
 
 Toolbox skills are static human SSOT. They do not self-mutate from transcripts. This doc defines the **human-gated** loop for turning live eval failures into durable skill improvements.
 
