@@ -1,7 +1,7 @@
 # Independent assessment and durable delivery
 
 <!-- source-of-truth: fresh review context, artifact and publication authority -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-30 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-01 -->
 
 Dispatch a new reviewer context using the host's fresh/no-history option when available. Supply current source/base/head or dirty snapshot fingerprint, scope/lens, authoritative requirements with provenance, dependencies and tests. Withhold pass counts, previous conclusions, author assurances and repair narratives. Capture supplied context and exposure. Host inability to isolate is labeled exposed and never counted as fresh qualification. Do not hide legitimate source comments or requirements.
 
@@ -9,7 +9,7 @@ Freeze initial report before reading previous artifacts. Then confirm persistenc
 
 An explicitly invoked review of a named PR includes COMMENT delivery unless restricted by user/host authority. Internal automatic checks without publication authority save local reports. APPROVE, REQUEST_CHANGES, resolution, dismissal and merge remain separately authorized.
 
-Use GitHub MCP for PR reads/publication when available. Declare adapter capabilities: snapshot, anchor validation, publish, receipt discovery, freshness. GitHub COMMENT binds commit_id; validate inline coordinates against the current diff or put source links in the body. Other surfaces disclose reduced guarantees; unsupported targets use verified local reports. Do not simulate missing capabilities.
+Use GitHub MCP for PR reads/publication when available. Declare adapter capabilities: snapshot, anchor validation, publish, receipt discovery, freshness. GitHub COMMENT binds commit_id. For every actionable finding with a valid current-diff anchor, publish a native inline comment in one review through `add_review_to_pr` with `file_comments`. Put a compact assessment, scope, reviewed SHA and finding count in the review body. Follow the [GitHub adapter procedure](github-delivery.md) before preparing or submitting. Use a disclosed body-linked fallback only for findings the provider cannot anchor; record the reason for each fallback. Other surfaces disclose reduced guarantees; unsupported targets use verified local reports. Do not simulate missing capabilities.
 
 Before dispatch freeze payload, marker, target, reviewed source, anchors and digest. Persist prepared → dispatching → published/failed/unknown. A timeout/crash after dispatch is unknown. Reconcile by provider ID or exact run marker and payload. Eventually consistent absence cannot prove non-delivery; only proven pre-publication failure permits automatic retry. One publisher owns a run. Even clean reviews publish a concise result. Reconcile existing threads after the fresh pass to avoid duplicate root causes; never auto-resolve them.
 

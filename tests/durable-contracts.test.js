@@ -210,7 +210,17 @@ it('records unknown publication and permits receipt reconciliation, never blind 
     action: 'published',
     providerId: '123',
     url: 'https://github.com/example/repo/pull/1#review-123',
-    receipt: 'remote read-back',
+    receipt: {
+      proof: 'remote read-back',
+      review: {
+        id: '123',
+        url: 'https://github.com/example/repo/pull/1#review-123',
+        commit_id: 'head1',
+        event: 'COMMENT',
+        body: 'No findings. <!-- toolbox-review:review1 -->',
+      },
+      comments: [],
+    },
     currentSource: 'head2',
     currentRequirements: 'requirements1',
   })
@@ -310,4 +320,72 @@ it('invalid reconciliation does not poison the immutable report', () => {
   expect(
     r.call('reconcile', { report: 'history', receipt: 'read-back' }).reconciliation.receipt,
   ).toBe('read-back')
+})
+
+it('freezes GitHub publication arguments and rejects stale dispatch and missing inline receipts', () => {
+  const r = review()
+  assess(r)
+  const comment = { path: 'src/a.js', line: 1, side: 'RIGHT', body: 'Finding' }
+  const body = `One finding. ${r.state().marker}`
+  r.call('prepare', {
+    id: 'inline',
+    authorityReceipt: 'explicit PR review',
+    currentSource: 'head1',
+    currentRequirements: 'requirements1',
+    payload: { event: 'COMMENT', commit_id: 'head1', body, comments: [comment] },
+    anchorReceipt: {
+      target: r.state().target,
+      source: 'head1',
+      commit_id: 'head1',
+      proof: 'PR files read',
+      files: [{ path: 'src/a.js', patch: '@@ -0,0 +1 @@\n+new' }],
+    },
+  })
+  expect(operateReview(r.p, 'adapter', { id: 'inline' }).file_comments).toEqual([comment])
+  expect(() =>
+    r.call('delivery', {
+      id: 'inline',
+      action: 'dispatch',
+      currentSource: 'head2',
+      currentRequirements: 'requirements1',
+    }),
+  ).toThrow(/Recheck/)
+  r.call('delivery', {
+    id: 'inline',
+    action: 'dispatch',
+    currentSource: 'head1',
+    currentRequirements: 'requirements1',
+  })
+  const input = {
+    id: 'inline',
+    action: 'published',
+    providerId: '123',
+    url: 'https://github.com/example/repo/pull/1#pullrequestreview-123',
+    currentSource: 'head1',
+    currentRequirements: 'requirements1',
+    receipt: {
+      proof: 'read-back',
+      review: {
+        id: '123',
+        url: 'https://github.com/example/repo/pull/1#pullrequestreview-123',
+        commit_id: 'head1',
+        event: 'COMMENT',
+        body,
+      },
+      comments: [],
+    },
+  }
+  expect(() => r.call('delivery', input)).toThrow(/Missing matching/)
+  expect(readReview(r.p).operations.inline.state).toBe('dispatching')
+  input.receipt.comments.push({
+    ...comment,
+    id: '456',
+    review_id: '123',
+    commit_id: 'head1',
+    url: 'https://github.com/example/repo/pull/1#discussion_r456',
+  })
+  expect(r.call('delivery', input).operations.inline.receipt.proof.comments[0].id).toBe('456')
+  const frozen = join(r.p, 'payload-inline.json')
+  writeFileSync(frozen, readFileSync(frozen, 'utf8').replace('Finding', 'Changed'))
+  expect(() => operateReview(r.p, 'adapter', { id: 'inline' })).toThrow(/changed/)
 })

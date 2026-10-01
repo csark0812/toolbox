@@ -13,6 +13,7 @@ import { resolve, join } from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { randomUUID, createHash } from 'node:crypto'
 import { fileURLToPath } from 'node:url'
+import { validateGithubAnchors, githubReviewArguments, validateGithubReceipt } from './github.mjs'
 
 export class ReviewError extends Error {
   constructor(code, message) {
@@ -77,19 +78,15 @@ function validatePayload(payload, state, input) {
   if (payload.commit_id !== state.reviewedCommit)
     fail('STALE_SOURCE', 'Publish payload not bound to reviewed commit')
   if (!payload.body?.includes(state.marker)) fail('MISSING_MARKER', 'Body must include run marker')
-  for (const comment of payload.comments ?? []) {
-    if (
-      !comment.path ||
-      comment.path.startsWith('/') ||
-      comment.path.split('/').includes('..') ||
-      !Number.isInteger(comment.line) ||
-      comment.line < 1 ||
-      !['LEFT', 'RIGHT'].includes(comment.side)
-    )
-      fail('INVALID_ANCHOR', 'Invalid diff coordinate')
+  if (githubReviewArguments(state.target, payload)) {
+    try {
+      validateGithubAnchors(payload, state, input.anchorReceipt)
+    } catch (error) {
+      fail('INVALID_ANCHOR', error.message)
+    }
+  } else if ((payload.comments ?? []).length) {
+    fail('UNSUPPORTED_ADAPTER', 'Inline comments require a supported adapter')
   }
-  if ((payload.comments ?? []).length && !input.anchorReceipt)
-    fail('UNVERIFIED_ANCHOR', 'Current-diff anchor validation receipt required')
 }
 export function changeReview(state, command, input, store) {
   const writeOnce = (name, text) => {
@@ -170,7 +167,13 @@ export function changeReview(state, command, input, store) {
     const payload = input.payload
     if (!payload || typeof payload !== 'object') fail('INVALID_INPUT', 'Payload required')
     validatePayload(payload, state, input)
-    const frozen = { target: state.target, source: state.source, payload, marker: state.marker }
+    const frozen = {
+      target: state.target,
+      source: state.source,
+      payload,
+      marker: state.marker,
+      githubArguments: githubReviewArguments(state.target, payload),
+    }
     writeOnce(`payload-${operation}.json`, JSON.stringify(frozen, null, 2))
     state.operations[operation] = {
       id: operation,
@@ -194,10 +197,19 @@ export function changeReview(state, command, input, store) {
     } else if (input.action === 'published') {
       if (!['dispatching', 'unknown'].includes(op.state))
         fail('INVALID_TRANSITION', 'No outstanding publication')
+      if (frozen.githubArguments) {
+        try {
+          validateGithubReceipt(frozen.payload, input)
+        } catch (error) {
+          fail('UNVERIFIED_PUBLICATION', error.message)
+        }
+      }
       op.receipt = {
         id: required(input.providerId, 'provider review ID'),
         url: required(input.url, 'receipt URL'),
-        proof: required(input.receipt, 'remote read-back proof'),
+        proof: frozen.githubArguments
+          ? input.receipt
+          : required(input.receipt, 'remote read-back proof'),
       }
       op.state = 'published'
       op.stale =
@@ -227,6 +239,15 @@ export function changeReview(state, command, input, store) {
 export function operateReview(store, command, input = {}) {
   store = resolve(store)
   if (command === 'status') return readReview(store)
+  if (command === 'adapter') {
+    const state = readReview(store)
+    const op = state.operations[input.id]
+    if (!op) fail('UNKNOWN_OPERATION', input.id)
+    const frozen = JSON.parse(readFileSync(join(store, `payload-${op.id}.json`), 'utf8'))
+    if (digest(frozen) !== op.digest) fail('CORRUPT_PAYLOAD', 'Dispatch payload changed')
+    if (!frozen.githubArguments) fail('UNSUPPORTED_ADAPTER', 'No frozen GitHub arguments')
+    return frozen.githubArguments
+  }
   mkdirSync(store, { recursive: true })
   let handle
   try {
@@ -274,7 +295,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     const [command, ...args] = process.argv.slice(2)
     if (!command || command === '--help') {
       console.log(
-        'review.mjs <init|freeze|reconcile|assess|prepare|delivery|local|status> --store <run-directory> [--input <JSON-file>]\nMutations require expectedRevision. See references/helper.md.',
+        'review.mjs <init|freeze|reconcile|assess|prepare|delivery|local|status|adapter> --store <run-directory> [--input <JSON-file>]\nMutations require expectedRevision. See references/helper.md.',
       )
       process.exit(0)
     }

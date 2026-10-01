@@ -6,7 +6,7 @@ description: Review code through a user-named surface and lens. Use for focused 
 # Code review
 
 <!-- source-of-truth: evidence-led code review with explicit blockers-vs-advisory output and strict optional merge gating. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-02 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-01 -->
 
 Find reachable code defects with enough evidence to act. Match the review to the result the user requested. Keep ordinary reviews light. Keep merge-gate conclusions strict.
 
@@ -80,6 +80,6 @@ Project instructions supply local contracts, validation commands, and accepted d
 
 Read [independence-and-delivery.md](references/independence-and-delivery.md) for every full review and any publication. Fresh full reviews use a new context without earlier verdicts or implementation discussion. Supply current source, authoritative requirements and relevant tests; preserve legitimate comments and contracts. Freeze the first report before reconciling previous findings. Closure checks remain targeted and cannot substitute for a full pass.
 
-The owning artifact helper is `node <installed-skill>/scripts/review.mjs --help`. Store immutable initial findings and separate reconciliation/final reports; even a clean review leaves an artifact. Assessment and delivery are different outcomes.
+The owning artifact helper is `node <installed-skill>/scripts/review.mjs --help`. Store immutable initial findings and separate reconciliation/final reports; even a clean review leaves an artifact. Assessment and delivery are different outcomes. Explicitly invoked GitHub PR reviews normally deliver actionable findings as native inline comments grouped in one COMMENT review; the delivery contract defines anchoring and receipt verification.
 
 Executable input contracts → [helper.md](references/helper.md). Read this before mutating durable records.
