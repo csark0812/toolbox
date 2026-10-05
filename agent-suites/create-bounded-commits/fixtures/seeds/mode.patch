@@ -1,0 +1,10 @@
+diff --git a/agent-suites/fixtures/bounded-work/config.json b/agent-suites/fixtures/bounded-work/config.json
+index c426af4..748513e 100644
+--- a/agent-suites/fixtures/bounded-work/config.json
++++ b/agent-suites/fixtures/bounded-work/config.json
+@@ -1,4 +1,4 @@
+ {
+-  "mode": "safe",
++  "mode": "strict",
+   "label": "alpha"
+ }

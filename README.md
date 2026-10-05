@@ -94,6 +94,7 @@ Existing committed toolbox process skill dirs keep loading until removed. Delete
 | Process      | refactor-companion       | Preserve a target design through evidence-led, proven refactor slices                           |
 | Process      | branch-status            | Map unique-ahead branches, stacks, and stale work                                               |
 | Process      | i-need-help              | Stop when repeated work makes no progress; ask the current owner for specific help              |
+| Process      | create-bounded-commits   | Coordinate ownership, group changes, validate, and create bounded local commits                 |
 
 Orchestrators define **agent-to-agent** wiring; process skills describe **what happens**. Layered prompts compose them without peer runtime dependencies. See [docs/tiers.md](docs/tiers.md).
 

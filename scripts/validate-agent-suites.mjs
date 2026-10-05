@@ -20,6 +20,8 @@ for (const claim of index.scenarios) {
   )
     throw new Error(`Incomplete migration ${claim.id}`)
   if (claim.seed && !existsSync(claim.seed)) throw new Error(`Missing seed ${claim.seed}`)
+  if (claim.seedStaged && !existsSync(claim.seedStaged))
+    throw new Error(`Missing staged seed ${claim.seedStaged}`)
   for (const slug of claim.rubric.mustInvokeSkill ?? [])
     if (!SKILLS.some((s) => s.slug === slug)) throw new Error(`Unknown skill ${slug}`)
 }
