@@ -1,6 +1,6 @@
 import { expect, type AgentFixture, type JudgeFixture } from '@post-print/agent-test'
 import type { TestInfo } from '@playwright/test'
-import { readFile, writeFile, mkdir, rm, cp } from 'node:fs/promises'
+import { readFile, writeFile, mkdir, rm, cp, readdir } from 'node:fs/promises'
 import { execFileSync } from 'node:child_process'
 import { join, resolve } from 'node:path'
 import { EXPECTED_SKILLS } from '../../src/expected-skills'
@@ -21,6 +21,8 @@ type Claim = {
     judge?: string[]
   }
   compareId?: string
+  contract?: 'expiry-repair' | 'captured-repair' | 'captured-repair-preserve-wip'
+  evidencePaths?: string[]
 }
 export async function executeClaim(
   coder: AgentFixture,
@@ -74,15 +76,62 @@ export async function executeClaim(
   let outcome = 'infrastructure-failed'
   let failure: string | undefined
   let judgment: unknown
+  const diagnosticReceipts: Record<string, string> = {}
   try {
-    run = await prepared.run({ prompt: claim.prompt, includeGlobalSkills: false })
+    run = await prepared.run({
+      prompt:
+        'This is an isolated conformance fixture. Use only files within the current workspace; its root AGENTS.md contains the applicable fixture instructions. Parent AGENTS.md files and other paths outside this workspace are outside the task scope.\n\n' +
+        'For execution results or environment blockers you report, capture the command, stdout/stderr and exit status in bounded text receipts under _evidence/ (use .log, .txt or .json files directly in that folder). Capture actual command output rather than manually writing inferred results. Inspect the receipt before reporting. These diagnostic artifacts are allowed even when the task keeps source files read-only.\n\n' +
+        claim.prompt,
+      includeGlobalSkills: false,
+    })
     outcome = 'task-failed'
+    const receiptPath = /^_evidence\/[^/]+\.(log|txt|json)$/
+    for (const filename of await readdir(join(run.workspace.root, '_evidence')).catch(() => [])) {
+      const relative = `_evidence/${filename}`
+      if (receiptPath.test(relative))
+        diagnosticReceipts[relative] = (
+          await readFile(join(run.workspace.root, relative), 'utf8')
+        ).slice(0, 16000)
+    }
     for (const text of claim.rubric.must ?? []) {
       if (/^[A-Z][A-Z0-9_]+$/.test(text))
         expect(run.output, `Exact protocol marker: ${text}`).toContain(text)
     }
     if (/read.only|stay read-only|do not edit/i.test(claim.prompt))
-      expect(run.workspace.changedPaths, 'Read-only source preserved').toEqual([])
+      expect(
+        run.workspace.changedPaths.filter((path) => !receiptPath.test(path)),
+        'Read-only source preserved; only diagnostic receipts may be added',
+      ).toEqual([])
+    if (claim.contract) {
+      const fixture =
+        claim.contract === 'expiry-repair'
+          ? 'agent-suites/fixtures/debug-app'
+          : 'agent-suites/fixtures/debugging-lab'
+      const check =
+        claim.contract === 'expiry-repair'
+          ? "import assert from 'node:assert/strict'; import { isSessionValid } from './src/sessionGuard.ts'; assert.equal(isSessionValid(1000, 1000), false); assert.equal(isSessionValid(1001, 1000), true); assert.equal(isSessionValid(999, 1000), false); assert.equal(isSessionValid(NaN, 1000), false)"
+          : "import assert from 'node:assert/strict'; import { validateCapturedSession } from './src/captured-session.mjs'; assert.equal(validateCapturedSession('1700000001000', 1700000000000), true); assert.equal(validateCapturedSession('1700000000000', 1700000000000), false); assert.equal(validateCapturedSession('1699999999999', 1700000000000), false)"
+      execFileSync('node', ['--experimental-strip-types', '--input-type=module', '-e', check], {
+        cwd: join(run.workspace.root, fixture),
+        timeout: 10000,
+      })
+      if (claim.contract === 'captured-repair-preserve-wip') {
+        expect(await readFile(join(run.workspace.root, fixture, 'notes.txt'), 'utf8')).toBe(
+          'Keep this unrelated note exactly as supplied.\nUser work in progress: retain this second line.\n',
+        )
+        expect(await readFile(join(run.workspace.root, fixture, 'src/refresh.mjs'), 'utf8')).toBe(
+          await readFile(resolve(fixture, 'src/refresh.mjs'), 'utf8'),
+        )
+        const repairedSource = await readFile(
+          join(run.workspace.root, fixture, 'src/captured-session.mjs'),
+          'utf8',
+        )
+        expect(repairedSource, 'Owned temporary instrumentation removed').not.toMatch(
+          /console\.(log|debug|trace)|debugger/,
+        )
+      }
+    }
     for (const text of claim.rubric.mustNot ?? [])
       expect(run.output, `Forbidden: ${text}`).not.toContain(text)
     for (const path of claim.rubric.mustNotReadPath ?? [])
@@ -106,6 +155,11 @@ export async function executeClaim(
         'agent-suites/fixtures/debug-app/src/sessionGuard.ts',
         'agent-suites/fixtures/debug-app/src/sessionCookie.ts',
         'agent-suites/fixtures/sample-app/src/redirect.ts',
+        'agent-suites/fixtures/debugging-lab/src/captured-session.mjs',
+        'agent-suites/fixtures/debugging-lab/src/refresh.mjs',
+        'agent-suites/fixtures/debugging-lab/src/server.mjs',
+        'agent-suites/fixtures/debugging-lab/notes.txt',
+        ...(claim.evidencePaths ?? []),
       ]) {
         try {
           selectedSnapshot[path] = await readFile(join(run.workspace.root, path), 'utf8')
@@ -121,6 +175,7 @@ export async function executeClaim(
           toolCalls: JSON.parse(JSON.stringify(run.toolCalls)),
           selectedSnapshot,
           changedPaths: run.workspace.changedPaths,
+          diagnosticReceipts,
         },
       })
       judgment = {
@@ -150,13 +205,14 @@ export async function executeClaim(
           outcome,
           failure,
           source: run?.startingContext ?? null,
-          assertions: claim.rubric,
+          assertions: { ...claim.rubric, contract: claim.contract ?? null },
           evidence: run
             ? {
                 artifact: run.artifact,
                 output: run.output,
                 toolCalls: run.toolCalls,
                 changedPaths: run.workspace.changedPaths,
+                diagnosticReceipts,
               }
             : null,
           judge: judgment ?? null,

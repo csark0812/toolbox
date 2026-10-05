@@ -28,7 +28,7 @@
     "agent:test:outcomes": "node scripts/run-agent-suites.mjs live probe-evidence-outcomes",
     "agent:test:transfer": "node scripts/run-agent-suites.mjs live probe-evidence-transfer",
     "agent:test:evidence-parity": "node scripts/run-evidence-parity.mjs",
-    "agent:test:probe-fix-evidence-parity": "node scripts/run-diagnose-evidence-parity.mjs",
+    "agent:test:probe-fix-evidence-parity": "npm run agent:test:debugging-evidence-parity",
     "agent:test:diagnose-evidence-parity": "npm run agent:test:probe-fix-evidence-parity",
     "agent:test:ablations": "node scripts/run-agent-suites.mjs comparisons organization-ablations",
     "agent:test:live": "node scripts/run-agent-suites.mjs live",
@@ -44,7 +44,8 @@
     "postinstall": "patch-package",
     "agent:test:comparisons": "node scripts/run-agent-suites.mjs comparisons",
     "agent:test:publication": "vitest run tests/durable-contracts.test.js -t publication",
-    "test:network": "TOOLBOX_NETWORK_TESTS=1 vitest run tests/github-ambient-refs.test.js"
+    "test:network": "TOOLBOX_NETWORK_TESTS=1 vitest run tests/github-ambient-refs.test.js",
+    "agent:test:debugging-evidence-parity": "node scripts/run-diagnose-evidence-parity.mjs"
   },
   "repository": {
     "type": "git",

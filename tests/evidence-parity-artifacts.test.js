@@ -33,9 +33,15 @@ describe('compareReportPaths', () => {
 
   it('resolves diagnose suite-report paths when suite names are passed', () => {
     const paths = compareReportPaths('/tmp/diagnose-1', DIAGNOSE_SUITE_NAMES)
-    expect(paths.suiteReports.outcomes).toBe('/tmp/diagnose-1/probe-fix-outcomes.suite-report.json')
-    expect(paths.suiteReports.transfer).toBe('/tmp/diagnose-1/probe-fix-transfer.suite-report.json')
-    expect(paths.suiteReports.prompt).toBe('/tmp/diagnose-1/probe-fix-prompt.suite-report.json')
+    expect(paths.suiteReports.outcomes).toBe(
+      '/tmp/diagnose-1/evidence-based-debugging-outcomes.suite-report.json',
+    )
+    expect(paths.suiteReports.transfer).toBe(
+      '/tmp/diagnose-1/evidence-based-debugging-transfer.suite-report.json',
+    )
+    expect(paths.suiteReports.prompt).toBe(
+      '/tmp/diagnose-1/evidence-based-debugging-prompt.suite-report.json',
+    )
   })
 })
 
@@ -76,12 +82,21 @@ describe('findParitySession', () => {
     const sessionsParent = join(root, 'sessions')
     const older = join(sessionsParent, 'older')
     const newer = join(sessionsParent, 'newer')
-    await mkdir(join(older, 'probe-fix-outcomes', 'x.debug'), { recursive: true })
-    await mkdir(join(newer, 'probe-fix-outcomes', 'x.debug'), { recursive: true })
-    await mkdir(join(newer, 'probe-fix-transfer', 'y.debug'), { recursive: true })
-    await writeFile(join(older, 'probe-fix-outcomes', 'x.debug', 'result.json'), '{}')
-    await writeFile(join(newer, 'probe-fix-outcomes', 'x.debug', 'result.json'), '{}')
-    await writeFile(join(newer, 'probe-fix-transfer', 'y.debug', 'result.json'), '{}')
+    await mkdir(join(older, 'evidence-based-debugging-outcomes', 'x.debug'), { recursive: true })
+    await mkdir(join(newer, 'evidence-based-debugging-outcomes', 'x.debug'), { recursive: true })
+    await mkdir(join(newer, 'evidence-based-debugging-transfer', 'y.debug'), { recursive: true })
+    await writeFile(
+      join(older, 'evidence-based-debugging-outcomes', 'x.debug', 'result.json'),
+      '{}',
+    )
+    await writeFile(
+      join(newer, 'evidence-based-debugging-outcomes', 'x.debug', 'result.json'),
+      '{}',
+    )
+    await writeFile(
+      join(newer, 'evidence-based-debugging-transfer', 'y.debug', 'result.json'),
+      '{}',
+    )
 
     const session = await findParitySession(sessionsParent, DIAGNOSE_SUITE_NAMES)
     expect(session?.name).toBe('newer')
@@ -96,8 +111,12 @@ describe('PARITY_COMPARE_PAIR', () => {
 
 describe('DIAGNOSE_PARITY_COMPARE_PAIR', () => {
   it('matches diagnose evidence-parity suite names', () => {
-    expect(DIAGNOSE_PARITY_COMPARE_PAIR).toBe('probe-fix-outcomes:probe-fix-transfer')
-    expect(DIAGNOSE_PROMPT_COMPARE_PAIR).toBe('probe-fix-outcomes:probe-fix-prompt')
+    expect(DIAGNOSE_PARITY_COMPARE_PAIR).toBe(
+      'evidence-based-debugging-outcomes:evidence-based-debugging-transfer',
+    )
+    expect(DIAGNOSE_PROMPT_COMPARE_PAIR).toBe(
+      'evidence-based-debugging-outcomes:evidence-based-debugging-prompt',
+    )
   })
 })
 

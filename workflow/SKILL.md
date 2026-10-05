@@ -6,23 +6,27 @@ description: Route engineering work and coordinate ownership sessions when the u
 # Workflow
 
 <!-- source-of-truth: Route engineering work and coordinate ownership sessions when the user wants to understand, adopt, change, or verify agent-created work -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-30 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-05 -->
 
 ## Route
 
-Discover installed companions by slug from the host catalog. Required: review-walkthrough, refactor-companion, code-review, probe, grill, prototype. Optional: council, orchestrate, verification, tdd. Check only the selected route's dependencies. Missing companions are a capability boundary, never evidence that a process ran.
+Discover installed companions by slug from the host catalog. Required: review-walkthrough, refactor-companion, code-review, probe, evidence-based-debugging, grill, prototype, i-need-help. Optional: council, orchestrate, verification, tdd. Check only the selected route's dependencies. Missing companions are a capability boundary, never evidence that a process ran. If i-need-help is unavailable on its route, stop using the same contract inline and disclose the missing skill.
 
-| Intended result          | Route                                                             |
-| ------------------------ | ----------------------------------------------------------------- |
-| Small clear edit         | Direct edit and focused proof; no persistent program or delegates |
-| Behavior explanation     | Read primary evidence; explain or use review-walkthrough          |
-| Suspected defect         | probe: reproduce, diagnose and prove an authorized repair         |
-| Product/design decision  | grill after discovering repository facts                          |
-| Empirical alternatives   | prototype with one discriminating question                        |
-| Agreed structural change | refactor-companion                                                |
-| Independent assessment   | code-review                                                       |
-| Explicit program         | orchestrate, subject to host permission                           |
-| App proof                | verification or the discovered consumer recipe                    |
+| Intended result                | Route                                                                 |
+| ------------------------------ | --------------------------------------------------------------------- |
+| Small clear edit               | Direct edit and focused proof; no persistent program or delegates     |
+| Behavior explanation           | Read primary evidence; explain or use review-walkthrough              |
+| Hunch or claim                 | probe: test the explanation against primary evidence                  |
+| Reported failure               | evidence-based-debugging: investigate and verify an authorized repair |
+| Product/design decision        | grill after discovering repository facts                              |
+| Empirical alternatives         | prototype with one discriminating question                            |
+| Agreed structural change       | refactor-companion                                                    |
+| Independent assessment         | code-review                                                           |
+| Explicit program               | orchestrate, subject to host permission                               |
+| App proof                      | verification or the discovered consumer recipe                        |
+| Repeated work without progress | i-need-help: stop, preserve the evidence, and ask the current owner   |
+
+Before another attempt at an unresolved blocker, check whether work has produced relevant evidence, resolved uncertainty, or a verified step toward the outcome. Two attempts at the same blocker without useful progress route to i-need-help. A useful negative result counts as progress; repeated reads, cosmetic edits, equivalent retries, or cycling between failed approaches do not. A known missing prerequisite with no useful authorized next step stops immediately. Elapsed time alone is not a trigger.
 
 ## Ownership
 

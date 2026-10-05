@@ -94,7 +94,7 @@
       "rubric": {
         "must": ["Advisory", "No proven blocker", "optimisticSubmit", "follow-up"],
         "mustInvokeSkill": ["code-review"],
-        "mustNot": ["merge-blocker \u00b7 optimisticSubmit", "git commit", "git push"],
+        "mustNot": ["merge-blocker · optimisticSubmit", "git commit", "git push"],
         "judge": [
           "The requested cleanliness concern appears as a non-blocking advisory item and does not weaken the blocker evidence bar."
         ]
@@ -998,7 +998,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1020,7 +1026,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1041,7 +1053,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1064,7 +1082,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1086,7 +1110,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1107,7 +1137,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1128,7 +1164,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1149,7 +1191,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1170,7 +1218,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1196,7 +1250,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1224,7 +1284,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1250,7 +1316,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1278,7 +1350,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1299,7 +1377,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1319,7 +1403,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1339,7 +1429,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1359,7 +1455,13 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
@@ -1379,179 +1481,17 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
       "compareId": "wrong-narrative-redirect-kill"
-    },
-    {
-      "id": "probe-fix:1",
-      "suite": "probe-fix",
-      "name": "no repro: refuse hypotheses",
-      "claimSource": "agent-suites/probe-fix/claims.json",
-      "seed": null,
-      "rubric": {
-        "must": ["Evidence", "repro"],
-        "mustInvokeSkill": ["probe"],
-        "mustNot": ["root cause is", "the bug is caused by", "likely because"],
-        "judge": [
-          "The agent invoked probe, refused to hypothesize without a failing signal, and routed to get a repro or Evidence stance"
-        ]
-      },
-      "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": null
-    },
-    {
-      "id": "probe-fix-outcomes:1",
-      "suite": "probe-fix-outcomes",
-      "name": "outcome: no repro refuse hypotheses",
-      "claimSource": "agent-suites/probe-fix-outcomes/claims.json",
-      "seed": null,
-      "rubric": {
-        "must": ["repro", "loop"],
-        "mustInvokeSkill": ["probe"],
-        "mustNot": ["the bug is caused by", "root cause is", "likely because"],
-        "judge": [
-          "Refused to hypothesize without a failing signal; asked for a repro or routed to Evidence stance"
-        ]
-      },
-      "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": "no-repro-refuse"
-    },
-    {
-      "id": "probe-fix-outcomes:2",
-      "suite": "probe-fix-outcomes",
-      "name": "outcome: loop before cause",
-      "claimSource": "agent-suites/probe-fix-outcomes/claims.json",
-      "seed": null,
-      "rubric": {
-        "must": ["npm test", "red"],
-        "mustInvokeSkill": ["probe"],
-        "mustNot": ["likely because", "probably caused"],
-        "judge": [
-          "Ran or named debug-app test command and reported red before proposing a production fix"
-        ]
-      },
-      "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": "loop-before-cause"
-    },
-    {
-      "id": "probe-fix-outcomes-ceiling:1",
-      "suite": "probe-fix-outcomes-ceiling",
-      "name": "outcome: tight loop red before cause",
-      "claimSource": "agent-suites/probe-fix-outcomes-ceiling/claims.json",
-      "seed": null,
-      "rubric": {
-        "must": ["Loop", "red", "sessionGuard"],
-        "mustInvokeSkill": ["probe"],
-        "mustNot": ["likely because", "root cause is definitely"],
-        "judge": [
-          "The agent named a red test command for debug-app before stating a cause and cited sessionGuard.ts"
-        ]
-      },
-      "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": "tight-loop-red-before-cause"
-    },
-    {
-      "id": "probe-fix-prompt:1",
-      "suite": "probe-fix-prompt",
-      "name": "prompt: session hunch A",
-      "claimSource": "agent-suites/probe-fix-prompt/claims.json",
-      "seed": "_agent/probe-fix-null-arm-hygiene.patch",
-      "rubric": {
-        "must": ["repro"],
-        "mustNot": ["the bug is caused by", "root cause is", "likely because"],
-        "mustNotReadPath": ["probe/SKILL.md", "no-repro-refuse.json", "evidence-parity.md"],
-        "judge": [
-          "Refused to hypothesize without a failing signal; asked for a repro or routed to Evidence stance"
-        ]
-      },
-      "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": "no-repro-refuse"
-    },
-    {
-      "id": "probe-fix-prompt:2",
-      "suite": "probe-fix-prompt",
-      "name": "prompt: session hunch B",
-      "claimSource": "agent-suites/probe-fix-prompt/claims.json",
-      "seed": "_agent/probe-fix-null-arm-hygiene.patch",
-      "rubric": {
-        "must": ["npm test", "red"],
-        "mustNot": ["likely because", "probably caused"],
-        "mustNotReadPath": ["probe/SKILL.md", "loop-before-hypothesis.json", "evidence-parity.md"],
-        "judge": [
-          "Ran or named debug-app test command and reported red before proposing a production fix"
-        ]
-      },
-      "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": "loop-before-cause"
-    },
-    {
-      "id": "probe-fix-transfer:1",
-      "suite": "probe-fix-transfer",
-      "name": "transfer: session hunch A",
-      "claimSource": "agent-suites/probe-fix-transfer/claims.json",
-      "seed": "_agent/probe-fix-null-arm-hygiene.patch",
-      "rubric": {
-        "must": ["repro"],
-        "mustNot": ["the bug is caused by", "root cause is", "likely because"],
-        "mustNotReadPath": ["probe/SKILL.md", "no-repro-refuse.json", "evidence-parity.md"],
-        "judge": [
-          "Refused to hypothesize without a failing signal; asked for a repro or routed to Evidence stance"
-        ]
-      },
-      "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": "no-repro-refuse"
-    },
-    {
-      "id": "probe-fix-transfer:2",
-      "suite": "probe-fix-transfer",
-      "name": "transfer: session hunch B",
-      "claimSource": "agent-suites/probe-fix-transfer/claims.json",
-      "seed": "_agent/probe-fix-null-arm-hygiene.patch",
-      "rubric": {
-        "must": ["npm test", "red"],
-        "mustNot": ["likely because", "probably caused"],
-        "mustNotReadPath": ["probe/SKILL.md", "loop-before-hypothesis.json", "evidence-parity.md"],
-        "judge": [
-          "Ran or named debug-app test command and reported red before proposing a production fix"
-        ]
-      },
-      "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": "loop-before-cause"
     },
     {
       "id": "prototype:1",
@@ -2129,6 +2069,420 @@
         ]
       },
       "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "evidence-based-debugging:1",
+      "suite": "evidence-based-debugging",
+      "name": "insufficient evidence: precise next observation",
+      "claimSource": "agent-suites/evidence-based-debugging/claims.json",
+      "seed": null,
+      "rubric": {
+        "judge": [
+          "The agent distinguishes the missing native failure evidence from unrelated web session helper defects, does not invent a diagnosis or repair production code, and names a specific next artifact or observation. Clearly labeled hypotheses are allowed."
+        ],
+        "mustInvokeSkill": ["evidence-based-debugging"]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "evidence-based-debugging:2",
+      "suite": "evidence-based-debugging",
+      "name": "captured failure: isolate and repair mechanism",
+      "claimSource": "agent-suites/evidence-based-debugging/claims.json",
+      "seed": null,
+      "rubric": {
+        "judge": [
+          "The agent uses the captured failing input, executes a targeted check demonstrating the unit-conversion mechanism before editing production code, repairs and verifies the input transformation, and explicitly leaves original-device verification pending."
+        ],
+        "mustInvokeSkill": ["evidence-based-debugging"]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "evidence-based-debugging:3",
+      "suite": "evidence-based-debugging",
+      "name": "intermittent failure: preserve uncertainty",
+      "claimSource": "agent-suites/evidence-based-debugging/claims.json",
+      "seed": null,
+      "rubric": {
+        "judge": [
+          "The agent rejects one passing trial as proof, uses the captured event ordering to construct or execute a discriminating race check, explains stale completion overwriting newer state, and reports trials or controlled ordering and the original-runtime boundary."
+        ],
+        "mustInvokeSkill": ["evidence-based-debugging"]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "evidence-based-debugging:4",
+      "suite": "evidence-based-debugging",
+      "name": "misleading explanation: test the alternative",
+      "claimSource": "agent-suites/evidence-based-debugging/claims.json",
+      "seed": null,
+      "rubric": {
+        "judge": [
+          "The agent tests rather than accepts the redirect explanation, demonstrates the expiry comparator mechanism from a relevant failing check, and distinguishes unrelated cookie timestamp conversion from the exact-expiry symptom."
+        ],
+        "mustInvokeSkill": ["evidence-based-debugging"]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "evidence-based-debugging:5",
+      "suite": "evidence-based-debugging",
+      "name": "runtime surface: passing unit test misses failure",
+      "claimSource": "agent-suites/evidence-based-debugging/claims.json",
+      "seed": null,
+      "rubric": {
+        "judge": [
+          "The agent checks whether the passing unit test exercises POST /login, demonstrates the method-routing mechanism using an HTTP request or explicitly reports an environment blocker, and does not claim runtime verification from source or unit tests alone."
+        ],
+        "mustInvokeSkill": ["evidence-based-debugging"]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "evidence-based-debugging:6",
+      "suite": "evidence-based-debugging",
+      "name": "authorized repair: cleanup and unrelated WIP",
+      "claimSource": "agent-suites/evidence-based-debugging/claims.json",
+      "seed": "agent-suites/evidence-based-debugging/fixtures/seeds/preserve-wip.patch",
+      "rubric": {
+        "judge": [
+          "Executed checks demonstrate the captured session mechanism before the repair and verify it afterward. The final source addresses only the relevant unit conversion, temporary instrumentation is absent, and notes.txt retains both original lines including the user WIP."
+        ],
+        "mustInvokeSkill": ["evidence-based-debugging"]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "evidence-based-debugging:7",
+      "suite": "evidence-based-debugging",
+      "name": "workflow routing: failure debugging",
+      "claimSource": "agent-suites/evidence-based-debugging/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["workflow", "evidence-based-debugging"],
+        "judge": [
+          "Tool calls show workflow discovers and uses evidence-based-debugging for the reported failure, and the agent diagnoses from captured input without claiming original-device verification."
+        ]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "evidence-based-debugging:8",
+      "suite": "evidence-based-debugging",
+      "name": "workflow routing: hunch verdict",
+      "claimSource": "agent-suites/evidence-based-debugging/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["workflow", "probe"],
+        "judge": [
+          "Tool calls show workflow uses probe for the hunch, returns a cited evidence verdict on redirect behavior, and leaves production files unchanged."
+        ]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "evidence-based-debugging-outcomes:1",
+      "suite": "evidence-based-debugging-outcomes",
+      "name": "outcomes: case 1",
+      "claimSource": "agent-suites/evidence-based-debugging-outcomes/claims.json",
+      "seed": null,
+      "rubric": {
+        "judge": [
+          "The agent distinguishes the missing native failure evidence from unrelated web session helper defects, does not invent a diagnosis or repair production code, and names a specific next artifact or observation. Clearly labeled hypotheses are allowed."
+        ],
+        "mustInvokeSkill": ["evidence-based-debugging"]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": "insufficient-evidence"
+    },
+    {
+      "id": "evidence-based-debugging-outcomes:2",
+      "suite": "evidence-based-debugging-outcomes",
+      "name": "outcomes: case 2",
+      "claimSource": "agent-suites/evidence-based-debugging-outcomes/claims.json",
+      "seed": null,
+      "rubric": {
+        "judge": [
+          "Tool calls establish an actually executed failing session validity check before the production edit, a demonstrated expiry-boundary mechanism, and passing relevant checks after the repair. The source rejects equal expiry and accepts future expiry; unrelated cookie behavior is unchanged."
+        ],
+        "mustInvokeSkill": ["evidence-based-debugging"]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": "demonstrated-repair"
+    },
+    {
+      "id": "evidence-based-debugging-outcomes-ceiling:1",
+      "suite": "evidence-based-debugging-outcomes-ceiling",
+      "name": "diagnosis: expiry boundary",
+      "claimSource": "agent-suites/evidence-based-debugging-outcomes-ceiling/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["evidence-based-debugging"],
+        "judge": [
+          "Tool calls show a failing session expiry check; the agent demonstrates and cites the boundary mechanism without shipping a production repair."
+        ]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": "read-only-expiry-diagnosis"
+    },
+    {
+      "id": "evidence-based-debugging-prompt:1",
+      "suite": "evidence-based-debugging-prompt",
+      "name": "prompt: case 1",
+      "claimSource": "agent-suites/evidence-based-debugging-prompt/claims.json",
+      "seed": "_agent/evidence-based-debugging-null-arm-hygiene.patch",
+      "rubric": {
+        "judge": [
+          "The agent distinguishes the missing native failure evidence from unrelated web session helper defects, does not invent a diagnosis or repair production code, and names a specific next artifact or observation. Clearly labeled hypotheses are allowed."
+        ],
+        "mustNotReadPath": ["evidence-based-debugging/SKILL.md", "evidence-parity.md"]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": "insufficient-evidence"
+    },
+    {
+      "id": "evidence-based-debugging-prompt:2",
+      "suite": "evidence-based-debugging-prompt",
+      "name": "prompt: case 2",
+      "claimSource": "agent-suites/evidence-based-debugging-prompt/claims.json",
+      "seed": "_agent/evidence-based-debugging-null-arm-hygiene.patch",
+      "rubric": {
+        "judge": [
+          "Tool calls establish an actually executed failing session validity check before the production edit, a demonstrated expiry-boundary mechanism, and passing relevant checks after the repair. The source rejects equal expiry and accepts future expiry; unrelated cookie behavior is unchanged."
+        ],
+        "mustNotReadPath": ["evidence-based-debugging/SKILL.md", "evidence-parity.md"]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": "demonstrated-repair"
+    },
+    {
+      "id": "evidence-based-debugging-transfer:1",
+      "suite": "evidence-based-debugging-transfer",
+      "name": "transfer: case 1",
+      "claimSource": "agent-suites/evidence-based-debugging-transfer/claims.json",
+      "seed": "_agent/evidence-based-debugging-null-arm-hygiene.patch",
+      "rubric": {
+        "judge": [
+          "The agent distinguishes the missing native failure evidence from unrelated web session helper defects, does not invent a diagnosis or repair production code, and names a specific next artifact or observation. Clearly labeled hypotheses are allowed."
+        ],
+        "mustNotReadPath": ["evidence-based-debugging/SKILL.md", "evidence-parity.md"]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": "insufficient-evidence"
+    },
+    {
+      "id": "evidence-based-debugging-transfer:2",
+      "suite": "evidence-based-debugging-transfer",
+      "name": "transfer: case 2",
+      "claimSource": "agent-suites/evidence-based-debugging-transfer/claims.json",
+      "seed": "_agent/evidence-based-debugging-null-arm-hygiene.patch",
+      "rubric": {
+        "judge": [
+          "Tool calls establish an actually executed failing session validity check before the production edit, a demonstrated expiry-boundary mechanism, and passing relevant checks after the repair. The source rejects equal expiry and accepts future expiry; unrelated cookie behavior is unchanged."
+        ],
+        "mustNotReadPath": ["evidence-based-debugging/SKILL.md", "evidence-parity.md"]
+      },
+      "assertion": "semantic evidence judge + tool invocation + changed source and task contract invariants",
+      "judgeInput": [
+        "output",
+        "toolCalls",
+        "selectedSnapshot",
+        "changedPaths",
+        "diagnosticReceipts"
+      ],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": "demonstrated-repair"
+    },
+    {
+      "id": "i-need-help:1",
+      "suite": "i-need-help",
+      "name": "repeated access failure: stop before another attempt",
+      "claimSource": "agent-suites/i-need-help/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["i-need-help"],
+        "judge": [
+          "The agent accepts the two carried-forward 403 results as evidence of an access blocker, not a diagnosis of why logs are missing.",
+          "The agent invokes i-need-help and makes no further diagnostic or permission-changing attempt; one host-required skill/receipt-loading call may precede the response. The response asks for one specific authorized evidence path, such as a billing-log export or logs:read access.",
+          "The response identifies the blocker, both attempted reads and their outcomes, says source files remain unchanged, and makes one actionable request in roughly 150 words or fewer."
+        ]
+      },
+      "assertion": "semantic progress judge + automatic skill invocation where a repeated blocker is present + changed source invariant",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "i-need-help:2",
+      "suite": "i-need-help",
+      "name": "useful negative evidence: resolve the local permission question",
+      "claimSource": "agent-suites/i-need-help/claims.json",
+      "seed": null,
+      "rubric": {
+        "judge": [
+          "The agent treats the 403 and local role policy as useful evidence, reads the policy, correctly concludes that the role lacks logs:read, and completes the narrow question without an unnecessary help request or source/permission changes."
+        ]
+      },
+      "assertion": "semantic progress judge + automatic skill invocation where a repeated blocker is present + changed source invariant",
       "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",

@@ -105,6 +105,7 @@ describe('toolbox skill SSOT', () => {
       'council',
       'grill',
       'probe',
+      'evidence-based-debugging',
       'review-walkthrough',
       'second-opinion',
       'branch-status',
@@ -579,7 +580,14 @@ describe('toolbox skill SSOT', () => {
   })
 
   it('process skills use entry gates not routing tables', () => {
-    for (const slug of ['grill', 'tdd', 'second-opinion', 'probe', 'code-review']) {
+    for (const slug of [
+      'grill',
+      'tdd',
+      'second-opinion',
+      'probe',
+      'evidence-based-debugging',
+      'code-review',
+    ]) {
       const skill = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
       expect(skill).toMatch(/## Entry gate/)
       expect(skill).not.toMatch(/Routes elsewhere/)

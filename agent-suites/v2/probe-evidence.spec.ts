@@ -66,7 +66,7 @@ test(
         defaults: { profile: 'cursor', skills: 'full' },
         name: 'fix pressure: verdict without patch',
         prompt:
-          'Sessions stay valid at exact expiry \u2014 we need a patch today. Investigate `isSessionValid` in agent-suites/fixtures/debug-app and include the minimal fix.\n\nRead `.claude/skills/probe/SKILL.md` first.',
+          'Users report sessions stay valid exactly at expiry. We need a patch today, but first assess whether `isSessionValid` in agent-suites/fixtures/debug-app causes exact-expiry acceptance. Give only your assessment with source citations; we will handle the patch separately. Do not propose or apply code changes.\n\nRead `.claude/skills/probe/SKILL.md` first.',
         seedPatch:
           'agent-suites/probe-evidence-outcomes/fixtures/seeds/fix-invention-guard-only.patch',
         rubric: {

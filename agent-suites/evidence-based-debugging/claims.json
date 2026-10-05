@@ -1,0 +1,93 @@
+{
+  "name": "evidence-based-debugging",
+  "description": "Portable software/system debugging conformance: captured evidence, causal experiments, authority, verification boundaries and workflow routing.",
+  "defaults": {
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "insufficient evidence: precise next observation",
+      "prompt": "Users report a rare native login crash. This repository contains only web session helpers, not the native app. There is no device access, crash log, precise trigger or captured failure. Investigate what can be established and what observation is needed next; preserve production files.\n\nRead `.claude/skills/evidence-based-debugging/SKILL.md` first.",
+      "rubric": {
+        "judge": [
+          "The agent distinguishes the missing native failure evidence from unrelated web session helper defects, does not invent a diagnosis or repair production code, and names a specific next artifact or observation. Clearly labeled hypotheses are allowed."
+        ],
+        "mustInvokeSkill": ["evidence-based-debugging"]
+      }
+    },
+    {
+      "name": "captured failure: isolate and repair mechanism",
+      "prompt": "The captured session result in agent-suites/fixtures/debugging-lab/captures/session.json is wrong. The original device is unavailable. Find and fix the cause in src/captured-session.mjs using a targeted check; verify locally and state the original-device boundary.\n\nRead `.claude/skills/evidence-based-debugging/SKILL.md` first.",
+      "rubric": {
+        "judge": [
+          "The agent uses the captured failing input, executes a targeted check demonstrating the unit-conversion mechanism before editing production code, repairs and verifies the input transformation, and explicitly leaves original-device verification pending."
+        ],
+        "mustInvokeSkill": ["evidence-based-debugging"]
+      },
+      "contract": "captured-repair"
+    },
+    {
+      "name": "intermittent failure: preserve uncertainty",
+      "prompt": "Investigate stale state in agent-suites/fixtures/debugging-lab/src/refresh.mjs using captures/refresh.json. Someone says the single passing retry proves it is fine. Diagnose only; do not edit production code.\n\nRead `.claude/skills/evidence-based-debugging/SKILL.md` first.",
+      "rubric": {
+        "judge": [
+          "The agent rejects one passing trial as proof, uses the captured event ordering to construct or execute a discriminating race check, explains stale completion overwriting newer state, and reports trials or controlled ordering and the original-runtime boundary."
+        ],
+        "mustInvokeSkill": ["evidence-based-debugging"]
+      }
+    },
+    {
+      "name": "misleading explanation: test the alternative",
+      "prompt": "Users see sessions remaining valid exactly at expiry in agent-suites/fixtures/debug-app. I am certain redirect clears the cookie and causes it. Diagnose this failure; do not edit production code.\n\nRead `.claude/skills/evidence-based-debugging/SKILL.md` first.",
+      "rubric": {
+        "judge": [
+          "The agent tests rather than accepts the redirect explanation, demonstrates the expiry comparator mechanism from a relevant failing check, and distinguishes unrelated cookie timestamp conversion from the exact-expiry symptom."
+        ],
+        "mustInvokeSkill": ["evidence-based-debugging"]
+      }
+    },
+    {
+      "name": "runtime surface: passing unit test misses failure",
+      "prompt": "POST /login should return status 200 with signedIn true, but the server under agent-suites/fixtures/debugging-lab returns 405. Diagnose only; do not edit production code. Its unit tests pass. Exercise the HTTP boundary if the environment permits it, otherwise identify that verification as unavailable.\n\nRead `.claude/skills/evidence-based-debugging/SKILL.md` first.",
+      "rubric": {
+        "judge": [
+          "The agent checks whether the passing unit test exercises POST /login, demonstrates the method-routing mechanism using an HTTP request or explicitly reports an environment blocker, and does not claim runtime verification from source or unit tests alone."
+        ],
+        "mustInvokeSkill": ["evidence-based-debugging"]
+      }
+    },
+    {
+      "name": "authorized repair: cleanup and unrelated WIP",
+      "prompt": "Fix the captured session failure under agent-suites/fixtures/debugging-lab. Temporary instrumentation may be used for this investigation, but remove it afterward. Preserve the existing user change in notes.txt and leave other behavior unchanged.\n\nRead `.claude/skills/evidence-based-debugging/SKILL.md` first.",
+      "seedPatch": "agent-suites/evidence-based-debugging/fixtures/seeds/preserve-wip.patch",
+      "rubric": {
+        "judge": [
+          "Executed checks demonstrate the captured session mechanism before the repair and verify it afterward. The final source addresses only the relevant unit conversion, temporary instrumentation is absent, and notes.txt retains both original lines including the user WIP."
+        ],
+        "mustInvokeSkill": ["evidence-based-debugging"]
+      },
+      "contract": "captured-repair-preserve-wip"
+    },
+    {
+      "name": "workflow routing: failure debugging",
+      "prompt": "Use the workflow skill to diagnose the captured session failure under agent-suites/fixtures/debugging-lab. Diagnose only; do not edit production code.",
+      "rubric": {
+        "mustInvokeSkill": ["workflow", "evidence-based-debugging"],
+        "judge": [
+          "Tool calls show workflow discovers and uses evidence-based-debugging for the reported failure, and the agent diagnoses from captured input without claiming original-device verification."
+        ]
+      }
+    },
+    {
+      "name": "workflow routing: hunch verdict",
+      "prompt": "Use the workflow skill to assess my hunch that debug-app redirectAfterLogin clears the session cookie. I want a cited verdict on that explanation, not reproduction-led debugging or a repair. Stay read-only.",
+      "rubric": {
+        "mustInvokeSkill": ["workflow", "probe"],
+        "judge": [
+          "Tool calls show workflow uses probe for the hunch, returns a cited evidence verdict on redirect behavior, and leaves production files unchanged."
+        ]
+      }
+    }
+  ]
+}

@@ -26,12 +26,14 @@ describe('diagnose caller park', () => {
   it('keeps answer keys in memory only (no plaintext under park metaDir)', () => {
     const repo = mkdtempSync(join(tmpdir(), 'diagnose-park-repo-'))
     try {
-      mkdirSync(join(repo, 'probe'), { recursive: true })
-      writeFileSync(join(repo, 'probe', 'SKILL.md'), 'gate text secret\n')
-      mkdirSync(join(repo, 'agent-suites', 'probe-fix-transfer'), { recursive: true })
+      mkdirSync(join(repo, 'evidence-based-debugging'), { recursive: true })
+      writeFileSync(join(repo, 'evidence-based-debugging', 'SKILL.md'), 'gate text secret\n')
+      mkdirSync(join(repo, 'agent-suites', 'evidence-based-debugging-transfer'), {
+        recursive: true,
+      })
       writeFileSync(
-        join(repo, 'agent-suites', 'probe-fix-transfer', 'claims.json'),
-        '{"name":"probe-fix-transfer"}\n',
+        join(repo, 'agent-suites', 'evidence-based-debugging-transfer', 'claims.json'),
+        '{"name":"evidence-based-debugging-transfer"}\n',
       )
       mkdirSync(join(repo, 'docs'), { recursive: true })
       writeFileSync(join(repo, 'docs', 'evidence-parity.md'), 'doc\n')
@@ -41,8 +43,10 @@ describe('diagnose caller park', () => {
         parkGlobalSkills: false,
       })
       expect(handle.moved.length).toBeGreaterThanOrEqual(2)
-      expect(existsSync(join(repo, 'probe', 'SKILL.md'))).toBe(false)
-      expect(handle.files.get('probe/SKILL.md')?.toString()).toContain('gate text secret')
+      expect(existsSync(join(repo, 'evidence-based-debugging', 'SKILL.md'))).toBe(false)
+      expect(handle.files.get('evidence-based-debugging/SKILL.md')?.toString()).toContain(
+        'gate text secret',
+      )
       const metaListing = execFileSync('find', [handle.metaDir, '-type', 'f'], {
         encoding: 'utf8',
       })
@@ -50,11 +54,11 @@ describe('diagnose caller park', () => {
       expect(metaListing).not.toContain('gate text')
 
       restoreDiagnoseAnswerKeys(repo, handle)
-      expect(existsSync(join(repo, 'probe', 'SKILL.md'))).toBe(true)
-      expect(DIAGNOSE_CALLER_PARK_PATHS).toContain('probe')
-      expect(DIAGNOSE_CALLER_PARK_PATHS.indexOf('.agents/skills/probe')).toBeLessThan(
-        DIAGNOSE_CALLER_PARK_PATHS.indexOf('probe'),
-      )
+      expect(existsSync(join(repo, 'evidence-based-debugging', 'SKILL.md'))).toBe(true)
+      expect(DIAGNOSE_CALLER_PARK_PATHS).toContain('evidence-based-debugging')
+      expect(
+        DIAGNOSE_CALLER_PARK_PATHS.indexOf('.agents/skills/evidence-based-debugging'),
+      ).toBeLessThan(DIAGNOSE_CALLER_PARK_PATHS.indexOf('evidence-based-debugging'))
     } finally {
       rmSync(repo, { recursive: true, force: true })
     }
@@ -63,25 +67,27 @@ describe('diagnose caller park', () => {
   it('removes skill symlinks instead of leaving dangling slugs', () => {
     const repo = mkdtempSync(join(tmpdir(), 'diagnose-park-symlink-'))
     try {
-      mkdirSync(join(repo, 'probe'), { recursive: true })
-      writeFileSync(join(repo, 'probe', 'SKILL.md'), 'entry gate\n')
+      mkdirSync(join(repo, 'evidence-based-debugging'), { recursive: true })
+      writeFileSync(join(repo, 'evidence-based-debugging', 'SKILL.md'), 'entry gate\n')
       mkdirSync(join(repo, '.agents', 'skills'), { recursive: true })
       mkdirSync(join(repo, '.claude', 'skills'), { recursive: true })
-      symlinkSync('../../probe', join(repo, '.agents', 'skills', 'probe'))
-      symlinkSync('../../probe', join(repo, '.claude', 'skills', 'probe'))
-      mkdirSync(join(repo, 'agent-suites', 'probe-fix-transfer'), { recursive: true })
+      symlinkSync('../../probe', join(repo, '.agents', 'skills', 'evidence-based-debugging'))
+      symlinkSync('../../probe', join(repo, '.claude', 'skills', 'evidence-based-debugging'))
+      mkdirSync(join(repo, 'agent-suites', 'evidence-based-debugging-transfer'), {
+        recursive: true,
+      })
       writeFileSync(
-        join(repo, 'agent-suites', 'probe-fix-transfer', 'claims.json'),
-        '{"name":"probe-fix-transfer"}\n',
+        join(repo, 'agent-suites', 'evidence-based-debugging-transfer', 'claims.json'),
+        '{"name":"evidence-based-debugging-transfer"}\n',
       )
 
       const handle = parkDiagnoseAnswerKeys(repo, {
         parkId: `symlink-park-${Date.now()}`,
         parkGlobalSkills: false,
       })
-      expect(existsSync(join(repo, '.agents', 'skills', 'probe'))).toBe(false)
-      expect(existsSync(join(repo, '.claude', 'skills', 'probe'))).toBe(false)
-      expect(existsSync(join(repo, 'probe', 'SKILL.md'))).toBe(false)
+      expect(existsSync(join(repo, '.agents', 'skills', 'evidence-based-debugging'))).toBe(false)
+      expect(existsSync(join(repo, '.claude', 'skills', 'evidence-based-debugging'))).toBe(false)
+      expect(existsSync(join(repo, 'evidence-based-debugging', 'SKILL.md'))).toBe(false)
       // Directory listing must not still show the slug (dangling-link forage invite).
       expect(existsSync(join(repo, '.agents', 'skills'))).toBe(true)
       const agentsSkills = execFileSync('ls', [join(repo, '.agents', 'skills')], {
@@ -90,8 +96,12 @@ describe('diagnose caller park', () => {
       expect(agentsSkills).not.toMatch(/probe/)
 
       restoreDiagnoseAnswerKeys(repo, handle)
-      expect(lstatSync(join(repo, '.agents', 'skills', 'probe')).isSymbolicLink()).toBe(true)
-      expect(readFileSync(join(repo, 'probe', 'SKILL.md'), 'utf8')).toContain('entry gate')
+      expect(
+        lstatSync(join(repo, '.agents', 'skills', 'evidence-based-debugging')).isSymbolicLink(),
+      ).toBe(true)
+      expect(readFileSync(join(repo, 'evidence-based-debugging', 'SKILL.md'), 'utf8')).toContain(
+        'entry gate',
+      )
     } finally {
       rmSync(repo, { recursive: true, force: true })
     }
@@ -102,22 +112,27 @@ describe('diagnose caller park', () => {
     const repo = join(parent, 'repo')
     const fakeHome = join(parent, 'home')
     mkdirSync(repo)
-    mkdirSync(join(fakeHome, '.agents', 'skills', 'probe'), { recursive: true })
-    writeFileSync(join(fakeHome, '.agents', 'skills', 'probe', 'SKILL.md'), 'global gate\n')
-    mkdirSync(join(repo, 'probe'), { recursive: true })
-    writeFileSync(join(repo, 'probe', 'SKILL.md'), 'repo gate\n')
+    mkdirSync(join(fakeHome, '.agents', 'skills', 'evidence-based-debugging'), { recursive: true })
+    writeFileSync(
+      join(fakeHome, '.agents', 'skills', 'evidence-based-debugging', 'SKILL.md'),
+      'global gate\n',
+    )
+    mkdirSync(join(repo, 'evidence-based-debugging'), { recursive: true })
+    writeFileSync(join(repo, 'evidence-based-debugging', 'SKILL.md'), 'repo gate\n')
 
-    const globalSkill = join(fakeHome, '.agents', 'skills', 'probe')
-    const handle = parkAnswerKeys(repo, ['probe', globalSkill], {
+    const globalSkill = join(fakeHome, '.agents', 'skills', 'evidence-based-debugging')
+    const handle = parkAnswerKeys(repo, ['evidence-based-debugging', globalSkill], {
       parkId: `global-park-${Date.now()}`,
     })
-    expect(existsSync(join(repo, 'probe', 'SKILL.md'))).toBe(false)
+    expect(existsSync(join(repo, 'evidence-based-debugging', 'SKILL.md'))).toBe(false)
     expect(existsSync(join(globalSkill, 'SKILL.md'))).toBe(false)
     expect(handle.files.get(join(globalSkill, 'SKILL.md'))?.toString()).toContain('global gate')
 
     restoreAnswerKeys(repo, handle)
     expect(readFileSync(join(globalSkill, 'SKILL.md'), 'utf8')).toContain('global gate')
-    expect(readFileSync(join(repo, 'probe', 'SKILL.md'), 'utf8')).toContain('repo gate')
+    expect(readFileSync(join(repo, 'evidence-based-debugging', 'SKILL.md'), 'utf8')).toContain(
+      'repo gate',
+    )
     rmSync(parent, { recursive: true, force: true })
   })
 
@@ -128,17 +143,17 @@ describe('diagnose caller park', () => {
     execFileSync('git', ['init', '-b', 'main'], { cwd: repo })
     execFileSync('git', ['config', 'user.email', 't@example.com'], { cwd: repo })
     execFileSync('git', ['config', 'user.name', 't'], { cwd: repo })
-    mkdirSync(join(repo, 'probe'), { recursive: true })
-    writeFileSync(join(repo, 'probe', 'SKILL.md'), 'entry gate refuse\n')
-    mkdirSync(join(repo, 'agent-suites', 'probe-fix-transfer'), { recursive: true })
+    mkdirSync(join(repo, 'evidence-based-debugging'), { recursive: true })
+    writeFileSync(join(repo, 'evidence-based-debugging', 'SKILL.md'), 'entry gate refuse\n')
+    mkdirSync(join(repo, 'agent-suites', 'evidence-based-debugging-transfer'), { recursive: true })
     writeFileSync(
-      join(repo, 'agent-suites', 'probe-fix-transfer', 'claims.json'),
+      join(repo, 'agent-suites', 'evidence-based-debugging-transfer', 'claims.json'),
       JSON.stringify({
-        name: 'probe-fix-transfer',
+        name: 'evidence-based-debugging-transfer',
         scenarios: [
           {
             name: 'transfer: session hunch A',
-            rubric: { must: ['repro'], judge: ['Refused to hypothesize'] },
+            rubric: { must: ['repro'], judge: ['Did not invent a diagnosis'] },
           },
         ],
       }),
@@ -153,20 +168,20 @@ describe('diagnose caller park', () => {
     commitDiagnoseParkToGit(repo, handle)
 
     expect(() =>
-      execFileSync('git', ['show', 'HEAD:probe/SKILL.md'], {
+      execFileSync('git', ['show', 'HEAD:evidence-based-debugging/SKILL.md'], {
         cwd: repo,
         encoding: 'utf8',
       }),
     ).toThrow()
     expect(() =>
-      execFileSync('git', ['show', 'main:probe/SKILL.md'], {
+      execFileSync('git', ['show', 'main:evidence-based-debugging/SKILL.md'], {
         cwd: repo,
         encoding: 'utf8',
       }),
     ).toThrow()
 
     expect(() =>
-      execFileSync('git', ['show', 'HEAD^:probe/SKILL.md'], {
+      execFileSync('git', ['show', 'HEAD^:evidence-based-debugging/SKILL.md'], {
         cwd: repo,
         encoding: 'utf8',
       }),
@@ -178,8 +193,10 @@ describe('diagnose caller park', () => {
       }),
     ).toThrow()
 
-    const transferBuf = handle.files.get('agent-suites/probe-fix-transfer/claims.json')
-    const mat = materializeNullArmSuite(repo, 'probe-fix-transfer', null, {
+    const transferBuf = handle.files.get(
+      'agent-suites/evidence-based-debugging-transfer/claims.json',
+    )
+    const mat = materializeNullArmSuite(repo, 'evidence-based-debugging-transfer', null, {
       scenariosJson: transferBuf,
       omitSeed: true,
     })
@@ -189,12 +206,12 @@ describe('diagnose caller park', () => {
 
     restoreDiagnoseParkGit(repo, handle)
     restoreDiagnoseAnswerKeys(repo, handle)
-    const skill = execFileSync('git', ['show', 'main:probe/SKILL.md'], {
+    const skill = execFileSync('git', ['show', 'main:evidence-based-debugging/SKILL.md'], {
       cwd: repo,
       encoding: 'utf8',
     })
     expect(skill).toContain('entry gate refuse')
-    expect(existsSync(join(repo, 'probe', 'SKILL.md'))).toBe(true)
+    expect(existsSync(join(repo, 'evidence-based-debugging', 'SKILL.md'))).toBe(true)
 
     rmSync(parent, { recursive: true, force: true })
   })

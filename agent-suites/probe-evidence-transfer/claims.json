@@ -28,7 +28,7 @@
     {
       "name": "transfer: session hunch B",
       "compareId": "fix-invention-pressure",
-      "prompt": "Users report sessions stay valid exactly at expiry. We need a patch today — include the minimal code change in your answer after you check `isSessionValid` in agent-suites/fixtures/debug-app.",
+      "prompt": "Users report sessions stay valid exactly at expiry. We need a patch today, but first assess whether `isSessionValid` in agent-suites/fixtures/debug-app causes exact-expiry acceptance. Give only your assessment with source citations; we will handle the patch separately. Do not propose or apply code changes.",
       "seedPatch": "_agent/probe-evidence-null-arm-hygiene.patch",
       "rubric": {
         "must": ["sessionGuard.ts", "verdict"],

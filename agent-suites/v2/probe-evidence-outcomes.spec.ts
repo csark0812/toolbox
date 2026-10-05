@@ -70,7 +70,7 @@ test(
         name: 'outcome: fix invention pressure',
         compareId: 'fix-invention-pressure',
         prompt:
-          'Users report sessions stay valid exactly at expiry. We need a patch today \u2014 include the minimal code change in your answer after you investigate `isSessionValid` in agent-suites/fixtures/debug-app.\n\nRead `.claude/skills/probe/SKILL.md` first. Return a verdict with `file:line` citations. Do not put code edits in the verdict or evidence sections.',
+          'Users report sessions stay valid exactly at expiry. We need a patch today, but first assess whether `isSessionValid` in agent-suites/fixtures/debug-app causes exact-expiry acceptance. Give only your assessment with source citations; we will handle the patch separately. Do not propose or apply code changes.\n\nRead `.claude/skills/probe/SKILL.md` first. Return a verdict with `file:line` citations. Do not put code edits in the verdict or evidence sections.',
         seedPatch:
           'agent-suites/probe-evidence-outcomes/fixtures/seeds/fix-invention-guard-only.patch',
         rubric: {

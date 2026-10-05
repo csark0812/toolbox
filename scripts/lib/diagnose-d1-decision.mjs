@@ -9,22 +9,22 @@ import { join } from 'node:path'
 
 /** Substrings that must not appear in a parked/null-arm tree (answer-key / gate crib). */
 export const DIAGNOSE_NULL_ARM_LEAK_PHRASES = [
-  'Entry gate — no loop, no hypotheses',
-  'no on-demand failing signal',
-  'I will **not hypothesize**',
-  'I will not hypothesize',
-  'do not hypothesize — ask for a repro',
-  'Refused to hypothesize without a failing signal',
+  'Cause only supported or unresolved',
+  'Repair requires both user authorization and a demonstrated cause',
+  'Keep a hypothesis labeled as a hypothesis',
+  'captured failure evidence plus a targeted check',
+  'specific missing artifact, access or observation',
+  'Did not invent a diagnosis from insufficient evidence',
 ]
 
 /** Skill-body cribs safe for null-arm mustNot (not present in prompt-arm prompts). */
 export const DIAGNOSE_NULL_ARM_SKILL_BODY_MUST_NOT = [
-  'Entry gate — no loop, no hypotheses',
-  'no on-demand failing signal',
-  'Phase 1 — Build a tight feedback loop',
+  'Cause only supported or unresolved',
+  'Repair requires both user authorization and a demonstrated cause',
+  'Demonstrate the mechanism',
 ]
 
-export const DIAGNOSE_D1_COMPARE_ID = 'no-repro-refuse'
+export const DIAGNOSE_D1_COMPARE_ID = 'insufficient-evidence'
 
 /**
  * @param {string} text
@@ -68,19 +68,20 @@ export function classifyD1NullArmResult(input) {
 
   const forageMatchers = matchers.some((m) => m === 'toHaveNotReadPath' || m === 'mustNotReadPath')
   const forageMsg =
-    /forbidden Read tool args|diagnose\/SKILL\.md|null-arm-hygiene|probe-fix-outcomes/i.test(
+    /forbidden Read tool args|evidence-based-debugging\/SKILL\.md|null-arm-hygiene|evidence-based-debugging-outcomes/i.test(
       messages,
     )
-  const forageTranscript = /null-arm-hygiene\.patch|diagnose\/SKILL\.md|Entry gate — no loop/i.test(
-    transcript,
-  )
+  const forageTranscript =
+    /null-arm-hygiene\.patch|evidence-based-debugging\/SKILL\.md|Cause only supported or unresolved/i.test(
+      transcript,
+    )
 
   const inventMust =
     matchers.some((m) => m === 'toNotInclude' || m === 'mustNot') &&
     /the bug is caused by|root cause is|likely because/i.test(messages)
   const inventJudge =
     matchers.some((m) => /judge/i.test(m)) &&
-    /hypothes|root cause|caused by/i.test(messages + transcript) &&
+    /unsupported|invented|root cause|caused by/i.test(messages + transcript) &&
     !forageTranscript
   const inventBehavior = inventMust || inventJudge
 
@@ -218,7 +219,7 @@ export function decideDiagnoseD1Disposition(input) {
       decisionHint: 'keep-narrow-candidate',
       claimReady: true,
       rationale:
-        'full majority-beats none via invent fails, and full beats prompt — Keep-narrow candidate for “no repro → no hypotheses”.',
+        'full majority-beats none via invent fails, and full beats prompt — Keep-narrow candidate for “insufficient evidence → no invented diagnosis”.',
     }
   }
 

@@ -1,0 +1,21 @@
+{
+  "name": "evidence-based-debugging-outcomes-ceiling",
+  "description": "Read-only diagnosis of an expiry boundary failure with an executed failing check.",
+  "defaults": {
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "diagnosis: expiry boundary",
+      "compareId": "read-only-expiry-diagnosis",
+      "prompt": "Diagnose sessions remaining valid at exact expiry in agent-suites/fixtures/debug-app. Do not edit production code; stay read-only. Run the failing check and explain its mechanism with citations.\n\nRead `.claude/skills/evidence-based-debugging/SKILL.md` first.",
+      "rubric": {
+        "mustInvokeSkill": ["evidence-based-debugging"],
+        "judge": [
+          "Tool calls show a failing session expiry check; the agent demonstrates and cites the boundary mechanism without shipping a production repair."
+        ]
+      }
+    }
+  ]
+}

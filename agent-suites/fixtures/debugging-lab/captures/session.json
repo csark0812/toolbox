@@ -1,0 +1,10 @@
+{
+  "revision": "capture-v1",
+  "environment": "original device unavailable",
+  "input": {
+    "expiry": "1700000001000",
+    "now": 1700000000000
+  },
+  "observed": false,
+  "expected": true
+}

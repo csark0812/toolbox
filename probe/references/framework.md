@@ -45,18 +45,18 @@ flowchart LR
 
 ## Handoffs (after verdict)
 
-| Next need                                       | Where                                                                                                              |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Implement the fix, repro, make tests pass       | Hub **diagnose** / **tdd** when installed. Else consumer **testing** / **debug** or project `AGENTS.md`.           |
-| User explicitly asks to fix / repro / implement | **Exit find-only** — stop applying investigate no-fix constraints. Follow the request or the named consumer skill. |
-| Still fuzzy on intent                           | Return to focused intent clarification                                                                             |
-| Written plan to critique                        | **second-opinion**                                                                                                 |
-| Pressure-test design before build               | **grill**                                                                                                          |
+| Next need                                       | Where                                                                                                                              |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Implement the fix, repro, make tests pass       | A separately authorized debugging or implementation process, using the consumer’s available tools and verification recipe.         |
+| User explicitly asks to fix / repro / implement | **Exit find-only** — carry evidence and authority to the requested implementation process; do not repair within this verdict pass. |
+| Still fuzzy on intent                           | Return to focused intent clarification                                                                                             |
+| Written plan to critique                        | **second-opinion**                                                                                                                 |
+| Pressure-test design before build               | **grill**                                                                                                                          |
 
 ## Anti-patterns
 
 - Tool rankings or "likely file" lists as evidence — read primary material.
 - Single-cause theater when multiple mechanisms fit the evidence.
 - Implementing the fix during the evidence pass (before verdict / without an explicit post-verdict fix request).
-- Hard-requiring **diagnose** / **tdd** / **testing** / **debug** when absent — fall back to consumer routing or `AGENTS.md`.
+- Requiring an unavailable implementation companion — report the capability boundary and use the consumer’s available process.
 - Heavy hypothesis matrices or formal ACH tables in user-facing output — keep competing hypos + discriminating checks only.

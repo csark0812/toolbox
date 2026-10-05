@@ -1,0 +1,6 @@
+diff --git a/agent-suites/fixtures/debugging-lab/notes.txt b/agent-suites/fixtures/debugging-lab/notes.txt
+--- a/agent-suites/fixtures/debugging-lab/notes.txt
++++ b/agent-suites/fixtures/debugging-lab/notes.txt
+@@ -1 +1,2 @@
+ Keep this unrelated note exactly as supplied.
++User work in progress: retain this second line.

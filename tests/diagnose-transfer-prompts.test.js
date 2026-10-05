@@ -3,16 +3,16 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 const root = join(import.meta.dirname, '..')
-const transferPath = join(root, 'agent-suites/probe-fix-transfer/claims.json')
-const outcomePath = join(root, 'agent-suites/probe-fix-outcomes/claims.json')
+const transferPath = join(root, 'agent-suites/evidence-based-debugging-transfer/claims.json')
+const outcomePath = join(root, 'agent-suites/evidence-based-debugging-outcomes/claims.json')
 
-const HYGIENE_SEED = '_agent/probe-fix-null-arm-hygiene.patch'
+const HYGIENE_SEED = '_agent/evidence-based-debugging-null-arm-hygiene.patch'
 
 /** Diagnose-protocol phrases that should not appear in the null (transfer) arm. */
 const TRANSFER_LEAKAGE = [
   /SKILL\.md/i,
-  /\.claude\/skills\/probe/i,
-  /Read `.claude\/skills\/probe/i,
+  /\.claude\/skills\/evidence-based-debugging/i,
+  /Read `.claude\/skills\/evidence-based-debugging/i,
   /Diagnose with the diagnose skill/i,
   /Diagnose it\./i,
   /no repro refuse/i,
@@ -44,13 +44,13 @@ describe('diagnose transfer null baseline', () => {
 
   it('outcome prompts require reading the diagnose skill', () => {
     for (const scenario of outcome.scenarios) {
-      expect(scenario.prompt).toMatch(/\.claude\/skills\/probe\/SKILL\.md/)
+      expect(scenario.prompt).toMatch(/\.claude\/skills\/evidence-based-debugging\/SKILL\.md/)
     }
   })
 
   it('outcome arm still requires diagnose invocation', () => {
     for (const scenario of outcome.scenarios) {
-      expect(scenario.rubric.mustInvokeSkill).toEqual(['probe'])
+      expect(scenario.rubric.mustInvokeSkill).toEqual(['evidence-based-debugging'])
     }
   })
 
