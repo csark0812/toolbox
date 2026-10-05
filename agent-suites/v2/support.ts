@@ -12,6 +12,7 @@ type Claim = {
   prompt: string
   seedPatch?: string
   seedStageOnly?: boolean
+  seedStagedPatch?: string
   defaults: { skills?: string; profile?: string }
   rubric: {
     must?: string[]
@@ -58,6 +59,13 @@ export async function executeClaim(
       ],
       { cwd: workspace.path },
     )
+    if (claim.seedStagedPatch) {
+      const seed = await readFile(resolve(claim.seedStagedPatch), 'utf8')
+      execFileSync('git', ['apply', '--include=agent-suites/fixtures/**', '--index'], {
+        cwd: workspace.path,
+        input: seed,
+      })
+    }
     if (claim.seedPatch) {
       const seed = await readFile(resolve(claim.seedPatch), 'utf8')
       execFileSync(

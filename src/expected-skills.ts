@@ -33,6 +33,13 @@ export const SKILLS = [
   },
   { slug: 'branch-status', kind: 'process', invocation: 'automatic', required: [], optional: [] },
   {
+    slug: 'create-bounded-commits',
+    kind: 'process',
+    invocation: 'automatic',
+    required: [],
+    optional: [],
+  },
+  {
     slug: 'workflow',
     kind: 'orchestrator',
     invocation: 'automatic',

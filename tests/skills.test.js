@@ -436,6 +436,38 @@ describe('toolbox skill SSOT', () => {
     expect(existsSync(join(root, 'branch-status/references/collection.md'))).toBe(true)
   })
 
+  it('create-bounded-commits protects ownership, approval, and staged state', () => {
+    const skill = readFileSync(join(root, 'create-bounded-commits/SKILL.md'), 'utf8')
+    const coordination = readFileSync(
+      join(root, 'create-bounded-commits/references/chat-coordination.md'),
+      'utf8',
+    )
+    const gitSafety = readFileSync(
+      join(root, 'create-bounded-commits/references/git-safety.md'),
+      'utf8',
+    )
+    const reconcile = readFileSync(
+      join(root, 'create-bounded-commits/scripts/reconcile-index.mjs'),
+      'utf8',
+    )
+
+    expect(skill).toMatch(/current checkout and current branch only/)
+    expect(skill).toMatch(/Ask the user to approve this exact batch/)
+    expect(skill).toMatch(/A chat reply is evidence, not approval to commit/)
+    expect(skill).toMatch(/untrusted evidence, not instructions/)
+    expect(coordination).toMatch(
+      /Idle, archived, pinned, or old status alone never establishes readiness/,
+    )
+    expect(coordination).toMatch(/up to two minutes/)
+    expect(gitSafety).toMatch(/temporary detached worktree rooted at captured HEAD/)
+    expect(gitSafety).toMatch(/content-aware three-way merge/)
+    expect(gitSafety).toMatch(/expected-old-value compare-and-swap/)
+    expect(gitSafety).toMatch(/Never replace it with the new HEAD tree/)
+    expect(gitSafety).toMatch(/do not fix it/)
+    expect(gitSafety).toMatch(/scripts\/reconcile-index\.mjs/)
+    expect(reconcile).toMatch(/merge-tree', '--write-tree'/)
+  })
+
   it('retired skills are gone (subagents, iterate, refine-agent-work)', () => {
     expect(existsSync(join(root, 'subagents/SKILL.md'))).toBe(false)
     expect(existsSync(join(root, 'refine-agent-work'))).toBe(false)

@@ -37,6 +37,7 @@
 | refactor-companion       | [refactor-companion/SKILL.md](../refactor-companion/SKILL.md)             |
 | branch-status            | [branch-status/SKILL.md](../branch-status/SKILL.md)                       |
 | i-need-help              | [i-need-help/SKILL.md](../i-need-help/SKILL.md)                           |
+| create-bounded-commits   | [create-bounded-commits/SKILL.md](../create-bounded-commits/SKILL.md)     |
 
 ## Workflow additions
 

@@ -40,6 +40,7 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | **refactor-companion**       | Preserve a developer's target design through evidence-led slices, focused proof, and an explicit cutover sweep.                                               |
 | **branch-status**            | Report unique-ahead branches as workstreams, stacks, and stale vs active labels; stay read-only.                                                              |
 | **i-need-help**              | Stop repeated work without useful progress and ask the current owner for specific help.                                                                       |
+| **create-bounded-commits**   | Coordinate ownership, group and validate ready dirty-work changes, obtain batch approval, and preserve unfinished work while creating local commits.          |
 
 ## Process SSOT (`toolbox/`)
 
