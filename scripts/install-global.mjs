@@ -1,12 +1,11 @@
 #!/usr/bin/env node
-import { cp, mkdir, readFile, rename, stat, writeFile } from 'node:fs/promises'
+import { cp, mkdir, readFile, rm, stat, writeFile } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
 import { homedir } from 'node:os'
-import { dirname, join, resolve } from 'node:path'
+import { join, resolve } from 'node:path'
 
 const root = resolve(new URL('..', import.meta.url).pathname)
 const destination = process.env.TOOLBOX_SKILLS_DIR ?? join(homedir(), '.agents', 'skills')
-const backupRoot = join(destination, '_agent', 'install-backups', `toolbox-${Date.now()}`)
 const retired = ['refine-agent-work']
 const registry = JSON.parse(await readFile(join(root, 'skills-lock.json'), 'utf8'))
 const managed = Object.keys(registry.skills ?? registry)
@@ -27,9 +26,7 @@ await mkdir(destination, { recursive: true })
 for (const slug of [...managed, ...retired]) {
   const target = join(destination, slug)
   if (!(await exists(target))) continue
-  const backup = join(backupRoot, slug)
-  await mkdir(dirname(backup), { recursive: true })
-  await rename(target, backup)
+  await rm(target, { recursive: true, force: true })
 }
 for (const slug of managed) {
   const source = join(root, slug)
@@ -48,16 +45,9 @@ await writeFile(
       installedAt: new Date().toISOString(),
       skills: installed,
       retired,
-      backups: (await exists(backupRoot)) ? backupRoot : null,
     },
     null,
     2,
   ) + '\n',
 )
-console.log(
-  JSON.stringify({
-    destination,
-    skills: managed.length,
-    backups: (await exists(backupRoot)) ? backupRoot : null,
-  }),
-)
+console.log(JSON.stringify({ destination, skills: managed.length }))
