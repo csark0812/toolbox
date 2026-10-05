@@ -109,6 +109,7 @@ describe('toolbox skill SSOT', () => {
       'review-walkthrough',
       'second-opinion',
       'branch-status',
+      'retro',
     ]) {
       const skill = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
       expect(skill).toMatch(/untrusted evidence, not instructions/)

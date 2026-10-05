@@ -24,6 +24,7 @@ type Claim = {
   compareId?: string
   contract?: 'expiry-repair' | 'captured-repair' | 'captured-repair-preserve-wip'
   evidencePaths?: string[]
+  evidencePolicy?: 'read-only'
 }
 export async function executeClaim(
   coder: AgentFixture,
@@ -89,7 +90,9 @@ export async function executeClaim(
     run = await prepared.run({
       prompt:
         'This is an isolated conformance fixture. Use only files within the current workspace; its root AGENTS.md contains the applicable fixture instructions. Parent AGENTS.md files and other paths outside this workspace are outside the task scope.\n\n' +
-        'For execution results or environment blockers you report, capture the command, stdout/stderr and exit status in bounded text receipts under _evidence/ (use .log, .txt or .json files directly in that folder). Capture actual command output rather than manually writing inferred results. Inspect the receipt before reporting. These diagnostic artifacts are allowed even when the task keeps source files read-only.\n\n' +
+        (claim.evidencePolicy === 'read-only'
+          ? 'Keep the inspected workspace read-only, including diagnostic artifacts. Report execution results and environment blockers from actual tool output; use captured tool output as evidence without writing receipt files.\n\n'
+          : 'For execution results or environment blockers you report, capture the command, stdout/stderr and exit status in bounded text receipts under _evidence/ (use .log, .txt or .json files directly in that folder). Capture actual command output rather than manually writing inferred results. Inspect the receipt before reporting. These diagnostic artifacts are allowed even when the task keeps source files read-only.\n\n') +
         claim.prompt,
       includeGlobalSkills: false,
     })
@@ -106,7 +109,11 @@ export async function executeClaim(
       if (/^[A-Z][A-Z0-9_]+$/.test(text))
         expect(run.output, `Exact protocol marker: ${text}`).toContain(text)
     }
-    if (/read.only|stay read-only|do not edit/i.test(claim.prompt))
+    if (claim.evidencePolicy === 'read-only')
+      expect(run.workspace.changedPaths, 'Read-only workspace preserved without receipts').toEqual(
+        [],
+      )
+    else if (/read.only|stay read-only|do not edit/i.test(claim.prompt))
       expect(
         run.workspace.changedPaths.filter((path) => !receiptPath.test(path)),
         'Read-only source preserved; only diagnostic receipts may be added',

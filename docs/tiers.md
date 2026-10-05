@@ -41,6 +41,7 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | **branch-status**            | Report unique-ahead branches as workstreams, stacks, and stale vs active labels; stay read-only.                                                              |
 | **i-need-help**              | Stop repeated work without useful progress and ask the current owner for specific help.                                                                       |
 | **create-bounded-commits**   | Coordinate ownership, group and validate ready dirty-work changes, obtain batch approval, and preserve unfinished work while creating local commits.          |
+| **retro**                    | Explicit session retrospective: recommend evidence-backed improvements to the agent's environment; keep source files read-only.                               |
 
 ## Process SSOT (`toolbox/`)
 

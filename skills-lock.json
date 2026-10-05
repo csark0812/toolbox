@@ -79,6 +79,12 @@
       "skillPath": "refactor-companion/SKILL.md",
       "computedHash": "3386dc4226b8aaa351907d83f42de69e1eaa62463f29e4f4f72e90c910623a6e"
     },
+    "retro": {
+      "source": "csark0812/toolbox",
+      "sourceType": "github",
+      "skillPath": "retro/SKILL.md",
+      "computedHash": "cb72f3f4d75b865e0e696f4b646b541c9c865f012a3b5761bc2bff0753bc5c55"
+    },
     "review-walkthrough": {
       "source": "csark0812/toolbox",
       "sourceType": "github",

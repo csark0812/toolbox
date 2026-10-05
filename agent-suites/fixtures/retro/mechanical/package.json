@@ -1,0 +1,9 @@
+{
+  "name": "retro-mechanical-fixture",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "node lint.mjs",
+    "test": "node test.mjs"
+  }
+}

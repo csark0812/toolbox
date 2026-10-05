@@ -70,6 +70,7 @@ export const SKILLS = [
     optional: [],
   },
   { slug: 'strict-english', kind: 'process', invocation: 'explicit', required: [], optional: [] },
+  { slug: 'retro', kind: 'process', invocation: 'explicit', required: [], optional: [] },
 ] as const
 export const EXPECTED_SKILLS = SKILLS.map((skill) => skill.slug)
 export type SkillSlug = (typeof SKILLS)[number]['slug']

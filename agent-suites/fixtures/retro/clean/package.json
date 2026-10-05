@@ -1,0 +1,10 @@
+{
+  "name": "retro-clean-fixture",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "node lint.mjs",
+    "test": "node test.mjs",
+    "check": "npm run lint && npm test"
+  }
+}
