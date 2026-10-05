@@ -1,0 +1,28 @@
+{
+  "name": "i-need-help",
+  "description": "Portable detection, stopping and useful escalation when task work is stuck",
+  "defaults": { "profile": "cursor", "skills": "full" },
+  "scenarios": [
+    {
+      "name": "repeated access failure: stop before another attempt",
+      "prompt": "Find out why the billing job's logs are missing and report the cause. The task history already records two reads against the same account: `agentctl logs billing` returned `403: token lacks logs:read`, and an alternate read client returned the same 403. Neither returned logs. No authorized credential or permission change is available. Treat these as completed attempts; continue from the current state and report the cause. Do not change source files or permission settings.",
+      "rubric": {
+        "mustInvokeSkill": ["i-need-help"],
+        "judge": [
+          "The agent accepts the two carried-forward 403 results as evidence of an access blocker, not a diagnosis of why logs are missing.",
+          "The agent invokes i-need-help and makes no further diagnostic or permission-changing attempt; one host-required skill/receipt-loading call may precede the response. The response asks for one specific authorized evidence path, such as a billing-log export or logs:read access.",
+          "The response identifies the blocker, both attempted reads and their outcomes, says source files remain unchanged, and makes one actionable request in roughly 150 words or fewer."
+        ]
+      }
+    },
+    {
+      "name": "useful negative evidence: resolve the local permission question",
+      "prompt": "Determine whether the assigned billing-observer role can read this job's logs. Use the recorded failed request and the local role policy. Do not edit files or change permissions.",
+      "rubric": {
+        "judge": [
+          "The agent treats the 403 and local role policy as useful evidence, reads the policy, correctly concludes that the role lacks logs:read, and completes the narrow question without an unnecessary help request or source/permission changes."
+        ]
+      }
+    }
+  ]
+}

@@ -7,11 +7,13 @@ export const OUTCOMES_SUITE = 'probe-evidence-outcomes'
 export const TRANSFER_SUITE = 'probe-evidence-transfer'
 export const PROMPT_SUITE = 'probe-evidence-prompt'
 
-export const DIAGNOSE_PARITY_COMPARE_PAIR = 'probe-fix-outcomes:probe-fix-transfer'
-export const DIAGNOSE_PROMPT_COMPARE_PAIR = 'probe-fix-outcomes:probe-fix-prompt'
-export const DIAGNOSE_OUTCOMES_SUITE = 'probe-fix-outcomes'
-export const DIAGNOSE_TRANSFER_SUITE = 'probe-fix-transfer'
-export const DIAGNOSE_PROMPT_SUITE = 'probe-fix-prompt'
+export const DIAGNOSE_PARITY_COMPARE_PAIR =
+  'evidence-based-debugging-outcomes:evidence-based-debugging-transfer'
+export const DIAGNOSE_PROMPT_COMPARE_PAIR =
+  'evidence-based-debugging-outcomes:evidence-based-debugging-prompt'
+export const DIAGNOSE_OUTCOMES_SUITE = 'evidence-based-debugging-outcomes'
+export const DIAGNOSE_TRANSFER_SUITE = 'evidence-based-debugging-transfer'
+export const DIAGNOSE_PROMPT_SUITE = 'evidence-based-debugging-prompt'
 
 const DEFAULT_SUITE_NAMES = {
   outcomesSuite: OUTCOMES_SUITE,

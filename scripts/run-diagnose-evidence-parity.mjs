@@ -4,7 +4,7 @@ const result = spawnSync(
   [
     'scripts/run-agent-suites.mjs',
     'comparisons',
-    'probe-fix-(outcomes|transfer|prompt)',
+    'evidence-based-debugging-(outcomes|transfer|prompt)',
     ...process.argv.slice(2),
   ],
   { stdio: 'inherit' },

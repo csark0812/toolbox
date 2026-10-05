@@ -29,7 +29,7 @@ Tests only at user-confirmed public boundaries. If the seam is unclear, grill or
 
 **Does not transfer:** Testing private helpers because they are easier to reach.
 
-## Handoff from probe Fix
+## Handoff from demonstrated debugging
 
 Diagnostic loop proves the bug. TDD locks regression at an agreed seam — different jobs.
 

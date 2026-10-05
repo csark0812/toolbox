@@ -1,7 +1,7 @@
 # toolbox
 
 <!-- source-of-truth: user-level process and orchestrator Cursor/Claude agent skills. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-01 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-05 -->
 
 Public process SSOT. Engineers install skills globally (`-g`). Product repos keep product workflows and shared standards — they should not vendor these process skill folders.
 
@@ -78,20 +78,22 @@ Existing committed toolbox process skill dirs keep loading until removed. Delete
 
 ## Skills
 
-| Group        | Slug               | Purpose                                                                                         |
-| ------------ | ------------------ | ----------------------------------------------------------------------------------------------- |
-| Orchestrator | council            | Multi-agent depth — create task personas, choose an interaction, run members, synthesize        |
-| Orchestrator | handoff            | A2A cross-session — channel + pack + goal; pointers not bodies                                  |
-| Process      | code-review        | Choose a task-shaped review mode and file only evidence-backed findings                         |
-| Process      | review-walkthrough | Explain a bounded change through the smallest useful causal story                               |
-| Process      | second-opinion     | Adversarial critique of a written artifact — invent lenses; layer council for multi-agent depth |
-| Process      | grill              | Decision-focused dialogue for unclear intent and consequential design choices                   |
-| Process      | probe              | Hunch verdict or hard-bug fix under Authority B                                                 |
-| Process      | tdd                | Test-first build at agreed public seams                                                         |
-| Process      | prototype          | Throwaway artifact for one design question                                                      |
-| Process      | domain-model       | Persist glossary + ADRs when decisions are ready                                                |
-| Process      | refactor-companion | Preserve a target design through evidence-led, proven refactor slices                           |
-| Process      | branch-status      | Map unique-ahead branches, stacks, and stale work                                               |
+| Group        | Slug                     | Purpose                                                                                         |
+| ------------ | ------------------------ | ----------------------------------------------------------------------------------------------- |
+| Orchestrator | council                  | Multi-agent depth — create task personas, choose an interaction, run members, synthesize        |
+| Orchestrator | handoff                  | A2A cross-session — channel + pack + goal; pointers not bodies                                  |
+| Process      | code-review              | Choose a task-shaped review mode and file only evidence-backed findings                         |
+| Process      | review-walkthrough       | Explain a bounded change through the smallest useful causal story                               |
+| Process      | second-opinion           | Adversarial critique of a written artifact — invent lenses; layer council for multi-agent depth |
+| Process      | grill                    | Decision-focused dialogue for unclear intent and consequential design choices                   |
+| Process      | evidence-based-debugging | Reproduce and diagnose failures; demonstrate and verify authorized repairs                      |
+| Process      | probe                    | Cited verdict on a specific hunch or claim                                                      |
+| Process      | tdd                      | Test-first build at agreed public seams                                                         |
+| Process      | prototype                | Throwaway artifact for one design question                                                      |
+| Process      | domain-model             | Persist glossary + ADRs when decisions are ready                                                |
+| Process      | refactor-companion       | Preserve a target design through evidence-led, proven refactor slices                           |
+| Process      | branch-status            | Map unique-ahead branches, stacks, and stale work                                               |
+| Process      | i-need-help              | Stop when repeated work makes no progress; ask the current owner for specific help              |
 
 Orchestrators define **agent-to-agent** wiring; process skills describe **what happens**. Layered prompts compose them without peer runtime dependencies. See [docs/tiers.md](docs/tiers.md).
 

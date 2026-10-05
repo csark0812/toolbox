@@ -9,6 +9,11 @@ import {
 } from '../scripts/regenerate-diagnose-null-arm-hygiene.mjs'
 
 const root = join(import.meta.dirname, '..')
+const currentHead =
+  spawnSync('git', ['cat-file', '-e', 'HEAD:evidence-based-debugging/SKILL.md'], { cwd: root })
+    .status === 0
+const headSkill = currentHead ? 'evidence-based-debugging' : 'probe'
+const headOutcomes = currentHead ? 'evidence-based-debugging-outcomes' : 'probe-fix-outcomes'
 
 describe('diagnose null-arm hygiene seed', () => {
   it('writes seed under _agent/ (outside HEAD worktrees) with answer-key deletes', () => {
@@ -17,8 +22,8 @@ describe('diagnose null-arm hygiene seed', () => {
     expect(pathCount).toBeGreaterThan(5)
     const patch = readFileSync(out, 'utf8')
     expect(patch).toMatch(/deleted file mode/)
-    expect(patch).toMatch(/probe\/SKILL\.md/)
-    expect(patch).toMatch(/agent-suites\/probe-fix-outcomes\/scenarios\.json/)
+    expect(patch).toContain(`${headSkill}/SKILL.md`)
+    expect(patch).toContain(`agent-suites/${headOutcomes}/scenarios.json`)
     expect(patch).toMatch(/docs\/evidence-parity\.md/)
   })
 
@@ -43,10 +48,12 @@ describe('diagnose null-arm hygiene seed', () => {
         encoding: 'utf8',
       })
       expect(apply.status, apply.stderr || apply.stdout).toBe(0)
-      expect(existsSync(join(parent, 'probe/SKILL.md'))).toBe(false)
-      expect(existsSync(join(parent, 'agent-suites/probe-fix-outcomes/claims.json'))).toBe(false)
+      expect(existsSync(join(parent, `${headSkill}/SKILL.md`))).toBe(false)
+      expect(existsSync(join(parent, `agent-suites/${headOutcomes}/claims.json`))).toBe(false)
       // Applied tree must not still contain the seed file (patch text = crib).
-      expect(existsSync(join(parent, '_agent/probe-fix-null-arm-hygiene.patch'))).toBe(false)
+      expect(
+        existsSync(join(parent, '_agent/evidence-based-debugging-null-arm-hygiene.patch')),
+      ).toBe(false)
     } finally {
       spawnSync('git', ['worktree', 'remove', '--force', parent], {
         cwd: root,

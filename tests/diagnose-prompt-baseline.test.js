@@ -3,16 +3,16 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 const root = join(import.meta.dirname, '..')
-const promptPath = join(root, 'agent-suites/probe-fix-prompt/claims.json')
-const outcomePath = join(root, 'agent-suites/probe-fix-outcomes/claims.json')
-const transferPath = join(root, 'agent-suites/probe-fix-transfer/claims.json')
+const promptPath = join(root, 'agent-suites/evidence-based-debugging-prompt/claims.json')
+const outcomePath = join(root, 'agent-suites/evidence-based-debugging-outcomes/claims.json')
+const transferPath = join(root, 'agent-suites/evidence-based-debugging-transfer/claims.json')
 
-const HYGIENE_SEED = '_agent/probe-fix-null-arm-hygiene.patch'
+const HYGIENE_SEED = '_agent/evidence-based-debugging-null-arm-hygiene.patch'
 
 /** Skill-file references that must not appear in the prompt baseline arm. */
 const PROMPT_LEAKAGE = [
   /SKILL\.md/i,
-  /\.claude\/skills\/probe/i,
+  /\.claude\/skills\/evidence-based-debugging/i,
   /mustInvokeSkill/i,
   /no repro refuse/i,
   /loop before cause/i,
@@ -42,16 +42,16 @@ describe('diagnose prompt baseline', () => {
     }
   })
 
-  it('prompt no-repro includes entry-gate rule in prompt text', () => {
-    const gate = prompt.scenarios.find((s) => s.compareId === 'no-repro-refuse')
-    expect(gate.prompt).toMatch(/do not hypothesize/i)
-    expect(gate.prompt).toMatch(/ask for a repro|route to investigate/i)
+  it('prompt insufficient-evidence includes observation and uncertainty rules', () => {
+    const gate = prompt.scenarios.find((s) => s.compareId === 'insufficient-evidence')
+    expect(gate.prompt).toMatch(/Distinguish observations from hypotheses/i)
+    expect(gate.prompt).toMatch(/name specific missing evidence/i)
   })
 
-  it('prompt loop-before-cause includes ordering rule in prompt text', () => {
-    const loop = prompt.scenarios.find((s) => s.compareId === 'loop-before-cause')
-    expect(loop.prompt).toMatch(/npm test/i)
-    expect(loop.prompt).toMatch(/before naming a cause|before.*editing production/i)
+  it('prompt demonstrated-repair includes ordering rule in prompt text', () => {
+    const loop = prompt.scenarios.find((s) => s.compareId === 'demonstrated-repair')
+    expect(loop.prompt).toMatch(/Run the relevant test/i)
+    expect(loop.prompt).toMatch(/Repair only a demonstrated cause/i)
   })
 
   it('prompt and transfer share hygiene seed with outcomes', () => {

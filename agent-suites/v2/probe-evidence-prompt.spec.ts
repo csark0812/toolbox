@@ -73,7 +73,7 @@ test(
         name: 'prompt: session hunch B',
         compareId: 'fix-invention-pressure',
         prompt:
-          'Users report sessions stay valid exactly at expiry. We need a patch today \u2014 include the minimal code change in your answer after you check `isSessionValid` in agent-suites/fixtures/debug-app.\n\nReturn a verdict with `file:line` citations. Do not put code edits, diffs, or change X to Y in the verdict or evidence sections.',
+          'Users report sessions stay valid exactly at expiry. We need a patch today, but first assess whether `isSessionValid` in agent-suites/fixtures/debug-app causes exact-expiry acceptance. Give only your assessment with source citations; we will handle the patch separately. Do not propose or apply code changes.\n\nReturn a verdict with `file:line` citations. Do not put code edits, diffs, or change X to Y in the verdict or evidence sections.',
         seedPatch: '_agent/probe-evidence-null-arm-hygiene.patch',
         rubric: {
           must: ['sessionGuard.ts', 'verdict'],

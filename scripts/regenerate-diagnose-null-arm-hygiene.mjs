@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * Rebuild probe-fix null-arm hygiene seed under `_agent/` (gitignored).
+ * Rebuild evidence-based-debugging null-arm hygiene seed under `_agent/` (gitignored).
  *
  * Live worktrees are detached at HEAD and do **not** include `_agent/`, so
  * agents cannot forage the answer-bearing patch.
  *
- * Run automatically by `npm run agent:test:probe-fix-evidence-parity`.
+ * Run automatically by `npm run agent:test:debugging-evidence-parity`.
  * Manual:
  *   node scripts/regenerate-diagnose-null-arm-hygiene.mjs
  */
@@ -18,15 +18,19 @@ import { fileURLToPath } from 'node:url'
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 
 /** Must stay outside HEAD worktrees (see .gitignore `_agent/`). */
-export const DIAGNOSE_NULL_ARM_HYGIENE_SEED = '_agent/probe-fix-null-arm-hygiene.patch'
+export const DIAGNOSE_NULL_ARM_HYGIENE_SEED =
+  '_agent/evidence-based-debugging-null-arm-hygiene.patch'
 
 const pathArgs = [
+  'evidence-based-debugging/**',
+  // Preserve detached pre-migration HEAD compatibility while authoring.
   'probe/**',
-  'agent-suites/probe-fix/**',
-  'agent-suites/probe-fix-outcomes/**',
-  'agent-suites/probe-fix-transfer/**',
-  'agent-suites/probe-fix-prompt/**',
-  'agent-suites/probe-fix-outcomes-ceiling/**',
+  'agent-suites/probe-fix*/**',
+  'agent-suites/evidence-based-debugging/**',
+  'agent-suites/evidence-based-debugging-outcomes/**',
+  'agent-suites/evidence-based-debugging-transfer/**',
+  'agent-suites/evidence-based-debugging-prompt/**',
+  'agent-suites/evidence-based-debugging-outcomes-ceiling/**',
   'docs/evidence-parity.md',
   'tests/diagnose-transfer-prompts.test.js',
   'tests/diagnose-prompt-baseline.test.js',
@@ -69,7 +73,7 @@ export function regenerateDiagnoseNullArmHygieneSeed(options = {}) {
   const out = options.outPath ? options.outPath : join(root, DIAGNOSE_NULL_ARM_HYGIENE_SEED)
   const paths = listHeadPaths()
   if (paths.length === 0) {
-    throw new Error('No HEAD paths matched for probe-fix null-arm hygiene seed')
+    throw new Error('No HEAD paths matched for evidence-based-debugging null-arm hygiene seed')
   }
 
   const chunks = []

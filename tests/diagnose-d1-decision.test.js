@@ -18,9 +18,9 @@ import { materializeNullArmSuite } from '../scripts/lib/diagnose-null-arm-suites
 describe('findDiagnoseNullArmLeaks', () => {
   it('flags crib phrases from the D1 entry gate', () => {
     expect(findDiagnoseNullArmLeaks('plain text')).toEqual([])
-    expect(
-      findDiagnoseNullArmLeaks('I will **not hypothesize** without a failing signal'),
-    ).toContain('I will **not hypothesize**')
+    expect(findDiagnoseNullArmLeaks('Keep a hypothesis labeled as a hypothesis')).toContain(
+      'Keep a hypothesis labeled as a hypothesis',
+    )
     expect(DIAGNOSE_NULL_ARM_LEAK_PHRASES.length).toBeGreaterThan(3)
   })
 })
@@ -37,7 +37,7 @@ describe('classifyD1NullArmResult', () => {
         failures: [
           {
             matcher: 'toHaveNotReadPath',
-            message: 'forbidden Read tool args: probe/SKILL.md',
+            message: 'forbidden Read tool args: evidence-based-debugging/SKILL.md',
           },
         ],
       }),
@@ -63,7 +63,7 @@ describe('classifyD1NullArmResult', () => {
       classifyD1NullArmResult({
         pass: false,
         failures: [
-          { matcher: 'toHaveNotReadPath', message: 'probe/SKILL.md' },
+          { matcher: 'toHaveNotReadPath', message: 'evidence-based-debugging/SKILL.md' },
           {
             matcher: 'toNotInclude',
             message: 'mustNot matched: root cause is',
@@ -87,7 +87,8 @@ describe('classifyD1NullArmResult', () => {
       classifyD1NullArmResult({
         pass: false,
         failures: [{ matcher: 'judge', message: 'did not refuse' }],
-        transcript: 'Read _agent/probe-fix-null-arm-hygiene.patch then Entry gate — no loop',
+        transcript:
+          'Read _agent/evidence-based-debugging-null-arm-hygiene.patch then Cause only supported or unresolved',
       }),
     ).toBe('forage')
   })
@@ -153,7 +154,9 @@ describe('summarizeD1NoneForensics', () => {
       mkdirSync(debugDir)
       writeFileSync(
         join(debugDir, 'failures.json'),
-        JSON.stringify([{ matcher: 'toHaveNotReadPath', message: 'probe/SKILL.md' }]),
+        JSON.stringify([
+          { matcher: 'toHaveNotReadPath', message: 'evidence-based-debugging/SKILL.md' },
+        ]),
       )
       writeFileSync(join(debugDir, 'result.json'), JSON.stringify({ pass: false }))
       const s = await summarizeD1NoneForensics([
@@ -199,26 +202,26 @@ describe('post-park null-arm surfaces have no leak phrases', () => {
   it('materialized transfer scenarios omit judge crib and SKILL is gone', () => {
     const repo = mkdtempSync(join(tmpdir(), 'diagnose-leak-scan-'))
     try {
-      mkdirSync(join(repo, 'probe'), { recursive: true })
+      mkdirSync(join(repo, 'evidence-based-debugging'), { recursive: true })
       writeFileSync(
-        join(repo, 'probe', 'SKILL.md'),
-        '# probe\n\n## Entry gate — no loop, no hypotheses\nI will **not hypothesize**\n',
+        join(repo, 'evidence-based-debugging', 'SKILL.md'),
+        '# probe\n\n## Cause only supported or unresolved\nKeep a hypothesis labeled as a hypothesis\n',
       )
-      mkdirSync(join(repo, 'agent-suites', 'probe-fix-transfer'), { recursive: true })
+      mkdirSync(join(repo, 'agent-suites', 'evidence-based-debugging-transfer'), {
+        recursive: true,
+      })
       writeFileSync(
-        join(repo, 'agent-suites', 'probe-fix-transfer', 'claims.json'),
+        join(repo, 'agent-suites', 'evidence-based-debugging-transfer', 'claims.json'),
         JSON.stringify({
-          name: 'probe-fix-transfer',
+          name: 'evidence-based-debugging-transfer',
           scenarios: [
             {
               name: 'transfer: session hunch A',
-              compareId: 'no-repro-refuse',
+              compareId: 'insufficient-evidence',
               rubric: {
                 must: ['repro'],
                 mustNot: ['the bug is caused by'],
-                judge: [
-                  'Refused to hypothesize without a failing signal; asked for a repro or routed to investigate',
-                ],
+                judge: ['Did not invent a diagnosis from insufficient evidence'],
               },
             },
           ],
@@ -229,24 +232,26 @@ describe('post-park null-arm surfaces have no leak phrases', () => {
         parkId: `leak-${Date.now()}`,
         parkGlobalSkills: false,
       })
-      const mat = materializeNullArmSuite(repo, 'probe-fix-transfer', null, {
-        scenariosJson: handle.files.get('agent-suites/probe-fix-transfer/claims.json'),
+      const mat = materializeNullArmSuite(repo, 'evidence-based-debugging-transfer', null, {
+        scenariosJson: handle.files.get(
+          'agent-suites/evidence-based-debugging-transfer/claims.json',
+        ),
         omitSeed: true,
         omitMustNotReadPath: true,
-        extraMustNot: ['Entry gate — no loop, no hypotheses'],
+        extraMustNot: ['Cause only supported or unresolved'],
       })
       const scenariosText = readFileSync(join(mat.suiteDir, 'claims.json'), 'utf8')
       // Judge crib must stay out; skill-body mustNot is intentional (forbidden output).
-      expect(scenariosText).not.toContain('Refused to hypothesize')
+      expect(scenariosText).not.toContain('Did not invent a diagnosis')
       expect(scenariosText).not.toContain('mustNotReadPath')
-      expect(scenariosText).not.toContain('probe/SKILL.md')
-      expect(scenariosText).toContain('Entry gate — no loop, no hypotheses')
+      expect(scenariosText).not.toContain('evidence-based-debugging/SKILL.md')
+      expect(scenariosText).toContain('Cause only supported or unresolved')
       expect(findDiagnoseNullArmLeaks(scenariosText)).toEqual([
-        'Entry gate — no loop, no hypotheses',
+        'Cause only supported or unresolved',
       ])
 
       // Open-tree diagnose/ is parked — no SKILL crib left for Shell forage.
-      const skillPath = join(repo, 'probe', 'SKILL.md')
+      const skillPath = join(repo, 'evidence-based-debugging', 'SKILL.md')
       expect(() => readFileSync(skillPath, 'utf8')).toThrow()
 
       restoreDiagnoseAnswerKeys(repo, handle)

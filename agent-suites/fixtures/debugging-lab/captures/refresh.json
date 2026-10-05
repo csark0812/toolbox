@@ -1,0 +1,29 @@
+{
+  "revision": "capture-v1",
+  "events": [
+    {
+      "request": "A",
+      "event": "started"
+    },
+    {
+      "request": "B",
+      "event": "started"
+    },
+    {
+      "request": "B",
+      "event": "completed",
+      "value": "new"
+    },
+    {
+      "request": "A",
+      "event": "completed",
+      "value": "old"
+    }
+  ],
+  "observed": "old",
+  "expected": "new",
+  "singleRetry": {
+    "trials": 1,
+    "failures": 0
+  }
+}
