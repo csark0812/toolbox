@@ -452,10 +452,13 @@ describe('toolbox skill SSOT', () => {
 
   it('sync:skills imports EXPECTED_SKILLS (no duplicated slug list)', () => {
     const sync = readFileSync(join(root, 'scripts/sync-claude-skills.mjs'), 'utf8')
+    const install = readFileSync(join(root, 'scripts/install-global.mjs'), 'utf8')
     const pkg = readFileSync(join(root, 'package.json'), 'utf8')
     expect(sync).toMatch(/from ['"]\.\.\/src\/expected-skills\.ts['"]/)
     expect(sync).toMatch(/EXPECTED_SKILLS/)
     expect(sync).not.toMatch(/const SKILL_SLUGS = \[\s*'subagents'/)
+    expect(sync).not.toMatch(/install-backups/)
+    expect(install).not.toMatch(/install-backups|backupRoot|backups:/)
     expect(pkg).toMatch(/sync:skills": "node --experimental-strip-types/)
   })
 
