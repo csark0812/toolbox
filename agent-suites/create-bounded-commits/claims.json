@@ -1,6 +1,6 @@
 {
   "name": "create-bounded-commits",
-  "description": "Portable commit-boundary behavior: inspect mixed work, defer uncertain ownership, and request exact-batch approval",
+  "description": "Portable proposal-only behavior: inspect mixed work, defer uncertain ownership, and honor explicit requests to wait for exact-batch approval",
   "defaults": {
     "profile": "cursor",
     "skills": "full"
