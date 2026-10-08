@@ -1,0 +1,3 @@
+# Historical false positive: a SHA-256 checksum in the original public source manifest.
+# The current manifest points to SHA256SUMS; no credential was present.
+afa69b1a24a62cfe72380e905740adf3ef77c103:references/original-skills/manifest-public.json:generic-api-key:25

@@ -17,3 +17,8 @@ agent-test-live.log
 .agent-test/
 .toolbox/
 test-results/
+
+# User-provided design skill sources without a repository redistribution license.
+/references/original-skills/web-designer-local/
+/references/original-skills/app-designer-local/
+/references/original-skills/manifest-local.json

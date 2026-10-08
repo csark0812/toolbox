@@ -16,6 +16,7 @@ export default [
       '.toolbox/**',
       // Skill-local references/ (not ambient GitHub SSOT)
       '*/references/**',
+      'references/original-skills/**',
     ],
   },
   {

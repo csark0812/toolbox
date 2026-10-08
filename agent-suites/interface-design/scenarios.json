@@ -1,0 +1,71 @@
+{
+  "name": "interface-design",
+  "description": "Portable design skill behavior and routing checks",
+  "defaults": {
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "unsettled web direction",
+      "prompt": "We are redesigning a research dashboard. The goal is to help a reader resume one saved paper and see its annotations. Direction is unsettled. Give the process and first review artifact only; do not edit files. Read `.claude/skills/interface-design/SKILL.md` and its relevant reference first.",
+      "rubric": {
+        "mustInvokeSkill": ["interface-design"],
+        "judge": [
+          "The response proposes three conceptually distinct visual boards with content, layout, type, color and fit or risk, and holds final implementation for a user direction choice. It reserves disposable first-screen renders for choices that need layout or motion proof.",
+          "The response treats real dashboard content, states, accessibility and responsive proof as required before completion. It makes no unsupported claim of having rendered the design."
+        ]
+      }
+    },
+    {
+      "name": "existing direction",
+      "prompt": "The user has selected a restrained editorial direction for a new web reading page. Explain the next implementation and verification steps only; do not edit files. Read `.claude/skills/interface-design/SKILL.md` first.",
+      "rubric": {
+        "mustInvokeSkill": ["interface-design"],
+        "judge": [
+          "The response accepts the supplied direction without asking for three new boards or another choice. It plans concrete content, reachable states, responsive, accessibility and rendered verification."
+        ]
+      }
+    },
+    {
+      "name": "native app route",
+      "prompt": "An iPhone reading app needs a new daily home. Give a concept brief and next specialist/proof route only. Do not edit files. Read `.claude/skills/interface-design/SKILL.md` first.",
+      "rubric": {
+        "mustInvokeSkill": ["interface-design"],
+        "judge": [
+          "The response gives a native iPhone brief around the daily action, platform, assets, deliverable, and native verification. It does not claim that web screenshots prove native behavior or begin a browser page build."
+        ]
+      }
+    },
+    {
+      "name": "standalone media route",
+      "prompt": "We need a 20-second product launch video, separate from the website. Give a brief and next production/proof route only. Do not edit files. Read `.claude/skills/interface-design/SKILL.md` first.",
+      "rubric": {
+        "mustInvokeSkill": ["interface-design"],
+        "judge": [
+          "The response treats this as standalone media, naming audience, duration, format, concept and proof or specialist needs. It does not treat UI animation or a web screen as finished video production."
+        ]
+      }
+    },
+    {
+      "name": "code review route",
+      "prompt": "Review a proposed CSS change for concrete regressions. Do not edit files. Read `.claude/skills/code-review/SKILL.md` first.",
+      "rubric": {
+        "mustInvokeSkill": ["code-review"],
+        "judge": [
+          "The response uses a review evidence approach and does not launch visual concept boards or a new interface implementation. It reports an evidence boundary if no actual diff was supplied."
+        ]
+      }
+    },
+    {
+      "name": "new public site route",
+      "prompt": "We need a new public website for a research annotation product. Direction is unsettled. Give the first review artifact and process only; do not edit files. Read `.claude/skills/interface-design/SKILL.md` first.",
+      "rubric": {
+        "mustInvokeSkill": ["interface-design"],
+        "judge": [
+          "The response treats this as a new website, proposes three distinct concept boards with hierarchy, type, color and fit or risk, and waits for user direction before product implementation. It identifies responsive and rendered proof as later gates without claiming those checks ran."
+        ]
+      }
+    }
+  ]
+}

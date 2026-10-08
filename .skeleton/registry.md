@@ -1,6 +1,6 @@
 # Registry
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-05 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-07 -->
 
 <!-- source-of-truth: Registry topic routing for documentation and skills -->
 
@@ -27,6 +27,8 @@
 | code-review              | [code-review/SKILL.md](../code-review/SKILL.md)                           |
 | review-walkthrough       | [review-walkthrough/SKILL.md](../review-walkthrough/SKILL.md)             |
 | grill                    | [grill/SKILL.md](../grill/SKILL.md)                                       |
+| interface-design         | [interface-design/SKILL.md](../interface-design/SKILL.md)                 |
+| css-craft                | [css-craft/SKILL.md](../css-craft/SKILL.md)                               |
 | second-opinion           | [second-opinion/SKILL.md](../second-opinion/SKILL.md)                     |
 | evidence-based-debugging | [evidence-based-debugging/SKILL.md](../evidence-based-debugging/SKILL.md) |
 | probe                    | [probe/SKILL.md](../probe/SKILL.md)                                       |
