@@ -136,7 +136,7 @@
       "rubric": {
         "must": ["Advisory", "No proven blocker", "optimisticSubmit", "follow-up"],
         "mustInvokeSkill": ["code-review"],
-        "mustNot": ["merge-blocker · optimisticSubmit", "git commit", "git push"],
+        "mustNot": ["merge-blocker \u00b7 optimisticSubmit", "git commit", "git push"],
         "judge": [
           "The requested cleanliness concern appears as a non-blocking advisory item and does not weaken the blocker evidence bar."
         ]
@@ -2632,6 +2632,83 @@
         ]
       },
       "assertion": "semantic judge checks cited session/environment evidence, recommendation destinations, missing-history boundaries and absence of mutation calls; read-only source invariant",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "interface-design:1",
+      "suite": "interface-design",
+      "name": "unsettled web direction",
+      "claimSource": "agent-suites/interface-design/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["interface-design"],
+        "judge": [
+          "The response proposes three conceptually distinct visual boards with content, layout, type, color and fit or risk, and holds final implementation for a user direction choice. It reserves disposable first-screen renders for choices that need layout or motion proof.",
+          "The response treats real dashboard content, states, accessibility and responsive proof as required before completion. It makes no unsupported claim of having rendered the design."
+        ]
+      },
+      "assertion": "semantic judge checks routing and evidence using read-only fixture",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "interface-design:2",
+      "suite": "interface-design",
+      "name": "existing direction",
+      "claimSource": "agent-suites/interface-design/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["interface-design"],
+        "judge": [
+          "The response accepts the supplied direction without asking for three new boards or another choice. It plans concrete content, reachable states, responsive, accessibility and rendered verification."
+        ]
+      },
+      "assertion": "semantic judge checks routing and evidence using read-only fixture",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "css-craft:1",
+      "suite": "css-craft",
+      "name": "focused CSS defect",
+      "claimSource": "agent-suites/css-craft/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["css-craft"],
+        "judge": [
+          "For this explanation-only request, the response names plausible intrinsic-size or container causes to inspect, gives a focused verification path for the 320px long-title case, and does not claim a cause or rendered result without inspecting the app. It does not launch visual boards or a global reset."
+        ]
+      },
+      "assertion": "semantic judge checks routing and evidence using read-only fixture",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "css-craft:2",
+      "suite": "css-craft",
+      "name": "browser-aware technique",
+      "claimSource": "agent-suites/css-craft/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["css-craft"],
+        "judge": [
+          "For this explanation-only request, the response directs a current support check against primary platform documentation before implementation, plans a fallback and checks for state, keyboard use and reduced motion, and does not claim browser proof it did not perform."
+        ]
+      },
+      "assertion": "semantic judge checks routing and evidence using read-only fixture",
       "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",

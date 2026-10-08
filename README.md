@@ -76,6 +76,8 @@ Canonical recipes live under `references/planning/soft-default/` and are package
 
 Existing committed toolbox process skill dirs keep loading until removed. Delete only vendored copies of registered toolbox skill slugs under project skill dirs; keep product/standards skills; reinstall process skills with `-g`. Soft-default under `.skeleton/customize/` is not a process skill dir. See [docs/tiers.md](docs/tiers.md).
 
+See the [design and CSS source index](references/design-source-index.md) for the source material behind the new design skills.
+
 ## Skills
 
 | Group        | Slug                     | Purpose                                                                                         |
@@ -86,6 +88,8 @@ Existing committed toolbox process skill dirs keep loading until removed. Delete
 | Process      | review-walkthrough       | Explain a bounded change through the smallest useful causal story                               |
 | Process      | second-opinion           | Adversarial critique of a written artifact — invent lenses; layer council for multi-agent depth |
 | Process      | grill                    | Decision-focused dialogue for unclear intent and consequential design choices                   |
+| Process      | interface-design         | Web interface direction through rendered proof; routes native and media briefs                  |
+| Process      | css-craft                | Focused CSS diagnosis, technique choice, and browser-aware proof                                |
 | Process      | evidence-based-debugging | Reproduce and diagnose failures; demonstrate and verify authorized repairs                      |
 | Process      | probe                    | Cited verdict on a specific hunch or claim                                                      |
 | Process      | tdd                      | Test-first build at agreed public seams                                                         |

@@ -126,6 +126,18 @@
       "sourceType": "github",
       "skillPath": "workflow/SKILL.md",
       "computedHash": "db8beb5de1c1bd9adc6481b3c7209f5d48d93db3c0fd957028e9e058c797ecc2"
+    },
+    "interface-design": {
+      "source": "csark0812/toolbox",
+      "sourceType": "github",
+      "skillPath": "interface-design/SKILL.md",
+      "computedHash": "5a175d4f758343dcf480b8e4dfe8f0aa7ccffc38a9d4e31709f08730e1859686"
+    },
+    "css-craft": {
+      "source": "csark0812/toolbox",
+      "sourceType": "github",
+      "skillPath": "css-craft/SKILL.md",
+      "computedHash": "3be69b8ac44b7216b0bfa9e25cb07bab0a36dc341cc5c6e300cbc2fcfc25fda3"
     }
   }
 }
