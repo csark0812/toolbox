@@ -35,14 +35,21 @@ export async function executeClaim(
   const prepared = coder.setup(async (workspace) => {
     for (const mirror of ['.claude/skills', '.agents/skills']) {
       await rm(join(workspace.path, mirror), { recursive: true, force: true })
-      if (claim.defaults.skills !== 'none') {
+      if (claim.defaults.skills === 'legacy-design') {
+        for (const slug of ['frontend-design', 'modern-css'])
+          await cp(
+            resolve('references/original-skills', slug),
+            join(workspace.path, mirror, slug),
+            { recursive: true },
+          )
+      } else if (claim.defaults.skills !== 'none') {
         for (const slug of EXPECTED_SKILLS)
           await cp(join(workspace.path, slug), join(workspace.path, mirror, slug), {
             recursive: true,
           })
       }
     }
-    if (claim.defaults.skills === 'none')
+    if (claim.defaults.skills === 'none' || claim.defaults.skills === 'legacy-design')
       for (const slug of EXPECTED_SKILLS)
         await rm(join(workspace.path, slug), { recursive: true, force: true })
     execFileSync('git', ['init', '-q'], { cwd: workspace.path })

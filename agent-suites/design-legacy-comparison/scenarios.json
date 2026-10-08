@@ -1,0 +1,28 @@
+{
+  "name": "design-legacy-comparison",
+  "description": "Isolated baseline runs of the retired licensed design skills",
+  "defaults": {
+    "profile": "cursor",
+    "skills": "legacy-design"
+  },
+  "scenarios": [
+    {
+      "name": "legacy web direction baseline",
+      "prompt": "We are redesigning a research dashboard. The goal is to help a reader resume one saved paper and see its annotations. Direction is unsettled. Give the process and first review artifact only; do not edit files. Read `.claude/skills/frontend-design/SKILL.md` first.",
+      "rubric": {
+        "judge": [
+          "Tool evidence establishes reading the archived frontend-design skill. The response accounts for user task, content, responsive behavior and accessibility, and does not claim a render it did not perform."
+        ]
+      }
+    },
+    {
+      "name": "legacy CSS baseline",
+      "prompt": "A long title overflows its card at 320px in an existing web app. Explain the diagnostic and verification path only; do not edit files. Read `.claude/skills/modern-css/SKILL.md` and its relevant layout reference first.",
+      "rubric": {
+        "judge": [
+          "Tool evidence establishes reading the archived modern-css skill and its layout reference. The response addresses the layout cause and narrow-width verification without inventing a rendered result."
+        ]
+      }
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 # toolbox
 
 <!-- source-of-truth: user-level process and orchestrator Cursor/Claude agent skills. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-05 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-07 -->
 
 Public process SSOT. Engineers install skills globally (`-g`). Product repos keep product workflows and shared standards — they should not vendor these process skill folders.
 
@@ -76,7 +76,7 @@ Canonical recipes live under `references/planning/soft-default/` and are package
 
 Existing committed toolbox process skill dirs keep loading until removed. Delete only vendored copies of registered toolbox skill slugs under project skill dirs; keep product/standards skills; reinstall process skills with `-g`. Soft-default under `.skeleton/customize/` is not a process skill dir. See [docs/tiers.md](docs/tiers.md).
 
-See the [design and CSS source index](references/design-source-index.md) for the source material behind the new design skills.
+See the [design and CSS source index](references/design-source-index.md) for the source material behind the new design skills. The [replacement matrix](references/design-replacement-matrix.md) maps old capabilities to their new owners. Use the [rendered browser verifier](scripts/check-rendered-interface.mjs) on a served page when proving an interface.
 
 ## Skills
 
@@ -135,13 +135,13 @@ Portable agent conformance lives under [`agent-suites/`](agent-suites/). Suites 
 npm run agent:test
 ```
 
-Live dogfood uses the installed `@cursor/sdk` in isolated worktrees. Copy `.env.example` to `.env`, set `CURSOR_API_KEY`, then run:
+Live dogfood uses the configured Codex subscription in isolated workspaces. Run:
 
 ```bash
 npm run agent:test:live
 ```
 
-For verbose failures and kept staging traces, use `npm run agent:test:live:debug`. Debug output defaults to `$TMPDIR/agent-spec` (outside the repo). Avoid `--debug-dir ./…` inside the repo unless you want artifacts in the working tree — `@post-print/agent-test` ≥ 0.1.18 excludes harness staging from worktree leak checks, but `$TMPDIR` keeps `git status` clean. See [`agent-suites/README.md`](agent-suites/README.md).
+Use `node node_modules/@post-print/agent-test/dist/cli.js viewer --config agent-test.config.ts --port 4179` for the visual run viewer. Local traces are saved under `.agent-test/executions/`. See [`agent-suites/README.md`](agent-suites/README.md).
 
 Toolbox owns portable process-contract behavior (`code-review`, `grill`, …). Consumer repos keep product-specific integration suites that mention local app paths, private docs, custom validation commands, or repo-specific overlays.
 

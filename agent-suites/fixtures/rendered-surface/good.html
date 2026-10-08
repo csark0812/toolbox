@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font: 16px/1.5 system-ui;
+      background: #fff;
+      color: #161616;
+    }
+    .shell {
+      max-width: 70rem;
+      margin: auto;
+      padding: 1rem;
+      min-width: 0;
+    }
+    .card {
+      max-width: 35rem;
+      min-width: 0;
+      border: 1px solid #555;
+      padding: 1rem;
+    }
+    .title {
+      overflow-wrap: anywhere;
+    }
+    button {
+      min-width: 44px;
+      min-height: 44px;
+      background: #181818;
+      color: white;
+      border: 2px solid transparent;
+      border-radius: 0.3rem;
+    }
+    button:focus-visible {
+      outline: 3px solid #b00020;
+      outline-offset: 3px;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      button {
+        transition: transform 0.2s;
+      }
+      button:hover {
+        transform: translateY(-2px);
+      }
+    }
+  </style>
+  <main class="shell">
+    <article class="card">
+      <h1 class="title">
+        A-very-long-research-paper-title-without-spaces-that-must-wrap-at-phone-width
+      </h1>
+      <p>Resume reading the saved paper and inspect annotations.</p>
+      <button id="primary" type="button">Resume reading</button>
+    </article>
+  </main>
+</html>

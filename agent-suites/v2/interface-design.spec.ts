@@ -75,3 +75,131 @@ test(
     )
   },
 )
+
+test(
+  'native app route',
+  {
+    description: 'native app route',
+    criteria: [
+      'The response gives a native iPhone brief around the daily action, platform, assets, deliverable, and native verification. It does not claim that web screenshots prove native behavior or begin a browser page build.',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'interface-design:3',
+        suite: 'interface-design',
+        name: 'native app route',
+        defaults: { profile: 'cursor', skills: 'full' },
+        prompt:
+          'An iPhone reading app needs a new daily home. Give a concept brief and next specialist/proof route only. Do not edit files. Read `.claude/skills/interface-design/SKILL.md` first.',
+        evidencePolicy: 'read-only',
+        rubric: {
+          mustInvokeSkill: ['interface-design'],
+          judge: [
+            'The response gives a native iPhone brief around the daily action, platform, assets, deliverable, and native verification. It does not claim that web screenshots prove native behavior or begin a browser page build.',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+
+test(
+  'standalone media route',
+  {
+    description: 'standalone media route',
+    criteria: [
+      'The response treats this as standalone media, naming audience, duration, format, concept and proof or specialist needs. It does not treat UI animation or a web screen as finished video production.',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'interface-design:4',
+        suite: 'interface-design',
+        name: 'standalone media route',
+        defaults: { profile: 'cursor', skills: 'full' },
+        prompt:
+          'We need a 20-second product launch video, separate from the website. Give a brief and next production/proof route only. Do not edit files. Read `.claude/skills/interface-design/SKILL.md` first.',
+        evidencePolicy: 'read-only',
+        rubric: {
+          mustInvokeSkill: ['interface-design'],
+          judge: [
+            'The response treats this as standalone media, naming audience, duration, format, concept and proof or specialist needs. It does not treat UI animation or a web screen as finished video production.',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+
+test(
+  'code review route',
+  {
+    description: 'code review route',
+    criteria: [
+      'The response uses a review evidence approach and does not launch visual concept boards or a new interface implementation. It reports an evidence boundary if no actual diff was supplied.',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'interface-design:5',
+        suite: 'interface-design',
+        name: 'code review route',
+        defaults: { profile: 'cursor', skills: 'full' },
+        prompt:
+          'Review a proposed CSS change for concrete regressions. Do not edit files. Read `.claude/skills/code-review/SKILL.md` first.',
+        evidencePolicy: 'read-only',
+        rubric: {
+          mustInvokeSkill: ['code-review'],
+          judge: [
+            'The response uses a review evidence approach and does not launch visual concept boards or a new interface implementation. It reports an evidence boundary if no actual diff was supplied.',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
+
+test(
+  'new public site route',
+  {
+    description: 'new public site route',
+    criteria: [
+      'The response treats this as a new website, proposes three distinct concept boards with hierarchy, type, color and fit or risk, and waits for user direction before product implementation. It identifies responsive and rendered proof as later gates without claiming those checks ran.',
+    ],
+  },
+  async ({ coder, reviewer }, info) => {
+    await executeClaim(
+      coder,
+      reviewer,
+      {
+        id: 'interface-design:6',
+        suite: 'interface-design',
+        name: 'new public site route',
+        defaults: { profile: 'cursor', skills: 'full' },
+        prompt:
+          'We need a new public website for a research annotation product. Direction is unsettled. Give the first review artifact and process only; do not edit files. Read `.claude/skills/interface-design/SKILL.md` first.',
+        evidencePolicy: 'read-only',
+        rubric: {
+          mustInvokeSkill: ['interface-design'],
+          judge: [
+            'The response treats this as a new website, proposes three distinct concept boards with hierarchy, type, color and fit or risk, and waits for user direction before product implementation. It identifies responsive and rendered proof as later gates without claiming those checks ran.',
+          ],
+        },
+      },
+      info,
+    )
+  },
+)
