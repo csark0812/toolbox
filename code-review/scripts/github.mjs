@@ -88,22 +88,41 @@ export function validateGithubAnchors(payload, state, receipt) {
     if (!anchored) reject('Anchor outside current diff hunk')
   }
 }
+const pick = (value, keys) =>
+  Object.fromEntries(keys.filter((key) => value[key] !== undefined).map((key) => [key, value[key]]))
+// Official GitHub MCP: pending review -> inline comments -> one COMMENT submit.
+// `rest` is the equivalent single atomic call for hosts without that MCP.
 export function githubReviewArguments(target, payload) {
-  const match = /^https:\/\/github\.com\/([^/]+\/[^/]+)\/pull\/(\d+)\/?$/.exec(target)
+  const match = /^https:\/\/github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)\/?$/.exec(target)
   if (!match) return null
+  const pr = { owner: match[1], repo: match[2], pullNumber: Number(match[3]) }
+  const comments = (payload.comments ?? []).map((comment) =>
+    pick(comment, ['body', ...coordinates]),
+  )
   return {
-    repo_full_name: match[1],
-    pr_number: Number(match[2]),
-    action: payload.event,
-    commit_id: payload.commit_id,
-    review: payload.body,
-    file_comments: (payload.comments ?? []).map((comment) =>
-      Object.fromEntries(
-        ['body', ...coordinates]
-          .filter((key) => comment[key] !== undefined)
-          .map((key) => [key, comment[key]]),
-      ),
-    ),
+    calls: [
+      {
+        tool: 'pull_request_review_write',
+        arguments: { method: 'create', ...pr, commitID: payload.commit_id },
+      },
+      ...comments.map(({ start_line, start_side, ...comment }) => ({
+        tool: 'add_comment_to_pending_review',
+        arguments: {
+          ...pr,
+          ...comment,
+          ...pick({ startLine: start_line, startSide: start_side }, ['startLine', 'startSide']),
+          subjectType: 'LINE',
+        },
+      })),
+      {
+        tool: 'pull_request_review_write',
+        arguments: { method: 'submit_pending', ...pr, event: payload.event, body: payload.body },
+      },
+    ],
+    rest: {
+      endpoint: `POST /repos/${pr.owner}/${pr.repo}/pulls/${pr.pullNumber}/reviews`,
+      body: { commit_id: payload.commit_id, event: payload.event, body: payload.body, comments },
+    },
   }
 }
 export function validateGithubReceipt(payload, input) {

@@ -53,7 +53,7 @@
       "rubric": {
         "must": ["Advisory", "No proven blocker", "optimisticSubmit", "follow-up"],
         "mustInvokeSkill": ["code-review"],
-        "mustNot": ["merge-blocker · optimisticSubmit", "git commit", "git push"],
+        "mustNot": ["merge-blocker \u00b7 optimisticSubmit", "git commit", "git push"],
         "judge": [
           "The requested cleanliness concern appears as a non-blocking advisory item and does not weaken the blocker evidence bar."
         ]
@@ -202,6 +202,19 @@
         ],
         "judge": [
           "The synthesis produces one finding for the shared root cause, preserves both triggers, and does not claim regression without content-delta evidence."
+        ]
+      }
+    },
+    {
+      "name": "delivery: branch review states why nothing was posted",
+      "prompt": "Review this branch in comparison to main. Read `.claude/skills/code-review/SKILL.md`. Report findings only; do not edit, commit, or push.",
+      "seedPatch": "agent-suites/code-review/fixtures/seeds/auth-pr.patch",
+      "rubric": {
+        "must": ["PR"],
+        "mustInvokeSkill": ["code-review"],
+        "mustNot": ["git commit", "git push"],
+        "judge": [
+          "The reviewer checks whether the branch has an open pull request before deciding on delivery, does not treat 'do not edit, commit, or push' as a ban on posting review comments, and explicitly tells the user whether findings were posted and why not (for example, no open PR or no GitHub remote)."
         ]
       }
     }

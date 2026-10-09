@@ -97,21 +97,44 @@ describe('GitHub review publication boundary', () => {
       expect(() => validateGithubAnchors(payload, state, observation)).toThrow()
     }
   })
-  it('maps frozen comments to MCP file_comments without a diff position', () => {
+  it('maps frozen comments to the official GitHub MCP pending-review sequence', () => {
     const ranged = { ...comment, start_line: 11, start_side: 'RIGHT' }
-    expect(githubReviewArguments(state.target, { ...payload, comments: [ranged] })).toEqual({
-      repo_full_name: 'example/repo',
-      pr_number: 7,
-      action: 'COMMENT',
-      commit_id: 'head',
-      review: payload.body,
-      file_comments: [ranged],
+    const pr = { owner: 'example', repo: 'repo', pullNumber: 7 }
+    const args = githubReviewArguments(state.target, { ...payload, comments: [ranged] })
+    expect(args.calls).toEqual([
+      {
+        tool: 'pull_request_review_write',
+        arguments: { method: 'create', ...pr, commitID: 'head' },
+      },
+      {
+        tool: 'add_comment_to_pending_review',
+        arguments: {
+          ...pr,
+          body: comment.body,
+          path: comment.path,
+          line: comment.line,
+          side: comment.side,
+          startLine: 11,
+          startSide: 'RIGHT',
+          subjectType: 'LINE',
+        },
+      },
+      {
+        tool: 'pull_request_review_write',
+        arguments: { method: 'submit_pending', ...pr, event: 'COMMENT', body: payload.body },
+      },
+    ])
+    expect(args.rest).toEqual({
+      endpoint: 'POST /repos/example/repo/pulls/7/reviews',
+      body: { commit_id: 'head', event: 'COMMENT', body: payload.body, comments: [ranged] },
     })
   })
   it('supports clean publication without anchor evidence or inline comments', () => {
     const clean = { ...payload, comments: [] }
     expect(() => validateGithubAnchors(clean, state)).not.toThrow()
-    expect(githubReviewArguments(state.target, clean).file_comments).toEqual([])
+    expect(
+      githubReviewArguments(state.target, clean).calls.map((call) => call.arguments.method),
+    ).toEqual(['create', 'submit_pending'])
     const input = publication()
     input.receipt.comments = []
     expect(() => validateGithubReceipt(clean, input)).not.toThrow()

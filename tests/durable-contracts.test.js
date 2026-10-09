@@ -341,7 +341,7 @@ it('freezes GitHub publication arguments and rejects stale dispatch and missing 
       files: [{ path: 'src/a.js', patch: '@@ -0,0 +1 @@\n+new' }],
     },
   })
-  expect(operateReview(r.p, 'adapter', { id: 'inline' }).file_comments).toEqual([comment])
+  expect(operateReview(r.p, 'adapter', { id: 'inline' }).rest.body.comments).toEqual([comment])
   expect(() =>
     r.call('delivery', {
       id: 'inline',
