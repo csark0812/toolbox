@@ -1,7 +1,7 @@
 # Agent entry (toolbox)
 
 <!-- source-of-truth: agent cold-start in this repo. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-01 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-09 -->
 
 Public process skills SSOT (user-level install). Markdown skills + skeleton audits — not a TypeScript app. No runtime env vars required (see `.env.example`).
 
@@ -53,7 +53,7 @@ Path-scoped `validate:changed` on skill-only paths exits non-zero and redirects 
 
 `npm test` = unit fixtures + `audit:hub` + `audit:skills` + `validate:ci`. `npm run check` / `npm start` also runs format, lint, typecheck, and `npm audit --omit=dev` (CI + First hour). Optional deeper pass: `npm run audit:self` (docs + skills — SSOT-bearing files need `<!-- source-of-truth: … -->` + doc-meta). Skill-path redirect needs `@csark0812/skeleton` ≥ 2.0.0.
 
-`npm run agent:test` validates current TypeScript suite discovery, fixtures and claim mappings offline. `agent:test:live` executes independent Codex subscription sessions; comparisons repeat paired scenarios three times. Publication and network proof are explicit commands. Keep application-specific integration in its consumer repository.
+`npm run agent:test` validates current TypeScript suite discovery, fixtures and claim mappings offline. `agent:test:live` executes independent Claude Code (Haiku) subscription sessions; comparisons repeat paired scenarios three times. Publication and network proof are explicit commands. Keep application-specific integration in its consumer repository.
 
 ## Install destinations
 
