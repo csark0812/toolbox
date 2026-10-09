@@ -1,5 +1,6 @@
 // Bench state on disk: which executions belong to a bench, the graded runs they hold,
 // and the judgment ledger. A bench lives in .agent-test/ui-bench/<bench-id>/.
+import { randomUUID } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
@@ -17,11 +18,15 @@ export async function readJson(path, fallback) {
   return JSON.parse(await readFile(path, 'utf8'))
 }
 
-/** Atomic write so an interrupted judge never leaves a half-written ledger. */
+/**
+ * Atomic write so an interrupted judge never leaves a half-written ledger.
+ * Each call uses its own temp file: concurrent judge workers save the same ledger.
+ */
 export async function writeJson(path, value) {
   await mkdir(join(path, '..'), { recursive: true })
-  await writeFile(`${path}.tmp`, `${JSON.stringify(value, null, 2)}\n`)
-  await rename(`${path}.tmp`, path)
+  const temp = `${path}.${process.pid}.${randomUUID()}.tmp`
+  await writeFile(temp, `${JSON.stringify(value, null, 2)}\n`)
+  await rename(temp, path)
 }
 
 export async function loadBench(id) {
