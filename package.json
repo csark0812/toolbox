@@ -48,6 +48,7 @@
     "agent:test:debugging-evidence-parity": "node scripts/run-diagnose-evidence-parity.mjs",
     "bench:ui": "node scripts/ui-bench.mjs",
     "bench:ui:preflight": "node scripts/ui-bench.mjs --preflight",
+    "bench:ui:quick": "node scripts/ui-bench.mjs --quick",
     "bench:ui:judge": "node scripts/ui-bench-judge.mjs",
     "bench:ui:calibrate": "node scripts/ui-bench-calibrate.mjs",
     "bench:ui:report": "node scripts/ui-bench-report.mjs",

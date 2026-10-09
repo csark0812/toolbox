@@ -23,12 +23,8 @@ import {
 } from './lib/ui-bench-stats.mjs'
 
 const SKILLS = ['css-craft', 'interface-design']
-const ARMS = ['none', 'one-liner', 'skill']
-const CONTRASTS = [
-  ['skill', 'one-liner', 'primary'],
-  ['skill', 'none', 'secondary'],
-  ['one-liner', 'none', 'secondary'],
-]
+const ARMS = ['one-liner', 'skill']
+const CONTRASTS = [['skill', 'one-liner', 'primary']]
 const RENDER_USAGE_FLOOR = 0.1
 
 const median = (values) => {

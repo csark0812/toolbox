@@ -68,7 +68,7 @@ browser('ui-bench seeded fixtures', { timeout: 300000 }, () => {
   })
 
   it('reports an edited design system as an invariant defect', async () => {
-    const task = tasks.find((candidate) => candidate.id === 'card-grid')
+    const task = tasks.find((candidate) => candidate.id === 'settings-form')
     const root = await workspace()
     await writeFile(
       join(root, 'agent-suites/fixtures/ui-bench/shared/design-system.css'),

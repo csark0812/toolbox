@@ -17,7 +17,7 @@ import {
 import { mulberry32 } from './lib/ui-bench-stats.mjs'
 
 export const JUDGE_MODEL = 'claude-opus-5-5'
-const CONCURRENCY = 3
+const CONCURRENCY = 6
 const IDENTICAL_SHARE = 0.1
 const KNOWN_GAP_PER_BATCH = 5
 const RETEST_SHARE = 0.05
@@ -31,7 +31,7 @@ Judge only what the screenshots show. Consider, in order of importance:
 5. Polish: borders, contrast, balance at the desktop width.
 Ignore which version you saw first. Prefer "tie" only when neither is better in a way a careful designer would care about.`
 
-/** Pairs to judge: skill↔one-liner cross-paired per task; secondary contrasts same-repeat only. */
+/** Pairs to judge: every skill run against every one-liner run of the same task. */
 export function plannedPairs(runs) {
   const byTask = Map.groupBy(runs, (run) => run.task)
   const pairs = []
@@ -40,14 +40,6 @@ export function plannedPairs(runs) {
     for (const skill of arm('skill'))
       for (const oneLiner of arm('one-liner'))
         pairs.push({ task, a: skill.runId, b: oneLiner.runId })
-    for (const [x, y] of [
-      ['skill', 'none'],
-      ['one-liner', 'none'],
-    ])
-      for (const left of arm(x)) {
-        const right = arm(y).find((run) => run.repeat === left.repeat)
-        if (right) pairs.push({ task, a: left.runId, b: right.runId })
-      }
   }
   return pairs.map((pair) => ({ ...pair, pairId: [pair.a, pair.b].sort().join(' vs ') }))
 }

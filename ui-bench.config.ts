@@ -17,7 +17,8 @@ export default defineConfig({
   judge: claude(haiku),
   workspace: './_agent/public-workspace',
   testDir: './agent-suites/ui-bench',
-  workers: 1,
+  // Runs are independent sealed workspaces; 3 at a time keeps a batch near 15 minutes.
+  workers: 3,
   retries: 0,
   timeout: 900000,
   outputDir: './_agent/ui-bench-results',

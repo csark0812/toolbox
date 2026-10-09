@@ -4,8 +4,11 @@ import { join } from 'node:path'
 import { EXPECTED_SKILLS } from '../../src/expected-skills'
 import { TASKS_DIR, type BenchTask } from './tasks'
 
-/** The three conditions every task runs under. Only the prompt suffix and skill files differ. */
-export const ARMS = ['none', 'one-liner', 'skill'] as const
+/**
+ * The two conditions every task runs under. Only the prompt suffix and skill files differ.
+ * A no-instruction arm was dropped: the one-liner already beat it, and skill vs one-liner is the question.
+ */
+export const ARMS = ['one-liner', 'skill'] as const
 export type Arm = (typeof ARMS)[number]
 
 const SKILL_MIRRORS = ['.claude/skills', '.agents/skills']
@@ -22,11 +25,9 @@ export const BASE_PROMPT =
 export function armPrompt(task: BenchTask, arm: Arm): string {
   const suffix =
     arm === 'one-liner'
-      ? `\n\n${ONE_LINER}`
-      : arm === 'skill'
-        ? `\n\nUse the ${task.skill} skill (\`.claude/skills/${task.skill}/SKILL.md\`).`
-        : ''
-  return `${BASE_PROMPT}${task.prompt}${suffix}`
+      ? ONE_LINER
+      : `Use the ${task.skill} skill (\`.claude/skills/${task.skill}/SKILL.md\`).`
+  return `${BASE_PROMPT}${task.prompt}\n\n${suffix}`
 }
 
 /**

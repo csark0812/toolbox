@@ -15,18 +15,19 @@ The two previously skipped remote-fetch scenarios remain recorded as skipped. Na
 
 `agent-suites/ui-bench/` measures whether `css-craft` and `interface-design` produce better UI, not whether they are followed. It has its own config (`ui-bench.config.ts`), so it does not change claim-suite discovery.
 
-- Ten fixtures under `fixtures/ui-bench/tasks/`: five seeded CSS defects for `css-craft`, five briefs with a settled direction for `interface-design`. All use the shared Ledger design system.
-- Each task runs in three arms: `none`, `one-liner` (one sentence asking for well-crafted UI) and `skill` (only the target skill, named explicitly). Every arm gets the same `render_page` MCP tool (`scripts/ui-bench-render-mcp.mjs`), which runs outside the agent's Bash sandbox because that sandbox blocks Chromium.
+- Nine fixtures under `fixtures/ui-bench/tasks/`: four seeded CSS defects for `css-craft`, five briefs with a settled direction for `interface-design`. All use the shared Ledger design system.
+- Each task runs in two arms, three runs at a time: `one-liner` (one sentence asking for well-crafted UI) and `skill` (only the target skill, named explicitly). Every arm gets the same `render_page` MCP tool (`scripts/ui-bench-render-mcp.mjs`), which runs outside the agent's Bash sandbox because that sandbox blocks Chromium.
 - After each run the harness renders the page with the same core (`ui-bench/render-core.mjs`) and records hard-check defects, screenshots, tokens, time and render-tool use. Tests fail only when no page exists.
 - `scripts/ui-bench-judge.mjs` compares screenshots blind with Opus, in both orders, with identical-pair, known-gap (styles stripped) and re-test controls.
 - `scripts/ui-bench-report.mjs` gives each skill a verdict against the one-liner: Better (win rate ≥ 60%, cluster-bootstrap lower bound > 50%, no more defects), Not better (upper bound < 60%) or Inconclusive. No verdict before 4 repeats; a failing judge-health check withholds it.
 
-| Step                                           | Command                      |
-| ---------------------------------------------- | ---------------------------- |
-| Check the render tool works (6 runs)           | `npm run bench:ui:preflight` |
-| Run batches of 2 repeats until decided (max 6) | `npm run bench:ui`           |
-| Rate ~15 pairs blind, once                     | `npm run bench:ui:calibrate` |
-| Rebuild the report                             | `npm run bench:ui:report`    |
-| Hard-check unit tests (needs local Chromium)   | `npm run test:ui-bench`      |
+| Step                                                                | Command                      |
+| ------------------------------------------------------------------- | ---------------------------- |
+| Check the render tool works (4 runs)                                | `npm run bench:ui:preflight` |
+| Before/after signal for a skill edit (24 runs, ~10 min, no verdict) | `npm run bench:ui:quick`     |
+| Run batches of 2 repeats until decided (max 6)                      | `npm run bench:ui`           |
+| Rate ~15 pairs blind, once                                          | `npm run bench:ui:calibrate` |
+| Rebuild the report                                                  | `npm run bench:ui:report`    |
+| Hard-check unit tests (needs local Chromium)                        | `npm run test:ui-bench`      |
 
 Bench state lives in `.agent-test/ui-bench/<bench-id>/` (`bench.json`, `judgments.json`, `calibration.json`, `report.html`).
