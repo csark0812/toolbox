@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reading preferences · Ledger</title>
+    <link rel="stylesheet" href="../../shared/design-system.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="settings">
+      <h1>Reading preferences</h1>
+      <p class="settings-intro">These settings apply to every paper you open on this device.</p>
+      <form class="settings-form">
+        <fieldset>
+          <legend>Reader</legend>
+          <div class="field">
+            <label for="font-size">Text size</label>
+            <select id="font-size">
+              <option>Small</option>
+              <option selected>Medium</option>
+              <option>Large</option>
+            </select>
+            <p class="hint">Applies to the paper body. Figures keep their original size.</p>
+          </div>
+          <div class="field">
+            <label for="line-width">Maximum line width</label>
+            <input id="line-width" type="number" value="72" min="45" max="100" />
+            <p class="hint">Characters per line. 60–75 is easiest to read.</p>
+          </div>
+          <div class="field field-inline">
+            <input id="hyphenate" type="checkbox" checked />
+            <label for="hyphenate">Hyphenate long words</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Annotations</legend>
+          <div class="field">
+            <label for="highlight">Default highlight color</label>
+            <select id="highlight">
+              <option>Yellow</option>
+              <option>Green</option>
+              <option>Blue</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="export">Export notes as</label>
+            <input
+              id="export"
+              type="text"
+              value="Markdown with page references and quoted passages"
+            />
+            <p class="hint">Used when you export a paper's annotations.</p>
+          </div>
+        </fieldset>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary">Reset to defaults</button>
+          <button type="submit" class="btn btn-primary" id="primary">Save preferences</button>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>

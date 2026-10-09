@@ -1,0 +1,34 @@
+{
+  "id": "site-header",
+  "skill": "css-craft",
+  "page": "index.html",
+  "primarySelector": "#primary",
+  "prompt": "The marketing page header (`agent-suites/fixtures/ui-bench/tasks/site-header/`) is broken: on phones the navigation runs off the right edge and the whole page scrolls sideways, and on every size the fixed header covers the top of the page and hides section headings when you follow a nav link. Fix the styling in `styles.css` so the header works from 320px to desktop and linked sections land fully visible. Keep the Ledger design system (`agent-suites/fixtures/ui-bench/shared/design-system.css`) unchanged and keep all six navigation links reachable.",
+  "editable": ["styles.css"],
+  "invariants": {
+    "unchangedFiles": ["../../shared/design-system.css", "index.html"],
+    "requiredText": [
+      "Read research without losing the thread",
+      "Library",
+      "Collections",
+      "Annotations",
+      "Reading lists",
+      "Integrations",
+      "Pricing",
+      "Start free trial"
+    ]
+  },
+  "judgeShots": ["390", "1440"],
+  "taskChecks": [
+    {
+      "type": "anchor-visible",
+      "hash": "#annotations",
+      "heading": "h2"
+    },
+    {
+      "type": "anchor-visible",
+      "hash": "#pricing",
+      "heading": "h2"
+    }
+  ]
+}

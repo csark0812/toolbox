@@ -1,0 +1,27 @@
+{
+  "id": "onboarding-steps",
+  "skill": "interface-design",
+  "page": "index.html",
+  "primarySelector": "#primary",
+  "prompt": "Build the onboarding page described in `agent-suites/fixtures/ui-bench/tasks/onboarding-steps/brief.md`, using the content in `content.json` in the same folder.",
+  "editable": ["index.html", "styles.css", "*.js"],
+  "invariants": {
+    "unchangedFiles": ["../../shared/design-system.css", "brief.md", "content.json"],
+    "requiredText": ["Set up Ledger", "What do you research?", "Neuroscience", "Continue"]
+  },
+  "judgeShots": ["390", "1440"],
+  "taskChecks": [
+    {
+      "type": "text-at",
+      "query": "?step=2",
+      "text": "Bring in your papers",
+      "label": "step 2"
+    },
+    {
+      "type": "text-at",
+      "query": "?step=3",
+      "text": "How do you like to read?",
+      "label": "step 3"
+    }
+  ]
+}

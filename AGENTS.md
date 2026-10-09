@@ -46,6 +46,7 @@ Treat skills as adjacent, independently complete roles. Descriptions route by us
 | Ambient shared refs               | Edit `references/`. Skill bodies already point at raw GitHub URLs on `main` |
 | Skill bodies / unsure             | `npm run check` (or `npm test` / `audit:skills` + `validate:ci`)            |
 | Agent suite scenarios             | `npm run agent:test` (replay)                                               |
+| UI skill quality benchmark        | `npm run bench:ui:preflight`, then `npm run bench:ui` (live, hours)         |
 | Style (md/yaml)                   | `npm run lint` + `npm run format:check`                                     |
 | Shared `src/` TypeScript          | `npm run typecheck`                                                         |
 

@@ -45,6 +45,12 @@ export default [
     },
   },
   {
+    files: ['agent-suites/ui-bench/**/*.mjs'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+  {
     files: ['scripts/**/*.{js,mjs,cjs}', '*/scripts/**/*.{js,mjs,cjs}'],
     languageOptions: {
       globals: globals.node,

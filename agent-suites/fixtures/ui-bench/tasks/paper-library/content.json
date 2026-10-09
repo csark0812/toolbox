@@ -1,0 +1,56 @@
+{
+  "heading": "Your library",
+  "continue": {
+    "label": "Continue reading",
+    "title": "Hippocampal replay and memory consolidation across sleep stages",
+    "authors": "Okafor, Lindqvist, Mehta",
+    "venue": "Nature Neuroscience · 2025",
+    "progress": 0.42,
+    "position": "Page 7 of 18 · Results",
+    "action": "Resume reading"
+  },
+  "collections": ["Sleep & memory", "Interpretability", "Drought ecology", "Hypertension trials"],
+  "papers": [
+    {
+      "title": "Sparse Autoencoders Recover Interpretable Features in Large Vision–Language Models Trained on Web-Scale Data",
+      "authors": "Tanaka, Brightwater, Osei-Bonsu, Kowalczyk",
+      "venue": "arXiv · 2026",
+      "progress": 0.08,
+      "collection": "Interpretability"
+    },
+    {
+      "title": "Soil microbial networks under drought: a twelve-year field experiment",
+      "authors": "Abernathy-Clarke, Nguyen",
+      "venue": "PNAS · 2023",
+      "progress": 0.67,
+      "collection": "Drought ecology"
+    },
+    {
+      "title": "Effect of Community Health Worker Home Visits on Hypertension Control Among Adults in Rural Districts",
+      "authors": "Mensah, Delacroix, Iyer",
+      "venue": "JAMA · 2025",
+      "progress": 0.15,
+      "collection": "Hypertension trials"
+    },
+    {
+      "title": "Sleep spindles gate cortical plasticity",
+      "authors": "Lindqvist, Park",
+      "venue": "Neuron · 2024",
+      "progress": 1.0,
+      "collection": "Sleep & memory"
+    },
+    {
+      "title": "Room-temperature superconductivity claims revisited",
+      "authors": "Volkova, Achebe, Strand",
+      "venue": "Science · 2026",
+      "progress": 0,
+      "collection": "Interpretability"
+    }
+  ],
+  "empty": {
+    "title": "Your library is empty",
+    "body": "Save a paper from any journal page or paste a DOI to start reading.",
+    "action": "Add a paper"
+  },
+  "loading": "Loading your library…"
+}

@@ -45,7 +45,13 @@
     "agent:test:comparisons": "node scripts/run-agent-suites.mjs comparisons",
     "agent:test:publication": "vitest run tests/durable-contracts.test.js -t publication",
     "test:network": "TOOLBOX_NETWORK_TESTS=1 vitest run tests/github-ambient-refs.test.js",
-    "agent:test:debugging-evidence-parity": "node scripts/run-diagnose-evidence-parity.mjs"
+    "agent:test:debugging-evidence-parity": "node scripts/run-diagnose-evidence-parity.mjs",
+    "bench:ui": "node scripts/ui-bench.mjs",
+    "bench:ui:preflight": "node scripts/ui-bench.mjs --preflight",
+    "bench:ui:judge": "node scripts/ui-bench-judge.mjs",
+    "bench:ui:calibrate": "node scripts/ui-bench-calibrate.mjs",
+    "bench:ui:report": "node scripts/ui-bench-report.mjs",
+    "test:ui-bench": "TOOLBOX_BROWSER_TESTS=1 vitest run tests/ui-bench-hard-checks.test.js"
   },
   "repository": {
     "type": "git",
@@ -59,6 +65,7 @@
   },
   "homepage": "https://github.com/csark0812/toolbox#readme",
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@csark0812/skeleton": "2.0.0",
     "@cursor/sdk": "^1.0.23",
     "@eslint/js": "^9.39.2",
@@ -68,6 +75,7 @@
     "@types/node": "^22.15.21",
     "eslint": "^9.39.2",
     "patch-package": "^8.0.1",
+    "playwright": "1.63.0",
     "prettier": "^3.7.4",
     "typescript": "^5.8.3",
     "vitest": "^4.0.18"

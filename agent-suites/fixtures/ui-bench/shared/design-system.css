@@ -1,0 +1,156 @@
+/* Ledger design system — shared tokens and base elements for every ui-bench task.
+   Treat this file as owned by another team: use its tokens, do not edit it. */
+
+:root {
+  color-scheme: light dark;
+
+  --color-canvas: #f7f6f2;
+  --color-surface: #ffffff;
+  --color-surface-muted: #efede6;
+  --color-ink: #1c1b18;
+  --color-ink-muted: #5d5a52;
+  --color-border: #d9d5ca;
+  --color-accent: #2f5d50;
+  --color-accent-ink: #ffffff;
+  --color-accent-soft: #dfebe6;
+  --color-danger: #a1301f;
+  --color-danger-soft: #f8e3df;
+  --color-focus: #1f6feb;
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Source Serif 4', ui-serif, Georgia, serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.625rem;
+  --text-2xl: 2.125rem;
+  --leading-tight: 1.2;
+  --leading-body: 1.55;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --shadow-card: 0 1px 2px rgb(28 27 24 / 0.06), 0 4px 12px rgb(28 27 24 / 0.05);
+  --focus-ring: 0 0 0 3px var(--color-focus);
+  --content-max: 72rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-canvas: #151513;
+    --color-surface: #1f1e1b;
+    --color-surface-muted: #2a2925;
+    --color-ink: #ecebe5;
+    --color-ink-muted: #a9a69c;
+    --color-border: #3b3933;
+    --color-accent: #8cc4b3;
+    --color-accent-ink: #10201b;
+    --color-accent-soft: #23332d;
+    --color-danger: #f0a090;
+    --color-danger-soft: #3a211c;
+    --color-focus: #79a8ff;
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  line-height: var(--leading-body);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  line-height: var(--leading-tight);
+  margin: 0;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 2.5rem;
+  padding: 0 var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font: 600 var(--text-sm) / 1 var(--font-sans);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+.btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border-color: var(--color-border);
+}
+
+.btn:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  min-height: 2.5rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

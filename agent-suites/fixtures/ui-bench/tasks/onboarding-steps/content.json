@@ -1,0 +1,30 @@
+{
+  "heading": "Set up Ledger",
+  "steps": [
+    {
+      "title": "What do you research?",
+      "body": "Pick up to three fields. We'll use them to suggest collections.",
+      "options": [
+        "Neuroscience",
+        "Machine learning",
+        "Ecology",
+        "Public health",
+        "Materials science",
+        "Economics"
+      ]
+    },
+    {
+      "title": "Bring in your papers",
+      "body": "Import from a reference manager or start with a DOI.",
+      "options": ["Import from Zotero", "Upload a BibTeX file", "Paste DOIs", "Skip for now"]
+    },
+    {
+      "title": "How do you like to read?",
+      "body": "You can change these later in Reading preferences.",
+      "options": ["Comfortable text size", "Hyphenate long words", "Show reading progress"]
+    }
+  ],
+  "next": "Continue",
+  "back": "Back",
+  "finish": "Start reading"
+}

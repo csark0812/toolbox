@@ -1,0 +1,33 @@
+{
+  "id": "paper-library",
+  "skill": "interface-design",
+  "page": "index.html",
+  "primarySelector": "#primary",
+  "prompt": "Build the paper library page described in `agent-suites/fixtures/ui-bench/tasks/paper-library/brief.md`, using the content in `content.json` in the same folder.",
+  "editable": ["index.html", "styles.css", "*.js"],
+  "invariants": {
+    "unchangedFiles": ["../../shared/design-system.css", "brief.md", "content.json"],
+    "requiredText": [
+      "Your library",
+      "Continue reading",
+      "Hippocampal replay and memory consolidation across sleep stages",
+      "Resume reading",
+      "Soil microbial networks under drought"
+    ]
+  },
+  "judgeShots": ["390", "1440"],
+  "taskChecks": [
+    {
+      "type": "text-at",
+      "query": "?state=empty",
+      "text": "Your library is empty",
+      "label": "empty state"
+    },
+    {
+      "type": "text-at",
+      "query": "?state=loading",
+      "text": "Loading your library",
+      "label": "loading state"
+    }
+  ]
+}

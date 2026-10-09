@@ -1,0 +1,44 @@
+.report {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-5);
+}
+
+.report-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.report-sub {
+  color: var(--color-ink-muted);
+  margin: var(--space-1) 0 var(--space-5);
+}
+
+.activity {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  font-size: var(--text-sm);
+}
+
+.activity th,
+.activity td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.activity thead th {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-muted);
+}
+
+.activity tfoot th,
+.activity tfoot td {
+  font-weight: 700;
+}

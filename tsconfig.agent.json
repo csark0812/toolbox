@@ -9,5 +9,11 @@
     "types": ["node"],
     "allowJs": true
   },
-  "include": ["agent-test.config.ts", "agent-suites/v2/**/*.ts", "src/**/*.ts"]
+  "include": [
+    "agent-test.config.ts",
+    "ui-bench.config.ts",
+    "agent-suites/v2/**/*.ts",
+    "agent-suites/ui-bench/**/*.ts",
+    "src/**/*.ts"
+  ]
 }

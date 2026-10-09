@@ -1,0 +1,38 @@
+{
+  "query": "sharp-wave ripples",
+  "count": "4 results in your library",
+  "results": [
+    {
+      "type": "Paper",
+      "title": "Hippocampal replay and memory consolidation across sleep stages",
+      "meta": "Okafor, Lindqvist, Mehta · Nature Neuroscience · 2025",
+      "snippet": "Optogenetic suppression of sharp-wave ripples abolished the consolidation benefit."
+    },
+    {
+      "type": "Annotation",
+      "title": "Note on p. 6 — Hippocampal replay…",
+      "meta": "Key finding · added Oct 7, 2026",
+      "snippet": "Strongest causal evidence: blocking sharp-wave ripples removes the effect."
+    },
+    {
+      "type": "Paper",
+      "title": "Sleep spindles gate cortical plasticity",
+      "meta": "Lindqvist, Park · Neuron · 2024",
+      "snippet": "Spindle–ripple coupling predicted overnight gains; sharp-wave ripples alone did not."
+    },
+    {
+      "type": "Paper",
+      "title": "A dataset of 40,000 annotated hippocampal ripple events",
+      "meta": "Brightwater et al. · Scientific Data · 2026",
+      "snippet": "We release labelled sharp-wave ripples recorded across 12 laboratories."
+    }
+  ],
+  "filters": {
+    "types": ["Papers", "Annotations"],
+    "years": ["2023", "2024", "2025", "2026"]
+  },
+  "none": {
+    "title": "No matches for “sharp-wave ripples”",
+    "body": "Try fewer words, or search all of Ledger instead of just your library."
+  }
+}

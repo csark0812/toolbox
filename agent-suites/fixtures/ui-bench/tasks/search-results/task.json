@@ -1,0 +1,26 @@
+{
+  "id": "search-results",
+  "skill": "interface-design",
+  "page": "index.html",
+  "primarySelector": "#primary",
+  "prompt": "Build the search results page described in `agent-suites/fixtures/ui-bench/tasks/search-results/brief.md`, using the content in `content.json` in the same folder.",
+  "editable": ["index.html", "styles.css", "*.js"],
+  "invariants": {
+    "unchangedFiles": ["../../shared/design-system.css", "brief.md", "content.json"],
+    "requiredText": [
+      "sharp-wave ripples",
+      "4 results in your library",
+      "Sleep spindles gate cortical plasticity",
+      "A dataset of 40,000 annotated hippocampal ripple events"
+    ]
+  },
+  "judgeShots": ["390", "1440"],
+  "taskChecks": [
+    {
+      "type": "text-at",
+      "query": "?state=none",
+      "text": "No matches for",
+      "label": "no-results state"
+    }
+  ]
+}

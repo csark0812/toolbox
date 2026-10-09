@@ -1,0 +1,21 @@
+{
+  "id": "settings-form",
+  "skill": "css-craft",
+  "page": "index.html",
+  "primarySelector": "#primary",
+  "prompt": "Users report three problems with the reading-preferences form (`agent-suites/fixtures/ui-bench/tasks/settings-form/`): keyboard users can't see where focus is, the grey hint text under fields is hard to read, and on tablets and phones the labels and inputs don't line up and the form spills off the screen. Fix the styling in `styles.css`. Keep the Ledger design system (`agent-suites/fixtures/ui-bench/shared/design-system.css`) unchanged and keep every field.",
+  "editable": ["styles.css"],
+  "invariants": {
+    "unchangedFiles": ["../../shared/design-system.css", "index.html"],
+    "requiredText": [
+      "Reading preferences",
+      "Text size",
+      "Maximum line width",
+      "Hyphenate long words",
+      "Default highlight color",
+      "Export notes as",
+      "Save preferences"
+    ]
+  },
+  "judgeShots": ["390", "1440"]
+}

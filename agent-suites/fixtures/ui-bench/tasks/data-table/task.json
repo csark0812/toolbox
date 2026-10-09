@@ -1,0 +1,29 @@
+{
+  "id": "data-table",
+  "skill": "css-craft",
+  "page": "index.html",
+  "primarySelector": "#primary",
+  "prompt": "The reading-activity report (`agent-suites/fixtures/ui-bench/tasks/data-table/`) is hard to use: on phones the table makes the whole page scroll sideways (even the heading and Export button move), and on every size the numbers are centred so the columns don't line up and are hard to compare. Fix the styling in `styles.css`: the page itself must not scroll sideways at 320px, and the numeric columns should be easy to scan. Keep the Ledger design system (`agent-suites/fixtures/ui-bench/shared/design-system.css`) unchanged and keep every column and row.",
+  "editable": ["styles.css"],
+  "invariants": {
+    "unchangedFiles": ["../../shared/design-system.css", "index.html"],
+    "requiredText": [
+      "Reading activity",
+      "Interpretability methods for vision–language models",
+      "Lena Abernathy-Clarke",
+      "13,617",
+      "Avg. time per paper",
+      "Export CSV"
+    ]
+  },
+  "judgeShots": ["390", "1440"],
+  "taskChecks": [
+    {
+      "type": "computed-style",
+      "selector": ".activity tbody td:nth-child(n+3):nth-child(-n+6)",
+      "property": "text-align",
+      "oneOf": ["right", "end"],
+      "label": "numeric columns right-aligned"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "heading": "Annotations",
+  "paper": "Hippocampal replay and memory consolidation across sleep stages",
+  "annotations": [
+    {
+      "page": 4,
+      "tag": "Question",
+      "passage": "Replay events during NREM sleep predicted next-day recall better than awake rest (r = 0.61).",
+      "note": "Does this hold when controlling for total sleep time? Fig. 3B suggests it might not."
+    },
+    {
+      "page": 6,
+      "tag": "Key finding",
+      "passage": "Optogenetic suppression of sharp-wave ripples abolished the consolidation benefit in all 14 animals.",
+      "note": "Strongest causal evidence in the paper. Lead with this in the review."
+    },
+    {
+      "page": 7,
+      "tag": "Limitation",
+      "passage": "Sample size was 14 animals per group.",
+      "note": "Small. Compare with Lindqvist's 2026 preprint replication (n = 40)."
+    },
+    {
+      "page": 9,
+      "tag": "Question",
+      "passage": "Replay content was biased toward recently rewarded locations.",
+      "note": "Is reward or novelty driving this? Ask Mehta."
+    },
+    {
+      "page": 12,
+      "tag": "Key finding",
+      "passage": "The effect persisted 7 days after training.",
+      "note": "Long retention window — relevant to our grant aim 2."
+    }
+  ],
+  "action": "Add to meeting agenda",
+  "empty": "No annotations yet. Highlight a passage while reading to see it here."
+}

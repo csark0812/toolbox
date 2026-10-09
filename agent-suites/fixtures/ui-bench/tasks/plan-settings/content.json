@@ -1,0 +1,37 @@
+{
+  "heading": "Plan & billing",
+  "current": {
+    "plan": "Reader",
+    "price": "$6 / month",
+    "renews": "Renews on November 3, 2026"
+  },
+  "plans": [
+    {
+      "name": "Free",
+      "price": "$0",
+      "includes": ["Up to 100 papers", "Highlights and notes", "1 device"]
+    },
+    {
+      "name": "Reader",
+      "price": "$6 / month",
+      "includes": ["Unlimited papers", "Sync across devices", "Export notes to Markdown"]
+    },
+    {
+      "name": "Lab",
+      "price": "$24 / month",
+      "includes": [
+        "Everything in Reader",
+        "Shared collections for up to 10 people",
+        "Admin and billing for the group"
+      ]
+    }
+  ],
+  "email": {
+    "label": "Billing email",
+    "value": "amara.okafor@example.org",
+    "hint": "Receipts and renewal reminders go here."
+  },
+  "error": "Enter a valid email address, like name@example.org.",
+  "action": "Save changes",
+  "note": "Plan changes take effect at your next renewal. You won't be charged today."
+}
