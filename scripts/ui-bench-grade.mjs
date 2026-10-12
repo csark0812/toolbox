@@ -10,6 +10,7 @@ import {
   collectRuns,
   latestBenchId,
   loadBench,
+  loadJudgments,
   loadTasks,
   readJson,
   writeJson,
@@ -26,7 +27,7 @@ const runs = new Map(collectRuns(bench).map((run) => [run.runId, run]))
 const tasks = loadTasks()
 const gradesPath = join(benchDir(id), 'grades.json')
 const grades = await readJson(gradesPath, { ratings: [] })
-const judgments = await readJson(join(benchDir(id), 'judgments.json'), [])
+const judgments = await loadJudgments(id)
 const resolved = new Map(resolveOrders(judgments).map((pair) => [pair.pairId, pair]))
 
 // Every skill↔one-liner pair, in a stable shuffled order with a random left/right side.

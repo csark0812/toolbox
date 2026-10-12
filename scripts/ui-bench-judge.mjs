@@ -8,6 +8,8 @@ import { join } from 'node:path'
 import {
   benchDir,
   collectRuns,
+  JUDGE_VERSION,
+  judgeVersionOf,
   latestBenchId,
   loadBench,
   loadTasks,
@@ -23,13 +25,21 @@ const KNOWN_GAP_PER_BATCH = 5
 const RETEST_SHARE = 0.05
 
 export const RUBRIC = `You compare two versions, A and B, of the same web page built for the task below.
-Judge only what the screenshots show. Consider, in order of importance:
-1. Fit to the task and the stated design system/direction (tokens, tone, required content and states).
-2. Visual hierarchy: is the main action and the most important content obvious?
-3. Layout quality at the phone width: nothing clipped or overflowing, comfortable spacing, readable line lengths.
-4. Alignment, spacing rhythm and typography consistency.
-5. Polish: borders, contrast, balance at the desktop width.
-Ignore which version you saw first. Prefer "tie" only when neither is better in a way a careful designer would care about.`
+Judge only what the screenshots show, as a product designer deciding what to ship.
+
+First score each version on its own, 1–5:
+1 broken or unusable · 2 works but clearly weak · 3 acceptable but generic · 4 good, would ship with small fixes · 5 would ship as is.
+Weigh: fit to the task and design system; obvious hierarchy and main action; compact, purposeful use of space
+(penalise large empty areas and loose spacing); simplicity; clean alignment and spacing at phone and desktop widths.
+
+Then pick a winner in two steps:
+1. If only one version meets the task and direction, it wins.
+2. If both meet them, compliance no longer counts. Decide on the overall look you get in the first few
+   seconds: spacing that fits the content (neither loose with empty areas nor cramped), less clutter and
+   a simpler structure, and cleaner alignment. If one is better on that at a glance, it wins.
+Call "tie" only when the two are interchangeable at a glance. Never decide on small details: corner radius,
+one colour, wording, or a few pixels. Use half-points in the scores when it helps (for example 3.5).
+Ignore which version you saw first.`
 
 /** Pairs to judge: every skill run against every one-liner run of the same task. */
 export function plannedPairs(runs) {
@@ -51,12 +61,13 @@ export async function judgeBench(id) {
   const tasks = loadTasks()
   const ledgerPath = join(benchDir(id), 'judgments.json')
   const ledger = await readJson(ledgerPath, [])
+  const current = ledger.filter((entry) => judgeVersionOf(entry) === JUDGE_VERSION)
   const done = new Set(
-    ledger.map(
+    current.map(
       (entry) => `${entry.pairId}|${entry.first}|${entry.control ?? ''}|${entry.retestOf ?? ''}`,
     ),
   )
-  const random = mulberry32(ledger.length + 17)
+  const random = mulberry32(current.length + 17)
   const batch = Math.max(...bench.executions.map((execution) => execution.batch))
 
   const jobs = []
@@ -80,7 +91,7 @@ export async function judgeBench(id) {
       control: 'identical',
     })
   }
-  const knownGapsSoFar = ledger.filter((entry) => entry.control === 'known-gap').length
+  const knownGapsSoFar = current.filter((entry) => entry.control === 'known-gap').length
   for (let i = knownGapsSoFar; i < KNOWN_GAP_PER_BATCH * (batch + 1); i++) {
     const run = pick(
       graded.filter((candidate) => Object.keys(candidate.degradedScreenshots ?? {}).length),
@@ -104,7 +115,7 @@ export async function judgeBench(id) {
   }
 
   console.log(
-    `Bench ${id}: ${runs.length} runs, ${jobs.length} judge calls to make (${ledger.length} already judged).`,
+    `Bench ${id}: ${runs.length} runs, ${jobs.length} judge v${JUDGE_VERSION} calls to make (${current.length} already judged).`,
   )
   const shotsOf = (id) => {
     if (id.endsWith('|degraded'))
@@ -125,7 +136,13 @@ export async function judgeBench(id) {
           shots: task.judgeShots,
           seed: Math.floor(random() * 1e9),
         })
-        ledger.push({ ...job, ...verdict, model: JUDGE_MODEL, judgedAt: new Date().toISOString() })
+        ledger.push({
+          ...job,
+          ...verdict,
+          model: JUDGE_MODEL,
+          judgeVersion: JUDGE_VERSION,
+          judgedAt: new Date().toISOString(),
+        })
         await writeJson(ledgerPath, ledger)
         completed++
         if (completed % 10 === 0) console.log(`  ${completed}/${jobs.length} judged`)
@@ -162,7 +179,7 @@ Version A: ${names.A.join(', ')}
 Version B: ${names.B.join(', ')}
 
 Reply with only this JSON:
-{"winner": "A" | "B" | "tie", "confidence": 1 | 2 | 3, "reasons": ["short reason", "..."]}`
+{"scoreA": 1-5, "scoreB": 1-5, "winner": "A" | "B" | "tie", "confidence": 1 | 2 | 3, "reasons": ["short reason", "..."]}`
     const controller = new AbortController()
     const session = await createAgentSession({
       agent: claude({ model: JUDGE_MODEL, auth: { type: 'subscription' } }),
@@ -180,6 +197,7 @@ Reply with only this JSON:
       return {
         winner: parsed.winner === 'A' ? 'first' : parsed.winner === 'B' ? 'second' : 'tie',
         confidence: parsed.confidence,
+        scores: { first: parsed.scoreA ?? null, second: parsed.scoreB ?? null },
         reasons: parsed.reasons,
         shots,
       }

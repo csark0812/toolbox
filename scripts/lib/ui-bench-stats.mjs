@@ -13,7 +13,18 @@ export const MIN_REPEATS = 4
  * Run ids are `${task}|${arm}|${repetition}`.
  */
 
-/** Combine both shown orders of each pair: a winner needs to win in both, otherwise tie. */
+/**
+ * Minimum gap between two runs' mean ship scores (both orders) for a scored judgment to count
+ * as a win. Provisional: tuned on 30 human grades of bench-2026-10-09 (73% agreement on pairs the
+ * human decided, 60% exact); re-check against fresh grades before trusting it.
+ */
+export const SCORE_GAP = 0.25
+
+/**
+ * Combine both shown orders of each pair into one result.
+ * Scored judgments (v3+): the run with the higher mean score wins if the gap ≥ SCORE_GAP.
+ * Unscored judgments: a winner needs to win in both orders, otherwise tie.
+ */
 export function resolveOrders(judgments) {
   const byPair = new Map()
   for (const judgment of judgments) {
@@ -30,16 +41,33 @@ export function resolveOrders(judgments) {
     const complete = list.length >= 2
     const agreed = complete && winners.every((winner) => winner === winners[0])
     const [a, b] = [list[0].first, list[0].second].sort()
-    resolved.push({
-      pairId,
-      task: list[0].task,
-      a,
-      b,
-      winner: agreed ? winners[0] : 'tie',
-      complete,
-    })
+    const gap = complete ? scoreGap(list, a, b) : null
+    const winner =
+      gap === null
+        ? agreed
+          ? winners[0]
+          : 'tie'
+        : Math.abs(gap) >= SCORE_GAP
+          ? gap > 0
+            ? a
+            : b
+          : 'tie'
+    resolved.push({ pairId, task: list[0].task, a, b, winner, complete })
   }
   return resolved
+}
+
+/** Mean score of run a minus run b over every order of a pair; null when any judgment is unscored. */
+function scoreGap(list, a, b) {
+  const totals = { [a]: [], [b]: [] }
+  for (const judgment of list)
+    for (const side of ['first', 'second']) {
+      const score = judgment.scores?.[side]
+      if (typeof score !== 'number') return null
+      totals[judgment[side]].push(score)
+    }
+  const mean = (values) => values.reduce((sum, value) => sum + value, 0) / values.length
+  return mean(totals[a]) - mean(totals[b])
 }
 
 export const armOf = (runId) => runId.split('|')[1]
@@ -221,8 +249,9 @@ export function judgeHealth(judgments, retests = retestPairs(judgments)) {
     {
       name: 'decisive rate',
       value: decisiveRate,
-      ok: decisiveRate === null || decisiveRate >= 0.5,
-      expect: '≥ 50% of pairs decided',
+      // Floor only catches a judge that never decides; calibrated judges tie often (people did on 63%).
+      ok: decisiveRate === null || decisiveRate >= 0.25,
+      expect: '≥ 25% of pairs decided',
     },
   ]
   return { checks, healthy: checks.every((check) => check.ok) }

@@ -49,6 +49,32 @@ describe('ui-bench order resolution', () => {
     expect(disagree[0].winner).toBe('tie')
   })
 
+  it('settles scored judgments by mean score gap, not by the winner call', () => {
+    const a = run('t', 'one-liner', 0)
+    const b = run('t', 'skill', 0)
+    const judged = (scoresA, scoresB) =>
+      resolveOrders([
+        {
+          pairId: 'p',
+          task: 't',
+          first: a,
+          second: b,
+          winner: 'tie',
+          scores: { first: scoresA[0], second: scoresB[0] },
+        },
+        {
+          pairId: 'p',
+          task: 't',
+          first: b,
+          second: a,
+          winner: 'tie',
+          scores: { first: scoresB[1], second: scoresA[1] },
+        },
+      ])[0].winner
+    expect(judged([4, 4], [3.5, 3.5])).toBe(a)
+    expect(judged([4, 4], [4.5, 3.5])).toBe('tie')
+  })
+
   it('maps resolved pairs onto the requested contrast', () => {
     const a = run('t', 'skill', 0)
     const b = run('t', 'none', 0)

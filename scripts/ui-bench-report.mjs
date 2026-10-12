@@ -7,7 +7,9 @@ import {
   benchDir,
   collectRuns,
   latestBenchId,
+  JUDGE_VERSION,
   loadBench,
+  loadJudgments,
   loadTasks,
   readJson,
   writeJson,
@@ -29,6 +31,10 @@ const ARMS = ['one-liner', 'skill']
 const CONTRASTS = [['skill', 'one-liner', 'primary']]
 const RENDER_USAGE_FLOOR = 0.1
 
+const mean = (values) => {
+  const numbers = values.filter((value) => typeof value === 'number')
+  return numbers.length ? numbers.reduce((sum, value) => sum + value, 0) / numbers.length : null
+}
 const median = (values) => {
   const sorted = values.filter((value) => typeof value === 'number').sort((a, b) => a - b)
   return sorted.length ? sorted[Math.floor(sorted.length / 2)] : null
@@ -37,11 +43,12 @@ const median = (values) => {
 export async function computeReport(id) {
   const bench = await loadBench(id)
   const runs = collectRuns(bench)
-  const judgments = await readJson(join(benchDir(id), 'judgments.json'), [])
+  const judgments = await loadJudgments(id)
   const grades = await readJson(join(benchDir(id), 'grades.json'), null)
   const tasks = loadTasks()
   const health = judgeHealth(judgments)
   const resolved = resolveOrders(judgments)
+  const scores = shipScores(judgments)
   const repeats = Math.max(0, ...runs.map((run) => run.repeat + 1))
   const looks = new Set(bench.executions.map((execution) => execution.batch)).size
 
@@ -67,6 +74,7 @@ export async function computeReport(id) {
             renderUsage: armRuns.length
               ? armRuns.filter((run) => run.renderUsage.rendered).length / armRuns.length
               : null,
+            shipScore: mean(armRuns.map((run) => scores.get(run.runId))),
             renderDrivenFix: armRuns.length
               ? armRuns.filter((run) => run.renderUsage.editedAfterFindings).length / armRuns.length
               : null,
@@ -105,6 +113,7 @@ export async function computeReport(id) {
 
   return {
     bench: id,
+    judgeVersion: JUDGE_VERSION,
     generatedAt: new Date().toISOString(),
     repeats,
     looks,
@@ -119,23 +128,43 @@ export async function computeReport(id) {
   }
 }
 
-/** Share of your decisive grades where the order-consistent judge picked the same run. */
+/**
+ * How well the order-consistent judge matches your grades.
+ * agreement: on pairs you decided, the judge picked the same run (≥ 70% needed).
+ * exactAgreement: on every pair both graded, same win/loss/tie (≥ 60% needed), so a judge
+ * that decides what you call a tie is caught too.
+ */
 export function calibrationAgreement(grades, resolved) {
   if (!grades?.ratings?.length) return { done: false }
   const byPair = new Map(resolved.map((pair) => [pair.pairId, pair]))
-  const decisive = grades.ratings.filter(
-    (rating) => rating.winner !== 'tie' && byPair.has(rating.pairId),
-  )
-  const agree = decisive.filter(
-    (rating) => byPair.get(rating.pairId).winner === rating.winner,
-  ).length
+  const both = grades.ratings.filter((rating) => byPair.has(rating.pairId))
+  const decisive = both.filter((rating) => rating.winner !== 'tie')
+  const same = (rating) => byPair.get(rating.pairId).winner === rating.winner
+  const agreement = decisive.length ? decisive.filter(same).length / decisive.length : null
+  const exactAgreement = both.length ? both.filter(same).length / both.length : null
   return {
     done: true,
     rated: grades.ratings.length,
     decisive: decisive.length,
-    agreement: decisive.length ? agree / decisive.length : null,
-    ok: decisive.length > 0 && agree / decisive.length >= 0.7,
+    agreement,
+    exactAgreement,
+    ok: agreement !== null && agreement >= 0.7 && exactAgreement >= 0.6,
   }
+}
+
+/** Mean judge ship score (1–5) per run, averaged over every comparison it appeared in. */
+function shipScores(judgments) {
+  const totals = new Map()
+  for (const judgment of judgments) {
+    if (judgment.control || judgment.retestOf || !judgment.scores) continue
+    for (const side of ['first', 'second']) {
+      const score = judgment.scores[side]
+      if (typeof score !== 'number') continue
+      const entry = totals.get(judgment[side]) ?? { sum: 0, count: 0 }
+      totals.set(judgment[side], { sum: entry.sum + score, count: entry.count + 1 })
+    }
+  }
+  return new Map([...totals].map(([runId, { sum, count }]) => [runId, sum / count]))
 }
 
 function countBy(values) {
@@ -188,13 +217,13 @@ export function renderHtml(report) {
       const youRow = `<tr><td>skill vs one-liner <span class="tag">your grades</span></td><td>${pct(skill.you.rate)}</td><td>—</td><td>${skill.you.wins}/${skill.you.losses}/${skill.you.ties}</td></tr>`
       const armRows = ARMS.map((arm) => {
         const a = skill.arms[arm]
-        return `<tr><td>${arm}</td><td>${a.runs}</td><td>${a.defectsPerRun === null ? '—' : a.defectsPerRun.toFixed(1)}</td><td>${a.medianTokens ? `${Math.round(a.medianTokens / 1000)}k` : '—'}</td><td>${a.medianDurationMs ? `${Math.round(a.medianDurationMs / 1000)}s` : '—'}</td><td>${pct(a.renderUsage)}</td><td>${pct(a.renderDrivenFix)}</td></tr>`
+        return `<tr><td>${arm}</td><td>${a.runs}</td><td>${a.shipScore === null ? '—' : `${a.shipScore.toFixed(1)}/5`}</td><td>${a.defectsPerRun === null ? '—' : a.defectsPerRun.toFixed(1)}</td><td>${a.medianTokens ? `${Math.round(a.medianTokens / 1000)}k` : '—'}</td><td>${a.medianDurationMs ? `${Math.round(a.medianDurationMs / 1000)}s` : '—'}</td><td>${pct(a.renderUsage)}</td><td>${pct(a.renderDrivenFix)}</td></tr>`
       }).join('')
       return `<section class="card">
   <header><h2>${skill.skill}</h2><span class="verdict v-${skill.verdict}">${VERDICT_TEXT[skill.verdict]}</span></header>
   ${skill.renderExercised ? '' : '<p class="warn">Render tool barely used in any arm: the skill\'s rendered-verification guidance was not exercised.</p>'}
   <table><thead><tr><th>Contrast</th><th>Win rate</th><th>95% interval</th><th>W/L/T</th></tr></thead><tbody>${contrastRows}${youRow}</tbody></table>
-  <table><thead><tr><th>Arm</th><th>Runs</th><th>Defects/run</th><th>Tokens</th><th>Time</th><th>Rendered</th><th>Render-driven fix</th></tr></thead><tbody>${armRows}</tbody></table>
+  <table><thead><tr><th>Arm</th><th>Runs</th><th>Ship score</th><th>Defects/run</th><th>Tokens</th><th>Time</th><th>Rendered</th><th>Render-driven fix</th></tr></thead><tbody>${armRows}</tbody></table>
 </section>`
     })
     .join('\n')
@@ -206,7 +235,7 @@ export function renderHtml(report) {
     .join('')
   const cal = report.calibration
   const calText = cal.done
-    ? `${cal.rated} pairs graded, ${cal.decisive} decisive, judge agrees with you on ${pct(cal.agreement)} ${cal.ok ? '(ok)' : '(below 70%: revise the judge before trusting its verdicts)'}`
+    ? `${cal.rated} pairs graded, ${cal.decisive} decisive, judge agrees with you on ${pct(cal.agreement)} of decided pairs and ${pct(cal.exactAgreement)} exactly (ties included) ${cal.ok ? '(ok)' : '(needs ≥ 70% and ≥ 60%: revise the judge before trusting its verdicts)'}`
     : 'No grades yet. Run <code>npm run bench:ui:grade</code>.'
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -225,7 +254,7 @@ table{border-collapse:collapse;width:100%;margin-top:10px;font-variant-numeric:t
 .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}.gal figure{margin:0}.gal img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
 figcaption{font-size:12px;color:var(--muted)}select{font:inherit}
 </style></head><body>
-<h1>UI bench · ${esc(report.bench)}</h1>
+<h1>UI bench · ${esc(report.bench)} · judge v${report.judgeVersion}</h1>
 <p class="sub">${report.runs} graded runs · ${report.repeats} repeat${report.repeats === 1 ? '' : 's'} per arm per task · ${report.looks} look${report.looks === 1 ? '' : 's'} · verdicts need ≥ ${report.minRepeats} repeats · bar ${pct(report.bar)} vs one-liner with interval lower bound &gt; 50%</p>
 ${skillCards}
 <section class="card"><header><h2>Judge health</h2><span class="verdict ${report.health.healthy ? 'v-better' : 'v-not-better'}">${report.health.healthy ? 'Healthy' : 'Failing'}</span></header>

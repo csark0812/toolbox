@@ -13,6 +13,23 @@ export const MAX_REPEATS = 6
 
 export const benchDir = (id) => join(BENCH_ROOT, id)
 
+/**
+ * Judge prompt generation. The ledger keeps every version; only the current one counts.
+ * v1: rubric-first, decides small differences (30% exact agreement with human grades).
+ * v2: tie unless noticeable at a glance, plus a 1–5 ship score (70% exact, but tied 6 of 11
+ *     pairs the human decided: it ties whenever both versions follow the brief).
+ * v3: brief compliance is a baseline; once both meet it, decide on the overall look
+ *     (spacing fit, simplicity, alignment), never on small details.
+ */
+export const JUDGE_VERSION = 3
+export const judgeVersionOf = (entry) => entry.judgeVersion ?? 1
+
+/** Judgments of the current judge version. */
+export async function loadJudgments(id) {
+  const ledger = await readJson(join(benchDir(id), 'judgments.json'), [])
+  return ledger.filter((entry) => judgeVersionOf(entry) === JUDGE_VERSION)
+}
+
 export async function readJson(path, fallback) {
   if (!existsSync(path)) return fallback
   return JSON.parse(await readFile(path, 'utf8'))
