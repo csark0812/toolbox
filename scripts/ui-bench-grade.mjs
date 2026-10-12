@@ -14,6 +14,7 @@ import {
   loadBench,
   loadJudgments,
   loadTasks,
+  tasksRootOf,
   readJson,
   writeJson,
 } from './lib/ui-bench-data.mjs'
@@ -29,10 +30,10 @@ const showAll = args.includes('--all')
 const onlyArm = args.includes('--arm') ? args[args.indexOf('--arm') + 1] : null
 const id =
   args.find((arg, index) => !arg.startsWith('--') && args[index - 1] !== '--arm') ??
-  (await latestBenchId(['bench-', 'quick-', 'compare-']))
+  (await latestBenchId(['bench-', 'quick-', 'compare-', 'app-']))
 const bench = await loadBench(id)
 const runs = new Map(collectRuns(bench).map((run) => [run.runId, run]))
-const tasks = loadTasks()
+const tasks = loadTasks(tasksRootOf(bench))
 const gradesPath = join(benchDir(id), 'grades.json')
 const grades = await readJson(gradesPath, { ratings: [] })
 const judgments = await loadJudgments(id)
@@ -42,10 +43,14 @@ const resolved = new Map(resolveOrders(judgments).map((pair) => [pair.pairId, pa
 // Arm labels never go to the page until the pick for that pair is saved.
 const random = mulberry32(7)
 /** Key pair: a challenger arm vs the one-liner with the same repeat (`none` is not a challenger). */
+// The baseline is the one-liner when the bench has one, otherwise the bare task (`none`).
+const benchArms = new Set([...runs.values()].map((run) => run.arm))
+const baselineArm = benchArms.has('one-liner') ? 'one-liner' : 'none'
 const isKeyPair = (pair) => {
   const [a, b] = [runs.get(pair.a), runs.get(pair.b)]
   const arms = [a.arm, b.arm]
-  return a.repeat === b.repeat && arms.includes('one-liner') && !arms.includes('none')
+  const challenger = arms.find((arm) => arm !== baselineArm)
+  return a.repeat === b.repeat && arms.includes(baselineArm) && challenger !== 'none'
 }
 const items = plannedPairs([...runs.values()])
   .filter((pair) => showAll || isKeyPair(pair))

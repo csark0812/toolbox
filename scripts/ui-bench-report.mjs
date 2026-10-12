@@ -12,6 +12,7 @@ import {
   loadBench,
   loadJudgments,
   loadTasks,
+  tasksRootOf,
   readJson,
   writeJson,
 } from './lib/ui-bench-data.mjs'
@@ -29,9 +30,9 @@ import {
 } from './lib/ui-bench-stats.mjs'
 
 const KINDS = ['css-fix', 'page-build']
-const BASELINE = 'one-liner'
+const ONE_LINER_ARM = 'one-liner'
 /** Arms present in a group: the baseline first, then `none`, then challengers alphabetically. */
-const armsOf = (runs) =>
+const armsOf = (runs, BASELINE) =>
   [...new Set(runs.map((run) => run.arm))].sort((a, b) =>
     a === BASELINE
       ? -1
@@ -67,8 +68,8 @@ export async function computeReport(id) {
         pickSummary(JSON.parse(readFileSync(join(benchDir(id), name), 'utf8')).ratings),
       ]),
   )
-  const tasks = loadTasks()
-  const health = judgeHealth(judgments)
+  const tasks = loadTasks(tasksRootOf(bench))
+  const health = judgeHealth(judgments, undefined, { requireKnownGap: !bench.app })
   const resolved = resolveOrders(judgments)
   const scores = shipScores(judgments)
   const repeats = Math.max(0, ...runs.map((run) => run.repeat + 1))
@@ -76,7 +77,9 @@ export async function computeReport(id) {
 
   const groups = KINDS.filter((kind) => runs.some((run) => run.kind === kind)).map((group) => {
     const groupRuns = runs.filter((run) => run.kind === group)
-    const armNames = armsOf(groupRuns)
+    // The baseline is the one-liner when present, otherwise the bare task (`none`).
+    const BASELINE = groupRuns.some((run) => run.arm === ONE_LINER_ARM) ? ONE_LINER_ARM : 'none'
+    const armNames = armsOf(groupRuns, BASELINE)
     const taskIds = new Set(groupRuns.map((run) => run.task))
     const groupResolved = resolved.filter((pair) => taskIds.has(pair.task))
     const arms = Object.fromEntries(
@@ -111,7 +114,9 @@ export async function computeReport(id) {
       .filter((arm) => arm !== BASELINE)
       .flatMap((focus) => [
         [focus, BASELINE],
-        ...(focus !== 'none' && armNames.includes('none') ? [[focus, 'none']] : []),
+        ...(focus !== 'none' && BASELINE !== 'none' && armNames.includes('none')
+          ? [[focus, 'none']]
+          : []),
       ])
     const contrasts = pairsOfArms.map(([focus, other], index) => {
       const rows = contrastOutcomes(groupResolved, focus, other)

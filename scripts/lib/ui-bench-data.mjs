@@ -63,15 +63,18 @@ export async function latestBenchId(prefixes = ['bench-']) {
       )
     : []
   if (!ids.length) throw new Error('No bench yet. Run `npm run bench:ui` first.')
-  const stampOf = (name) => name.slice(name.indexOf('-') + 1)
+  const stampOf = (name) => name.match(/\d{4}-\d{2}-\d{2}T[\d-]+Z$/)?.[0] ?? name
   return ids.sort((a, b) => stampOf(a).localeCompare(stampOf(b))).at(-1)
 }
 
-export function loadTasks() {
+/** Where a bench's tasks live: the public fixtures, or a local app fixture's tasks. */
+export const tasksRootOf = (bench) => bench?.tasksRoot ?? TASKS_ROOT
+
+export function loadTasks(root = TASKS_ROOT) {
   return Object.fromEntries(
-    readdirSync(TASKS_ROOT).map((id) => {
-      const task = JSON.parse(readFileSync(join(TASKS_ROOT, id, 'task.json'), 'utf8'))
-      const briefPath = join(TASKS_ROOT, id, 'brief.md')
+    readdirSync(root).map((id) => {
+      const task = JSON.parse(readFileSync(join(root, id, 'task.json'), 'utf8'))
+      const briefPath = join(root, id, 'brief.md')
       return [
         id,
         { ...task, brief: existsSync(briefPath) ? readFileSync(briefPath, 'utf8') : task.prompt },
@@ -95,7 +98,7 @@ export function collectRuns(bench) {
       const evidence = JSON.parse(readFileSync(path, 'utf8'))
       if (evidence.outcome !== 'graded') continue
       // Retired tasks (fixture removed) drop out of judging, grading and reports.
-      if (!existsSync(join(TASKS_ROOT, evidence.task))) continue
+      if (!existsSync(join(tasksRootOf(bench), evidence.task))) continue
       const repeat = batch * (bench.repeatsPerBatch ?? REPEATS_PER_BATCH) + evidence.repetition
       // Benches recorded before 2026-10-12 named the task kind after the retired skills.
       const kind = evidence.kind ?? LEGACY_KINDS[evidence.skill]

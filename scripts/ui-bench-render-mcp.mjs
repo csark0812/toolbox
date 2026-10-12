@@ -1,17 +1,33 @@
 #!/usr/bin/env node
-// Stdio MCP server exposing `render_page` to UI-bench agents.
-// It runs as a harness-owned process outside the agent's Bash sandbox (which blocks Chromium),
-// and only renders pages inside the agent's working directory.
+// Stdio MCP server exposing a render tool to UI-bench agents. It runs as a harness-owned process
+// outside the agent's Bash sandbox (which blocks Chromium) and only renders the agent's workspace.
+// - default: `render_page` renders a workspace HTML file.
+// - UI_BENCH_APP=<fixture>: `render_screen` builds the workspace's app source and renders a route.
 import { mkdtemp, readFile } from 'node:fs/promises'
 import { createInterface } from 'node:readline'
 import { tmpdir } from 'node:os'
 import { isAbsolute, join, relative, resolve } from 'node:path'
+import { buildAndRender, loadFixture } from '../agent-suites/ui-bench/app-build.mjs'
 import { renderPage } from '../agent-suites/ui-bench/render-core.mjs'
 
 const workspace = resolve(process.cwd())
 const RETURNED_SHOTS = ['390', '1440', '390-dark']
 
-const tool = {
+const appFixture = process.env.UI_BENCH_APP ? loadFixture(process.env.UI_BENCH_APP) : null
+
+const screenTool = {
+  name: 'render_screen',
+  description:
+    "Build this workspace's app and render one route at 320/390/768/1440px in light mode and 390/1440px in dark mode. " +
+    'Returns build errors, or layout and accessibility findings plus screenshots at 390px, 1440px and 390px dark. Takes about 15 seconds.',
+  inputSchema: {
+    type: 'object',
+    properties: { route: { type: 'string', description: 'App route, e.g. /bench/goals-overview' } },
+    required: ['route'],
+  },
+}
+
+const pageTool = {
   name: 'render_page',
   description:
     'Render an HTML page from this workspace at 320/390/768/1440px in light mode and 390/1440px in dark mode. ' +
@@ -25,6 +41,19 @@ const tool = {
   },
 }
 
+const tool = appFixture ? screenTool : pageTool
+
+async function renderScreenTool({ route }) {
+  const target = String(route ?? '')
+  if (!target.startsWith('/'))
+    return { isError: true, content: [{ type: 'text', text: 'route must start with /' }] }
+  const outDir = await mkdtemp(join(tmpdir(), 'ui-bench-screen-'))
+  const result = await buildAndRender({ fixture: appFixture, workspace, route: target, outDir })
+  if (result.buildFailed)
+    return { isError: true, content: [{ type: 'text', text: `Build failed:\n${result.buildLog}` }] }
+  return renderResult(result)
+}
+
 async function renderTool({ path }) {
   const page = resolve(workspace, String(path ?? ''))
   const rel = relative(workspace, page)
@@ -34,7 +63,10 @@ async function renderTool({ path }) {
       content: [{ type: 'text', text: 'path must be an .html file inside the workspace' }],
     }
   const outDir = await mkdtemp(join(tmpdir(), 'ui-bench-render-'))
-  const { findings, screenshots } = await renderPage({ page, outDir })
+  return renderResult(await renderPage({ page, outDir }))
+}
+
+async function renderResult({ findings, screenshots }) {
   const lines = findings.length
     ? [
         `Findings (${findings.length}):`,
@@ -69,7 +101,7 @@ createInterface({ input: process.stdin }).on('line', async (line) => {
       })
     else if (message.method === 'tools/list') reply({ tools: [tool] })
     else if (message.method === 'tools/call')
-      reply(await renderTool(message.params?.arguments ?? {}))
+      reply(await (appFixture ? renderScreenTool : renderTool)(message.params?.arguments ?? {}))
     else if (message.method === 'ping') reply({})
     else if (message.id !== undefined)
       send({ jsonrpc: '2.0', id: message.id, error: { code: -32601, message: 'Method not found' } })

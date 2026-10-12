@@ -4,6 +4,8 @@
 //   node scripts/ui-bench.mjs --quick          the tasks the skills lost, 2 repeats, judged once (~10 min)
 //   node scripts/ui-bench.mjs --compare a,b [--tasks x,y] [--model claude-sonnet-5-5] [--repeats 4]
 //                                              arms a, b vs the one-liner (interface tasks by default), 2 repeats
+//   node scripts/ui-bench.mjs --app piggybank [--arms none,ux-principles] [--model ...] [--repeats 4]
+//                                              new screens in a local app fixture, arms as given
 //   node scripts/ui-bench.mjs [--bench <id>]   batches of 2 repeats → judge → report, until decided or capped
 import { spawnSync } from 'node:child_process'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
@@ -18,10 +20,11 @@ import {
   REPEATS_PER_BATCH,
   writeJson,
 } from './lib/ui-bench-data.mjs'
+import { loadFixture, prepareAppWorkspace } from '../agent-suites/ui-bench/app-build.mjs'
 import { judgeBench } from './ui-bench-judge.mjs'
 import { summarize, writeReport } from './ui-bench-report.mjs'
 
-const CONFIG = resolve('ui-bench.config.ts')
+const CONFIGS = [resolve('ui-bench.config.ts'), resolve('ui-bench-app.config.ts')]
 const ARM_COUNT = 2
 const PREFLIGHT_TASKS = ['settings-form', 'paper-library']
 // Tasks where the skill lost to the one-liner in bench-2026-10-09T20-14-21-701Z (batch 1).
@@ -37,7 +40,7 @@ const grepFor = (tasks) => `(${tasks.join('|')}) . `
 const stamp = () => new Date().toISOString().replace(/[:.]/g, '-')
 
 /** Run the bench suite once; returns the new execution id. `arms` overrides UI_BENCH_ARMS. */
-function runSuite(grep, repeatEach, arms, model) {
+function runSuite(grep, repeatEach, arms, model, app) {
   const startedAt = Date.now()
   const result = spawnSync(
     'node',
@@ -46,7 +49,7 @@ function runSuite(grep, repeatEach, arms, model) {
       'live',
       grep,
       '--config',
-      'ui-bench.config.ts',
+      app ? 'ui-bench-app.config.ts' : 'ui-bench.config.ts',
       '--repeat-each',
       String(repeatEach),
     ],
@@ -56,6 +59,7 @@ function runSuite(grep, repeatEach, arms, model) {
         ...process.env,
         ...(arms ? { UI_BENCH_ARMS: arms.join(',') } : {}),
         ...(model ? { UI_BENCH_AGENT_MODEL: model } : {}),
+        ...(app ? { UI_BENCH_APP: app } : {}),
       },
     },
   )
@@ -63,7 +67,9 @@ function runSuite(grep, repeatEach, arms, model) {
     .map((id) => ({ id, path: join(EXECUTIONS_ROOT, id, 'execution.json') }))
     .filter(({ path }) => existsSync(path))
     .map(({ id, path }) => ({ id, ...JSON.parse(readFileSync(path, 'utf8')) }))
-    .filter((meta) => meta.config === CONFIG && Date.parse(meta.startedAt) >= startedAt - 1000)
+    .filter(
+      (meta) => CONFIGS.includes(meta.config) && Date.parse(meta.startedAt) >= startedAt - 1000,
+    )
     .sort((a, b) => Date.parse(b.startedAt) - Date.parse(a.startedAt))[0]
   if (!execution) throw new Error(`Suite run produced no execution (exit ${result.status})`)
   return execution.id
@@ -137,6 +143,29 @@ async function compare(challengers, only, model, repeats = REPEATS_PER_BATCH) {
   console.log(`Grade it: npm run bench:ui:grade -- ${id}`)
 }
 
+/** App fixture: every task with the given arms, judged and reported like any bench. */
+async function appBench(name, arms, model, repeats = REPEATS_PER_BATCH) {
+  const fixture = loadFixture(name)
+  prepareAppWorkspace(fixture)
+  const id = `app-${name}-${stamp()}`
+  const bench = {
+    id,
+    app: name,
+    arms,
+    tasksRoot: fixture.tasksRoot,
+    model: model ?? 'claude-sonnet-5-5',
+    repeatsPerBatch: repeats,
+    executions: [],
+  }
+  bench.executions.push({ id: runSuite('.', repeats, arms, model, name), batch: 0 })
+  await writeJson(join(benchDir(id), 'bench.json'), bench)
+  await judgeBench(id)
+  const report = await writeReport(id)
+  console.log(`\n${summarize(report)}`)
+  console.log(`Report: ${join(benchDir(id), 'report.html')}`)
+  console.log(`Grade it: npm run bench:ui:grade -- ${id}`)
+}
+
 async function full(existing) {
   const id = existing ?? `bench-${stamp()}`
   const benchPath = join(benchDir(id), 'bench.json')
@@ -162,7 +191,15 @@ async function full(existing) {
 const args = process.argv.slice(2)
 if (args.includes('--preflight')) await preflight()
 else if (args.includes('--quick')) await quick()
-else if (args.includes('--compare')) {
+else if (args.includes('--app')) {
+  const value = (flag) => (args.includes(flag) ? args[args.indexOf(flag) + 1] : undefined)
+  await appBench(
+    value('--app'),
+    (value('--arms') ?? 'none,ux-principles').split(','),
+    value('--model'),
+    value('--repeats') ? Number(value('--repeats')) : undefined,
+  )
+} else if (args.includes('--compare')) {
   const listAfter = (flag) =>
     args.includes(flag) ? args[args.indexOf(flag) + 1].split(',') : undefined
   const repeats = listAfter('--repeats')?.[0]

@@ -13,6 +13,7 @@ import {
   latestBenchId,
   loadBench,
   loadTasks,
+  tasksRootOf,
   readJson,
   writeJson,
 } from './lib/ui-bench-data.mjs'
@@ -60,7 +61,7 @@ export async function judgeBench(id) {
   const bench = await loadBench(id)
   const runs = collectRuns(bench)
   const runsById = new Map(runs.map((run) => [run.runId, run]))
-  const tasks = loadTasks()
+  const tasks = loadTasks(tasksRootOf(bench))
   const ledgerPath = join(benchDir(id), 'judgments.json')
   const ledger = await readJson(ledgerPath, [])
   const current = ledger.filter((entry) => judgeVersionOf(entry) === JUDGE_VERSION)

@@ -28,6 +28,7 @@ export const EXEMPLAR_WORKSPACE_DIR = 'ui-reference'
  * tasks. Add a candidate skill folder here to test it against the one-liner.
  */
 export const SOURCE_SKILLS: Record<string, string> = {
+  'ux-principles': 'agent-suites/ui-bench/candidates/ux-principles',
   'web-designer': 'references/original-skills/web-designer-local/web-designer',
   'app-designer': 'references/original-skills/app-designer-local/app-designer',
 }

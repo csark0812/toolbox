@@ -11,6 +11,7 @@ import {
   latestBenchId,
   loadBench,
   loadTasks,
+  tasksRootOf,
   readJson,
   writeJson,
 } from './lib/ui-bench-data.mjs'
@@ -24,9 +25,10 @@ const armFlag = args.indexOf('--arm')
 const arm = armFlag >= 0 ? args[armFlag + 1] : 'one-liner'
 const id =
   args.find((arg, index) => !arg.startsWith('--') && args[index - 1] !== '--arm') ??
-  (await latestBenchId(['bench-', 'quick-', 'compare-']))
-const runs = collectRuns(await loadBench(id)).filter((run) => run.arm === arm)
-const tasks = loadTasks()
+  (await latestBenchId(['bench-', 'quick-', 'compare-', 'app-']))
+const bench = await loadBench(id)
+const runs = collectRuns(bench).filter((run) => run.arm === arm)
+const tasks = loadTasks(tasksRootOf(bench))
 const picksPath = join(benchDir(id), `picks-${arm}.json`)
 const picks = await readJson(picksPath, { ratings: [] })
 

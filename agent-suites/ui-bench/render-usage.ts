@@ -5,7 +5,7 @@ export type ToolCall = { name: string; result?: string }
  * and whether it edited after a render that reported findings.
  */
 export function renderUsage(toolCalls: ToolCall[]) {
-  const isRender = (call: ToolCall) => /render_page$/.test(call.name)
+  const isRender = (call: ToolCall) => /render_(page|screen)$/.test(call.name)
   const isEdit = (call: ToolCall) => /^(edit|write|multiedit)$/i.test(call.name)
   const renders = toolCalls.flatMap((call, index) => (isRender(call) ? [{ call, index }] : []))
   const firstFindingRender = renders.find(({ call }) => /Findings \(\d+\)/.test(call.result ?? ''))

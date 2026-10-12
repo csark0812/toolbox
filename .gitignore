@@ -22,3 +22,6 @@ test-results/
 /references/original-skills/web-designer-local/
 /references/original-skills/app-designer-local/
 /references/original-skills/manifest-local.json
+
+# Project-specific UI bench fixtures (private app code and briefs); never committed.
+/agent-suites/ui-bench/local/

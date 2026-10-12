@@ -197,7 +197,11 @@ export function retestPairs(judgments) {
 }
 
 /** Judge-health metrics; any failing check withholds the verdict. */
-export function judgeHealth(judgments, retests = retestPairs(judgments)) {
+export function judgeHealth(
+  judgments,
+  retests = retestPairs(judgments),
+  { requireKnownGap = true } = {},
+) {
   const real = judgments.filter((judgment) => !judgment.control && !judgment.retestOf)
   const decisiveRaw = real.filter((judgment) => judgment.winner !== 'tie')
   const firstWins = decisiveRaw.filter((judgment) => judgment.winner === 'first').length
@@ -239,7 +243,8 @@ export function judgeHealth(judgments, retests = retestPairs(judgments)) {
     {
       name: 'known-gap accuracy',
       value: knownGapAccuracy,
-      ok: knownGapAccuracy !== null && knownGapAccuracy >= 0.8,
+      // App benches render real screens that have no style-stripped twin, so this control is optional.
+      ok: knownGapAccuracy === null ? !requireKnownGap : knownGapAccuracy >= 0.8,
       expect: '≥ 80% (4/5) clean side wins',
     },
     {

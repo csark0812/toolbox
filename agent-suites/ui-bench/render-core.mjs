@@ -20,12 +20,24 @@ const FOCUS_STOPS = 12
  *   { type: 'computed-style', selector, property, oneOf, label }
  *   { type: 'text-at', query, text, label }                 a state (e.g. ?state=empty) shows its copy
  *   { type: 'luminance', scheme, selector, property, max, label }
- * @param {{ page: string, outDir: string, primarySelector?: string, taskChecks?: object[] }} input
+ * @param {{ page?: string, url?: string, settleMs?: number, outDir: string, primarySelector?: string, taskChecks?: object[] }} input
  * @returns {Promise<{ findings: { check: string, view: string, detail: string }[], screenshots: Record<string, string>, text: string }>}
  */
-export async function renderPage({ page: pagePath, outDir, primarySelector, taskChecks = [] }) {
+export async function renderPage({
+  page: pagePath,
+  url: pageUrl,
+  settleMs = 0,
+  outDir,
+  primarySelector,
+  taskChecks = [],
+}) {
   await mkdir(outDir, { recursive: true })
-  const url = pathToFileURL(pagePath).href
+  // A served app (url) renders after load; give client-rendered pages settleMs to paint.
+  const url = pageUrl ?? pathToFileURL(pagePath).href
+  const load = async (tab, target) => {
+    await tab.goto(target, { waitUntil: pageUrl ? 'networkidle' : 'load' })
+    if (settleMs) await tab.waitForTimeout(settleMs)
+  }
   const browser = await chromium.launch({ headless: true })
   const findings = []
   const screenshots = {}
@@ -43,7 +55,7 @@ export async function renderPage({ page: pagePath, outDir, primarySelector, task
       })
       const tab = await context.newPage()
       tab.on('pageerror', (error) => record('page-error', view.name, error.message))
-      await tab.goto(url, { waitUntil: 'load' })
+      await load(tab, url)
       await checkOverflow(tab, view, record)
       if (primarySelector) await checkPrimaryAction(tab, primarySelector, view, record)
       if (view.scheme === 'light' && AXE_WIDTHS.has(view.width)) await checkAxe(tab, view, record)
@@ -57,7 +69,7 @@ export async function renderPage({ page: pagePath, outDir, primarySelector, task
       screenshots[view.name] = file
       await context.close()
     }
-    for (const check of taskChecks) await runTaskCheck(browser, url, check, record)
+    for (const check of taskChecks) await runTaskCheck(browser, url, check, record, load)
   } finally {
     await browser.close()
   }
@@ -177,7 +189,7 @@ async function checkFocusStops(tab, view, record) {
     )
 }
 
-async function runTaskCheck(browser, url, check, record) {
+async function runTaskCheck(browser, url, check, record, load) {
   for (const width of check.widths ?? [390, 1440]) {
     const context = await browser.newContext({
       viewport: { width, height: 900 },
@@ -186,7 +198,7 @@ async function runTaskCheck(browser, url, check, record) {
     const tab = await context.newPage()
     try {
       if (check.type === 'anchor-visible') {
-        await tab.goto(`${url}${check.hash}`, { waitUntil: 'load' })
+        await load(tab, `${url}${check.hash}`)
         const hidden = await tab.evaluate(
           ({ hash, heading }) => {
             const target =
@@ -207,7 +219,7 @@ async function runTaskCheck(browser, url, check, record) {
         )
         if (hidden) record('anchor-hidden', `${width}`, hidden)
       } else if (check.type === 'computed-style') {
-        await tab.goto(url, { waitUntil: 'load' })
+        await load(tab, url)
         const values = await tab.evaluate(
           ({ selector, property }) =>
             [...document.querySelectorAll(selector)].map((element) =>
@@ -223,7 +235,7 @@ async function runTaskCheck(browser, url, check, record) {
             `${check.label}: ${check.selector} ${check.property} is ${[...new Set(wrong)].join('/') || 'missing'}`,
           )
       } else if (check.type === 'text-at') {
-        await tab.goto(`${url}${check.query}`, { waitUntil: 'load' })
+        await load(tab, `${url}${check.query}`)
         const text = await tab.evaluate(() => document.body.innerText)
         if (!text.includes(check.text))
           record(
@@ -232,7 +244,7 @@ async function runTaskCheck(browser, url, check, record) {
             `${check.label}: "${check.text}" not shown at ${check.query}`,
           )
       } else if (check.type === 'luminance') {
-        await tab.goto(url, { waitUntil: 'load' })
+        await load(tab, url)
         const values = await tab.evaluate(
           ({ selector, property }) =>
             [...document.querySelectorAll(selector)].map((element) => ({

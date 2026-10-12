@@ -17,6 +17,8 @@ export default [
       // Skill-local references/ (not ambient GitHub SSOT)
       '*/references/**',
       'references/original-skills/**',
+      // Local, git-ignored project fixtures for the UI bench.
+      'agent-suites/ui-bench/local/**',
     ],
   },
   {
