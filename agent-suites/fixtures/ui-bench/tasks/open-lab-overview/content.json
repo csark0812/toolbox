@@ -1,0 +1,83 @@
+{
+  "heading": "Okafor Lab · week of Oct 5",
+  "totals": [
+    {
+      "label": "Papers read",
+      "value": "23"
+    },
+    {
+      "label": "Highlights",
+      "value": "187"
+    },
+    {
+      "label": "Flagged for meeting",
+      "value": "5"
+    }
+  ],
+  "members": [
+    {
+      "name": "Amara Okafor",
+      "role": "PI",
+      "read": "4",
+      "highlights": "31",
+      "last": "Today"
+    },
+    {
+      "name": "Kenji Tanaka",
+      "role": "Postdoc",
+      "read": "7",
+      "highlights": "64",
+      "last": "Today"
+    },
+    {
+      "name": "Lena Abernathy-Clarke",
+      "role": "PhD student",
+      "read": "6",
+      "highlights": "52",
+      "last": "Yesterday"
+    },
+    {
+      "name": "Kofi Mensah",
+      "role": "PhD student",
+      "read": "5",
+      "highlights": "33",
+      "last": "3 days ago"
+    },
+    {
+      "name": "Irina Volkova",
+      "role": "Visiting researcher",
+      "read": "1",
+      "highlights": "7",
+      "last": "Last week"
+    }
+  ],
+  "flagged": [
+    {
+      "by": "Kenji Tanaka",
+      "paper": "Sparse Autoencoders Recover Interpretable Features…",
+      "passage": "Features remained stable across three random seeds."
+    },
+    {
+      "by": "Lena Abernathy-Clarke",
+      "paper": "Soil microbial networks under drought",
+      "passage": "Network connectivity collapsed after the fourth dry year."
+    },
+    {
+      "by": "Amara Okafor",
+      "paper": "Hippocampal replay and memory consolidation",
+      "passage": "Suppression of sharp-wave ripples abolished the benefit."
+    },
+    {
+      "by": "Kofi Mensah",
+      "paper": "Community Health Worker Home Visits…",
+      "passage": "Control improved most in households without a car."
+    },
+    {
+      "by": "Kenji Tanaka",
+      "paper": "Sleep spindles gate cortical plasticity",
+      "passage": "Coupling, not spindle count, predicted gains."
+    }
+  ],
+  "primary": "Export meeting agenda",
+  "empty": "No reading activity this week yet."
+}

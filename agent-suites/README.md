@@ -15,19 +15,20 @@ The two previously skipped remote-fetch scenarios remain recorded as skipped. Na
 
 `agent-suites/ui-bench/` measures whether `css-craft` and `interface-design` produce better UI, not whether they are followed. It has its own config (`ui-bench.config.ts`), so it does not change claim-suite discovery.
 
-- Nine fixtures under `fixtures/ui-bench/tasks/`: four seeded CSS defects for `css-craft`, five briefs with a settled direction for `interface-design`. All use the shared Ledger design system.
+- Twelve fixtures under `fixtures/ui-bench/tasks/`: four seeded CSS defects for `css-craft`, five briefs with a settled direction on the shared Ledger design system, and three `open-*` briefs with only the job, content and tokens (`shared/tokens.css`, no component styles, no direction). Settled tasks converge on near-identical pages; the open tasks leave room for taste to show.
 - Each task runs in two arms, three runs at a time: `one-liner` (one sentence asking for well-crafted UI) and `skill` (only the target skill, named explicitly). Every arm gets the same `render_page` MCP tool (`scripts/ui-bench-render-mcp.mjs`), which runs outside the agent's Bash sandbox because that sandbox blocks Chromium.
 - After each run the harness renders the page with the same core (`ui-bench/render-core.mjs`) and records hard-check defects, screenshots, tokens, time and render-tool use. Tests fail only when no page exists.
 - `scripts/ui-bench-judge.mjs` compares screenshots blind with Opus, in both orders, with identical-pair, known-gap (styles stripped) and re-test controls. Each version gets a 1–5 ship score; a pair is a win only when the mean scores differ by at least 0.25. That threshold and the judge prompt (v3) were calibrated against human grades from `npm run bench:ui:grade`; re-check agreement on fresh grades. The ledger keeps every judge version and reports use the current one.
 - `scripts/ui-bench-report.mjs` gives each skill a verdict against the one-liner: Better (win rate ≥ 60%, cluster-bootstrap lower bound > 50%, no more defects), Not better (upper bound < 60%) or Inconclusive. No verdict before 4 repeats; a failing judge-health check withholds it.
 
-| Step                                                                                       | Command                      |
-| ------------------------------------------------------------------------------------------ | ---------------------------- |
-| Check the render tool works (4 runs)                                                       | `npm run bench:ui:preflight` |
-| Before/after signal for a skill edit (24 runs, ~10 min, no verdict)                        | `npm run bench:ui:quick`     |
-| Run batches of 2 repeats until decided (max 6)                                             | `npm run bench:ui`           |
-| Grade skill vs one-liner pairs yourself, blind; reveals arms and the judge after each pick | `npm run bench:ui:grade`     |
-| Rebuild the report                                                                         | `npm run bench:ui:report`    |
-| Hard-check unit tests (needs local Chromium)                                               | `npm run test:ui-bench`      |
+| Step                                                                                               | Command                                                             |
+| -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Check the render tool works (4 runs)                                                               | `npm run bench:ui:preflight`                                        |
+| Before/after signal for a skill edit (24 runs, ~10 min, no verdict)                                | `npm run bench:ui:quick`                                            |
+| Head-to-head of arms (`none`, `skill`, `web-designer`, `app-designer`) vs the one-liner, 2 repeats | `node scripts/ui-bench.mjs --compare none --tasks open-pricing,...` |
+| Run batches of 2 repeats until decided (max 6)                                                     | `npm run bench:ui`                                                  |
+| Grade skill vs one-liner pairs yourself, blind; reveals arms and the judge after each pick         | `npm run bench:ui:grade`                                            |
+| Rebuild the report                                                                                 | `npm run bench:ui:report`                                           |
+| Hard-check unit tests (needs local Chromium)                                                       | `npm run test:ui-bench`                                             |
 
 Bench state lives in `.agent-test/ui-bench/<bench-id>/` (`bench.json`, `judgments.json`, `grades.json`, `report.html`).

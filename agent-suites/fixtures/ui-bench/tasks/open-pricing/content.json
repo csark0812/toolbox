@@ -1,0 +1,54 @@
+{
+  "heading": "Keep every paper you read",
+  "sub": "You've saved 100 papers. Upgrade to keep adding to your library.",
+  "plans": [
+    {
+      "name": "Free",
+      "monthly": "$0",
+      "yearly": "$0",
+      "for": "Trying Ledger",
+      "includes": ["Up to 100 papers", "Highlights and notes", "1 device"],
+      "cta": "Stay on Free"
+    },
+    {
+      "name": "Reader",
+      "monthly": "$6 / month",
+      "yearly": "$60 / year",
+      "for": "Most researchers",
+      "includes": [
+        "Unlimited papers",
+        "Sync across devices",
+        "Export notes to Markdown",
+        "Full-text search of your notes"
+      ],
+      "cta": "Start Reader"
+    },
+    {
+      "name": "Lab",
+      "monthly": "$24 / month",
+      "yearly": "$240 / year",
+      "for": "Labs up to 10 people",
+      "includes": [
+        "Everything in Reader",
+        "Shared collections",
+        "Admin and one invoice for the group"
+      ],
+      "cta": "Start Lab"
+    }
+  ],
+  "periods": ["Monthly", "Yearly (2 months free)"],
+  "faq": [
+    {
+      "q": "What happens to my papers if I stay on Free?",
+      "a": "Nothing is deleted. You can read everything; you just can't save more than 100."
+    },
+    {
+      "q": "Can I switch plans later?",
+      "a": "Yes. Changes apply at your next renewal."
+    },
+    {
+      "q": "Do you offer student pricing?",
+      "a": "Reader is 50% off with a university email address."
+    }
+  ]
+}

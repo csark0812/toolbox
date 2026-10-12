@@ -2,7 +2,8 @@
 // UI benchmark driver.
 //   node scripts/ui-bench.mjs --preflight      2 tasks × 2 arms × 1 run; checks the render tool is usable
 //   node scripts/ui-bench.mjs --quick          the tasks the skills lost, 2 repeats, judged once (~10 min)
-//   node scripts/ui-bench.mjs --compare a,b    source skills a, b vs the one-liner on interface tasks, 2 repeats
+//   node scripts/ui-bench.mjs --compare a,b [--tasks x,y]
+//                                              arms a, b vs the one-liner (interface tasks by default), 2 repeats
 //   node scripts/ui-bench.mjs [--bench <id>]   batches of 2 repeats → judge → report, until decided or capped
 import { spawnSync } from 'node:child_process'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
@@ -106,13 +107,15 @@ async function quick() {
   console.log(`Report: ${join(benchDir(id), 'report.html')}`)
 }
 
-/** Head-to-head: named source skills vs the one-liner on every interface-design task. */
-async function compare(skills) {
+/** Head-to-head: named arms vs the one-liner, on the given tasks or every interface-design task. */
+async function compare(challengers, only) {
   const id = `compare-${stamp()}`
-  const tasks = Object.values(loadTasks())
-    .filter((task) => task.skill === 'interface-design')
-    .map((task) => task.id)
-  const arms = ['one-liner', ...skills]
+  const tasks =
+    only ??
+    Object.values(loadTasks())
+      .filter((task) => task.skill === 'interface-design')
+      .map((task) => task.id)
+  const arms = ['one-liner', ...challengers]
   const bench = { id, compare: arms, tasks, executions: [] }
   bench.executions.push({ id: runSuite(grepFor(tasks), REPEATS_PER_BATCH, arms), batch: 0 })
   await writeJson(join(benchDir(id), 'bench.json'), bench)
@@ -148,8 +151,11 @@ async function full(existing) {
 const args = process.argv.slice(2)
 if (args.includes('--preflight')) await preflight()
 else if (args.includes('--quick')) await quick()
-else if (args.includes('--compare')) await compare(args[args.indexOf('--compare') + 1].split(','))
-else {
+else if (args.includes('--compare')) {
+  const listAfter = (flag) =>
+    args.includes(flag) ? args[args.indexOf(flag) + 1].split(',') : undefined
+  await compare(listAfter('--compare'), listAfter('--tasks'))
+} else {
   const flag = args.indexOf('--bench')
   await full(flag >= 0 ? args[flag + 1] : undefined)
 }

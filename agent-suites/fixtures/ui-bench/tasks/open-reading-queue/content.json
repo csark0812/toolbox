@@ -1,0 +1,64 @@
+{
+  "heading": "Reading queue",
+  "counts": {
+    "queue": "6 to triage",
+    "later": "14 saved for later",
+    "done": "9 read this week"
+  },
+  "primary": "Start reading the top paper",
+  "papers": [
+    {
+      "title": "Hippocampal replay and memory consolidation across sleep stages",
+      "authors": "Okafor, Lindqvist, Mehta",
+      "venue": "Nature Neuroscience · 2025",
+      "saved": "Mon",
+      "length": "18 pages",
+      "why": "Cited by three papers in your Sleep & memory collection"
+    },
+    {
+      "title": "Sparse Autoencoders Recover Interpretable Features in Large Vision–Language Models Trained on Web-Scale Data",
+      "authors": "Tanaka, Brightwater, Osei-Bonsu, Kowalczyk",
+      "venue": "arXiv · 2026",
+      "saved": "Mon",
+      "length": "42 pages",
+      "why": "Shared by Kenji Tanaka"
+    },
+    {
+      "title": "Soil microbial networks under drought: a twelve-year field experiment",
+      "authors": "Abernathy-Clarke, Nguyen",
+      "venue": "PNAS · 2023",
+      "saved": "Tue",
+      "length": "11 pages",
+      "why": "Matches your saved search: drought + microbiome"
+    },
+    {
+      "title": "Effect of Community Health Worker Home Visits on Hypertension Control",
+      "authors": "Mensah, Delacroix, Iyer",
+      "venue": "JAMA · 2025",
+      "saved": "Wed",
+      "length": "9 pages",
+      "why": "Added from a DOI"
+    },
+    {
+      "title": "Sleep spindles gate cortical plasticity",
+      "authors": "Lindqvist, Park",
+      "venue": "Neuron · 2024",
+      "saved": "Thu",
+      "length": "14 pages",
+      "why": "Referenced in your note on p. 6"
+    },
+    {
+      "title": "Room-temperature superconductivity claims revisited",
+      "authors": "Volkova, Achebe, Strand",
+      "venue": "Science · 2026",
+      "saved": "Thu",
+      "length": "7 pages",
+      "why": "Trending in your field"
+    }
+  ],
+  "actions": ["Read now", "Later", "Drop"],
+  "empty": {
+    "title": "Queue cleared",
+    "body": "Nothing left to triage. Papers you save will show up here."
+  }
+}

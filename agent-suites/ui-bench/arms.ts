@@ -8,6 +8,7 @@ import { TASKS_DIR, type BenchTask } from './tasks'
 /**
  * An arm is one condition a task runs under; only the prompt suffix and skill files differ.
  * - `one-liner`: the baseline every skill must beat.
+ * - `none`: the bare task prompt; checks that a task leaves room for instructions to matter.
  * - `skill`: the Toolbox skill for the task (css-craft or interface-design).
  * - a source skill name: an original skill from the local archive, for head-to-head comparison.
  * Select arms with UI_BENCH_ARMS (comma-separated); the default is one-liner and skill.
@@ -29,7 +30,7 @@ export function armsFromEnv(env = process.env.UI_BENCH_ARMS): Arm[] {
         .filter(Boolean)
     : DEFAULT_ARMS
   for (const arm of arms)
-    if (!['one-liner', 'skill'].includes(arm) && !SOURCE_SKILLS[arm])
+    if (!['one-liner', 'none', 'skill'].includes(arm) && !SOURCE_SKILLS[arm])
       throw new Error(`Unknown UI bench arm ${arm}`)
   return arms
 }
@@ -60,8 +61,10 @@ export function armPrompt(task: BenchTask, arm: Arm): string {
   const installed = armSkill(task, arm)
   const suffix = installed
     ? `Use the ${installed.name} skill (\`.claude/skills/${installed.name}/SKILL.md\`).`
-    : ONE_LINER
-  return `${BASE_PROMPT}${task.prompt}\n\n${suffix}`
+    : arm === 'none'
+      ? ''
+      : ONE_LINER
+  return `${BASE_PROMPT}${task.prompt}${suffix ? `\n\n${suffix}` : ''}`
 }
 
 /**

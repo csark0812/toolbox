@@ -1,0 +1,60 @@
+/* Ledger tokens only: colour, type, spacing, radius and focus values.
+   No element or component styles; every layout and visual decision belongs to the page.
+   Treat this file as owned by another team: use its tokens, do not edit it. */
+
+:root {
+  color-scheme: light dark;
+
+  --color-canvas: #f7f6f2;
+  --color-surface: #ffffff;
+  --color-surface-muted: #efede6;
+  --color-ink: #1c1b18;
+  --color-ink-muted: #5d5a52;
+  --color-border: #d9d5ca;
+  --color-accent: #2f5d50;
+  --color-accent-ink: #ffffff;
+  --color-accent-soft: #dfebe6;
+  --color-danger: #a1301f;
+  --color-focus: #1f6feb;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: ui-serif, Georgia, serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.625rem;
+  --text-2xl: 2.125rem;
+  --text-3xl: 2.75rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-canvas: #151513;
+    --color-surface: #1f1e1b;
+    --color-surface-muted: #2a2925;
+    --color-ink: #ecebe5;
+    --color-ink-muted: #a9a69c;
+    --color-border: #3b3933;
+    --color-accent: #8cc4b3;
+    --color-accent-ink: #10201b;
+    --color-accent-soft: #23332d;
+    --color-danger: #f0a090;
+    --color-focus: #79a8ff;
+  }
+}
