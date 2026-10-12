@@ -10,6 +10,7 @@ export const EXECUTIONS_ROOT = resolve('.agent-test/executions')
 export const TASKS_ROOT = resolve('agent-suites/fixtures/ui-bench/tasks')
 export const REPEATS_PER_BATCH = 2
 export const MAX_REPEATS = 6
+const LEGACY_KINDS = { 'css-craft': 'css-fix', 'interface-design': 'page-build' }
 
 export const benchDir = (id) => join(BENCH_ROOT, id)
 
@@ -96,7 +97,9 @@ export function collectRuns(bench) {
       // Retired tasks (fixture removed) drop out of judging, grading and reports.
       if (!existsSync(join(TASKS_ROOT, evidence.task))) continue
       const repeat = batch * REPEATS_PER_BATCH + evidence.repetition
-      runs.push({ runId: `${evidence.task}|${evidence.arm}|${repeat}`, repeat, ...evidence })
+      // Benches recorded before 2026-10-12 named the task kind after the retired skills.
+      const kind = evidence.kind ?? LEGACY_KINDS[evidence.skill]
+      runs.push({ runId: `${evidence.task}|${evidence.arm}|${repeat}`, repeat, ...evidence, kind })
     }
   }
   return runs

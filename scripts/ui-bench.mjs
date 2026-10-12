@@ -111,13 +111,13 @@ async function quick() {
   console.log(`Report: ${join(benchDir(id), 'report.html')}`)
 }
 
-/** Head-to-head: named arms vs the one-liner, on the given tasks or every interface-design task. */
+/** Head-to-head: named arms vs the one-liner, on the given tasks or every page-build task. */
 async function compare(challengers, only, model) {
   const id = `compare-${stamp()}`
   const tasks =
     only ??
     Object.values(loadTasks())
-      .filter((task) => task.skill === 'interface-design')
+      .filter((task) => task.kind === 'page-build')
       .map((task) => task.id)
   const arms = ['one-liner', ...challengers]
   const bench = { id, compare: arms, tasks, model: model ?? 'claude-haiku-5-5', executions: [] }

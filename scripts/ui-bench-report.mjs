@@ -26,18 +26,18 @@ import {
   winRate,
 } from './lib/ui-bench-stats.mjs'
 
-const SKILLS = ['css-craft', 'interface-design']
+const KINDS = ['css-fix', 'page-build']
 const BASELINE = 'one-liner'
-/** Arms present for a skill: the baseline first, then our skill, then any source skills. */
+/** Arms present in a group: the baseline first, then `none`, then challengers alphabetically. */
 const armsOf = (runs) =>
   [...new Set(runs.map((run) => run.arm))].sort((a, b) =>
     a === BASELINE
       ? -1
       : b === BASELINE
         ? 1
-        : a === 'skill'
+        : a === 'none'
           ? -1
-          : b === 'skill'
+          : b === 'none'
             ? 1
             : a.localeCompare(b),
   )
@@ -64,14 +64,14 @@ export async function computeReport(id) {
   const repeats = Math.max(0, ...runs.map((run) => run.repeat + 1))
   const looks = new Set(bench.executions.map((execution) => execution.batch)).size
 
-  const skills = SKILLS.filter((skill) => runs.some((run) => run.skill === skill)).map((skill) => {
-    const skillRuns = runs.filter((run) => run.skill === skill)
-    const armNames = armsOf(skillRuns)
-    const taskIds = new Set(skillRuns.map((run) => run.task))
-    const skillResolved = resolved.filter((pair) => taskIds.has(pair.task))
+  const groups = KINDS.filter((kind) => runs.some((run) => run.kind === kind)).map((group) => {
+    const groupRuns = runs.filter((run) => run.kind === group)
+    const armNames = armsOf(groupRuns)
+    const taskIds = new Set(groupRuns.map((run) => run.task))
+    const groupResolved = resolved.filter((pair) => taskIds.has(pair.task))
     const arms = Object.fromEntries(
       armNames.map((arm) => {
-        const armRuns = skillRuns.filter((run) => run.arm === arm)
+        const armRuns = groupRuns.filter((run) => run.arm === arm)
         return [
           arm,
           {
@@ -95,7 +95,7 @@ export async function computeReport(id) {
         ]
       }),
     )
-    const yours = (grades?.ratings ?? []).filter((rating) => tasks[rating.task]?.skill === skill)
+    const yours = (grades?.ratings ?? []).filter((rating) => tasks[rating.task]?.kind === group)
     // Every other arm against the one-liner, then against `none` when present; first is primary.
     const pairsOfArms = armNames
       .filter((arm) => arm !== BASELINE)
@@ -104,7 +104,7 @@ export async function computeReport(id) {
         ...(focus !== 'none' && armNames.includes('none') ? [[focus, 'none']] : []),
       ])
     const contrasts = pairsOfArms.map(([focus, other], index) => {
-      const rows = contrastOutcomes(skillResolved, focus, other)
+      const rows = contrastOutcomes(groupResolved, focus, other)
       const graded = yours.filter((rating) => {
         const arms = rating.pairId.split(' vs ').map(armOf)
         return arms.includes(focus) && arms.includes(other)
@@ -133,7 +133,7 @@ export async function computeReport(id) {
       (arm) => (arms[arm].renderUsage ?? 0) >= RENDER_USAGE_FLOOR,
     )
     return {
-      skill,
+      kind: group,
       tasks: [...taskIds].sort(),
       arms,
       contrasts,
@@ -154,8 +154,8 @@ export async function computeReport(id) {
     minRepeats: MIN_REPEATS,
     health,
     calibration: calibrationAgreement(grades, resolved),
-    skills,
-    decided: skills.every((skill) => ['better', 'not-better'].includes(skill.verdict)),
+    groups,
+    decided: groups.every((group) => ['better', 'not-better'].includes(group.verdict)),
     gallery: gallery(runs, id, scores),
   }
 }
@@ -211,7 +211,7 @@ function gallery(runs, id, scores) {
     .map((run) => ({
       runId: run.runId,
       task: run.task,
-      skill: run.skill,
+      kind: run.kind,
       arm: run.arm,
       repeat: run.repeat,
       defects: run.defects.length,
@@ -239,30 +239,30 @@ const VERDICT_TEXT = {
 }
 
 export function renderHtml(report) {
-  const skillCards = report.skills
-    .map((skill) => {
-      const contrastRows = skill.contrasts
+  const groupCards = report.groups
+    .map((group) => {
+      const contrastRows = group.contrasts
         .map(
           (c) =>
             `<tr><td>${c.focus} vs ${c.other}${c.role === 'primary' ? ' <span class="tag">primary</span>' : ''}</td><td>${pct(c.rate)}</td><td>${c.lower === null ? '—' : `${pct(c.lower)} – ${pct(c.upper)}`}</td><td>${c.wins}/${c.losses}/${c.ties}</td></tr>`,
         )
         .join('')
-      const youRows = skill.contrasts
+      const youRows = group.contrasts
         .filter((c) => c.you.wins + c.you.losses + c.you.ties > 0)
         .map(
           (c) =>
             `<tr><td>${c.focus} vs ${c.other} <span class="tag">your grades</span></td><td>${pct(c.you.rate)}</td><td>—</td><td>${c.you.wins}/${c.you.losses}/${c.you.ties}</td></tr>`,
         )
         .join('')
-      const armRows = Object.keys(skill.arms)
+      const armRows = Object.keys(group.arms)
         .map((arm) => {
-          const a = skill.arms[arm]
+          const a = group.arms[arm]
           return `<tr><td>${arm}</td><td>${a.runs}</td><td>${a.shipScore === null ? '—' : `${a.shipScore.toFixed(1)}/5`}</td><td>${a.defectsPerRun === null ? '—' : a.defectsPerRun.toFixed(1)}</td><td>${a.medianTokens ? `${Math.round(a.medianTokens / 1000)}k` : '—'}</td><td>${a.medianDurationMs ? `${Math.round(a.medianDurationMs / 1000)}s` : '—'}</td><td>${pct(a.renderUsage)}</td><td>${pct(a.renderDrivenFix)}</td></tr>`
         })
         .join('')
       return `<section class="card">
-  <header><h2>${skill.skill}</h2><span class="verdict v-${skill.verdict}">${VERDICT_TEXT[skill.verdict]}</span></header>
-  ${skill.renderExercised ? '' : '<p class="warn">Render tool barely used in any arm: the skill\'s rendered-verification guidance was not exercised.</p>'}
+  <header><h2>${group.kind}</h2><span class="verdict v-${group.verdict}">${VERDICT_TEXT[group.verdict]}</span></header>
+  ${group.renderExercised ? '' : '<p class="warn">Render tool barely used in any arm: the group\'s rendered-verification guidance was not exercised.</p>'}
   <table><thead><tr><th>Contrast</th><th>Win rate</th><th>95% interval</th><th>W/L/T</th></tr></thead><tbody>${contrastRows}${youRows}</tbody></table>
   <table><thead><tr><th>Arm</th><th>Runs</th><th>Ship score</th><th>Defects/run</th><th>Tokens</th><th>Time</th><th>Rendered</th><th>Render-driven fix</th></tr></thead><tbody>${armRows}</tbody></table>
 </section>`
@@ -297,7 +297,7 @@ figcaption{font-size:12px;color:var(--muted)}select{font:inherit}
 </style></head><body>
 <h1>UI bench · ${esc(report.bench)} · judge v${report.judgeVersion}</h1>
 <p class="sub">${report.runs} graded runs · ${report.repeats} repeat${report.repeats === 1 ? '' : 's'} per arm per task · ${report.looks} look${report.looks === 1 ? '' : 's'} · verdicts need ≥ ${report.minRepeats} repeats · bar ${pct(report.bar)} vs one-liner with interval lower bound &gt; 50%</p>
-${skillCards}
+${groupCards}
 <section class="card"><header><h2>Judge health</h2><span class="verdict ${report.health.healthy ? 'v-better' : 'v-not-better'}">${report.health.healthy ? 'Healthy' : 'Failing'}</span></header>
 <table><thead><tr><th>Check</th><th>Value</th><th>Expected</th><th></th></tr></thead><tbody>${healthRows}</tbody></table>
 <p>Your grades: ${calText}</p></section>
@@ -322,11 +322,11 @@ export function summarize(report) {
   const lines = [
     `Bench ${report.bench}: ${report.runs} runs, ${report.repeats} repeats, judge ${report.health.healthy ? 'healthy' : 'UNHEALTHY'}`,
   ]
-  for (const skill of report.skills) {
-    lines.push(`  ${skill.skill}: ${VERDICT_TEXT[skill.verdict]}`)
-    for (const c of skill.contrasts)
+  for (const group of report.groups) {
+    lines.push(`  ${group.kind}: ${VERDICT_TEXT[group.verdict]}`)
+    for (const c of group.contrasts)
       lines.push(
-        `    ${c.focus} vs ${c.other}: ${pct(c.rate)} [${pct(c.lower)}–${pct(c.upper)}] (${c.wins}W/${c.losses}L/${c.ties}T) · ship ${skill.arms[c.focus].shipScore?.toFixed(1) ?? '—'} vs ${skill.arms[c.other].shipScore?.toFixed(1) ?? '—'}`,
+        `    ${c.focus} vs ${c.other}: ${pct(c.rate)} [${pct(c.lower)}–${pct(c.upper)}] (${c.wins}W/${c.losses}L/${c.ties}T) · ship ${group.arms[c.focus].shipScore?.toFixed(1) ?? '—'} vs ${group.arms[c.other].shipScore?.toFixed(1) ?? '—'}`,
       )
   }
   return lines.join('\n')

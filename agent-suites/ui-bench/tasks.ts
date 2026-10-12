@@ -4,7 +4,8 @@ import { join, resolve } from 'node:path'
 export const FIXTURE_ROOT = 'agent-suites/fixtures/ui-bench'
 export const TASKS_DIR = `${FIXTURE_ROOT}/tasks`
 
-export type BenchSkill = 'css-craft' | 'interface-design'
+/** css-fix: repair seeded defects in a styled page. page-build: build a page from a brief. */
+export type TaskKind = 'css-fix' | 'page-build'
 
 export type TaskCheck =
   | { type: 'anchor-visible'; hash: string; heading?: string; widths?: number[] }
@@ -29,7 +30,7 @@ export type TaskCheck =
 
 export interface BenchTask {
   id: string
-  skill: BenchSkill
+  kind: TaskKind
   page: string
   primarySelector: string
   prompt: string
@@ -47,7 +48,7 @@ export function loadTasks(root = process.cwd()): BenchTask[] {
   return readdirSync(dir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => JSON.parse(readFileSync(join(dir, entry.name, 'task.json'), 'utf8')))
-    .sort((a, b) => a.skill.localeCompare(b.skill) || a.id.localeCompare(b.id))
+    .sort((a, b) => a.kind.localeCompare(b.kind) || a.id.localeCompare(b.id))
 }
 
 export function taskDir(task: BenchTask): string {

@@ -1,6 +1,6 @@
 {
   "id": "dark-theme",
-  "skill": "css-craft",
+  "kind": "css-fix",
   "page": "index.html",
   "primarySelector": "#primary",
   "prompt": "The paper-notes page (`agent-suites/fixtures/ui-bench/tasks/dark-theme/`) looks broken in dark mode: the design system switches to dark, but this page keeps light panels and highlights, some text becomes unreadable, and borders disappear. Fix `styles.css` so the page looks right and stays readable in both light and dark mode. Keep the Ledger design system (`agent-suites/fixtures/ui-bench/shared/design-system.css`) unchanged.",

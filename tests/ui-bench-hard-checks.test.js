@@ -51,7 +51,7 @@ browser('ui-bench render checks', { timeout: 120000 }, () => {
 browser('ui-bench seeded fixtures', { timeout: 300000 }, () => {
   const tasks = loadTasks()
 
-  it.each(tasks.filter((task) => task.skill === 'css-craft').map((task) => [task.id, task]))(
+  it.each(tasks.filter((task) => task.kind === 'css-fix').map((task) => [task.id, task]))(
     'untouched %s fails its hard checks as seeded',
     async (_id, task) => {
       const root = await workspace()

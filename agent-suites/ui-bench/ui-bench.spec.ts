@@ -15,7 +15,7 @@ for (const task of loadTasks())
     test(
       `${task.id} · ${arm}`,
       {
-        description: `${task.skill} benchmark task ${task.id}, ${arm} arm`,
+        description: `${task.kind} benchmark task ${task.id}, ${arm} arm`,
         criteria: ['The agent finished and left a page the hard checks could render'],
       },
       async ({ coder }, info) => {
@@ -32,7 +32,7 @@ for (const task of loadTasks())
           schemaVersion: 1,
           bench: 'ui-bench',
           task: task.id,
-          skill: task.skill,
+          kind: task.kind,
           arm,
           repetition: info.repeatEachIndex,
           outcome: checks.pageMissing ? 'page-missing' : 'graded',

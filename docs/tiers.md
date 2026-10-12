@@ -1,7 +1,7 @@
 # Skill tiers
 
 <!-- source-of-truth: skill tier assignment across the agent harness ecosystem. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-12 -->
 
 Assign each skill to exactly one **group**. Update when adding skills.
 
@@ -32,8 +32,6 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | **review-walkthrough**       | Explain a bound code change through the smallest useful causal story; stay read-only and separate formal review.                                              |
 | **second-opinion**           | Adversarial critique of a written artifact — invent lenses; single-pass by default; layer **council** for multi-perspective depth                             |
 | **grill**                    | Clarify intent or pressure-test consequential design choices through focused dialogue before implementation                                                   |
-| **interface-design**         | Web interface direction, implementation, and rendered proof; native and media brief routing                                                                   |
-| **css-craft**                | Focused CSS diagnosis, browser-aware technique choice, and rendered verification                                                                              |
 | **evidence-based-debugging** | Reproduce and diagnose reported failures; repair a demonstrated cause when authorized and verify the affected surface                                         |
 | **probe**                    | Primary-evidence verdict on a specific hunch or claim                                                                                                         |
 | **tdd**                      | Test-first build at agreed public seams — red-green on a **Slice**                                                                                            |
@@ -97,6 +95,8 @@ Consumer cleanup PRs (delete vendored dirs in other repos) are separate — this
 ### Migration notes (skill taxonomy)
 
 **Atomic composition (2026-09):** Peer skills are not runtime dependencies. Compose through discriminating descriptions, layered prompts, shared state, and the ambient [composition contract](../references/v2/process-skill-composition.md).
+
+**Design skills (2026-10):** Retired **interface-design** and **css-craft**. In a blind, human-graded UI benchmark (`agent-suites/ui-bench/`), neither they, their source skills, nor a compact from-scratch rule skill produced better pages than a one-sentence quality instruction, on Haiku or Sonnet. Use a short quality instruction for UI work; a project's own design-system skill belongs in that project. See [design skill retirement](../references/design-replacement-matrix.md).
 
 **Council + ownership (2026-09):** Retired **subagents** and **iterate**. **Council** owns task-persona design, interaction choice, real member runs, and synthesis. **Second-opinion** is single-pass by default; multi-perspective depth only when the user also attaches **council**. Hunch settlement uses coordinator **explore** + ambient [verdict.md](../references/verdict.md) (retired **investigate** slug). Cross-session transfer stays **handoff**.
 

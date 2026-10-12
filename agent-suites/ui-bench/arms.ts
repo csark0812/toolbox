@@ -9,21 +9,17 @@ import { FIXTURE_ROOT, TASKS_DIR, type BenchTask } from './tasks'
  * An arm is one condition a task runs under; only the prompt suffix and skill files differ.
  * - `one-liner`: the baseline every skill must beat.
  * - `none`: the bare task prompt; checks that a task leaves room for instructions to matter.
- * - `skill`: the Toolbox skill for the task (css-craft or interface-design).
- * - a source skill name: an original skill from the local archive, or a candidate skill under
- *   agent-suites/ui-bench/candidates/, for head-to-head comparison.
- * Select arms with UI_BENCH_ARMS (comma-separated); the default is one-liner and skill.
+ * - a source skill name: an original skill from the local archive, for head-to-head comparison.
+ * Select arms with UI_BENCH_ARMS (comma-separated); the default is one-liner and none.
  */
 export type Arm = string
-export const DEFAULT_ARMS: Arm[] = ['one-liner', 'skill']
+export const DEFAULT_ARMS: Arm[] = ['one-liner', 'none']
 
 /**
- * Skills compared head to head; they run only on interface-design tasks.
- * Originals come from the local, git-ignored archive; candidates are drafts tested before they
- * replace a published skill.
+ * Skills compared head to head, from the local, git-ignored archive; they run only on page-build
+ * tasks. Add a candidate skill folder here to test it against the one-liner.
  */
 export const SOURCE_SKILLS: Record<string, string> = {
-  'ui-craft': 'agent-suites/ui-bench/candidates/ui-craft',
   'web-designer': 'references/original-skills/web-designer-local/web-designer',
   'app-designer': 'references/original-skills/app-designer-local/app-designer',
 }
@@ -36,18 +32,17 @@ export function armsFromEnv(env = process.env.UI_BENCH_ARMS): Arm[] {
         .filter(Boolean)
     : DEFAULT_ARMS
   for (const arm of arms)
-    if (!['one-liner', 'none', 'skill'].includes(arm) && !SOURCE_SKILLS[arm])
+    if (!['one-liner', 'none'].includes(arm) && !SOURCE_SKILLS[arm])
       throw new Error(`Unknown UI bench arm ${arm}`)
   return arms
 }
 
 export function armAppliesTo(task: BenchTask, arm: Arm) {
-  return !SOURCE_SKILLS[arm] || task.skill === 'interface-design'
+  return !SOURCE_SKILLS[arm] || task.kind === 'page-build'
 }
 
 /** Skill folder name and source directory installed for an arm, if any. */
 function armSkill(task: BenchTask, arm: Arm): { name: string; source: string } | null {
-  if (arm === 'skill') return { name: task.skill, source: task.skill }
   if (SOURCE_SKILLS[arm]) return { name: arm, source: SOURCE_SKILLS[arm] }
   return null
 }
@@ -82,12 +77,8 @@ export function armPrompt(task: BenchTask, arm: Arm): string {
  */
 export async function prepareArm(workspacePath: string, task: BenchTask, arm: Arm) {
   const installed = armSkill(task, arm)
-  // Toolbox skills come from the prepared workspace; source skills from the caller's local archive.
-  const source = installed
-    ? arm === 'skill'
-      ? join(workspacePath, installed.source)
-      : resolve(installed.source)
-    : null
+  // Source skills come from the caller's local archive, outside the prepared workspace.
+  const source = installed ? resolve(installed.source) : null
   if (source && !existsSync(source))
     throw new Error(`${source} is missing; source skills live in the local, git-ignored archive.`)
   for (const mirror of SKILL_MIRRORS) {
