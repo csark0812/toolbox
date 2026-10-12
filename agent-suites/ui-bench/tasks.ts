@@ -36,6 +36,8 @@ export interface BenchTask {
   editable: string[]
   invariants: { unchangedFiles: string[]; requiredText: string[] }
   judgeShots: string[]
+  /** Files from fixtures/ui-bench/shared copied next to the page at setup (no `..` paths needed). */
+  sharedFiles?: string[]
   taskChecks?: TaskCheck[]
 }
 

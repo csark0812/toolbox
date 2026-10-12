@@ -6,7 +6,7 @@
   "prompt": "Build the reading queue described in `agent-suites/fixtures/ui-bench/tasks/open-reading-queue/brief.md`, using the content in `content.json` in the same folder.",
   "editable": ["index.html", "styles.css", "*.js"],
   "invariants": {
-    "unchangedFiles": ["../../shared/tokens.css", "brief.md", "content.json"],
+    "unchangedFiles": ["tokens.css", "brief.md", "content.json"],
     "requiredText": [
       "Reading queue",
       "6 to triage",
@@ -23,5 +23,6 @@
       "text": "Queue cleared",
       "label": "empty state"
     }
-  ]
+  ],
+  "sharedFiles": ["tokens.css"]
 }

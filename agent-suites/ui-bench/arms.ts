@@ -3,7 +3,7 @@ import { existsSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 import { join, resolve } from 'node:path'
 import { EXPECTED_SKILLS } from '../../src/expected-skills'
-import { TASKS_DIR, type BenchTask } from './tasks'
+import { FIXTURE_ROOT, TASKS_DIR, type BenchTask } from './tasks'
 
 /**
  * An arm is one condition a task runs under; only the prompt suffix and skill files differ.
@@ -60,6 +60,7 @@ export const ONE_LINER =
 /** Identical for every arm, so tool awareness never differs between arms. */
 export const BASE_PROMPT =
   'This is an isolated benchmark fixture. Use only files inside the current workspace. ' +
+  'Run commands from the workspace root and name files by workspace-relative paths, without `..`. ' +
   'The `render_page` tool renders a workspace HTML page at 320/390/768/1440px (light and dark) ' +
   'and returns layout and accessibility findings with screenshots.\n\n'
 
@@ -98,6 +99,11 @@ export async function prepareArm(workspacePath: string, task: BenchTask, arm: Ar
     await rm(join(workspacePath, slug), { recursive: true, force: true })
 
   await removeOtherFixtures(workspacePath, task)
+  for (const file of task.sharedFiles ?? [])
+    await cp(
+      join(workspacePath, FIXTURE_ROOT, 'shared', file),
+      join(workspacePath, TASKS_DIR, task.id, file),
+    )
 
   execFileSync('git', ['init', '-q'], { cwd: workspacePath })
   execFileSync('git', ['add', '.'], { cwd: workspacePath })

@@ -6,7 +6,7 @@
   "prompt": "Build the lab overview described in `agent-suites/fixtures/ui-bench/tasks/open-lab-overview/brief.md`, using the content in `content.json` in the same folder.",
   "editable": ["index.html", "styles.css", "*.js"],
   "invariants": {
-    "unchangedFiles": ["../../shared/tokens.css", "brief.md", "content.json"],
+    "unchangedFiles": ["tokens.css", "brief.md", "content.json"],
     "requiredText": [
       "Okafor Lab",
       "Papers read",
@@ -23,5 +23,6 @@
       "text": "No reading activity this week yet",
       "label": "empty state"
     }
-  ]
+  ],
+  "sharedFiles": ["tokens.css"]
 }

@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 // The grader uses the same render core as the agents' render_page tool.
 import { renderPage } from './render-core.mjs'
-import { taskDir, type BenchTask } from './tasks'
+import { FIXTURE_ROOT, taskDir, type BenchTask } from './tasks'
 
 export interface Defect {
   check: string
@@ -41,7 +41,11 @@ export async function runHardChecks(
   const defects: Defect[] = [...rendered.findings]
 
   for (const file of task.invariants.unchangedFiles) {
-    const original = await readFile(resolve(sourceRoot, taskDir(task), file), 'utf8')
+    // Shared files copied next to the page are checked against their shared original.
+    const source = task.sharedFiles?.includes(file)
+      ? resolve(sourceRoot, FIXTURE_ROOT, 'shared', file)
+      : resolve(sourceRoot, taskDir(task), file)
+    const original = await readFile(source, 'utf8')
     const current = await readFile(join(dir, file), 'utf8').catch(() => null)
     if (current !== original)
       defects.push({ check: 'invariant-file', view: 'source', detail: `${file} was changed` })
