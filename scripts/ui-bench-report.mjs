@@ -27,8 +27,20 @@ import {
 } from './lib/ui-bench-stats.mjs'
 
 const SKILLS = ['css-craft', 'interface-design']
-const ARMS = ['one-liner', 'skill']
-const CONTRASTS = [['skill', 'one-liner', 'primary']]
+const BASELINE = 'one-liner'
+/** Arms present for a skill: the baseline first, then our skill, then any source skills. */
+const armsOf = (runs) =>
+  [...new Set(runs.map((run) => run.arm))].sort((a, b) =>
+    a === BASELINE
+      ? -1
+      : b === BASELINE
+        ? 1
+        : a === 'skill'
+          ? -1
+          : b === 'skill'
+            ? 1
+            : a.localeCompare(b),
+  )
 const RENDER_USAGE_FLOOR = 0.1
 
 const mean = (values) => {
@@ -52,12 +64,13 @@ export async function computeReport(id) {
   const repeats = Math.max(0, ...runs.map((run) => run.repeat + 1))
   const looks = new Set(bench.executions.map((execution) => execution.batch)).size
 
-  const skills = SKILLS.map((skill) => {
+  const skills = SKILLS.filter((skill) => runs.some((run) => run.skill === skill)).map((skill) => {
     const skillRuns = runs.filter((run) => run.skill === skill)
+    const armNames = armsOf(skillRuns)
     const taskIds = new Set(skillRuns.map((run) => run.task))
     const skillResolved = resolved.filter((pair) => taskIds.has(pair.task))
     const arms = Object.fromEntries(
-      ARMS.map((arm) => {
+      armNames.map((arm) => {
         const armRuns = skillRuns.filter((run) => run.arm === arm)
         return [
           arm,
@@ -82,29 +95,43 @@ export async function computeReport(id) {
         ]
       }),
     )
-    const contrasts = CONTRASTS.map(([focus, other, role]) => {
-      const rows = contrastOutcomes(skillResolved, focus, other)
-      return { focus, other, role, ...winRate(rows), ...clusterBootstrap(rows) }
-    })
-    const primary = contrasts[0]
     const yours = (grades?.ratings ?? []).filter((rating) => tasks[rating.task]?.skill === skill)
-    const you = winRate(
-      yours.map((rating) => ({
-        outcome:
-          rating.winner === 'tie' ? 'tie' : armOf(rating.winner) === 'skill' ? 'win' : 'loss',
-      })),
-    )
+    // Every other arm against the one-liner; the first (our skill when present) is primary.
+    const contrasts = armNames
+      .filter((arm) => arm !== BASELINE)
+      .map((focus, index) => {
+        const rows = contrastOutcomes(skillResolved, focus, BASELINE)
+        const graded = yours.filter((rating) =>
+          rating.pairId.split(' vs ').some((runId) => armOf(runId) === focus),
+        )
+        const you = winRate(
+          graded.map((rating) => ({
+            outcome:
+              rating.winner === 'tie' ? 'tie' : armOf(rating.winner) === focus ? 'win' : 'loss',
+          })),
+        )
+        return {
+          focus,
+          other: BASELINE,
+          role: index === 0 ? 'primary' : 'secondary',
+          ...winRate(rows),
+          ...clusterBootstrap(rows),
+          you,
+        }
+      })
+    const primary = contrasts[0]
     const raw = verdict(
       { rate: primary.rate, lower: primary.lower, upper: primary.upper, repeats },
-      { focus: arms.skill.defectsPerRun ?? 0, other: arms['one-liner'].defectsPerRun ?? 0 },
+      { focus: arms[primary.focus].defectsPerRun ?? 0, other: arms[BASELINE].defectsPerRun ?? 0 },
     )
-    const renderExercised = ARMS.some((arm) => (arms[arm].renderUsage ?? 0) >= RENDER_USAGE_FLOOR)
+    const renderExercised = armNames.some(
+      (arm) => (arms[arm].renderUsage ?? 0) >= RENDER_USAGE_FLOOR,
+    )
     return {
       skill,
       tasks: [...taskIds].sort(),
       arms,
       contrasts,
-      you,
       verdict: health.healthy ? raw : 'withheld',
       verdictIfHealthy: raw,
       renderExercised,
@@ -214,15 +241,23 @@ export function renderHtml(report) {
             `<tr><td>${c.focus} vs ${c.other}${c.role === 'primary' ? ' <span class="tag">primary</span>' : ''}</td><td>${pct(c.rate)}</td><td>${c.lower === null ? '—' : `${pct(c.lower)} – ${pct(c.upper)}`}</td><td>${c.wins}/${c.losses}/${c.ties}</td></tr>`,
         )
         .join('')
-      const youRow = `<tr><td>skill vs one-liner <span class="tag">your grades</span></td><td>${pct(skill.you.rate)}</td><td>—</td><td>${skill.you.wins}/${skill.you.losses}/${skill.you.ties}</td></tr>`
-      const armRows = ARMS.map((arm) => {
-        const a = skill.arms[arm]
-        return `<tr><td>${arm}</td><td>${a.runs}</td><td>${a.shipScore === null ? '—' : `${a.shipScore.toFixed(1)}/5`}</td><td>${a.defectsPerRun === null ? '—' : a.defectsPerRun.toFixed(1)}</td><td>${a.medianTokens ? `${Math.round(a.medianTokens / 1000)}k` : '—'}</td><td>${a.medianDurationMs ? `${Math.round(a.medianDurationMs / 1000)}s` : '—'}</td><td>${pct(a.renderUsage)}</td><td>${pct(a.renderDrivenFix)}</td></tr>`
-      }).join('')
+      const youRows = skill.contrasts
+        .filter((c) => c.you.wins + c.you.losses + c.you.ties > 0)
+        .map(
+          (c) =>
+            `<tr><td>${c.focus} vs ${c.other} <span class="tag">your grades</span></td><td>${pct(c.you.rate)}</td><td>—</td><td>${c.you.wins}/${c.you.losses}/${c.you.ties}</td></tr>`,
+        )
+        .join('')
+      const armRows = Object.keys(skill.arms)
+        .map((arm) => {
+          const a = skill.arms[arm]
+          return `<tr><td>${arm}</td><td>${a.runs}</td><td>${a.shipScore === null ? '—' : `${a.shipScore.toFixed(1)}/5`}</td><td>${a.defectsPerRun === null ? '—' : a.defectsPerRun.toFixed(1)}</td><td>${a.medianTokens ? `${Math.round(a.medianTokens / 1000)}k` : '—'}</td><td>${a.medianDurationMs ? `${Math.round(a.medianDurationMs / 1000)}s` : '—'}</td><td>${pct(a.renderUsage)}</td><td>${pct(a.renderDrivenFix)}</td></tr>`
+        })
+        .join('')
       return `<section class="card">
   <header><h2>${skill.skill}</h2><span class="verdict v-${skill.verdict}">${VERDICT_TEXT[skill.verdict]}</span></header>
   ${skill.renderExercised ? '' : '<p class="warn">Render tool barely used in any arm: the skill\'s rendered-verification guidance was not exercised.</p>'}
-  <table><thead><tr><th>Contrast</th><th>Win rate</th><th>95% interval</th><th>W/L/T</th></tr></thead><tbody>${contrastRows}${youRow}</tbody></table>
+  <table><thead><tr><th>Contrast</th><th>Win rate</th><th>95% interval</th><th>W/L/T</th></tr></thead><tbody>${contrastRows}${youRows}</tbody></table>
   <table><thead><tr><th>Arm</th><th>Runs</th><th>Ship score</th><th>Defects/run</th><th>Tokens</th><th>Time</th><th>Rendered</th><th>Render-driven fix</th></tr></thead><tbody>${armRows}</tbody></table>
 </section>`
     })
@@ -282,10 +317,11 @@ export function summarize(report) {
     `Bench ${report.bench}: ${report.runs} runs, ${report.repeats} repeats, judge ${report.health.healthy ? 'healthy' : 'UNHEALTHY'}`,
   ]
   for (const skill of report.skills) {
-    const p = skill.contrasts[0]
-    lines.push(
-      `  ${skill.skill}: ${VERDICT_TEXT[skill.verdict]} — vs one-liner ${pct(p.rate)} [${pct(p.lower)}–${pct(p.upper)}] (${p.wins}W/${p.losses}L/${p.ties}T)`,
-    )
+    lines.push(`  ${skill.skill}: ${VERDICT_TEXT[skill.verdict]}`)
+    for (const c of skill.contrasts)
+      lines.push(
+        `    ${c.focus} vs one-liner: ${pct(c.rate)} [${pct(c.lower)}–${pct(c.upper)}] (${c.wins}W/${c.losses}L/${c.ties}T) · ship ${skill.arms[c.focus].shipScore?.toFixed(1) ?? '—'} vs ${skill.arms[BASELINE].shipScore?.toFixed(1) ?? '—'}`,
+      )
   }
   return lines.join('\n')
 }

@@ -2,6 +2,7 @@
 // UI benchmark driver.
 //   node scripts/ui-bench.mjs --preflight      2 tasks × 2 arms × 1 run; checks the render tool is usable
 //   node scripts/ui-bench.mjs --quick          the tasks the skills lost, 2 repeats, judged once (~10 min)
+//   node scripts/ui-bench.mjs --compare a,b    source skills a, b vs the one-liner on interface tasks, 2 repeats
 //   node scripts/ui-bench.mjs [--bench <id>]   batches of 2 repeats → judge → report, until decided or capped
 import { spawnSync } from 'node:child_process'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
@@ -9,6 +10,7 @@ import { join, resolve } from 'node:path'
 import {
   benchDir,
   collectRuns,
+  loadTasks,
   EXECUTIONS_ROOT,
   loadBench,
   MAX_REPEATS,
@@ -33,8 +35,8 @@ const QUICK_TASKS = [
 const grepFor = (tasks) => `(${tasks.join('|')}) . `
 const stamp = () => new Date().toISOString().replace(/[:.]/g, '-')
 
-/** Run the bench suite once; returns the new execution id. */
-function runSuite(grep, repeatEach) {
+/** Run the bench suite once; returns the new execution id. `arms` overrides UI_BENCH_ARMS. */
+function runSuite(grep, repeatEach, arms) {
   const startedAt = Date.now()
   const result = spawnSync(
     'node',
@@ -47,7 +49,10 @@ function runSuite(grep, repeatEach) {
       '--repeat-each',
       String(repeatEach),
     ],
-    { stdio: 'inherit' },
+    {
+      stdio: 'inherit',
+      env: arms ? { ...process.env, UI_BENCH_ARMS: arms.join(',') } : process.env,
+    },
   )
   const execution = readdirSync(EXECUTIONS_ROOT)
     .map((id) => ({ id, path: join(EXECUTIONS_ROOT, id, 'execution.json') }))
@@ -101,6 +106,23 @@ async function quick() {
   console.log(`Report: ${join(benchDir(id), 'report.html')}`)
 }
 
+/** Head-to-head: named source skills vs the one-liner on every interface-design task. */
+async function compare(skills) {
+  const id = `compare-${stamp()}`
+  const tasks = Object.values(loadTasks())
+    .filter((task) => task.skill === 'interface-design')
+    .map((task) => task.id)
+  const arms = ['one-liner', ...skills]
+  const bench = { id, compare: arms, tasks, executions: [] }
+  bench.executions.push({ id: runSuite(grepFor(tasks), REPEATS_PER_BATCH, arms), batch: 0 })
+  await writeJson(join(benchDir(id), 'bench.json'), bench)
+  await judgeBench(id)
+  const report = await writeReport(id)
+  console.log(`\n${summarize(report)}`)
+  console.log(`Report: ${join(benchDir(id), 'report.html')}`)
+  console.log(`Grade it: npm run bench:ui:grade -- ${id}`)
+}
+
 async function full(existing) {
   const id = existing ?? `bench-${stamp()}`
   const benchPath = join(benchDir(id), 'bench.json')
@@ -126,6 +148,7 @@ async function full(existing) {
 const args = process.argv.slice(2)
 if (args.includes('--preflight')) await preflight()
 else if (args.includes('--quick')) await quick()
+else if (args.includes('--compare')) await compare(args[args.indexOf('--compare') + 1].split(','))
 else {
   const flag = args.indexOf('--bench')
   await full(flag >= 0 ? args[flag + 1] : undefined)

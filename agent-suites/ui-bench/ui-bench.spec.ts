@@ -1,6 +1,6 @@
 import { describe, expect } from '@post-print/agent-test'
 import { mkdir, writeFile } from 'node:fs/promises'
-import { ARMS, armPrompt, prepareArm } from './arms'
+import { armAppliesTo, armPrompt, armsFromEnv, prepareArm } from './arms'
 import { renderDegraded, runHardChecks } from './hard-checks'
 import { renderUsage, type ToolCall } from './render-usage'
 import { loadTasks } from './tasks'
@@ -9,8 +9,9 @@ import { loadTasks } from './tasks'
 // A test fails only when the run itself breaks or leaves no page to grade.
 const test = describe('ui-bench', ({ agent }) => ({ coder: agent() }))
 
+const arms = armsFromEnv()
 for (const task of loadTasks())
-  for (const arm of ARMS)
+  for (const arm of arms.filter((candidate) => armAppliesTo(task, candidate)))
     test(
       `${task.id} · ${arm}`,
       {

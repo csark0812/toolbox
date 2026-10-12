@@ -1,15 +1,49 @@
 import { cp, readdir, rm } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import { EXPECTED_SKILLS } from '../../src/expected-skills'
 import { TASKS_DIR, type BenchTask } from './tasks'
 
 /**
- * The two conditions every task runs under. Only the prompt suffix and skill files differ.
- * A no-instruction arm was dropped: the one-liner already beat it, and skill vs one-liner is the question.
+ * An arm is one condition a task runs under; only the prompt suffix and skill files differ.
+ * - `one-liner`: the baseline every skill must beat.
+ * - `skill`: the Toolbox skill for the task (css-craft or interface-design).
+ * - a source skill name: an original skill from the local archive, for head-to-head comparison.
+ * Select arms with UI_BENCH_ARMS (comma-separated); the default is one-liner and skill.
  */
-export const ARMS = ['one-liner', 'skill'] as const
-export type Arm = (typeof ARMS)[number]
+export type Arm = string
+export const DEFAULT_ARMS: Arm[] = ['one-liner', 'skill']
+
+/** Original skills from the local, git-ignored archive. They run only on interface-design tasks. */
+export const SOURCE_SKILLS: Record<string, string> = {
+  'web-designer': 'references/original-skills/web-designer-local/web-designer',
+  'app-designer': 'references/original-skills/app-designer-local/app-designer',
+}
+
+export function armsFromEnv(env = process.env.UI_BENCH_ARMS): Arm[] {
+  const arms = env
+    ? env
+        .split(',')
+        .map((arm) => arm.trim())
+        .filter(Boolean)
+    : DEFAULT_ARMS
+  for (const arm of arms)
+    if (!['one-liner', 'skill'].includes(arm) && !SOURCE_SKILLS[arm])
+      throw new Error(`Unknown UI bench arm ${arm}`)
+  return arms
+}
+
+export function armAppliesTo(task: BenchTask, arm: Arm) {
+  return !SOURCE_SKILLS[arm] || task.skill === 'interface-design'
+}
+
+/** Skill folder name and source directory installed for an arm, if any. */
+function armSkill(task: BenchTask, arm: Arm): { name: string; source: string } | null {
+  if (arm === 'skill') return { name: task.skill, source: task.skill }
+  if (SOURCE_SKILLS[arm]) return { name: arm, source: SOURCE_SKILLS[arm] }
+  return null
+}
 
 const SKILL_MIRRORS = ['.claude/skills', '.agents/skills']
 
@@ -23,31 +57,36 @@ export const BASE_PROMPT =
   'and returns layout and accessibility findings with screenshots.\n\n'
 
 export function armPrompt(task: BenchTask, arm: Arm): string {
-  const suffix =
-    arm === 'one-liner'
-      ? ONE_LINER
-      : `Use the ${task.skill} skill (\`.claude/skills/${task.skill}/SKILL.md\`).`
+  const installed = armSkill(task, arm)
+  const suffix = installed
+    ? `Use the ${installed.name} skill (\`.claude/skills/${installed.name}/SKILL.md\`).`
+    : ONE_LINER
   return `${BASE_PROMPT}${task.prompt}\n\n${suffix}`
 }
 
 /**
  * Shape the agent workspace for one arm:
- * - only the target skill exists, and only in the skill arm;
+ * - only the arm's skill exists (none for the one-liner);
  * - only the current task's fixture remains, without its grader-facing task.json;
  * The render_page MCP tool is attached to every arm by ui-bench.config.ts.
  */
 export async function prepareArm(workspacePath: string, task: BenchTask, arm: Arm) {
-  for (const slug of EXPECTED_SKILLS)
-    if (!(arm === 'skill' && slug === task.skill))
-      await rm(join(workspacePath, slug), { recursive: true, force: true })
+  const installed = armSkill(task, arm)
+  // Toolbox skills come from the prepared workspace; source skills from the caller's local archive.
+  const source = installed
+    ? arm === 'skill'
+      ? join(workspacePath, installed.source)
+      : resolve(installed.source)
+    : null
+  if (source && !existsSync(source))
+    throw new Error(`${source} is missing; source skills live in the local, git-ignored archive.`)
   for (const mirror of SKILL_MIRRORS) {
     await rm(join(workspacePath, mirror), { recursive: true, force: true })
-    if (arm === 'skill')
-      await cp(join(workspacePath, task.skill), join(workspacePath, mirror, task.skill), {
-        recursive: true,
-      })
+    if (installed && source)
+      await cp(source, join(workspacePath, mirror, installed.name), { recursive: true })
   }
-  if (arm === 'skill') await rm(join(workspacePath, task.skill), { recursive: true, force: true })
+  for (const slug of EXPECTED_SKILLS)
+    await rm(join(workspacePath, slug), { recursive: true, force: true })
 
   await removeOtherFixtures(workspacePath, task)
 

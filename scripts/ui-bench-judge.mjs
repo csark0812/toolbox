@@ -41,15 +41,14 @@ Call "tie" only when the two are interchangeable at a glance. Never decide on sm
 one colour, wording, or a few pixels. Use half-points in the scores when it helps (for example 3.5).
 Ignore which version you saw first.`
 
-/** Pairs to judge: every skill run against every one-liner run of the same task. */
+/** Pairs to judge: every run of every other arm against every one-liner run of the same task. */
 export function plannedPairs(runs) {
   const byTask = Map.groupBy(runs, (run) => run.task)
   const pairs = []
   for (const [task, taskRuns] of byTask) {
-    const arm = (name) => taskRuns.filter((run) => run.arm === name)
-    for (const skill of arm('skill'))
-      for (const oneLiner of arm('one-liner'))
-        pairs.push({ task, a: skill.runId, b: oneLiner.runId })
+    const baseline = taskRuns.filter((run) => run.arm === 'one-liner')
+    for (const challenger of taskRuns.filter((run) => run.arm !== 'one-liner'))
+      for (const oneLiner of baseline) pairs.push({ task, a: challenger.runId, b: oneLiner.runId })
   }
   return pairs.map((pair) => ({ ...pair, pairId: [pair.a, pair.b].sort().join(' vs ') }))
 }

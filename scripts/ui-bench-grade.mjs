@@ -21,7 +21,7 @@ import { plannedPairs } from './ui-bench-judge.mjs'
 const PORT = 8766
 const VIEWS = ['390', '1440', '320', '768', '390-dark', '1440-dark']
 
-const id = process.argv[2] ?? (await latestBenchId(['bench-', 'quick-']))
+const id = process.argv[2] ?? (await latestBenchId(['bench-', 'quick-', 'compare-']))
 const bench = await loadBench(id)
 const runs = new Map(collectRuns(bench).map((run) => [run.runId, run]))
 const tasks = loadTasks()
