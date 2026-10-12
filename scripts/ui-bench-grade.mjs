@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Grade skill vs one-liner pairs yourself, blind. After each pick the page reveals which side
 // was the skill and what the judge decided. Ratings feed the report's "You" row and judge agreement.
-// Usage: node scripts/ui-bench-grade.mjs [bench-id] [--all]  → http://127.0.0.1:8766
+// Usage: node scripts/ui-bench-grade.mjs [bench-id] [--all] [--arm critic]  → http://127.0.0.1:8766
 // By default you grade only key pairs: each challenger against the one-liner, same repeat, once.
 // --all shows every judged cross-pair.
 import { createReadStream, existsSync } from 'node:fs'
@@ -25,8 +25,10 @@ const VIEWS = ['390', '1440', '320', '768', '390-dark', '1440-dark']
 
 const args = process.argv.slice(2)
 const showAll = args.includes('--all')
+// --arm limits grading to one challenger against the one-liner.
+const onlyArm = args.includes('--arm') ? args[args.indexOf('--arm') + 1] : null
 const id =
-  args.find((arg) => !arg.startsWith('--')) ??
+  args.find((arg, index) => !arg.startsWith('--') && args[index - 1] !== '--arm') ??
   (await latestBenchId(['bench-', 'quick-', 'compare-']))
 const bench = await loadBench(id)
 const runs = new Map(collectRuns(bench).map((run) => [run.runId, run]))
@@ -47,6 +49,7 @@ const isKeyPair = (pair) => {
 }
 const items = plannedPairs([...runs.values()])
   .filter((pair) => showAll || isKeyPair(pair))
+  .filter((pair) => !onlyArm || [pair.a, pair.b].some((runId) => runs.get(runId).arm === onlyArm))
   .map((pair) => ({ pair, key: random(), flip: random() < 0.5 }))
   .sort((x, y) => x.key - y.key)
   .map(({ pair, flip }, index) => ({
