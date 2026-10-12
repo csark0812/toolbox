@@ -29,7 +29,7 @@ import {
   winRate,
 } from './lib/ui-bench-stats.mjs'
 
-const KINDS = ['css-fix', 'page-build']
+const KINDS = ['css-fix', 'page-build', 'app-screen']
 const ONE_LINER_ARM = 'one-liner'
 /** Arms present in a group: the baseline first, then `none`, then challengers alphabetically. */
 const armsOf = (runs, BASELINE) =>
