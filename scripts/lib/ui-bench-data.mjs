@@ -35,14 +35,18 @@ export async function loadBench(id) {
   return bench
 }
 
-export async function latestBenchId() {
+/** Newest bench whose id starts with one of `prefixes`, by the timestamp in the id. */
+export async function latestBenchId(prefixes = ['bench-']) {
   const ids = existsSync(BENCH_ROOT)
     ? readdirSync(BENCH_ROOT).filter(
-        (name) => name.startsWith('bench-') && existsSync(join(BENCH_ROOT, name, 'bench.json')),
+        (name) =>
+          prefixes.some((prefix) => name.startsWith(prefix)) &&
+          existsSync(join(BENCH_ROOT, name, 'bench.json')),
       )
     : []
   if (!ids.length) throw new Error('No bench yet. Run `npm run bench:ui` first.')
-  return ids.sort().at(-1)
+  const stampOf = (name) => name.slice(name.indexOf('-') + 1)
+  return ids.sort((a, b) => stampOf(a).localeCompare(stampOf(b))).at(-1)
 }
 
 export function loadTasks() {
@@ -59,7 +63,7 @@ export function loadTasks() {
 }
 
 /**
- * Graded runs across all batches of a bench. A run id is `${task}|${arm}|${repeat}`, where
+ * Graded runs of current tasks across all batches of a bench. A run id is `${task}|${arm}|${repeat}`, where
  * repeat counts across batches (batch b, repeat-each index r → b * REPEATS_PER_BATCH + r).
  */
 export function collectRuns(bench) {
@@ -72,6 +76,8 @@ export function collectRuns(bench) {
       if (!existsSync(path)) continue
       const evidence = JSON.parse(readFileSync(path, 'utf8'))
       if (evidence.outcome !== 'graded') continue
+      // Retired tasks (fixture removed) drop out of judging, grading and reports.
+      if (!existsSync(join(TASKS_ROOT, evidence.task))) continue
       const repeat = batch * REPEATS_PER_BATCH + evidence.repetition
       runs.push({ runId: `${evidence.task}|${evidence.arm}|${repeat}`, repeat, ...evidence })
     }

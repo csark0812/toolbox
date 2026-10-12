@@ -50,7 +50,7 @@
     "bench:ui:preflight": "node scripts/ui-bench.mjs --preflight",
     "bench:ui:quick": "node scripts/ui-bench.mjs --quick",
     "bench:ui:judge": "node scripts/ui-bench-judge.mjs",
-    "bench:ui:calibrate": "node scripts/ui-bench-calibrate.mjs",
+    "bench:ui:grade": "node scripts/ui-bench-grade.mjs",
     "bench:ui:report": "node scripts/ui-bench-report.mjs",
     "test:ui-bench": "TOOLBOX_BROWSER_TESTS=1 vitest run tests/ui-bench-hard-checks.test.js"
   },

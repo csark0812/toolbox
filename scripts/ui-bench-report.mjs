@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// UI benchmark report: verdicts, intervals, defects, cost, render usage, judge health, calibration.
+// UI benchmark report: verdicts, intervals, defects, cost, render usage, judge health, your grades.
 // Usage: node scripts/ui-bench-report.mjs [bench-id]  → .agent-test/ui-bench/<id>/report.{json,html}
 import { writeFile } from 'node:fs/promises'
 import { join, relative } from 'node:path'
@@ -8,10 +8,12 @@ import {
   collectRuns,
   latestBenchId,
   loadBench,
+  loadTasks,
   readJson,
   writeJson,
 } from './lib/ui-bench-data.mjs'
 import {
+  armOf,
   BAR,
   clusterBootstrap,
   contrastOutcomes,
@@ -36,7 +38,8 @@ export async function computeReport(id) {
   const bench = await loadBench(id)
   const runs = collectRuns(bench)
   const judgments = await readJson(join(benchDir(id), 'judgments.json'), [])
-  const calibration = await readJson(join(benchDir(id), 'calibration.json'), null)
+  const grades = await readJson(join(benchDir(id), 'grades.json'), null)
+  const tasks = loadTasks()
   const health = judgeHealth(judgments)
   const resolved = resolveOrders(judgments)
   const repeats = Math.max(0, ...runs.map((run) => run.repeat + 1))
@@ -76,6 +79,13 @@ export async function computeReport(id) {
       return { focus, other, role, ...winRate(rows), ...clusterBootstrap(rows) }
     })
     const primary = contrasts[0]
+    const yours = (grades?.ratings ?? []).filter((rating) => tasks[rating.task]?.skill === skill)
+    const you = winRate(
+      yours.map((rating) => ({
+        outcome:
+          rating.winner === 'tie' ? 'tie' : armOf(rating.winner) === 'skill' ? 'win' : 'loss',
+      })),
+    )
     const raw = verdict(
       { rate: primary.rate, lower: primary.lower, upper: primary.upper, repeats },
       { focus: arms.skill.defectsPerRun ?? 0, other: arms['one-liner'].defectsPerRun ?? 0 },
@@ -86,6 +96,7 @@ export async function computeReport(id) {
       tasks: [...taskIds].sort(),
       arms,
       contrasts,
+      you,
       verdict: health.healthy ? raw : 'withheld',
       verdictIfHealthy: raw,
       renderExercised,
@@ -101,18 +112,18 @@ export async function computeReport(id) {
     bar: BAR,
     minRepeats: MIN_REPEATS,
     health,
-    calibration: calibrationAgreement(calibration, resolved),
+    calibration: calibrationAgreement(grades, resolved),
     skills,
     decided: skills.every((skill) => ['better', 'not-better'].includes(skill.verdict)),
     gallery: gallery(runs, id),
   }
 }
 
-/** Share of user-decisive calibration pairs where the order-consistent judge picked the same run. */
-export function calibrationAgreement(calibration, resolved) {
-  if (!calibration?.ratings?.length) return { done: false }
+/** Share of your decisive grades where the order-consistent judge picked the same run. */
+export function calibrationAgreement(grades, resolved) {
+  if (!grades?.ratings?.length) return { done: false }
   const byPair = new Map(resolved.map((pair) => [pair.pairId, pair]))
-  const decisive = calibration.ratings.filter(
+  const decisive = grades.ratings.filter(
     (rating) => rating.winner !== 'tie' && byPair.has(rating.pairId),
   )
   const agree = decisive.filter(
@@ -120,7 +131,7 @@ export function calibrationAgreement(calibration, resolved) {
   ).length
   return {
     done: true,
-    rated: calibration.ratings.length,
+    rated: grades.ratings.length,
     decisive: decisive.length,
     agreement: decisive.length ? agree / decisive.length : null,
     ok: decisive.length > 0 && agree / decisive.length >= 0.7,
@@ -174,6 +185,7 @@ export function renderHtml(report) {
             `<tr><td>${c.focus} vs ${c.other}${c.role === 'primary' ? ' <span class="tag">primary</span>' : ''}</td><td>${pct(c.rate)}</td><td>${c.lower === null ? '—' : `${pct(c.lower)} – ${pct(c.upper)}`}</td><td>${c.wins}/${c.losses}/${c.ties}</td></tr>`,
         )
         .join('')
+      const youRow = `<tr><td>skill vs one-liner <span class="tag">your grades</span></td><td>${pct(skill.you.rate)}</td><td>—</td><td>${skill.you.wins}/${skill.you.losses}/${skill.you.ties}</td></tr>`
       const armRows = ARMS.map((arm) => {
         const a = skill.arms[arm]
         return `<tr><td>${arm}</td><td>${a.runs}</td><td>${a.defectsPerRun === null ? '—' : a.defectsPerRun.toFixed(1)}</td><td>${a.medianTokens ? `${Math.round(a.medianTokens / 1000)}k` : '—'}</td><td>${a.medianDurationMs ? `${Math.round(a.medianDurationMs / 1000)}s` : '—'}</td><td>${pct(a.renderUsage)}</td><td>${pct(a.renderDrivenFix)}</td></tr>`
@@ -181,7 +193,7 @@ export function renderHtml(report) {
       return `<section class="card">
   <header><h2>${skill.skill}</h2><span class="verdict v-${skill.verdict}">${VERDICT_TEXT[skill.verdict]}</span></header>
   ${skill.renderExercised ? '' : '<p class="warn">Render tool barely used in any arm: the skill\'s rendered-verification guidance was not exercised.</p>'}
-  <table><thead><tr><th>Contrast</th><th>Win rate</th><th>95% interval</th><th>W/L/T</th></tr></thead><tbody>${contrastRows}</tbody></table>
+  <table><thead><tr><th>Contrast</th><th>Win rate</th><th>95% interval</th><th>W/L/T</th></tr></thead><tbody>${contrastRows}${youRow}</tbody></table>
   <table><thead><tr><th>Arm</th><th>Runs</th><th>Defects/run</th><th>Tokens</th><th>Time</th><th>Rendered</th><th>Render-driven fix</th></tr></thead><tbody>${armRows}</tbody></table>
 </section>`
     })
@@ -194,8 +206,8 @@ export function renderHtml(report) {
     .join('')
   const cal = report.calibration
   const calText = cal.done
-    ? `${cal.rated} pairs rated, ${cal.decisive} decisive, judge agreement ${pct(cal.agreement)} ${cal.ok ? '(ok)' : '(below 70%: revise judge before trusting verdicts)'}`
-    : 'Not done yet. Run <code>npm run bench:ui:calibrate</code>.'
+    ? `${cal.rated} pairs graded, ${cal.decisive} decisive, judge agrees with you on ${pct(cal.agreement)} ${cal.ok ? '(ok)' : '(below 70%: revise the judge before trusting its verdicts)'}`
+    : 'No grades yet. Run <code>npm run bench:ui:grade</code>.'
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>UI Bench Report</title>
@@ -218,7 +230,7 @@ figcaption{font-size:12px;color:var(--muted)}select{font:inherit}
 ${skillCards}
 <section class="card"><header><h2>Judge health</h2><span class="verdict ${report.health.healthy ? 'v-better' : 'v-not-better'}">${report.health.healthy ? 'Healthy' : 'Failing'}</span></header>
 <table><thead><tr><th>Check</th><th>Value</th><th>Expected</th><th></th></tr></thead><tbody>${healthRows}</tbody></table>
-<p>Calibration: ${calText}</p></section>
+<p>Your grades: ${calText}</p></section>
 <section class="card"><header><h2>Screenshots</h2><label>View <select id="view"><option>390</option><option>1440</option><option>390-dark</option><option>1440-dark</option></select></label></header>
 <div id="gal"></div></section>
 <script>

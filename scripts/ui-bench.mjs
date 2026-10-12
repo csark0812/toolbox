@@ -120,7 +120,7 @@ async function full(existing) {
     }
   }
   console.log(`\nReport: ${join(benchDir(id), 'report.html')}`)
-  console.log('Next: npm run bench:ui:calibrate (once), then npm run bench:ui:report.')
+  console.log('Next: npm run bench:ui:grade to grade pairs yourself, then npm run bench:ui:report.')
 }
 
 const args = process.argv.slice(2)
