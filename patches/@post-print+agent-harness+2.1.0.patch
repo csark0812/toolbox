@@ -1,0 +1,66 @@
+diff --git a/node_modules/@post-print/agent-harness/dist/sealed-workspace.js b/node_modules/@post-print/agent-harness/dist/sealed-workspace.js
+index f19f062..1bde0ec 100644
+--- a/node_modules/@post-print/agent-harness/dist/sealed-workspace.js
++++ b/node_modules/@post-print/agent-harness/dist/sealed-workspace.js
+@@ -189,7 +189,11 @@ function isShellPathToken(token) {
+     const topLevel = `/${value.split("/")[1] ?? ""}`;
+     return topLevel !== "/" && existsSync(topLevel);
+ }
+-/** Paths named in a shell command, following `cd` so relative paths resolve correctly. */
++/**
++ * Paths named in a shell command, following `cd` so relative paths resolve correctly.
++ * Returns the directory the shell ends in: agent shells keep their working directory between
++ * commands, so the next command starts there.
++ */
+ function shellCommandPaths(command, cwd) {
+     const paths = [];
+     let current = cwd;
+@@ -199,20 +203,23 @@ function shellCommandPaths(command, cwd) {
+         if (tokens[0] === "cd" && tokens[1])
+             current = namedPath(tokens[1], current).absolute;
+     }
+-    return paths;
++    return { paths, cwd: current };
+ }
+-function toolCallPaths(args, root) {
++function toolCallPaths(args, root, shellCwd = root) {
+     if (!args)
+-        return [];
+-    const cwd = typeof args.cwd === "string" ? namedPath(args.cwd, root).absolute : root;
++        return { paths: [], shellCwd };
++    const cwd = typeof args.cwd === "string" ? namedPath(args.cwd, root).absolute : shellCwd;
+     const paths = PATH_ARG_KEYS.map((key) => args[key])
+         .filter((value) => typeof value === "string")
+         .map((value) => namedPath(value, root));
+     if (typeof args.pattern === "string" && isAbsolute(args.pattern))
+         paths.push(namedPath(args.pattern, root));
+-    if (typeof args.command === "string")
+-        paths.push(...shellCommandPaths(args.command, cwd));
+-    return paths;
++    if (typeof args.command !== "string")
++        return { paths, shellCwd };
++    const shell = shellCommandPaths(args.command, cwd);
++    paths.push(...shell.paths);
++    // Only an explicit per-call cwd is scoped to that call; a `cd` persists in the shell.
++    return { paths, shellCwd: typeof args.cwd === "string" ? shellCwd : shell.cwd };
+ }
+ function escapesWorkspace(path, root) {
+     if (isCursorToolOutput(path.absolute.replaceAll("\\", "/")))
+@@ -226,10 +233,13 @@ function escapesWorkspace(path, root) {
+  */
+ export function toolPathsOutsideWorkspace(trace, workspaceRoot) {
+     const root = resolve(workspaceRoot);
+-    const escaped = trace.toolCalls
+-        .flatMap((call) => toolCallPaths(call.args, root))
+-        .filter((path) => escapesWorkspace(path, root))
+-        .map((path) => path.raw);
++    const escaped = [];
++    let shellCwd = root;
++    for (const call of trace.toolCalls) {
++        const named = toolCallPaths(call.args, root, shellCwd);
++        shellCwd = named.shellCwd;
++        escaped.push(...named.paths.filter((path) => escapesWorkspace(path, root)).map((path) => path.raw));
++    }
+     return [...new Set(escaped)];
+ }
+ /** Reject a trace whose tool calls named paths outside the sealed workspace. */
