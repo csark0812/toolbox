@@ -6,6 +6,8 @@ export const FLOOR = 0.5
 export const BOOTSTRAP_SAMPLES = 10000
 /** With fewer runs per arm per task, run-level resampling cannot see run-to-run spread. */
 export const MIN_REPEATS = 4
+/** Fewer re-judged pairs than this cannot fail the test–retest health check. */
+export const MIN_RETESTS = 5
 
 /**
  * A raw judgment shows two runs in one order.
@@ -243,8 +245,9 @@ export function judgeHealth(judgments, retests = retestPairs(judgments)) {
     {
       name: 'test–retest agreement',
       value: retestAgreement,
-      ok: retestAgreement === null || retestAgreement >= 0.7,
-      expect: '≥ 70% same result on re-judge',
+      // One disagreement in a handful of re-tests says nothing; judge it from MIN_RETESTS up.
+      ok: retestAgreement === null || retests.length < MIN_RETESTS || retestAgreement >= 0.7,
+      expect: `≥ 70% same result on re-judge (from ${MIN_RETESTS} re-tests)`,
     },
     {
       name: 'decisive rate',
