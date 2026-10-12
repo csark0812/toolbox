@@ -151,7 +151,7 @@ export async function computeReport(id) {
     calibration: calibrationAgreement(grades, resolved),
     skills,
     decided: skills.every((skill) => ['better', 'not-better'].includes(skill.verdict)),
-    gallery: gallery(runs, id),
+    gallery: gallery(runs, id, scores),
   }
 }
 
@@ -200,7 +200,7 @@ function countBy(values) {
   return counts
 }
 
-function gallery(runs, id) {
+function gallery(runs, id, scores) {
   const from = benchDir(id)
   return runs
     .map((run) => ({
@@ -210,6 +210,7 @@ function gallery(runs, id) {
       arm: run.arm,
       repeat: run.repeat,
       defects: run.defects.length,
+      ship: scores.get(run.runId) ?? null,
       shots: Object.fromEntries(
         Object.entries(run.screenshots).map(([view, path]) => [view, relative(from, path)]),
       ),
@@ -300,7 +301,7 @@ ${skillCards}
 <script>
 const G=${JSON.stringify(report.gallery)};
 const draw=()=>{const v=document.getElementById('view').value;const by={};for(const r of G)(by[r.task+' · repeat '+r.repeat]??=[]).push(r);
-document.getElementById('gal').innerHTML=Object.entries(by).map(([k,rs])=>'<h3>'+k+'</h3><div class="gal">'+rs.map(r=>'<figure>'+(r.shots[v]?'<a href="'+r.shots[v]+'" target="_blank"><img loading="lazy" src="'+r.shots[v]+'" alt="'+r.arm+'"></a>':'')+'<figcaption>'+r.arm+' · '+r.defects+' defects</figcaption></figure>').join('')+'</div>').join('')};
+document.getElementById('gal').innerHTML=Object.entries(by).map(([k,rs])=>'<h3>'+k+'</h3><div class="gal">'+rs.map(r=>'<figure>'+(r.shots[v]?'<a href="'+r.shots[v]+'" target="_blank"><img loading="lazy" src="'+r.shots[v]+'" alt="'+r.arm+'"></a>':'')+'<figcaption><strong>'+r.arm+'</strong> · ship '+(r.ship===null?'-':r.ship.toFixed(1))+' · '+r.defects+' defects</figcaption></figure>').join('')+'</div>').join('')};
 document.getElementById('view').onchange=draw;draw();
 </script></body></html>`
 }
