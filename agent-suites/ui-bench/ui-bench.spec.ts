@@ -1,6 +1,7 @@
 import { describe, expect } from '@post-print/agent-test'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { armAppliesTo, armPrompt, armsFromEnv, prepareArm } from './arms'
+import { critiqueAndRevise } from './critic'
 import { renderDegraded, runHardChecks } from './hard-checks'
 import { renderUsage, type ToolCall } from './render-usage'
 import { loadTasks } from './tasks'
@@ -24,10 +25,22 @@ for (const task of loadTasks())
           .run({ prompt: armPrompt(task, arm), includeGlobalSkills: false })
 
         const renderDir = info.outputPath('render')
-        const checks = await runHardChecks(run.workspace.root, task, renderDir)
+        const firstChecks = await runHardChecks(run.workspace.root, task, renderDir)
+        const critic =
+          arm === 'critic' && !firstChecks.pageMissing
+            ? await critiqueAndRevise({
+                run,
+                task,
+                checks: firstChecks,
+                outDir: info.outputPath('render-revised'),
+              })
+            : null
+        const keptRevision = critic?.kept === 'revised'
+        const checks = keptRevision ? critic.revisedChecks : firstChecks
+        const finalRun = critic ? critic.revised : run
         const degraded = checks.pageMissing
           ? {}
-          : await renderDegraded(run.workspace.root, task, info.outputPath('degraded'))
+          : await renderDegraded(finalRun.workspace.root, task, info.outputPath('degraded'))
         const evidence = {
           schemaVersion: 1,
           bench: 'ui-bench',
@@ -41,11 +54,22 @@ for (const task of loadTasks())
           degradedScreenshots: degraded,
           judgeShots: task.judgeShots,
           renderUsage: renderUsage(run.toolCalls as ToolCall[]),
-          changedPaths: run.workspace.changedPaths,
+          changedPaths: finalRun.workspace.changedPaths,
           output: run.output,
+          critic: critic
+            ? {
+                fixes: critic.fixes,
+                verdict: critic.verdict,
+                kept: critic.kept,
+                originalScreenshots: firstChecks.screenshots,
+                revisedScreenshots: critic.revisedChecks.screenshots,
+              }
+            : null,
+          // Builder cost only; the critic and keep-if-better judge are Opus calls on top.
           measurements: {
-            durationMs: run.durationMs,
-            tokens: run.usage.tokens.total ?? null,
+            durationMs: run.durationMs + (critic?.revised.durationMs ?? 0),
+            tokens:
+              (run.usage.tokens.total ?? 0) + (critic?.revised.usage.tokens.total ?? 0) || null,
           },
         }
         await mkdir(info.outputDir, { recursive: true })

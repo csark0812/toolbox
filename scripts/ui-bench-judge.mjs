@@ -16,7 +16,7 @@ import {
   readJson,
   writeJson,
 } from './lib/ui-bench-data.mjs'
-import { mulberry32 } from './lib/ui-bench-stats.mjs'
+import { mulberry32, resolveOrders } from './lib/ui-bench-stats.mjs'
 
 export const JUDGE_MODEL = 'claude-opus-5-5'
 const CONCURRENCY = 6
@@ -182,33 +182,98 @@ Version B: ${names.B.join(', ')}
 
 Reply with only this JSON:
 {"scoreA": 1-5, "scoreB": 1-5, "winner": "A" | "B" | "tie", "confidence": 1 | 2 | 3, "reasons": ["short reason", "..."]}`
-    const controller = new AbortController()
-    const session = await createAgentSession({
-      agent: claude({ model: JUDGE_MODEL, auth: { type: 'subscription' } }),
-      workspace: sealed.path,
-      signal: controller.signal,
-      readOnly: true,
-    })
-    try {
-      const trace = await session.run(prompt)
-      const text = trace.messages
-        .filter((message) => message.role === 'assistant')
-        .map((message) => message.content)
-        .join('\n')
-      const parsed = parseVerdict(text)
-      return {
-        winner: parsed.winner === 'A' ? 'first' : parsed.winner === 'B' ? 'second' : 'tie',
-        confidence: parsed.confidence,
-        scores: { first: parsed.scoreA ?? null, second: parsed.scoreB ?? null },
-        reasons: parsed.reasons,
-        shots,
-      }
-    } finally {
-      await session.close()
+    const parsed = parseVerdict(await askOpus(sealed.path, prompt))
+    return {
+      winner: parsed.winner === 'A' ? 'first' : parsed.winner === 'B' ? 'second' : 'tie',
+      confidence: parsed.confidence,
+      scores: { first: parsed.scoreA ?? null, second: parsed.scoreB ?? null },
+      reasons: parsed.reasons,
+      shots,
     }
   } finally {
     await sealed.cleanup()
   }
+}
+
+/** One read-only Opus session in a sealed workspace; returns the assistant's text. */
+async function askOpus(workspace, prompt) {
+  const controller = new AbortController()
+  const session = await createAgentSession({
+    agent: claude({ model: JUDGE_MODEL, auth: { type: 'subscription' } }),
+    workspace,
+    signal: controller.signal,
+    readOnly: true,
+  })
+  try {
+    const trace = await session.run(prompt)
+    return trace.messages
+      .filter((message) => message.role === 'assistant')
+      .map((message) => message.content)
+      .join('\n')
+  } finally {
+    await session.close()
+  }
+}
+
+export const CRITIC_PROMPT = `You are a product designer reviewing a rendered web page built for the task below.
+List the few changes that would most improve how it looks and works at a glance: hierarchy, compact but
+clearly separated spacing, alignment, action sizes, and phone layout. Each change must be concrete enough
+to implement directly (what, where, and the target value). Skip anything already fine. At most 5 changes.`
+
+/** A separate critic's concrete fixes for one rendered page. */
+export async function critiquePage({ task, screenshots, shots }) {
+  const sealed = await createEmptySealedWorkspace()
+  try {
+    const names = []
+    for (const shot of shots) {
+      const name = `page-${shot}.png`
+      await copyFile(screenshots[shot], join(sealed.path, name))
+      names.push(`${name} (${describeShot(shot)})`)
+    }
+    await writeFile(join(sealed.path, 'task.md'), task.brief)
+    const text = await askOpus(
+      sealed.path,
+      `${CRITIC_PROMPT}
+
+Read task.md, then open every screenshot with the Read tool: ${names.join(', ')}
+
+Reply with only this JSON: {"fixes": ["concrete change", "..."]}`,
+    )
+    const match = [...text.matchAll(/\{[\s\S]*"fixes"[\s\S]*\}/g)].at(-1)
+    if (!match) throw new Error(`no fixes JSON in critic reply: ${text.slice(0, 200)}`)
+    return JSON.parse(match[0]).fixes.slice(0, 5)
+  } finally {
+    await sealed.cleanup()
+  }
+}
+
+/**
+ * Keep-if-better: judge two versions of one page in both orders and settle by score gap.
+ * Returns 'a', 'b', or 'tie'.
+ */
+export async function compareVersions({ task, a, b, shots }) {
+  const judgments = []
+  for (const [first, second, pairFirst] of [
+    [a, b, 'a'],
+    [b, a, 'b'],
+  ]) {
+    const verdict = await judgePair({
+      task,
+      first,
+      second,
+      shots,
+      seed: Math.floor(Math.random() * 1e9),
+    })
+    judgments.push({
+      pairId: 'versions',
+      task: task.id,
+      first: pairFirst,
+      second: pairFirst === 'a' ? 'b' : 'a',
+      winner: verdict.winner,
+      scores: verdict.scores,
+    })
+  }
+  return resolveOrders(judgments)[0].winner
 }
 
 function describeShot(shot) {

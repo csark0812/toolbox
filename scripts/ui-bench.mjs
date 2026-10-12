@@ -2,7 +2,7 @@
 // UI benchmark driver.
 //   node scripts/ui-bench.mjs --preflight      2 tasks × 2 arms × 1 run; checks the render tool is usable
 //   node scripts/ui-bench.mjs --quick          the tasks the skills lost, 2 repeats, judged once (~10 min)
-//   node scripts/ui-bench.mjs --compare a,b [--tasks x,y] [--model claude-sonnet-5-5]
+//   node scripts/ui-bench.mjs --compare a,b [--tasks x,y] [--model claude-sonnet-5-5] [--repeats 4]
 //                                              arms a, b vs the one-liner (interface tasks by default), 2 repeats
 //   node scripts/ui-bench.mjs [--bench <id>]   batches of 2 repeats → judge → report, until decided or capped
 import { spawnSync } from 'node:child_process'
@@ -112,7 +112,7 @@ async function quick() {
 }
 
 /** Head-to-head: named arms vs the one-liner, on the given tasks or every page-build task. */
-async function compare(challengers, only, model) {
+async function compare(challengers, only, model, repeats = REPEATS_PER_BATCH) {
   const id = `compare-${stamp()}`
   const tasks =
     only ??
@@ -120,8 +120,15 @@ async function compare(challengers, only, model) {
       .filter((task) => task.kind === 'page-build')
       .map((task) => task.id)
   const arms = ['one-liner', ...challengers]
-  const bench = { id, compare: arms, tasks, model: model ?? 'claude-haiku-5-5', executions: [] }
-  bench.executions.push({ id: runSuite(grepFor(tasks), REPEATS_PER_BATCH, arms, model), batch: 0 })
+  const bench = {
+    id,
+    compare: arms,
+    tasks,
+    model: model ?? 'claude-haiku-5-5',
+    repeatsPerBatch: repeats,
+    executions: [],
+  }
+  bench.executions.push({ id: runSuite(grepFor(tasks), repeats, arms, model), batch: 0 })
   await writeJson(join(benchDir(id), 'bench.json'), bench)
   await judgeBench(id)
   const report = await writeReport(id)
@@ -158,7 +165,13 @@ else if (args.includes('--quick')) await quick()
 else if (args.includes('--compare')) {
   const listAfter = (flag) =>
     args.includes(flag) ? args[args.indexOf(flag) + 1].split(',') : undefined
-  await compare(listAfter('--compare'), listAfter('--tasks'), listAfter('--model')?.[0])
+  const repeats = listAfter('--repeats')?.[0]
+  await compare(
+    listAfter('--compare'),
+    listAfter('--tasks'),
+    listAfter('--model')?.[0],
+    repeats ? Number(repeats) : undefined,
+  )
 } else {
   const flag = args.indexOf('--bench')
   await full(flag >= 0 ? args[flag + 1] : undefined)

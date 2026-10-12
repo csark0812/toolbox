@@ -9,11 +9,19 @@ import { FIXTURE_ROOT, TASKS_DIR, type BenchTask } from './tasks'
  * An arm is one condition a task runs under; only the prompt suffix and skill files differ.
  * - `one-liner`: the baseline every skill must beat.
  * - `none`: the bare task prompt; checks that a task leaves room for instructions to matter.
+ * - `exemplar`: the one-liner plus reference screenshots of preferred pages and a density spec.
+ * - `critic`: the one-liner build, then a separate critic's fixes, kept only if the revision wins
+ *   (the critique step lives in ui-bench.spec.ts).
  * - a source skill name: an original skill from the local archive, for head-to-head comparison.
  * Select arms with UI_BENCH_ARMS (comma-separated); the default is one-liner and none.
  */
 export type Arm = string
 export const DEFAULT_ARMS: Arm[] = ['one-liner', 'none']
+/** Strategies beyond prompt text; like source skills, they run only on page-build tasks. */
+export const STRATEGY_ARMS = ['exemplar', 'critic']
+const EXEMPLAR_DIR = 'agent-suites/ui-bench/exemplars'
+/** Workspace folder the exemplar arm reads its references from. */
+export const EXEMPLAR_WORKSPACE_DIR = 'ui-reference'
 
 /**
  * Skills compared head to head, from the local, git-ignored archive; they run only on page-build
@@ -32,13 +40,13 @@ export function armsFromEnv(env = process.env.UI_BENCH_ARMS): Arm[] {
         .filter(Boolean)
     : DEFAULT_ARMS
   for (const arm of arms)
-    if (!['one-liner', 'none'].includes(arm) && !SOURCE_SKILLS[arm])
+    if (!['one-liner', 'none', ...STRATEGY_ARMS].includes(arm) && !SOURCE_SKILLS[arm])
       throw new Error(`Unknown UI bench arm ${arm}`)
   return arms
 }
 
 export function armAppliesTo(task: BenchTask, arm: Arm) {
-  return !SOURCE_SKILLS[arm] || task.kind === 'page-build'
+  return (!SOURCE_SKILLS[arm] && !STRATEGY_ARMS.includes(arm)) || task.kind === 'page-build'
 }
 
 /** Skill folder name and source directory installed for an arm, if any. */
@@ -65,7 +73,9 @@ export function armPrompt(task: BenchTask, arm: Arm): string {
     ? `Use the ${installed.name} skill (\`.claude/skills/${installed.name}/SKILL.md\`).`
     : arm === 'none'
       ? ''
-      : ONE_LINER
+      : arm === 'exemplar'
+        ? `${ONE_LINER} Before building, open every screenshot in \`${EXEMPLAR_WORKSPACE_DIR}/\` with Read and follow \`${EXEMPLAR_WORKSPACE_DIR}/spec.md\`: they show the density and separation the reviewer prefers.`
+        : ONE_LINER
   return `${BASE_PROMPT}${task.prompt}${suffix ? `\n\n${suffix}` : ''}`
 }
 
@@ -90,6 +100,10 @@ export async function prepareArm(workspacePath: string, task: BenchTask, arm: Ar
     await rm(join(workspacePath, slug), { recursive: true, force: true })
 
   await removeOtherFixtures(workspacePath, task)
+  if (arm === 'exemplar')
+    await cp(resolve(EXEMPLAR_DIR), join(workspacePath, EXEMPLAR_WORKSPACE_DIR), {
+      recursive: true,
+    })
   for (const file of task.sharedFiles ?? [])
     await cp(
       join(workspacePath, FIXTURE_ROOT, 'shared', file),

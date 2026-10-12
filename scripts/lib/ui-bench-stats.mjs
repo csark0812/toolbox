@@ -259,3 +259,27 @@ export function judgeHealth(judgments, retests = retestPairs(judgments)) {
   ]
   return { checks, healthy: checks.every((check) => check.ok) }
 }
+
+/** Per task: best rating, mean rating, and the gain of keeping the best over a typical build. */
+export function pickSummary(ratings) {
+  const byTask = Map.groupBy(ratings, (rating) => rating.task)
+  const tasks = [...byTask].map(([task, list]) => {
+    const scores = list.map((rating) => rating.score)
+    const mean = scores.reduce((sum, score) => sum + score, 0) / scores.length
+    return {
+      task,
+      variants: scores.length,
+      best: Math.max(...scores),
+      mean,
+      spread: Math.max(...scores) - Math.min(...scores),
+    }
+  })
+  const avg = (key) =>
+    tasks.length ? tasks.reduce((sum, task) => sum + task[key], 0) / tasks.length : null
+  return {
+    tasks,
+    meanBest: avg('best'),
+    meanTypical: avg('mean'),
+    gain: tasks.length ? avg('best') - avg('mean') : null,
+  }
+}

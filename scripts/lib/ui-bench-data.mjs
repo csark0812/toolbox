@@ -96,7 +96,7 @@ export function collectRuns(bench) {
       if (evidence.outcome !== 'graded') continue
       // Retired tasks (fixture removed) drop out of judging, grading and reports.
       if (!existsSync(join(TASKS_ROOT, evidence.task))) continue
-      const repeat = batch * REPEATS_PER_BATCH + evidence.repetition
+      const repeat = batch * (bench.repeatsPerBatch ?? REPEATS_PER_BATCH) + evidence.repetition
       // Benches recorded before 2026-10-12 named the task kind after the retired skills.
       const kind = evidence.kind ?? LEGACY_KINDS[evidence.skill]
       runs.push({ runId: `${evidence.task}|${evidence.arm}|${repeat}`, repeat, ...evidence, kind })

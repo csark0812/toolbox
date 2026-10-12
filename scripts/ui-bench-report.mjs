@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // UI benchmark report: verdicts, intervals, defects, cost, render usage, judge health, your grades.
 // Usage: node scripts/ui-bench-report.mjs [bench-id]  → .agent-test/ui-bench/<id>/report.{json,html}
+import { readdirSync, readFileSync } from 'node:fs'
 import { writeFile } from 'node:fs/promises'
 import { join, relative } from 'node:path'
 import {
@@ -17,6 +18,7 @@ import {
 import {
   armOf,
   BAR,
+  pickSummary,
   clusterBootstrap,
   contrastOutcomes,
   judgeHealth,
@@ -57,6 +59,14 @@ export async function computeReport(id) {
   const runs = collectRuns(bench)
   const judgments = await loadJudgments(id)
   const grades = await readJson(join(benchDir(id), 'grades.json'), null)
+  const picks = Object.fromEntries(
+    readdirSync(benchDir(id))
+      .filter((name) => /^picks-.+\.json$/.test(name))
+      .map((name) => [
+        name.slice(6, -5),
+        pickSummary(JSON.parse(readFileSync(join(benchDir(id), name), 'utf8')).ratings),
+      ]),
+  )
   const tasks = loadTasks()
   const health = judgeHealth(judgments)
   const resolved = resolveOrders(judgments)
@@ -154,6 +164,7 @@ export async function computeReport(id) {
     minRepeats: MIN_REPEATS,
     health,
     calibration: calibrationAgreement(grades, resolved),
+    picks,
     groups,
     decided: groups.every((group) => ['better', 'not-better'].includes(group.verdict)),
     gallery: gallery(runs, id, scores),
@@ -301,6 +312,12 @@ ${groupCards}
 <section class="card"><header><h2>Judge health</h2><span class="verdict ${report.health.healthy ? 'v-better' : 'v-not-better'}">${report.health.healthy ? 'Healthy' : 'Failing'}</span></header>
 <table><thead><tr><th>Check</th><th>Value</th><th>Expected</th><th></th></tr></thead><tbody>${healthRows}</tbody></table>
 <p>Your grades: ${calText}</p></section>
+${Object.entries(report.picks)
+  .map(
+    ([arm, p]) =>
+      `<section class="card"><header><h2>Variety: ${esc(arm)} (your 1–5 ratings)</h2></header><p>Best of each task ${p.meanBest?.toFixed(2) ?? '—'} vs a typical build ${p.meanTypical?.toFixed(2) ?? '—'}: keeping the best gains ${p.gain?.toFixed(2) ?? '—'} points.</p><table><thead><tr><th>Task</th><th>Variants</th><th>Best</th><th>Mean</th><th>Spread</th></tr></thead><tbody>${p.tasks.map((t) => `<tr><td>${t.task}</td><td>${t.variants}</td><td>${t.best}</td><td>${t.mean.toFixed(2)}</td><td>${t.spread}</td></tr>`).join('')}</tbody></table></section>`,
+  )
+  .join('')}
 <section class="card"><header><h2>Screenshots</h2><label>View <select id="view"><option>390</option><option>1440</option><option>390-dark</option><option>1440-dark</option></select></label></header>
 <div id="gal"></div></section>
 <script>

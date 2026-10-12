@@ -51,6 +51,7 @@
     "bench:ui:quick": "node scripts/ui-bench.mjs --quick",
     "bench:ui:judge": "node scripts/ui-bench-judge.mjs",
     "bench:ui:grade": "node scripts/ui-bench-grade.mjs",
+    "bench:ui:pick": "node scripts/ui-bench-pick.mjs",
     "bench:ui:report": "node scripts/ui-bench-report.mjs",
     "test:ui-bench": "TOOLBOX_BROWSER_TESTS=1 vitest run tests/ui-bench-hard-checks.test.js"
   },
