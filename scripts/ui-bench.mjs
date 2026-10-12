@@ -2,7 +2,7 @@
 // UI benchmark driver.
 //   node scripts/ui-bench.mjs --preflight      2 tasks × 2 arms × 1 run; checks the render tool is usable
 //   node scripts/ui-bench.mjs --quick          the tasks the skills lost, 2 repeats, judged once (~10 min)
-//   node scripts/ui-bench.mjs --compare a,b [--tasks x,y]
+//   node scripts/ui-bench.mjs --compare a,b [--tasks x,y] [--model claude-sonnet-5-5]
 //                                              arms a, b vs the one-liner (interface tasks by default), 2 repeats
 //   node scripts/ui-bench.mjs [--bench <id>]   batches of 2 repeats → judge → report, until decided or capped
 import { spawnSync } from 'node:child_process'
@@ -37,7 +37,7 @@ const grepFor = (tasks) => `(${tasks.join('|')}) . `
 const stamp = () => new Date().toISOString().replace(/[:.]/g, '-')
 
 /** Run the bench suite once; returns the new execution id. `arms` overrides UI_BENCH_ARMS. */
-function runSuite(grep, repeatEach, arms) {
+function runSuite(grep, repeatEach, arms, model) {
   const startedAt = Date.now()
   const result = spawnSync(
     'node',
@@ -52,7 +52,11 @@ function runSuite(grep, repeatEach, arms) {
     ],
     {
       stdio: 'inherit',
-      env: arms ? { ...process.env, UI_BENCH_ARMS: arms.join(',') } : process.env,
+      env: {
+        ...process.env,
+        ...(arms ? { UI_BENCH_ARMS: arms.join(',') } : {}),
+        ...(model ? { UI_BENCH_AGENT_MODEL: model } : {}),
+      },
     },
   )
   const execution = readdirSync(EXECUTIONS_ROOT)
@@ -108,7 +112,7 @@ async function quick() {
 }
 
 /** Head-to-head: named arms vs the one-liner, on the given tasks or every interface-design task. */
-async function compare(challengers, only) {
+async function compare(challengers, only, model) {
   const id = `compare-${stamp()}`
   const tasks =
     only ??
@@ -116,8 +120,8 @@ async function compare(challengers, only) {
       .filter((task) => task.skill === 'interface-design')
       .map((task) => task.id)
   const arms = ['one-liner', ...challengers]
-  const bench = { id, compare: arms, tasks, executions: [] }
-  bench.executions.push({ id: runSuite(grepFor(tasks), REPEATS_PER_BATCH, arms), batch: 0 })
+  const bench = { id, compare: arms, tasks, model: model ?? 'claude-haiku-5-5', executions: [] }
+  bench.executions.push({ id: runSuite(grepFor(tasks), REPEATS_PER_BATCH, arms, model), batch: 0 })
   await writeJson(join(benchDir(id), 'bench.json'), bench)
   await judgeBench(id)
   const report = await writeReport(id)
@@ -154,7 +158,7 @@ else if (args.includes('--quick')) await quick()
 else if (args.includes('--compare')) {
   const listAfter = (flag) =>
     args.includes(flag) ? args[args.indexOf(flag) + 1].split(',') : undefined
-  await compare(listAfter('--compare'), listAfter('--tasks'))
+  await compare(listAfter('--compare'), listAfter('--tasks'), listAfter('--model')?.[0])
 } else {
   const flag = args.indexOf('--bench')
   await full(flag >= 0 ? args[flag + 1] : undefined)

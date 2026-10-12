@@ -4,7 +4,10 @@ import { resolve } from 'node:path'
 
 // UI quality benchmark (agent-suites/ui-bench). Visual judging runs afterwards in
 // scripts/ui-bench-judge.mjs, so the in-run judge is only a required default.
+// UI_BENCH_AGENT_MODEL swaps the builder model (e.g. claude-sonnet-5-5); the default is Haiku.
+const builderModel = process.env.UI_BENCH_AGENT_MODEL ?? 'claude-haiku-5-5'
 const haiku = { model: 'claude-haiku-5-5', auth: { type: 'subscription' } } as const
+const builder = { model: builderModel, auth: { type: 'subscription' } } as const
 // render_page runs outside the agent's Bash sandbox, which blocks Chromium. The server
 // starts in the agent's working directory and only renders pages inside it.
 const renderServer = {
@@ -13,7 +16,7 @@ const renderServer = {
   tools: ['render_page'],
 }
 export default defineConfig({
-  agent: claude({ ...haiku, mcpServers: { 'ui-bench': renderServer } }),
+  agent: claude({ ...builder, mcpServers: { 'ui-bench': renderServer } }),
   judge: claude(haiku),
   workspace: './_agent/public-workspace',
   testDir: './agent-suites/ui-bench',
