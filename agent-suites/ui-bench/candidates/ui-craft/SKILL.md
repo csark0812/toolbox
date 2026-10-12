@@ -16,17 +16,18 @@ Build the page a careful product designer would ship: compact, simple, aligned, 
 
 ## Build
 
-1. **One primary action** per screen, solid accent. Secondary actions are visibly quieter: outline or text.
-2. **Compact.** Tight spacing inside a group, one step larger between groups. Size every region to its content, so no region holds more empty space than content.
+1. **One primary action** per screen, solid accent and full size. Every other action is sized by its weight: per-item and secondary actions are small, outline or text.
+2. **Compact, clearly separated.** Tight spacing inside an item; a visible separation between items (a hairline or one clear spacing step) so they never blur together. Size every region to its content, so no region holds more empty space than content.
 3. **Flat.** Group with spacing and alignment first, hairlines second, one level of container at most.
 4. **Few left edges.** Header, controls and content share the same edges at every width.
-5. **Desktop uses its width.** Place related regions side by side (list beside detail, people beside highlights) so the page gets shorter; keep prose under about 70 characters per line.
+5. **Desktop uses its width.** Place related regions side by side (list beside detail, people beside highlights) so the page gets shorter. A single-column page is centred in a readable width; half the screen never sits empty. Keep prose under about 70 characters per line.
 6. **Phone is designed.** Lead with the primary task. Small figures sit in one inline row. Per-item actions stay on one row: the main action plus compact secondary ones. Filters become one scrolling row or a disclosure.
 7. **Summaries inline.** Counts and totals read as a compact row of label and number.
 8. **Clear state.** Selected and current items differ by two cues (fill plus weight or an indicator); status badges use solid tokens.
 9. **Themed controls.** `accent-color` and `color-scheme` come from the tokens; toggles and segmented controls fit their labels on one line.
 10. **Long content.** Titles wrap; tables scroll inside their own container with whole-word cells; long FAQs and details collapse into disclosures.
-11. **Tokens** for every colour, space, radius and type size.
+11. **Nothing odd.** Every visible detail has a job: number items only when order matters, and skip decorative labels, badges and dividers.
+12. **Tokens** for every colour, space, radius and type size.
 
 ## Check
 
@@ -34,7 +35,8 @@ Render at 390px and 1440px, plus dark mode when the tokens support it, and look 
 
 - Every checklist item from the brief is visible.
 - Squint: the primary action reads first.
-- Every Build rule holds, especially flat structure, compact regions and one-row actions on the phone.
+- Every Build rule holds, especially compact but clearly separated items, small secondary actions, and no empty half-screens.
+- Anything that looks odd at a glance (stray numbers, oversized buttons, a lonely wrapped word) gets fixed.
 - One element can be removed without loss? Remove it.
 
 Fix the worst finding and render again; repeat once. Report what you built and anything left unverified.

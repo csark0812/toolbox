@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 // Grade skill vs one-liner pairs yourself, blind. After each pick the page reveals which side
 // was the skill and what the judge decided. Ratings feed the report's "You" row and judge agreement.
-// Usage: node scripts/ui-bench-grade.mjs [bench-id]  → http://127.0.0.1:8766
+// Usage: node scripts/ui-bench-grade.mjs [bench-id] [--all]  → http://127.0.0.1:8766
+// By default you grade only key pairs: each challenger against the one-liner, same repeat, once.
+// --all shows every judged cross-pair.
 import { createReadStream, existsSync } from 'node:fs'
 import { createServer } from 'node:http'
 import { join } from 'node:path'
@@ -21,7 +23,11 @@ import { plannedPairs } from './ui-bench-judge.mjs'
 const PORT = 8766
 const VIEWS = ['390', '1440', '320', '768', '390-dark', '1440-dark']
 
-const id = process.argv[2] ?? (await latestBenchId(['bench-', 'quick-', 'compare-']))
+const args = process.argv.slice(2)
+const showAll = args.includes('--all')
+const id =
+  args.find((arg) => !arg.startsWith('--')) ??
+  (await latestBenchId(['bench-', 'quick-', 'compare-']))
 const bench = await loadBench(id)
 const runs = new Map(collectRuns(bench).map((run) => [run.runId, run]))
 const tasks = loadTasks()
@@ -33,7 +39,14 @@ const resolved = new Map(resolveOrders(judgments).map((pair) => [pair.pairId, pa
 // Every skill↔one-liner pair, in a stable shuffled order with a random left/right side.
 // Arm labels never go to the page until the pick for that pair is saved.
 const random = mulberry32(7)
+/** Key pair: a challenger arm vs the one-liner with the same repeat (`none` is not a challenger). */
+const isKeyPair = (pair) => {
+  const [a, b] = [runs.get(pair.a), runs.get(pair.b)]
+  const arms = [a.arm, b.arm]
+  return a.repeat === b.repeat && arms.includes('one-liner') && !arms.includes('none')
+}
 const items = plannedPairs([...runs.values()])
+  .filter((pair) => showAll || isKeyPair(pair))
   .map((pair) => ({ pair, key: random(), flip: random() < 0.5 }))
   .sort((x, y) => x.key - y.key)
   .map(({ pair, flip }, index) => ({
