@@ -141,7 +141,8 @@ document.addEventListener('click',e=>{if(e.target.matches('.shot img')){$('zoom'
 show();
 </script></body></html>`
 
-createServer((req, res) => {
+let port = PORT
+const server = createServer((req, res) => {
   if (req.method === 'POST' && req.url === '/rate') {
     let body = ''
     req.on('data', (chunk) => (body += chunk))
@@ -168,8 +169,16 @@ createServer((req, res) => {
     res.setHeader('content-type', 'text/html; charset=utf-8')
     res.end(page)
   }
-}).listen(PORT, '127.0.0.1', () =>
-  console.log(
-    `Grading ${id}: http://127.0.0.1:${PORT} (${items.length} pairs, ${rated.size} already graded)`,
-  ),
-)
+})
+server
+  .on('error', (error) => {
+    // Another grading page holds the port: take the next one instead of crashing.
+    if (error.code !== 'EADDRINUSE' || port >= PORT + 10) throw error
+    server.listen(++port, '127.0.0.1')
+  })
+  .on('listening', () =>
+    console.log(
+      `Grading ${id}: http://127.0.0.1:${port} (${items.length} pairs, ${rated.size} already graded)`,
+    ),
+  )
+  .listen(port, '127.0.0.1')

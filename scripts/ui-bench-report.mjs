@@ -96,29 +96,34 @@ export async function computeReport(id) {
       }),
     )
     const yours = (grades?.ratings ?? []).filter((rating) => tasks[rating.task]?.skill === skill)
-    // Every other arm against the one-liner; the first (our skill when present) is primary.
-    const contrasts = armNames
+    // Every other arm against the one-liner, then against `none` when present; first is primary.
+    const pairsOfArms = armNames
       .filter((arm) => arm !== BASELINE)
-      .map((focus, index) => {
-        const rows = contrastOutcomes(skillResolved, focus, BASELINE)
-        const graded = yours.filter((rating) =>
-          rating.pairId.split(' vs ').some((runId) => armOf(runId) === focus),
-        )
-        const you = winRate(
-          graded.map((rating) => ({
-            outcome:
-              rating.winner === 'tie' ? 'tie' : armOf(rating.winner) === focus ? 'win' : 'loss',
-          })),
-        )
-        return {
-          focus,
-          other: BASELINE,
-          role: index === 0 ? 'primary' : 'secondary',
-          ...winRate(rows),
-          ...clusterBootstrap(rows),
-          you,
-        }
+      .flatMap((focus) => [
+        [focus, BASELINE],
+        ...(focus !== 'none' && armNames.includes('none') ? [[focus, 'none']] : []),
+      ])
+    const contrasts = pairsOfArms.map(([focus, other], index) => {
+      const rows = contrastOutcomes(skillResolved, focus, other)
+      const graded = yours.filter((rating) => {
+        const arms = rating.pairId.split(' vs ').map(armOf)
+        return arms.includes(focus) && arms.includes(other)
       })
+      const you = winRate(
+        graded.map((rating) => ({
+          outcome:
+            rating.winner === 'tie' ? 'tie' : armOf(rating.winner) === focus ? 'win' : 'loss',
+        })),
+      )
+      return {
+        focus,
+        other,
+        role: index === 0 ? 'primary' : 'secondary',
+        ...winRate(rows),
+        ...clusterBootstrap(rows),
+        you,
+      }
+    })
     const primary = contrasts[0]
     const raw = verdict(
       { rate: primary.rate, lower: primary.lower, upper: primary.upper, repeats },
@@ -321,7 +326,7 @@ export function summarize(report) {
     lines.push(`  ${skill.skill}: ${VERDICT_TEXT[skill.verdict]}`)
     for (const c of skill.contrasts)
       lines.push(
-        `    ${c.focus} vs one-liner: ${pct(c.rate)} [${pct(c.lower)}–${pct(c.upper)}] (${c.wins}W/${c.losses}L/${c.ties}T) · ship ${skill.arms[c.focus].shipScore?.toFixed(1) ?? '—'} vs ${skill.arms[BASELINE].shipScore?.toFixed(1) ?? '—'}`,
+        `    ${c.focus} vs ${c.other}: ${pct(c.rate)} [${pct(c.lower)}–${pct(c.upper)}] (${c.wins}W/${c.losses}L/${c.ties}T) · ship ${skill.arms[c.focus].shipScore?.toFixed(1) ?? '—'} vs ${skill.arms[c.other].shipScore?.toFixed(1) ?? '—'}`,
       )
   }
   return lines.join('\n')

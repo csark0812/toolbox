@@ -10,14 +10,20 @@ import { TASKS_DIR, type BenchTask } from './tasks'
  * - `one-liner`: the baseline every skill must beat.
  * - `none`: the bare task prompt; checks that a task leaves room for instructions to matter.
  * - `skill`: the Toolbox skill for the task (css-craft or interface-design).
- * - a source skill name: an original skill from the local archive, for head-to-head comparison.
+ * - a source skill name: an original skill from the local archive, or a candidate skill under
+ *   agent-suites/ui-bench/candidates/, for head-to-head comparison.
  * Select arms with UI_BENCH_ARMS (comma-separated); the default is one-liner and skill.
  */
 export type Arm = string
 export const DEFAULT_ARMS: Arm[] = ['one-liner', 'skill']
 
-/** Original skills from the local, git-ignored archive. They run only on interface-design tasks. */
+/**
+ * Skills compared head to head; they run only on interface-design tasks.
+ * Originals come from the local, git-ignored archive; candidates are drafts tested before they
+ * replace a published skill.
+ */
 export const SOURCE_SKILLS: Record<string, string> = {
+  'ui-craft': 'agent-suites/ui-bench/candidates/ui-craft',
   'web-designer': 'references/original-skills/web-designer-local/web-designer',
   'app-designer': 'references/original-skills/app-designer-local/app-designer',
 }
