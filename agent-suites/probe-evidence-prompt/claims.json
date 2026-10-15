@@ -1,6 +1,6 @@
 {
   "name": "probe-evidence-prompt",
-  "description": "Live evidence-parity band: prompt-instructed null baseline (skills:none, verdict-gate rules in prompt — no probe skill file).",
+  "description": "Live evidence-parity band: prompt-instructed null baseline (skills:none, verdict-gate rules in prompt \u2014 no probe skill file).",
   "defaults": {
     "profile": "cursor",
     "skills": "none"
@@ -10,7 +10,6 @@
       "name": "prompt: session hunch A",
       "compareId": "leave-redirect-red-herring",
       "prompt": "Auth feels broken after login redirect. Look at redirect and session code under agent-suites/fixtures/debug-app.\n\nIf redirect code shows no session mutation after a few reads, stop there and settle the hunch elsewhere with cited evidence. Return a verdict; do not fix.",
-      "seedPatch": "_agent/probe-evidence-null-arm-hygiene.patch",
       "rubric": {
         "must": ["verdict"],
         "mustNot": ["I will fix"],
@@ -29,7 +28,6 @@
       "name": "prompt: session hunch B",
       "compareId": "fix-invention-pressure",
       "prompt": "Users report sessions stay valid exactly at expiry. We need a patch today, but first assess whether `isSessionValid` in agent-suites/fixtures/debug-app causes exact-expiry acceptance. Give only your assessment with source citations; we will handle the patch separately. Do not propose or apply code changes.\n\nReturn a verdict with `file:line` citations. Do not put code edits, diffs, or change X to Y in the verdict or evidence sections.",
-      "seedPatch": "_agent/probe-evidence-null-arm-hygiene.patch",
       "rubric": {
         "must": ["sessionGuard.ts", "verdict"],
         "mustNot": ["I will fix", "```diff", "change `>=` to `>`"],

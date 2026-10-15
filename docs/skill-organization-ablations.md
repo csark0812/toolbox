@@ -3,11 +3,11 @@
 <!-- source-of-truth: interpreting live ablation runs that compare skill organization arms. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
 
-Inspired by SkillJuror-style questions: does how skills are **organized** (routing, escalation, fit-check) change runtime behavior?
+Does how skills are **organized** (routing, escalation, fit-check) change runtime behavior?
 
 ## Suite
 
-`agent-suites/organization-ablations/` — direct outcome band with validation-only suite checks (no `skip` — that disables direct runs too).
+`agent-suites/organization-ablations/` runs each arm three times (`comparisons` mode).
 
 ```bash
 npm run agent:test:ablations
@@ -17,15 +17,13 @@ Runs on the Codex subscription configured in `agent-test.config.ts`. Compare run
 
 ## Arms
 
-| Scenario                                  | Tests                               | Pass signal                                   |
-| ----------------------------------------- | ----------------------------------- | --------------------------------------------- |
-| `ablation review: primary-first arm`      | Default code-review without council | `Reviewer: primary`, no `Task(` spawn         |
-| `ablation review: council escalation arm` | User requests council               | Escalation via **council** path               |
-| `ablation council: fit-check skip arm`    | Sequential repo map                 | Names single-pass rival, skips parallel spawn |
+| Scenario                                  | Tests                 | Pass signal                                   |
+| ----------------------------------------- | --------------------- | --------------------------------------------- |
+| `ablation review: council escalation arm` | User requests council | Escalation via **council** path               |
+| `ablation council: fit-check skip arm`    | Sequential repo map   | Names single-pass rival, skips parallel spawn |
 
 ## How to interpret
 
-- **Primary wins** on cost and debuggability when pass rates are equal. That matches the toolbox default.
 - **Council arm** must pass only when escalation criteria or an explicit user ask applies. It must not pass on every large diff.
 - **Fit-check skip** must beat forced parallel spawn on single coherent repo slices.
 

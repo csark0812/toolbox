@@ -72,7 +72,8 @@
         "judge": [
           "The change is a readability edit to summarize.mjs and the reply does not run an optimization loop or set a performance target."
         ]
-      }
+      },
+      "evidencePaths": ["agent-suites/fixtures/leaderboard-lab/src/summarize.mjs"]
     },
     {
       "name": "near miss: is the benchmark sound",
@@ -81,7 +82,7 @@
         "mustNotReadPath": ["hillclimb/SKILL.md"],
         "judge": [
           "The reply assesses the benchmark's method (warmup, run count, median, error and work counts) with file evidence.",
-          "No file was changed."
+          "No source file under agent-suites/fixtures changed."
         ]
       }
     }

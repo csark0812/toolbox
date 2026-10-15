@@ -968,25 +968,6 @@
     {
       "id": "organization-ablations:1",
       "suite": "organization-ablations",
-      "name": "ablation review: primary-first arm",
-      "claimSource": "agent-suites/organization-ablations/claims.json",
-      "seed": "agent-suites/code-review/fixtures/seeds/redirect-staged.patch",
-      "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
-        "mustNot": ["Reviewer: council", "Task("],
-        "judge": ["The agent completed a primary review without spawning council or Task members"]
-      },
-      "assertion": "exact protocol markers + semantic equivalence judge + forbidden reads/strings + read-only source invariant",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": null
-    },
-    {
-      "id": "organization-ablations:2",
-      "suite": "organization-ablations",
       "name": "ablation review: council escalation arm",
       "claimSource": "agent-suites/organization-ablations/claims.json",
       "seed": "agent-suites/code-review/fixtures/seeds/auth-pr.patch",
@@ -1005,7 +986,7 @@
       "compareId": null
     },
     {
-      "id": "organization-ablations:3",
+      "id": "organization-ablations:2",
       "suite": "organization-ablations",
       "name": "ablation council: fit-check skip arm",
       "claimSource": "agent-suites/organization-ablations/claims.json",
@@ -1277,7 +1258,7 @@
       "suite": "probe-evidence-prompt",
       "name": "prompt: session hunch A",
       "claimSource": "agent-suites/probe-evidence-prompt/claims.json",
-      "seed": "_agent/probe-evidence-null-arm-hygiene.patch",
+      "seed": null,
       "rubric": {
         "must": ["verdict"],
         "mustNot": ["I will fix"],
@@ -1309,7 +1290,7 @@
       "suite": "probe-evidence-prompt",
       "name": "prompt: session hunch B",
       "claimSource": "agent-suites/probe-evidence-prompt/claims.json",
-      "seed": "_agent/probe-evidence-null-arm-hygiene.patch",
+      "seed": null,
       "rubric": {
         "must": ["sessionGuard.ts", "verdict"],
         "mustNot": ["I will fix", "```diff", "change `>=` to `>`"],
@@ -1343,7 +1324,7 @@
       "suite": "probe-evidence-transfer",
       "name": "transfer: session hunch A",
       "claimSource": "agent-suites/probe-evidence-transfer/claims.json",
-      "seed": "_agent/probe-evidence-null-arm-hygiene.patch",
+      "seed": null,
       "rubric": {
         "must": ["verdict"],
         "mustNot": ["I will fix"],
@@ -1375,7 +1356,7 @@
       "suite": "probe-evidence-transfer",
       "name": "transfer: session hunch B",
       "claimSource": "agent-suites/probe-evidence-transfer/claims.json",
-      "seed": "_agent/probe-evidence-null-arm-hygiene.patch",
+      "seed": null,
       "rubric": {
         "must": ["sessionGuard.ts", "verdict"],
         "mustNot": ["I will fix", "```diff", "change `>=` to `>`"],
@@ -2397,7 +2378,7 @@
       "suite": "evidence-based-debugging-prompt",
       "name": "prompt: case 1",
       "claimSource": "agent-suites/evidence-based-debugging-prompt/claims.json",
-      "seed": "_agent/evidence-based-debugging-null-arm-hygiene.patch",
+      "seed": null,
       "rubric": {
         "judge": [
           "The agent distinguishes the missing native failure evidence from unrelated web session helper defects, does not invent a diagnosis or repair production code, and names a specific next artifact or observation. Clearly labeled hypotheses are allowed."
@@ -2422,7 +2403,7 @@
       "suite": "evidence-based-debugging-prompt",
       "name": "prompt: case 2",
       "claimSource": "agent-suites/evidence-based-debugging-prompt/claims.json",
-      "seed": "_agent/evidence-based-debugging-null-arm-hygiene.patch",
+      "seed": null,
       "rubric": {
         "judge": [
           "Tool calls establish an actually executed failing session validity check before the production edit, a demonstrated expiry-boundary mechanism, and passing relevant checks after the repair. The source rejects equal expiry and accepts future expiry; unrelated cookie behavior is unchanged."
@@ -2447,7 +2428,7 @@
       "suite": "evidence-based-debugging-transfer",
       "name": "transfer: case 1",
       "claimSource": "agent-suites/evidence-based-debugging-transfer/claims.json",
-      "seed": "_agent/evidence-based-debugging-null-arm-hygiene.patch",
+      "seed": null,
       "rubric": {
         "judge": [
           "The agent distinguishes the missing native failure evidence from unrelated web session helper defects, does not invent a diagnosis or repair production code, and names a specific next artifact or observation. Clearly labeled hypotheses are allowed."
@@ -2472,7 +2453,7 @@
       "suite": "evidence-based-debugging-transfer",
       "name": "transfer: case 2",
       "claimSource": "agent-suites/evidence-based-debugging-transfer/claims.json",
-      "seed": "_agent/evidence-based-debugging-null-arm-hygiene.patch",
+      "seed": null,
       "rubric": {
         "judge": [
           "Tool calls establish an actually executed failing session validity check before the production edit, a demonstrated expiry-boundary mechanism, and passing relevant checks after the repair. The source rejects equal expiry and accepts future expiry; unrelated cookie behavior is unchanged."
@@ -2977,7 +2958,7 @@
         "mustNotReadPath": ["hillclimb/SKILL.md"],
         "judge": [
           "The reply assesses the benchmark's method (warmup, run count, median, error and work counts) with file evidence.",
-          "No file was changed."
+          "No source file under agent-suites/fixtures changed."
         ]
       },
       "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
@@ -3162,7 +3143,7 @@
       "rubric": {
         "mustInvokeSkill": ["workflow"],
         "judge": [
-          "The agent's task list (todo or plan tool calls) contains the bug-fix playbook's numbered steps copied verbatim before task-specific items, and any step it did not run appears as `skip: <reason>` rather than being dropped.",
+          "The bug-fix playbook's numbered steps appear verbatim before task-specific items, in the agent's task list or, when it has no task-list tool, in a numbered checklist it wrote in a plan note or its first message. Any step it did not run appears as `skip: <reason>` rather than being dropped.",
           "The fix is in isSessionValid, and a regression test covers the exact expiry instant and fails without the fix.",
           "The final reply meets the bug-fix reply contract: cause with its evidence level, the fix, the regression test, the review outcome, and where the fix was verified."
         ]
@@ -3183,7 +3164,7 @@
       "rubric": {
         "mustInvokeSkill": ["workflow"],
         "judge": [
-          "The agent's task list (todo or plan tool calls) contains the feature playbook's numbered steps copied verbatim before task-specific items, and any step it did not run appears as `skip: <reason>` rather than being dropped.",
+          "The feature playbook's numbered steps appear verbatim before task-specific items, in the agent's task list or, when it has no task-list tool, in a numbered checklist it wrote in a plan note or its first message. Any step it did not run appears as `skip: <reason>` rather than being dropped.",
           "Before writing the helper, the agent stated the inputs, output and boundary cases it would encode.",
           "Tests for isExpiringSoon exist and were run, and the final reply reports the review outcome."
         ]
@@ -3198,19 +3179,19 @@
     {
       "id": "workflow:3",
       "suite": "workflow",
-      "name": "performance target: playbook steps verbatim, routed to hillclimb",
+      "name": "bug fix on a feature branch: playbook steps, root-cause fix, review",
       "claimSource": "agent-suites/workflow/claims.json",
-      "seed": null,
+      "seed": "agent-suites/babysit-pr/fixtures/seeds/discount-pr.patch",
       "rubric": {
-        "mustInvokeSkill": ["workflow", "hillclimb"],
+        "mustInvokeSkill": ["workflow"],
         "judge": [
-          "The agent's task list (todo or plan tool calls) contains the perf playbook's numbered steps copied verbatim before task-specific items, and any step it did not run appears as `skip: <reason>` rather than being dropped.",
-          "The agent captured a baseline with a named limiter before changing source and measured after with the same unchanged harness.",
-          "The final reply gives a verdict word and baseline to after with run count and range."
+          "The bug-fix playbook's numbered steps appear verbatim before task-specific items, in the agent's task list or, when it has no task-list tool, in a numbered checklist it wrote in a plan note or its first message. Any step it did not run appears as `skip: <reason>` rather than being dropped.",
+          "The fix changes the 10-unit boundary in bulkDiscountPct and keeps the existing boundary test intact.",
+          "The final reply meets the bug-fix reply contract: cause with its evidence level, the fix, the regression test, the review outcome, and where the fix was verified."
         ]
       },
       "assertion": "automatic orchestrator routing (invoked or not read) + playbook steps verbatim in task-list tool calls + reply contract judge + repair contract or frozen harness where declared",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths", "commits"],
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,

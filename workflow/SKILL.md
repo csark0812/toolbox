@@ -32,7 +32,7 @@ Before another attempt at an unresolved blocker, check whether work has produced
 
 ## Playbooks
 
-When the request is a multi-step task that matches a playbook, open it and copy its numbered steps **verbatim** into the host task list before any task-specific items. A step that does not apply stays in the list as `skip: <reason>`. Never drop it silently. Each step runs through its named companion. The final reply meets the playbook's **Reply contract**.
+When the request is a multi-step task that matches a playbook, open it and copy its numbered steps **verbatim** into the host task list before any task-specific items. When the host has no task-list tool, write them as a numbered checklist in a plan note or your first message instead. A step that does not apply stays in the list as `skip: <reason>`. Never drop it silently. Each step runs through its named companion. The final reply meets the playbook's **Reply contract**.
 
 | Task                                 | Playbook                                                          |
 | ------------------------------------ | ----------------------------------------------------------------- |

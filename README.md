@@ -27,8 +27,6 @@ Toolbox **process** skills install to **Global** only. Project skill dirs are fo
 # Process / orchestrators — user-level (`*` = registered skill slugs only; not soft-default templates)
 npx skills add csark0812/toolbox --skill '*' -g --agent cursor claude-code codex -y
 npx skills update -g
-
-# Core dialogue/build set (subset) — space-separated skill names (not commas)
 ```
 
 Shorthand for `https://github.com/csark0812/toolbox`. The `@` prefix (npm-style scopes) is not supported by the skills CLI — use `csark0812/toolbox`.

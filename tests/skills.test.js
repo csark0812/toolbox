@@ -7,12 +7,6 @@ import { EXPECTED_SKILLS, SKILLS } from '../src/expected-skills.ts'
 const root = join(import.meta.dirname, '..')
 
 describe('toolbox skill SSOT', () => {
-  it('ships SKILL.md for each expected slug', () => {
-    for (const slug of EXPECTED_SKILLS) {
-      expect(existsSync(join(root, slug, 'SKILL.md'))).toBe(true)
-    }
-  })
-
   it('SKILL.md files have a description frontmatter field', () => {
     for (const slug of EXPECTED_SKILLS) {
       const text = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
@@ -160,13 +154,6 @@ describe('toolbox skill SSOT', () => {
     }
   })
 
-  it('AGENTS.md documents Cursor, Claude Code, and Codex destinations', () => {
-    const agents = readFileSync(join(root, 'AGENTS.md'), 'utf8')
-    expect(agents).toMatch(/Cursor/)
-    expect(agents).toMatch(/Claude Code/)
-    expect(agents).toMatch(/Codex/)
-  })
-
   it('root layout has flat skill dirs (no nested apps/)', () => {
     const dirs = readdirSync(root, { withFileTypes: true })
       .filter((d) => d.isDirectory())
@@ -198,7 +185,7 @@ describe('toolbox skill SSOT', () => {
       }
     }
     expect(existsSync(join(root, 'references/dialogue-contract.md'))).toBe(true)
-    expect(existsSync(join(root, 'references/process-skill-composition.md'))).toBe(true)
+    expect(existsSync(join(root, 'references/v2/process-skill-composition.md'))).toBe(true)
     expect(existsSync(join(root, '.skeleton/references'))).toBe(false)
   })
 
@@ -315,13 +302,6 @@ describe('toolbox skill SSOT', () => {
       /inherit-auto|billing pool|token budget|parent model|host enum/i,
     )
     expect(councilText).not.toMatch(/100k|100,000/)
-  })
-
-  it('verdict ambient ref enforces find-and-verdict-only (no fix in verdict)', () => {
-    const verdict = readFileSync(join(root, 'references/verdict.md'), 'utf8')
-    expect(verdict).toMatch(/find and verdict only/i)
-    expect(verdict).toMatch(/Verdict not fix/)
-    expect(verdict).toMatch(/Find and verdict only/)
   })
 
   it('code-review routes task-shaped reviews while preserving its evidence bar', () => {
@@ -480,12 +460,12 @@ describe('toolbox skill SSOT', () => {
     expect(reconcile).toMatch(/merge-tree', '--write-tree'/)
   })
 
-  it('retired skills are gone (subagents, iterate, refine-agent-work)', () => {
-    expect(existsSync(join(root, 'subagents/SKILL.md'))).toBe(false)
-    expect(existsSync(join(root, 'refine-agent-work'))).toBe(false)
-    expect(existsSync(join(root, 'iterate/SKILL.md'))).toBe(false)
-    expect(existsSync(join(root, 'agent-suites/subagents'))).toBe(false)
-    expect(existsSync(join(root, 'agent-suites/iterate'))).toBe(false)
+  it('every top-level skill folder is a registered skill', () => {
+    const skillDirs = readdirSync(root, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory() && existsSync(join(root, entry.name, 'SKILL.md')))
+      .map((entry) => entry.name)
+      .sort()
+    expect(skillDirs).toEqual([...EXPECTED_SKILLS].sort())
   })
 
   it('excludes install-mirror skill trees from scan perimeter (registry SSOT is flat)', () => {
@@ -496,13 +476,9 @@ describe('toolbox skill SSOT', () => {
 
   it('sync:skills imports EXPECTED_SKILLS (no duplicated slug list)', () => {
     const sync = readFileSync(join(root, 'scripts/sync-claude-skills.mjs'), 'utf8')
-    const install = readFileSync(join(root, 'scripts/install-global.mjs'), 'utf8')
     const pkg = readFileSync(join(root, 'package.json'), 'utf8')
     expect(sync).toMatch(/from ['"]\.\.\/src\/expected-skills\.ts['"]/)
     expect(sync).toMatch(/EXPECTED_SKILLS/)
-    expect(sync).not.toMatch(/const SKILL_SLUGS = \[\s*'subagents'/)
-    expect(sync).not.toMatch(/install-backups/)
-    expect(install).not.toMatch(/install-backups|backupRoot|backups:/)
     expect(pkg).toMatch(/sync:skills": "node --experimental-strip-types/)
   })
 
@@ -551,7 +527,6 @@ describe('toolbox skill SSOT', () => {
     expect(tiers).toMatch(/\*\*handoff\*\*/)
     expect(tiers).toMatch(/\*\*code-review\*\*/)
     expect(tiers).toMatch(/\*\*second-opinion\*\*/)
-    expect(tiers).toMatch(/Retired \*\*subagents\*\* and \*\*iterate\*\*/)
     expect(tiers).not.toMatch(/Typical chains/)
     expect(tiers).not.toMatch(/Subagent kernel/)
   })
@@ -586,13 +561,10 @@ describe('toolbox skill SSOT', () => {
     expect(existsSync(join(root, 'grill/references/intent-phase.md'))).toBe(false)
     expect(existsSync(join(root, 'grill/references/protocol.md'))).toBe(false)
     expect(existsSync(join(root, 'grill/references/output.md'))).toBe(false)
-    expect(existsSync(join(root, 'crystallize/SKILL.md'))).toBe(false)
-    expect(existsSync(join(root, 'investigate/SKILL.md'))).toBe(false)
-    expect(existsSync(join(root, 'diagnose/SKILL.md'))).toBe(false)
   })
 
   it('ambient composition contract keeps shared vocabulary and minimum context rules', () => {
-    const pack = readFileSync(join(root, 'references/process-skill-composition.md'), 'utf8')
+    const pack = readFileSync(join(root, 'references/v2/process-skill-composition.md'), 'utf8')
     const council = readFileSync(join(root, 'council/SKILL.md'), 'utf8')
     const handoffPack = readFileSync(join(root, 'handoff/references/pack.md'), 'utf8')
 

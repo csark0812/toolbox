@@ -4,7 +4,7 @@
 
 Completeness check on an existing plan, PRD, or issue set. Does not rewrite — flags gaps and suggests specific additions.
 
-Plan type and axis weighting — see [README.md](README.md) (Completeness axes). This file is the **axis checklist body** loaded when second-opinion invents a readiness/gaps-shaped **`completeness`** lens ([council/SKILL.md](../../../../council/SKILL.md)). For readiness review, suggest asking for a **council** + second-opinion that invents `premises` + `completeness` — not a fixed cast inside the skill.
+Plan type and axis weighting — see [README.md](README.md) (Completeness axes). This file is the **axis checklist body** loaded when second-opinion invents a readiness/gaps-shaped **`completeness`** lens ([council/SKILL.md](https://github.com/csark0812/toolbox/blob/main/council/SKILL.md)). For readiness review, suggest asking for a **council** + second-opinion that invents `premises` + `completeness` — not a fixed cast inside the skill.
 
 ## Step 1: Locate the Artifact
 

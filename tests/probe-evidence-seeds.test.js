@@ -16,7 +16,7 @@ function patchApplies(name) {
   return readFileSync(patchPath, 'utf8')
 }
 
-describe('investigate discriminating fixture seeds', () => {
+describe('probe evidence discriminating fixture seeds', () => {
   it('guard-only seed applies cleanly and removes sessionCookie scale bug', () => {
     const guardOnlyPatch = patchApplies('fix-invention-guard-only.patch')
     expect(guardOnlyPatch).toMatch(/sessionCookie\.ts/)

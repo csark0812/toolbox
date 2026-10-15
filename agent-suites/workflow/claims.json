@@ -13,7 +13,7 @@
       "rubric": {
         "mustInvokeSkill": ["workflow"],
         "judge": [
-          "The agent's task list (todo or plan tool calls) contains the bug-fix playbook's numbered steps copied verbatim before task-specific items, and any step it did not run appears as `skip: <reason>` rather than being dropped.",
+          "The bug-fix playbook's numbered steps appear verbatim before task-specific items, in the agent's task list or, when it has no task-list tool, in a numbered checklist it wrote in a plan note or its first message. Any step it did not run appears as `skip: <reason>` rather than being dropped.",
           "The fix is in isSessionValid, and a regression test covers the exact expiry instant and fails without the fix.",
           "The final reply meets the bug-fix reply contract: cause with its evidence level, the fix, the regression test, the review outcome, and where the fix was verified."
         ]
@@ -29,28 +29,29 @@
       "rubric": {
         "mustInvokeSkill": ["workflow"],
         "judge": [
-          "The agent's task list (todo or plan tool calls) contains the feature playbook's numbered steps copied verbatim before task-specific items, and any step it did not run appears as `skip: <reason>` rather than being dropped.",
+          "The feature playbook's numbered steps appear verbatim before task-specific items, in the agent's task list or, when it has no task-list tool, in a numbered checklist it wrote in a plan note or its first message. Any step it did not run appears as `skip: <reason>` rather than being dropped.",
           "Before writing the helper, the agent stated the inputs, output and boundary cases it would encode.",
           "Tests for isExpiringSoon exist and were run, and the final reply reports the review outcome."
         ]
       }
     },
     {
-      "name": "performance target: playbook steps verbatim, routed to hillclimb",
-      "branch": "perf/leaderboard",
-      "frozenPaths": [
-        "agent-suites/fixtures/leaderboard-lab/bench/bench.mjs",
-        "agent-suites/fixtures/leaderboard-lab/bench/sample.mjs"
+      "name": "bug fix on a feature branch: playbook steps, root-cause fix, review",
+      "branch": "feat/bulk-discount",
+      "seedPatch": "agent-suites/babysit-pr/fixtures/seeds/discount-pr.patch",
+      "seedCommit": "feat: add bulk discount to line pricing",
+      "fixtureGate": "agent-suites/fixtures/pr-lab",
+      "evidencePaths": [
+        "agent-suites/fixtures/pr-lab/src/pricing.mjs",
+        "agent-suites/fixtures/pr-lab/tests/pricing.test.mjs"
       ],
-      "fixtureGate": "agent-suites/fixtures/leaderboard-lab",
-      "evidenceGitLog": true,
-      "prompt": "The leaderboard summary in agent-suites/fixtures/leaderboard-lab is slow. Get `npm run bench` under 5 ms without breaking anything. I'm on a feature branch, so commit as you go.",
+      "prompt": "Customers buying exactly 10 units in agent-suites/fixtures/pr-lab don't get the bulk discount. Fix it properly, with a regression test and a review before you call it done.",
       "rubric": {
-        "mustInvokeSkill": ["workflow", "hillclimb"],
+        "mustInvokeSkill": ["workflow"],
         "judge": [
-          "The agent's task list (todo or plan tool calls) contains the perf playbook's numbered steps copied verbatim before task-specific items, and any step it did not run appears as `skip: <reason>` rather than being dropped.",
-          "The agent captured a baseline with a named limiter before changing source and measured after with the same unchanged harness.",
-          "The final reply gives a verdict word and baseline to after with run count and range."
+          "The bug-fix playbook's numbered steps appear verbatim before task-specific items, in the agent's task list or, when it has no task-list tool, in a numbered checklist it wrote in a plan note or its first message. Any step it did not run appears as `skip: <reason>` rather than being dropped.",
+          "The fix changes the 10-unit boundary in bulkDiscountPct and keeps the existing boundary test intact.",
+          "The final reply meets the bug-fix reply contract: cause with its evidence level, the fix, the regression test, the review outcome, and where the fix was verified."
         ]
       }
     },

@@ -7,18 +7,6 @@
   },
   "scenarios": [
     {
-      "name": "ablation review: primary-first arm",
-      "prompt": "Review staged changes in agent-suites/fixtures/sample-app/src/redirect.ts. Review only; do not edit or commit.\n\nRead `.claude/skills/code-review/SKILL.md` first. Default primary-first — no council unless escalation criteria match.",
-      "seedPatch": "agent-suites/code-review/fixtures/seeds/redirect-staged.patch",
-      "seedStageOnly": true,
-      "rubric": {
-        "must": ["Reviewer: primary"],
-        "mustInvokeSkill": ["code-review"],
-        "mustNot": ["Reviewer: council", "Task("],
-        "judge": ["The agent completed a primary review without spawning council or Task members"]
-      }
-    },
-    {
       "name": "ablation review: council escalation arm",
       "prompt": "Review staged changes in agent-suites/fixtures/sample-app/src/auth.ts with security and API council escalation. Review only.\n\nRead `.claude/skills/code-review/SKILL.md` and `.claude/skills/council/SKILL.md` first. Attach council for parallel specialist perspectives.",
       "seedPatch": "agent-suites/code-review/fixtures/seeds/auth-pr.patch",
@@ -32,7 +20,7 @@
     },
     {
       "name": "ablation council: fit-check skip arm",
-      "prompt": "Map how auth works in agent-suites/fixtures/sample-app. Use council if parallel helps.\n\nRead `.claude/skills/council/SKILL.md` first. Name a single-pass rival before spawning N≥2; skip parallel when independence fails.",
+      "prompt": "Map how auth works in agent-suites/fixtures/sample-app. Use council if parallel helps.\n\nRead `.claude/skills/council/SKILL.md` first. Name a single-pass rival before spawning N\u22652; skip parallel when independence fails.",
       "rubric": {
         "must": ["single-pass", "skip"],
         "mustInvokeSkill": ["council"],

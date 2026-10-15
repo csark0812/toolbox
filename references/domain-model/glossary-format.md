@@ -33,4 +33,4 @@ Each term is one row or one `###` block:
 
 - **Dedupe before add** — search existing glossary. Update in place rather than fork synonyms.
 - **No product marketing names** in the hub — consumer content only.
-- Grill can sharpen terms in dialogue. This format is for **persistence** via [`domain-model`](../../../domain-model/SKILL.md).
+- Grill can sharpen terms in dialogue. This format is for **persistence** via [`domain-model`](https://github.com/csark0812/toolbox/blob/main/domain-model/SKILL.md).

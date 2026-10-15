@@ -40,7 +40,7 @@ Default directory: `docs/adr/` — numbered `NNNN-title.md`. Consumer customize 
 
 ## Anti-theater rules
 
-- **No ADR without a stated decision** — if the choice is still open, route to [`grill`](../../../grill/SKILL.md).
+- **No ADR without a stated decision** — if the choice is still open, route to [`grill`](https://github.com/csark0812/toolbox/blob/main/grill/SKILL.md).
 - **Rejected alternatives required** — at least one plausible option you did not take.
 - **Link glossary terms** when the decision introduces or changes ubiquitous language.
 - Structural boundary decisions can cite [codebase-design.md](../codebase-design.md) (deep module, seam, information hiding).

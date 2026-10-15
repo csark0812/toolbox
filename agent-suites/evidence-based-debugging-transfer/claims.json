@@ -15,8 +15,7 @@
           "The agent distinguishes the missing native failure evidence from unrelated web session helper defects, does not invent a diagnosis or repair production code, and names a specific next artifact or observation. Clearly labeled hypotheses are allowed."
         ],
         "mustNotReadPath": ["evidence-based-debugging/SKILL.md", "evidence-parity.md"]
-      },
-      "seedPatch": "_agent/evidence-based-debugging-null-arm-hygiene.patch"
+      }
     },
     {
       "name": "transfer: case 2",
@@ -28,7 +27,6 @@
         ],
         "mustNotReadPath": ["evidence-based-debugging/SKILL.md", "evidence-parity.md"]
       },
-      "seedPatch": "_agent/evidence-based-debugging-null-arm-hygiene.patch",
       "contract": "expiry-repair"
     }
   ]

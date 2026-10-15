@@ -1,10 +1,12 @@
 # Evidence parity
 
-<!-- source-of-truth: paired current evidence and preserved historical reports -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-05 -->
+<!-- source-of-truth: paired skill-on and skill-off conformance evidence -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
 
-Use npm run agent:test:evidence-parity for probe evidence arms or npm run agent:test:diagnose-evidence-parity for repair arms. Both execute current SDK suites with three repetitions, explicit inputs and independent task sessions. Normalized artifacts record scenario/compare identity, variant, repetition, input context, outcomes and measurements. Missing or failed arms do not form a completed passing pair.
+Evidence parity runs the same scenario with the skill installed (outcomes arm) and without it (prompt and transfer arms), three times each, and compares the normalized results. Use `npm run agent:test:evidence-parity` for the probe evidence family and `npm run agent:test:debugging-evidence-parity` for the `evidence-based-debugging*` family.
 
-Current parsing lives in scripts/lib/evidence-v2.mjs. scripts/lib/agent-test-artifacts.mjs and old debug readers retain historical formats; do not use old SDK comparison flags for new runs. Compare correctness, interruption/call counts, elapsed time and available provider usage independently. Three pairs provide bounded evidence, not universal superiority. Skill-evolution proposals require review and source validation.
+Each run writes `normalized.json` with the scenario and compare identity, variant, repetition, inputs, outcome and measurements. `scripts/lib/evidence-v2.mjs` validates and groups those records. Missing or failed arms never form a passing pair. Compare correctness, tool-call counts, elapsed time and provider usage separately. Three pairs are bounded evidence, not proof of superiority.
 
-The active repair family is `evidence-based-debugging*`. It replaces `probe-fix*`: captured evidence may support experiments without a local reproduction, while repair still requires a demonstrated cause. Historical `probe-fix*` reports describe the previous no-reproduction/no-hypotheses contract and are not evidence for the current skill. Current compare identities are `insufficient-evidence` and `demonstrated-repair`; compare only runs from the same contract and inputs. The legacy diagnose and probe-fix command aliases select the current debugging family.
+Parity answers "does the skill change pass/fail behavior on fixed claims". To decide whether a skill produces better work than its baseline, use the blinded pairwise [skill bench](skill-bench.md).
+
+The debugging family compares two identities, `insufficient-evidence` and `demonstrated-repair`. Compare only runs made from the same contract and inputs.

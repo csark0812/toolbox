@@ -7,7 +7,7 @@ Assign each skill to exactly one **group**. Update when adding skills.
 
 ## Skill groups
 
-Every toolbox skill is either an **orchestrator** (agent-to-agent plumbing) or a **process** skill (what the work means in natural language). One meta skill covers authoring.
+Every toolbox skill is either an **orchestrator** (agent-to-agent plumbing) or a **process** skill (what the work means in natural language).
 
 **Composition:** Skills are adjacent, independently complete roles. Descriptions route by user intent. Layered prompts apply multiple contracts to the same `Slice` or `Artifact`. Declared orchestration may invoke companions; specialists stay independently complete. Shared vocabulary and dependency rules → [process-skill-composition.md](../references/v2/process-skill-composition.md).
 
@@ -105,7 +105,7 @@ Consumer cleanup PRs (delete vendored dirs in other repos) are separate — this
 
 **Atomic composition (2026-09):** Peer skills are not runtime dependencies. Compose through discriminating descriptions, layered prompts, shared state, and the ambient [composition contract](../references/v2/process-skill-composition.md).
 
-**Council + ownership (2026-09):** Retired **subagents** and **iterate**. **Council** owns task-persona design, interaction choice, real member runs, and synthesis. **Second-opinion** is single-pass by default; multi-perspective depth only when the user also attaches **council**. Hunch settlement uses coordinator **explore** + ambient [verdict.md](../references/verdict.md) (retired **investigate** slug). Cross-session transfer stays **handoff**.
+**Council + ownership (2026-09):** Retired **subagents** and **iterate**. **Council** owns task-persona design, interaction choice, real member runs, and synthesis. **Second-opinion** is single-pass by default; multi-perspective depth only when the user also attaches **council**. Cross-session transfer stays **handoff**.
 
 **Crystallize (2026-08):** Retired — use [**grill**](../grill/SKILL.md) to clarify fuzzy intent or pressure-test a concrete design.
 

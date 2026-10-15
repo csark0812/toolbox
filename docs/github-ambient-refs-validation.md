@@ -1,11 +1,11 @@
 # GitHub ambient refs — validation results
 
 <!-- source-of-truth: whether toolbox can use remote GitHub URLs as ambient skill reference SSOT. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-03 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
 
 ## Gate (from plan)
 
-Ship link migration only if **T1 + T2** pass on a supported host. **T2 hard-fail → stay on local copies / fall back to companion `shared` skill** (see [Rollback](#rollback)).
+Ship link migration only if **T1 + T2** pass on a supported host. **T2 hard-fail → restore local copies** (see [Rollback](#rollback)).
 
 ## Automated results
 
@@ -18,12 +18,7 @@ Ship link migration only if **T1 + T2** pass on a supported host. **T2 hard-fail
 | T2       | Agent follows URL in prompt        | **PASS**            | Live Cursor SDK (`2026-07-15`): suite scenario quoted remote `dialogue-contract` markers + `REMOTE_AMBIENT_OK` |
 | T2-skill | Agent follows URL in fixture skill | **PASS**            | Live Cursor SDK (`2026-07-15`): followed fixture `SKILL.md` GitHub URL                                         |
 
-Scenarios under `agent-suites/github-ambient-refs` stay `skip: true` for default validation. Validation cannot prove network fetch. Run the direct scenario explicitly:
-
-```bash
-# Set skip: false on the scenario(s), then:
-npm run agent:test:live -- --suite github-ambient-refs --keep-recordings
-```
+The T2 rows were recorded with the earlier Cursor SDK runner. Scenarios under `agent-suites/github-ambient-refs` stay `skip: true` because offline validation cannot prove a network fetch. To rerun them, set `skip: false` and run `npm run agent:test:live -- "github-ambient-refs"`.
 
 ## Manual checklist
 
@@ -48,7 +43,7 @@ Pinned SHA URLs remain preferred for deterministic tests. `main` drifts with hub
 - Shared references are ordinary public files under root `references/`.
 - Skill bodies use full GitHub raw URLs. Use short labels (`[output-schema.md](https://…)`).
 - Toolbox does not use generated per-skill copies or Skeleton reference materialization.
-- Skeleton audits these files through the normal Markdown scan perimeter.
+- `references/**` is outside the Skeleton scan perimeter, so links inside shared references are not audited automatically.
 - Offline / no-network: known limitation (T5).
 
 ## Rollback

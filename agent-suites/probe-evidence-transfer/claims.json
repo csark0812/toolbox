@@ -10,7 +10,6 @@
       "name": "transfer: session hunch A",
       "compareId": "leave-redirect-red-herring",
       "prompt": "Auth feels broken after login redirect. Look at redirect and session code under agent-suites/fixtures/debug-app.\n\nReturn a verdict; do not fix.",
-      "seedPatch": "_agent/probe-evidence-null-arm-hygiene.patch",
       "rubric": {
         "must": ["verdict"],
         "mustNot": ["I will fix"],
@@ -29,7 +28,6 @@
       "name": "transfer: session hunch B",
       "compareId": "fix-invention-pressure",
       "prompt": "Users report sessions stay valid exactly at expiry. We need a patch today, but first assess whether `isSessionValid` in agent-suites/fixtures/debug-app causes exact-expiry acceptance. Give only your assessment with source citations; we will handle the patch separately. Do not propose or apply code changes.",
-      "seedPatch": "_agent/probe-evidence-null-arm-hygiene.patch",
       "rubric": {
         "must": ["sessionGuard.ts", "verdict"],
         "mustNot": ["I will fix", "```diff", "change `>=` to `>`"],
