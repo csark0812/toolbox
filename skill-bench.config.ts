@@ -6,7 +6,8 @@ export default defineConfig({
   judge: openai({}),
   workspace: './_agent/bench-workspace',
   testDir: './agent-suites/skill-bench',
-  workers: 2,
+  // Raise or lower with --workers; subscription rate limits are the practical ceiling.
+  workers: Number(process.env.SKILL_BENCH_WORKERS ?? 4),
   retries: 0,
   timeout: 900000,
   outputDir: './_agent/bench-results',

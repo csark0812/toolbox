@@ -18,7 +18,7 @@ import { mulberry32 } from './lib/pairwise-stats.mjs'
 
 export const JUDGE_VERSION = 1
 export const JUDGE_MODEL = 'claude-opus-5-5'
-const CONCURRENCY = 3
+const CONCURRENCY = Number(process.env.SKILL_BENCH_JUDGES ?? 6)
 const KNOWN_GAPS = 5
 
 export const benchDir = (id) => join('.agent-test/skill-bench', id)

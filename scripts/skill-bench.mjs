@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Skill bench driver: run arms on blinded tasks, judge pairs, report verdicts.
 //   node scripts/skill-bench.mjs run [--arms none,full] [--tasks a,b] [--repeats 4] [--id <id>]
+//   Any command: --workers <n> agent runs at once (default 4), --judges <n> judge calls at once (default 6)
 //   node scripts/skill-bench.mjs judge|report [<id>] [<baseline>]
 //   node scripts/skill-bench.mjs preflight
 //   node scripts/skill-bench.mjs quick [--arms none,full] [--tasks a,b]   (2 repeats, matched pairs, no verdict)
@@ -11,10 +12,14 @@ const option = (name, fallback) => {
   const index = rest.indexOf(`--${name}`)
   return index === -1 ? fallback : rest[index + 1]
 }
+const concurrency = {
+  ...(option('workers') ? { SKILL_BENCH_WORKERS: option('workers') } : {}),
+  ...(option('judges') ? { SKILL_BENCH_JUDGES: option('judges') } : {}),
+}
 const step = (args, env = {}, { allowFailure = false } = {}) => {
   const result = spawnSync(process.execPath, args, {
     stdio: 'inherit',
-    env: { ...process.env, ...env },
+    env: { ...process.env, ...concurrency, ...env },
   })
   if (result.status !== 0 && !allowFailure) process.exit(result.status ?? 1)
 }

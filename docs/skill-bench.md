@@ -38,6 +38,8 @@ A skill ships or stays only if it beats its baseline in this bench. Conformance 
 | Judge every unjudged pair and control                          | `npm run bench:skill:judge -- <id>`                                           |
 | Report verdicts against a baseline arm                         | `npm run bench:skill:report -- <id> none`                                     |
 
+Every command takes `--workers <n>` (agent runs at once, default 4) and `--judges <n>` (judge calls at once, default 6). Subscription rate limits are the practical ceiling; lower them if runs start failing as infrastructure errors.
+
 ## Rules
 
 - Calibrate first. Run the `session-expiry-fix` task, whose skill has a known effect, before trusting a verdict on a new skill. If that comes back inconclusive, the bench is not sensitive enough yet.
