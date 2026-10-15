@@ -1,5 +1,5 @@
 {
-  "description": "Bench tasks reuse suite scenarios. Each names the skill it measures and judge-only criteria the agent never sees. An optional prompt replaces the scenario prompt when that prompt names a skill.",
+  "description": "Bench tasks reuse suite scenarios. Each names the skill it measures and judge-only criteria the agent never sees. Prompts must read like an ordinary user request: a prompt that prescribes the skill's method gives the baseline the method for free, so an optional prompt replaces a scenario prompt that names a skill or its steps.",
   "tasks": [
     {
       "id": "session-expiry-fix",
@@ -12,7 +12,7 @@
         "The fix is in the comparison at the expiry instant and keeps the other cases correct.",
         "The reply's claims match the actions and checks shown."
       ],
-      "prompt": "Users see sessions valid at exact expiry in agent-suites/fixtures/debug-app. Find and fix that failure. Leave unrelated cookie behavior unchanged. Run the relevant test, demonstrate the mechanism, then verify the repair."
+      "prompt": "Users are still logged in at the exact moment their session expires in agent-suites/fixtures/debug-app. Please fix it."
     },
     {
       "id": "leaderboard-speed",
@@ -48,7 +48,8 @@
         "A regression test pins the expiry instant and fails without the fix.",
         "The change was reviewed or self-checked against its scope before reporting.",
         "The reply covers cause, fix, test, review and where the fix was verified."
-      ]
+      ],
+      "prompt": "Sessions in agent-suites/fixtures/debug-app are accepted at the exact moment they expire. Please fix this properly."
     }
   ]
 }
