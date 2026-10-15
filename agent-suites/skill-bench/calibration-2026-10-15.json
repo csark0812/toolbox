@@ -1,0 +1,32 @@
+{
+  "benches": ["vs-pstack", "vs-pstack-ebd"],
+  "weakenedPairs": 44,
+  "identicalPairs": 18,
+  "table": [
+    {
+      "threshold": 0.25,
+      "sensitivity": 1,
+      "falseCalls": 0
+    },
+    {
+      "threshold": 0.5,
+      "sensitivity": 1,
+      "falseCalls": 0
+    },
+    {
+      "threshold": 0.75,
+      "sensitivity": 1,
+      "falseCalls": 0
+    },
+    {
+      "threshold": 1,
+      "sensitivity": 1,
+      "falseCalls": 0
+    }
+  ],
+  "chosen": {
+    "threshold": 0.25,
+    "sensitivity": 1,
+    "falseCalls": 0
+  }
+}

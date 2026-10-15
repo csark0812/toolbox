@@ -212,3 +212,31 @@ describe('held-out tasks', () => {
     expect(new Set(ids).size).toBe(ids.length)
   })
 })
+
+describe('judge threshold calibration', async () => {
+  const { calibrationTable, chooseThreshold, meanGap, weaken } =
+    await import('../scripts/skill-bench-calibrate.mjs')
+
+  it('weakens a run by removing its shown evidence, not its changes', () => {
+    const twin = weaken(
+      run({ toolCalls: [{ name: 'Edit' }, { name: 'Bash', args: { command: 'node --test' } }] }),
+    )
+    expect(twin.diff).toBe(run().diff)
+    expect(twin.output).toBe('Fixed it. Tests pass.')
+    expect(twin.toolCalls).toEqual([{ name: 'Edit' }])
+  })
+
+  it('averages the original-minus-twin gap over both orders', () => {
+    const judgments = [
+      { first: 'o', second: 't', scores: { first: 4, second: 3 } },
+      { first: 't', second: 'o', scores: { first: 2, second: 4 } },
+    ]
+    expect(meanGap(judgments, 'o')).toBe(1.5)
+  })
+
+  it('picks the smallest threshold with at most 10% false calls on identical pairs', () => {
+    const table = calibrationTable([1, 1, 0.5, 0.25, 0], [0, 0.25, 0, 0, 0, 0, 0, 0, 0, 0.5])
+    expect(table.map((row) => row.falseCalls)).toEqual([0.2, 0.1, 0, 0])
+    expect(chooseThreshold(table)).toMatchObject({ threshold: 0.5, sensitivity: 0.6 })
+  })
+})

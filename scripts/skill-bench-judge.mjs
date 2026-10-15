@@ -76,7 +76,7 @@ export async function loadLedger(id) {
 }
 
 /** The task as the judge sees it: the user's request plus criteria the agent never saw. */
-async function taskBrief(task) {
+export async function taskBrief(task) {
   const prompt = (
     task.claim?.prompt ??
     task.prompt ??

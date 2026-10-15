@@ -18,7 +18,10 @@ export const MIN_RETESTS = 5
 
 /**
  * Minimum gap between two runs' mean scores (both orders) for a scored judgment to count as a
- * win. Calibrated for screenshots on the UI bench; re-check against human grades for code runs.
+ * win. Calibrated for screenshots on the UI bench. For code (skill bench, 2026-10-15, graded twins on
+ * 44 development runs): 100% of evidence-stripped twins lose by at least 1 point and 0% of identical
+ * pairs are called at any gap from 0.25 to 1, so 0.25 is safe for code. Finer tuning needs human grades.
+ * See agent-suites/skill-bench/calibration-2026-10-15.json.
  */
 export const SCORE_GAP = 0.25
 
