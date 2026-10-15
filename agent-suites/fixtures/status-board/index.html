@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Service status</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="board">
+      <section class="card">
+        <h2>API <span class="badge">v2</span></h2>
+        <p class="status--ok">Operational</p>
+        <p class="muted">Last incident 12 days ago</p>
+        <button class="button" type="button">Subscribe</button>
+      </section>
+      <section class="card">
+        <h2>Search <span class="badge">beta</span></h2>
+        <p class="status--down">Degraded</p>
+        <p class="muted">Investigating elevated latency</p>
+        <button class="button" type="button" disabled>Subscribed</button>
+      </section>
+    </main>
+  </body>
+</html>

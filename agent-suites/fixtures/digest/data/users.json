@@ -1,0 +1,62 @@
+[
+  {
+    "id": "u17",
+    "email": "ines@example.com",
+    "timezone": null,
+    "prefs": { "digest": true },
+    "createdAt": "2025-02-11T10:00:00Z",
+    "lastSentAt": "2026-10-04T08:00:00Z"
+  },
+  {
+    "id": "u23",
+    "email": "olu@example.com",
+    "timezone": null,
+    "prefs": { "digest": true },
+    "createdAt": "2025-06-30T10:00:00Z",
+    "lastSentAt": "2026-10-09T08:00:00Z"
+  },
+  {
+    "id": "u41",
+    "email": "mara@example.com",
+    "timezone": "Europe/Berlin",
+    "prefs": { "digest": true },
+    "createdAt": "2025-08-01T10:00:00Z",
+    "lastSentAt": "2026-10-04T06:00:00Z"
+  },
+  {
+    "id": "u58",
+    "email": "kei@example.com",
+    "timezone": null,
+    "prefs": { "digest": false },
+    "createdAt": "2026-01-19T10:00:00Z",
+    "lastSentAt": "2026-08-03T08:00:00Z"
+  },
+  {
+    "id": "u1003",
+    "email": "jo@example.com",
+    "timezone": "America/Chicago",
+    "prefs": { "digest": true },
+    "createdAt": "2026-09-22T15:20:00Z"
+  },
+  {
+    "id": "u1007",
+    "email": "ana@example.com",
+    "timezone": "Asia/Tokyo",
+    "prefs": { "digest": true },
+    "createdAt": "2026-09-25T02:10:00Z"
+  },
+  {
+    "id": "u1012",
+    "email": "sam@example.com",
+    "timezone": null,
+    "prefs": { "digest": true },
+    "createdAt": "2026-09-30T19:45:00Z"
+  },
+  {
+    "id": "u1015",
+    "email": "lee@example.com",
+    "timezone": "Europe/London",
+    "prefs": { "digest": true },
+    "createdAt": "2026-10-02T08:30:00Z"
+  }
+]

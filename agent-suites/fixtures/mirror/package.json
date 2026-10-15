@@ -1,0 +1,9 @@
+{
+  "name": "mirror",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "sync": "node bin/sync.mjs"
+  }
+}

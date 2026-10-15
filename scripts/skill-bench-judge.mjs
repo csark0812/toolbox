@@ -17,6 +17,7 @@ import {
   planPairs,
   renderRun,
   runId,
+  TASK_SETS,
 } from './lib/skill-bench-material.mjs'
 import { mulberry32 } from './lib/pairwise-stats.mjs'
 
@@ -67,11 +68,11 @@ export async function knownSkillNames() {
   return [...new Set([...Object.keys(lock.skills), ...packSkills.flat()])]
 }
 
-/** Development and held-out tasks together; ids are unique across both files. */
+/** Development and held-out tasks together; ids are unique across every set. */
 export async function loadTasks() {
-  const read = async (file) =>
-    JSON.parse(await readFile(`agent-suites/skill-bench/${file}`, 'utf8')).tasks
-  return [...(await read('tasks.json')), ...(await read('holdout.json'))]
+  const sets = TASK_SETS.map((set) => `agent-suites/skill-bench/${set}.json`).filter(existsSync)
+  const read = async (path) => JSON.parse(await readFile(path, 'utf8')).tasks
+  return (await Promise.all(sets.map(read))).flat()
 }
 
 export async function loadLedger(id) {

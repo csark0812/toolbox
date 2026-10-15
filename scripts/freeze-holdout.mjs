@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 // Hash every held-out input so a later edit is visible. Run with --write only to re-freeze on purpose;
 // re-freezing after seeing results voids the held-out claim, so record why in the commit.
+//   node scripts/freeze-holdout.mjs [--set holdout-v2] [--write]
 import { createHash } from 'node:crypto'
-import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-const LOCK = 'agent-suites/skill-bench/holdout.lock.json'
+const lockPath = (set) => `agent-suites/skill-bench/${set}.lock.json`
 
 function files(path) {
   if (statSync(path).isFile()) return [path]
@@ -15,15 +16,17 @@ function files(path) {
 }
 
 /** Every file a held-out task depends on, in a stable order. */
-export function holdoutFiles() {
-  const holdout = JSON.parse(readFileSync('agent-suites/skill-bench/holdout.json', 'utf8'))
+export function holdoutFiles(set = 'holdout') {
+  const holdout = JSON.parse(readFileSync(`agent-suites/skill-bench/${set}.json`, 'utf8'))
   const fixtures = [
     ...new Set(holdout.tasks.map((task) => `agent-suites/fixtures/${fixtureOf(task)}`)),
   ]
   return [
-    'agent-suites/skill-bench/holdout.json',
-    ...files('agent-suites/skill-bench/holdout-checks'),
-    ...files('agent-suites/skill-bench/holdout-seeds'),
+    `agent-suites/skill-bench/${set}.json`,
+    ...files(`agent-suites/skill-bench/${set}-checks`),
+    ...(existsSync(`agent-suites/skill-bench/${set}-seeds`)
+      ? files(`agent-suites/skill-bench/${set}-seeds`)
+      : []),
     ...fixtures.sort().flatMap(files),
   ]
 }
@@ -34,20 +37,22 @@ function fixtureOf(task) {
   return path.split('/')[2]
 }
 
-export function holdoutDigest() {
+export function holdoutDigest(set = 'holdout') {
   const hash = createHash('sha256')
-  for (const file of holdoutFiles())
+  for (const file of holdoutFiles(set))
     hash.update(file).update('\0').update(readFileSync(file)).update('\0')
   return hash.digest('hex')
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const digest = holdoutDigest()
+  const at = process.argv.indexOf('--set')
+  const set = at > 0 ? process.argv[at + 1] : 'holdout'
+  const digest = holdoutDigest(set)
   if (process.argv.includes('--write')) {
     writeFileSync(
-      LOCK,
-      JSON.stringify({ sha256: digest, files: holdoutFiles().length }, null, 2) + '\n',
+      lockPath(set),
+      JSON.stringify({ sha256: digest, files: holdoutFiles(set).length }, null, 2) + '\n',
     )
-    console.log(`Froze ${holdoutFiles().length} held-out files: ${digest}`)
+    console.log(`Froze ${holdoutFiles(set).length} ${set} files: ${digest}`)
   } else console.log(digest)
 }

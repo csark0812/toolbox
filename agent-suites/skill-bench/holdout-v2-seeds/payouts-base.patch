@@ -1,0 +1,11 @@
+diff --git a/agent-suites/fixtures/payouts/src/payouts.mjs b/agent-suites/fixtures/payouts/src/payouts.mjs
+index 408a5ec..0a73228 100644
+--- a/agent-suites/fixtures/payouts/src/payouts.mjs
++++ b/agent-suites/fixtures/payouts/src/payouts.mjs
+@@ -4,3 +4,6 @@
+ export function net(grossCents, feeRate) {
+   return grossCents - Math.round(grossCents * feeRate)
+ }
++
++/** Payouts below this are held until the seller's balance reaches it. */
++export const MIN_PAYOUT_CENTS = 100

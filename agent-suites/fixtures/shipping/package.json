@@ -1,0 +1,9 @@
+{
+  "name": "shipping",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "quote": "node bin/quote.mjs"
+  }
+}

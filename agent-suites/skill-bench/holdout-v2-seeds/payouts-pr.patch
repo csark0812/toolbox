@@ -1,0 +1,59 @@
+diff --git a/agent-suites/fixtures/payouts/src/payouts.mjs b/agent-suites/fixtures/payouts/src/payouts.mjs
+index 408a5ec..0699410 100644
+--- a/agent-suites/fixtures/payouts/src/payouts.mjs
++++ b/agent-suites/fixtures/payouts/src/payouts.mjs
+@@ -4,3 +4,27 @@
+ export function net(grossCents, feeRate) {
+   return grossCents - Math.round(grossCents * feeRate)
+ }
++
++const DAY_MS = 24 * 60 * 60 * 1000
++
++/** Monday of the UTC week containing `iso`, as YYYY-MM-DD. */
++export function weekStart(iso) {
++  const date = new Date(iso)
++  const midnight = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
++  const sinceMonday = new Date(midnight).getUTCDay() - 1
++  return new Date(midnight - sinceMonday * DAY_MS).toISOString().slice(0, 10)
++}
++
++/** One batch per seller per week: { seller, week, totalCents, count }. */
++export function batchByWeek(payouts) {
++  const batches = new Map()
++  for (const payout of payouts) {
++    const week = weekStart(payout.at)
++    const key = `${payout.seller}|${week}`
++    const batch = batches.get(key) ?? { seller: payout.seller, week, totalCents: 0, count: 0 }
++    batch.totalCents += payout.amountCents
++    batch.count++
++    batches.set(key, batch)
++  }
++  return [...batches.values()]
++}
+diff --git a/agent-suites/fixtures/payouts/tests/payouts.test.mjs b/agent-suites/fixtures/payouts/tests/payouts.test.mjs
+index 79bc2cc..a247759 100644
+--- a/agent-suites/fixtures/payouts/tests/payouts.test.mjs
++++ b/agent-suites/fixtures/payouts/tests/payouts.test.mjs
+@@ -1,8 +1,21 @@
+ import assert from 'node:assert/strict'
+ import { test } from 'node:test'
+-import { net } from '../src/payouts.mjs'
++import { batchByWeek, net } from '../src/payouts.mjs'
+ 
+ test('takes the rounded fee', () => {
+   assert.equal(net(10000, 0.029), 9710)
+   assert.equal(net(1050, 0.1), 945)
+ })
++
++test('batches Monday to Sunday per seller', () => {
++  const batches = batchByWeek([
++    { seller: 'ana', at: '2026-03-02T09:00:00Z', amountCents: 1200 },
++    { seller: 'ana', at: '2026-03-04T18:30:00Z', amountCents: 800 },
++    { seller: 'ana', at: '2026-03-08T23:59:00Z', amountCents: 500 },
++    { seller: 'bo', at: '2026-03-03T12:00:00Z', amountCents: 300 },
++  ])
++  assert.deepEqual(batches, [
++    { seller: 'ana', week: '2026-03-02', totalCents: 2500, count: 3 },
++    { seller: 'bo', week: '2026-03-02', totalCents: 300, count: 1 },
++  ])
++})

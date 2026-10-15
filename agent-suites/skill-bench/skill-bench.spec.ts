@@ -13,11 +13,12 @@ import {
   runHardChecks,
   type Claim,
 } from '../v2/support'
-import { blindingLeaks } from '../../scripts/lib/skill-bench-material.mjs'
+import { blindingLeaks, checksDir, TASK_SETS } from '../../scripts/lib/skill-bench-material.mjs'
 
 const BENCH_ROOT = 'projects'
-// --taskset holdout runs the frozen held-out set; the default set is the development tasks.
-const TASKSET = process.env.SKILL_BENCH_TASKSET === 'holdout' ? 'holdout' : 'tasks'
+// --taskset picks a frozen held-out set (holdout, holdout-v2); the default is the development tasks.
+const TASKSET = process.env.SKILL_BENCH_TASKSET ?? 'tasks'
+if (!TASK_SETS.includes(TASKSET)) throw new Error(`Unknown task set ${TASKSET}`)
 const { tasks } = JSON.parse(readFileSync(`agent-suites/skill-bench/${TASKSET}.json`, 'utf8'))
 const arms = (process.env.SKILL_BENCH_ARMS ?? 'none,full').split(',')
 const selected = process.env.SKILL_BENCH_TASKS?.split(',')
@@ -140,14 +141,11 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
         let hardCheck = { passed: true, failure: null as string | null }
         try {
           await runHardChecks(run, claim)
-          // The held-out acceptance check lives outside the workspace, so the agent never sees it.
+          // The acceptance check lives outside the workspace, so the agent never sees it.
           if (task.check)
             execFileSync(
               process.execPath,
-              [
-                `agent-suites/skill-bench/holdout-checks/${task.check}.mjs`,
-                holdoutDir(run.workspace.root, task),
-              ],
+              [`${checksDir(TASKSET)}/${task.check}.mjs`, holdoutDir(run.workspace.root, task)],
               { stdio: 'pipe', timeout: 120000 },
             )
         } catch (error) {

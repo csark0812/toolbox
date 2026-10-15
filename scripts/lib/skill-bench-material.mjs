@@ -18,6 +18,13 @@ export const BANNED_WORDS = [
   'skill-off',
 ]
 
+/** Task sets: development tasks, then frozen held-out sets. A set is `<set>.json`, with hidden checks in `<set>-checks/`. */
+export const TASK_SETS = ['tasks', 'holdout', 'holdout-v2']
+export const HELD_OUT_SETS = TASK_SETS.filter((set) => set !== 'tasks')
+
+/** Where a set's hidden acceptance checks live; development checks use `dev-checks/`. */
+export const checksDir = (set) => `agent-suites/skill-bench/${set === 'tasks' ? 'dev' : set}-checks`
+
 /** Banned words found in `text`, as whole words, case-insensitive. */
 export function blindingLeaks(text) {
   return BANNED_WORDS.filter((word) => new RegExp(`\\b${word}\\b`, 'i').test(text))

@@ -1,0 +1,40 @@
+[
+  {
+    "id": "pancakes",
+    "title": "Buttermilk pancakes",
+    "category": "breakfast",
+    "minutes": 25,
+    "servings": 4,
+    "ingredients": [
+      { "name": "flour", "qty": 250, "unit": "g" },
+      { "name": "buttermilk", "qty": 400, "unit": "ml" },
+      { "name": "egg", "qty": 1, "unit": "" },
+      { "name": "baking powder", "qty": 1.5, "unit": "tsp" },
+      { "name": "salt", "qty": 0.5, "unit": "tsp" }
+    ]
+  },
+  {
+    "id": "shakshuka",
+    "title": "Shakshuka",
+    "category": "dessert",
+    "minutes": 35,
+    "servings": 2,
+    "ingredients": [
+      { "name": "egg", "qty": 4, "unit": "" },
+      { "name": "tomatoes", "qty": 400, "unit": "g" },
+      { "name": "cumin", "qty": 1, "unit": "tsp" }
+    ]
+  },
+  {
+    "id": "panna-cotta",
+    "title": "Vanilla panna cotta",
+    "category": "dessert",
+    "minutes": 20,
+    "servings": 6,
+    "ingredients": [
+      { "name": "cream", "qty": 500, "unit": "ml" },
+      { "name": "sugar", "qty": 80, "unit": "g" },
+      { "name": "gelatine", "qty": 3, "unit": "sheets" }
+    ]
+  }
+]

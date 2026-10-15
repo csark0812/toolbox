@@ -1,0 +1,50 @@
+[
+  {
+    "path": "logo.svg",
+    "bytes": 900
+  },
+  {
+    "path": "hero.jpg",
+    "bytes": 2273
+  },
+  {
+    "path": "app.css",
+    "bytes": 3646
+  },
+  {
+    "path": "app.js",
+    "bytes": 5019
+  },
+  {
+    "path": "vendor.js",
+    "bytes": 1392
+  },
+  {
+    "path": "font-regular.woff2",
+    "bytes": 2765
+  },
+  {
+    "path": "font-bold.woff2",
+    "bytes": 4138
+  },
+  {
+    "path": "icons.svg",
+    "bytes": 5511
+  },
+  {
+    "path": "manifest.webmanifest",
+    "bytes": 1884
+  },
+  {
+    "path": "og-image.png",
+    "bytes": 3257
+  },
+  {
+    "path": "favicon.ico",
+    "bytes": 4630
+  },
+  {
+    "path": "robots.txt",
+    "bytes": 1003
+  }
+]

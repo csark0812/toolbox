@@ -4,7 +4,9 @@ import { describe, expect, it } from 'vitest'
 import { EXPECTED_SKILLS } from '../src/expected-skills.ts'
 import {
   blindingLeaks,
+  checksDir,
   degrade,
+  HELD_OUT_SETS,
   maskSkillNames,
   parseVerdict,
   planPairs,
@@ -48,7 +50,7 @@ describe('skill bench blinding', () => {
 
   for (const task of tasks)
     it(`${task.id} prompt, criteria owner and workspace framing reveal no measurement`, () => {
-      const scenario = scenarioOf(task)
+      const scenario = task.claim ?? scenarioOf(task)
       expect(scenario, `${task.suite} scenario ${task.scenario}`).toBeTruthy()
       const prompt = task.prompt ?? scenario.prompt
       expect(blindingLeaks(prompt)).toEqual([])
@@ -191,34 +193,43 @@ describe('skill bench report', () => {
   })
 })
 
-describe('held-out tasks', () => {
-  const holdout = JSON.parse(
-    readFileSync(join(root, 'agent-suites/skill-bench/holdout.json'), 'utf8'),
-  )
+const heldOut = HELD_OUT_SETS.filter((set) =>
+  existsSync(join(root, `agent-suites/skill-bench/${set}.lock.json`)),
+).map((set) => ({
+  set,
+  tasks: JSON.parse(readFileSync(join(root, `agent-suites/skill-bench/${set}.json`), 'utf8')).tasks,
+}))
 
-  it('match their frozen hash (re-freeze only on purpose, never after seeing results)', async () => {
-    const { holdoutDigest } = await import('../scripts/freeze-holdout.mjs')
-    const lock = JSON.parse(
-      readFileSync(join(root, 'agent-suites/skill-bench/holdout.lock.json'), 'utf8'),
-    )
-    expect(holdoutDigest()).toBe(lock.sha256)
-  })
-
-  for (const task of holdout.tasks)
-    it(`${task.id} is blind, checked and scored on 3-6 criteria`, () => {
-      expect(blindingLeaks(task.claim.prompt)).toEqual([])
-      expect(task.claim.prompt).not.toMatch(new RegExp(`\\b${task.targetSkill}\\b|holdout`))
-      expect(EXPECTED_SKILLS).toContain(task.targetSkill)
-      expect(
-        existsSync(join(root, `agent-suites/skill-bench/holdout-checks/${task.check}.mjs`)),
-      ).toBe(true)
-      expect(task.criteria.length).toBeGreaterThanOrEqual(3)
-      expect(task.criteria.length).toBeLessThanOrEqual(6)
+for (const { set, tasks: frozen } of heldOut)
+  describe(`held-out set ${set}`, () => {
+    it('matches its frozen hash (re-freeze only on purpose, never after seeing results)', async () => {
+      const { holdoutDigest } = await import('../scripts/freeze-holdout.mjs')
+      const lock = JSON.parse(
+        readFileSync(join(root, `agent-suites/skill-bench/${set}.lock.json`), 'utf8'),
+      )
+      expect(holdoutDigest(set)).toBe(lock.sha256)
     })
 
-  it('ids do not collide with development tasks', () => {
-    const ids = [...tasks, ...holdout.tasks].map((task) => task.id)
+    for (const task of frozen)
+      it(`${task.id} is blind, checked and scored on 3-6 criteria`, () => {
+        expect(blindingLeaks(task.claim.prompt)).toEqual([])
+        expect(task.claim.prompt).not.toMatch(new RegExp(`\\b${task.targetSkill}\\b|holdout`))
+        expect(EXPECTED_SKILLS).toContain(task.targetSkill)
+        expect(existsSync(join(root, `${checksDir(set)}/${task.check}.mjs`))).toBe(true)
+        expect(task.criteria.length).toBeGreaterThanOrEqual(3)
+        expect(task.criteria.length).toBeLessThanOrEqual(6)
+      })
+  })
+
+describe('task sets', () => {
+  it('have unique ids across development and every held-out set', () => {
+    const ids = [tasks, ...heldOut.map(({ tasks }) => tasks)].flat().map((task) => task.id)
     expect(new Set(ids).size).toBe(ids.length)
+  })
+
+  it('development tasks with a hidden check have it outside the workspace', () => {
+    for (const task of tasks.filter((task) => task.check))
+      expect(existsSync(join(root, `${checksDir('tasks')}/${task.check}.mjs`))).toBe(true)
   })
 })
 

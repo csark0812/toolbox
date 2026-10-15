@@ -1,0 +1,4 @@
+weight_kg,length_cm,width_cm,height_cm,zone,service
+1.2,20,15,10,A,standard
+0.4,60,40,40,B,express
+7,30,30,30,C,standard

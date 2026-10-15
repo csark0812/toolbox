@@ -1,0 +1,9 @@
+{
+  "name": "recipes",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "list": "node bin/list.mjs"
+  }
+}
