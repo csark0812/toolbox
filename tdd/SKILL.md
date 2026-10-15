@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Test-first build at agreed public seams, one red-green slice at a time. Process skill. Not repro-first hard-bug work without a seam, a throwaway spike, or find-only hunch settlement.
+description: Build a new feature, function or module test-first: write a failing test at its public interface, make it pass, one slice at a time, and fix bugs found in the slice. Use when the user asks to add or build behavior with tests, test-first or TDD. Not repro-first hard-bug work without a seam, a throwaway spike, or find-only hunch settlement.
 ---
 
 # Test-Driven Development
@@ -16,15 +16,17 @@ Read [research-basis.md](references/research-basis.md) only when you calibrate s
 
 ## Entry gate
 
-- **Seam** agreed with the user — public interface under test (`Seam:` header or explicit agreement).
+- **Seam** — the public interface under test. An interface the user names in the request is agreed. Otherwise propose one (`Seam:` header) and get agreement.
 - **Slice** in scope — path glob or module id shared with other active atoms when layered.
-- If there is no agreed seam, stop and ask. Do not write production code or tests at private helpers only.
+- If no seam is named or agreed, stop and ask. Do not write production code or tests at private helpers only.
 
 ## Non-negotiables
 
 1. **Red before green** — one vertical slice per cycle.
 2. **Independent expected values** — not tautological to production logic.
 3. **Refactor out of scope** — defer structural cleanup unless the user asks.
+4. **Bugs in the slice are in scope.** A bug found in code the slice calls or changes, which would make the requested behavior wrong, gets its own failing test and fix. Never leave a known correctness bug in the slice. Report a bug outside the slice with its location, without fixing it.
+5. **Review before done.** When the user asks for review, review the final diff, including changes made after an earlier review, and report what the review found.
 
 ## Workflow
 

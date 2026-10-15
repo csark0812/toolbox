@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Review code through a user-named surface and lens. Use for focused risk checks, ordinary code review, prior-finding closure, or a strict code-quality merge gate. Source stays read-only unless the user separately asks for fixes; a review of a branch or pull request with an open PR posts its findings there as inline comments. Not hunch settlement, written-artifact critique, or multi-agent orchestration.
+description: Review code through a user-named surface and lens. Use when the user asks to review a branch, pull request, diff or change before merging, and for focused risk checks, prior-finding closure, or a strict code-quality merge gate. Source stays read-only unless the user separately asks for fixes; a review of a branch or pull request with an open PR posts its findings there as inline comments. Not hunch settlement, written-artifact critique, or multi-agent orchestration.
 ---
 
 # Code review

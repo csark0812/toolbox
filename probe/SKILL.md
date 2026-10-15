@@ -1,6 +1,6 @@
 ---
 name: probe
-description: Test a specific hunch or claim against primary evidence and return a cited verdict. Use for suspected mechanisms, code behavior, documents, data, or research claims. Not reproduction-led debugging, repair, open ideation, or written-artifact critique.
+description: Use when the user asks why or how some code, data or document behaves, or whether a hunch or claim is true, and wants an answer rather than a change. Checks the question's premise first, gathers primary evidence and returns a cited verdict without editing anything. Not reproduction-led debugging, repair, open ideation, or written-artifact critique.
 ---
 
 # Probe
@@ -27,6 +27,8 @@ For a code or behavior verdict, state the level its load-bearing fact reached on
 **Find and verdict only** — locate the issue or settle the claim with citable primary-source evidence. **Do not propose code edits, diffs, or “change X to Y” in the verdict or evidence sections.** Describe any next implementation work in **What to do next** under a separately authorized contract. Do not ship the fix in this pass.
 
 **Primary-source-first** after the target is clear: read the actual code, source document, or data.
+
+**Check the premise first.** When the question asserts a behavior ("the job runs twice", "the value is stale"), observe that behavior with a quick run or calculation before explaining it. If the observation contradicts the premise, the verdict leads with that, shows the observation, and explains what actually happens. Never build an explanation for a behavior you have not seen.
 
 ### Evidence stance
 

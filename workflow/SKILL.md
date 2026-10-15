@@ -1,6 +1,6 @@
 ---
 name: workflow
-description: Route multi-step engineering work to the right skills and run a step playbook for bug fixes, features, refactors, performance work, investigations, PRs to merge-ready, session pickup or pause. Also coordinates ownership sessions when the user wants to understand, adopt, change, or verify agent-created work. Keep ordinary edits proportional. Not a single specialist task the user already aimed at one skill.
+description: Start here for engineering work in a repository that has more than one step or more than one item - fixing a reported bug, working through a TODO list or batch of fixes, building a feature, refactoring, hitting a performance target, answering why or how a piece of code behaves, or getting a PR merge-ready. Routes the work to the right skills and copies a step playbook into the task list. Also coordinates ownership sessions when the user wants to understand, adopt, change, or verify agent-created work. Keep ordinary edits proportional. Not a single specialist task the user already aimed at one skill.
 ---
 
 # Workflow
@@ -32,7 +32,7 @@ Before another attempt at an unresolved blocker, check whether work has produced
 
 ## Playbooks
 
-When the request is a multi-step task that matches a playbook, open it and copy its numbered steps **verbatim** into the host task list before any task-specific items. When the host has no task-list tool, write them as a numbered checklist in a plan note or your first message instead. A step that does not apply stays in the list as `skip: <reason>`. Never drop it silently. Each step runs through its named companion. The final reply meets the playbook's **Reply contract**.
+When the request is a multi-step task that matches a playbook, open it and copy its numbered steps **verbatim** into the host task list before any task-specific items. When the host has no task-list tool, write them as a numbered checklist in a plan note or your first message instead. A step that does not apply stays in the list as `skip: <reason>`. Never drop it silently. Each step runs through its named companion. The final reply meets the playbook's **Reply contract**. Before sending it, check each claim against the output you captured: describe what the output shows, not what you expected it to show. A claim that the output does not support is removed or marked unverified.
 
 | Task                                 | Playbook                                                          |
 | ------------------------------------ | ----------------------------------------------------------------- |

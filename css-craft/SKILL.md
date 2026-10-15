@@ -1,6 +1,6 @@
 ---
 name: css-craft
-description: Diagnose, implement, or review CSS layout, cascade, responsive styling, themes, native controls, and motion. Use for focused styling defects or CSS technique choices where browser support and rendered behavior matter. Preserve the project's framework, tokens, components, and design direction. This is not a visual concept or full-page design process.
+description: Fix, match or review CSS: layout, cascade, specificity, responsive styling, themes, hover and focus states, native controls and motion. Use when the user reports a styling defect, wants one style to match another, or asks which CSS technique to use, where browser support and rendered behavior matter. Preserve the project's framework, tokens, components, and design direction. This is not a visual concept or full-page design process.
 ---
 
 # CSS Craft

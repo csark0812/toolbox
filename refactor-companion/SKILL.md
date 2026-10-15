@@ -1,6 +1,6 @@
 ---
 name: refactor-companion
-description: Change an existing design through proven refactor slices when the user asks to replace or consolidate controls, move state or lifecycle ownership, migrate an editor or API, or remove an old path. Preserve the stated target and unrelated work. Not routine feature work, read-only review, or autonomous Git operations.
+description: Change an existing structure without changing behavior, in proven slices: replace flags or types with a better model, consolidate or rename APIs, move state or lifecycle ownership, migrate every caller, and delete the old path. Use when the user asks to refactor, replace, consolidate, migrate or remove an existing structure while keeping behavior the same. Not routine feature work, read-only review, or autonomous Git operations.
 ---
 
 # Refactor companion
