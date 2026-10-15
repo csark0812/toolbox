@@ -251,10 +251,11 @@ function publishToBareRemote(root: string) {
 /** `pack:pstack@poteto-mode` → `pstack`. */
 export const packName = (arm: string) => arm.slice('pack:'.length).split('@')[0]
 
-/** `pack:pstack@poteto-mode` → `poteto-mode`: the pack's documented entry skill, if any. */
-export const packEntry = (arm: string) => (arm.startsWith('pack:') ? arm.split('@')[1] : undefined)
+/** The entry skill an arm's prompt names (`pack:pstack@poteto-mode`, `full@workflow`), if any. */
+export const packEntry = (arm: string) => arm.split('@')[1]
 
-export function installedSkills(arm: string): string[] {
+export function installedSkills(armWithEntry: string): string[] {
+  const arm = armWithEntry.split('@')[0]
   if (arm === 'none' || arm === 'legacy-design' || arm.startsWith('pack:')) return []
   if (arm === 'full') return [...EXPECTED_SKILLS]
   const [mode, slug] = arm.split(':')
