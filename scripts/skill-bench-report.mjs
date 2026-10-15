@@ -20,6 +20,14 @@ import {
   loadTasks,
 } from './skill-bench-judge.mjs'
 
+/** Median of the finite numbers, or null. */
+export function median(values) {
+  const sorted = values.filter((value) => Number.isFinite(value)).sort((a, b) => a - b)
+  if (!sorted.length) return null
+  const middle = Math.floor(sorted.length / 2)
+  return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2
+}
+
 /** Verdict rows for every focus arm against the baseline, grouped by each task's target skill. */
 export function buildReport({ runs: all, tasks, judgments, baseline = 'none' }) {
   const runs = all.filter((run) => !run.infrastructure)
@@ -52,18 +60,47 @@ export function buildReport({ runs: all, tasks, judgments, baseline = 'none' }) 
         runs.filter((run) => taskIds.has(run.task) && run.arm === arm && !run.hardCheck.passed)
           .length
       const defects = { focus: failures(focus), other: failures(baseline) }
+      // Cost is reported beside the verdict, never fed to the judge, so it cannot bias quality.
+      const costOf = (arm, key) =>
+        median(
+          runs.filter((run) => taskIds.has(run.task) && run.arm === arm).map((run) => run[key]),
+        )
+      const cost = {
+        tokens: { focus: costOf(focus, 'tokens'), other: costOf(baseline, 'tokens') },
+        seconds: {
+          focus: costOf(focus, 'durationMs') / 1000 || null,
+          other: costOf(baseline, 'durationMs') / 1000 || null,
+        },
+      }
       const call =
         repeats < MIN_REPEATS
           ? `signal only (${repeats} run${repeats === 1 ? '' : 's'} per arm)`
           : health.healthy
             ? verdict({ ...rate, ...interval, repeats }, defects)
             : 'withheld'
-      rows.push({ skill, focus, baseline, ...rate, ...interval, repeats, defects, verdict: call })
+      rows.push({
+        skill,
+        focus,
+        baseline,
+        ...rate,
+        ...interval,
+        repeats,
+        defects,
+        cost,
+        verdict: call,
+      })
     }
   return { rows, health, excluded }
 }
 
 const percent = (value) => (value === null ? '–' : `${Math.round(value * 100)}%`)
+const thousands = (value) => `${Math.round(value / 1000)}k`
+const seconds = (value) => `${Math.round(value)}s`
+/** "focus vs other (ratio×)" for a cost metric, or a dash when either side is missing. */
+const pair = (metric, format) =>
+  metric?.focus && metric?.other
+    ? `${format(metric.focus)} vs ${format(metric.other)} (${(metric.focus / metric.other).toFixed(1)}×)`
+    : '–'
 
 export function renderMarkdown(id, { rows, health, excluded = 0 }) {
   const lines = [
@@ -71,11 +108,11 @@ export function renderMarkdown(id, { rows, health, excluded = 0 }) {
     '',
     `Judge v${JUDGE_VERSION}. A verdict needs ${MIN_REPEATS}+ runs per arm per task and a healthy judge. Infrastructure exclusions: ${excluded}.`,
     '',
-    '| Skill | Arm vs baseline | W/L/T | Win rate | 95% CI | Runs | Check failures | Verdict |',
-    '| --- | --- | --- | --- | --- | --- | --- | --- |',
+    '| Skill | Arm vs baseline | W/L/T | Win rate | 95% CI | Runs | Check failures | Median tokens | Median time | Verdict |',
+    '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
     ...rows.map(
       (row) =>
-        `| ${row.skill} | ${row.focus} vs ${row.baseline} | ${row.wins}/${row.losses}/${row.ties} | ${percent(row.rate)} | ${percent(row.lower)}–${percent(row.upper)} | ${row.repeats} | ${row.defects.focus} vs ${row.defects.other} | **${row.verdict}** |`,
+        `| ${row.skill} | ${row.focus} vs ${row.baseline} | ${row.wins}/${row.losses}/${row.ties} | ${percent(row.rate)} | ${percent(row.lower)}–${percent(row.upper)} | ${row.repeats} | ${row.defects.focus} vs ${row.defects.other} | ${pair(row.cost?.tokens, thousands)} | ${pair(row.cost?.seconds, seconds)} | **${row.verdict}** |`,
     ),
     '',
     `## Judge health: ${health.healthy ? 'healthy' : 'unhealthy (verdicts withheld)'}`,

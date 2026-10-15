@@ -147,6 +147,21 @@ describe('skill bench report', () => {
     expect(report.rows[0].verdict).toBe('signal only (1 run per arm)')
   })
 
+  it('reports median tokens and time beside the verdict', () => {
+    const report = buildReport({
+      runs: [
+        run({ arm: 'none', tokens: 300, durationMs: 9000 }),
+        run({ tokens: 100, durationMs: 3000 }),
+      ],
+      tasks,
+      judgments,
+    })
+    expect(report.rows[0].cost).toEqual({
+      tokens: { focus: 100, other: 300 },
+      seconds: { focus: 3, other: 9 },
+    })
+  })
+
   it('labels fewer than four runs per arm as signal only', () => {
     const report = buildReport({ runs: [run({ arm: 'none' }), run()], tasks, judgments })
     expect(report.rows[0]).toMatchObject({

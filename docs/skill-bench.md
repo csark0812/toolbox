@@ -24,6 +24,8 @@ A skill ships or stays only if it beats its baseline in this bench. Conformance 
    - **Not better:** upper bound < 60%.
    - **Inconclusive:** anything else.
 
+   The report also shows median tokens and wall-clock time per arm, with the ratio. Cost is never shown to the judge, so it cannot bias the quality call; read the two side by side.
+
    No verdict is given before 4 runs per arm per task; fewer runs report **signal only**. An unhealthy judge withholds every verdict.
 
 ## Commands
