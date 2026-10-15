@@ -10,7 +10,7 @@ A skill ships or stays only if it beats its baseline in this bench. Conformance 
 1. **Arms and runners.** Each run installs one skill set: `none`, `full`, `only:<slug>`, `without:<slug>`, or `pack:<name>[@<entry>]` for a comparison pack such as pstack. Everything else is identical. `--runner codex|claude` picks the agent host for every arm.
    - A pack arm gets the setup its own docs call for. `node scripts/fetch-pack.mjs pstack` fetches pstack at a pinned commit, places its per-runner model settings file and (on Claude) its subagents in the workspace, and the entry prompt names the entry skill (`/poteto-mode`) the way pstack documents.
 2. **Blinding.**
-   - Runs use `_agent/bench-workspace`, where fixtures live under `projects/` and the workspace instructions carry no testing words.
+   - Runs use `_agent/bench-workspace-<runner>`, where fixtures live under `projects/` and the workspace instructions carry no testing words.
    - Root skill sources and fixture folders named after a skill are removed.
    - `scripts/lib/skill-bench-material.mjs` lists the banned words. Tests check every task prompt against it.
 3. **Tasks.** Each task names its target skill and 3–6 criteria that only the judge sees.
