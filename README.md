@@ -142,7 +142,7 @@ Portable agent conformance lives under [`agent-suites/`](agent-suites/). Suites 
 npm run agent:test
 ```
 
-Live dogfood runs Claude Code on Haiku with subscription auth in isolated workspaces. Run:
+Live dogfood uses the configured Codex subscription in isolated workspaces. Run:
 
 ```bash
 npm run agent:test:live

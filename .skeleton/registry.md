@@ -19,6 +19,7 @@
 | GitHub ambient refs validate         | [github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md)        |
 | Hunch verdict (ambient)              | [verdict.md](../references/verdict.md)                                                |
 | Evidence parity                      | [evidence-parity.md](../docs/evidence-parity.md)                                      |
+| Skill bench                          | [skill-bench.md](../docs/skill-bench.md)                                              |
 | Skill evolution                      | [skill-evolution.md](../docs/skill-evolution.md)                                      |
 | Skill organization ablations         | [skill-organization-ablations.md](../docs/skill-organization-ablations.md)            |
 | Nontechnical investigation follow-up | [evidence-based-investigation.md](../docs/follow-ups/evidence-based-investigation.md) |

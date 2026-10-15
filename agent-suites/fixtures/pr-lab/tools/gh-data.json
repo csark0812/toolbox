@@ -14,7 +14,7 @@
   "threads": [
     {
       "id": "PRRT_1",
-      "path": "agent-suites/fixtures/pr-lab/src/pricing.mjs",
+      "path": "src/pricing.mjs",
       "line": 6,
       "comments": [
         {
@@ -26,7 +26,7 @@
     },
     {
       "id": "PRRT_2",
-      "path": "agent-suites/fixtures/pr-lab/src/pricing.mjs",
+      "path": "src/pricing.mjs",
       "line": 11,
       "comments": [
         {

@@ -45,7 +45,11 @@
     "agent:test:comparisons": "node scripts/run-agent-suites.mjs comparisons",
     "agent:test:publication": "vitest run tests/durable-contracts.test.js -t publication",
     "test:network": "TOOLBOX_NETWORK_TESTS=1 vitest run tests/github-ambient-refs.test.js",
-    "agent:test:debugging-evidence-parity": "node scripts/run-diagnose-evidence-parity.mjs"
+    "agent:test:debugging-evidence-parity": "node scripts/run-diagnose-evidence-parity.mjs",
+    "bench:skill": "node scripts/skill-bench.mjs run",
+    "bench:skill:preflight": "node scripts/skill-bench.mjs preflight",
+    "bench:skill:judge": "node scripts/skill-bench.mjs judge",
+    "bench:skill:report": "node scripts/skill-bench.mjs report"
   },
   "repository": {
     "type": "git",

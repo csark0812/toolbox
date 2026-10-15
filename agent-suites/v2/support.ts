@@ -5,7 +5,7 @@ import { execFileSync } from 'node:child_process'
 import { join, resolve } from 'node:path'
 import { EXPECTED_SKILLS } from '../../src/expected-skills'
 
-type Claim = {
+export type Claim = {
   id: string
   suite: string
   name: string
@@ -39,6 +39,23 @@ type Claim = {
   evidenceDirs?: string[]
   /** Give the judge `git log --stat` for commits made after the baseline. */
   evidenceGitLog?: boolean
+  /** Workspace directory that holds the fixtures instead of `agent-suites/fixtures` (benchmark blinding). */
+  fixtureRoot?: string
+}
+
+const FIXTURES = 'agent-suites/fixtures/'
+
+/** Where a repository fixture path lives inside this claim's workspace. */
+export function fixturePath(claim: Pick<Claim, 'fixtureRoot'>, path: string) {
+  return claim.fixtureRoot && path.startsWith(FIXTURES)
+    ? `${claim.fixtureRoot}/${path.slice(FIXTURES.length)}`
+    : path
+}
+
+/** A seed patch with its fixture paths moved to the claim's fixture root. */
+async function readSeed(claim: Claim, path: string) {
+  const seed = await readFile(resolve(path), 'utf8')
+  return claim.fixtureRoot ? seed.replaceAll(FIXTURES, `${claim.fixtureRoot}/`) : seed
 }
 export async function executeClaim(
   coder: AgentFixture,
@@ -46,80 +63,7 @@ export async function executeClaim(
   claim: Claim,
   info: TestInfo,
 ) {
-  const prepared = coder.setup(async (workspace) => {
-    for (const mirror of ['.claude/skills', '.agents/skills']) {
-      await rm(join(workspace.path, mirror), { recursive: true, force: true })
-      if (claim.defaults.skills === 'legacy-design') {
-        for (const slug of ['frontend-design', 'modern-css'])
-          await cp(
-            resolve('references/original-skills', slug),
-            join(workspace.path, mirror, slug),
-            { recursive: true },
-          )
-      } else if (claim.defaults.skills !== 'none') {
-        for (const slug of EXPECTED_SKILLS)
-          await cp(join(workspace.path, slug), join(workspace.path, mirror, slug), {
-            recursive: true,
-          })
-      }
-    }
-    if (claim.defaults.skills === 'none' || claim.defaults.skills === 'legacy-design')
-      for (const slug of EXPECTED_SKILLS)
-        await rm(join(workspace.path, slug), { recursive: true, force: true })
-    execFileSync('git', ['init', '-q'], { cwd: workspace.path })
-    execFileSync('git', ['add', '.'], { cwd: workspace.path })
-    execFileSync(
-      'git',
-      [
-        '-c',
-        'user.name=Toolbox Fixture',
-        '-c',
-        'user.email=fixture@example.invalid',
-        'commit',
-        '-qm',
-        'Fixture baseline',
-      ],
-      { cwd: workspace.path },
-    )
-    if (claim.branch)
-      execFileSync('git', ['checkout', '-qb', claim.branch], { cwd: workspace.path })
-    if (claim.seedStagedPatch) {
-      const seed = await readFile(resolve(claim.seedStagedPatch), 'utf8')
-      execFileSync('git', ['apply', '--include=agent-suites/fixtures/**', '--index'], {
-        cwd: workspace.path,
-        input: seed,
-      })
-    }
-    if (claim.seedPatch) {
-      const seed = await readFile(resolve(claim.seedPatch), 'utf8')
-      execFileSync(
-        'git',
-        [
-          'apply',
-          '--include=agent-suites/fixtures/**',
-          ...(claim.seedStageOnly ? ['--index'] : []),
-        ],
-        { cwd: workspace.path, input: seed },
-      )
-    }
-    if (claim.seedCommit) {
-      execFileSync('git', ['add', '-A'], { cwd: workspace.path })
-      execFileSync(
-        'git',
-        [
-          '-c',
-          'user.name=Sam Fixture',
-          '-c',
-          'user.email=sam@example.invalid',
-          'commit',
-          '-qm',
-          claim.seedCommit,
-        ],
-        { cwd: workspace.path },
-      )
-    }
-    if (claim.bareRemote) publishToBareRemote(workspace.path)
-  })
+  const prepared = prepareClaim(coder, claim)
   const artifacts = info.outputPath('normalized.json')
   let run: Awaited<ReturnType<AgentFixture['run']>> | undefined
   let outcome = 'infrastructure-failed'
@@ -128,79 +72,18 @@ export async function executeClaim(
   const diagnosticReceipts: Record<string, string> = {}
   try {
     run = await prepared.run({
-      prompt:
-        'This is an isolated conformance fixture. Use only files within the current workspace; its root AGENTS.md contains the applicable fixture instructions. Parent AGENTS.md files and other paths outside this workspace are outside the task scope.\n\n' +
-        (claim.evidencePolicy === 'read-only'
-          ? 'Keep the inspected workspace read-only, including diagnostic artifacts. Report execution results and environment blockers from actual tool output; use captured tool output as evidence without writing receipt files.\n\n'
-          : 'For execution results or environment blockers you report, capture the command, stdout/stderr and exit status in bounded text receipts under _evidence/ (use .log, .txt or .json files directly in that folder). Capture actual command output rather than manually writing inferred results. Inspect the receipt before reporting. These diagnostic artifacts are allowed even when the task keeps source files read-only.\n\n') +
-        claim.prompt,
+      prompt: framePrompt(claim),
       includeGlobalSkills: false,
     })
     outcome = 'task-failed'
-    const receiptPath = /^_evidence\/[^/]+\.(log|txt|json)$/
     for (const filename of await readdir(join(run.workspace.root, '_evidence')).catch(() => [])) {
       const relative = `_evidence/${filename}`
-      if (receiptPath.test(relative))
+      if (RECEIPT_PATH.test(relative))
         diagnosticReceipts[relative] = (
           await readFile(join(run.workspace.root, relative), 'utf8')
         ).slice(0, 16000)
     }
-    for (const text of claim.rubric.must ?? []) {
-      if (/^[A-Z][A-Z0-9_]+$/.test(text))
-        expect(run.output, `Exact protocol marker: ${text}`).toContain(text)
-    }
-    if (claim.evidencePolicy === 'read-only')
-      expect(run.workspace.changedPaths, 'Read-only workspace preserved without receipts').toEqual(
-        [],
-      )
-    else if (/read.only|stay read-only|do not edit/i.test(claim.prompt))
-      expect(
-        run.workspace.changedPaths.filter((path) => !receiptPath.test(path)),
-        'Read-only source preserved; only diagnostic receipts may be added',
-      ).toEqual([])
-    if (claim.contract) {
-      const fixture =
-        claim.contract === 'expiry-repair'
-          ? 'agent-suites/fixtures/debug-app'
-          : 'agent-suites/fixtures/debugging-lab'
-      const check =
-        claim.contract === 'expiry-repair'
-          ? "import assert from 'node:assert/strict'; import { isSessionValid } from './src/sessionGuard.ts'; assert.equal(isSessionValid(1000, 1000), false); assert.equal(isSessionValid(1001, 1000), true); assert.equal(isSessionValid(999, 1000), false); assert.equal(isSessionValid(NaN, 1000), false)"
-          : "import assert from 'node:assert/strict'; import { validateCapturedSession } from './src/captured-session.mjs'; assert.equal(validateCapturedSession('1700000001000', 1700000000000), true); assert.equal(validateCapturedSession('1700000000000', 1700000000000), false); assert.equal(validateCapturedSession('1699999999999', 1700000000000), false)"
-      execFileSync('node', ['--experimental-strip-types', '--input-type=module', '-e', check], {
-        cwd: join(run.workspace.root, fixture),
-        timeout: 10000,
-      })
-      if (claim.contract === 'captured-repair-preserve-wip') {
-        expect(await readFile(join(run.workspace.root, fixture, 'notes.txt'), 'utf8')).toBe(
-          'Keep this unrelated note exactly as supplied.\nUser work in progress: retain this second line.\n',
-        )
-        expect(await readFile(join(run.workspace.root, fixture, 'src/refresh.mjs'), 'utf8')).toBe(
-          await readFile(resolve(fixture, 'src/refresh.mjs'), 'utf8'),
-        )
-        const repairedSource = await readFile(
-          join(run.workspace.root, fixture, 'src/captured-session.mjs'),
-          'utf8',
-        )
-        expect(repairedSource, 'Owned temporary instrumentation removed').not.toMatch(
-          /console\.(log|debug|trace)|debugger/,
-        )
-      }
-    }
-    for (const path of claim.frozenPaths ?? [])
-      expect(
-        await readFile(join(run.workspace.root, path), 'utf8'),
-        `Frozen path changed: ${path}`,
-      ).toBe(await readFile(resolve(path), 'utf8'))
-    if (claim.fixtureGate)
-      execFileSync('node', ['--test'], {
-        cwd: join(run.workspace.root, claim.fixtureGate),
-        timeout: 60000,
-      })
-    for (const text of claim.rubric.mustNot ?? [])
-      expect(run.output, `Forbidden: ${text}`).not.toContain(text)
-    for (const path of claim.rubric.mustNotReadPath ?? [])
-      expect(run, `Forbidden read: ${path}`).not.toHaveReadPath(path)
+    await runHardChecks(run, claim)
     const semanticClaims = (claim.rubric.must ?? [])
       .filter((text) => !/^[A-Z][A-Z0-9_]+$/.test(text))
       .map(
@@ -321,7 +204,7 @@ export async function executeClaim(
 }
 
 /** Every commit on any branch made after the fixture baseline, with changed files. */
-function commitsAfterBaseline(root: string) {
+export function commitsAfterBaseline(root: string) {
   const baseline = execFileSync(
     'git',
     ['log', '--all', '--format=%H', '--grep=^Fixture baseline$'],
@@ -353,4 +236,205 @@ function publishToBareRemote(root: string) {
   git('config', 'user.name', 'Sam Fixture')
   git('config', 'user.email', 'sam@example.invalid')
   execFileSync('sh', ['-c', 'echo .origin.git/ >> .git/info/exclude'], { cwd: root })
+}
+
+/**
+ * Skills a run may see. `full` and `none` are the conformance arms; `only:<slug>` and
+ * `without:<slug>` are bench ablations. The legacy design arm installs archived skills instead.
+ */
+export function installedSkills(arm: string): string[] {
+  if (arm === 'none' || arm === 'legacy-design') return []
+  if (arm === 'full') return [...EXPECTED_SKILLS]
+  const [mode, slug] = arm.split(':')
+  if (!slug || !(EXPECTED_SKILLS as readonly string[]).includes(slug))
+    throw new Error(`Unknown skill arm ${arm}`)
+  if (mode === 'only') return [slug]
+  if (mode === 'without') return EXPECTED_SKILLS.filter((candidate) => candidate !== slug)
+  throw new Error(`Unknown skill arm ${arm}`)
+}
+
+/**
+ * Build the fixture workspace for a claim: install the arm's skills, commit the baseline, then
+ * apply branch, seed and remote options. `neutral` framing also removes the root skill sources
+ * so a benchmark run cannot see which skills exist outside its own install.
+ */
+export function prepareClaim(
+  coder: AgentFixture,
+  claim: Claim,
+  framing: 'conformance' | 'neutral' = 'conformance',
+) {
+  return coder.setup(async (workspace) => {
+    const arm = claim.defaults.skills ?? 'full'
+    const installed = installedSkills(arm)
+    for (const mirror of ['.claude/skills', '.agents/skills']) {
+      await rm(join(workspace.path, mirror), { recursive: true, force: true })
+      if (arm === 'legacy-design') {
+        for (const slug of ['frontend-design', 'modern-css'])
+          await cp(
+            resolve('references/original-skills', slug),
+            join(workspace.path, mirror, slug),
+            { recursive: true },
+          )
+      } else
+        for (const slug of installed)
+          await cp(join(workspace.path, slug), join(workspace.path, mirror, slug), {
+            recursive: true,
+          })
+    }
+    for (const slug of EXPECTED_SKILLS)
+      if (framing === 'neutral' || !installed.includes(slug))
+        await rm(join(workspace.path, slug), { recursive: true, force: true })
+    execFileSync('git', ['init', '-q'], { cwd: workspace.path })
+    execFileSync('git', ['add', '.'], { cwd: workspace.path })
+    execFileSync(
+      'git',
+      [
+        '-c',
+        'user.name=Toolbox Fixture',
+        '-c',
+        'user.email=fixture@example.invalid',
+        'commit',
+        '-qm',
+        'Fixture baseline',
+      ],
+      { cwd: workspace.path },
+    )
+    if (claim.branch)
+      execFileSync('git', ['checkout', '-qb', claim.branch], { cwd: workspace.path })
+    if (claim.seedStagedPatch) {
+      const seed = await readSeed(claim, claim.seedStagedPatch)
+      execFileSync('git', ['apply', `--include=${fixturePath(claim, FIXTURES)}**`, '--index'], {
+        cwd: workspace.path,
+        input: seed,
+      })
+    }
+    if (claim.seedPatch) {
+      const seed = await readSeed(claim, claim.seedPatch)
+      execFileSync(
+        'git',
+        [
+          'apply',
+          `--include=${fixturePath(claim, FIXTURES)}**`,
+          ...(claim.seedStageOnly ? ['--index'] : []),
+        ],
+        { cwd: workspace.path, input: seed },
+      )
+    }
+    if (claim.seedCommit) {
+      execFileSync('git', ['add', '-A'], { cwd: workspace.path })
+      execFileSync(
+        'git',
+        [
+          '-c',
+          'user.name=Sam Fixture',
+          '-c',
+          'user.email=sam@example.invalid',
+          'commit',
+          '-qm',
+          claim.seedCommit,
+        ],
+        { cwd: workspace.path },
+      )
+    }
+    if (claim.bareRemote) publishToBareRemote(workspace.path)
+  })
+}
+
+/** The task prompt with its workspace framing. Neutral framing carries no testing vocabulary. */
+export function framePrompt(claim: Claim, framing: 'conformance' | 'neutral' = 'conformance') {
+  if (framing === 'neutral')
+    return (
+      'Work only inside the current workspace; its root AGENTS.md has the project instructions.\n\n' +
+      claim.prompt
+    )
+  return (
+    'This is an isolated conformance fixture. Use only files within the current workspace; its root AGENTS.md contains the applicable fixture instructions. Parent AGENTS.md files and other paths outside this workspace are outside the task scope.\n\n' +
+    (claim.evidencePolicy === 'read-only'
+      ? 'Keep the inspected workspace read-only, including diagnostic artifacts. Report execution results and environment blockers from actual tool output; use captured tool output as evidence without writing receipt files.\n\n'
+      : 'For execution results or environment blockers you report, capture the command, stdout/stderr and exit status in bounded text receipts under _evidence/ (use .log, .txt or .json files directly in that folder). Capture actual command output rather than manually writing inferred results. Inspect the receipt before reporting. These diagnostic artifacts are allowed even when the task keeps source files read-only.\n\n') +
+    claim.prompt
+  )
+}
+
+const RECEIPT_PATH = /^_evidence\/[^/]+\.(log|txt|json)$/
+type CompletedRun = Awaited<ReturnType<AgentFixture['run']>>
+
+/** Deterministic checks on a finished run: protocol markers, read-only scope, repair contracts, frozen paths, fixture gate, forbidden output and reads. Throws on the first failure. */
+export async function runHardChecks(run: CompletedRun, claim: Claim) {
+  for (const text of claim.rubric.must ?? []) {
+    if (/^[A-Z][A-Z0-9_]+$/.test(text))
+      expect(run.output, `Exact protocol marker: ${text}`).toContain(text)
+  }
+  if (claim.evidencePolicy === 'read-only')
+    expect(run.workspace.changedPaths, 'Read-only workspace preserved without receipts').toEqual([])
+  else if (/read.only|stay read-only|do not edit/i.test(claim.prompt))
+    expect(
+      run.workspace.changedPaths.filter((path) => !RECEIPT_PATH.test(path)),
+      'Read-only source preserved; only diagnostic receipts may be added',
+    ).toEqual([])
+  if (claim.contract) {
+    const source =
+      claim.contract === 'expiry-repair'
+        ? 'agent-suites/fixtures/debug-app'
+        : 'agent-suites/fixtures/debugging-lab'
+    const fixture = fixturePath(claim, source)
+    const check =
+      claim.contract === 'expiry-repair'
+        ? "import assert from 'node:assert/strict'; import { isSessionValid } from './src/sessionGuard.ts'; assert.equal(isSessionValid(1000, 1000), false); assert.equal(isSessionValid(1001, 1000), true); assert.equal(isSessionValid(999, 1000), false); assert.equal(isSessionValid(NaN, 1000), false)"
+        : "import assert from 'node:assert/strict'; import { validateCapturedSession } from './src/captured-session.mjs'; assert.equal(validateCapturedSession('1700000001000', 1700000000000), true); assert.equal(validateCapturedSession('1700000000000', 1700000000000), false); assert.equal(validateCapturedSession('1699999999999', 1700000000000), false)"
+    execFileSync('node', ['--experimental-strip-types', '--input-type=module', '-e', check], {
+      cwd: join(run.workspace.root, fixture),
+      timeout: 10000,
+    })
+    if (claim.contract === 'captured-repair-preserve-wip') {
+      expect(await readFile(join(run.workspace.root, fixture, 'notes.txt'), 'utf8')).toBe(
+        'Keep this unrelated note exactly as supplied.\nUser work in progress: retain this second line.\n',
+      )
+      expect(await readFile(join(run.workspace.root, fixture, 'src/refresh.mjs'), 'utf8')).toBe(
+        await readFile(resolve(source, 'src/refresh.mjs'), 'utf8'),
+      )
+      const repairedSource = await readFile(
+        join(run.workspace.root, fixture, 'src/captured-session.mjs'),
+        'utf8',
+      )
+      expect(repairedSource, 'Owned temporary instrumentation removed').not.toMatch(
+        /console\.(log|debug|trace)|debugger/,
+      )
+    }
+  }
+  for (const path of claim.frozenPaths ?? [])
+    expect(
+      await readFile(join(run.workspace.root, fixturePath(claim, path)), 'utf8'),
+      `Frozen path changed: ${path}`,
+    ).toBe(await readFile(resolve(path), 'utf8'))
+  if (claim.fixtureGate)
+    execFileSync('node', ['--test'], {
+      cwd: join(run.workspace.root, fixturePath(claim, claim.fixtureGate)),
+      timeout: 60000,
+    })
+  for (const text of claim.rubric.mustNot ?? [])
+    expect(run.output, `Forbidden: ${text}`).not.toContain(text)
+  for (const path of claim.rubric.mustNotReadPath ?? [])
+    expect(run, `Forbidden read: ${path}`).not.toHaveReadPath(path)
+}
+
+/** Full patch from the fixture baseline to the current work tree, committed or not. */
+export function diffSinceBaseline(root: string) {
+  const baseline = execFileSync(
+    'git',
+    ['log', '--all', '--format=%H', '--grep=^Fixture baseline$'],
+    {
+      cwd: root,
+    },
+  )
+    .toString()
+    .trim()
+    .split('\n')
+    .at(-1)
+  if (!baseline) return ''
+  execFileSync('git', ['add', '-A', '--intent-to-add', '.'], { cwd: root })
+  return execFileSync('git', ['diff', baseline, '--', '.', ':!_evidence', ':!.hillclimb'], {
+    cwd: root,
+    maxBuffer: 32 * 1024 * 1024,
+  }).toString()
 }

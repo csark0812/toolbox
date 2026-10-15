@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S node --preserve-symlinks --preserve-symlinks-main
 // Offline mirror of the GitHub CLI for this fixture repository. Reads PR data from
 // gh-data.json, computes CI by running the tests at the pushed head, and records every call.
 import { execFileSync } from 'node:child_process'
@@ -13,7 +13,7 @@ import {
 } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
-import { argv, exit, stderr, stdout } from 'node:process'
+import process, { argv, exit, stderr, stdout } from 'node:process'
 import { fileURLToPath } from 'node:url'
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -21,7 +21,10 @@ const data = JSON.parse(readFileSync(join(here, 'gh-data.json'), 'utf8'))
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim()
 const root = git('rev-parse', '--show-toplevel')
 const fixture = join(here, '..').slice(root.length + 1)
-const statePath = join(git('rev-parse', '--git-common-dir'), 'gh-fixture-state.json')
+// The mirror never writes inside .git: sandboxes may keep it read-only.
+const origin = git('remote', 'get-url', 'origin')
+const remote = (...args) => git('--git-dir', origin, ...args)
+const statePath = join(root, '_evidence/gh-mirror-state.json')
 const state = existsSync(statePath)
   ? JSON.parse(readFileSync(statePath, 'utf8'))
   : { resolved: [], replies: [], ci: {} }
@@ -45,13 +48,17 @@ const fail = (message, code = 1) => {
 }
 
 function headOid() {
-  git('fetch', '-q', 'origin')
-  return git('rev-parse', `origin/${pr.headRefName}`)
+  return remote('rev-parse', `refs/heads/${pr.headRefName}`)
 }
 
 function baseIsAncestor() {
   try {
-    git('merge-base', '--is-ancestor', `origin/${pr.baseRefName}`, `origin/${pr.headRefName}`)
+    remote(
+      'merge-base',
+      '--is-ancestor',
+      `refs/heads/${pr.baseRefName}`,
+      `refs/heads/${pr.headRefName}`,
+    )
     return true
   } catch {
     return false
@@ -63,12 +70,19 @@ function ciFor(sha) {
   const work = mkdtempSync(join(tmpdir(), 'gh-ci-'))
   let result
   try {
-    execFileSync('sh', ['-c', `git archive ${sha} ${fixture} | tar -x -C "${work}"`], { cwd: root })
-    const log = execFileSync('node', ['--test'], {
-      cwd: join(work, fixture),
-      encoding: 'utf8',
-      stdio: 'pipe',
-    })
+    execFileSync('sh', [
+      '-c',
+      `git --git-dir="${origin}" archive ${sha} ${fixture} | tar -x -C "${work}"`,
+    ])
+    const log = execFileSync(
+      process.execPath,
+      ['--preserve-symlinks', '--preserve-symlinks-main', '--test'],
+      {
+        cwd: join(work, fixture),
+        encoding: 'utf8',
+        stdio: 'pipe',
+      },
+    )
     result = { conclusion: 'SUCCESS', log }
   } catch (error) {
     result = { conclusion: 'FAILURE', log: `${error.stdout ?? ''}${error.stderr ?? ''}` }
@@ -83,7 +97,7 @@ function ciFor(sha) {
 function threads() {
   return data.threads.map((thread) => ({
     id: thread.id,
-    path: thread.path,
+    path: `${fixture}/${thread.path}`,
     line: thread.line,
     isResolved: state.resolved.includes(thread.id),
     isOutdated: false,
@@ -97,7 +111,12 @@ function view() {
     !baseIsAncestor() &&
     (() => {
       try {
-        git('merge-tree', '--write-tree', `origin/${pr.baseRefName}`, `origin/${pr.headRefName}`)
+        remote(
+          'merge-tree',
+          '--write-tree',
+          `refs/heads/${pr.baseRefName}`,
+          `refs/heads/${pr.headRefName}`,
+        )
         return false
       } catch {
         return true
@@ -167,7 +186,7 @@ else if (group === 'pr' && command === 'view') {
   else for (const check of list) stdout.write(`${check.name}\t${check.bucket}\t${check.link}\n`)
   if (list.some((check) => check.bucket === 'fail')) exit(8)
 } else if (group === 'pr' && command === 'diff') {
-  stdout.write(git('diff', `origin/${pr.baseRefName}...origin/${pr.headRefName}`) + '\n')
+  stdout.write(remote('diff', `refs/heads/${pr.baseRefName}...refs/heads/${pr.headRefName}`) + '\n')
 } else if (group === 'pr' && command === 'comment') {
   state.replies.push({
     thread: null,
