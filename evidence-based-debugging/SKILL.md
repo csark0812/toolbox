@@ -6,11 +6,13 @@ description: Reproduce and diagnose reported software or system failures using e
 # Evidence-based debugging
 
 <!-- source-of-truth: reproduction, causal diagnosis and authorized repair of software and system failures. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-05 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
 
 Own the investigation from the reported symptom through a supported diagnosis. Continue through repair and verification when the user asks to fix it. A diagnosis request alone does not authorize a production repair; existing repair authorization carries forward without another permission prompt.
 
 Adapted in part from the former Toolbox debugging procedure and [mattpocock/skills](https://github.com/mattpocock/skills) `diagnosing-bugs` (MIT © 2026 Matt Pocock).
+
+When two fixes on one assumption fail, apply attack the premise from [engineering-principles.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/engineering-principles.md). Performance claims follow [measurement.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/measurement.md).
 
 ## Entry gate
 

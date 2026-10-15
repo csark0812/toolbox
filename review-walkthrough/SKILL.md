@@ -6,11 +6,11 @@ description: Explain a staged or working-tree diff, commit, branch, PR, or named
 # Review walkthrough
 
 <!-- source-of-truth: task-shaped, story-first explanation of a bounded code change. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-03 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
 
 Explain one bound version of a code change as a causal story. Use only the evidence needed for understanding. Keep formal review and implementation separate.
 
-Composition boundaries → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md). This workflow remains complete without another skill.
+Composition boundaries → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md). When the story claims a change is safe, state the [evidence-ladder.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/evidence-ladder.md) level of that claim. This workflow remains complete without another skill.
 
 Source rules → [source-binding.md](references/source-binding.md). Interaction choice → [interaction-modes.md](references/interaction-modes.md). Beat and finish shapes → [story-format.md](references/story-format.md).
 

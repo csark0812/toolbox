@@ -6,7 +6,7 @@ description: Change an existing design through proven refactor slices when the u
 # Refactor companion
 
 <!-- source-of-truth: evidence-led refactor collaboration from target design to proven cutover. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-03 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
 
 ```mermaid
 flowchart TD
@@ -38,7 +38,7 @@ Preserve the developer's target design while changing existing code in small, co
 
 Internal record → [refactor-card.md](references/refactor-card.md). Mode selection → [interaction-modes.md](references/interaction-modes.md). Slice proof → [slice-proof.md](references/slice-proof.md). Cutover rules → [residue-and-cutover.md](references/residue-and-cutover.md). User-facing reports → [output-format.md](references/output-format.md).
 
-Extended design vocabulary is available in [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/codebase-design.md). The core workflow remains complete without companion skills.
+Extended design vocabulary is available in [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/codebase-design.md). Named principles for slice decisions (subtract before you add, migrate callers then delete) are in [engineering-principles.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/engineering-principles.md). The core workflow remains complete without companion skills.
 
 Composition boundaries → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md).
 

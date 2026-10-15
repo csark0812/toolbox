@@ -1,6 +1,6 @@
 # Reproduction and experiment recipes
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-05 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
 
 Choose the fastest check that faithfully reaches the failure and distinguishes explanations. These are alternatives, not a fixed ordering or mandatory tool list.
 
@@ -24,7 +24,7 @@ Check whether instrumentation, debugger attachment, logging or altered schedulin
 
 ## Performance
 
-Bind measurements to a fixed workload, environment and revision. Separate warmup, caching and setup from the measured work when they affect the question. Take repeated comparable measurements and report their spread. Test one proposed bottleneck with a discriminating measurement; verify correctness alongside any speed improvement.
+Bind measurements to a fixed workload, environment and revision. Separate warmup, caching and setup from the measured work when they affect the question. Take repeated comparable measurements and report their spread. Test one proposed bottleneck with a discriminating measurement; verify correctness alongside any speed improvement. Before reporting a number, answer the seven questions and use the verdict rules in [measurement.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/measurement.md).
 
 ## UI and native surfaces
 

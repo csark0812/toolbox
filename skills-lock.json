@@ -11,7 +11,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "code-review/SKILL.md",
-      "computedHash": "65a4e130c86ef9a4e1c140a8363bd92fd768ef41e4a5fa03ab25270ab78fe194"
+      "computedHash": "7b3ce8da819c35db16b6e50946f475fcb74677ce5292ed05e5b8526b402541bc"
     },
     "council": {
       "source": "csark0812/toolbox",
@@ -35,7 +35,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "evidence-based-debugging/SKILL.md",
-      "computedHash": "8fc2e2b84dc7a0795ea9224889b1a4ce4b886aa49ebf52a8dd71fabe14ce0dd7"
+      "computedHash": "d4064daf23d9c8f5a35416c9e3a9b6d67c00e88a7de7fb106812ee40c6b50687"
     },
     "grill": {
       "source": "csark0812/toolbox",
@@ -65,7 +65,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "probe/SKILL.md",
-      "computedHash": "94e3243e9069d1e0d108d1801d590dbb766e28b2337cdfc305c269b9f10f97a0"
+      "computedHash": "73d4a833af18c12a31212ed9ad4f326fe86fe06564a3b160dbe847742662800e"
     },
     "prototype": {
       "source": "csark0812/toolbox",
@@ -77,7 +77,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "refactor-companion/SKILL.md",
-      "computedHash": "3386dc4226b8aaa351907d83f42de69e1eaa62463f29e4f4f72e90c910623a6e"
+      "computedHash": "86b96b45a4a0fa4f15ed86920b3fb42e19e6bcd3d375f97b3eab9a9f00583b6e"
     },
     "retro": {
       "source": "csark0812/toolbox",
@@ -89,7 +89,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "review-walkthrough/SKILL.md",
-      "computedHash": "668655b6d24ed8b00ed85b0dd84d14cee4c443893fbbf4c1b4373eee1fd50b5b"
+      "computedHash": "775863810f436a92e88f877e5336350a982ecae060a26763607e8ec060b41b4f"
     },
     "second-opinion": {
       "source": "csark0812/toolbox",
@@ -107,7 +107,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "tdd/SKILL.md",
-      "computedHash": "10f8e2176ebb6b4be45fdbd690bcef652d904e4fab79cfda1f1e99545c82d012"
+      "computedHash": "001425718447eef1df258ccebc8af1b44efd888d40eb285c1a1f5e1eaa14a3e9"
     },
     "technical-writing": {
       "source": "csark0812/toolbox",

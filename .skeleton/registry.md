@@ -1,6 +1,6 @@
 # Registry
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
 
 <!-- source-of-truth: Registry topic routing for documentation and skills -->
 
@@ -13,6 +13,9 @@
 | Skill tiers                          | [tiers.md](../docs/tiers.md)                                                          |
 | Composability vocabulary             | [process-skill-composition.md](../references/process-skill-composition.md)            |
 | Composition contract (v2)            | [v2/process-skill-composition.md](../references/v2/process-skill-composition.md)      |
+| Engineering principles               | [engineering-principles.md](../references/v2/engineering-principles.md)               |
+| Evidence ladder                      | [evidence-ladder.md](../references/v2/evidence-ladder.md)                             |
+| Measurement                          | [measurement.md](../references/v2/measurement.md)                                     |
 | GitHub ambient refs validate         | [github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md)        |
 | Hunch verdict (ambient)              | [verdict.md](../references/verdict.md)                                                |
 | Evidence parity                      | [evidence-parity.md](../docs/evidence-parity.md)                                      |

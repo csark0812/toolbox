@@ -6,13 +6,13 @@ description: Review code through a user-named surface and lens. Use for focused 
 # Code review
 
 <!-- source-of-truth: evidence-led code review with explicit blockers-vs-advisory output and strict optional merge gating. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-01 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
 
 Find reachable code defects with enough evidence to act. Match the review to the result the user requested. Keep ordinary reviews light. Keep merge-gate conclusions strict.
 
 Mode choice → [interaction-modes.md](references/interaction-modes.md). Surface binding → [sources.md](references/sources.md). Finding bar and filing breadth → [evidence-and-filing.md](references/evidence-and-filing.md). User-facing reports → [output-format.md](references/output-format.md). Strict merge gate → [merge-readiness.md](references/merge-readiness.md).
 
-Extended design vocabulary is available in [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/codebase-design.md). The core workflow remains complete without it or another skill.
+Extended design vocabulary is available in [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/codebase-design.md). Strict quality gates may cite [engineering-principles.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/engineering-principles.md). State how far each finding's load-bearing fact was proven using [evidence-ladder.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/evidence-ladder.md). The core workflow remains complete without it or another skill.
 
 ## Entry gate
 
