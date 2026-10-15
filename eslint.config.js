@@ -45,6 +45,14 @@ export default [
     },
   },
   {
+    // Fixture projects and the bench's hidden checks are small Node programs.
+    files: [
+      'agent-suites/fixtures/**/*.{js,mjs,cjs}',
+      'agent-suites/skill-bench/**/*.{js,mjs,cjs}',
+    ],
+    languageOptions: { globals: globals.node },
+  },
+  {
     files: ['scripts/**/*.{js,mjs,cjs}', '*/scripts/**/*.{js,mjs,cjs}'],
     languageOptions: {
       globals: globals.node,

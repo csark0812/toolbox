@@ -29,6 +29,9 @@ export type Claim = {
   branch?: string
   /** Commit the applied seed patch on the current branch with this message. */
   seedCommit?: string
+  /** After the seed commit, advance `main` with this patch and commit (a base the branch must catch up with). */
+  baseSeedPatch?: string
+  baseSeedCommit?: string
   /** Publish main and the current branch to a local bare `origin` inside the workspace. */
   bareRemote?: boolean
   /** Paths that must be byte-identical to the fixture source after the run. */
@@ -41,6 +44,8 @@ export type Claim = {
   evidenceGitLog?: boolean
   /** Workspace directory that holds the fixtures instead of `agent-suites/fixtures` (benchmark blinding). */
   fixtureRoot?: string
+  /** Files copied over the workspace root after skills are installed (a pack's documented setup). */
+  overlayDir?: string
 }
 
 const FIXTURES = 'agent-suites/fixtures/'
@@ -292,10 +297,11 @@ export function prepareClaim(
             recursive: true,
           })
     }
+    if (claim.overlayDir) await cp(claim.overlayDir, workspace.path, { recursive: true })
     for (const slug of EXPECTED_SKILLS)
       if (framing === 'neutral' || !installed.includes(slug))
         await rm(join(workspace.path, slug), { recursive: true, force: true })
-    execFileSync('git', ['init', '-q'], { cwd: workspace.path })
+    execFileSync('git', ['init', '-q', '-b', 'main'], { cwd: workspace.path })
     execFileSync('git', ['add', '.'], { cwd: workspace.path })
     execFileSync(
       'git',
@@ -346,6 +352,31 @@ export function prepareClaim(
         ],
         { cwd: workspace.path },
       )
+    }
+    if (claim.baseSeedPatch) {
+      const branch = execFileSync('git', ['branch', '--show-current'], { cwd: workspace.path })
+        .toString()
+        .trim()
+      execFileSync('git', ['checkout', '-q', 'main'], { cwd: workspace.path })
+      execFileSync('git', ['apply', `--include=${fixturePath(claim, FIXTURES)}**`], {
+        cwd: workspace.path,
+        input: await readSeed(claim, claim.baseSeedPatch),
+      })
+      execFileSync('git', ['add', '-A'], { cwd: workspace.path })
+      execFileSync(
+        'git',
+        [
+          '-c',
+          'user.name=Lee Fixture',
+          '-c',
+          'user.email=lee@example.invalid',
+          'commit',
+          '-qm',
+          claim.baseSeedCommit ?? 'Advance main',
+        ],
+        { cwd: workspace.path },
+      )
+      execFileSync('git', ['checkout', '-q', branch], { cwd: workspace.path })
     }
     if (claim.bareRemote) publishToBareRemote(workspace.path)
   })

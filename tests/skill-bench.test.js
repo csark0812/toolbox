@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { EXPECTED_SKILLS } from '../src/expected-skills.ts'
@@ -179,5 +179,36 @@ describe('skill bench report', () => {
     const report = buildReport({ runs, tasks, judgments })
     expect(report.health.healthy).toBe(false)
     expect(report.rows[0]).toMatchObject({ skill: 'hillclimb', verdict: 'withheld' })
+  })
+})
+
+describe('held-out tasks', () => {
+  const holdout = JSON.parse(
+    readFileSync(join(root, 'agent-suites/skill-bench/holdout.json'), 'utf8'),
+  )
+
+  it('match their frozen hash (re-freeze only on purpose, never after seeing results)', async () => {
+    const { holdoutDigest } = await import('../scripts/freeze-holdout.mjs')
+    const lock = JSON.parse(
+      readFileSync(join(root, 'agent-suites/skill-bench/holdout.lock.json'), 'utf8'),
+    )
+    expect(holdoutDigest()).toBe(lock.sha256)
+  })
+
+  for (const task of holdout.tasks)
+    it(`${task.id} is blind, checked and scored on 3-6 criteria`, () => {
+      expect(blindingLeaks(task.claim.prompt)).toEqual([])
+      expect(task.claim.prompt).not.toMatch(new RegExp(`\\b${task.targetSkill}\\b|holdout`))
+      expect(EXPECTED_SKILLS).toContain(task.targetSkill)
+      expect(
+        existsSync(join(root, `agent-suites/skill-bench/holdout-checks/${task.check}.mjs`)),
+      ).toBe(true)
+      expect(task.criteria.length).toBeGreaterThanOrEqual(3)
+      expect(task.criteria.length).toBeLessThanOrEqual(6)
+    })
+
+  it('ids do not collide with development tasks', () => {
+    const ids = [...tasks, ...holdout.tasks].map((task) => task.id)
+    expect(new Set(ids).size).toBe(ids.length)
   })
 })

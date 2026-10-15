@@ -74,15 +74,11 @@ function ciFor(sha) {
       '-c',
       `git --git-dir="${origin}" archive ${sha} ${fixture} | tar -x -C "${work}"`,
     ])
-    const log = execFileSync(
-      process.execPath,
-      ['--test'],
-      {
-        cwd: join(work, fixture),
-        encoding: 'utf8',
-        stdio: 'pipe',
-      },
-    )
+    const log = execFileSync(process.execPath, ['--test'], {
+      cwd: join(work, fixture),
+      encoding: 'utf8',
+      stdio: 'pipe',
+    })
     result = { conclusion: 'SUCCESS', log }
   } catch (error) {
     result = { conclusion: 'FAILURE', log: `${error.stdout ?? ''}${error.stderr ?? ''}` }
@@ -242,7 +238,10 @@ else if (group === 'pr' && command === 'view') {
     )
   } else
     fail('This offline mirror supports reviewThreads queries and the resolveReviewThread mutation.')
-} else if (group === 'api' && /pulls\/42\/comments\/\d+\/replies$/.test(command ?? '')) {
+} else if (
+  group === 'api' &&
+  new RegExp(`pulls/${pr.number}/comments/\\d+/replies$`).test(command ?? '')
+) {
   const id = Number(command.match(/comments\/(\d+)\/replies/)[1])
   const thread = data.threads.find((candidate) =>
     candidate.comments.some((comment) => comment.id === id),
@@ -257,7 +256,7 @@ else if (group === 'pr' && command === 'view') {
   })
   save()
   stdout.write(JSON.stringify({ id: 10000 + state.replies.length - 1, body }) + '\n')
-} else if (group === 'api' && /pulls\/42\/comments$/.test(command ?? '')) {
+} else if (group === 'api' && new RegExp(`pulls/${pr.number}/comments$`).test(command ?? '')) {
   const list = threads().flatMap((thread) =>
     thread.comments.map((comment) => ({
       id: comment.id,
@@ -270,5 +269,5 @@ else if (group === 'pr' && command === 'view') {
   stdout.write(JSON.stringify(list) + '\n')
 } else
   fail(
-    `tools/gh (offline mirror): unsupported command "gh ${args.join(' ')}". Supported: auth status, repo view, pr list|view|checks|diff|comment, run list|view, api graphql, api repos/${data.repository}/pulls/42/comments[/<id>/replies].`,
+    `tools/gh (offline mirror): unsupported command "gh ${args.join(' ')}". Supported: auth status, repo view, pr list|view|checks|diff|comment, run list|view, api graphql, api repos/${data.repository}/pulls/${pr.number}/comments[/<id>/replies].`,
   )

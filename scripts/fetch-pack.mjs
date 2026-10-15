@@ -49,6 +49,7 @@ export const PACKS = {
       },
     },
     entryNote: 'Its model settings file is .agents/pstack-models.md.',
+    claudeAgents: ['agents'],
   },
 }
 
@@ -67,6 +68,12 @@ export async function fetchPack(name) {
       await mkdir(join(target, '..'), { recursive: true })
       await writeFile(target, content)
     }
+  // Claude Code loads subagent definitions from .claude/agents; pstack's entry skill spawns them.
+  for (const agentDir of pack.claudeAgents ?? []) {
+    const target = join(dir, 'workspace-claude', '.claude', 'agents')
+    await mkdir(target, { recursive: true })
+    execFileSync('sh', ['-c', `cp ${join(dir, agentDir)}/*.md "${target}/"`])
+  }
   await writeFile(join(dir, 'entry-note.txt'), pack.entryNote ?? '')
   return { dir, commit: pack.commit }
 }

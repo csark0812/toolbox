@@ -1,0 +1,16 @@
+.button--alt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid #c4c9d4;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #27303f;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.button--alt:hover {
+  background: #f3f5f8;
+}

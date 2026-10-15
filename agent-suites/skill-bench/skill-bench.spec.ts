@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises'
-import { readFileSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
+import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe } from '@post-print/agent-test'
 import {
@@ -7,6 +8,7 @@ import {
   diffSinceBaseline,
   framePrompt,
   packEntry,
+  packName,
   prepareClaim,
   runHardChecks,
   type Claim,
@@ -14,26 +16,56 @@ import {
 import { blindingLeaks } from '../../scripts/lib/skill-bench-material.mjs'
 
 const BENCH_ROOT = 'projects'
-const { tasks } = JSON.parse(readFileSync('agent-suites/skill-bench/tasks.json', 'utf8'))
+// --taskset holdout runs the frozen held-out set; the default set is the development tasks.
+const TASKSET = process.env.SKILL_BENCH_TASKSET === 'holdout' ? 'holdout' : 'tasks'
+const { tasks } = JSON.parse(readFileSync(`agent-suites/skill-bench/${TASKSET}.json`, 'utf8'))
 const arms = (process.env.SKILL_BENCH_ARMS ?? 'none,full').split(',')
 const selected = process.env.SKILL_BENCH_TASKS?.split(',')
+const RUNNER = process.env.SKILL_BENCH_RUNNER === 'claude' ? 'claude' : 'codex'
 const benchDir = join('.agent-test/skill-bench', process.env.SKILL_BENCH_ID ?? 'adhoc', 'runs')
 
+/** A pack's per-runner setup (model settings, subagents) and the note its entry prompt adds. */
+function packSetup(arm: string) {
+  if (!arm.startsWith('pack:')) return { overlayDir: undefined, note: '' }
+  const dir = join('_agent/packs', packName(arm))
+  const overlay = join(dir, `workspace-${RUNNER}`)
+  const notePath = join(dir, 'entry-note.txt')
+  return {
+    overlayDir: existsSync(overlay) ? overlay : undefined,
+    note: existsSync(notePath) ? readFileSync(notePath, 'utf8').trim() : '',
+  }
+}
+
 /** A suite scenario as a blinded bench claim: fixtures under projects/, no routing assertions. */
-export function benchClaim(
-  task: { id: string; suite: string; scenario: number; prompt?: string },
-  arm: string,
-) {
+type BenchTask = {
+  id: string
+  suite?: string
+  scenario?: number
+  prompt?: string
+  check?: string
+  claim?: Partial<Claim> & { prompt: string }
+}
+
+/** The task's claim: inline for held-out tasks, or a claim-suite scenario for development tasks. */
+function taskScenario(task: BenchTask) {
+  if (task.claim) return { defaults: { profile: 'cursor' }, scenario: task.claim }
   const suite = JSON.parse(readFileSync(`agent-suites/${task.suite}/claims.json`, 'utf8'))
-  const scenario = suite.scenarios[task.scenario - 1]
+  return { defaults: suite.defaults, scenario: suite.scenarios[(task.scenario ?? 1) - 1] }
+}
+
+export function benchClaim(task: BenchTask, arm: string) {
+  const { defaults, scenario } = taskScenario(task)
   const claim: Claim = {
     ...scenario,
     id: `bench:${task.id}`,
     suite: 'skill-bench',
-    defaults: { ...suite.defaults, skills: arm },
+    defaults: { ...defaults, skills: arm },
     // A pack whose skills are explicit-only is run the way it documents: through its entry skill.
+    overlayDir: packSetup(arm).overlayDir,
     prompt:
-      (packEntry(arm) ? `Use the ${packEntry(arm)} skill for this task.\n\n` : '') +
+      (packEntry(arm)
+        ? `Use the ${packEntry(arm)} skill for this task. ${packSetup(arm).note}`.trim() + '\n\n'
+        : '') +
       (task.prompt ?? scenario.prompt).replaceAll('agent-suites/fixtures/', `${BENCH_ROOT}/`),
     rubric: {},
     fixtureRoot: BENCH_ROOT,
@@ -58,6 +90,17 @@ function collect(read: () => string) {
   } catch (error) {
     return `(could not collect: ${String(error).slice(0, 300)})`
   }
+}
+
+/** The project folder a held-out task works in, inside the run's workspace. */
+function holdoutDir(root: string, task: BenchTask) {
+  const gate =
+    task.claim?.fixtureGate ?? task.claim?.frozenPaths?.[0]?.split('/').slice(0, 3).join('/')
+  const project = (gate ?? `agent-suites/fixtures/${task.check}`).replace(
+    'agent-suites/fixtures/',
+    `${BENCH_ROOT}/`,
+  )
+  return join(root, project)
 }
 
 const test = describe('skill-bench', ({ agent }) => ({ coder: agent() }))
@@ -95,12 +138,24 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
         let hardCheck = { passed: true, failure: null as string | null }
         try {
           await runHardChecks(run, claim)
+          // The held-out acceptance check lives outside the workspace, so the agent never sees it.
+          if (task.check)
+            execFileSync(
+              process.execPath,
+              [
+                `agent-suites/skill-bench/holdout-checks/${task.check}.mjs`,
+                holdoutDir(run.workspace.root, task),
+              ],
+              { stdio: 'pipe', timeout: 120000 },
+            )
         } catch (error) {
-          hardCheck = { passed: false, failure: String(error).slice(0, 600) }
+          const detail = (error as { stderr?: Buffer }).stderr?.toString() || String(error)
+          hardCheck = { passed: false, failure: detail.slice(0, 600) }
         }
         const record = {
           task: task.id,
           arm,
+          runner: RUNNER,
           repetition: info.repeatEachIndex,
           output: run.output,
           toolCalls: run.toolCalls.map(({ name, args }) => ({ name, args })),

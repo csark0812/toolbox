@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Skill bench driver: run arms on blinded tasks, judge pairs, report verdicts.
 //   node scripts/skill-bench.mjs run [--arms none,full] [--tasks a,b] [--repeats 4] [--id <id>]
+//   run/quick take --runner codex|claude (default codex); judge picks the other family.
 //   Any command: --workers <n> agent runs at once (default 4), --judges <n> judge calls at once (default 6)
 //   node scripts/skill-bench.mjs judge|report [<id>] [<baseline>]
 //   node scripts/skill-bench.mjs preflight
@@ -24,7 +25,7 @@ const step = (args, env = {}, { allowFailure = false } = {}) => {
   if (result.status !== 0 && !allowFailure) process.exit(result.status ?? 1)
 }
 
-function run({ arms, tasks, repeats, id }) {
+function run({ arms, tasks, repeats, id, runner = option('runner', 'codex') }) {
   step(['--experimental-strip-types', 'scripts/prepare-evaluation-workspace.mjs', '--bench'])
   step(
     [
@@ -37,6 +38,8 @@ function run({ arms, tasks, repeats, id }) {
     ],
     {
       SKILL_BENCH_ARMS: arms,
+      SKILL_BENCH_RUNNER: runner,
+      SKILL_BENCH_TASKSET: option('taskset', 'tasks'),
       SKILL_BENCH_ID: id,
       ...(tasks ? { SKILL_BENCH_TASKS: tasks } : {}),
     },

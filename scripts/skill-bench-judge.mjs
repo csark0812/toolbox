@@ -5,7 +5,7 @@ import { mkdtemp, readFile, readdir, rm, writeFile, mkdir } from 'node:fs/promis
 import { tmpdir } from 'node:os'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { claude, createAgentSession } from '@post-print/agent-harness'
+import { claude, createAgentSession, openai } from '@post-print/agent-harness'
 import {
   JUDGE_RUBRIC,
   degrade,
@@ -18,6 +18,16 @@ import { mulberry32 } from './lib/pairwise-stats.mjs'
 
 export const JUDGE_VERSION = 1
 export const JUDGE_MODEL = 'claude-opus-5-5'
+
+/**
+ * Judge from the other model family than the runs it grades, so neither runner is scored by its
+ * own family: Opus judges Codex runs and Codex judges Claude runs.
+ */
+export function judgeFor(runner) {
+  return runner === 'claude'
+    ? { name: 'codex', agent: openai({}) }
+    : { name: JUDGE_MODEL, agent: claude({ model: JUDGE_MODEL, auth: { type: 'subscription' } }) }
+}
 const CONCURRENCY = Number(process.env.SKILL_BENCH_JUDGES ?? 6)
 const KNOWN_GAPS = 5
 
@@ -53,8 +63,11 @@ export async function knownSkillNames() {
   return [...new Set([...Object.keys(lock.skills), ...packSkills.flat()])]
 }
 
+/** Development and held-out tasks together; ids are unique across both files. */
 export async function loadTasks() {
-  return JSON.parse(await readFile('agent-suites/skill-bench/tasks.json', 'utf8')).tasks
+  const read = async (file) =>
+    JSON.parse(await readFile(`agent-suites/skill-bench/${file}`, 'utf8')).tasks
+  return [...(await read('tasks.json')), ...(await read('holdout.json'))]
 }
 
 export async function loadLedger(id) {
@@ -64,11 +77,13 @@ export async function loadLedger(id) {
 
 /** The task as the judge sees it: the user's request plus criteria the agent never saw. */
 async function taskBrief(task) {
-  const suite = JSON.parse(await readFile(`agent-suites/${task.suite}/claims.json`, 'utf8'))
-  const prompt = (task.prompt ?? suite.scenarios[task.scenario - 1].prompt).replaceAll(
-    'agent-suites/fixtures/',
-    'projects/',
-  )
+  const prompt = (
+    task.claim?.prompt ??
+    task.prompt ??
+    JSON.parse(await readFile(`agent-suites/${task.suite}/claims.json`, 'utf8')).scenarios[
+      task.scenario - 1
+    ].prompt
+  ).replaceAll('agent-suites/fixtures/', 'projects/')
   return `# Task\n\nThe user asked:\n\n> ${prompt.replaceAll('\n', '\n> ')}\n\n# What matters for this task\n\n${task.criteria.map((criterion) => `- ${criterion}`).join('\n')}\n`
 }
 
@@ -85,6 +100,10 @@ export async function judgeBench(id, { matched = false } = {}) {
       (entry) => `${entry.pairId}|${entry.first}|${entry.control ?? ''}|${entry.retestOf ?? ''}`,
     ),
   )
+  const runners = [...new Set(runs.map((run) => run.runner ?? 'codex'))]
+  if (runners.length > 1)
+    throw new Error(`Bench ${id} mixes runners ${runners}; judge one runner per bench`)
+  const judge = judgeFor(runners[0])
   const skillNames = await knownSkillNames()
   const random = mulberry32(runs.length * 7919 + JUDGE_VERSION)
   const jobs = []
@@ -143,8 +162,9 @@ export async function judgeBench(id, { matched = false } = {}) {
           second: byId.get(job.second),
           seed: Math.floor(random() * 2 ** 32),
           skillNames,
+          judge,
         })
-        ledger.push({ ...job, ...verdict, model: JUDGE_MODEL, judgeVersion: JUDGE_VERSION })
+        ledger.push({ ...job, ...verdict, model: judge.name, judgeVersion: JUDGE_VERSION })
         await save()
         console.log(`  ${job.control ?? 'pair'} ${job.task}: ${verdict.winner}`)
       } catch (error) {
@@ -158,7 +178,14 @@ export async function judgeBench(id, { matched = false } = {}) {
 }
 
 /** One blind comparison in a fresh sealed workspace. Only the task and the two rendered runs go in. */
-export async function judgePair({ brief, first, second, seed, skillNames = [] }) {
+export async function judgePair({
+  brief,
+  first,
+  second,
+  seed,
+  skillNames = [],
+  judge = judgeFor('codex'),
+}) {
   // An empty temp folder: the judge sees only the files written below, nothing from this repo.
   const sealed = { path: await mkdtemp(join(tmpdir(), 'skill-bench-judge-')) }
   sealed.cleanup = () => rm(sealed.path, { recursive: true, force: true })
@@ -174,7 +201,7 @@ Read task.md, then read ${names.A} and ${names.B} in full with the Read tool.
 
 Reply with only this JSON:
 {"scoreA": 1-5, "scoreB": 1-5, "winner": "A" | "B" | "tie", "confidence": 1 | 2 | 3, "reasons": ["short reason", "..."]}`
-    const parsed = parseVerdict(await askOpus(sealed.path, prompt))
+    const parsed = parseVerdict(await askJudge(judge.agent, sealed.path, prompt))
     return {
       winner: parsed.winner === 'A' ? 'first' : parsed.winner === 'B' ? 'second' : 'tie',
       confidence: parsed.confidence,
@@ -186,10 +213,10 @@ Reply with only this JSON:
   }
 }
 
-async function askOpus(workspace, prompt) {
+async function askJudge(agent, workspace, prompt) {
   const controller = new AbortController()
   const session = await createAgentSession({
-    agent: claude({ model: JUDGE_MODEL, auth: { type: 'subscription' } }),
+    agent,
     workspace,
     signal: controller.signal,
     readOnly: true,

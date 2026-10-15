@@ -1,0 +1,39 @@
+--- a/agent-suites/fixtures/billing/src/invoice.mjs
++++ b/agent-suites/fixtures/billing/src/invoice.mjs
+@@ -1,4 +1,4 @@
+-// Invoice totals in integer cents.
++// Invoice totals and discount codes in integer cents.
+ 
+ export function subtotal(lines) {
+   return lines.reduce((sum, line) => sum + line.unitCents * line.qty, 0)
+@@ -8,3 +8,13 @@
+   const sub = subtotal(lines)
+   return sub + Math.round(sub * taxRate)
+ }
++
++const CODES = { SAVE10: { percent: 10 }, FLAT500: { cents: 500 } }
++
++/** Applies a discount code to a total in cents; never goes below zero. */
++export function applyDiscount(totalCents, code) {
++  const discount = CODES[code]
++  if (!discount) return totalCents
++  const off = discount.percent ? discount.percent : discount.cents
++  return Math.max(0, totalCents - off)
++}
+--- a/agent-suites/fixtures/billing/tests/invoice.test.mjs
++++ b/agent-suites/fixtures/billing/tests/invoice.test.mjs
+@@ -1,7 +1,13 @@
+ import assert from 'node:assert/strict'
+ import { test } from 'node:test'
+-import { total } from '../src/invoice.mjs'
++import { applyDiscount, total } from '../src/invoice.mjs'
+ 
+ test('adds rounded tax', () => {
+   assert.equal(total([{ unitCents: 999, qty: 2 }], 0.1), 2198)
+ })
++
++test('percent and fixed codes', () => {
++  assert.equal(applyDiscount(2000, 'SAVE10'), 1800)
++  assert.equal(applyDiscount(2000, 'FLAT500'), 1500)
++  assert.equal(applyDiscount(300, 'FLAT500'), 0)
++})

@@ -1,0 +1,8 @@
+--- a/agent-suites/fixtures/billing/src/invoice.mjs
++++ b/agent-suites/fixtures/billing/src/invoice.mjs
+@@ -1,4 +1,4 @@
+-// Invoice totals in integer cents.
++// Invoice totals in integer cents. Tax rounds half away from zero.
+ 
+ export function subtotal(lines) {
+   return lines.reduce((sum, line) => sum + line.unitCents * line.qty, 0)
