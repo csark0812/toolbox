@@ -3145,7 +3145,7 @@
         "judge": [
           "The bug-fix playbook's numbered steps appear verbatim before task-specific items, in the agent's task list or, when it has no task-list tool, in a numbered checklist it wrote in a plan note or its first message. Any step it did not run appears as `skip: <reason>` rather than being dropped.",
           "The fix is in isSessionValid, and a regression test covers the exact expiry instant and fails without the fix.",
-          "The final reply meets the bug-fix reply contract: cause with its evidence level, the fix, the regression test, the review outcome, and where the fix was verified."
+          "The final reply meets the bug-fix reply contract: cause with its evidence level, the failing then passing check output, the fix, the scope check and any adjacent bug left unfixed, the review outcome, and where the fix was verified."
         ]
       },
       "assertion": "automatic orchestrator routing (invoked or not read) + playbook steps verbatim in task-list tool calls + reply contract judge + repair contract or frozen harness where declared",
@@ -3187,7 +3187,7 @@
         "judge": [
           "The bug-fix playbook's numbered steps appear verbatim before task-specific items, in the agent's task list or, when it has no task-list tool, in a numbered checklist it wrote in a plan note or its first message. Any step it did not run appears as `skip: <reason>` rather than being dropped.",
           "The fix changes the 10-unit boundary in bulkDiscountPct and keeps the existing boundary test intact.",
-          "The final reply meets the bug-fix reply contract: cause with its evidence level, the fix, the regression test, the review outcome, and where the fix was verified."
+          "The final reply meets the bug-fix reply contract: cause with its evidence level, the failing then passing check output, the fix, the scope check and any adjacent bug left unfixed, the review outcome, and where the fix was verified."
         ]
       },
       "assertion": "automatic orchestrator routing (invoked or not read) + playbook steps verbatim in task-list tool calls + reply contract judge + repair contract or frozen harness where declared",
