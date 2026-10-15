@@ -6,6 +6,7 @@ import {
   commitsAfterBaseline,
   diffSinceBaseline,
   framePrompt,
+  packEntry,
   prepareClaim,
   runHardChecks,
   type Claim,
@@ -30,13 +31,24 @@ export function benchClaim(
     id: `bench:${task.id}`,
     suite: 'skill-bench',
     defaults: { ...suite.defaults, skills: arm },
-    prompt: (task.prompt ?? scenario.prompt).replaceAll('agent-suites/fixtures/', `${BENCH_ROOT}/`),
+    // A pack whose skills are explicit-only is run the way it documents: through its entry skill.
+    prompt:
+      (packEntry(arm) ? `Use the ${packEntry(arm)} skill for this task.\n\n` : '') +
+      (task.prompt ?? scenario.prompt).replaceAll('agent-suites/fixtures/', `${BENCH_ROOT}/`),
     rubric: {},
     fixtureRoot: BENCH_ROOT,
   }
   const leaks = blindingLeaks(framePrompt(claim, 'neutral'))
   if (leaks.length) throw new Error(`Bench prompt for ${task.id} reveals measurement: ${leaks}`)
   return claim
+}
+
+/** The harness's workspace guard, as an error kind (2.1+) or a plain message (2.0). */
+function isWorkspaceEscape(error: unknown) {
+  return (
+    (error as { kind?: string }).kind === 'workspace-escape' ||
+    /outside the isolated workspace/.test(String((error as Error)?.message))
+  )
 }
 
 /** Keep an expensive run even when one piece of evidence cannot be collected. */
@@ -71,7 +83,7 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
         } catch (error) {
           // The harness's lexical escape guard also fires on in-workspace paths such as `../..`
           // after a `cd`. Keep the run as an infrastructure exclusion so it never forms a pair.
-          if ((error as { kind?: string }).kind !== 'workspace-escape') throw error
+          if (!isWorkspaceEscape(error)) throw error
           await save({
             task: task.id,
             arm,

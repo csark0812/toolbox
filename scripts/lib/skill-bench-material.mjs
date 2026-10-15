@@ -46,14 +46,40 @@ export function summarizeActions(toolCalls = []) {
   ].join('\n')
 }
 
+/** Pack and product names that identify a skill set even outside a skill name. */
+const PACK_WORDS = ['pstack', 'poteto', 'toolbox']
+
+const escape = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+/**
+ * Replace skill identities with `<skill>` so the judge cannot tell which skill set ran.
+ * Installed-skill paths and pack words are always masked. Hyphenated names are distinctive
+ * enough to mask anywhere; plain-word names (`how`, `probe`) only when the text calls them a
+ * skill, playbook or mode, or quotes them in backticks, so ordinary prose survives.
+ */
+export function maskSkillNames(text, names = []) {
+  let masked = text.replace(/((?:\.claude|\.agents|\.codex|~)\/skills)\/[^\s/'"`)]+/g, '$1/<skill>')
+  const distinctive = [...PACK_WORDS, ...names.filter((name) => name.includes('-'))]
+  for (const name of distinctive.sort((a, b) => b.length - a.length))
+    masked = masked.replace(new RegExp(`(?<![\\w-])/?${escape(name)}(?![\\w-])`, 'gi'), '<skill>')
+  for (const name of names) {
+    const word = escape(name)
+    masked = masked
+      .replace(new RegExp(`\`/?${word}\``, 'gi'), '`<skill>`')
+      .replace(
+        new RegExp(`(?<![\\w-])/?${word}(?=\\s+(?:skill|skills|playbook|mode)\\b)`, 'gi'),
+        '<skill>',
+      )
+  }
+  return masked
+}
+
 /**
  * The judge's view of one run: reply, changes, actions and automatic checks.
- * It carries no arm, skill or model name. Installed-skill paths are masked so a read of a
- * skill file shows as an action without naming the skill.
+ * It carries no arm, skill, pack or model name: skill identities are masked with `<skill>`.
  */
-export function renderRun(run, label) {
-  const mask = (text) =>
-    text.replace(/\.(claude|agents)\/skills\/[^\s/'"`]+/g, '.$1/skills/<skill>')
+export function renderRun(run, label, { skillNames = [] } = {}) {
+  const mask = (text) => maskSkillNames(text, skillNames)
   const checks = run.hardCheck.passed
     ? 'All automatic checks passed.'
     : `Automatic check failed: ${run.hardCheck.failure}`
@@ -62,17 +88,17 @@ export function renderRun(run, label) {
     '',
     '## Final reply',
     '',
-    clip(run.output || '(no reply)', LIMITS.reply),
+    mask(clip(run.output || '(no reply)', LIMITS.reply)),
     '',
     '## Changes since the starting state',
     '',
     '```diff',
-    clip(run.diff || '(no changes)', LIMITS.diff),
+    mask(clip(run.diff || '(no changes)', LIMITS.diff)),
     '```',
     '',
     '## Commits',
     '',
-    run.commits || '(none)',
+    mask(run.commits || '(none)'),
     '',
     '## Actions taken (from the tool log)',
     '',
@@ -80,7 +106,7 @@ export function renderRun(run, label) {
     '',
     '## Automatic checks',
     '',
-    checks,
+    mask(checks),
     '',
   ].join('\n')
 }

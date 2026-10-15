@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 // Judges every not-yet-judged cross-arm pair of a skill bench in both orders, plus identical,
 // known-gap and re-test controls, with Opus in an empty sealed workspace per comparison.
-import { readFile, readdir, writeFile, mkdir } from 'node:fs/promises'
+import { mkdtemp, readFile, readdir, rm, writeFile, mkdir } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { claude, createAgentSession, createEmptySealedWorkspace } from '@post-print/agent-harness'
+import { claude, createAgentSession } from '@post-print/agent-harness'
 import {
   JUDGE_RUBRIC,
   degrade,
@@ -42,6 +43,16 @@ export function judgeableRuns(runs) {
   return runs.filter((run) => !run.infrastructure)
 }
 
+/** Every skill name a run could reveal: toolbox skills plus any fetched comparison pack. */
+export async function knownSkillNames() {
+  const lock = JSON.parse(await readFile('skills-lock.json', 'utf8'))
+  const packs = await readdir('_agent/packs').catch(() => [])
+  const packSkills = await Promise.all(
+    packs.map((pack) => readdir(join('_agent/packs', pack, 'skills')).catch(() => [])),
+  )
+  return [...new Set([...Object.keys(lock.skills), ...packSkills.flat()])]
+}
+
 export async function loadTasks() {
   return JSON.parse(await readFile('agent-suites/skill-bench/tasks.json', 'utf8')).tasks
 }
@@ -74,6 +85,7 @@ export async function judgeBench(id, { matched = false } = {}) {
       (entry) => `${entry.pairId}|${entry.first}|${entry.control ?? ''}|${entry.retestOf ?? ''}`,
     ),
   )
+  const skillNames = await knownSkillNames()
   const random = mulberry32(runs.length * 7919 + JUDGE_VERSION)
   const jobs = []
   const pairs = planPairs(runs, arms, { matched })
@@ -130,6 +142,7 @@ export async function judgeBench(id, { matched = false } = {}) {
           first: byId.get(job.first),
           second: byId.get(job.second),
           seed: Math.floor(random() * 2 ** 32),
+          skillNames,
         })
         ledger.push({ ...job, ...verdict, model: JUDGE_MODEL, judgeVersion: JUDGE_VERSION })
         await save()
@@ -145,14 +158,16 @@ export async function judgeBench(id, { matched = false } = {}) {
 }
 
 /** One blind comparison in a fresh sealed workspace. Only the task and the two rendered runs go in. */
-export async function judgePair({ brief, first, second, seed }) {
-  const sealed = await createEmptySealedWorkspace()
+export async function judgePair({ brief, first, second, seed, skillNames = [] }) {
+  // An empty temp folder: the judge sees only the files written below, nothing from this repo.
+  const sealed = { path: await mkdtemp(join(tmpdir(), 'skill-bench-judge-')) }
+  sealed.cleanup = () => rm(sealed.path, { recursive: true, force: true })
   const tag = (seed >>> 0).toString(36)
   try {
     const names = { A: `version-A-${tag}.md`, B: `version-B-${tag}.md` }
     await writeFile(join(sealed.path, 'task.md'), brief)
-    await writeFile(join(sealed.path, names.A), renderRun(first, 'A'))
-    await writeFile(join(sealed.path, names.B), renderRun(second, 'B'))
+    await writeFile(join(sealed.path, names.A), renderRun(first, 'A', { skillNames }))
+    await writeFile(join(sealed.path, names.B), renderRun(second, 'B', { skillNames }))
     const prompt = `${JUDGE_RUBRIC}
 
 Read task.md, then read ${names.A} and ${names.B} in full with the Read tool.

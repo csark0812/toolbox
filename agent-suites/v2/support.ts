@@ -239,11 +239,18 @@ function publishToBareRemote(root: string) {
 }
 
 /**
- * Skills a run may see. `full` and `none` are the conformance arms; `only:<slug>` and
- * `without:<slug>` are bench ablations. The legacy design arm installs archived skills instead.
+ * Toolbox skills a run may see. `full` and `none` are the conformance arms; `only:<slug>` and
+ * `without:<slug>` are bench ablations. The legacy design arm installs archived skills instead,
+ * and `pack:<name>[@<entry>]` installs a fetched comparison pack from `_agent/packs/<name>/skills`.
  */
+/** `pack:pstack@poteto-mode` → `pstack`. */
+export const packName = (arm: string) => arm.slice('pack:'.length).split('@')[0]
+
+/** `pack:pstack@poteto-mode` → `poteto-mode`: the pack's documented entry skill, if any. */
+export const packEntry = (arm: string) => (arm.startsWith('pack:') ? arm.split('@')[1] : undefined)
+
 export function installedSkills(arm: string): string[] {
-  if (arm === 'none' || arm === 'legacy-design') return []
+  if (arm === 'none' || arm === 'legacy-design' || arm.startsWith('pack:')) return []
   if (arm === 'full') return [...EXPECTED_SKILLS]
   const [mode, slug] = arm.split(':')
   if (!slug || !(EXPECTED_SKILLS as readonly string[]).includes(slug))
@@ -275,6 +282,10 @@ export function prepareClaim(
             join(workspace.path, mirror, slug),
             { recursive: true },
           )
+      } else if (arm.startsWith('pack:')) {
+        const packDir = resolve('_agent/packs', packName(arm), 'skills')
+        for (const slug of await readdir(packDir))
+          await cp(join(packDir, slug), join(workspace.path, mirror, slug), { recursive: true })
       } else
         for (const slug of installed)
           await cp(join(workspace.path, slug), join(workspace.path, mirror, slug), {

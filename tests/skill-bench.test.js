@@ -5,6 +5,7 @@ import { EXPECTED_SKILLS } from '../src/expected-skills.ts'
 import {
   blindingLeaks,
   degrade,
+  maskSkillNames,
   parseVerdict,
   planPairs,
   renderRun,
@@ -57,8 +58,21 @@ describe('skill bench blinding', () => {
       expect(task.criteria.length).toBeLessThanOrEqual(6)
     })
 
+  it('masks skill and pack names without mangling ordinary words', () => {
+    const names = ['hillclimb', 'how', 'babysit-pr', 'poteto-mode']
+    const masked = maskSkillNames(
+      'I used the hillclimb skill via /poteto-mode and babysit-pr. This is how it works. pstack too.',
+      names,
+    )
+    expect(masked).toBe(
+      'I used the <skill> skill via <skill> and <skill>. This is how it works. <skill> too.',
+    )
+  })
+
   it('the judge view names no arm, skill or model', () => {
-    const view = renderRun(run(), 'A')
+    const view = renderRun(run({ output: 'Ran the hillclimb skill.' }), 'A', {
+      skillNames: ['hillclimb'],
+    })
     expect(view).not.toMatch(/full|none|hillclimb|only:|without:|opus|codex/i)
     expect(view).toContain('.claude/skills/<skill>')
     expect(view).toContain('node --test')
