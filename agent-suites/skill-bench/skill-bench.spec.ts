@@ -21,6 +21,8 @@ const TASKSET = process.env.SKILL_BENCH_TASKSET === 'holdout' ? 'holdout' : 'tas
 const { tasks } = JSON.parse(readFileSync(`agent-suites/skill-bench/${TASKSET}.json`, 'utf8'))
 const arms = (process.env.SKILL_BENCH_ARMS ?? 'none,full').split(',')
 const selected = process.env.SKILL_BENCH_TASKS?.split(',')
+// Top-up runs for missing cells start their repetition numbers after the existing ones.
+const REP_OFFSET = Number(process.env.SKILL_BENCH_REP_OFFSET ?? 0)
 const RUNNER = process.env.SKILL_BENCH_RUNNER === 'claude' ? 'claude' : 'codex'
 const benchDir = join('.agent-test/skill-bench', process.env.SKILL_BENCH_ID ?? 'adhoc', 'runs')
 
@@ -112,7 +114,7 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
       { description: `Bench run for ${task.targetSkill}`, criteria: task.criteria },
       async ({ coder }, info) => {
         const claim = benchClaim(task, arm)
-        const file = `${task.id}__${arm.replace(':', '-')}__${info.repeatEachIndex}.json`
+        const file = `${task.id}__${arm.replace(':', '-')}__${info.repeatEachIndex + REP_OFFSET}.json`
         const save = async (record: object) => {
           await mkdir(benchDir, { recursive: true })
           await writeFile(join(benchDir, file), JSON.stringify(record, null, 2))
@@ -130,7 +132,7 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
           await save({
             task: task.id,
             arm,
-            repetition: info.repeatEachIndex,
+            repetition: info.repeatEachIndex + REP_OFFSET,
             infrastructure: String((error as Error).message).slice(0, 600),
           })
           return
@@ -156,7 +158,7 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
           task: task.id,
           arm,
           runner: RUNNER,
-          repetition: info.repeatEachIndex,
+          repetition: info.repeatEachIndex + REP_OFFSET,
           output: run.output,
           toolCalls: run.toolCalls.map(({ name, args }) => ({ name, args })),
           diff: collect(() => diffSinceBaseline(run.workspace.root)),

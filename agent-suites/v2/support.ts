@@ -301,7 +301,9 @@ export function prepareClaim(
     for (const slug of EXPECTED_SKILLS)
       if (framing === 'neutral' || !installed.includes(slug))
         await rm(join(workspace.path, slug), { recursive: true, force: true })
-    execFileSync('git', ['init', '-q', '-b', 'main'], { cwd: workspace.path })
+    execFileSync('git', ['init', '-q'], { cwd: workspace.path })
+    // The workspace may already be a repository; name its first branch main either way.
+    execFileSync('git', ['symbolic-ref', 'HEAD', 'refs/heads/main'], { cwd: workspace.path })
     execFileSync('git', ['add', '.'], { cwd: workspace.path })
     execFileSync(
       'git',
