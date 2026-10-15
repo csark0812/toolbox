@@ -8,7 +8,7 @@ export default defineConfig({
       ? claude({ auth: { type: 'subscription' } })
       : openai({}),
   judge: openai({}),
-  workspace: './_agent/bench-workspace',
+  workspace: `./_agent/bench-workspace-${process.env.SKILL_BENCH_RUNNER ?? 'codex'}`,
   testDir: './agent-suites/skill-bench',
   // Raise or lower with --workers; subscription rate limits are the practical ceiling.
   workers: Number(process.env.SKILL_BENCH_WORKERS ?? 4),

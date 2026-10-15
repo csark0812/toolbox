@@ -4,7 +4,12 @@ import { EXPECTED_SKILLS } from '../src/expected-skills.ts'
 const source = process.cwd()
 // --bench prepares a blinded workspace: fixtures under projects/, no testing vocabulary.
 const bench = process.argv.includes('--bench')
-const target = resolve(bench ? '_agent/bench-workspace' : '_agent/public-workspace')
+// Each bench runner gets its own folder so parallel runners never rebuild each other's source.
+const target = resolve(
+  bench
+    ? `_agent/bench-workspace-${process.env.SKILL_BENCH_RUNNER ?? 'codex'}`
+    : '_agent/public-workspace',
+)
 const fixtureDir = bench ? 'projects' : 'agent-suites/fixtures'
 await rm(target, { recursive: true, force: true })
 await mkdir(target, { recursive: true })

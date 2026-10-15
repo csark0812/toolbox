@@ -29,7 +29,9 @@ const step = (args, env = {}, { allowFailure = false } = {}) => {
 }
 
 function run({ arms, tasks, repeats, id, runner = option('runner', 'codex'), grep, offset = 0 }) {
-  step(['--experimental-strip-types', 'scripts/prepare-evaluation-workspace.mjs', '--bench'])
+  step(['--experimental-strip-types', 'scripts/prepare-evaluation-workspace.mjs', '--bench'], {
+    SKILL_BENCH_RUNNER: runner,
+  })
   step(
     [
       'node_modules/@post-print/agent-test/dist/cli.js',
