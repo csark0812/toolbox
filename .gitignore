@@ -22,3 +22,6 @@ test-results/
 /references/original-skills/web-designer-local/
 /references/original-skills/app-designer-local/
 /references/original-skills/manifest-local.json
+
+# Local app tasks for the UI bench (user data, never committed)
+agent-suites/ui-bench/local/
