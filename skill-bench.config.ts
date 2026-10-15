@@ -1,8 +1,12 @@
 import { defineConfig } from '@post-print/agent-test'
-import { openai } from '@post-print/agent-harness'
+import { claude, openai } from '@post-print/agent-harness'
 // Blinded skill bench: same runner as the claim suites, a neutral workspace, no judge in the run.
 export default defineConfig({
-  agent: openai({}),
+  // SKILL_BENCH_RUNNER picks the agent host for every arm; the judge is chosen per bench, cross-family.
+  agent:
+    process.env.SKILL_BENCH_RUNNER === 'claude'
+      ? claude({ auth: { type: 'subscription' } })
+      : openai({}),
   judge: openai({}),
   workspace: './_agent/bench-workspace',
   testDir: './agent-suites/skill-bench',
