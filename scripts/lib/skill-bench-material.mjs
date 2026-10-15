@@ -157,10 +157,41 @@ or misstate results. Do not assume either version is better because of its label
 Score each version 1-5 on whether you would ship it as-is: 1 harmful or wrong, 2 not shippable,
 3 shippable with real fixes, 4 shippable with nits, 5 ship as-is.`
 
+/** Every balanced, string-aware `{...}` span in the text, in order. */
+function jsonObjects(text) {
+  const spans = []
+  for (let start = text.indexOf('{'); start !== -1; start = text.indexOf('{', start + 1)) {
+    let depth = 0
+    let quoted = false
+    for (let end = start; end < text.length; end++) {
+      const char = text[end]
+      if (quoted) {
+        if (char === '\\') end++
+        else if (char === '"') quoted = false
+      } else if (char === '"') quoted = true
+      else if (char === '{') depth++
+      else if (char === '}' && --depth === 0) {
+        spans.push(text.slice(start, end + 1))
+        break
+      }
+    }
+  }
+  return spans
+}
+
+/** The last JSON object in the judge's reply that carries a winner. Braces inside reasons are fine. */
 export function parseVerdict(text) {
-  const match = [...text.matchAll(/\{[^{}]*"winner"[^{}]*\}/g)].at(-1)
-  if (!match) throw new Error(`no verdict JSON in judge reply: ${text.slice(0, 200)}`)
-  const parsed = JSON.parse(match[0])
-  if (!['A', 'B', 'tie'].includes(parsed.winner)) throw new Error(`bad winner ${parsed.winner}`)
-  return parsed
+  const verdict = jsonObjects(text)
+    .map((span) => {
+      try {
+        return JSON.parse(span)
+      } catch {
+        return null
+      }
+    })
+    .filter((value) => value && typeof value === 'object' && 'winner' in value)
+    .at(-1)
+  if (!verdict) throw new Error(`no verdict JSON in judge reply: ${text.slice(0, 200)}`)
+  if (!['A', 'B', 'tie'].includes(verdict.winner)) throw new Error(`bad winner ${verdict.winner}`)
+  return verdict
 }

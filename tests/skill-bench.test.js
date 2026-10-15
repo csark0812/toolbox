@@ -118,6 +118,11 @@ describe('skill bench pairs and controls', () => {
       winner: 'A',
     })
     expect(() => parseVerdict('{"winner":"C"}')).toThrow(/bad winner/)
+    expect(
+      parseVerdict(
+        '{"scoreA":4,"scoreB":3,"winner":"A","reasons":["uses `{ kind: \\"done\\" }` model"]}',
+      ),
+    ).toMatchObject({ winner: 'A', scoreA: 4 })
   })
 })
 
