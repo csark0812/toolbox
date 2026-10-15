@@ -50,7 +50,12 @@ export function buildReport({ runs, tasks, judgments, baseline = 'none' }) {
         runs.filter((run) => taskIds.has(run.task) && run.arm === arm && !run.hardCheck.passed)
           .length
       const defects = { focus: failures(focus), other: failures(baseline) }
-      const call = health.healthy ? verdict({ ...rate, ...interval, repeats }, defects) : 'withheld'
+      const call =
+        repeats < MIN_REPEATS
+          ? `signal only (${repeats} run${repeats === 1 ? '' : 's'} per arm)`
+          : health.healthy
+            ? verdict({ ...rate, ...interval, repeats }, defects)
+            : 'withheld'
       rows.push({ skill, focus, baseline, ...rate, ...interval, repeats, defects, verdict: call })
     }
   return { rows, health }

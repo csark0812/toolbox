@@ -24,16 +24,17 @@ A skill ships or stays only if it beats its baseline in this bench. Conformance 
    - **Not better:** upper bound < 60%.
    - **Inconclusive:** anything else.
 
-   No verdict is given before 4 runs per arm per task. An unhealthy judge withholds every verdict.
+   No verdict is given before 4 runs per arm per task; fewer runs report **signal only**. An unhealthy judge withholds every verdict.
 
 ## Commands
 
-| Step                                    | Command                                                                       |
-| --------------------------------------- | ----------------------------------------------------------------------------- |
-| Check the pipeline on one task (2 runs) | `npm run bench:skill:preflight`                                               |
-| Run arms on tasks, 4 repeats            | `npm run bench:skill -- --arms none,full --tasks leaderboard-speed --id <id>` |
-| Judge every unjudged pair and control   | `npm run bench:skill:judge -- <id>`                                           |
-| Report verdicts against a baseline arm  | `npm run bench:skill:report -- <id> none`                                     |
+| Step                                                           | Command                                                                       |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Check the pipeline on one task (2 runs)                        | `npm run bench:skill:preflight`                                               |
+| Quick signal: every task, 2 repeats, matched pairs, no verdict | `npm run bench:skill:quick`                                                   |
+| Run arms on tasks, 4 repeats                                   | `npm run bench:skill -- --arms none,full --tasks leaderboard-speed --id <id>` |
+| Judge every unjudged pair and control                          | `npm run bench:skill:judge -- <id>`                                           |
+| Report verdicts against a baseline arm                         | `npm run bench:skill:report -- <id> none`                                     |
 
 ## Rules
 

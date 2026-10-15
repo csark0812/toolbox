@@ -80,6 +80,15 @@ describe('skill bench pairs and controls', () => {
     expect(pairs.every((pair) => pair.task === 't1')).toBe(true)
   })
 
+  it('matched mode pairs equal repetitions only', () => {
+    const runs = [0, 1].flatMap((repetition) => [
+      run({ arm: 'none', repetition }),
+      run({ arm: 'full', repetition }),
+    ])
+    const pairs = planPairs(runs, ['full', 'none'], { matched: true })
+    expect(pairs.map((pair) => pair.pairId)).toEqual(['t1|full|0~t1|none|0', 't1|full|1~t1|none|1'])
+  })
+
   it('a degraded twin has no work, no actions and a failed check', () => {
     const twin = degrade(run())
     expect(twin.id).toBe('t1|full|0|degraded')
@@ -99,23 +108,28 @@ describe('skill bench pairs and controls', () => {
 })
 
 describe('skill bench report', () => {
-  it('withholds verdicts when the judge has no identical-pair control', () => {
-    const runs = [run({ arm: 'none' }), run()]
-    const judgments = [
-      { pairId: 'p', task: 't1', first: 't1|full|0', second: 't1|none|0', winner: 'first' },
-      { pairId: 'p', task: 't1', first: 't1|none|0', second: 't1|full|0', winner: 'second' },
-    ]
-    const report = buildReport({
-      runs,
-      tasks: [{ id: 't1', targetSkill: 'hillclimb' }],
-      judgments,
-    })
-    expect(report.health.healthy).toBe(false)
+  const tasks = [{ id: 't1', targetSkill: 'hillclimb' }]
+  const judgments = [
+    { pairId: 'p', task: 't1', first: 't1|full|0', second: 't1|none|0', winner: 'first' },
+    { pairId: 'p', task: 't1', first: 't1|none|0', second: 't1|full|0', winner: 'second' },
+  ]
+
+  it('labels fewer than four runs per arm as signal only', () => {
+    const report = buildReport({ runs: [run({ arm: 'none' }), run()], tasks, judgments })
     expect(report.rows[0]).toMatchObject({
-      skill: 'hillclimb',
       focus: 'full',
       wins: 1,
-      verdict: 'withheld',
+      verdict: 'signal only (1 run per arm)',
     })
+  })
+
+  it('withholds verdicts when the judge has no identical-pair control', () => {
+    const runs = [0, 1, 2, 3].flatMap((repetition) => [
+      run({ arm: 'none', repetition }),
+      run({ repetition }),
+    ])
+    const report = buildReport({ runs, tasks, judgments })
+    expect(report.health.healthy).toBe(false)
+    expect(report.rows[0]).toMatchObject({ skill: 'hillclimb', verdict: 'withheld' })
   })
 })

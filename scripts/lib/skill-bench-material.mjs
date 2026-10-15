@@ -100,15 +100,20 @@ export function degrade(run) {
 
 export const runId = (run) => `${run.task}|${run.arm}|${run.repetition}`
 
-/** Every cross-arm pair within each task, as [a, b] run ids sorted for a stable pair id. */
-export function planPairs(runs, arms) {
+/**
+ * Cross-arm pairs within each task, as [a, b] run ids sorted for a stable pair id. Full mode pairs
+ * every run with every run of the other arm; matched mode (quick signal) pairs equal repetitions only.
+ */
+export function planPairs(runs, arms, { matched = false } = {}) {
   const pairs = []
   const byTask = Map.groupBy(runs, (run) => run.task)
   for (const [task, list] of byTask)
     for (let i = 0; i < arms.length; i++)
       for (let j = i + 1; j < arms.length; j++)
         for (const a of list.filter((run) => run.arm === arms[i]))
-          for (const b of list.filter((run) => run.arm === arms[j])) {
+          for (const b of list.filter(
+            (run) => run.arm === arms[j] && (!matched || run.repetition === a.repetition),
+          )) {
             const [first, second] = [runId(a), runId(b)].sort()
             pairs.push({ pairId: `${first}~${second}`, task, a: first, b: second })
           }

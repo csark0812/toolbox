@@ -3,6 +3,7 @@
 //   node scripts/skill-bench.mjs run [--arms none,full] [--tasks a,b] [--repeats 4] [--id <id>]
 //   node scripts/skill-bench.mjs judge|report [<id>] [<baseline>]
 //   node scripts/skill-bench.mjs preflight
+//   node scripts/skill-bench.mjs quick [--arms none,full] [--tasks a,b]   (2 repeats, matched pairs, no verdict)
 import { spawnSync } from 'node:child_process'
 
 const [command = 'run', ...rest] = process.argv.slice(2)
@@ -48,9 +49,14 @@ if (command === 'run')
   })
 else if (command === 'preflight')
   run({ arms: 'none,full', tasks: 'session-expiry-fix', repeats: 1, id: `preflight-${id}` })
-else if (command === 'judge') step(['scripts/skill-bench-judge.mjs', ...rest])
+else if (command === 'quick') {
+  const quickId = option('id', `quick-${id}`)
+  run({ arms: option('arms', 'none,full'), tasks: option('tasks'), repeats: 2, id: quickId })
+  step(['scripts/skill-bench-judge.mjs', quickId, '--matched'])
+  step(['scripts/skill-bench-report.mjs', quickId, option('baseline', 'none')])
+} else if (command === 'judge') step(['scripts/skill-bench-judge.mjs', ...rest])
 else if (command === 'report') step(['scripts/skill-bench-report.mjs', ...rest])
 else {
-  console.error(`Unknown command ${command}. Use run, preflight, judge or report.`)
+  console.error(`Unknown command ${command}. Use run, preflight, quick, judge or report.`)
   process.exit(1)
 }

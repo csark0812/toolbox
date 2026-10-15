@@ -56,7 +56,7 @@ async function taskBrief(task) {
   return `# Task\n\nThe user asked:\n\n> ${prompt.replaceAll('\n', '\n> ')}\n\n# What matters for this task\n\n${task.criteria.map((criterion) => `- ${criterion}`).join('\n')}\n`
 }
 
-export async function judgeBench(id) {
+export async function judgeBench(id, { matched = false } = {}) {
   const runs = await loadRuns(id)
   const tasks = new Map((await loadTasks()).map((task) => [task.id, task]))
   const arms = [...new Set(runs.map((run) => run.arm))].sort()
@@ -70,14 +70,17 @@ export async function judgeBench(id) {
   )
   const random = mulberry32(runs.length * 7919 + JUDGE_VERSION)
   const jobs = []
-  const pairs = planPairs(runs, arms)
+  const pairs = planPairs(runs, arms, { matched })
   for (const pair of pairs)
     for (const [first, second] of [
       [pair.a, pair.b],
       [pair.b, pair.a],
     ])
       jobs.push({ pairId: pair.pairId, task: pair.task, first, second })
-  for (const pair of pairs.filter(() => random() < 0.1))
+  // The identical-pair check needs at least one control, however few pairs a quick bench has.
+  const identical = pairs.filter(() => random() < 0.1)
+  if (!identical.length && pairs.length) identical.push(pairs[0])
+  for (const pair of identical)
     jobs.push({
       pairId: `${pair.a}~${pair.a}`,
       task: pair.task,
@@ -182,5 +185,7 @@ async function askOpus(workspace, prompt) {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  await judgeBench(process.argv[2] ?? (await latestBenchId()))
+  const args = process.argv.slice(2)
+  const id = args.find((arg) => !arg.startsWith('--')) ?? (await latestBenchId())
+  await judgeBench(id, { matched: args.includes('--matched') })
 }
