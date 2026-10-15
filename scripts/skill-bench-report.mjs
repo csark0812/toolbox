@@ -38,9 +38,13 @@ export function buildReport({ runs: all, tasks, judgments, baseline = 'none' }) 
   const rows = []
   for (const skill of [...new Set(tasks.map((task) => task.targetSkill))])
     for (const focus of arms) {
+      // Only tasks this bench actually ran: the same skill can also target tasks in another task set.
       const taskIds = new Set(
-        tasks.filter((task) => task.targetSkill === skill).map((task) => task.id),
+        tasks
+          .filter((task) => task.targetSkill === skill && runs.some((run) => run.task === task.id))
+          .map((task) => task.id),
       )
+      if (!taskIds.size) continue
       const outcomes = contrastOutcomes(
         resolved.filter((pair) => taskIds.has(pair.task)),
         focus,

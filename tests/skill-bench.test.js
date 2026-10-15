@@ -162,6 +162,15 @@ describe('skill bench report', () => {
     })
   })
 
+  it('counts only tasks this bench ran when a skill also targets other tasks', () => {
+    const report = buildReport({
+      runs: [run({ arm: 'none' }), run()],
+      tasks: [...tasks, { id: 'not-run', targetSkill: 'hillclimb' }],
+      judgments,
+    })
+    expect(report.rows[0].repeats).toBe(1)
+  })
+
   it('labels fewer than four runs per arm as signal only', () => {
     const report = buildReport({ runs: [run({ arm: 'none' }), run()], tasks, judgments })
     expect(report.rows[0]).toMatchObject({

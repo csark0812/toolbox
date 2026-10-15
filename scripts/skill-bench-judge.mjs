@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 // Judges every not-yet-judged cross-arm pair of a skill bench in both orders, plus identical,
 // known-gap and re-test controls, with Opus in an empty sealed workspace per comparison.
-import { mkdtemp, readFile, readdir, rm, writeFile, mkdir } from 'node:fs/promises'
-import { tmpdir } from 'node:os'
+import { readFile, readdir, writeFile, mkdir } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { claude, createAgentSession, openai } from '@post-print/agent-harness'
+import {
+  claude,
+  createAgentSession,
+  createEmptySealedWorkspace,
+  openai,
+} from '@post-print/agent-harness'
 import {
   JUDGE_RUBRIC,
   degrade,
@@ -186,9 +190,9 @@ export async function judgePair({
   skillNames = [],
   judge = judgeFor('codex'),
 }) {
-  // An empty temp folder: the judge sees only the files written below, nothing from this repo.
-  const sealed = { path: await mkdtemp(join(tmpdir(), 'skill-bench-judge-')) }
-  sealed.cleanup = () => rm(sealed.path, { recursive: true, force: true })
+  // An empty sealed workspace: the judge sees only the files written below, and every host's
+  // isolation profile can read it (a plain temp folder is denied under the Codex profile).
+  const sealed = await createEmptySealedWorkspace()
   const tag = (seed >>> 0).toString(36)
   try {
     const names = { A: `version-A-${tag}.md`, B: `version-B-${tag}.md` }
@@ -197,7 +201,7 @@ export async function judgePair({
     await writeFile(join(sealed.path, names.B), renderRun(second, 'B', { skillNames }))
     const prompt = `${JUDGE_RUBRIC}
 
-Read task.md, then read ${names.A} and ${names.B} in full with the Read tool.
+Read task.md, then read ${names.A} and ${names.B} in full with whatever file-reading tool you have.
 
 Reply with only this JSON:
 {"scoreA": 1-5, "scoreB": 1-5, "winner": "A" | "B" | "tie", "confidence": 1 | 2 | 3, "reasons": ["short reason", "..."]}`
