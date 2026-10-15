@@ -8,13 +8,13 @@
   "scenarios": [
     {
       "name": "target on a feature branch: frozen harness, logged keep-or-revert loop",
-      "prompt": "The leaderboard summary in agent-suites/fixtures/hillclimb-lab is too slow. Get the `npm run bench` median under 5 ms. You're on my feature branch, so commit each improvement as you go.",
+      "prompt": "The leaderboard summary in agent-suites/fixtures/leaderboard-lab is too slow. Get the `npm run bench` median under 5 ms. You're on my feature branch, so commit each improvement as you go.",
       "branch": "perf/leaderboard",
       "frozenPaths": [
-        "agent-suites/fixtures/hillclimb-lab/bench/bench.mjs",
-        "agent-suites/fixtures/hillclimb-lab/bench/sample.mjs"
+        "agent-suites/fixtures/leaderboard-lab/bench/bench.mjs",
+        "agent-suites/fixtures/leaderboard-lab/bench/sample.mjs"
       ],
-      "fixtureGate": "agent-suites/fixtures/hillclimb-lab",
+      "fixtureGate": "agent-suites/fixtures/leaderboard-lab",
       "evidenceDirs": [".hillclimb"],
       "evidenceGitLog": true,
       "rubric": {
@@ -29,7 +29,7 @@
     },
     {
       "name": "target on main: measure, then ask before committing",
-      "prompt": "Make the leaderboard summary in agent-suites/fixtures/hillclimb-lab at least 3x faster on `npm run bench`.",
+      "prompt": "Make the leaderboard summary in agent-suites/fixtures/leaderboard-lab at least 3x faster on `npm run bench`.",
       "evidenceGitLog": true,
       "rubric": {
         "mustInvokeSkill": ["hillclimb"],
@@ -42,7 +42,7 @@
     },
     {
       "name": "no target given: propose a target and confirm before climbing",
-      "prompt": "Keep making the leaderboard benchmark in agent-suites/fixtures/hillclimb-lab faster.",
+      "prompt": "Keep making the leaderboard benchmark in agent-suites/fixtures/leaderboard-lab faster.",
       "branch": "perf/leaderboard",
       "rubric": {
         "mustInvokeSkill": ["hillclimb"],
@@ -54,7 +54,7 @@
     },
     {
       "name": "near miss: why is it slow (read-only diagnosis)",
-      "prompt": "Why is summarize() in agent-suites/fixtures/hillclimb-lab slow? Don't change anything.",
+      "prompt": "Why is summarize() in agent-suites/fixtures/leaderboard-lab slow? Don't change anything.",
       "rubric": {
         "mustNotReadPath": ["hillclimb/SKILL.md"],
         "judge": [
@@ -65,8 +65,8 @@
     },
     {
       "name": "near miss: readability cleanup without behavior change",
-      "prompt": "Tidy up agent-suites/fixtures/hillclimb-lab/src/summarize.mjs for readability without changing behavior.",
-      "fixtureGate": "agent-suites/fixtures/hillclimb-lab",
+      "prompt": "Tidy up agent-suites/fixtures/leaderboard-lab/src/summarize.mjs for readability without changing behavior.",
+      "fixtureGate": "agent-suites/fixtures/leaderboard-lab",
       "rubric": {
         "mustNotReadPath": ["hillclimb/SKILL.md"],
         "judge": [
@@ -76,7 +76,7 @@
     },
     {
       "name": "near miss: is the benchmark sound",
-      "prompt": "Is the benchmark in agent-suites/fixtures/hillclimb-lab measuring summarize() correctly? Don't change anything.",
+      "prompt": "Is the benchmark in agent-suites/fixtures/leaderboard-lab measuring summarize() correctly? Don't change anything.",
       "rubric": {
         "mustNotReadPath": ["hillclimb/SKILL.md"],
         "judge": [

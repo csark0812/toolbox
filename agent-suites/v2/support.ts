@@ -27,6 +27,10 @@ type Claim = {
   evidencePolicy?: 'read-only'
   /** Check out this branch after the fixture baseline commit. */
   branch?: string
+  /** Commit the applied seed patch on the current branch with this message. */
+  seedCommit?: string
+  /** Publish main and the current branch to a local bare `origin` inside the workspace. */
+  bareRemote?: boolean
   /** Paths that must be byte-identical to the fixture source after the run. */
   frozenPaths?: string[]
   /** Fixture directory whose `node --test` suite must still pass after the run. */
@@ -98,6 +102,23 @@ export async function executeClaim(
         { cwd: workspace.path, input: seed },
       )
     }
+    if (claim.seedCommit) {
+      execFileSync('git', ['add', '-A'], { cwd: workspace.path })
+      execFileSync(
+        'git',
+        [
+          '-c',
+          'user.name=Sam Fixture',
+          '-c',
+          'user.email=sam@example.invalid',
+          'commit',
+          '-qm',
+          claim.seedCommit,
+        ],
+        { cwd: workspace.path },
+      )
+    }
+    if (claim.bareRemote) publishToBareRemote(workspace.path)
   })
   const artifacts = info.outputPath('normalized.json')
   let run: Awaited<ReturnType<AgentFixture['run']>> | undefined
@@ -321,4 +342,15 @@ function commitsAfterBaseline(root: string) {
     },
   ).toString()
   return log.trim() || 'No commits after the fixture baseline.'
+}
+
+/** Create `.origin.git` beside the work tree, push every local branch, and track upstreams. */
+function publishToBareRemote(root: string) {
+  const git = (...args: string[]) => execFileSync('git', args, { cwd: root })
+  execFileSync('git', ['init', '-q', '--bare', '.origin.git'], { cwd: root })
+  git('remote', 'add', 'origin', join(root, '.origin.git'))
+  git('push', '-q', '--all', '-u', 'origin')
+  git('config', 'user.name', 'Sam Fixture')
+  git('config', 'user.email', 'sam@example.invalid')
+  execFileSync('sh', ['-c', 'echo .origin.git/ >> .git/info/exclude'], { cwd: root })
 }

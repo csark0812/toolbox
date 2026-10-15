@@ -46,6 +46,7 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | **i-need-help**              | Stop repeated work without useful progress and ask the current owner for specific help.                                                                       |
 | **create-bounded-commits**   | Coordinate ownership, group and validate ready dirty-work changes, obtain batch approval, and preserve unfinished work while creating local commits.          |
 | **retro**                    | Explicit session retrospective: recommend evidence-backed improvements to the agent's environment; keep source files read-only.                               |
+| **babysit-pr**               | Drive one PR to merge-ready: classify CI, merge base on conflict, address threads, push; never merge                                                          |
 | **hillclimb**                | Target-driven metric loop: frozen harness, stop predicate, one hypothesis per attempt, keep or revert in full                                                 |
 | **verification**             | Create or maintain an executable consumer verification recipe and run it                                                                                      |
 | **technical-writing**        | Write or revise technical documents around the reader task                                                                                                    |

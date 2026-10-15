@@ -102,6 +102,7 @@ See the [design and CSS source index](references/design-source-index.md) for the
 | Process      | i-need-help              | Stop when repeated work makes no progress; ask the current owner for specific help              |
 | Process      | create-bounded-commits   | Coordinate ownership, group changes, validate, and create bounded local commits                 |
 | Process      | retro                    | Explicit session retrospective with prioritized recommendations for the agent's environment     |
+| Process      | babysit-pr               | Drive one open PR to merge-ready: fix CI, resolve conflicts, address threads; never merge       |
 | Process      | hillclimb                | Move one measured number to a target through a frozen harness and logged keep-or-revert commits |
 | Process      | verification             | Create or maintain an executable repo verification recipe                                       |
 | Process      | technical-writing        | Write or revise technical documents around the reader task                                      |

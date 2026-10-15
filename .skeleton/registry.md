@@ -45,6 +45,7 @@
 | i-need-help              | [i-need-help/SKILL.md](../i-need-help/SKILL.md)                           |
 | create-bounded-commits   | [create-bounded-commits/SKILL.md](../create-bounded-commits/SKILL.md)     |
 | hillclimb                | [hillclimb/SKILL.md](../hillclimb/SKILL.md)                               |
+| babysit-pr               | [babysit-pr/SKILL.md](../babysit-pr/SKILL.md)                             |
 | retro                    | [retro/SKILL.md](../retro/SKILL.md)                                       |
 | workflow                 | [workflow/SKILL.md](../workflow/SKILL.md)                                 |
 | orchestrate              | [orchestrate/SKILL.md](../orchestrate/SKILL.md)                           |

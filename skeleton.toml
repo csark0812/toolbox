@@ -32,6 +32,7 @@ include = [
   "technical-writing/**",
   "strict-english/**",
   "hillclimb/**",
+  "babysit-pr/**",
   "retro/**",
 ]
 exclude = [
@@ -72,5 +73,6 @@ ownedSlugs = [
   "technical-writing",
   "strict-english",
   "hillclimb",
+  "babysit-pr",
   "retro",
 ]

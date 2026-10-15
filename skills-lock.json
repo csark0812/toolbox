@@ -144,6 +144,12 @@
       "sourceType": "github",
       "skillPath": "hillclimb/SKILL.md",
       "computedHash": "1fcb419cd5126aa1edb751f3d4ed463af3811e15f91fae43c887f6a9426d1de6"
+    },
+    "babysit-pr": {
+      "source": "csark0812/toolbox",
+      "sourceType": "github",
+      "skillPath": "babysit-pr/SKILL.md",
+      "computedHash": "cd08b84311fc90d69bacc6e4798f58c8e78ca897775309f00ff1ab6a8712facd"
     }
   }
 }

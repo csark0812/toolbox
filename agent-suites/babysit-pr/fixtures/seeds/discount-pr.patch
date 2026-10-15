@@ -1,0 +1,39 @@
+--- a/agent-suites/fixtures/pr-lab/src/pricing.mjs
++++ b/agent-suites/fixtures/pr-lab/src/pricing.mjs
+@@ -1,7 +1,15 @@
+ // Cart pricing in integer cents.
+ 
++/** Bulk discount percent for a line: 5% from 10 units, 15% from 100 units. */
++export function bulkDiscountPct(quantity) {
++  if (quantity >= 100) return 15
++  if (quantity > 10) return 5
++  return 0
++}
++
+ export function lineTotal(item) {
+-  return item.unitCents * item.quantity
++  const gross = item.unitCents * item.quantity
++  return Math.round((gross * (100 - bulkDiscountPct(item.quantity))) / 100)
+ }
+ 
+ export function cartTotal(items) {
+--- a/agent-suites/fixtures/pr-lab/tests/pricing.test.mjs
++++ b/agent-suites/fixtures/pr-lab/tests/pricing.test.mjs
+@@ -1,6 +1,6 @@
+ import assert from 'node:assert/strict'
+ import { test } from 'node:test'
+-import { cartTotal, lineTotal } from '../src/pricing.mjs'
++import { bulkDiscountPct, cartTotal, lineTotal } from '../src/pricing.mjs'
+ 
+ test('prices a line in cents', () => {
+   assert.equal(lineTotal({ unitCents: 250, quantity: 2 }), 500)
+@@ -15,3 +15,9 @@
+     250,
+   )
+ })
++
++test('bulk discount starts at 10 units', () => {
++  assert.equal(bulkDiscountPct(9), 0)
++  assert.equal(bulkDiscountPct(10), 5)
++  assert.equal(lineTotal({ unitCents: 100, quantity: 10 }), 950)
++})

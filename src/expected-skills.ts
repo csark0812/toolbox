@@ -79,6 +79,7 @@ export const SKILLS = [
   },
   { slug: 'strict-english', kind: 'process', invocation: 'explicit', required: [], optional: [] },
   { slug: 'hillclimb', kind: 'process', invocation: 'automatic', required: [], optional: [] },
+  { slug: 'babysit-pr', kind: 'process', invocation: 'automatic', required: [], optional: [] },
   { slug: 'retro', kind: 'process', invocation: 'explicit', required: [], optional: [] },
 ] as const
 export const EXPECTED_SKILLS = SKILLS.map((skill) => skill.slug)
