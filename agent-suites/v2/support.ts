@@ -433,8 +433,12 @@ export function diffSinceBaseline(root: string) {
     .at(-1)
   if (!baseline) return ''
   execFileSync('git', ['add', '-A', '--intent-to-add', '.'], { cwd: root })
-  return execFileSync('git', ['diff', baseline, '--', '.', ':!_evidence', ':!.hillclimb'], {
-    cwd: root,
-    maxBuffer: 32 * 1024 * 1024,
-  }).toString()
+  return execFileSync(
+    'git',
+    ['diff', baseline, '--', '.', ':(exclude)_evidence', ':(exclude).hillclimb'],
+    {
+      cwd: root,
+      maxBuffer: 32 * 1024 * 1024,
+    },
+  ).toString()
 }

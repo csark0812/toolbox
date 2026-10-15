@@ -39,6 +39,15 @@ export function benchClaim(
   return claim
 }
 
+/** Keep an expensive run even when one piece of evidence cannot be collected. */
+function collect(read: () => string) {
+  try {
+    return read()
+  } catch (error) {
+    return `(could not collect: ${String(error).slice(0, 300)})`
+  }
+}
+
 const test = describe('skill-bench', ({ agent }) => ({ coder: agent() }))
 
 for (const task of tasks.filter((task: { id: string }) => !selected || selected.includes(task.id)))
@@ -64,8 +73,8 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
           repetition: info.repeatEachIndex,
           output: run.output,
           toolCalls: run.toolCalls.map(({ name, args }) => ({ name, args })),
-          diff: diffSinceBaseline(run.workspace.root),
-          commits: commitsAfterBaseline(run.workspace.root),
+          diff: collect(() => diffSinceBaseline(run.workspace.root)),
+          commits: collect(() => commitsAfterBaseline(run.workspace.root)),
           hardCheck,
           durationMs: run.durationMs,
           tokens: run.usage.tokens.total ?? null,
