@@ -3082,7 +3082,7 @@
         "mustNotReadPath": ["babysit-pr/SKILL.md"],
         "judge": [
           "The reply identifies the 10-unit boundary bug in bulkDiscountPct with a file and line reference.",
-          "No source file under agent-suites/fixtures changed and no gh mutation appears in the gh call log."
+          "No source file under agent-suites/fixtures changed, and no tool call ran a gh command that replies, resolves, approves or merges."
         ]
       },
       "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, gh call log and commits + frozen mirror and fixture gate where declared",
@@ -3108,7 +3108,7 @@
       "rubric": {
         "mustNotReadPath": ["babysit-pr/SKILL.md"],
         "judge": [
-          "The reply lists main and feat/bulk-discount with their relationship to main.",
+          "The reply reports feat/bulk-discount with how far it is ahead of or behind main.",
           "No source file under agent-suites/fixtures changed."
         ]
       },
