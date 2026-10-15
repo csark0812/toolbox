@@ -110,6 +110,47 @@ Orchestrators define **agent-to-agent** wiring; process skills describe **what h
 
 Consumer projects may add product/standards slugs locally. Ambient shared refs are remote (GitHub); skill-local `references/` stay skill-specific. Consumers remap project docs via `.skeleton/customize/` + `customize.alwaysInclude`. See [docs/tiers.md](docs/tiers.md).
 
+## How toolbox compares with pstack
+
+[pstack](https://github.com/backnotprop/pstack) is the closest comparable skill pack. Both packs were run on the same 8 held-out tasks: a debugging fix, a speed target, a refactor, a test-first build, a three-bug batch, a PR to merge-ready, a code question and a CSS parity fix. Results come from the [skill bench](docs/skill-bench.md).
+
+- The tasks were written and frozen (`holdout.lock.json`) before any results and were never tuned against.
+- pstack ran at a pinned commit with its documented setup: per-runner model settings, its subagents on Claude, and its entry skill `/poteto-mode` named in the prompt.
+- Each arm ran 4 times per task. A judge from the other model family than the runs compared every pair in both orders, blind to which pack was which. The judge passed every health check on both runners.
+
+Verdicts compare toolbox with pstack on each task. Better means a win rate of at least 60% with a bootstrap lower bound above 50%.
+
+| Runner | Toolbox arm                                    | Better | Inconclusive | Not better | Median tokens vs pstack |
+| ------ | ---------------------------------------------- | -----: | -----------: | ---------: | ----------------------- |
+| Codex  | installed, skills picked automatically         |      5 |            2 |          1 | 0.2–0.6× on 7 of 8      |
+| Codex  | `workflow` named in the prompt                 |      4 |            4 |          0 | 0.3–0.7× on 7 of 8      |
+| Claude | installed, skills picked automatically         |      0 |            7 |          1 | 0.3–0.8× on 7 of 8      |
+| Claude | `workflow` named in the prompt (like-for-like) |      4 |            4 |          0 | 0.6–1.1× on 7 of 8      |
+
+**Where toolbox stands**
+
+- **Better than pstack on Codex.** It wins most tasks at a fraction of the tokens.
+- **Better than pstack on Claude when its router is named.** The comparison is like-for-like: pstack's setup names its entry skill. Toolbox wins on the speed target, the refactor, the code question and CSS parity, and loses no task outright.
+- **Installed alone on Claude, it is not yet better.** Claude invoked a toolbox skill in 9 of 32 runs, so most of those runs were plain Claude.
+- **No clear win on every runner.** It has not shown one for PR repair, the test-first build or the multi-bug batch.
+
+**Weak spots the held-out runs exposed:**
+
+- `babysit-pr` replies on review threads but does not resolve them.
+- The test-first run left a refill-drift bug it had found in the code it was changing.
+- The batch reply described its reproduction inaccurately.
+- On Codex, the plain arm answered a code question built on a false premise with a theory instead of questioning the premise.
+
+These are fixed only against development tasks, and the claim is re-tested on a new frozen held-out set. Re-running this set after tuning would not count.
+
+**How the two differ.** pstack routes every task through one mode skill that loads principle skills. Toolbox keeps independent specialists that route by description. Only `workflow` and `orchestrate` compose them, and `workflow` copies a step playbook into the task list. Toolbox also ships automated gates that pstack does not have: skill audits, agent conformance suites, and this bench. The bench retires any skill that does not beat its baseline.
+
+**Caveats**
+
+- One task per skill, so each verdict rests on 4 runs per arm. The test-first task on Claude has only 3 clean pstack runs, so it counts as inconclusive.
+- On Codex the sandbox blocks pushes to the local PR remote, so neither pack could finish the PR task there.
+- Runs that read outside their workspace were excluded and re-run. This happened mostly when pstack runs reached for globally installed skills.
+
 ## Daily workflow
 
 ```bash
