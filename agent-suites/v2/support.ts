@@ -25,6 +25,16 @@ type Claim = {
   contract?: 'expiry-repair' | 'captured-repair' | 'captured-repair-preserve-wip'
   evidencePaths?: string[]
   evidencePolicy?: 'read-only'
+  /** Check out this branch after the fixture baseline commit. */
+  branch?: string
+  /** Paths that must be byte-identical to the fixture source after the run. */
+  frozenPaths?: string[]
+  /** Fixture directory whose `node --test` suite must still pass after the run. */
+  fixtureGate?: string
+  /** Workspace directories whose files are added to the judge snapshot. */
+  evidenceDirs?: string[]
+  /** Give the judge `git log --stat` for commits made after the baseline. */
+  evidenceGitLog?: boolean
 }
 export async function executeClaim(
   coder: AgentFixture,
@@ -67,6 +77,8 @@ export async function executeClaim(
       ],
       { cwd: workspace.path },
     )
+    if (claim.branch)
+      execFileSync('git', ['checkout', '-qb', claim.branch], { cwd: workspace.path })
     if (claim.seedStagedPatch) {
       const seed = await readFile(resolve(claim.seedStagedPatch), 'utf8')
       execFileSync('git', ['apply', '--include=agent-suites/fixtures/**', '--index'], {
@@ -154,6 +166,16 @@ export async function executeClaim(
         )
       }
     }
+    for (const path of claim.frozenPaths ?? [])
+      expect(
+        await readFile(join(run.workspace.root, path), 'utf8'),
+        `Frozen path changed: ${path}`,
+      ).toBe(await readFile(resolve(path), 'utf8'))
+    if (claim.fixtureGate)
+      execFileSync('node', ['--test'], {
+        cwd: join(run.workspace.root, claim.fixtureGate),
+        timeout: 60000,
+      })
     for (const text of claim.rubric.mustNot ?? [])
       expect(run.output, `Forbidden: ${text}`).not.toContain(text)
     for (const path of claim.rubric.mustNotReadPath ?? [])
@@ -189,6 +211,23 @@ export async function executeClaim(
           /* absent inputs remain explicitly absent */
         }
       }
+      for (const directory of claim.evidenceDirs ?? []) {
+        const files = await readdir(join(run.workspace.root, directory), {
+          recursive: true,
+        }).catch(() => [])
+        for (const file of files) {
+          const path = `${directory}/${file}`
+          try {
+            selectedSnapshot[path] = (await readFile(join(run.workspace.root, path), 'utf8')).slice(
+              0,
+              16000,
+            )
+          } catch {
+            /* directories are listed but not read */
+          }
+        }
+      }
+      const commits = claim.evidenceGitLog ? commitsAfterBaseline(run.workspace.root) : undefined
       outcome = 'judge-failed'
       const evaluation = await reviewer.run({
         input: {
@@ -198,6 +237,7 @@ export async function executeClaim(
           selectedSnapshot,
           changedPaths: run.workspace.changedPaths,
           diagnosticReceipts,
+          ...(commits === undefined ? {} : { commits }),
         },
       })
       judgment = {
@@ -257,4 +297,28 @@ export async function executeClaim(
       contentType: 'application/json',
     })
   }
+}
+
+/** Every commit on any branch made after the fixture baseline, with changed files. */
+function commitsAfterBaseline(root: string) {
+  const baseline = execFileSync(
+    'git',
+    ['log', '--all', '--format=%H', '--grep=^Fixture baseline$'],
+    {
+      cwd: root,
+    },
+  )
+    .toString()
+    .trim()
+    .split('\n')
+    .at(-1)
+  if (!baseline) return 'No fixture baseline commit found.'
+  const log = execFileSync(
+    'git',
+    ['log', '--all', '--stat', '--format=%h %D %s', '--not', baseline],
+    {
+      cwd: root,
+    },
+  ).toString()
+  return log.trim() || 'No commits after the fixture baseline.'
 }

@@ -1,7 +1,7 @@
 # Skill tiers
 
 <!-- source-of-truth: skill tier assignment across the agent harness ecosystem. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
 
 Assign each skill to exactly one **group**. Update when adding skills.
 
@@ -46,6 +46,7 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | **i-need-help**              | Stop repeated work without useful progress and ask the current owner for specific help.                                                                       |
 | **create-bounded-commits**   | Coordinate ownership, group and validate ready dirty-work changes, obtain batch approval, and preserve unfinished work while creating local commits.          |
 | **retro**                    | Explicit session retrospective: recommend evidence-backed improvements to the agent's environment; keep source files read-only.                               |
+| **hillclimb**                | Target-driven metric loop: frozen harness, stop predicate, one hypothesis per attempt, keep or revert in full                                                 |
 | **verification**             | Create or maintain an executable consumer verification recipe and run it                                                                                      |
 | **technical-writing**        | Write or revise technical documents around the reader task                                                                                                    |
 | **strict-english**           | Explicit constrained plain-English rewrite that preserves meaning and uncertainty                                                                             |

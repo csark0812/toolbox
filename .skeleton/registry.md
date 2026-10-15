@@ -44,6 +44,7 @@
 | branch-status            | [branch-status/SKILL.md](../branch-status/SKILL.md)                       |
 | i-need-help              | [i-need-help/SKILL.md](../i-need-help/SKILL.md)                           |
 | create-bounded-commits   | [create-bounded-commits/SKILL.md](../create-bounded-commits/SKILL.md)     |
+| hillclimb                | [hillclimb/SKILL.md](../hillclimb/SKILL.md)                               |
 | retro                    | [retro/SKILL.md](../retro/SKILL.md)                                       |
 | workflow                 | [workflow/SKILL.md](../workflow/SKILL.md)                                 |
 | orchestrate              | [orchestrate/SKILL.md](../orchestrate/SKILL.md)                           |

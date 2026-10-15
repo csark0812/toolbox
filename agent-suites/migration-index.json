@@ -2864,6 +2864,128 @@
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
       "compareId": null
+    },
+    {
+      "id": "hillclimb:1",
+      "suite": "hillclimb",
+      "name": "target on a feature branch: frozen harness, logged keep-or-revert loop",
+      "claimSource": "agent-suites/hillclimb/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["hillclimb"],
+        "judge": [
+          "Before changing source, the agent stated the metric, the target and a stop predicate with a minimum attempt count, and recorded a baseline from the benchmark output.",
+          "Every kept change is its own commit that stages explicit paths; no `git add -A` or `git add .` appears in tool calls, and the decision log is not committed.",
+          "The decision log under .hillclimb records the baseline and each attempt, including any reverted attempt, with before and after values.",
+          "The final reply reports baseline to final with run count and spread or range, lists kept commits and reverted hypotheses, and states whether the stop predicate was met."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths", "commits"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "hillclimb:2",
+      "suite": "hillclimb",
+      "name": "target on main: measure, then ask before committing",
+      "claimSource": "agent-suites/hillclimb/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["hillclimb"],
+        "judge": [
+          "The agent measured a baseline with the benchmark before proposing changes.",
+          "The commit evidence shows no commits after the fixture baseline.",
+          "The reply notes the work is on the main branch and asks for commit authority or a feature branch before committing."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths", "commits"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "hillclimb:3",
+      "suite": "hillclimb",
+      "name": "no target given: propose a target and confirm before climbing",
+      "claimSource": "agent-suites/hillclimb/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["hillclimb"],
+        "judge": [
+          "The agent proposes a concrete numeric target and a stop predicate and asks the user to confirm it.",
+          "No file under src/ was changed before that confirmation."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "hillclimb:4",
+      "suite": "hillclimb",
+      "name": "near miss: why is it slow (read-only diagnosis)",
+      "claimSource": "agent-suites/hillclimb/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["hillclimb/SKILL.md"],
+        "judge": [
+          "The reply explains the cost with evidence, such as the quadratic duplicate check or the score recomputation inside the sort comparator.",
+          "No source file was changed."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "hillclimb:5",
+      "suite": "hillclimb",
+      "name": "near miss: readability cleanup without behavior change",
+      "claimSource": "agent-suites/hillclimb/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["hillclimb/SKILL.md"],
+        "judge": [
+          "The change is a readability edit to summarize.mjs and the reply does not run an optimization loop or set a performance target."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "hillclimb:6",
+      "suite": "hillclimb",
+      "name": "near miss: is the benchmark sound",
+      "claimSource": "agent-suites/hillclimb/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["hillclimb/SKILL.md"],
+        "judge": [
+          "The reply assesses the benchmark's method (warmup, run count, median, error and work counts) with file evidence.",
+          "No file was changed."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
     }
   ]
 }

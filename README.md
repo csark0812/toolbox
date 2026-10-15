@@ -1,7 +1,7 @@
 # toolbox
 
 <!-- source-of-truth: user-level process and orchestrator Cursor/Claude agent skills. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
 
 Public process SSOT. Engineers install skills globally (`-g`). Product repos keep product workflows and shared standards — they should not vendor these process skill folders.
 
@@ -102,6 +102,7 @@ See the [design and CSS source index](references/design-source-index.md) for the
 | Process      | i-need-help              | Stop when repeated work makes no progress; ask the current owner for specific help              |
 | Process      | create-bounded-commits   | Coordinate ownership, group changes, validate, and create bounded local commits                 |
 | Process      | retro                    | Explicit session retrospective with prioritized recommendations for the agent's environment     |
+| Process      | hillclimb                | Move one measured number to a target through a frozen harness and logged keep-or-revert commits |
 | Process      | verification             | Create or maintain an executable repo verification recipe                                       |
 | Process      | technical-writing        | Write or revise technical documents around the reader task                                      |
 | Process      | strict-english           | Explicit constrained plain-English rewrite                                                      |
@@ -140,7 +141,7 @@ Portable agent conformance lives under [`agent-suites/`](agent-suites/). Suites 
 npm run agent:test
 ```
 
-Live dogfood uses the configured Codex subscription in isolated workspaces. Run:
+Live dogfood runs Claude Code on Haiku with subscription auth in isolated workspaces. Run:
 
 ```bash
 npm run agent:test:live

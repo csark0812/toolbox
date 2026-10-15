@@ -6,7 +6,7 @@ description: Route engineering work and coordinate ownership sessions when the u
 # Workflow
 
 <!-- source-of-truth: Route engineering work and coordinate ownership sessions when the user wants to understand, adopt, change, or verify agent-created work -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-05 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
 
 ## Route
 
