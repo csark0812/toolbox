@@ -42,7 +42,7 @@
       "id": "expiry-fix-with-review",
       "suite": "workflow",
       "scenario": 1,
-      "targetSkill": "workflow",
+      "targetSkill": "evidence-based-debugging",
       "criteria": [
         "The cause is demonstrated before the fix.",
         "A regression test pins the expiry instant and fails without the fix.",
