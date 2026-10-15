@@ -19,8 +19,8 @@ for (const slug of EXPECTED_SKILLS)
 await writeFile(
   join(target, 'AGENTS.md'),
   bench
-    ? '# Projects\n\nEach folder under projects/ is a small service with its own README and package.json. Keep file access and changes inside this workspace. Parent directories, parent AGENTS.md files, global installs and other repositories are out of scope. Discover commands from each project’s manifest. This sandbox denies access to directories above the workspace, so start Node scripts with `node --preserve-symlinks --preserve-symlinks-main`.\n'
-    : '# Isolated conformance fixture\n\nThis workspace contains all applicable fixture instructions, public sample sources and available skills. Keep file access and changes inside this workspace. Parent directories, parent AGENTS.md files, global installs and other repositories are outside the fixture boundary. Discover commands from the fixture manifests and preserve the task’s diagnosis or repair authority. This sandbox denies access to directories above the workspace, so start Node scripts with `node --preserve-symlinks --preserve-symlinks-main`.\n',
+    ? '# Projects\n\nEach folder under projects/ is a small service with its own README and package.json. Keep file access and changes inside this workspace. Parent directories, parent AGENTS.md files, global installs and other repositories are out of scope. Discover commands from each project’s manifest.\n'
+    : '# Isolated conformance fixture\n\nThis workspace contains all applicable fixture instructions, public sample sources and available skills. Keep file access and changes inside this workspace. Parent directories, parent AGENTS.md files, global installs and other repositories are outside the fixture boundary. Discover commands from the fixture manifests and preserve the task’s diagnosis or repair authority.\n',
 )
 await writeFile(
   join(target, 'package.json'),

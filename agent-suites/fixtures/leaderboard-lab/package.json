@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "bench": "node --preserve-symlinks --preserve-symlinks-main bench/bench.mjs",
-    "test": "node --preserve-symlinks --preserve-symlinks-main --test"
+    "bench": "node bench/bench.mjs",
+    "test": "node --test"
   }
 }

@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --preserve-symlinks --preserve-symlinks-main
+#!/usr/bin/env node
 // Offline mirror of the GitHub CLI for this fixture repository. Reads PR data from
 // gh-data.json, computes CI by running the tests at the pushed head, and records every call.
 import { execFileSync } from 'node:child_process'
@@ -76,7 +76,7 @@ function ciFor(sha) {
     ])
     const log = execFileSync(
       process.execPath,
-      ['--preserve-symlinks', '--preserve-symlinks-main', '--test'],
+      ['--test'],
       {
         cwd: join(work, fixture),
         encoding: 'utf8',
