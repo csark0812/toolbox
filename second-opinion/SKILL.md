@@ -1,6 +1,6 @@
 ---
 name: second-opinion
-description: Adversarial critique of a written artifact through task-specific lenses and claim anchoring. Single-agent by default; compatible with user-attached multi-agent orchestration. Not dialogue-only design or find-only hunch settlement.
+description: Use when the user wants an adversarial critique of a written artifact such as a plan, spec or doc. Not design dialogue or settling a hunch.
 ---
 
 # Second opinion

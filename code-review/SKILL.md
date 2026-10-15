@@ -1,6 +1,7 @@
 ---
 name: code-review
-description: Review code through a user-named surface and lens. Use when the user asks to review a branch, pull request, diff or change before merging, and for focused risk checks, prior-finding closure, or a strict code-quality merge gate. Source stays read-only unless the user separately asks for fixes; a review of a branch or pull request with an open PR posts its findings there as inline comments. Not hunch settlement, written-artifact critique, or multi-agent orchestration.
+description: Use when the user asks to review a branch, PR, diff or change before merging, or for a focused risk or quality check. Read-only unless fixes are asked for. Not hunch settlement or document critique.
+when_to_use: Requests such as "can you look over this PR", "check this diff for bugs", "is this change safe to ship", "give me a code review".
 ---
 
 # Code review

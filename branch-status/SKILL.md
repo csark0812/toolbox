@@ -1,6 +1,6 @@
 ---
 name: branch-status
-description: Report open Git branches as active workstreams, stacks, and stale work. Use when the user invokes /branch-status or asks what branches or pull requests are open, stacked, active, or stale. Process skill. Not fetch, cleanup, or branch mutation.
+description: Use when the user asks what branches or PRs are open, stacked, active or stale. Reports only; never fetches, cleans up or changes branches.
 ---
 
 # Branch status

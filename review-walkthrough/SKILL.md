@@ -1,6 +1,6 @@
 ---
 name: review-walkthrough
-description: Explain a staged or working-tree diff, commit, branch, PR, or named path as a causal story. Use when the user asks what changed, what is about to be committed or pushed, or whether a change contains unrelated work. Read-only; not a commit gate, formal review, or repair.
+description: Use when the user asks what changed in a diff, commit, branch or PR, or whether it contains unrelated work; explains it as a causal story. Read-only. Not a formal review.
 ---
 
 # Review walkthrough

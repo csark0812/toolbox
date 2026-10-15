@@ -1,6 +1,7 @@
 ---
 name: tdd
-description: Build a new feature, function or module test-first: write a failing test at its public interface, make it pass, one slice at a time, and fix bugs found in the slice. Use when the user asks to add or build behavior with tests, test-first or TDD. Not repro-first hard-bug work without a seam, a throwaway spike, or find-only hunch settlement.
+description: Use when the user asks to add or build a feature, function or module with tests, test-first, or TDD. Red-green slices at the public interface; bugs found in the slice get fixed. Not hard-bug repro or spikes.
+when_to_use: Requests such as "add a function that", "implement this feature test-first", "write this with TDD", "add a method and cover it with tests".
 ---
 
 # Test-Driven Development

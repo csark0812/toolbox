@@ -1,6 +1,7 @@
 ---
 name: evidence-based-debugging
-description: Use when the user reports a bug, error, failing test, crash, flaky behavior or wrong output and wants it fixed or explained. Reproduces the failure, demonstrates the cause with captured evidence, makes a focused fix and shows the same check failing before and passing after. Covers UI, mobile, backend, CLI, CI, infrastructure, data and performance failures. Not claim-only assessment or open design exploration.
+description: Use when the user reports a bug, error, failing test, crash, flaky or wrong output and wants it fixed or explained. Reproduces it, proves the cause, fixes it, and shows the check failing then passing. Not claim-only questions.
+when_to_use: Any reported defect, even one that looks simple, such as "orders get counted twice, please fix it", "this test fails", "the total is wrong", "it crashes when", "the build broke".
 ---
 
 # Evidence-based debugging

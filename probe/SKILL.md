@@ -1,6 +1,7 @@
 ---
 name: probe
-description: Use when the user asks why or how some code, data or document behaves, or whether a hunch or claim is true, and wants an answer rather than a change. Checks the question's premise first, gathers primary evidence and returns a cited verdict without editing anything. Not reproduction-led debugging, repair, open ideation, or written-artifact critique.
+description: Use when the user asks why or how code, data or a document behaves, or whether a claim is true, and wants an answer, not a change. Checks the premise first and returns a cited verdict. Not debugging with a fix.
+when_to_use: Any why or how question about existing behavior, such as "why does X happen?", "is it true that", "what is going on with", "how does this work".
 ---
 
 # Probe

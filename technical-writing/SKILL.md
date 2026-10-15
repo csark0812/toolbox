@@ -1,6 +1,6 @@
 ---
 name: technical-writing
-description: Write or revise technical documents around the reader task, preserving facts, uncertainty, terms and source evidence.
+description: Use to write or revise a technical document around the reader's task, keeping facts, terms and uncertainty.
 ---
 
 # Technical writing

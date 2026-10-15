@@ -1,6 +1,6 @@
 ---
 name: domain-model
-description: Persist glossary entries and ADRs after a term or decision is ready. Process skill. Not open design dialogue.
+description: Use to record glossary entries or ADRs once a term or decision is settled. Not open design dialogue.
 ---
 
 # Domain model

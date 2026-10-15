@@ -1,6 +1,6 @@
 ---
 name: council
-description: Multi-agent orchestrator that creates task-specific personas, selects a useful interaction pattern, runs real independent members, and synthesizes one clear answer. Use when the user attaches or names council for multi-perspective depth on a concrete task. Not single-pass critique, cross-session handoff, or repeated pass loops.
+description: Use when the user names council or asks for several independent expert perspectives on a concrete task; runs real members and synthesizes one answer. Not single-pass critique.
 ---
 
 # Council

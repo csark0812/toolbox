@@ -1,6 +1,6 @@
 ---
 name: prototype
-description: Create a throwaway logic, state, or UI artifact that answers one design question. Not production test-first implementation or repro-first debugging.
+description: Use for a throwaway logic, state or UI artifact that answers one design question. Not production test-first work or debugging.
 ---
 
 # Prototype

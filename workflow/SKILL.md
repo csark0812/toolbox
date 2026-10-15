@@ -1,6 +1,7 @@
 ---
 name: workflow
-description: Start here for engineering work in a repository that has more than one step or more than one item - fixing a reported bug, working through a TODO list or batch of fixes, building a feature, refactoring, hitting a performance target, answering why or how a piece of code behaves, or getting a PR merge-ready. Routes the work to the right skills and copies a step playbook into the task list. Also coordinates ownership sessions when the user wants to understand, adopt, change, or verify agent-created work. Keep ordinary edits proportional. Not a single specialist task the user already aimed at one skill.
+description: Start here for repo work with several steps or items - a bug fix, a TODO batch, a feature, a refactor, a speed target, a PR to merge-ready, or resuming work. Runs a step playbook and routes to specialists. Not one task already aimed at a skill.
+when_to_use: Requests such as "go through this checklist and commit each fix", "fix these three things and commit each one", "take this from bug report to a reviewed fix", "pick up where the last session left off", "handle this list of issues".
 ---
 
 # Workflow
@@ -34,16 +35,17 @@ Before another attempt at an unresolved blocker, check whether work has produced
 
 When the request is a multi-step task that matches a playbook, open it and copy its numbered steps **verbatim** into the host task list before any task-specific items. When the host has no task-list tool, write them as a numbered checklist in a plan note or your first message instead. A step that does not apply stays in the list as `skip: <reason>`. Never drop it silently. Each step runs through its named companion. The final reply meets the playbook's **Reply contract**. Before sending it, check each claim against the output you captured: describe what the output shows, not what you expected it to show. A claim that the output does not support is removed or marked unverified.
 
-| Task                                 | Playbook                                                          |
-| ------------------------------------ | ----------------------------------------------------------------- |
-| Reported defect to reviewed fix      | [bug-fix.md](references/playbooks/bug-fix.md)                     |
-| New or changed behavior              | [feature.md](references/playbooks/feature.md)                     |
-| Behavior-preserving structure change | [refactor.md](references/playbooks/refactor.md)                   |
-| Measured slowness or a metric target | [perf.md](references/playbooks/perf.md)                           |
-| Read-only how or why question        | [investigation.md](references/playbooks/investigation.md)         |
-| Local work to a merge-ready PR       | [pr-to-merge-ready.md](references/playbooks/pr-to-merge-ready.md) |
-| Resume another agent's work          | [session-pickup.md](references/playbooks/session-pickup.md)       |
-| Explicit request to pause            | [pause.md](references/playbooks/pause.md)                         |
+| Task                                       | Playbook                                                          |
+| ------------------------------------------ | ----------------------------------------------------------------- |
+| Reported defect to reviewed fix            | [bug-fix.md](references/playbooks/bug-fix.md)                     |
+| Several independent items, one commit each | [batch.md](references/playbooks/batch.md)                         |
+| New or changed behavior                    | [feature.md](references/playbooks/feature.md)                     |
+| Behavior-preserving structure change       | [refactor.md](references/playbooks/refactor.md)                   |
+| Measured slowness or a metric target       | [perf.md](references/playbooks/perf.md)                           |
+| Read-only how or why question              | [investigation.md](references/playbooks/investigation.md)         |
+| Local work to a merge-ready PR             | [pr-to-merge-ready.md](references/playbooks/pr-to-merge-ready.md) |
+| Resume another agent's work                | [session-pickup.md](references/playbooks/session-pickup.md)       |
+| Explicit request to pause                  | [pause.md](references/playbooks/pause.md)                         |
 
 A missing optional companion gives a disclosed reduced route: run its step inline under the same gate and say which skill was missing. Playbooks cite [engineering-principles.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/engineering-principles.md), [measurement.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/measurement.md) and [evidence-ladder.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/evidence-ladder.md) by name.
 

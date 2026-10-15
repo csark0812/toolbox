@@ -1,6 +1,6 @@
 ---
 name: verification
-description: Create or maintain an executable repository-specific verification recipe and feature index. Run mapped user workflows and distinguish product regressions from harness or environment failures.
+description: Use to create or update a repo's executable verification recipe and run its user workflows, separating product regressions from harness failures.
 ---
 
 # Verification

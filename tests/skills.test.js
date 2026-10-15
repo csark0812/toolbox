@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { dirname, join, resolve, sep } from 'node:path'
 import { describe, expect, it } from 'vitest'
+import { parse as parseYaml } from 'yaml'
 import { EXPECTED_SKILLS, SKILLS } from '../src/expected-skills.ts'
 
 const root = join(import.meta.dirname, '..')
@@ -13,6 +14,27 @@ describe('toolbox skill SSOT', () => {
       expect(text.startsWith('---')).toBe(true)
       expect(text).toMatch(/^description:\s.+/m)
     }
+  })
+
+  it('frontmatter parses, so hosts list each skill by its description', () => {
+    // Invalid YAML makes Claude Code fall back to the heading, and the skill stops auto-invoking.
+    for (const slug of EXPECTED_SKILLS) {
+      const text = readFileSync(join(root, slug, 'SKILL.md'), 'utf8')
+      const meta = parseYaml(text.split('---')[1])
+      expect(meta.name, slug).toBe(slug)
+      expect(typeof meta.description, slug).toBe('string')
+      if (meta.when_to_use !== undefined) expect(typeof meta.when_to_use, slug).toBe('string')
+    }
+  })
+
+  it('the skill listing fits the host budget with room for other skills', () => {
+    // Claude Code drops descriptions once the listing exceeds about 1% of context (8,000 characters).
+    const listed = EXPECTED_SKILLS.map((slug) => {
+      const meta = parseYaml(readFileSync(join(root, slug, 'SKILL.md'), 'utf8').split('---')[1])
+      return meta['disable-model-invocation'] ? '' : `${meta.description} ${meta.when_to_use ?? ''}`
+    })
+    expect(listed.join('').length).toBeLessThan(6500)
+    for (const entry of listed) expect(entry.length).toBeLessThan(500)
   })
 
   it('review walkthrough routes task-shaped stories and preserves source integrity', () => {

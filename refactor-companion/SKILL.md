@@ -1,6 +1,7 @@
 ---
 name: refactor-companion
-description: Change an existing structure without changing behavior, in proven slices: replace flags or types with a better model, consolidate or rename APIs, move state or lifecycle ownership, migrate every caller, and delete the old path. Use when the user asks to refactor, replace, consolidate, migrate or remove an existing structure while keeping behavior the same. Not routine feature work, read-only review, or autonomous Git operations.
+description: Use when the user asks to refactor, replace, consolidate, migrate or remove an existing structure or API while keeping behavior the same. Migrates every caller in proven slices. Not new features or read-only review.
+when_to_use: Requests such as "replace these booleans with one enum", "consolidate these two APIs", "rename this module and update its callers", "remove the old code path", "migrate X to Y without changing behavior".
 ---
 
 # Refactor companion

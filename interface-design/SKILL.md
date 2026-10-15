@@ -1,6 +1,6 @@
 ---
 name: interface-design
-description: Design and verify substantial web interfaces, including websites, web apps, pages, and major redesigns. Use when visual direction is unsettled or a complete interface needs content, states, accessibility, responsive behavior, and rendered proof. For a small CSS defect, use the focused styling path instead. For native apps or standalone media, establish a brief and route to the relevant specialist.
+description: Use to design or redesign a substantial web interface, page or app where visual direction is unsettled; proves it rendered. Not a small CSS fix (css-craft) or native and media work.
 ---
 
 # Interface Design

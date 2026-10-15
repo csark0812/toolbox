@@ -1,6 +1,6 @@
 ---
 name: i-need-help
-description: Automatically stop stalled work before the next task action when current or carried-forward history shows two unproductive attempts on the same blocker, work oscillating between failed approaches, or a known missing prerequisite with no useful authorized step. Preserve the evidence and ask the existing supervisor or user for specific help. Do not use for general requests for help or tasks that continue making progress.
+description: Use automatically when two attempts at the same blocker made no progress, work oscillates between failed approaches, or a prerequisite is missing. Stops and asks the owner a specific question. Not general help requests.
 ---
 
 # I need help

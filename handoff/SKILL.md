@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Agent-to-agent cross-session transfer — pointers not bodies. Channel prompt (user /handoff) or artifact (model-invoked subagent). Pack and Goal are open vocabulary. Orchestrator for continuing work in a fresh chat. Not same-session continuation without a new chat.
+description: Use when work must continue in a fresh chat or another agent - writes a handoff pack of pointers and the goal. Not same-session continuation.
 ---
 
 # Handoff

@@ -1,6 +1,7 @@
 ---
 name: hillclimb
-description: Improve one measured metric toward a stated target (latency, throughput, bundle size, memory, test time) through a frozen measurement harness and a logged keep-or-revert loop, one hypothesis per attempt. Use when the user asks to get a number under or over a target, or to keep making something faster or smaller. Not diagnosing why one path is slow (evidence-based-debugging), unmeasured cleanup (refactor-companion), or merging.
+description: Use when the user wants a number moved to a target - faster, smaller, less memory, quicker tests. Freezes the measurement, tries one change at a time, keeps or reverts, commits each win. Not diagnosing one slow path.
+when_to_use: Requests such as "get p95 latency under 200 ms", "make this page load in under a second", "shrink the bundle", "keep making this faster", "the test suite is too slow, speed it up".
 ---
 
 # Hillclimb

@@ -1,6 +1,7 @@
 ---
 name: css-craft
-description: Fix, match or review CSS: layout, cascade, specificity, responsive styling, themes, hover and focus states, native controls and motion. Use when the user reports a styling defect, wants one style to match another, or asks which CSS technique to use, where browser support and rendered behavior matter. Preserve the project's framework, tokens, components, and design direction. This is not a visual concept or full-page design process.
+description: Use for a CSS defect or technique question - layout, cascade, responsive styles, themes, hover and focus states, motion, or making one style match another. Keeps the project's tokens. Not full-page design.
+when_to_use: Requests such as "the layout breaks on narrow screens", "these two buttons should match", "the hover state is wrong", "the focus ring is clipped", "which CSS approach should I use for".
 ---
 
 # CSS Craft

@@ -1,6 +1,6 @@
 ---
 name: create-bounded-commits
-description: Turn mixed uncommitted work into coherent, validated local commits while preserving unfinished or chat-owned changes. Use when the user asks to organize or commit a dirty checkout.
+description: Use when the user asks to commit or organize a dirty checkout into coherent, validated commits while keeping unfinished work out. Not committing your own fix as you make it.
 ---
 
 # Create bounded commits
@@ -11,6 +11,8 @@ description: Turn mixed uncommitted work into coherent, validated local commits 
 
 - The user asks to organize, group, or commit uncommitted work.
 - Default to automatically committing obvious groups under the eligibility gate below. An explicit request to inspect, propose, or stop before committing takes precedence: present the groups and make no commits until authorized.
+- Committing your own just-made change, such as one commit per item while working through a list, is not this skill: commit it directly with explicit paths after its checks pass.
+- If a temporary worktree cannot be created and every uncommitted change was made by you in this task, validate in the current checkout instead and say so. Do not stop to ask.
 - Operate on the current checkout and current branch only. This skill never pushes, merges, changes branches, repairs product code, or globally installs itself.
 
 ## Automatic commit eligibility

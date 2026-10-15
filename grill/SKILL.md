@@ -1,6 +1,6 @@
 ---
 name: grill
-description: Clarify fuzzy intent and pressure-test design choices through focused dialogue before implementation. Use when the user wants to shape an idea, resolve consequential tradeoffs, or says to grill or crystallize it. Not written-artifact critique, bug diagnosis, or implementation.
+description: Use when the user wants to shape a fuzzy idea or pressure-test design tradeoffs through dialogue before building, or says grill. Not critique of a written document or implementation.
 ---
 
 # Grill

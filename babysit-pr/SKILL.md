@@ -1,6 +1,7 @@
 ---
 name: babysit-pr
-description: Drive one open pull request to merge-ready. Classify and fix failing CI, resolve conflicts by merging the base branch, address review threads, and push to the PR branch. Never merges. Use when the user asks to get a PR green, fix its CI, address its review comments, or check whether it is ready to merge. Not code review (code-review), branch inventory (branch-status), diagnosing a local failure without a PR (evidence-based-debugging), shipping, or stack restructuring.
+description: Use when the user wants an open PR green, its CI fixed, its conflicts or review comments handled, or asks if it is ready to merge. Pushes fixes, resolves threads, never merges. Not code review or branch inventory.
+when_to_use: Requests such as "CI is red on my PR, fix it", "address the review comments on my PR", "get this PR mergeable", "is my PR ready to merge?".
 ---
 
 # Babysit PR
