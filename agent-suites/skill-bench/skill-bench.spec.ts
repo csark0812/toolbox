@@ -57,10 +57,29 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
       { description: `Bench run for ${task.targetSkill}`, criteria: task.criteria },
       async ({ coder }, info) => {
         const claim = benchClaim(task, arm)
-        const run = await prepareClaim(coder, claim, 'neutral').run({
-          prompt: framePrompt(claim, 'neutral'),
-          includeGlobalSkills: false,
-        })
+        const file = `${task.id}__${arm.replace(':', '-')}__${info.repeatEachIndex}.json`
+        const save = async (record: object) => {
+          await mkdir(benchDir, { recursive: true })
+          await writeFile(join(benchDir, file), JSON.stringify(record, null, 2))
+        }
+        let run
+        try {
+          run = await prepareClaim(coder, claim, 'neutral').run({
+            prompt: framePrompt(claim, 'neutral'),
+            includeGlobalSkills: false,
+          })
+        } catch (error) {
+          // The harness's lexical escape guard also fires on in-workspace paths such as `../..`
+          // after a `cd`. Keep the run as an infrastructure exclusion so it never forms a pair.
+          if ((error as { kind?: string }).kind !== 'workspace-escape') throw error
+          await save({
+            task: task.id,
+            arm,
+            repetition: info.repeatEachIndex,
+            infrastructure: String((error as Error).message).slice(0, 600),
+          })
+          return
+        }
         let hardCheck = { passed: true, failure: null as string | null }
         try {
           await runHardChecks(run, claim)
@@ -79,8 +98,6 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
           durationMs: run.durationMs,
           tokens: run.usage.tokens.total ?? null,
         }
-        await mkdir(benchDir, { recursive: true })
-        const file = `${task.id}__${arm.replace(':', '-')}__${info.repeatEachIndex}.json`
-        await writeFile(join(benchDir, file), JSON.stringify(record, null, 2))
+        await save(record)
       },
     )

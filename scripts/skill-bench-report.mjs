@@ -21,7 +21,9 @@ import {
 } from './skill-bench-judge.mjs'
 
 /** Verdict rows for every focus arm against the baseline, grouped by each task's target skill. */
-export function buildReport({ runs, tasks, judgments, baseline = 'none' }) {
+export function buildReport({ runs: all, tasks, judgments, baseline = 'none' }) {
+  const runs = all.filter((run) => !run.infrastructure)
+  const excluded = all.length - runs.length
   const arms = [...new Set(runs.map((run) => run.arm))].filter((arm) => arm !== baseline)
   const resolved = resolveOrders(judgments)
   const health = judgeHealth(judgments)
@@ -58,16 +60,16 @@ export function buildReport({ runs, tasks, judgments, baseline = 'none' }) {
             : 'withheld'
       rows.push({ skill, focus, baseline, ...rate, ...interval, repeats, defects, verdict: call })
     }
-  return { rows, health }
+  return { rows, health, excluded }
 }
 
 const percent = (value) => (value === null ? '–' : `${Math.round(value * 100)}%`)
 
-export function renderMarkdown(id, { rows, health }) {
+export function renderMarkdown(id, { rows, health, excluded = 0 }) {
   const lines = [
     `# Skill bench ${id}`,
     '',
-    `Judge v${JUDGE_VERSION}. A verdict needs ${MIN_REPEATS}+ runs per arm per task and a healthy judge.`,
+    `Judge v${JUDGE_VERSION}. A verdict needs ${MIN_REPEATS}+ runs per arm per task and a healthy judge. Infrastructure exclusions: ${excluded}.`,
     '',
     '| Skill | Arm vs baseline | W/L/T | Win rate | 95% CI | Runs | Check failures | Verdict |',
     '| --- | --- | --- | --- | --- | --- | --- | --- |',

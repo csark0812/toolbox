@@ -11,12 +11,12 @@ const option = (name, fallback) => {
   const index = rest.indexOf(`--${name}`)
   return index === -1 ? fallback : rest[index + 1]
 }
-const step = (args, env = {}) => {
+const step = (args, env = {}, { allowFailure = false } = {}) => {
   const result = spawnSync(process.execPath, args, {
     stdio: 'inherit',
     env: { ...process.env, ...env },
   })
-  if (result.status !== 0) process.exit(result.status ?? 1)
+  if (result.status !== 0 && !allowFailure) process.exit(result.status ?? 1)
 }
 
 function run({ arms, tasks, repeats, id }) {
@@ -35,6 +35,8 @@ function run({ arms, tasks, repeats, id }) {
       SKILL_BENCH_ID: id,
       ...(tasks ? { SKILL_BENCH_TASKS: tasks } : {}),
     },
+    // A failed run is reported by the runner; the saved runs are still judged.
+    { allowFailure: true },
   )
   console.log(`Bench ${id} runs saved under .agent-test/skill-bench/${id}/runs`)
 }

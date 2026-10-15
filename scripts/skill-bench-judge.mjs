@@ -37,6 +37,11 @@ export async function loadRuns(id) {
   return runs.map((run) => ({ ...run, id: runId(run) }))
 }
 
+/** Runs the harness could not complete are recorded but never judged. */
+export function judgeableRuns(runs) {
+  return runs.filter((run) => !run.infrastructure)
+}
+
 export async function loadTasks() {
   return JSON.parse(await readFile('agent-suites/skill-bench/tasks.json', 'utf8')).tasks
 }
@@ -57,7 +62,8 @@ async function taskBrief(task) {
 }
 
 export async function judgeBench(id, { matched = false } = {}) {
-  const runs = await loadRuns(id)
+  const all = await loadRuns(id)
+  const runs = judgeableRuns(all)
   const tasks = new Map((await loadTasks()).map((task) => [task.id, task]))
   const arms = [...new Set(runs.map((run) => run.arm))].sort()
   const byId = new Map(runs.map((run) => [run.id, run]))
@@ -109,7 +115,7 @@ export async function judgeBench(id, { matched = false } = {}) {
     (job) => !done.has(`${job.pairId}|${job.first}|${job.control ?? ''}|${job.retestOf ?? ''}`),
   )
   console.log(
-    `Bench ${id}: ${runs.length} runs, ${pending.length} judge v${JUDGE_VERSION} calls to make (${current.length} already judged).`,
+    `Bench ${id}: ${runs.length} runs (${all.length - runs.length} infrastructure exclusions), ${pending.length} judge v${JUDGE_VERSION} calls to make (${current.length} already judged).`,
   )
   let next = 0
   const save = () =>

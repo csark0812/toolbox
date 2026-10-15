@@ -114,6 +114,20 @@ describe('skill bench report', () => {
     { pairId: 'p', task: 't1', first: 't1|none|0', second: 't1|full|0', winner: 'second' },
   ]
 
+  it('never pairs or counts infrastructure exclusions', () => {
+    const report = buildReport({
+      runs: [
+        run({ arm: 'none' }),
+        run(),
+        { task: 't1', arm: 'none', repetition: 1, infrastructure: 'escape' },
+      ],
+      tasks,
+      judgments,
+    })
+    expect(report.excluded).toBe(1)
+    expect(report.rows[0].verdict).toBe('signal only (1 run per arm)')
+  })
+
   it('labels fewer than four runs per arm as signal only', () => {
     const report = buildReport({ runs: [run({ arm: 'none' }), run()], tasks, judgments })
     expect(report.rows[0]).toMatchObject({
