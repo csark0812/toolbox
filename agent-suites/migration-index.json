@@ -3152,6 +3152,126 @@
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
       "compareId": null
+    },
+    {
+      "id": "workflow:1",
+      "suite": "workflow",
+      "name": "bug fix: playbook steps verbatim, regression test, review",
+      "claimSource": "agent-suites/workflow/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["workflow"],
+        "judge": [
+          "The agent's task list (todo or plan tool calls) contains the bug-fix playbook's numbered steps copied verbatim before task-specific items, and any step it did not run appears as `skip: <reason>` rather than being dropped.",
+          "The fix is in isSessionValid, and a regression test covers the exact expiry instant and fails without the fix.",
+          "The final reply meets the bug-fix reply contract: cause with its evidence level, the fix, the regression test, the review outcome, and where the fix was verified."
+        ]
+      },
+      "assertion": "automatic orchestrator routing (invoked or not read) + playbook steps verbatim in task-list tool calls + reply contract judge + repair contract or frozen harness where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "workflow:2",
+      "suite": "workflow",
+      "name": "feature: playbook steps verbatim, data shape named before logic",
+      "claimSource": "agent-suites/workflow/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["workflow"],
+        "judge": [
+          "The agent's task list (todo or plan tool calls) contains the feature playbook's numbered steps copied verbatim before task-specific items, and any step it did not run appears as `skip: <reason>` rather than being dropped.",
+          "Before writing the helper, the agent stated the inputs, output and boundary cases it would encode.",
+          "Tests for isExpiringSoon exist and were run, and the final reply reports the review outcome."
+        ]
+      },
+      "assertion": "automatic orchestrator routing (invoked or not read) + playbook steps verbatim in task-list tool calls + reply contract judge + repair contract or frozen harness where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "workflow:3",
+      "suite": "workflow",
+      "name": "performance target: playbook steps verbatim, routed to hillclimb",
+      "claimSource": "agent-suites/workflow/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["workflow", "hillclimb"],
+        "judge": [
+          "The agent's task list (todo or plan tool calls) contains the perf playbook's numbered steps copied verbatim before task-specific items, and any step it did not run appears as `skip: <reason>` rather than being dropped.",
+          "The agent captured a baseline with a named limiter before changing source and measured after with the same unchanged harness.",
+          "The final reply gives a verdict word and baseline to after with run count and range."
+        ]
+      },
+      "assertion": "automatic orchestrator routing (invoked or not read) + playbook steps verbatim in task-list tool calls + reply contract judge + repair contract or frozen harness where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths", "commits"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "workflow:4",
+      "suite": "workflow",
+      "name": "near miss: small direct edit",
+      "claimSource": "agent-suites/workflow/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["workflow/SKILL.md"],
+        "judge": ["Only the parameter in sessionGuard.ts was renamed and the reply is brief."]
+      },
+      "assertion": "automatic orchestrator routing (invoked or not read) + playbook steps verbatim in task-list tool calls + reply contract judge + repair contract or frozen harness where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "workflow:5",
+      "suite": "workflow",
+      "name": "near miss: single verdict question",
+      "claimSource": "agent-suites/workflow/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["workflow/SKILL.md"],
+        "judge": [
+          "The reply gives a verdict that the expiry instant is wrongly accepted, citing the comparison in sessionGuard.ts.",
+          "No source file changed."
+        ]
+      },
+      "assertion": "automatic orchestrator routing (invoked or not read) + playbook steps verbatim in task-list tool calls + reply contract judge + repair contract or frozen harness where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "workflow:6",
+      "suite": "workflow",
+      "name": "near miss: open design discussion",
+      "claimSource": "agent-suites/workflow/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["workflow/SKILL.md"],
+        "judge": [
+          "The reply engages the design choice with questions or tradeoffs and builds nothing.",
+          "No source file changed."
+        ]
+      },
+      "assertion": "automatic orchestrator routing (invoked or not read) + playbook steps verbatim in task-list tool calls + reply contract judge + repair contract or frozen harness where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
     }
   ]
 }

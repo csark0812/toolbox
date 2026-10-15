@@ -1,6 +1,6 @@
 ---
 name: workflow
-description: Route engineering work and coordinate ownership sessions when the user wants to understand, adopt, change, or verify agent-created work. Keep ordinary edits proportional.
+description: Route multi-step engineering work to the right skills and run a step playbook for bug fixes, features, refactors, performance work, investigations, PRs to merge-ready, session pickup or pause. Also coordinates ownership sessions when the user wants to understand, adopt, change, or verify agent-created work. Keep ordinary edits proportional. Not a single specialist task the user already aimed at one skill.
 ---
 
 # Workflow
@@ -10,7 +10,7 @@ description: Route engineering work and coordinate ownership sessions when the u
 
 ## Route
 
-Discover installed companions by slug from the host catalog. Required: review-walkthrough, refactor-companion, code-review, probe, evidence-based-debugging, grill, prototype. Optional: council, orchestrate, verification, tdd, i-need-help. Check only the selected route's dependencies. Missing companions are a capability boundary, never evidence that a process ran. If i-need-help is unavailable on its route, stop using the same contract inline and disclose the missing skill.
+Discover installed companions by slug from the host catalog. Required: review-walkthrough, refactor-companion, code-review, probe, evidence-based-debugging, grill, prototype. Optional: council, orchestrate, verification, tdd, i-need-help, hillclimb, babysit-pr, create-bounded-commits, handoff. Check only the selected route's dependencies. Missing companions are a capability boundary, never evidence that a process ran. If i-need-help is unavailable on its route, stop using the same contract inline and disclose the missing skill.
 
 | Intended result                | Route                                                                 |
 | ------------------------------ | --------------------------------------------------------------------- |
@@ -25,8 +25,27 @@ Discover installed companions by slug from the host catalog. Required: review-wa
 | Explicit program               | orchestrate, subject to host permission                               |
 | App proof                      | verification or the discovered consumer recipe                        |
 | Repeated work without progress | i-need-help: stop, preserve the evidence, and ask the current owner   |
+| Metric to a target             | hillclimb                                                             |
+| Open PR to merge-ready         | babysit-pr                                                            |
 
 Before another attempt at an unresolved blocker, check whether work has produced relevant evidence, resolved uncertainty, or a verified step toward the outcome. Two attempts at the same blocker without useful progress route to i-need-help. A useful negative result counts as progress; repeated reads, cosmetic edits, equivalent retries, or cycling between failed approaches do not. A known missing prerequisite with no useful authorized next step stops immediately. Elapsed time alone is not a trigger.
+
+## Playbooks
+
+When the request is a multi-step task that matches a playbook, open it and copy its numbered steps **verbatim** into the host task list before any task-specific items. A step that does not apply stays in the list as `skip: <reason>`. Never drop it silently. Each step runs through its named companion. The final reply meets the playbook's **Reply contract**.
+
+| Task                                 | Playbook                                                          |
+| ------------------------------------ | ----------------------------------------------------------------- |
+| Reported defect to reviewed fix      | [bug-fix.md](references/playbooks/bug-fix.md)                     |
+| New or changed behavior              | [feature.md](references/playbooks/feature.md)                     |
+| Behavior-preserving structure change | [refactor.md](references/playbooks/refactor.md)                   |
+| Measured slowness or a metric target | [perf.md](references/playbooks/perf.md)                           |
+| Read-only how or why question        | [investigation.md](references/playbooks/investigation.md)         |
+| Local work to a merge-ready PR       | [pr-to-merge-ready.md](references/playbooks/pr-to-merge-ready.md) |
+| Resume another agent's work          | [session-pickup.md](references/playbooks/session-pickup.md)       |
+| Explicit request to pause            | [pause.md](references/playbooks/pause.md)                         |
+
+A missing optional companion gives a disclosed reduced route: run its step inline under the same gate and say which skill was missing. Playbooks cite [engineering-principles.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/engineering-principles.md), [measurement.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/measurement.md) and [evidence-ladder.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/evidence-ladder.md) by name.
 
 ## Ownership
 

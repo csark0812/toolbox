@@ -19,7 +19,7 @@ Define **how agents and sessions connect**: task-persona councils, purposeful in
 | --------------- | ------------------------------------------------------------------------------------------------------- |
 | **council**     | In-session multi-agent depth — create task personas, choose an interaction, run members, and synthesize |
 | **handoff**     | Cross-session channel — `channel` + `Pack` + `Goal`; pointers not bodies                                |
-| **workflow**    | Route by intended result to declared companions and coordinate ownership sessions                       |
+| **workflow**    | Route by intended result to declared companions, run step playbooks, and coordinate ownership sessions  |
 | **orchestrate** | Explicit durable multi-unit programs with exclusive ownership and recovery                              |
 
 Persona, interaction, and pack references live under orchestrator trees. Process skills keep their own craft and final output contracts.

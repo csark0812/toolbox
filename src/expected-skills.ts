@@ -60,7 +60,17 @@ export const SKILLS = [
       'grill',
       'prototype',
     ],
-    optional: ['council', 'orchestrate', 'verification', 'tdd', 'i-need-help'],
+    optional: [
+      'council',
+      'orchestrate',
+      'verification',
+      'tdd',
+      'i-need-help',
+      'hillclimb',
+      'babysit-pr',
+      'create-bounded-commits',
+      'handoff',
+    ],
   },
   {
     slug: 'orchestrate',

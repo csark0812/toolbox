@@ -84,7 +84,7 @@ See the [design and CSS source index](references/design-source-index.md) for the
 | ------------ | ------------------------ | ----------------------------------------------------------------------------------------------- |
 | Orchestrator | council                  | Multi-agent depth — create task personas, choose an interaction, run members, synthesize        |
 | Orchestrator | handoff                  | A2A cross-session — channel + pack + goal; pointers not bodies                                  |
-| Orchestrator | workflow                 | Route engineering work to the right skill and coordinate ownership sessions                     |
+| Orchestrator | workflow                 | Route engineering work, run step playbooks, and coordinate ownership sessions                   |
 | Orchestrator | orchestrate              | Explicit durable multi-unit programs with ownership and recovery                                |
 | Process      | code-review              | Choose a task-shaped review mode and file only evidence-backed findings                         |
 | Process      | review-walkthrough       | Explain a bounded change through the smallest useful causal story                               |
