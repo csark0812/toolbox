@@ -12,6 +12,7 @@
 | Agent cold-start                     | [AGENTS.md](../AGENTS.md)                                                             |
 | Skill tiers                          | [tiers.md](../docs/tiers.md)                                                          |
 | Composability vocabulary             | [process-skill-composition.md](../references/process-skill-composition.md)            |
+| Composition contract (v2)            | [v2/process-skill-composition.md](../references/v2/process-skill-composition.md)      |
 | GitHub ambient refs validate         | [github-ambient-refs-validation.md](../docs/github-ambient-refs-validation.md)        |
 | Hunch verdict (ambient)              | [verdict.md](../references/verdict.md)                                                |
 | Evidence parity                      | [evidence-parity.md](../docs/evidence-parity.md)                                      |
@@ -41,11 +42,8 @@
 | i-need-help              | [i-need-help/SKILL.md](../i-need-help/SKILL.md)                           |
 | create-bounded-commits   | [create-bounded-commits/SKILL.md](../create-bounded-commits/SKILL.md)     |
 | retro                    | [retro/SKILL.md](../retro/SKILL.md)                                       |
-
-## Workflow additions
-
-- [workflow](https://github.com/csark0812/toolbox/tree/main/workflow): routing and ownership
-- [orchestrate](https://github.com/csark0812/toolbox/tree/main/orchestrate): explicit durable programs
-- [verification](https://github.com/csark0812/toolbox/tree/main/verification): executable consumer recipes
-- [technical-writing](https://github.com/csark0812/toolbox/tree/main/technical-writing): reader-task writing
-- [strict-english](https://github.com/csark0812/toolbox/tree/main/strict-english): explicit constrained writing
+| workflow                 | [workflow/SKILL.md](../workflow/SKILL.md)                                 |
+| orchestrate              | [orchestrate/SKILL.md](../orchestrate/SKILL.md)                           |
+| verification             | [verification/SKILL.md](../verification/SKILL.md)                         |
+| technical-writing        | [technical-writing/SKILL.md](../technical-writing/SKILL.md)               |
+| strict-english           | [strict-english/SKILL.md](../strict-english/SKILL.md)                     |

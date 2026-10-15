@@ -15,10 +15,12 @@ Every toolbox skill is either an **orchestrator** (agent-to-agent plumbing) or a
 
 Define **how agents and sessions connect**: task-persona councils, purposeful interaction, and cross-session channels. Process skills stay atoms. Multi-agent depth requires attaching **council**.
 
-| Slug        | A2A role                                                                                                |
-| ----------- | ------------------------------------------------------------------------------------------------------- |
-| **council** | In-session multi-agent depth — create task personas, choose an interaction, run members, and synthesize |
-| **handoff** | Cross-session channel — `channel` + `Pack` + `Goal`; pointers not bodies                                |
+| Slug            | A2A role                                                                                                |
+| --------------- | ------------------------------------------------------------------------------------------------------- |
+| **council**     | In-session multi-agent depth — create task personas, choose an interaction, run members, and synthesize |
+| **handoff**     | Cross-session channel — `channel` + `Pack` + `Goal`; pointers not bodies                                |
+| **workflow**    | Route by intended result to declared companions and coordinate ownership sessions                       |
+| **orchestrate** | Explicit durable multi-unit programs with exclusive ownership and recovery                              |
 
 Persona, interaction, and pack references live under orchestrator trees. Process skills keep their own craft and final output contracts.
 
@@ -44,6 +46,9 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | **i-need-help**              | Stop repeated work without useful progress and ask the current owner for specific help.                                                                       |
 | **create-bounded-commits**   | Coordinate ownership, group and validate ready dirty-work changes, obtain batch approval, and preserve unfinished work while creating local commits.          |
 | **retro**                    | Explicit session retrospective: recommend evidence-backed improvements to the agent's environment; keep source files read-only.                               |
+| **verification**             | Create or maintain an executable consumer verification recipe and run it                                                                                      |
+| **technical-writing**        | Write or revise technical documents around the reader task                                                                                                    |
+| **strict-english**           | Explicit constrained plain-English rewrite that preserves meaning and uncertainty                                                                             |
 
 ## Process SSOT (`toolbox/`)
 

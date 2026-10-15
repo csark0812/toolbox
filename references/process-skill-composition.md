@@ -3,7 +3,7 @@
 <!-- source-of-truth: dependency and ownership philosophy for independently installed toolbox skills. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-09-02 -->
 
-Toolbox skills are adjacent, independently complete roles. They compose through user intent, layered prompts, and shared conversation state. A skill does not invoke a peer skill or depend on a peer package.
+Toolbox skills are adjacent, independently complete roles. They compose through user intent, layered prompts, and shared conversation state. A specialist does not invoke a peer skill or depend on a peer package. Declared orchestrator composition (workflow, orchestrate) follows the [v2 composition contract](v2/process-skill-composition.md).
 
 ## Ownership
 

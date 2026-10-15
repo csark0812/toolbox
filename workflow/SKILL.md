@@ -10,7 +10,7 @@ description: Route engineering work and coordinate ownership sessions when the u
 
 ## Route
 
-Discover installed companions by slug from the host catalog. Required: review-walkthrough, refactor-companion, code-review, probe, evidence-based-debugging, grill, prototype, i-need-help. Optional: council, orchestrate, verification, tdd. Check only the selected route's dependencies. Missing companions are a capability boundary, never evidence that a process ran. If i-need-help is unavailable on its route, stop using the same contract inline and disclose the missing skill.
+Discover installed companions by slug from the host catalog. Required: review-walkthrough, refactor-companion, code-review, probe, evidence-based-debugging, grill, prototype. Optional: council, orchestrate, verification, tdd, i-need-help. Check only the selected route's dependencies. Missing companions are a capability boundary, never evidence that a process ran. If i-need-help is unavailable on its route, stop using the same contract inline and disclose the missing skill.
 
 | Intended result                | Route                                                                 |
 | ------------------------------ | --------------------------------------------------------------------- |

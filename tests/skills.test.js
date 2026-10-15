@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { dirname, join, resolve, sep } from 'node:path'
 import { describe, expect, it } from 'vitest'
@@ -147,6 +148,16 @@ describe('toolbox skill SSOT', () => {
     const ownedBlock = config.match(/ownedSlugs\s*=\s*\[([\s\S]*?)\]/)?.[1] ?? ''
     const owned = [...ownedBlock.matchAll(/"([^"]+)"/g)].map((match) => match[1]).sort()
     expect(owned).toEqual(expected)
+  })
+
+  it('skill lock hashes match the shipped SKILL.md bytes', () => {
+    const lock = JSON.parse(readFileSync(join(root, 'skills-lock.json'), 'utf8'))
+    for (const slug of EXPECTED_SKILLS) {
+      const actual = createHash('sha256')
+        .update(readFileSync(join(root, lock.skills[slug].skillPath)))
+        .digest('hex')
+      expect(lock.skills[slug].computedHash, slug).toBe(actual)
+    }
   })
 
   it('AGENTS.md documents Cursor, Claude Code, and Codex destinations', () => {

@@ -11,7 +11,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "code-review/SKILL.md",
-      "computedHash": "a6e332c7e5df4ea5c24fe41897920c044c942a151e98cd0783c3a00d2b09c124"
+      "computedHash": "65a4e130c86ef9a4e1c140a8363bd92fd768ef41e4a5fa03ab25270ab78fe194"
     },
     "council": {
       "source": "csark0812/toolbox",
@@ -23,7 +23,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "create-bounded-commits/SKILL.md",
-      "computedHash": "0756fff94e8313035cdb5f9653e5f53e38e4b472bd7370a605a33fbc07d5b57e"
+      "computedHash": "ac5d402cbf3026d312a6ed6e7c69edcab44f7f649a3ec7b06c4f2e81f7b8c0b3"
     },
     "domain-model": {
       "source": "csark0812/toolbox",
@@ -53,7 +53,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "i-need-help/SKILL.md",
-      "computedHash": "ea0040748fef86e40b386f29c6e0b84a73833ff7e1a473fcbdc7a66feb34d746"
+      "computedHash": "d58fdc72020da6a5598e64f7e4324bd91ffd8de780466db55918d11fd187db6d"
     },
     "orchestrate": {
       "source": "csark0812/toolbox",
@@ -125,7 +125,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "workflow/SKILL.md",
-      "computedHash": "db8beb5de1c1bd9adc6481b3c7209f5d48d93db3c0fd957028e9e058c797ecc2"
+      "computedHash": "2c4ce6cee8eea466ed95ec7f18441b2b353bb2e9ae8d422c9beaa20c3c746734"
     },
     "interface-design": {
       "source": "csark0812/toolbox",

@@ -84,6 +84,8 @@ See the [design and CSS source index](references/design-source-index.md) for the
 | ------------ | ------------------------ | ----------------------------------------------------------------------------------------------- |
 | Orchestrator | council                  | Multi-agent depth — create task personas, choose an interaction, run members, synthesize        |
 | Orchestrator | handoff                  | A2A cross-session — channel + pack + goal; pointers not bodies                                  |
+| Orchestrator | workflow                 | Route engineering work to the right skill and coordinate ownership sessions                     |
+| Orchestrator | orchestrate              | Explicit durable multi-unit programs with ownership and recovery                                |
 | Process      | code-review              | Choose a task-shaped review mode and file only evidence-backed findings                         |
 | Process      | review-walkthrough       | Explain a bounded change through the smallest useful causal story                               |
 | Process      | second-opinion           | Adversarial critique of a written artifact — invent lenses; layer council for multi-agent depth |
@@ -100,6 +102,9 @@ See the [design and CSS source index](references/design-source-index.md) for the
 | Process      | i-need-help              | Stop when repeated work makes no progress; ask the current owner for specific help              |
 | Process      | create-bounded-commits   | Coordinate ownership, group changes, validate, and create bounded local commits                 |
 | Process      | retro                    | Explicit session retrospective with prioritized recommendations for the agent's environment     |
+| Process      | verification             | Create or maintain an executable repo verification recipe                                       |
+| Process      | technical-writing        | Write or revise technical documents around the reader task                                      |
+| Process      | strict-english           | Explicit constrained plain-English rewrite                                                      |
 
 Orchestrators define **agent-to-agent** wiring; process skills describe **what happens**. Layered prompts compose them without peer runtime dependencies. See [docs/tiers.md](docs/tiers.md).
 
@@ -148,20 +153,19 @@ Toolbox owns portable process-contract behavior (`code-review`, `grill`, …). C
 ## Adding a skill
 
 1. `npm ci` (needs `@csark0812/skeleton` for audit/CLI scripts)
-2. Create `<slug>/SKILL.md`
-3. Update `docs/tiers.md` and `.skeleton/registry.md` / scan include as needed
-4. If sharing ambient refs: edit `references/…`, link from the skill with a GitHub raw URL (`https://raw.githubusercontent.com/csark0812/toolbox/main/references/…`)
-5. Stage changes (`git add`), then `npm test` (preferred) or `npm run audit:skills && npm run validate:ci`
-6. Push → CI green → `npx skills update -g`
+2. Create `<slug>/SKILL.md` with `name`, a routing `description` ending in a `Not …` clause, and the `source-of-truth` + `doc-meta` comments
+3. Register the slug everywhere the tests check:
+   - `src/expected-skills.ts` (`kind`, `invocation`, `required`, `optional`)
+   - `.skeleton/registry.md`
+   - `skills-lock.json` (`computedHash` = SHA-256 of `SKILL.md`)
+   - `skeleton.toml` `ownedSlugs` and `[scan].include`
+   - `docs/tiers.md` and the Skills table above
+   - explicit-only skills: `disable-model-invocation: true` plus `agents/openai.yaml`
+4. Add an agent suite: `agent-suites/<slug>/claims.json`, `agent-suites/v2/<slug>.spec.ts`, and `migration-index.json` rows
+5. If sharing ambient refs: edit `references/…`, link from the skill with a GitHub raw URL (`https://raw.githubusercontent.com/csark0812/toolbox/main/references/…`)
+6. Stage changes (`git add`), then `npm test` (preferred) or `npm run audit:skills && npm run validate:ci`
+7. Push → CI green → `npx skills update -g`
 
 **Validation honesty:** path-scoped `npm run validate:changed -- <skill-path>` barely checks skill bodies — skills suite rules are global. Rely on `npm test` / CI for skill edits. Hub docs (`README.md`, `docs/*`) are fine under `validate:changed`.
 
 Skill-local links use relative paths. Shared contracts use `references/` raw URLs. Peer skill trees are not dependency targets; see [docs/tiers.md](docs/tiers.md).
-
-## Workflow additions
-
-- [workflow](https://github.com/csark0812/toolbox/tree/main/workflow): routing and ownership
-- [orchestrate](https://github.com/csark0812/toolbox/tree/main/orchestrate): explicit durable programs
-- [verification](https://github.com/csark0812/toolbox/tree/main/verification): executable consumer recipes
-- [technical-writing](https://github.com/csark0812/toolbox/tree/main/technical-writing): reader-task writing
-- [strict-english](https://github.com/csark0812/toolbox/tree/main/strict-english): explicit constrained writing

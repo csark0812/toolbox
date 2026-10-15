@@ -13,7 +13,7 @@ Inspired by SkillJuror-style questions: does how skills are **organized** (routi
 npm run agent:test:ablations
 ```
 
-Requires `CURSOR_API_KEY`. Compare runs under the **same model** and similar token budget.
+Runs on Claude subscription auth (see `agent-test.config.ts`). Compare runs under the **same model** and similar token budget.
 
 ## Arms
 
