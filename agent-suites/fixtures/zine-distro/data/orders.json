@@ -1,0 +1,28 @@
+[
+  {
+    "id": "O-311",
+    "shop": "Paper Moon Books",
+    "lines": [
+      { "sku": "Z-001", "qty": 5 },
+      { "sku": "Z-012", "qty": 3 },
+      { "sku": "Z-020", "qty": 2 }
+    ]
+  },
+  {
+    "id": "O-312",
+    "shop": "The Corner Press",
+    "lines": [
+      { "sku": "Z-007", "qty": 4 },
+      { "sku": "Z-001", "qty": 2 }
+    ]
+  },
+  {
+    "id": "O-313",
+    "shop": "Inkwell & Co",
+    "lines": [
+      { "sku": "Z-031", "qty": 6 },
+      { "sku": "Z-012", "qty": 1 },
+      { "sku": "Z-007", "qty": 1 }
+    ]
+  }
+]

@@ -1,0 +1,135 @@
+diff --git a/agent-suites/fixtures/carpool-board/README.md b/agent-suites/fixtures/carpool-board/README.md
+index 569ece1..4c4c574 100644
+--- a/agent-suites/fixtures/carpool-board/README.md
++++ b/agent-suites/fixtures/carpool-board/README.md
+@@ -4,4 +4,4 @@ Lift sharing for staff at the Kestrel Park business estate. Drivers register the
+ 
+ Privacy: riders only ever see a driver's first name and how far out of their way the pickup is. A driver's phone number and home street are shared with a rider only after the driver accepts the request.
+ 
+-`npm run drivers` lists the registered drivers. `npm test` runs the tests.
++`npm run drivers` lists the registered drivers. `npm run match -- <request id>` shows a rider the best three drivers for their request. `npm test` runs the tests.
+diff --git a/agent-suites/fixtures/carpool-board/bin/match.mjs b/agent-suites/fixtures/carpool-board/bin/match.mjs
+new file mode 100644
+index 0000000..c0b449e
+--- /dev/null
++++ b/agent-suites/fixtures/carpool-board/bin/match.mjs
+@@ -0,0 +1,18 @@
++#!/usr/bin/env node
++import { readFileSync } from 'node:fs'
++import { argv, exit, stderr, stdout } from 'node:process'
++import { liftsFor } from '../src/match.mjs'
++
++const read = (name) => JSON.parse(readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8'))
++const request = read('requests.json').find((r) => r.id === argv[2])
++if (!request) {
++  stderr.write('usage: match <request id>\n')
++  exit(2)
++}
++const found = liftsFor(request, read('drivers.json'))
++stdout.write(`Lifts for ${request.rider} on ${request.date}:\n`)
++for (const driver of found)
++  stdout.write(
++    `  ${driver.name.padEnd(14)} ${String(driver.detour).padStart(2)} min detour  ${driver.phone}, ${driver.home}\n`,
++  )
++if (!found.length) stdout.write('  nobody is driving your way that day\n')
+diff --git a/agent-suites/fixtures/carpool-board/package.json b/agent-suites/fixtures/carpool-board/package.json
+index fb8a0f3..8eb606d 100644
+--- a/agent-suites/fixtures/carpool-board/package.json
++++ b/agent-suites/fixtures/carpool-board/package.json
+@@ -4,6 +4,7 @@
+   "type": "module",
+   "scripts": {
+     "test": "node --test",
+-    "drivers": "node bin/drivers.mjs"
++    "drivers": "node bin/drivers.mjs",
++    "match": "node bin/match.mjs"
+   }
+ }
+diff --git a/agent-suites/fixtures/carpool-board/src/match.mjs b/agent-suites/fixtures/carpool-board/src/match.mjs
+new file mode 100644
+index 0000000..2410864
+--- /dev/null
++++ b/agent-suites/fixtures/carpool-board/src/match.mjs
+@@ -0,0 +1,26 @@
++import { detourMinutes, distanceToRoute } from './geo.mjs'
++
++const DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
++// eslint-disable-next-line no-unused-vars
++const MAX_KM = 2
++
++// weekday of a requests date
++function dayOf(date) {
++  return DAYS[new Date(date).getDay()]
++}
++
++/**
++ * Drivers who could give the rider a lift: driving that weekday with a route within 2 km of the
++ * pickup, smallest detour first, at most three.
++ */
++export function liftsFor(request, drivers) {
++  let day = dayOf(request.date)
++  const matches = drivers
++    .filter((driver) => driver.days.includes(day))
++    .filter((driver) => distanceToRoute(request.pickup, driver.route) <= 2)
++    .map((driver) => ({
++      ...driver,
++      detour: detourMinutes(distanceToRoute(request.pickup, driver.route)),
++    }))
++  return matches.sort((a, b) => a.detour > b.detour).slice(0, 3)
++}
+diff --git a/agent-suites/fixtures/carpool-board/tests/match.test.mjs b/agent-suites/fixtures/carpool-board/tests/match.test.mjs
+new file mode 100644
+index 0000000..5956107
+--- /dev/null
++++ b/agent-suites/fixtures/carpool-board/tests/match.test.mjs
+@@ -0,0 +1,50 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { liftsFor } from '../src/match.mjs'
++
++const driver = (id, days, route) => ({ id, name: id, phone: '', home: '', days, route })
++
++test('drivers that day near the pickup, smallest detour first', () => {
++  const drivers = [
++    driver(
++      'near',
++      ['tue', 'wed'],
++      [
++        [0, 0.5],
++        [10, 0.5],
++      ],
++    ),
++    driver(
++      'far',
++      ['tue', 'wed'],
++      [
++        [0, 1.5],
++        [10, 1.5],
++      ],
++    ),
++    driver(
++      'offday',
++      ['fri'],
++      [
++        [0, 0],
++        [10, 0],
++      ],
++    ),
++    driver(
++      'away',
++      ['tue', 'wed'],
++      [
++        [0, 9],
++        [10, 9],
++      ],
++    ),
++  ]
++  const found = liftsFor({ pickup: [5, 0], date: '2026-10-21' }, drivers)
++  assert.deepEqual(
++    found.map((d) => [d.id, d.detour]),
++    [
++      ['near', 2],
++      ['far', 6],
++    ],
++  )
++})

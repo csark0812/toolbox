@@ -1,0 +1,73 @@
+diff --git a/agent-suites/fixtures/recipe-costing/bin/portions.mjs b/agent-suites/fixtures/recipe-costing/bin/portions.mjs
+new file mode 100644
+index 0000000..e68d277
+--- /dev/null
++++ b/agent-suites/fixtures/recipe-costing/bin/portions.mjs
+@@ -0,0 +1,11 @@
++#!/usr/bin/env node
++import { readFileSync } from 'node:fs'
++import { stdout } from 'node:process'
++import { costPerPortion, pounds } from '../src/costing.mjs'
++
++const read = (name) => JSON.parse(readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8'))
++const prices = read('prices.json')
++for (const recipe of read('recipes.json'))
++  stdout.write(
++    `${recipe.name.padEnd(22)} ${pounds(costPerPortion(recipe, prices)).padStart(6)} a portion\n`,
++  )
+diff --git a/agent-suites/fixtures/recipe-costing/package.json b/agent-suites/fixtures/recipe-costing/package.json
+index a1a877d..2b5cdd3 100644
+--- a/agent-suites/fixtures/recipe-costing/package.json
++++ b/agent-suites/fixtures/recipe-costing/package.json
+@@ -4,6 +4,7 @@
+   "type": "module",
+   "scripts": {
+     "test": "node --test",
+-    "cost": "node bin/cost.mjs"
++    "cost": "node bin/cost.mjs",
++    "portions": "node bin/portions.mjs"
+   }
+ }
+diff --git a/agent-suites/fixtures/recipe-costing/src/costing.mjs b/agent-suites/fixtures/recipe-costing/src/costing.mjs
+index 19a5215..1e2963c 100644
+--- a/agent-suites/fixtures/recipe-costing/src/costing.mjs
++++ b/agent-suites/fixtures/recipe-costing/src/costing.mjs
+@@ -11,3 +11,8 @@ export function recipeCost(recipe, prices) {
+ }
+ 
+ export const pounds = (pence) => `£${(pence / 100).toFixed(2)}`
++
++/** Cost of one portion in pence, rounded to the nearest penny. */
++export function costPerPortion(recipe, prices) {
++  return Math.round(recipeCost(recipe, prices) / recipe.portions)
++}
+diff --git a/agent-suites/fixtures/recipe-costing/tests/costing.test.mjs b/agent-suites/fixtures/recipe-costing/tests/costing.test.mjs
+index 5fca614..f7c7926 100644
+--- a/agent-suites/fixtures/recipe-costing/tests/costing.test.mjs
++++ b/agent-suites/fixtures/recipe-costing/tests/costing.test.mjs
+@@ -1,11 +1,12 @@
+ import assert from 'node:assert/strict'
+ import { readFileSync } from 'node:fs'
+ import { test } from 'node:test'
+-import { lineCost, recipeCost } from '../src/costing.mjs'
++import { costPerPortion, lineCost, recipeCost } from '../src/costing.mjs'
+ 
+ const read = (name) => JSON.parse(readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8'))
+ const prices = read('prices.json')
+ const soup = read('recipes.json').find((r) => r.name === 'leek and potato soup')
++const cake = read('recipes.json').find((r) => r.name === 'lemon drizzle')
+ 
+ test('a line costs its amount at the unit price', () => {
+   assert.equal(lineCost({ item: 'eggs', amount: 4 }, prices), 124)
+@@ -15,3 +16,11 @@ test('a line costs its amount at the unit price', () => {
+ test('the soup costs £4.31 to make', () => {
+   assert.equal(recipeCost(soup, prices), 431)
+ })
++
++test('a portion of soup costs 72p', () => {
++  assert.equal(costPerPortion(soup, prices), 72)
++})
++
++test('a slice of lemon drizzle costs 43p', () => {
++  assert.equal(costPerPortion(cake, prices), 43)
++})

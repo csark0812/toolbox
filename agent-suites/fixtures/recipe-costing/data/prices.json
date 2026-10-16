@@ -1,0 +1,11 @@
+{
+  "leeks": { "unit": "g", "pence": 0.32 },
+  "potatoes": { "unit": "g", "pence": 0.11 },
+  "butter": { "unit": "g", "pence": 1.05 },
+  "vegetable stock": { "unit": "ml", "pence": 0.09 },
+  "double cream": { "unit": "ml", "pence": 0.66 },
+  "eggs": { "unit": "each", "pence": 31 },
+  "plain flour": { "unit": "g", "pence": 0.09 },
+  "caster sugar": { "unit": "g", "pence": 0.14 },
+  "lemons": { "unit": "each", "pence": 45 }
+}

@@ -1,0 +1,13 @@
+{
+  "shop": "Larch Lane Farm Shop",
+  "number": 1042,
+  "date": "2026-10-16",
+  "items": [
+    { "name": "Sourdough loaf", "qty": 2, "unitPence": 350 },
+    { "name": "Free-range eggs, half dozen", "qty": 1, "unitPence": 240 },
+    { "name": "Wheelbarrow inner tube 4.80/4.00-8 heavy-duty", "qty": 1, "unitPence": 1250 },
+    { "name": "Café crème coffee beans ☕ 250g", "qty": 1, "unitPence": 695 },
+    { "name": "Apples", "qty": 6, "unitPence": 45 }
+  ],
+  "footer": "Thank you for shopping local! Returns within 14 days with this receipt.\nEggs are back every Saturday."
+}

@@ -1,0 +1,9 @@
+{
+  "name": "parcel-lockers",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "status": "node bin/status.mjs"
+  }
+}

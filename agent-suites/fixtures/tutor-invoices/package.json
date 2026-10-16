@@ -1,0 +1,9 @@
+{
+  "name": "tutor-invoices",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "invoice": "node bin/invoice.mjs"
+  }
+}

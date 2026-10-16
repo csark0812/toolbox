@@ -1,0 +1,12 @@
+{
+  "name": "zine-distro",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "picklist": "node bin/picklist.mjs",
+    "invoice": "node bin/invoice.mjs",
+    "export": "node bin/export.mjs",
+    "import": "node bin/import.mjs"
+  }
+}

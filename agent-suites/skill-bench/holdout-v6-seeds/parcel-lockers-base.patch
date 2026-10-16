@@ -1,0 +1,27 @@
+diff --git a/agent-suites/fixtures/parcel-lockers/README.md b/agent-suites/fixtures/parcel-lockers/README.md
+index 09317a0..e32a7b9 100644
+--- a/agent-suites/fixtures/parcel-lockers/README.md
++++ b/agent-suites/fixtures/parcel-lockers/README.md
+@@ -4,7 +4,7 @@ The parcel lockers outside our two community centres. Couriers drop parcels into
+ 
+ ## Usage
+ 
+-`npm run status -- --at <time>` lists the lockers that are occupied at that time, with the parcel and how long it has been there.
++`npm run status -- --at <time> [--site <name>]` lists the lockers that are occupied at that time, with the parcel and how long it has been there. `--site` limits the list to one community centre (`Elm Road` or `Quarry Hill`).
+ 
+ `npm test` runs the tests.
+ 
+diff --git a/agent-suites/fixtures/parcel-lockers/bin/status.mjs b/agent-suites/fixtures/parcel-lockers/bin/status.mjs
+index fdf2ee5..df6fc83 100644
+--- a/agent-suites/fixtures/parcel-lockers/bin/status.mjs
++++ b/agent-suites/fixtures/parcel-lockers/bin/status.mjs
+@@ -10,7 +10,8 @@ if (!args.includes('--at') || Number.isNaN(Date.parse(at ?? ''))) {
+   exit(2)
+ }
+ const parcels = JSON.parse(readFileSync(new URL('../data/parcels.json', import.meta.url), 'utf8'))
+-const here = occupied(parcels, at)
++const site = args.includes('--site') ? args[args.indexOf('--site') + 1] : undefined
++const here = occupied(parcels, at).filter((p) => !site || p.site === site)
+ for (const p of here) {
+   const line = `${p.locker}  ${p.id}  ${p.recipient.padEnd(10)} ${String(hoursIn(p, at)).padStart(3)} h`
+   stdout.write(`${line}\n`)

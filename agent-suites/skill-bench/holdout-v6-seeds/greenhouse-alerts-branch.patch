@@ -1,0 +1,137 @@
+diff --git a/agent-suites/fixtures/greenhouse-alerts/README.md b/agent-suites/fixtures/greenhouse-alerts/README.md
+index 801b881..ac03bd6 100644
+--- a/agent-suites/fixtures/greenhouse-alerts/README.md
++++ b/agent-suites/fixtures/greenhouse-alerts/README.md
+@@ -2,4 +2,6 @@
+ 
+ Temperature logging for the three greenhouses at Fernleigh Nursery. Each greenhouse has a sensor that posts a reading every 15 minutes to `data/readings.json`. The older sensors in houses 1 and 2 report Celsius; the replacement sensor in house 3 reports Fahrenheit, and every reading says which unit it is in (`"unit": "C"` or `"F"`).
+ 
+-`npm run night -- <YYYY-MM-DD>` prints each greenhouse's lowest temperature that night in Celsius. `npm test` runs the tests.
++`npm run night -- <YYYY-MM-DD>` prints each greenhouse's lowest temperature that night in Celsius. `npm run alerts -- <YYYY-MM-DD>` texts the night grower once for each greenhouse that falls to 2 °C or below during that night, so the heaters can go on before the seedlings are damaged.
++
++`npm test` runs the tests.
+diff --git a/agent-suites/fixtures/greenhouse-alerts/bin/alerts.mjs b/agent-suites/fixtures/greenhouse-alerts/bin/alerts.mjs
+new file mode 100644
+index 0000000..b8f9daf
+--- /dev/null
++++ b/agent-suites/fixtures/greenhouse-alerts/bin/alerts.mjs
+@@ -0,0 +1,17 @@
++#!/usr/bin/env node
++import { readFileSync } from 'node:fs'
++import { argv, exit, stderr, stdout } from 'node:process'
++import { frostAlerts } from '../src/frost.mjs'
++import { sendAll } from '../src/notify.mjs'
++import { sendSms } from '../src/sms.mjs'
++
++const date = argv[2]
++if (!/^\d{4}-\d{2}-\d{2}$/.test(date ?? '')) {
++  stderr.write('usage: alerts <YYYY-MM-DD>\n')
++  exit(2)
++}
++const readings = JSON.parse(readFileSync(new URL('../data/readings.json', import.meta.url), 'utf8'))
++const alerts = frostAlerts(readings, date)
++await sendAll(alerts, sendSms)
++stdout.write(`${alerts.length} frost alert(s) sent\n`)
++exit(0)
+diff --git a/agent-suites/fixtures/greenhouse-alerts/package.json b/agent-suites/fixtures/greenhouse-alerts/package.json
+index 89cde82..335e470 100644
+--- a/agent-suites/fixtures/greenhouse-alerts/package.json
++++ b/agent-suites/fixtures/greenhouse-alerts/package.json
+@@ -4,6 +4,7 @@
+   "type": "module",
+   "scripts": {
+     "test": "node --test",
+-    "night": "node bin/night.mjs"
++    "night": "node bin/night.mjs",
++    "alerts": "node bin/alerts.mjs"
+   }
+ }
+diff --git a/agent-suites/fixtures/greenhouse-alerts/src/frost.mjs b/agent-suites/fixtures/greenhouse-alerts/src/frost.mjs
+new file mode 100644
+index 0000000..124dcca
+--- /dev/null
++++ b/agent-suites/fixtures/greenhouse-alerts/src/frost.mjs
+@@ -0,0 +1,23 @@
++import { nightReadings } from './night.mjs'
++
++// TODO: make this configurable per greenhouse
++var FROST_C = 2
++
++const atRisk = (value) => value < FROST_C
++
++/**
++ * The first reading that put each greenhouse at frost risk during the night, in time order:
++ * [{ house, at, value }].
++ */
++export function frostAlerts(readings, date) {
++  const alerts = []
++  const alerted_houses = new Set()
++  const night = nightReadings(readings, date).sort((a, b) => Date.parse(a.at) - Date.parse(b.at))
++  for (const reading of night) {
++    const value = reading.value
++    if (alerted_houses.has(reading.house) == true || !atRisk(value)) continue
++    alerted_houses.add(reading.house)
++    alerts.push({ house: reading.house, at: reading.at, value })
++  }
++  return alerts
++}
+diff --git a/agent-suites/fixtures/greenhouse-alerts/src/notify.mjs b/agent-suites/fixtures/greenhouse-alerts/src/notify.mjs
+new file mode 100644
+index 0000000..a2c10e0
+--- /dev/null
++++ b/agent-suites/fixtures/greenhouse-alerts/src/notify.mjs
+@@ -0,0 +1,9 @@
++/** Texts every alert to the night grower; resolves once they have all been sent. */
++export async function sendAll(alerts, send) {
++  alerts.forEach(async (alert) => {
++    await send(
++      `Frost risk in house ${alert.house}: ${alert.value} °C at ${alert.at.slice(11, 16)} UTC`,
++    )
++  })
++  // console.log('queued', alerts)
++}
+diff --git a/agent-suites/fixtures/greenhouse-alerts/src/sms.mjs b/agent-suites/fixtures/greenhouse-alerts/src/sms.mjs
+new file mode 100644
+index 0000000..a19f414
+--- /dev/null
++++ b/agent-suites/fixtures/greenhouse-alerts/src/sms.mjs
+@@ -0,0 +1,7 @@
++import { stdout } from 'node:process'
++
++/** The nursery's SMS gateway (stubbed here: prints the text once the gateway accepts it). */
++export async function sendSms(text) {
++  await new Promise((resolve) => setTimeout(resolve, 20))
++  stdout.write(`SMS to night grower: ${text}\n`)
++}
+diff --git a/agent-suites/fixtures/greenhouse-alerts/tests/frost.test.mjs b/agent-suites/fixtures/greenhouse-alerts/tests/frost.test.mjs
+new file mode 100644
+index 0000000..1a06481
+--- /dev/null
++++ b/agent-suites/fixtures/greenhouse-alerts/tests/frost.test.mjs
+@@ -0,0 +1,26 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { frostAlerts } from '../src/frost.mjs'
++import { sendAll } from '../src/notify.mjs'
++
++const reading = (house, at, value, unit = 'C') => ({ house, at, value, unit })
++
++test('one alert per greenhouse, at the first cold reading', () => {
++  const alerts = frostAlerts(
++    [
++      reading(1, '2026-10-15T23:00Z', 1.5),
++      reading(1, '2026-10-15T22:00Z', 1.8),
++      reading(2, '2026-10-15T22:00Z', 6),
++    ],
++    '2026-10-15',
++  )
++  assert.deepEqual(alerts, [{ house: 1, at: '2026-10-15T22:00Z', value: 1.8 }])
++})
++
++test('sends a text for each alert', async () => {
++  const sent = []
++  await sendAll([{ house: 1, at: '2026-10-15T22:00Z', value: 1.8 }], async (text) =>
++    sent.push(text),
++  )
++  assert.equal(sent.length, 1)
++})

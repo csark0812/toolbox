@@ -1,0 +1,9 @@
+{
+  "name": "recipe-costing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "cost": "node bin/cost.mjs"
+  }
+}

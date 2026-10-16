@@ -1,0 +1,10 @@
+{
+  "name": "allotment-fees",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "fee": "node bin/fee.mjs",
+    "invoices": "node bin/invoices.mjs"
+  }
+}

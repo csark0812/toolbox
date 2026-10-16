@@ -1,0 +1,11 @@
+{
+  "name": "quiz-night",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "leaderboard": "node bin/leaderboard.mjs",
+    "round": "node bin/round.mjs",
+    "record": "node bin/record.mjs"
+  }
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "name": "leek and potato soup",
+    "serves": 6,
+    "ingredients": [
+      { "item": "leeks", "amount": 500 },
+      { "item": "potatoes", "amount": 400 },
+      { "item": "butter", "amount": 44 },
+      { "item": "vegetable stock", "amount": 1200 },
+      { "item": "double cream", "amount": 110 }
+    ]
+  },
+  {
+    "name": "lemon drizzle",
+    "serves": 12,
+    "ingredients": [
+      { "item": "butter", "amount": 225 },
+      { "item": "caster sugar", "amount": 325 },
+      { "item": "eggs", "amount": 4 },
+      { "item": "plain flour", "amount": 225 },
+      { "item": "lemons", "amount": 2 }
+    ]
+  }
+]

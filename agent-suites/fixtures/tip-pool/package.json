@@ -1,0 +1,9 @@
+{
+  "name": "tip-pool",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "split": "node bin/split.mjs"
+  }
+}

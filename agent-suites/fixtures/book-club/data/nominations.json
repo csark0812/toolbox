@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Piranesi",
+    "by": "Greta",
+    "nominatedAt": "2026-10-01T19:02:00Z",
+    "note": "Short, strange and lovely."
+  },
+  {
+    "title": "The Overstory",
+    "by": "Hugo",
+    "nominatedAt": "2026-10-02T08:40:00Z",
+    "note": "Long, but it will change how you see trees."
+  },
+  {
+    "title": "Small Things Like These",
+    "by": "Ana",
+    "nominatedAt": "2026-10-03T21:15:00Z",
+    "note": "<img src=x onerror=\"alert('book club')\"> one sitting, I promise"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "name": "book-club",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "nominations": "node bin/nominations.mjs"
+  }
+}

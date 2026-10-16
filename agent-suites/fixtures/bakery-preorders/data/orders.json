@@ -1,0 +1,70 @@
+[
+  {
+    "id": 1041,
+    "revision": 1,
+    "customer": "Fisher",
+    "pickup": "2026-12-23T09:30",
+    "items": [
+      { "product": "stollen", "qty": 2 },
+      { "product": "mince pies (6)", "qty": 1 }
+    ]
+  },
+  {
+    "id": 1042,
+    "revision": 1,
+    "customer": "Nakamura",
+    "pickup": "2026-12-23T11:00",
+    "items": [{ "product": "sourdough", "qty": 2 }]
+  },
+  {
+    "id": 1043,
+    "revision": 1,
+    "customer": "Adeyemi",
+    "pickup": "2026-12-23T08:15",
+    "items": [
+      { "product": "stollen", "qty": 1 },
+      { "product": "panettone", "qty": 1 }
+    ]
+  },
+  {
+    "id": 1044,
+    "revision": 1,
+    "customer": "Brennan",
+    "pickup": "2026-12-24T09:00",
+    "items": [{ "product": "mince pies (6)", "qty": 3 }]
+  },
+  {
+    "id": 1041,
+    "revision": 2,
+    "customer": "Fisher",
+    "pickup": "2026-12-23T09:30",
+    "items": [
+      { "product": "stollen", "qty": 1 },
+      { "product": "mince pies (6)", "qty": 1 }
+    ]
+  },
+  {
+    "id": 1045,
+    "revision": 1,
+    "customer": "Kowalski",
+    "pickup": "2026-12-23T15:45",
+    "items": [
+      { "product": "panettone", "qty": 2 },
+      { "product": "sourdough", "qty": 1 }
+    ]
+  },
+  {
+    "id": 1046,
+    "revision": 1,
+    "customer": "Moreno",
+    "pickup": "2026-12-24T10:30",
+    "items": [{ "product": "sourdough", "qty": 1 }]
+  },
+  {
+    "id": 1046,
+    "revision": 2,
+    "customer": "Moreno",
+    "pickup": "2026-12-23T10:30",
+    "items": [{ "product": "sourdough", "qty": 1 }]
+  }
+]

@@ -1,0 +1,6 @@
+{{name}}
+{{street}}
+
+Your {{boiler}} was last serviced on {{fmtDate lastService}} and is due again by {{fmtDate due}}.
+{{cover}}
+Call 01632 960 455 to book a visit.

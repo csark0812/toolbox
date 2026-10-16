@@ -1,0 +1,18 @@
+[
+  {
+    "id": "0740",
+    "label": "07:40 Port Ellis",
+    "carSpaces": 8,
+    "seats": 40,
+    "cars": 0,
+    "passengers": 0
+  },
+  {
+    "id": "0910",
+    "label": "09:10 Port Ellis",
+    "carSpaces": 10,
+    "seats": 40,
+    "cars": 0,
+    "passengers": 0
+  }
+]

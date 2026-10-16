@@ -1,0 +1,11 @@
+{
+  "name": "boiler-service",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "letters": "node bin/letters.mjs",
+    "runsheet": "node bin/runsheet.mjs",
+    "report": "node bin/report.mjs"
+  }
+}

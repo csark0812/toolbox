@@ -1,0 +1,9 @@
+{
+  "name": "bird-survey",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "tally": "node bin/tally.mjs"
+  }
+}

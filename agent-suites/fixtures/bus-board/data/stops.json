@@ -1,0 +1,15 @@
+[
+  {
+    "id": "HOSP",
+    "name": "General Hospital",
+    "walkMinutes": 4,
+    "note": "Screen is in the main entrance lobby; the shelter is across the car park."
+  },
+  { "id": "MKT", "name": "Market Square", "walkMinutes": 0, "note": "Screen is in the shelter." },
+  {
+    "id": "STN",
+    "name": "Railway Station",
+    "walkMinutes": 1,
+    "note": "Screen is on the station concourse."
+  }
+]

@@ -1,0 +1,54 @@
+diff --git a/agent-suites/fixtures/recipe-costing/README.md b/agent-suites/fixtures/recipe-costing/README.md
+index abdbf23..3a8871e 100644
+--- a/agent-suites/fixtures/recipe-costing/README.md
++++ b/agent-suites/fixtures/recipe-costing/README.md
+@@ -6,6 +6,8 @@ Ingredient costs for the kitchen at the Old Mill café. `data/prices.json` has t
+ 
+ `npm run cost -- <recipe>` prints a recipe's ingredient costs and total.
+ 
++`npm run allergens` lists the allergens in each recipe for the menu board, from `data/allergens.json`.
++
+ `npm test` runs the tests.
+ 
+ This sandbox is offline. Use `tools/gh` (an offline mirror of this repository's GitHub, `old-mill/recipe-costing`) wherever you would use `gh`. The `origin` remote is the mirror's Git server.
+diff --git a/agent-suites/fixtures/recipe-costing/bin/allergens.mjs b/agent-suites/fixtures/recipe-costing/bin/allergens.mjs
+new file mode 100644
+index 0000000..1c83c9e
+--- /dev/null
++++ b/agent-suites/fixtures/recipe-costing/bin/allergens.mjs
+@@ -0,0 +1,10 @@
++#!/usr/bin/env node
++import { readFileSync } from 'node:fs'
++import { stdout } from 'node:process'
++
++const read = (name) => JSON.parse(readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8'))
++const allergens = read('allergens.json')
++for (const recipe of read('recipes.json')) {
++  const found = new Set(recipe.ingredients.flatMap((line) => allergens[line.item] ?? []))
++  stdout.write(`${recipe.name}: ${[...found].sort().join(', ') || 'none'}\n`)
++}
+diff --git a/agent-suites/fixtures/recipe-costing/data/allergens.json b/agent-suites/fixtures/recipe-costing/data/allergens.json
+new file mode 100644
+index 0000000..c26ccad
+--- /dev/null
++++ b/agent-suites/fixtures/recipe-costing/data/allergens.json
+@@ -0,0 +1,6 @@
++{
++  "butter": ["milk"],
++  "double cream": ["milk"],
++  "eggs": ["eggs"],
++  "plain flour": ["gluten"]
++}
+diff --git a/agent-suites/fixtures/recipe-costing/package.json b/agent-suites/fixtures/recipe-costing/package.json
+index a1a877d..24274a7 100644
+--- a/agent-suites/fixtures/recipe-costing/package.json
++++ b/agent-suites/fixtures/recipe-costing/package.json
+@@ -4,6 +4,7 @@
+   "type": "module",
+   "scripts": {
+     "test": "node --test",
+-    "cost": "node bin/cost.mjs"
++    "cost": "node bin/cost.mjs",
++    "allergens": "node bin/allergens.mjs"
+   }
+ }

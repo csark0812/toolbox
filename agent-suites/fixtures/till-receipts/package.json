@@ -1,0 +1,9 @@
+{
+  "name": "till-receipts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "receipt": "node bin/receipt.mjs"
+  }
+}

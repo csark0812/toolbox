@@ -1,0 +1,9 @@
+{
+  "name": "carpool-board",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "drivers": "node bin/drivers.mjs"
+  }
+}

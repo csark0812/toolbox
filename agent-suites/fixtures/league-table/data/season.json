@@ -1,0 +1,222 @@
+{
+  "teams": [
+    "Athletic Rovers",
+    "Burnside",
+    "Canal Street",
+    "Dockers",
+    "Eastfield",
+    "Fox and Hounds"
+  ],
+  "fixtures": [
+    {
+      "round": 1,
+      "home": "Athletic Rovers",
+      "away": "Fox and Hounds",
+      "homeGoals": 2,
+      "awayGoals": 0
+    },
+    {
+      "round": 1,
+      "home": "Burnside",
+      "away": "Eastfield",
+      "homeGoals": 0,
+      "awayGoals": 1
+    },
+    {
+      "round": 1,
+      "home": "Canal Street",
+      "away": "Dockers",
+      "homeGoals": 4,
+      "awayGoals": 1
+    },
+    {
+      "round": 2,
+      "home": "Athletic Rovers",
+      "away": "Eastfield",
+      "homeGoals": 4,
+      "awayGoals": 3
+    },
+    {
+      "round": 2,
+      "home": "Fox and Hounds",
+      "away": "Dockers",
+      "homeGoals": 2,
+      "awayGoals": 0
+    },
+    {
+      "round": 2,
+      "home": "Burnside",
+      "away": "Canal Street",
+      "homeGoals": 0,
+      "awayGoals": 2
+    },
+    {
+      "round": 3,
+      "home": "Athletic Rovers",
+      "away": "Dockers",
+      "homeGoals": 1,
+      "awayGoals": 3
+    },
+    {
+      "round": 3,
+      "home": "Eastfield",
+      "away": "Canal Street",
+      "homeGoals": 1,
+      "awayGoals": 2
+    },
+    {
+      "round": 3,
+      "home": "Fox and Hounds",
+      "away": "Burnside",
+      "homeGoals": 4,
+      "awayGoals": 2
+    },
+    {
+      "round": 4,
+      "home": "Athletic Rovers",
+      "away": "Canal Street",
+      "homeGoals": 1,
+      "awayGoals": 1
+    },
+    {
+      "round": 4,
+      "home": "Dockers",
+      "away": "Burnside",
+      "homeGoals": 0,
+      "awayGoals": 1
+    },
+    {
+      "round": 4,
+      "home": "Eastfield",
+      "away": "Fox and Hounds",
+      "homeGoals": 2,
+      "awayGoals": 1
+    },
+    {
+      "round": 5,
+      "home": "Athletic Rovers",
+      "away": "Burnside",
+      "homeGoals": 1,
+      "awayGoals": 2
+    },
+    {
+      "round": 5,
+      "home": "Canal Street",
+      "away": "Fox and Hounds",
+      "homeGoals": 1,
+      "awayGoals": 2
+    },
+    {
+      "round": 5,
+      "home": "Dockers",
+      "away": "Eastfield",
+      "homeGoals": 2,
+      "awayGoals": 1
+    },
+    {
+      "round": 6,
+      "home": "Fox and Hounds",
+      "away": "Athletic Rovers",
+      "homeGoals": 2,
+      "awayGoals": 3
+    },
+    {
+      "round": 6,
+      "home": "Eastfield",
+      "away": "Burnside",
+      "homeGoals": 3,
+      "awayGoals": 1
+    },
+    {
+      "round": 6,
+      "home": "Dockers",
+      "away": "Canal Street",
+      "homeGoals": 2,
+      "awayGoals": 3
+    },
+    {
+      "round": 7,
+      "home": "Eastfield",
+      "away": "Athletic Rovers",
+      "homeGoals": null,
+      "awayGoals": null
+    },
+    {
+      "round": 7,
+      "home": "Dockers",
+      "away": "Fox and Hounds",
+      "homeGoals": 1,
+      "awayGoals": 2
+    },
+    {
+      "round": 7,
+      "home": "Canal Street",
+      "away": "Burnside",
+      "homeGoals": 4,
+      "awayGoals": 0
+    },
+    {
+      "round": 8,
+      "home": "Dockers",
+      "away": "Athletic Rovers",
+      "homeGoals": 2,
+      "awayGoals": 3
+    },
+    {
+      "round": 8,
+      "home": "Canal Street",
+      "away": "Eastfield",
+      "homeGoals": 2,
+      "awayGoals": 2
+    },
+    {
+      "round": 8,
+      "home": "Burnside",
+      "away": "Fox and Hounds",
+      "homeGoals": 0,
+      "awayGoals": 2
+    },
+    {
+      "round": 9,
+      "home": "Canal Street",
+      "away": "Athletic Rovers",
+      "homeGoals": 2,
+      "awayGoals": 2
+    },
+    {
+      "round": 9,
+      "home": "Burnside",
+      "away": "Dockers",
+      "homeGoals": 3,
+      "awayGoals": 0
+    },
+    {
+      "round": 9,
+      "home": "Fox and Hounds",
+      "away": "Eastfield",
+      "homeGoals": 2,
+      "awayGoals": 1
+    },
+    {
+      "round": 10,
+      "home": "Burnside",
+      "away": "Athletic Rovers",
+      "homeGoals": 1,
+      "awayGoals": 3
+    },
+    {
+      "round": 10,
+      "home": "Fox and Hounds",
+      "away": "Canal Street",
+      "homeGoals": 1,
+      "awayGoals": 3
+    },
+    {
+      "round": 10,
+      "home": "Eastfield",
+      "away": "Dockers",
+      "homeGoals": 2,
+      "awayGoals": 2
+    }
+  ]
+}

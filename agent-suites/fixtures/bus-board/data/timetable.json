@@ -1,0 +1,230 @@
+[
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "HOSP",
+    "time": "14:05"
+  },
+  {
+    "route": "4",
+    "to": "Westgate",
+    "stop": "HOSP",
+    "time": "14:18"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "HOSP",
+    "time": "14:20"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "HOSP",
+    "time": "14:35"
+  },
+  {
+    "route": "4",
+    "to": "Westgate",
+    "stop": "HOSP",
+    "time": "14:38"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "HOSP",
+    "time": "14:50"
+  },
+  {
+    "route": "4",
+    "to": "Westgate",
+    "stop": "HOSP",
+    "time": "14:58"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "HOSP",
+    "time": "15:05"
+  },
+  {
+    "route": "4",
+    "to": "Westgate",
+    "stop": "HOSP",
+    "time": "15:18"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "HOSP",
+    "time": "15:20"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "HOSP",
+    "time": "15:35"
+  },
+  {
+    "route": "4",
+    "to": "Westgate",
+    "stop": "HOSP",
+    "time": "15:38"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "HOSP",
+    "time": "15:50"
+  },
+  {
+    "route": "4",
+    "to": "Westgate",
+    "stop": "HOSP",
+    "time": "15:58"
+  },
+  {
+    "route": "4",
+    "to": "Westgate",
+    "stop": "MKT",
+    "time": "14:08"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "MKT",
+    "time": "14:15"
+  },
+  {
+    "route": "4",
+    "to": "Westgate",
+    "stop": "MKT",
+    "time": "14:28"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "MKT",
+    "time": "14:30"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "MKT",
+    "time": "14:45"
+  },
+  {
+    "route": "4",
+    "to": "Westgate",
+    "stop": "MKT",
+    "time": "14:48"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "MKT",
+    "time": "15:00"
+  },
+  {
+    "route": "4",
+    "to": "Westgate",
+    "stop": "MKT",
+    "time": "15:08"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "MKT",
+    "time": "15:15"
+  },
+  {
+    "route": "4",
+    "to": "Westgate",
+    "stop": "MKT",
+    "time": "15:28"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "MKT",
+    "time": "15:30"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "MKT",
+    "time": "15:45"
+  },
+  {
+    "route": "4",
+    "to": "Westgate",
+    "stop": "MKT",
+    "time": "15:48"
+  },
+  {
+    "route": "7",
+    "to": "Town Centre",
+    "stop": "MKT",
+    "time": "16:00"
+  },
+  {
+    "route": "12",
+    "to": "Airport",
+    "stop": "STN",
+    "time": "14:02"
+  },
+  {
+    "route": "4",
+    "to": "Hospital",
+    "stop": "STN",
+    "time": "14:11"
+  },
+  {
+    "route": "4",
+    "to": "Hospital",
+    "stop": "STN",
+    "time": "14:31"
+  },
+  {
+    "route": "12",
+    "to": "Airport",
+    "stop": "STN",
+    "time": "14:32"
+  },
+  {
+    "route": "4",
+    "to": "Hospital",
+    "stop": "STN",
+    "time": "14:51"
+  },
+  {
+    "route": "12",
+    "to": "Airport",
+    "stop": "STN",
+    "time": "15:02"
+  },
+  {
+    "route": "4",
+    "to": "Hospital",
+    "stop": "STN",
+    "time": "15:11"
+  },
+  {
+    "route": "4",
+    "to": "Hospital",
+    "stop": "STN",
+    "time": "15:31"
+  },
+  {
+    "route": "12",
+    "to": "Airport",
+    "stop": "STN",
+    "time": "15:32"
+  },
+  {
+    "route": "4",
+    "to": "Hospital",
+    "stop": "STN",
+    "time": "15:51"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "name": "solar-yield",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "yield": "node bin/yield.mjs",
+    "daily": "node bin/daily.mjs"
+  }
+}

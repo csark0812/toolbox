@@ -1,0 +1,61 @@
+diff --git a/agent-suites/fixtures/tutor-invoices/README.md b/agent-suites/fixtures/tutor-invoices/README.md
+index 559f000..84d3dd4 100644
+--- a/agent-suites/fixtures/tutor-invoices/README.md
++++ b/agent-suites/fixtures/tutor-invoices/README.md
+@@ -4,7 +4,7 @@ Monthly invoices for Maple Street Tutoring. `data/lessons.json` lists every less
+ 
+ ## Usage
+ 
+-`npm run invoice -- <YYYY-MM>` prints each family's invoice for the month: one line per lesson and the family's total.
++`npm run invoice -- <YYYY-MM>` prints each family's invoice for the month: one line per lesson and the family's total. Lessons are billed in started 15-minute blocks, so a 50-minute lesson is billed as an hour.
+ 
+ `npm test` runs the tests.
+ 
+diff --git a/agent-suites/fixtures/tutor-invoices/src/invoice.mjs b/agent-suites/fixtures/tutor-invoices/src/invoice.mjs
+index 630b73d..4e713d7 100644
+--- a/agent-suites/fixtures/tutor-invoices/src/invoice.mjs
++++ b/agent-suites/fixtures/tutor-invoices/src/invoice.mjs
+@@ -1,8 +1,14 @@
+ export const RATE_PENCE = 3600
++export const BLOCK_MINUTES = 15
++
++/** Minutes billed for a lesson: started 15-minute blocks. */
++export function billedMinutes(minutes) {
++  return Math.round(minutes / BLOCK_MINUTES) * BLOCK_MINUTES
++}
+ 
+ /** A lesson's charge in pence. */
+ export function lessonCharge(lesson) {
+-  return Math.round((lesson.minutes / 60) * RATE_PENCE)
++  return Math.round((billedMinutes(lesson.minutes) / 60) * RATE_PENCE)
+ }
+ 
+ /** Each family's lessons in `month` (`YYYY-MM`) with their charges and total. */
+diff --git a/agent-suites/fixtures/tutor-invoices/tests/invoice.test.mjs b/agent-suites/fixtures/tutor-invoices/tests/invoice.test.mjs
+index 25c1c44..9309795 100644
+--- a/agent-suites/fixtures/tutor-invoices/tests/invoice.test.mjs
++++ b/agent-suites/fixtures/tutor-invoices/tests/invoice.test.mjs
+@@ -1,6 +1,6 @@
+ import assert from 'node:assert/strict'
+ import { test } from 'node:test'
+-import { invoices, lessonCharge } from '../src/invoice.mjs'
++import { billedMinutes, invoices, lessonCharge } from '../src/invoice.mjs'
+ 
+ const lesson = (minutes, family = 'A', date = '2026-10-01') => ({
+   student: 's',
+@@ -13,6 +13,15 @@ test('an hour costs the hourly rate', () => {
+   assert.equal(lessonCharge(lesson(60)), 3600)
+ })
+ 
++test('a 40-minute lesson is billed as 45 minutes', () => {
++  assert.equal(billedMinutes(40), 45)
++  assert.equal(lessonCharge(lesson(40)), 2700)
++})
++
++test('a 50-minute lesson is billed as an hour', () => {
++  assert.equal(lessonCharge(lesson(50)), 3600)
++})
++
+ test('invoices group lessons by family for the month', () => {
+   const result = invoices(
+     [lesson(60, 'B'), lesson(60, 'A'), lesson(60, 'A', '2026-11-01')],

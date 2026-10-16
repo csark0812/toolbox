@@ -1,0 +1,10 @@
+{
+  "name": "spell-suggest",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "suggest": "node bin/suggest.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

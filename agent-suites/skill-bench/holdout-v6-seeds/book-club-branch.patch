@@ -1,0 +1,210 @@
+diff --git a/agent-suites/fixtures/book-club/README.md b/agent-suites/fixtures/book-club/README.md
+index d10534b..7cd4623 100644
+--- a/agent-suites/fixtures/book-club/README.md
++++ b/agent-suites/fixtures/book-club/README.md
+@@ -2,4 +2,6 @@
+ 
+ The Thursday book club at Wharf Street library. Members nominate books on the club's web form (with an optional note on why), and `data/nominations.json` is the form's export. `data/members.json` is the membership list.
+ 
+-`npm run nominations` lists this month's nominations, oldest first. `npm test` runs the tests.
++`npm run nominations` lists this month's nominations, oldest first.
++
++Voting: every member gets one vote, cast on the web form (`data/votes.json`); only members on the list can vote, and the form lets people type their own name, so the same person can turn up with different capitals. The book with most votes wins; a tie goes to the book nominated first. `npm run results` prints the count and `npm run page` prints the results section for the club's website. `npm test` runs the tests.
+diff --git a/agent-suites/fixtures/book-club/bin/page.mjs b/agent-suites/fixtures/book-club/bin/page.mjs
+new file mode 100644
+index 0000000..1c8241d
+--- /dev/null
++++ b/agent-suites/fixtures/book-club/bin/page.mjs
+@@ -0,0 +1,23 @@
++#!/usr/bin/env node
++import { readFileSync } from 'node:fs'
++import { stdout } from 'node:process'
++import { nominations } from '../src/members.mjs'
++import { tally, winner } from '../src/votes.mjs'
++
++// Prints the results page for the club's website.
++const votes = JSON.parse(readFileSync(new URL('../data/votes.json', import.meta.url), 'utf8'))
++const counted = tally(votes)
++const items = nominations()
++  .map(
++    (n) =>
++      `    <li><strong>${n.title}</strong> (${counted[n.title] ?? 0} votes)<br />${n.by}: ${n.note}</li>`,
++  )
++  .join('\n')
++stdout.write(`<section class="results">
++  <h2>This month's vote</h2>
++  <ul>
++${items}
++  </ul>
++  <p>Next month we read <strong>${winner(counted).title}</strong>.</p>
++</section>
++`)
+diff --git a/agent-suites/fixtures/book-club/bin/results.mjs b/agent-suites/fixtures/book-club/bin/results.mjs
+new file mode 100644
+index 0000000..2fc9c4c
+--- /dev/null
++++ b/agent-suites/fixtures/book-club/bin/results.mjs
+@@ -0,0 +1,10 @@
++#!/usr/bin/env node
++import { readFileSync } from 'node:fs'
++import { stdout } from 'node:process'
++import { tally, winner } from '../src/votes.mjs'
++
++const votes = JSON.parse(readFileSync(new URL('../data/votes.json', import.meta.url), 'utf8'))
++const counted = tally(votes)
++for (const [title, count] of Object.entries(counted))
++  stdout.write(`${String(count).padStart(3)}  ${title}\n`)
++stdout.write(`Next month: ${winner(counted).title}\n`)
+diff --git a/agent-suites/fixtures/book-club/data/votes.json b/agent-suites/fixtures/book-club/data/votes.json
+new file mode 100644
+index 0000000..19ddffa
+--- /dev/null
++++ b/agent-suites/fixtures/book-club/data/votes.json
+@@ -0,0 +1,74 @@
++[
++  {
++    "member": "Bilal",
++    "title": "The Overstory"
++  },
++  {
++    "member": "Chloe",
++    "title": "The Overstory"
++  },
++  {
++    "member": "Dev",
++    "title": "The Overstory"
++  },
++  {
++    "member": "Ellen",
++    "title": "The Overstory"
++  },
++  {
++    "member": "Farid",
++    "title": "The Overstory"
++  },
++  {
++    "member": "Hugo",
++    "title": "The Overstory"
++  },
++  {
++    "member": "Jonah",
++    "title": "The Overstory"
++  },
++  {
++    "member": "Kemi",
++    "title": "The Overstory"
++  },
++  {
++    "member": "Lars",
++    "title": "The Overstory"
++  },
++  {
++    "member": "Maya",
++    "title": "The Overstory"
++  },
++  {
++    "member": "Ana",
++    "title": "Piranesi"
++  },
++  {
++    "member": "Greta",
++    "title": "Piranesi"
++  },
++  {
++    "member": "Ines",
++    "title": "Piranesi"
++  },
++  {
++    "member": "Nils",
++    "title": "Piranesi"
++  },
++  {
++    "member": "Olu",
++    "title": "Small Things Like These"
++  },
++  {
++    "member": "Pia",
++    "title": "Small Things Like These"
++  },
++  {
++    "member": "ana",
++    "title": "Small Things Like These"
++  },
++  {
++    "member": "Sam (guest)",
++    "title": "Piranesi"
++  }
++]
+diff --git a/agent-suites/fixtures/book-club/package.json b/agent-suites/fixtures/book-club/package.json
+index 739b02e..e8d437e 100644
+--- a/agent-suites/fixtures/book-club/package.json
++++ b/agent-suites/fixtures/book-club/package.json
+@@ -4,6 +4,8 @@
+   "type": "module",
+   "scripts": {
+     "test": "node --test",
+-    "nominations": "node bin/nominations.mjs"
++    "nominations": "node bin/nominations.mjs",
++    "results": "node bin/results.mjs",
++    "page": "node bin/page.mjs"
+   }
+ }
+diff --git a/agent-suites/fixtures/book-club/src/votes.mjs b/agent-suites/fixtures/book-club/src/votes.mjs
+new file mode 100644
+index 0000000..a1dff84
+--- /dev/null
++++ b/agent-suites/fixtures/book-club/src/votes.mjs
+@@ -0,0 +1,20 @@
++import { nominations } from './members.mjs'
++
++/** Votes per title; each member's first vote counts. */
++export function tally(votes) {
++  var counted = {}
++  const voted = new Set()
++  for (const vote of votes) {
++    if (voted.has(vote.member)) continue
++    voted.add(vote.member)
++    counted[vote.title] = (counted[vote.title] || 0) + 1
++  }
++  return counted
++}
++
++/** The winning nomination: most votes, ties going to the book nominated first. */
++export function winner(counted, list = nominations()) {
++  const top = Object.values(counted).sort().reverse()[0]
++  // TODO: what if nobody voted?
++  return list.filter((n) => counted[n.title] == top)[0]
++}
+diff --git a/agent-suites/fixtures/book-club/tests/votes.test.mjs b/agent-suites/fixtures/book-club/tests/votes.test.mjs
+new file mode 100644
+index 0000000..5956414
+--- /dev/null
++++ b/agent-suites/fixtures/book-club/tests/votes.test.mjs
+@@ -0,0 +1,27 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { tally, winner } from '../src/votes.mjs'
++
++const list = [
++  { title: 'A', nominatedAt: '2026-10-01T00:00:00Z' },
++  { title: 'B', nominatedAt: '2026-10-02T00:00:00Z' },
++]
++
++test('one vote per member', () => {
++  assert.deepEqual(
++    tally([
++      { member: 'Ana', title: 'A' },
++      { member: 'Ana', title: 'B' },
++      { member: 'Dev', title: 'B' },
++    ]),
++    { A: 1, B: 1 },
++  )
++})
++
++test('most votes wins', () => {
++  assert.equal(winner({ A: 1, B: 3 }, list).title, 'B')
++})
++
++test('a tie goes to the earlier nomination', () => {
++  assert.equal(winner({ A: 2, B: 2 }, list).title, 'A')
++})

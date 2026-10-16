@@ -1,0 +1,7 @@
+{
+  "rounds": {
+    "1": { "quizteam": 7, "agatha": 9, "universally": 6, "spaniels": 8, "tequila": 5 },
+    "2": { "quizteam": 8, "agatha": 6, "universally": 9, "spaniels": 6, "tequila": 7 },
+    "3": { "quizteam": 10, "agatha": 7, "universally": 7, "spaniels": 9, "tequila": 4 }
+  }
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "ref": "TA-001",
+    "sailing": "0740",
+    "vehicle": "car",
+    "passengers": 2
+  },
+  {
+    "ref": "TA-002",
+    "sailing": "0740",
+    "vehicle": "car",
+    "passengers": 1
+  },
+  {
+    "ref": "TA-003",
+    "sailing": "0740",
+    "vehicle": "car",
+    "passengers": 4
+  },
+  {
+    "ref": "TA-004",
+    "sailing": "0740",
+    "vehicle": "car",
+    "passengers": 2
+  },
+  {
+    "ref": "TA-005",
+    "sailing": "0740",
+    "vehicle": "car",
+    "passengers": 3
+  },
+  {
+    "ref": "TA-006",
+    "sailing": "0740",
+    "vehicle": "car",
+    "passengers": 1
+  },
+  {
+    "ref": "TA-007",
+    "sailing": "0740",
+    "vehicle": "car",
+    "passengers": 2
+  },
+  {
+    "ref": "TA-008",
+    "sailing": "0740",
+    "vehicle": "car",
+    "passengers": 2
+  },
+  {
+    "ref": "TA-009",
+    "sailing": "0740",
+    "vehicle": "car",
+    "passengers": 1
+  },
+  {
+    "ref": "TA-010",
+    "sailing": "0740",
+    "vehicle": "car",
+    "passengers": 3
+  },
+  {
+    "ref": "TA-011",
+    "sailing": "0740",
+    "vehicle": "foot",
+    "passengers": 6
+  },
+  {
+    "ref": "TA-012",
+    "sailing": "0740",
+    "vehicle": "foot",
+    "passengers": 2
+  },
+  {
+    "ref": "TA-013",
+    "sailing": "0740",
+    "vehicle": "foot",
+    "passengers": 1
+  },
+  {
+    "ref": "TA-014",
+    "sailing": "0910",
+    "vehicle": "car",
+    "passengers": 1
+  },
+  {
+    "ref": "TA-015",
+    "sailing": "0910",
+    "vehicle": "car",
+    "passengers": 2
+  },
+  {
+    "ref": "TA-016",
+    "sailing": "0910",
+    "vehicle": "car",
+    "passengers": 2
+  },
+  {
+    "ref": "TA-017",
+    "sailing": "0910",
+    "vehicle": "foot",
+    "passengers": 12
+  },
+  {
+    "ref": "TA-018",
+    "sailing": "0910",
+    "vehicle": "foot",
+    "passengers": 8
+  },
+  {
+    "ref": "TA-019",
+    "sailing": "0910",
+    "vehicle": "foot",
+    "passengers": 10
+  },
+  {
+    "ref": "TA-020",
+    "sailing": "0910",
+    "vehicle": "foot",
+    "passengers": 9
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "C101",
+    "name": "Mrs J. Hargreaves",
+    "street": "14 Mill Lane",
+    "boiler": "Worcester Greenstar 30i",
+    "lastService": "2025-11-04",
+    "visit": "2026-11-04",
+    "cover": 8900
+  },
+  {
+    "id": "C102",
+    "name": "Mr T. Osei",
+    "street": "3 Station Road",
+    "boiler": "Vaillant ecoTEC plus",
+    "lastService": "2025-11-19",
+    "visit": null,
+    "cover": 0
+  },
+  {
+    "id": "C103",
+    "name": "Ms R. Lindqvist",
+    "street": "27 Church View",
+    "boiler": "Baxi 800",
+    "lastService": "2025-12-01",
+    "visit": null,
+    "cover": 8900
+  },
+  {
+    "id": "C104",
+    "name": "Mr & Mrs Doyle",
+    "street": "8 The Crescent",
+    "boiler": "Ideal Logic Max",
+    "lastService": "2025-11-30",
+    "visit": "2026-11-27",
+    "cover": 12500
+  },
+  {
+    "id": "C105",
+    "name": "Dr A. Sharma",
+    "street": "1 Orchard Close",
+    "boiler": "Worcester Greenstar 4000",
+    "lastService": "2025-10-28",
+    "visit": null,
+    "cover": 0
+  }
+]

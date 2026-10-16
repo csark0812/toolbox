@@ -1,0 +1,10 @@
+[
+  { "plot": 1, "holder": "Ada Okafor", "area": 125 },
+  { "plot": 4, "holder": "Ben Hollis", "area": 250 },
+  { "plot": 9, "holder": "Gwen Price", "area": 125, "concession": "pensioner" },
+  { "plot": 14, "holder": "Ines Duarte", "area": 250 },
+  { "plot": 17, "holder": "Kofi Mensah", "area": 60, "concession": "student" },
+  { "plot": 21, "holder": "Lena Brandt", "area": 125 },
+  { "plot": 23, "holder": "Moira Walsh", "area": 250, "concession": "pensioner" },
+  { "plot": 30, "holder": "Raj Patel", "area": 125 }
+]

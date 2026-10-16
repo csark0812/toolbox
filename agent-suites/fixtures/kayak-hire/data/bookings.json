@@ -1,0 +1,47 @@
+[
+  {
+    "id": "B201",
+    "name": "Okafor",
+    "craft": "single",
+    "date": "2026-07-11",
+    "out": "10:00",
+    "due": "12:00",
+    "returned": "11:50"
+  },
+  {
+    "id": "B202",
+    "name": "Lindqvist",
+    "craft": "double",
+    "date": "2026-07-11",
+    "out": "10:30",
+    "due": "13:30",
+    "returned": "13:30"
+  },
+  {
+    "id": "B203",
+    "name": "Mensah",
+    "craft": "sup",
+    "date": "2026-07-12",
+    "out": "09:00",
+    "due": "11:00",
+    "returned": "11:15"
+  },
+  {
+    "id": "B204",
+    "name": "Hollis",
+    "craft": "single",
+    "date": "2026-07-12",
+    "out": "14:00",
+    "due": "16:00",
+    "returned": "16:40"
+  },
+  {
+    "id": "B205",
+    "name": "Duarte",
+    "craft": "double",
+    "date": "2026-07-13",
+    "out": "11:00",
+    "due": "12:30",
+    "returned": null
+  }
+]

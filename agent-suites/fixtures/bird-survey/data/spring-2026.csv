@@ -1,0 +1,24 @@
+date,site,observer,species,count
+2026-04-04,A,Tom,blackbird,2
+2026-04-04,A,Tom,wren,1
+2026-04-04,A,Tom,blackbird,2
+2026-04-04,B,Priya,robin,3
+2026-04-04,B,Priya,blue tit,4
+2026-04-04,C,Femi,swift,7
+2026-04-11,A,Femi,blackbird,1
+2026-04-11,A,Femi,chiffchaff,2
+2026-04-11,C,Priya,swift,6
+2026-04-11,C,Priya,swift,9
+2026-04-18,B,Priya,robin,5
+2026-04-18,B,Priya,blue tit,2
+2026-04-18,A,Tom,wren,2
+2026-04-18,A,Tom,chiffchaff,1
+2026-04-25,C,Femi,swift,11
+2026-04-25,B,Tom,robin,2
+2026-04-25,B,Tom,goldfinch,6
+2026-05-02,B,Priya,robin,4
+2026-05-02,B,Priya,blue tit,3
+2026-05-02,A,Tom,blackbird,3
+2026-05-02,A,Tom,wren,1
+2026-05-09,C,Femi,swift,7
+2026-05-09,B,Priya,goldfinch,5

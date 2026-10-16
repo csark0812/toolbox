@@ -1,0 +1,10 @@
+[
+  { "date": "2026-10-10", "name": "Leo", "role": "server", "in": "10:00", "out": "18:00" },
+  { "date": "2026-10-10", "name": "Dana", "role": "runner", "in": "10:00", "out": "18:00" },
+  { "date": "2026-10-10", "name": "Priya", "role": "server", "in": "17:00", "out": "23:30" },
+  { "date": "2026-10-10", "name": "Tom", "role": "bar", "in": "16:00", "out": "23:30" },
+  { "date": "2026-10-10", "name": "Marta", "role": "manager", "in": "09:00", "out": "21:00" },
+  { "date": "2026-10-10", "name": "Sol", "role": "runner", "in": "18:00", "out": "23:00" },
+  { "date": "2026-10-11", "name": "Leo", "role": "server", "in": "11:00", "out": "16:00" },
+  { "date": "2026-10-11", "name": "Dana", "role": "runner", "in": "11:00", "out": "16:00" }
+]

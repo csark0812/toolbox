@@ -1,0 +1,5 @@
+{{name}}
+{{street}}
+
+Thank you for booking. Our engineer will service your {{boiler}} on {{fmtDate visit}} between 8am and 1pm.
+{{cover}}

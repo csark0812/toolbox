@@ -1,0 +1,76 @@
+diff --git a/agent-suites/fixtures/tutor-invoices/README.md b/agent-suites/fixtures/tutor-invoices/README.md
+index 559f000..6f674c6 100644
+--- a/agent-suites/fixtures/tutor-invoices/README.md
++++ b/agent-suites/fixtures/tutor-invoices/README.md
+@@ -1,6 +1,6 @@
+ # Tutor invoices
+ 
+-Monthly invoices for Maple Street Tutoring. `data/lessons.json` lists every lesson given: the student, their family, the date and how many minutes it lasted. Lessons are charged at £36 an hour.
++Monthly invoices for Maple Street Tutoring. `data/lessons.json` lists every lesson given: the student, their family, the date and how many minutes it lasted. Lessons are charged at £36 an hour, unless `data/rates.json` gives a student their own hourly rate in pence (A-level students).
+ 
+ ## Usage
+ 
+diff --git a/agent-suites/fixtures/tutor-invoices/bin/invoice.mjs b/agent-suites/fixtures/tutor-invoices/bin/invoice.mjs
+index a8c418f..2ddc112 100644
+--- a/agent-suites/fixtures/tutor-invoices/bin/invoice.mjs
++++ b/agent-suites/fixtures/tutor-invoices/bin/invoice.mjs
+@@ -8,8 +8,8 @@ if (!/^\d{4}-\d{2}$/.test(month ?? '')) {
+   stderr.write('usage: invoice <YYYY-MM>\n')
+   exit(2)
+ }
+-const lessons = JSON.parse(readFileSync(new URL('../data/lessons.json', import.meta.url), 'utf8'))
+-for (const family of invoices(lessons, month)) {
++const read = (name) => JSON.parse(readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8'))
++for (const family of invoices(read('lessons.json'), month, read('rates.json'))) {
+   stdout.write(`${family.family}\n`)
+   for (const line of family.lines)
+     stdout.write(
+diff --git a/agent-suites/fixtures/tutor-invoices/data/rates.json b/agent-suites/fixtures/tutor-invoices/data/rates.json
+new file mode 100644
+index 0000000..f01724e
+--- /dev/null
++++ b/agent-suites/fixtures/tutor-invoices/data/rates.json
+@@ -0,0 +1 @@
++{ "Ava": 4200 }
+diff --git a/agent-suites/fixtures/tutor-invoices/src/invoice.mjs b/agent-suites/fixtures/tutor-invoices/src/invoice.mjs
+index 630b73d..1313928 100644
+--- a/agent-suites/fixtures/tutor-invoices/src/invoice.mjs
++++ b/agent-suites/fixtures/tutor-invoices/src/invoice.mjs
+@@ -1,16 +1,17 @@
+ export const RATE_PENCE = 3600
+ 
+-/** A lesson's charge in pence. */
+-export function lessonCharge(lesson) {
+-  return Math.round((lesson.minutes / 60) * RATE_PENCE)
++/** A lesson's charge in pence, at the student's own hourly rate if they have one. */
++export function lessonCharge(lesson, rates = {}) {
++  const rate = rates[lesson.student] ?? RATE_PENCE
++  return Math.round((lesson.minutes / 60) * rate)
+ }
+ 
+ /** Each family's lessons in `month` (`YYYY-MM`) with their charges and total. */
+-export function invoices(lessons, month) {
++export function invoices(lessons, month, rates = {}) {
+   const families = new Map()
+   for (const lesson of lessons.filter((l) => l.date.startsWith(`${month}-`))) {
+     const family = families.get(lesson.family) ?? { family: lesson.family, lines: [], total: 0 }
+-    const charge = lessonCharge(lesson)
++    const charge = lessonCharge(lesson, rates)
+     family.lines.push({ ...lesson, charge })
+     family.total += charge
+     families.set(lesson.family, family)
+diff --git a/agent-suites/fixtures/tutor-invoices/tests/invoice.test.mjs b/agent-suites/fixtures/tutor-invoices/tests/invoice.test.mjs
+index 25c1c44..545ae70 100644
+--- a/agent-suites/fixtures/tutor-invoices/tests/invoice.test.mjs
++++ b/agent-suites/fixtures/tutor-invoices/tests/invoice.test.mjs
+@@ -13,6 +13,10 @@ test('an hour costs the hourly rate', () => {
+   assert.equal(lessonCharge(lesson(60)), 3600)
+ })
+ 
++test('a student can have their own rate', () => {
++  assert.equal(lessonCharge({ ...lesson(30), student: 'ava' }, { ava: 4200 }), 2100)
++})
++
+ test('invoices group lessons by family for the month', () => {
+   const result = invoices(
+     [lesson(60, 'B'), lesson(60, 'A'), lesson(60, 'A', '2026-11-01')],

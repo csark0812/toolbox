@@ -1,0 +1,5 @@
+[
+  { "id": "R1", "rider": "Bea", "pickup": [5, 2.8], "date": "2026-10-19" },
+  { "id": "R2", "rider": "Kai", "pickup": [2, 4.5], "date": "2026-10-20" },
+  { "id": "R3", "rider": "Noor", "pickup": [8.5, 1.2], "date": "2026-10-23" }
+]

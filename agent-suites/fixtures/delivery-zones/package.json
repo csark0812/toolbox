@@ -1,0 +1,10 @@
+{
+  "name": "delivery-zones",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "zone": "node bin/zone.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

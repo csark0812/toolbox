@@ -1,0 +1,9 @@
+{
+  "name": "bakery-preorders",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "bake": "node bin/bake.mjs"
+  }
+}

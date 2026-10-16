@@ -1,0 +1,9 @@
+[
+  { "student": "Mia", "family": "Okafor", "date": "2026-10-02", "minutes": 60 },
+  { "student": "Mia", "family": "Okafor", "date": "2026-10-09", "minutes": 50 },
+  { "student": "Leo", "family": "Okafor", "date": "2026-10-09", "minutes": 45 },
+  { "student": "Ava", "family": "Brandt", "date": "2026-10-03", "minutes": 90 },
+  { "student": "Ava", "family": "Brandt", "date": "2026-10-17", "minutes": 75 },
+  { "student": "Sam", "family": "Reyes", "date": "2026-10-05", "minutes": 40 },
+  { "student": "Sam", "family": "Reyes", "date": "2026-11-02", "minutes": 60 }
+]

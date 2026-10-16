@@ -1,0 +1,9 @@
+{
+  "name": "bus-board",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "board": "node bin/board.mjs"
+  }
+}

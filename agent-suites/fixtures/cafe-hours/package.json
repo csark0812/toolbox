@@ -1,0 +1,9 @@
+{
+  "name": "cafe-hours",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "hours": "node bin/hours.mjs"
+  }
+}

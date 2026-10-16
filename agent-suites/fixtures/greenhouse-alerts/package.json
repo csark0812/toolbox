@@ -1,0 +1,9 @@
+{
+  "name": "greenhouse-alerts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "night": "node bin/night.mjs"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "disk-usage",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "usage": "node bin/usage.mjs"
+  }
+}

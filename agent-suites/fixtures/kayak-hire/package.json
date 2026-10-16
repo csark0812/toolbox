@@ -1,0 +1,10 @@
+{
+  "name": "kayak-hire",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "bookings": "node bin/bookings.mjs",
+    "bill": "node bin/bill.mjs"
+  }
+}

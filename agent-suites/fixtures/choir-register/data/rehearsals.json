@@ -1,0 +1,14 @@
+[
+  { "date": "2026-09-03", "present": ["Ana Ruiz", "Cleo Marsh", "Finn Hale"] },
+  { "date": "2026-09-10", "present": ["Ana Ruiz", "Cleo Marsh", "Eve Larsen", "Finn Hale"] },
+  { "date": "2026-09-17", "present": ["Ben Ode", "Cleo Marsh", "Finn Hale"] },
+  {
+    "date": "2026-09-24",
+    "present": ["Ana Ruiz", "Ben Ode", "Cleo Marsh", "Finn Hale", "Gus Moreau"]
+  },
+  { "date": "2026-10-01", "present": ["Ben Ode", "Dev Patel", "Finn Hale"] },
+  {
+    "date": "2026-10-08",
+    "present": ["Ana Ruiz", "Cleo Marsh", "Dev Patel", "Finn Hale", "Gus Moreau"]
+  }
+]

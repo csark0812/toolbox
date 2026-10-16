@@ -1,0 +1,50 @@
+[
+  {
+    "id": "P-1001",
+    "locker": "A03",
+    "site": "Elm Road",
+    "recipient": "Okafor",
+    "deliveredAt": "2026-10-12T09:00:00Z",
+    "collectedAt": null
+  },
+  {
+    "id": "P-1002",
+    "locker": "A07",
+    "site": "Elm Road",
+    "recipient": "Brandt",
+    "deliveredAt": "2026-10-14T16:30:00Z",
+    "collectedAt": null
+  },
+  {
+    "id": "P-1003",
+    "locker": "B02",
+    "site": "Quarry Hill",
+    "recipient": "Reyes",
+    "deliveredAt": "2026-10-11T11:15:00Z",
+    "collectedAt": null
+  },
+  {
+    "id": "P-1004",
+    "locker": "B05",
+    "site": "Quarry Hill",
+    "recipient": "Lindqvist",
+    "deliveredAt": "2026-10-10T08:00:00Z",
+    "collectedAt": "2026-10-14T10:00:00Z"
+  },
+  {
+    "id": "P-1005",
+    "locker": "A01",
+    "site": "Elm Road",
+    "recipient": "Mensah",
+    "deliveredAt": "2026-10-13T10:00:00Z",
+    "collectedAt": "2026-10-13T18:20:00Z"
+  },
+  {
+    "id": "P-1006",
+    "locker": "B09",
+    "site": "Quarry Hill",
+    "recipient": "Patel",
+    "deliveredAt": "2026-10-12T15:00:00Z",
+    "collectedAt": null
+  }
+]

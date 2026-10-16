@@ -1,0 +1,9 @@
+{
+  "name": "ferry-sailings",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "import": "node bin/import.mjs"
+  }
+}
