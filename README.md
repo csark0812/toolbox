@@ -112,49 +112,60 @@ Consumer projects may add product/standards slugs locally. Ambient shared refs a
 
 ## How toolbox compares with pstack
 
-[pstack](https://github.com/backnotprop/pstack) is the closest comparable skill pack. Toolbox is ahead of it on both Claude and Codex across all held-out tasks pooled, at lower token cost. It is not ahead on every task. Results come from the [skill bench](docs/skill-bench.md).
+[pstack](https://github.com/backnotprop/pstack) is the closest comparable skill pack. On every held-out set so far, toolbox beats it overall on both Claude and Codex at lower token cost, but it has not yet met the bar this repo sets for calling it undeniably better. Results come from the [skill bench](docs/skill-bench.md).
 
-**How it was measured**
+**The bar.** On a frozen held-out set, on both Claude and Codex, toolbox as installed (no skill named in the prompt) must clear all four conditions against pstack at full strength:
 
-- **Two held-out sets, each frozen before any run** (`holdout.lock.json`, `holdout-v2.lock.json`) and never tuned against. v2 has 10 tasks and was written by an agent that had not seen any v1 result. Toolbox's fixes after v1 were developed on separate development tasks only.
-- **pstack at full strength:** a pinned commit, its per-runner model settings, its subagents on Claude, and its entry skill `/poteto-mode` named in every prompt.
-- **Toolbox as installed:** no skill named in the prompt.
-- **Judging:** 4 runs per arm per task. A judge from the other model family than the runs compared every pair in both orders, blind to which pack was which. The judge passed every health check.
+- win at least 90% of decided comparisons pooled across tasks, with the 95% lower bound at least 60%;
+- be better on every skill;
+- use at least 20% fewer tokens;
+- pass every judge health check.
 
-**Held-out v2 (current skills).** "Pooled" counts every decided pair across tasks, with a 95% interval from resampling tasks; it is a secondary, post-hoc summary. Per task, Better means a win rate of at least 60% with a bootstrap lower bound above 50%.
+The bar is fixed in [docs/skill-bench.md](docs/skill-bench.md#strong-claim-fixed-before-held-out-v3). It may be tightened but is never loosened after seeing results.
 
-| Runner | Pooled toolbox win rate | Per task: better / inconclusive / not better | Median tokens vs pstack |
-| ------ | ----------------------- | -------------------------------------------- | ----------------------- |
-| Claude | 67% (56–80%), 85/41/34  | 2 / 7 / 0                                    | 0.8×                    |
-| Codex  | 69% (44–89%), 59/26/55  | 1 / 6 / 1                                    | 0.4×                    |
+**How it is measured**
 
-- **Claude.** Better on the refactor (16/0/0) and the code review (9/0/7). Six of the seven inconclusive tasks lean toolbox. CSS leans pstack (3/6/7). For comparison, on v1 before the fixes, toolbox as installed won 50% pooled on Claude, though v1 used different tasks.
-- **Codex.** Better on the test-first build (10/0/6). **Not better on the refactor (0/12/4).** The code changes matched, but pstack saved a few hundred quotes before the change and compared them after, while toolbox relied on the existing tests. Five of the six inconclusive tasks lean toolbox. The code-review task could not be measured on Codex: every toolbox run tripped the harness's workspace guard on an npm error path.
+- **Fresh frozen sets.** Each held-out set is written by an agent that has seen no results and no skill files, and is locked (`holdout-v*.lock.json`) before any run. A set is never tuned against. Fixes are developed on separate development tasks, and each round is judged on a new set.
+- **pstack at full strength:** a pinned commit, its per-runner model settings, its subagents on Claude, and its entry skill started as `/poteto-mode` (Claude) or named in the prompt (Codex).
+- **Judging:** 4 runs per arm per task. A judge from the other model family compares every pair in both orders, blind to which pack is which, with identical-pair, known-gap and re-test controls.
 
-**Held-out v1 (skills before the fixes).** On Codex, toolbox won 5 of 8 tasks (83% pooled, 0.5× tokens). On Claude it won none as installed, because Claude invoked a toolbox skill in only 9 of 32 runs.
+**Results**
 
-**What changed between v1 and v2**
+| Set (tasks) | Runner | Toolbox pooled win rate | Skills better | Tokens vs pstack |
+| ----------- | ------ | ----------------------- | ------------- | ---------------- |
+| v1 (8)      | Claude | 50%                     | 0 of 8        | 0.5×             |
+| v1 (8)      | Codex  | 83%                     | 5 of 8        | 0.5×             |
+| v2 (10)     | Claude | 67% (56–80%)            | 2 of 9        | 0.8×             |
+| v2 (10)     | Codex  | 69% (44–89%)            | 1 of 8        | 0.4×             |
+| v3 (18)     | Claude | 78% (61–91%)            | 2 of 9        | 0.9×             |
+| v3 (18)     | Codex  | 62% (41–81%)            | 1 of 9        | 0.7×             |
+| v4 (27)     | Codex  | 64% (46–81%)            | 2 of 9        | 0.5×             |
 
-- **Auto-invocation on Claude.** Seven skills had frontmatter that strict YAML rejects, so Claude listed them by heading only. Fixing that, and writing short trigger-first descriptions with example requests, took invocation on the development tasks from 9 of 32 to 14 of 14 runs. A test now parses every frontmatter and checks that the listing fits Claude Code's description budget.
-- **Weak spots v1 exposed, each fixed against development tasks:**
-  - `babysit-pr` now resolves the threads it addressed.
-  - Bugs in the code being changed are in scope for debugging and `tdd`.
-  - `workflow` checks reply claims against captured output and has a batch playbook.
-  - `probe` checks a question's premise before explaining it.
-
-**Open weak spots.** These came from v2, so fixing them needs new development tasks and a fresh held-out set.
-
-- `refactor-companion` should prove "behavior unchanged" with a recorded before-and-after comparison over many inputs.
-- `css-craft` trails pstack on Claude and ties it on Codex.
-- On Codex the sandbox blocks pushes to the local PR remote, so neither pack can finish PR tasks there.
+- **Where toolbox leads.** On v3 Claude it was clearly better on hillclimb (24/1/7), code review (14/0/18) and CSS (26/1/1). On v4 Codex it led on hillclimb (28/3/17) and CSS (37/0/11).
+- **Losses.**
+  - **v4 Codex code review: 0/36/12.** The reviews stopped after the first blockers and missed findings, such as a guessable `Math.random()` token.
+  - **v3 Codex babysit-pr: close to even.** On Codex, PR tasks were also harder than they should be: before the run-local `TMPDIR` fix, the offline mirror's CI could not pass for either pack.
+- **Not yet judged.** v4 Claude was not judged, because the Codex judge hit its usage limit. v5 (27 tasks, frozen at the fixes below) waits for that limit to reset.
+- **What changed between rounds.** Fixes came from judge reasons and were developed against development tasks only:
+  - **Auto-invocation on Claude:** valid YAML frontmatter, and short trigger-first descriptions with example requests. Invocation went from 9 of 32 to 14 of 14 on development tasks.
+  - **A reply check inside every skill:** a result must name a command that was run after the last edit.
+  - **Before-and-after baselines** for refactors and perf work.
+  - **Completeness sweeps** in code review.
+  - **Hostile-input and platform-limit tests** in tdd.
+  - **Lean execution.**
+- **Bench defects found and fixed along the way:**
+  - npm broke in sandboxes because of a Node symlink flag;
+  - the workspace guard flagged heredocs, escaped quotes and unrecorded Codex working folders;
+  - Codex shells had no writable temp folder;
+  - pstack's explicit-only entry skill was sometimes refused when the prompt only named it.
 
 **How the two differ.** pstack routes every task through one mode skill that loads principle skills. Toolbox keeps independent specialists that route by description. Only `workflow` and `orchestrate` compose them, and `workflow` copies a step playbook into the task list. Toolbox also ships automated gates that pstack does not have: skill audits, agent conformance suites, and this bench. The bench retires any skill that does not beat its baseline.
 
 **Caveats**
 
-- One task per skill per set, so each per-task verdict rests on 4 runs per arm.
-- Runs that read outside their workspace were excluded and re-run. A cell with fewer than 4 clean runs reports signal only.
-- The agent that tuned toolbox read the v2 prompts while checking the set before freezing it. Toolbox's trigger examples were then checked so that none echo a v2 prompt.
+- v1 and v2 have one task per skill; v3 has two and v4 and v5 three. A per-skill verdict needs every task's 4 runs per arm.
+- Runs that read outside their workspace are excluded and re-run. A cell with fewer than 4 clean runs reports signal only.
+- The agent that tunes toolbox sees each set's prompts and true answers when the set is handed over. For that reason, skills are committed before each set is frozen and stay unchanged until that set's results are in. Trigger examples are checked so that none echo a held-out prompt.
 
 ## Daily workflow
 
