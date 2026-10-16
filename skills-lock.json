@@ -11,7 +11,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "code-review/SKILL.md",
-      "computedHash": "3c2d8cdf7739729bdb899e7285d4ec332f2bad3ff62bd218fe97c4f2d821761d"
+      "computedHash": "48ce15e5ecc682f14ff9233f296cfcd5e8ee3fff05bfded230786fd136b2137e"
     },
     "council": {
       "source": "csark0812/toolbox",
@@ -35,7 +35,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "evidence-based-debugging/SKILL.md",
-      "computedHash": "9906d63e9f2a24c7c8fa95215f8bc9de310d23c247eb3226c7f907a515316edf"
+      "computedHash": "46a69a0457215b28590f469d0af78d29b6aeaad141e5b1f343c400836843ed1d"
     },
     "grill": {
       "source": "csark0812/toolbox",
@@ -77,7 +77,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "refactor-companion/SKILL.md",
-      "computedHash": "7081382d0b271e92bced28c18b84d09345259856f90af78955a3b9e7c0951d35"
+      "computedHash": "d1b4a6c8d9e7db71edbe989fd04402d9370e859dfd8ae5fd91bee3de652e3191"
     },
     "retro": {
       "source": "csark0812/toolbox",
@@ -107,7 +107,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "tdd/SKILL.md",
-      "computedHash": "ece882d70f36fd0ad82f35a5f82aeb7c09f759f9f947c3e5bae91a9c166876a1"
+      "computedHash": "7c81c86ec2e93f3108235e7c01252892b40018de67954ea55790c8909c6855de"
     },
     "technical-writing": {
       "source": "csark0812/toolbox",
@@ -125,7 +125,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "workflow/SKILL.md",
-      "computedHash": "4f7147a6030ae74468373ba21eabc1cf7d8e6d1911704bda6eed4d6297fe2a2e"
+      "computedHash": "0c0deb622ceed6f9016b6f5284603d9283f0b00a809ea51306072ae4463d8493"
     },
     "interface-design": {
       "source": "csark0812/toolbox",
@@ -137,7 +137,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "css-craft/SKILL.md",
-      "computedHash": "bd9aa5978c7b452c1580351fc0c4ee7bdc9d4a259b49f36d74a034db1d07124d"
+      "computedHash": "bbb2ec1548b8b4c0ab6fbaf7dcc5ed74ab4ec397f904a30bc1a52d9c815e7a9f"
     },
     "hillclimb": {
       "source": "csark0812/toolbox",
@@ -149,7 +149,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "babysit-pr/SKILL.md",
-      "computedHash": "59a44eb1d835145844448ce76d119150ed5066766f1c705567f3f190264a348d"
+      "computedHash": "478e2534f1c299729521ac11361a633f2bea772c77558aa8179604231bf3ecfa"
     }
   }
 }

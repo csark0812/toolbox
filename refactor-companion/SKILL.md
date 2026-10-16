@@ -55,7 +55,7 @@ Composition boundaries → [process-skill-composition.md](https://raw.githubuser
 
 1. Treat the developer's stated target, required shape, and prohibited shape as design authority.
 2. Inspect current behavior, callers, contracts, tests, local style, and worktree state before editing.
-3. Ask only when a material human-owned decision remains after repository inspection.
+3. Ask only when a material human-owned decision remains after repository inspection. **Decide, don't stall.** When an edge case has a reasonable, reversible answer, pick it, implement it, and name the choice in your reply. Ask before acting only for irreversible or product decisions. Never end a requested change with no change made. When merging or moving code, move every related piece the request implies and delete the emptied module, rather than leaving a stray helper behind.
 4. Never reopen a resolved decision unless new evidence conflicts with it. Show that evidence first.
 5. Define one coherent slice and its proof before editing. When behavior must stay the same, record a baseline before the first edit: run the public entry points over many representative inputs, generated to cover edge cases and every caller's input shape, and save the outputs. After each slice, compare against that baseline and report the count compared and any differences. Existing tests alone do not prove behavior unchanged. Run the baseline comparison again after your last edit and show that it can fail, for example on a deliberately broken copy. Do not widen the public API: keep anything private that no outside caller used.
 6. Implement, prove, and inspect the slice for residue from the old design.

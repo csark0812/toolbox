@@ -25,7 +25,9 @@ Keep the project's styling ownership: semantic tokens and component variants whe
 
 ## Implement and prove
 
-Make the focused change in the owning stylesheet or component. Test the original positive failure case and the affected widths and states. Inspect computed behavior and rendered output, including keyboard focus and reduced motion when relevant. Check long content and browser support or fallback for newer features. A mechanical check exits nonzero on failure; a skipped browser or crashed render is unverified. Report the cause, chosen technique, focused proof, and any remaining browser limitation. Do not claim the whole interface is visually verified from a CSS unit test alone.
+**Decide, don't stall.** When an edge case has a reasonable, reversible answer, pick it, implement it, and name the choice in your reply. Ask before acting only for irreversible or product decisions. Never end a requested change with no change made.
+
+Make the focused change in the owning stylesheet or component. Test the original positive failure case and the affected widths and states. A test that only searches the stylesheet text proves a rule exists, not that it wins: check the resolved values, for example with a small cascade resolution over every theme or state combination. Inspect computed behavior and rendered output, including keyboard focus and reduced motion when relevant. Check long content and browser support or fallback for newer features. A mechanical check exits nonzero on failure; a skipped browser or crashed render is unverified. Report the cause, chosen technique, focused proof, and any remaining browser limitation. Do not claim the whole interface is visually verified from a CSS unit test alone.
 
 ## Exit
 
