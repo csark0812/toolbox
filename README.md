@@ -112,44 +112,49 @@ Consumer projects may add product/standards slugs locally. Ambient shared refs a
 
 ## How toolbox compares with pstack
 
-[pstack](https://github.com/backnotprop/pstack) is the closest comparable skill pack. Both packs were run on the same 8 held-out tasks: a debugging fix, a speed target, a refactor, a test-first build, a three-bug batch, a PR to merge-ready, a code question and a CSS parity fix. Results come from the [skill bench](docs/skill-bench.md).
+[pstack](https://github.com/backnotprop/pstack) is the closest comparable skill pack. Toolbox is ahead of it on both Claude and Codex across all held-out tasks pooled, at lower token cost. It is not ahead on every task. Results come from the [skill bench](docs/skill-bench.md).
 
-- The tasks were written and frozen (`holdout.lock.json`) before any results and were never tuned against.
-- pstack ran at a pinned commit with its documented setup: per-runner model settings, its subagents on Claude, and its entry skill `/poteto-mode` named in the prompt.
-- Each arm ran 4 times per task. A judge from the other model family than the runs compared every pair in both orders, blind to which pack was which. The judge passed every health check on both runners.
+**How it was measured**
 
-Verdicts compare toolbox with pstack on each task. Better means a win rate of at least 60% with a bootstrap lower bound above 50%.
+- **Two held-out sets, each frozen before any run** (`holdout.lock.json`, `holdout-v2.lock.json`) and never tuned against. v2 has 10 tasks and was written by an agent that had not seen any v1 result. Toolbox's fixes after v1 were developed on separate development tasks only.
+- **pstack at full strength:** a pinned commit, its per-runner model settings, its subagents on Claude, and its entry skill `/poteto-mode` named in every prompt.
+- **Toolbox as installed:** no skill named in the prompt.
+- **Judging:** 4 runs per arm per task. A judge from the other model family than the runs compared every pair in both orders, blind to which pack was which. The judge passed every health check.
 
-| Runner | Toolbox arm                                    | Better | Inconclusive | Not better | Median tokens vs pstack |
-| ------ | ---------------------------------------------- | -----: | -----------: | ---------: | ----------------------- |
-| Codex  | installed, skills picked automatically         |      5 |            2 |          1 | 0.2–0.6× on 7 of 8      |
-| Codex  | `workflow` named in the prompt                 |      4 |            4 |          0 | 0.3–0.7× on 7 of 8      |
-| Claude | installed, skills picked automatically         |      0 |            7 |          1 | 0.3–0.8× on 7 of 8      |
-| Claude | `workflow` named in the prompt (like-for-like) |      4 |            4 |          0 | 0.6–1.1× on 7 of 8      |
+**Held-out v2 (current skills).** "Pooled" counts every decided pair across tasks, with a 95% interval from resampling tasks; it is a secondary, post-hoc summary. Per task, Better means a win rate of at least 60% with a bootstrap lower bound above 50%.
 
-**Where toolbox stands**
+| Runner | Pooled toolbox win rate | Per task: better / inconclusive / not better | Median tokens vs pstack |
+| ------ | ----------------------- | -------------------------------------------- | ----------------------- |
+| Claude | 67% (56–80%), 85/41/34  | 2 / 7 / 0                                    | 0.8×                    |
+| Codex  | 69% (44–89%), 59/26/55  | 1 / 6 / 1                                    | 0.4×                    |
 
-- **Better than pstack on Codex.** It wins most tasks at a fraction of the tokens.
-- **Better than pstack on Claude when its router is named.** The comparison is like-for-like: pstack's setup names its entry skill. Toolbox wins on the speed target, the refactor, the code question and CSS parity, and loses no task outright.
-- **Installed alone on Claude, it is not yet better.** Claude invoked a toolbox skill in 9 of 32 runs, so most of those runs were plain Claude.
-- **No clear win on every runner.** It has not shown one for PR repair, the test-first build or the multi-bug batch.
+- **Claude.** Better on the refactor (16/0/0) and the code review (9/0/7). Six of the seven inconclusive tasks lean toolbox. CSS leans pstack (3/6/7). For comparison, on v1 before the fixes, toolbox as installed won 50% pooled on Claude, though v1 used different tasks.
+- **Codex.** Better on the test-first build (10/0/6). **Not better on the refactor (0/12/4).** The code changes matched, but pstack saved a few hundred quotes before the change and compared them after, while toolbox relied on the existing tests. Five of the six inconclusive tasks lean toolbox. The code-review task could not be measured on Codex: every toolbox run tripped the harness's workspace guard on an npm error path.
 
-**Weak spots the held-out runs exposed:**
+**Held-out v1 (skills before the fixes).** On Codex, toolbox won 5 of 8 tasks (83% pooled, 0.5× tokens). On Claude it won none as installed, because Claude invoked a toolbox skill in only 9 of 32 runs.
 
-- `babysit-pr` replies on review threads but does not resolve them.
-- The test-first run left a refill-drift bug it had found in the code it was changing.
-- The batch reply described its reproduction inaccurately.
-- On Codex, the plain arm answered a code question built on a false premise with a theory instead of questioning the premise.
+**What changed between v1 and v2**
 
-These are fixed only against development tasks, and the claim is re-tested on a new frozen held-out set. Re-running this set after tuning would not count.
+- **Auto-invocation on Claude.** Seven skills had frontmatter that strict YAML rejects, so Claude listed them by heading only. Fixing that, and writing short trigger-first descriptions with example requests, took invocation on the development tasks from 9 of 32 to 14 of 14 runs. A test now parses every frontmatter and checks that the listing fits Claude Code's description budget.
+- **Weak spots v1 exposed, each fixed against development tasks:**
+  - `babysit-pr` now resolves the threads it addressed.
+  - Bugs in the code being changed are in scope for debugging and `tdd`.
+  - `workflow` checks reply claims against captured output and has a batch playbook.
+  - `probe` checks a question's premise before explaining it.
+
+**Open weak spots.** These came from v2, so fixing them needs new development tasks and a fresh held-out set.
+
+- `refactor-companion` should prove "behavior unchanged" with a recorded before-and-after comparison over many inputs.
+- `css-craft` trails pstack on Claude and ties it on Codex.
+- On Codex the sandbox blocks pushes to the local PR remote, so neither pack can finish PR tasks there.
 
 **How the two differ.** pstack routes every task through one mode skill that loads principle skills. Toolbox keeps independent specialists that route by description. Only `workflow` and `orchestrate` compose them, and `workflow` copies a step playbook into the task list. Toolbox also ships automated gates that pstack does not have: skill audits, agent conformance suites, and this bench. The bench retires any skill that does not beat its baseline.
 
 **Caveats**
 
-- One task per skill, so each verdict rests on 4 runs per arm. The test-first task on Claude has only 3 clean pstack runs, so it counts as inconclusive.
-- On Codex the sandbox blocks pushes to the local PR remote, so neither pack could finish the PR task there.
-- Runs that read outside their workspace were excluded and re-run. This happened mostly when pstack runs reached for globally installed skills.
+- One task per skill per set, so each per-task verdict rests on 4 runs per arm.
+- Runs that read outside their workspace were excluded and re-run. A cell with fewer than 4 clean runs reports signal only.
+- The agent that tuned toolbox read the v2 prompts while checking the set before freezing it. Toolbox's trigger examples were then checked so that none echo a v2 prompt.
 
 ## Daily workflow
 
