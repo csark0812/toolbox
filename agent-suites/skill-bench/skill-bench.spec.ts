@@ -135,6 +135,11 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
             arm,
             repetition: info.repeatEachIndex + REP_OFFSET,
             infrastructure: String((error as Error).message).slice(0, 600),
+            // The calls the guard read, so a false positive can be diagnosed.
+            toolCalls: (
+              (error as { trace?: { toolCalls?: { name: string; args: unknown }[] } }).trace
+                ?.toolCalls ?? []
+            ).map(({ name, args }) => ({ name, args })),
           })
           return
         }
