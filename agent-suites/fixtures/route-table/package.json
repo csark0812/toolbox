@@ -1,0 +1,10 @@
+{
+  "name": "route-table",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "match": "node bin/match.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

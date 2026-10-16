@@ -1,0 +1,76 @@
+diff --git a/agent-suites/fixtures/lunch-orders/README.md b/agent-suites/fixtures/lunch-orders/README.md
+index 2ec551a..6bea6a1 100644
+--- a/agent-suites/fixtures/lunch-orders/README.md
++++ b/agent-suites/fixtures/lunch-orders/README.md
+@@ -4,7 +4,7 @@ Office lunch orders for the café downstairs. People order through the form duri
+ 
+ ## Usage
+ 
+-`npm run orders -- <YYYY-MM-DD>` prints the kitchen sheet for that day: each dish with how many to make, most popular first.
++`npm run orders -- <YYYY-MM-DD>` prints the kitchen sheet for that delivery day: each dish with how many to make, most popular first. Orders placed at or after 10:30 go on the next working day's sheet, because the café does its shopping at 10:30.
+ 
+ `npm test` runs the tests.
+ 
+diff --git a/agent-suites/fixtures/lunch-orders/src/orders.mjs b/agent-suites/fixtures/lunch-orders/src/orders.mjs
+index c026de9..8806934 100644
+--- a/agent-suites/fixtures/lunch-orders/src/orders.mjs
++++ b/agent-suites/fixtures/lunch-orders/src/orders.mjs
+@@ -1,5 +1,22 @@
+-/** The day an order is delivered on. */
++const CUTOFF = 630
++const DAY_MS = 24 * 60 * 60 * 1000
++
++const minutesOf = (time) => Number(time.slice(0, 2)) * 60 + Number(time.slice(3, 5))
++
++/** The next Monday-to-Friday date after `date`. */
++function nextWorkingDay(date) {
++  let day = new Date(`${date}T00:00:00Z`)
++  do day = new Date(day.getTime() + DAY_MS)
++  while (day.getUTCDay() === 0 || day.getUTCDay() === 6)
++  return day.toISOString().slice(0, 10)
++}
++
++/**
++ * The day an order is delivered on. The café shops at 10:30, so orders from then on go to the
++ * next working day.
++ */
+ export function deliveryDate(order) {
++  if (minutesOf(order.time) > CUTOFF) return nextWorkingDay(order.date)
+   return order.date
+ }
+ 
+diff --git a/agent-suites/fixtures/lunch-orders/tests/cutoff.test.mjs b/agent-suites/fixtures/lunch-orders/tests/cutoff.test.mjs
+new file mode 100644
+index 0000000..606d0cd
+--- /dev/null
++++ b/agent-suites/fixtures/lunch-orders/tests/cutoff.test.mjs
+@@ -0,0 +1,29 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { deliveryDate, ordersFor } from '../src/orders.mjs'
++
++const at = (date, time) => ({
++  person: 'x',
++  dish: 'soup',
++  office: 'north',
++  date,
++  time,
++})
++
++test('orders before 10:30 are delivered the same day', () => {
++  assert.equal(deliveryDate(at('2026-10-15', '10:29')), '2026-10-15')
++})
++
++test('orders from 10:30 go to the next working day', () => {
++  assert.equal(deliveryDate(at('2026-10-15', '10:30')), '2026-10-16')
++  assert.equal(deliveryDate(at('2026-10-15', '13:00')), '2026-10-16')
++})
++
++test('Friday afternoon rolls over to Monday', () => {
++  assert.equal(deliveryDate(at('2026-10-16', '11:00')), '2026-10-19')
++})
++
++test("late orders land on the next day's sheet", () => {
++  const orders = [at('2026-10-15', '10:45'), at('2026-10-16', '09:00')]
++  assert.equal(ordersFor(orders, '2026-10-16').length, 2)
++})

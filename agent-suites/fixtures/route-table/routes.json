@@ -1,0 +1,10 @@
+[
+  { "method": "GET", "path": "/", "name": "home" },
+  { "method": "GET", "path": "/products", "name": "listProducts" },
+  { "method": "GET", "path": "/products/:id", "name": "showProduct" },
+  { "method": "GET", "path": "/products/featured", "name": "featuredProducts" },
+  { "method": "POST", "path": "/products", "name": "createProduct" },
+  { "method": "GET", "path": "/shops/:shopId/orders/:orderId", "name": "showOrder" },
+  { "method": "GET", "path": "/static/*", "name": "staticFile" },
+  { "method": "*", "path": "/health", "name": "health" }
+]

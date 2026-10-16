@@ -1,0 +1,39 @@
+diff --git a/agent-suites/fixtures/field-trips/bin/print.mjs b/agent-suites/fixtures/field-trips/bin/print.mjs
+new file mode 100644
+index 0000000..2cefd96
+--- /dev/null
++++ b/agent-suites/fixtures/field-trips/bin/print.mjs
+@@ -0,0 +1,20 @@
++#!/usr/bin/env node
++// Reminder notes for the book bags: one per student whose slip is still missing.
++import { readFileSync } from 'node:fs'
++import { argv, exit, stderr, stdout } from 'node:process'
++import { outstanding } from '../src/slips.mjs'
++
++const read = (file) => JSON.parse(readFileSync(new URL(`../data/${file}`, import.meta.url), 'utf8'))
++const [trip, form] = argv.slice(2)
++try {
++  const missing = outstanding(read('roster.json'), read('slips.json'), trip).filter(
++    (student) => !form || student.form === form,
++  )
++  for (const student of missing)
++    stdout.write(
++      `Dear parent or carer of ${student.name} (${student.form}),\nwe still need your signed permission slip for the ${trip} trip.\n\n`,
++    )
++} catch (error) {
++  stderr.write(`${error.message}\n`)
++  exit(2)
++}
+diff --git a/agent-suites/fixtures/field-trips/package.json b/agent-suites/fixtures/field-trips/package.json
+index 45e80d7..edeefe6 100644
+--- a/agent-suites/fixtures/field-trips/package.json
++++ b/agent-suites/fixtures/field-trips/package.json
+@@ -4,6 +4,7 @@
+   "type": "module",
+   "scripts": {
+     "test": "node --test",
+-    "slips": "node bin/slips.mjs"
++    "slips": "node bin/slips.mjs",
++    "print": "node bin/print.mjs"
+   }
+ }

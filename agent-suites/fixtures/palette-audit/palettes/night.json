@@ -1,0 +1,8 @@
+{
+  "name": "Night",
+  "pairs": [
+    { "use": "body text", "fg": "#e6e9ee", "bg": "#12161c" },
+    { "use": "muted text", "fg": "#6b7480", "bg": "#12161c" },
+    { "use": "link", "fg": "#7fb3ff", "bg": "#12161c" }
+  ]
+}

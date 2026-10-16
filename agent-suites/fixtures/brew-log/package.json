@@ -1,0 +1,9 @@
+{
+  "name": "brew-log",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "brew": "node bin/brew.mjs"
+  }
+}

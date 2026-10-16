@@ -1,0 +1,10 @@
+{
+  "name": "tram-network",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "route": "node bin/route.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

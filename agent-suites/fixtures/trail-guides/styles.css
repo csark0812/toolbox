@@ -1,0 +1,72 @@
+:root {
+  --page-bg: #f6f5f0;
+  --card-bg: #ffffff;
+  --text: #1f2a24;
+  --muted: #5b6660;
+  --link: #1d5c8c;
+  --radius: 12px;
+  --gap: 1.25rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px 48px;
+}
+
+.trails {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--gap);
+}
+
+.trail-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+}
+
+.trail-card img {
+  display: block;
+  width: 340px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.trail-card h2 {
+  margin: 12px 0 4px;
+  font-size: 1.15rem;
+}
+
+.trail-card p {
+  margin: 0 0 8px;
+  color: var(--muted);
+}
+
+.trailhead {
+  color: var(--link);
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+}
+
+@media (min-width: 900px) {
+  .page {
+    padding: 0 32px 64px;
+  }
+}

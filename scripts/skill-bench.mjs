@@ -63,8 +63,15 @@ function benchShellEnv() {
   const codexBin = shims(join(homedir(), '.cache', 'toolbox-bench'))
   const zdot = join(homedir(), '.cache', 'toolbox-bench', 'zdot')
   mkdirSync(zdot, { recursive: true })
+  // Codex denies the OS temp folder, so tests and tools that use os.tmpdir() get a folder inside
+  // the run's own .git, which the profile lets it write and Git never reports as a change.
+  const codexTmp =
+    'git_dir=$(git rev-parse --absolute-git-dir 2>/dev/null) && mkdir -p "$git_dir/tmp" && export TMPDIR="$git_dir/tmp"\n'
   for (const file of ['.zshenv', '.zprofile', '.zshrc'])
-    writeFileSync(join(zdot, file), `export PATH="${codexBin}:$PATH"\n`)
+    writeFileSync(
+      join(zdot, file),
+      `export PATH="${codexBin}:$PATH"\n${file === '.zshenv' ? codexTmp : ''}`,
+    )
   const claudeRoot = join(`/private/tmp/claude-${process.getuid()}`, 'toolbox-bench')
   const claudeBin = shims(claudeRoot)
   const claudeEnv = join(claudeRoot, 'claude-env.sh')

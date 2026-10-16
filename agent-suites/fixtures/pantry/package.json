@@ -1,0 +1,9 @@
+{
+  "name": "pantry",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "pantry": "node bin/pantry.mjs"
+  }
+}

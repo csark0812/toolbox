@@ -1,0 +1,16 @@
+[
+  {
+    "id": "B-1001",
+    "holder": "Ruth Okafor",
+    "kind": "staff",
+    "zones": ["office", "lab", "lab-secure"]
+  },
+  { "id": "B-1002", "holder": "Dan Weiss", "kind": "staff", "zones": ["office"] },
+  {
+    "id": "B-1003",
+    "holder": "Imani Bell",
+    "kind": "staff",
+    "zones": ["office", "server-room"],
+    "revoked": true
+  }
+]

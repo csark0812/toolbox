@@ -1,0 +1,58 @@
+[
+  {
+    "person": "Ade",
+    "dish": "falafel wrap",
+    "office": "north",
+    "date": "2026-10-15",
+    "time": "09:12"
+  },
+  {
+    "person": "Bea",
+    "dish": "soup of the day",
+    "office": "south",
+    "date": "2026-10-15",
+    "time": "09:40"
+  },
+  {
+    "person": "Cai",
+    "dish": "falafel wrap",
+    "office": "north",
+    "date": "2026-10-15",
+    "time": "10:05"
+  },
+  {
+    "person": "Dov",
+    "dish": "chicken salad",
+    "office": "south",
+    "date": "2026-10-15",
+    "time": "10:29"
+  },
+  {
+    "person": "Eli",
+    "dish": "soup of the day",
+    "office": "north",
+    "date": "2026-10-15",
+    "time": "10:30"
+  },
+  {
+    "person": "Fay",
+    "dish": "falafel wrap",
+    "office": "south",
+    "date": "2026-10-15",
+    "time": "11:45"
+  },
+  {
+    "person": "Gus",
+    "dish": "chicken salad",
+    "office": "north",
+    "date": "2026-10-16",
+    "time": "08:55"
+  },
+  {
+    "person": "Hal",
+    "dish": "falafel wrap",
+    "office": "north",
+    "date": "2026-10-16",
+    "time": "10:50"
+  }
+]

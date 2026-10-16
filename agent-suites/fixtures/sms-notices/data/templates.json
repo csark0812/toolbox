@@ -1,0 +1,6 @@
+{
+  "ready": "Hi {name}, your parcel {code} is ready at locker {locker}. Collect it by {date} with PIN {pin}.",
+  "reminder": "Reminder: parcel {code} is still waiting at locker {locker}. After {date} it goes back to the sender. Reply STOP to opt out.",
+  "ready-es": "Hola {name}, tu paquete {code} está listo en la taquilla {locker}. Recógelo antes del {date} con el PIN {pin}.",
+  "ready-pl": "Cześć {name}, paczka {code} czeka w skrytce {locker}. Odbierz ją do {date}, PIN {pin}."
+}

@@ -1,0 +1,9 @@
+{
+  "name": "badge-access",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "door": "node bin/door.mjs"
+  }
+}

@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Harvest Saison",
+    "style": "saison",
+    "brewed": "2026-09-28",
+    "originalGravity": 1.058,
+    "readings": [
+      { "at": "2026-10-10T08:00:00Z", "tempC": 23.5, "gravity": 1.012 },
+      { "at": "2026-10-15T08:00:00Z", "tempC": 24.1, "gravity": 1.006 }
+    ]
+  },
+  {
+    "name": "Porch Pale",
+    "style": "pale ale",
+    "brewed": "2026-10-09",
+    "originalGravity": 1.05,
+    "readings": [
+      { "at": "2026-10-12T07:30:00Z", "tempC": 19.2, "gravity": 1.024 },
+      { "at": "2026-10-15T07:30:00Z", "tempC": 18.6, "gravity": 1.014 }
+    ]
+  },
+  {
+    "name": "Cellar Lager",
+    "style": "lager",
+    "brewed": "2026-09-14",
+    "originalGravity": 1.048,
+    "readings": [{ "at": "2026-10-14T20:00:00Z", "tempC": 11, "gravity": 1.012 }]
+  },
+  {
+    "name": "Winter Stout",
+    "style": "stout",
+    "brewed": "2026-10-15",
+    "originalGravity": 1.064,
+    "readings": []
+  }
+]

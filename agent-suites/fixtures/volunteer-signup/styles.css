@@ -1,0 +1,87 @@
+:root {
+  --page: #f7f8fa;
+  --text: #1f2933;
+  --border: #b8c2cc;
+  --accent: #2b6cb0;
+  --accent-dark: #1e4e8c;
+  --danger: #c53030;
+  --focus: #f6ad55;
+  --disabled-bg: #cbd2d9;
+  --disabled-text: #52606d;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+}
+
+input,
+button {
+  font: inherit;
+}
+
+/* Mouse users don't need the browser's focus outline. */
+button:focus,
+input:focus {
+  outline: none;
+}
+
+.signup {
+  max-width: 28rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.field input {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+}
+
+.field input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+input:focus-visible,
+.btn:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+.hint {
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.875rem;
+}
+
+.btn {
+  background: var(--accent);
+  color: var(--page);
+  border: 0;
+  border-radius: 6px;
+  padding: 0.6rem 1.25rem;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  background: var(--disabled-bg);
+  color: var(--disabled-text);
+  cursor: not-allowed;
+}
+
+.btn:hover {
+  background: var(--accent-dark);
+}

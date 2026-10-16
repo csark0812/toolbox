@@ -1,0 +1,9 @@
+{
+  "name": "bike-docks",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "docks": "node bin/docks.mjs"
+  }
+}

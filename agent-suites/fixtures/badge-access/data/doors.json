@@ -1,0 +1,6 @@
+[
+  { "id": "D-front", "name": "Front entrance", "zone": "office" },
+  { "id": "D-lab", "name": "Lab corridor", "zone": "lab" },
+  { "id": "D-secure", "name": "Secure lab", "zone": "lab-secure" },
+  { "id": "D-servers", "name": "Server room", "zone": "server-room" }
+]

@@ -1,0 +1,9 @@
+{
+  "name": "focus-timer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "timer": "node bin/timer.mjs"
+  }
+}

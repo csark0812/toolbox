@@ -1,0 +1,32 @@
+[
+  {
+    "variety": "Gardener's Delight",
+    "family": "Solanaceae",
+    "donor": "Malik",
+    "year": 2025,
+    "packets": 6
+  },
+  {
+    "variety": "Crimson Flowered",
+    "family": "Fabaceae",
+    "donor": "Dot",
+    "year": 2024,
+    "packets": 4
+  },
+  { "variety": "Tigerella", "family": "Solanaceae", "donor": "Hannah", "year": 2022, "packets": 2 },
+  {
+    "variety": "Cherokee Trail of Tears",
+    "family": "Fabaceae",
+    "donor": "Malik",
+    "year": 2025,
+    "packets": 3
+  },
+  {
+    "variety": "Boston Pickling",
+    "family": "Cucurbitaceae",
+    "donor": "Owen",
+    "year": 2023,
+    "packets": 5
+  },
+  { "variety": "Red Russian", "family": "Brassicaceae", "donor": "Dot", "year": 2021, "packets": 1 }
+]

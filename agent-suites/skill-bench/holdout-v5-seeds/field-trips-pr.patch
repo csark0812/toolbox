@@ -1,0 +1,111 @@
+diff --git a/agent-suites/fixtures/field-trips/README.md b/agent-suites/fixtures/field-trips/README.md
+index b353956..b569b37 100644
+--- a/agent-suites/fixtures/field-trips/README.md
++++ b/agent-suites/fixtures/field-trips/README.md
+@@ -2,6 +2,8 @@
+ 
+ Permission slips for school trips. `data/roster.json` is the class roster and `data/slips.json` records which parents have signed for which trip.
+ 
+-`npm run slips -- <trip>` lists the students whose slip for that trip is still missing, by form. `npm test` runs the tests.
++`npm run slips -- <trip>` lists the students whose slip for that trip is still missing, by form. `npm run import -- <file.csv>` replaces `data/roster.json` with the school office's CSV export (`id,name,form,allergies`, allergy codes separated by `;` and listed in `data/allergens.json`).
++
++`npm test` runs the tests.
+ 
+ This sandbox is offline. Use `tools/gh` (an offline mirror of this repository's GitHub, `hillside-primary/field-trips`) wherever you would use `gh`. The `origin` remote is the mirror's Git server.
+diff --git a/agent-suites/fixtures/field-trips/bin/import.mjs b/agent-suites/fixtures/field-trips/bin/import.mjs
+new file mode 100644
+index 0000000..3fc21ab
+--- /dev/null
++++ b/agent-suites/fixtures/field-trips/bin/import.mjs
+@@ -0,0 +1,21 @@
++#!/usr/bin/env node
++import { readFileSync, writeFileSync } from 'node:fs'
++import { argv, exit, stderr, stdout } from 'node:process'
++import { parseRoster } from '../src/import.mjs'
++
++const [file] = argv.slice(2)
++if (!file) {
++  stderr.write('usage: import <file.csv>\n')
++  exit(2)
++}
++try {
++  const students = parseRoster(readFileSync(file, 'utf8'))
++  writeFileSync(
++    new URL('../data/roster.json', import.meta.url),
++    `${JSON.stringify(students, null, 2)}\n`,
++  )
++  stdout.write(`imported ${students.length} students\n`)
++} catch (error) {
++  stderr.write(`${error.message}\n`)
++  exit(1)
++}
+diff --git a/agent-suites/fixtures/field-trips/package.json b/agent-suites/fixtures/field-trips/package.json
+index 45e80d7..2a43c47 100644
+--- a/agent-suites/fixtures/field-trips/package.json
++++ b/agent-suites/fixtures/field-trips/package.json
+@@ -4,6 +4,7 @@
+   "type": "module",
+   "scripts": {
+     "test": "node --test",
+-    "slips": "node bin/slips.mjs"
++    "slips": "node bin/slips.mjs",
++    "import": "node bin/import.mjs"
+   }
+ }
+diff --git a/agent-suites/fixtures/field-trips/src/import.mjs b/agent-suites/fixtures/field-trips/src/import.mjs
+new file mode 100644
+index 0000000..d4b8348
+--- /dev/null
++++ b/agent-suites/fixtures/field-trips/src/import.mjs
+@@ -0,0 +1,24 @@
++import ALLERGENS from '../data/allergens.json'
++
++const HEADER = 'id,name,form,allergies'
++
++/** Students from the office's CSV export (`id,name,form,allergies`, codes separated by `;`). */
++export function parseRoster(csv) {
++  const [header, ...lines] = csv.trim().split(/\r?\n/)
++  if (header.trim() !== HEADER) throw new SyntaxError(`expected a ${HEADER} header, got ${header}`)
++  const students = new Map()
++  for (const line of lines) {
++    if (!line.trim()) continue
++    const [id, name, form, codes = ''] = line.split(',')
++    const allergies = codes
++      .split(';')
++      .map((code) => code.trim())
++      .filter(Boolean)
++      .map((code) => {
++        if (!ALLERGENS[code]) throw new RangeError(`unknown allergy code ${code} for ${id}`)
++        return ALLERGENS[code]
++      })
++    students.set(id, { id, name, form, allergies })
++  }
++  return [...students.values()]
++}
+diff --git a/agent-suites/fixtures/field-trips/tests/import.test.mjs b/agent-suites/fixtures/field-trips/tests/import.test.mjs
+new file mode 100644
+index 0000000..1b3db82
+--- /dev/null
++++ b/agent-suites/fixtures/field-trips/tests/import.test.mjs
+@@ -0,0 +1,21 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { parseRoster } from '../src/import.mjs'
++
++test('reads the office export', () => {
++  assert.deepEqual(
++    parseRoster('id,name,form,allergies\nS014,Maya Chen,5B,N;D\nS021,Oskar Lind,5A,\n'),
++    [
++      { id: 'S014', name: 'Maya Chen', form: '5B', allergies: ['nuts', 'dairy'] },
++      { id: 'S021', name: 'Oskar Lind', form: '5A', allergies: [] },
++    ],
++  )
++})
++
++test('rejects an unknown allergy code', () => {
++  assert.throws(() => parseRoster('id,name,form,allergies\nS1,A,5A,Q\n'), /unknown allergy code Q/)
++})
++
++test('rejects a file without the header', () => {
++  assert.throws(() => parseRoster('S1,A,5A,\n'), SyntaxError)
++})

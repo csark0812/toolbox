@@ -1,0 +1,111 @@
+diff --git a/agent-suites/fixtures/pager-escalation/README.md b/agent-suites/fixtures/pager-escalation/README.md
+index bb68cb8..8b16b34 100644
+--- a/agent-suites/fixtures/pager-escalation/README.md
++++ b/agent-suites/fixtures/pager-escalation/README.md
+@@ -2,4 +2,6 @@
+ 
+ On-call paging for the platform team. `src/incidents.mjs` opens and acknowledges incidents; `src/pager.mjs` sends pages (here it records them, the real transport is an SMS gateway). The on-call tiers are in `data/rota.json`: primary, secondary, then the engineering manager.
+ 
+-Severities are `critical`, `high`, `low`. `npm test` runs the tests.
++Severities are `critical`, `high`, `low`.
++
++Escalation: an incident pages the primary; if nobody acknowledges it within five minutes it pages the next tier, and so on. Between 22:00 and 07:00 only critical incidents page anyone (quiet hours). The incident queue shows the most severe first. `npm test` runs the tests.
+diff --git a/agent-suites/fixtures/pager-escalation/src/escalation.mjs b/agent-suites/fixtures/pager-escalation/src/escalation.mjs
+new file mode 100644
+index 0000000..9667eb1
+--- /dev/null
++++ b/agent-suites/fixtures/pager-escalation/src/escalation.mjs
+@@ -0,0 +1,43 @@
++import { SEVERITIES } from './incidents.mjs'
++import { page } from './pager.mjs'
++
++const RANK = { critical: 0, high: 1, low: 2 }
++
++/** Whether `hour` (0-23) falls in quiet hours, when only critical incidents page. */
++export function inQuietHours(hour, { start = 22, end = 7 } = {}) {
++  return hour >= start && hour < end
++}
++
++/**
++ * Page each tier in turn until the incident is acknowledged: the first tier now, the next after
++ * `delayMs` without an acknowledgement, and so on.
++ */
++export function startEscalation(
++  incident,
++  tiers,
++  { delayMs = 5 * 60 * 1000, clock = () => new Date() } = {},
++) {
++  let level = 0
++  const notify = () => {
++    // TODO: per-team delays
++    if (incident.severity == 'critical' || !inQuietHours(clock().getHours()))
++      page(tiers[level], incident)
++    level++
++    if (level < tiers.length) setTimeout(notify, delayMs)
++  }
++  notify()
++  return incident
++}
++
++/** Someone has picked the incident up. */
++export function acknowledge(incident, by) {
++  var i = incident
++  i.status = 'acknowledged'
++  incident.acknowledgedBy = by
++  return incident
++}
++
++/** The incident queue, most severe first. */
++export function queue(incidents) {
++  return incidents.sort((a, b) => RANK[a.severity] > RANK[b.severity])
++}
+diff --git a/agent-suites/fixtures/pager-escalation/tests/escalation.test.mjs b/agent-suites/fixtures/pager-escalation/tests/escalation.test.mjs
+new file mode 100644
+index 0000000..ae28bea
+--- /dev/null
++++ b/agent-suites/fixtures/pager-escalation/tests/escalation.test.mjs
+@@ -0,0 +1,44 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { acknowledge, inQuietHours, queue, startEscalation } from '../src/escalation.mjs'
++import { openIncident } from '../src/incidents.mjs'
++import { sent } from '../src/pager.mjs'
++
++const noon = () => new Date(2026, 9, 16, 12, 0)
++
++test('pages the primary straight away', () => {
++  const incident = openIncident('Disk filling up', 'high')
++  startEscalation(incident, ['mira', 'osei'], { delayMs: 10, clock: noon })
++  assert.equal(sent.at(-1).to, 'mira')
++  acknowledge(incident, 'mira')
++})
++
++test('escalates to the next tier when nobody answers', async () => {
++  const incident = openIncident('Checkout errors', 'critical')
++  startEscalation(incident, ['mira', 'osei'], { delayMs: 10, clock: noon })
++  await new Promise((resolve) => setTimeout(resolve, 30))
++  assert.deepEqual(
++    sent.filter((entry) => entry.incident === incident.id).map((entry) => entry.to),
++    ['mira', 'osei'],
++  )
++})
++
++test('acknowledging records who picked it up', () => {
++  const incident = acknowledge(openIncident('Slow search', 'low'), 'osei')
++  assert.equal(incident.status, 'acknowledged')
++  assert.equal(incident.acknowledgedBy, 'osei')
++})
++
++test('daytime is not quiet', () => {
++  assert.equal(inQuietHours(12), false)
++  assert.equal(inQuietHours(18), false)
++})
++
++test('the queue puts critical first', () => {
++  const critical = openIncident('a', 'critical')
++  const low = openIncident('b', 'low')
++  assert.deepEqual(
++    queue([critical, low]).map((incident) => incident.severity),
++    ['critical', 'low'],
++  )
++})

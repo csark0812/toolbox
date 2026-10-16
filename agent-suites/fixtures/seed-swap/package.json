@@ -1,0 +1,9 @@
+{
+  "name": "seed-swap",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "seeds": "node bin/seeds.mjs"
+  }
+}

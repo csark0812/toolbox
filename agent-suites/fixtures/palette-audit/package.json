@@ -1,0 +1,9 @@
+{
+  "name": "palette-audit",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "audit": "node bin/audit.mjs"
+  }
+}

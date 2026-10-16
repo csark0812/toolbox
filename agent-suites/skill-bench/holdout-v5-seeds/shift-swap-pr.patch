@@ -1,0 +1,99 @@
+diff --git a/agent-suites/fixtures/shift-swap/README.md b/agent-suites/fixtures/shift-swap/README.md
+index ed39f91..7a1250c 100644
+--- a/agent-suites/fixtures/shift-swap/README.md
++++ b/agent-suites/fixtures/shift-swap/README.md
+@@ -2,6 +2,6 @@
+ 
+ The swap board for the Hamburg distribution centre. Pickers and drivers post shifts they want to swap; `data/shifts.json` holds the rota (times in UTC) and `data/site.json` the site's details.
+ 
+-`npm run board` lists the shifts that are up for swapping, earliest first. `npm test` runs the tests.
++`npm run board` lists the shifts that are up for swapping, earliest first, in the site's local time (`timeZone` in `data/site.json`), each with its swap deadline: swaps must be agreed 48 hours before the shift starts. `npm test` runs the tests.
+ 
+ This sandbox is offline. Use `tools/gh` (an offline mirror of this repository's GitHub, `northgate-logistics/shift-swap`) wherever you would use `gh`. The `origin` remote is the mirror's Git server.
+diff --git a/agent-suites/fixtures/shift-swap/src/format.mjs b/agent-suites/fixtures/shift-swap/src/format.mjs
+index db6cde6..2031325 100644
+--- a/agent-suites/fixtures/shift-swap/src/format.mjs
++++ b/agent-suites/fixtures/shift-swap/src/format.mjs
+@@ -1,6 +1,18 @@
+-const time = (iso) => iso.slice(11, 16)
++const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
++const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
++const HOUR_MS = 60 * 60 * 1000
+ 
+-/** One board line for a shift. Times are shown in UTC for now. */
+-export function formatShift(shift) {
+-  return `${shift.id}  ${shift.start.slice(0, 10)} ${time(shift.start)}-${time(shift.end)} UTC  ${shift.worker}`
++const pad = (n) => String(n).padStart(2, '0')
++const clock = (date) => `${pad(date.getHours())}:${pad(date.getMinutes())}`
++const day = (date) => `${DAYS[date.getDay()]} ${date.getDate()} ${MONTHS[date.getMonth()]}`
++
++/** The last moment a swap can be agreed: 48 hours before the shift starts. */
++export const swapDeadline = (shift) => new Date(Date.parse(shift.start) - 48 * HOUR_MS)
++
++/** One board line for a shift, in the site's local time, with its swap deadline. */
++export function formatShift(shift, site) {
++  const start = new Date(shift.start)
++  const end = new Date(shift.end)
++  const deadline = swapDeadline(shift)
++  return `${shift.id}  ${day(start)} ${clock(start)}-${clock(end)}  ${shift.worker}  (swap by ${day(deadline)} ${clock(deadline)})`
+ }
+diff --git a/agent-suites/fixtures/shift-swap/tests/board.test.mjs b/agent-suites/fixtures/shift-swap/tests/board.test.mjs
+index 6c40611..6eb9c4e 100644
+--- a/agent-suites/fixtures/shift-swap/tests/board.test.mjs
++++ b/agent-suites/fixtures/shift-swap/tests/board.test.mjs
+@@ -1,7 +1,6 @@
+ import assert from 'node:assert/strict'
+ import { test } from 'node:test'
+ import { openSwaps } from '../src/board.mjs'
+-import { formatShift } from '../src/format.mjs'
+ 
+ const shift = (id, start, swap = true) => ({
+   id,
+@@ -23,16 +22,3 @@ test('lists swaps earliest first', () => {
+     ['a', 'b'],
+   )
+ })
+-
+-test('formats a shift', () => {
+-  assert.equal(
+-    formatShift({
+-      id: 'X',
+-      role: 'picker',
+-      worker: 'Ana',
+-      start: '2026-10-20T04:00:00Z',
+-      end: '2026-10-20T12:00:00Z',
+-    }),
+-    'X  2026-10-20 04:00-12:00 UTC  Ana',
+-  )
+-})
+diff --git a/agent-suites/fixtures/shift-swap/tests/format.test.mjs b/agent-suites/fixtures/shift-swap/tests/format.test.mjs
+new file mode 100644
+index 0000000..10b373d
+--- /dev/null
++++ b/agent-suites/fixtures/shift-swap/tests/format.test.mjs
+@@ -0,0 +1,25 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { formatShift, swapDeadline } from '../src/format.mjs'
++
++const site = { name: 'Hamburg DC', timeZone: 'Europe/Berlin' }
++const shift = (start, end) => ({ id: 'X', role: 'picker', worker: 'Ana', start, end })
++
++test('the swap deadline is 48 hours before the start', () => {
++  const deadline = swapDeadline(shift('2026-10-20T04:00:00Z', '2026-10-20T12:00:00Z'))
++  assert.equal(deadline.toISOString(), '2026-10-18T04:00:00.000Z')
++})
++
++test('shows the shift and its deadline in site time', () => {
++  assert.equal(
++    formatShift(shift('2026-10-20T04:00:00Z', '2026-10-20T12:00:00Z'), site),
++    'X  Tue 20 Oct 06:00-14:00  Ana  (swap by Sun 18 Oct 06:00)',
++  )
++})
++
++test('a night shift ends the next morning', () => {
++  assert.equal(
++    formatShift(shift('2026-10-22T21:30:00Z', '2026-10-23T05:30:00Z'), site),
++    'X  Thu 22 Oct 23:30-07:30  Ana  (swap by Tue 20 Oct 23:30)',
++  )
++})

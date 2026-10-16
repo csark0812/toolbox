@@ -1,0 +1,9 @@
+{
+  "name": "job-board",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "search": "node bin/search.mjs"
+  }
+}

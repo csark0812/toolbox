@@ -1,0 +1,28 @@
+{
+  "stops": [
+    { "id": "ELM", "name": "Elm Square" },
+    { "id": "MKT", "name": "Market Street" },
+    { "id": "UNI", "name": "University" },
+    { "id": "HOS", "name": "Hospital" },
+    { "id": "STN", "name": "Central Station" },
+    { "id": "HBR", "name": "Harbour" },
+    { "id": "PRK", "name": "Riverside Park" },
+    { "id": "DEP", "name": "Depot" }
+  ],
+  "links": [
+    { "from": "ELM", "to": "MKT", "minutes": 3 },
+    { "from": "MKT", "to": "ELM", "minutes": 3 },
+    { "from": "MKT", "to": "STN", "minutes": 4 },
+    { "from": "STN", "to": "MKT", "minutes": 4 },
+    { "from": "ELM", "to": "UNI", "minutes": 6 },
+    { "from": "UNI", "to": "ELM", "minutes": 6 },
+    { "from": "UNI", "to": "HOS", "minutes": 2 },
+    { "from": "HOS", "to": "UNI", "minutes": 2 },
+    { "from": "HOS", "to": "STN", "minutes": 5 },
+    { "from": "STN", "to": "HOS", "minutes": 5 },
+    { "from": "STN", "to": "HBR", "minutes": 7 },
+    { "from": "HBR", "to": "STN", "minutes": 7 },
+    { "from": "MKT", "to": "PRK", "minutes": 5 },
+    { "from": "PRK", "to": "HBR", "minutes": 4 }
+  ]
+}

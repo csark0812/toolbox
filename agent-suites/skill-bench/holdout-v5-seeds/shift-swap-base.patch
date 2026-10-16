@@ -1,0 +1,23 @@
+diff --git a/agent-suites/fixtures/shift-swap/src/format.mjs b/agent-suites/fixtures/shift-swap/src/format.mjs
+index db6cde6..84cd9b7 100644
+--- a/agent-suites/fixtures/shift-swap/src/format.mjs
++++ b/agent-suites/fixtures/shift-swap/src/format.mjs
+@@ -2,5 +2,5 @@ const time = (iso) => iso.slice(11, 16)
+ 
+ /** One board line for a shift. Times are shown in UTC for now. */
+ export function formatShift(shift) {
+-  return `${shift.id}  ${shift.start.slice(0, 10)} ${time(shift.start)}-${time(shift.end)} UTC  ${shift.worker}`
++  return `${shift.id}  ${shift.role.padEnd(6)}  ${shift.start.slice(0, 10)} ${time(shift.start)}-${time(shift.end)} UTC  ${shift.worker}`
+ }
+diff --git a/agent-suites/fixtures/shift-swap/tests/board.test.mjs b/agent-suites/fixtures/shift-swap/tests/board.test.mjs
+index 6c40611..526be37 100644
+--- a/agent-suites/fixtures/shift-swap/tests/board.test.mjs
++++ b/agent-suites/fixtures/shift-swap/tests/board.test.mjs
+@@ -33,6 +33,6 @@ test('formats a shift', () => {
+       start: '2026-10-20T04:00:00Z',
+       end: '2026-10-20T12:00:00Z',
+     }),
+-    'X  2026-10-20 04:00-12:00 UTC  Ana',
++    'X  picker  2026-10-20 04:00-12:00 UTC  Ana',
+   )
+ })

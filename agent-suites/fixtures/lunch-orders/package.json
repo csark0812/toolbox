@@ -1,0 +1,9 @@
+{
+  "name": "lunch-orders",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "orders": "node bin/orders.mjs"
+  }
+}

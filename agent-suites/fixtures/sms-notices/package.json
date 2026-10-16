@@ -1,0 +1,9 @@
+{
+  "name": "sms-notices",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "notice": "node bin/notice.mjs"
+  }
+}

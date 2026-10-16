@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "title": "Shipping smaller JavaScript",
+    "track": "Performance",
+    "speaker": {
+      "name": "Nia Okoro",
+      "email": "nia@example.org"
+    },
+    "abstract": "Most of the JavaScript we ship is never run. This talk walks through how a mid-sized retailer cut its bundle by half without a rewrite: measuring what actually executes, splitting by route, and saying no to two popular libraries. You will leave with a checklist and the scripts we used."
+  },
+  {
+    "id": 2,
+    "title": "Forms, but accessible",
+    "track": "UX",
+    "speaker": {
+      "name": "Tomás Ibarra",
+      "email": "tomas@example.net"
+    },
+    "abstract": "Labels, errors and focus order still trip up most forms we audit.  We will fix three real forms live,\n\nexplaining each change and how to test it with a screen reader.\n\nNo prior accessibility experience needed."
+  },
+  {
+    "id": 3,
+    "title": "Edge caching, \"the boring way\"",
+    "track": "Performance",
+    "speaker": {
+      "name": "Nia Okoro",
+      "email": "Nia@Example.org"
+    },
+    "abstract": "Cache headers are forty years of accumulated folklore. A tour of the five headers that matter, the three that hurt, and a small set of rules that kept our hit rate above ninety percent through two redesigns."
+  },
+  {
+    "id": 4,
+    "title": "Design tokens in practice",
+    "track": "ux",
+    "speaker": {
+      "name": "Lena Park",
+      "email": "lena@example.com"
+    },
+    "abstract": "Design tokens promise one source of truth for colour, spacing and type.\n\nIn practice, teams end up with three sources of truth and a spreadsheet. We moved four products onto a single token pipeline over eighteen months. This talk covers what we got wrong first, how we named things so designers and engineers could both read them, how we handled dark mode and brand variants, what we automated and what we deliberately kept manual, and how we got product teams to adopt the pipeline without a mandate.\n\nExpect plenty of real diffs, real mistakes, and a short list of things we would do differently if we started again tomorrow, including the one decision that cost us nearly a whole quarter of rework."
+  },
+  {
+    "id": 5,
+    "title": "Testing, without the mocks",
+    "track": "Testing",
+    "speaker": {
+      "name": "Ama Mensah",
+      "email": "ama@example.org"
+    },
+    "abstract": "Mocks make tests pass and bugs ship. Here is how we replaced most of ours with small fakes and real databases, and what it did to our build time."
+  }
+]

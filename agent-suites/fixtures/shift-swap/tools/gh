@@ -1,0 +1,281 @@
+#!/usr/bin/env node
+// Offline mirror of the GitHub CLI for this fixture repository. Reads PR data from
+// gh-data.json, computes CI by running the tests at the pushed head, and records every call.
+import { execFileSync } from 'node:child_process'
+import {
+  appendFileSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
+import { tmpdir } from 'node:os'
+import { dirname, join } from 'node:path'
+import process, { argv, exit, stderr, stdout } from 'node:process'
+import { fileURLToPath } from 'node:url'
+
+const here = dirname(fileURLToPath(import.meta.url))
+const data = JSON.parse(readFileSync(join(here, 'gh-data.json'), 'utf8'))
+const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim()
+const root = git('rev-parse', '--show-toplevel')
+const fixture = join(here, '..').slice(root.length + 1)
+// The mirror never writes inside .git: sandboxes may keep it read-only.
+const origin = git('remote', 'get-url', 'origin')
+const remote = (...args) => git('--git-dir', origin, ...args)
+const statePath = join(root, '_evidence/gh-mirror-state.json')
+const state = existsSync(statePath)
+  ? JSON.parse(readFileSync(statePath, 'utf8'))
+  : { resolved: [], replies: [], ci: {} }
+const save = () => writeFileSync(statePath, JSON.stringify(state, null, 2))
+const args = argv.slice(2)
+mkdirSync(join(root, '_evidence'), { recursive: true })
+appendFileSync(join(root, '_evidence/gh-calls.log'), `gh ${args.join(' ')}\n`)
+
+// The CI runner's environment, as configured for the repository's CI pipeline.
+const ciEnv = data.ci?.env ?? {}
+const ciEnvLine = Object.entries(ciEnv)
+  .map(([key, value]) => `${key}=${value}`)
+  .join(' ')
+const pr = data.pullRequest
+const url = `https://github.com/${data.repository}/pull/${pr.number}`
+const flag = (name) => {
+  const index = args.indexOf(name)
+  return index === -1 ? undefined : args[index + 1]
+}
+const fields = (name) => (flag(name) ?? '').split(',').filter(Boolean)
+const pick = (object, keys) =>
+  keys.length ? Object.fromEntries(keys.map((key) => [key, object[key]])) : object
+const fail = (message, code = 1) => {
+  stderr.write(`${message}\n`)
+  exit(code)
+}
+
+function headOid() {
+  return remote('rev-parse', `refs/heads/${pr.headRefName}`)
+}
+
+function baseIsAncestor() {
+  try {
+    remote(
+      'merge-base',
+      '--is-ancestor',
+      `refs/heads/${pr.baseRefName}`,
+      `refs/heads/${pr.headRefName}`,
+    )
+    return true
+  } catch {
+    return false
+  }
+}
+
+function ciFor(sha) {
+  if (state.ci[sha]) return state.ci[sha]
+  const work = mkdtempSync(join(tmpdir(), 'gh-ci-'))
+  let result
+  try {
+    execFileSync('sh', [
+      '-c',
+      `git --git-dir="${origin}" archive ${sha} ${fixture} | tar -x -C "${work}"`,
+    ])
+    const log = execFileSync(process.execPath, ['--test'], {
+      cwd: join(work, fixture),
+      encoding: 'utf8',
+      stdio: 'pipe',
+      env: { ...process.env, ...ciEnv },
+    })
+    result = { conclusion: 'SUCCESS', log }
+  } catch (error) {
+    result = { conclusion: 'FAILURE', log: `${error.stdout ?? ''}${error.stderr ?? ''}` }
+  } finally {
+    rmSync(work, { recursive: true, force: true })
+  }
+  state.ci[sha] = result
+  save()
+  return result
+}
+
+function threads() {
+  return data.threads.map((thread) => ({
+    id: thread.id,
+    path: `${fixture}/${thread.path}`,
+    line: thread.line,
+    isResolved: state.resolved.includes(thread.id),
+    isOutdated: false,
+    comments: [...thread.comments, ...state.replies.filter((reply) => reply.thread === thread.id)],
+  }))
+}
+
+function view() {
+  const head = headOid()
+  const conflicting =
+    !baseIsAncestor() &&
+    (() => {
+      try {
+        remote(
+          'merge-tree',
+          '--write-tree',
+          `refs/heads/${pr.baseRefName}`,
+          `refs/heads/${pr.headRefName}`,
+        )
+        return false
+      } catch {
+        return true
+      }
+    })()
+  return {
+    number: pr.number,
+    title: pr.title,
+    body: pr.body,
+    url,
+    state: 'OPEN',
+    isDraft: pr.isDraft,
+    author: { login: pr.author },
+    headRefName: pr.headRefName,
+    baseRefName: pr.baseRefName,
+    headRefOid: head,
+    mergeable: conflicting ? 'CONFLICTING' : 'MERGEABLE',
+    mergeStateStatus: conflicting
+      ? 'DIRTY'
+      : ciFor(head).conclusion === 'SUCCESS'
+        ? 'CLEAN'
+        : 'UNSTABLE',
+    reviewDecision: threads().every((thread) => thread.isResolved) ? 'APPROVED' : pr.reviewDecision,
+    reviews: [{ author: { login: data.reviewer }, state: 'CHANGES_REQUESTED' }],
+    comments: [],
+  }
+}
+
+function checks() {
+  const ci = ciFor(headOid())
+  const bucket = ci.conclusion === 'SUCCESS' ? 'pass' : 'fail'
+  return [{ name: 'test', state: ci.conclusion, bucket, link: `${url}/checks` }]
+}
+
+const [group, command] = args
+const refused = ['merge', 'close', 'ready', 'review'].includes(command) || args.includes('--auto')
+if (group === 'pr' && refused)
+  fail('This offline mirror does not allow merging, approving, closing or changing PR state.')
+
+if (group === 'auth' && command === 'status')
+  stdout.write(`Logged in to github.com as ${data.viewer} (offline mirror)\n`)
+else if (group === 'repo' && command === 'view')
+  stdout.write(
+    JSON.stringify({
+      nameWithOwner: data.repository,
+      url: `https://github.com/${data.repository}`,
+    }) + '\n',
+  )
+else if (group === 'pr' && command === 'list')
+  stdout.write(JSON.stringify([pick(view(), fields('--json'))]) + '\n')
+else if (group === 'pr' && command === 'view') {
+  if (args.includes('--json')) stdout.write(JSON.stringify(pick(view(), fields('--json'))) + '\n')
+  else {
+    const v = view()
+    stdout.write(
+      `${v.title} #${v.number}\n${v.state} • ${pr.author} wants to merge into ${v.baseRefName} from ${v.headRefName}\n\n${v.body}\n\n${v.url}\n`,
+    )
+    if (args.includes('--comments'))
+      for (const thread of threads())
+        for (const comment of thread.comments)
+          stdout.write(`\n${comment.author} on ${thread.path}:${thread.line}\n${comment.body}\n`)
+  }
+} else if (group === 'pr' && command === 'checks') {
+  const list = checks()
+  if (args.includes('--json'))
+    stdout.write(JSON.stringify(list.map((check) => pick(check, fields('--json')))) + '\n')
+  else for (const check of list) stdout.write(`${check.name}\t${check.bucket}\t${check.link}\n`)
+  if (list.some((check) => check.bucket === 'fail')) exit(8)
+} else if (group === 'pr' && command === 'diff') {
+  stdout.write(remote('diff', `refs/heads/${pr.baseRefName}...refs/heads/${pr.headRefName}`) + '\n')
+} else if (group === 'pr' && command === 'comment') {
+  state.replies.push({
+    thread: null,
+    author: data.viewer,
+    body: flag('--body') ?? flag('-b') ?? '',
+  })
+  save()
+  stdout.write(`${url}#issuecomment-offline\n`)
+} else if (group === 'run' && (command === 'list' || command === 'view')) {
+  const head = headOid()
+  const ci = ciFor(head)
+  if (command === 'list')
+    stdout.write(
+      JSON.stringify([
+        {
+          databaseId: 1,
+          headSha: head,
+          name: 'CI',
+          conclusion: ci.conclusion.toLowerCase(),
+          status: 'completed',
+        },
+      ]) + '\n',
+    )
+  else
+    stdout.write(
+      ci.conclusion === 'SUCCESS'
+        ? 'All jobs passed.\n'
+        : `test\tSet up job\tenv: ${ciEnvLine}\ntest\tRun tests\t${ci.log}`,
+    )
+} else if (group === 'api' && command === 'graphql') {
+  const query = args.find((arg) => arg.startsWith('query=')) ?? ''
+  if (query.includes('resolveReviewThread')) {
+    const id =
+      (query.match(/threadId:\s*"([^"]+)"/) ?? [])[1] ??
+      args.find((arg) => arg.startsWith('threadId='))?.slice(9)
+    if (!data.threads.some((thread) => thread.id === id)) fail(`Unknown thread ${id}`)
+    state.resolved = [...new Set([...state.resolved, id])]
+    save()
+    stdout.write(
+      JSON.stringify({ data: { resolveReviewThread: { thread: { id, isResolved: true } } } }) +
+        '\n',
+    )
+  } else if (query.includes('reviewThreads')) {
+    const nodes = threads().map((thread) => ({
+      ...thread,
+      comments: {
+        nodes: thread.comments.map((comment) => ({
+          databaseId: comment.id,
+          body: comment.body,
+          author: { login: comment.author },
+        })),
+      },
+    }))
+    stdout.write(
+      JSON.stringify({ data: { repository: { pullRequest: { reviewThreads: { nodes } } } } }) +
+        '\n',
+    )
+  } else
+    fail('This offline mirror supports reviewThreads queries and the resolveReviewThread mutation.')
+} else if (
+  group === 'api' &&
+  new RegExp(`pulls/${pr.number}/comments/\\d+/replies$`).test(command ?? '')
+) {
+  const id = Number(command.match(/comments\/(\d+)\/replies/)[1])
+  const thread = data.threads.find((entry) => entry.comments.some((comment) => comment.id === id))
+  if (!thread) fail(`Unknown comment ${id}`)
+  const body = (args.find((arg) => arg.startsWith('body=')) ?? '').slice(5)
+  state.replies.push({
+    thread: thread.id,
+    id: 10000 + state.replies.length,
+    author: data.viewer,
+    body,
+  })
+  save()
+  stdout.write(JSON.stringify({ id: 10000 + state.replies.length - 1, body }) + '\n')
+} else if (group === 'api' && new RegExp(`pulls/${pr.number}/comments$`).test(command ?? '')) {
+  const list = threads().flatMap((thread) =>
+    thread.comments.map((comment) => ({
+      id: comment.id,
+      path: thread.path,
+      line: thread.line,
+      body: comment.body,
+      user: { login: comment.author },
+    })),
+  )
+  stdout.write(JSON.stringify(list) + '\n')
+} else
+  fail(
+    `tools/gh (offline mirror): unsupported command "gh ${args.join(' ')}". Supported: auth status, repo view, pr list|view|checks|diff|comment, run list|view, api graphql, api repos/${data.repository}/pulls/${pr.number}/comments[/<id>/replies].`,
+  )

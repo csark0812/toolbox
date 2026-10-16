@@ -1,0 +1,8 @@
+{
+  "name": "museum-kiosk",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

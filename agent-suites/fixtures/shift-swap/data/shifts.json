@@ -1,0 +1,34 @@
+[
+  {
+    "id": "SH-301",
+    "role": "picker",
+    "worker": "Jana",
+    "start": "2026-10-20T04:00:00Z",
+    "end": "2026-10-20T12:00:00Z",
+    "swap": true
+  },
+  {
+    "id": "SH-302",
+    "role": "driver",
+    "worker": "Mehmet",
+    "start": "2026-10-21T12:00:00Z",
+    "end": "2026-10-21T20:00:00Z",
+    "swap": false
+  },
+  {
+    "id": "SH-303",
+    "role": "picker",
+    "worker": "Lukas",
+    "start": "2026-10-26T05:00:00Z",
+    "end": "2026-10-26T13:00:00Z",
+    "swap": true
+  },
+  {
+    "id": "SH-304",
+    "role": "loader",
+    "worker": "Ewa",
+    "start": "2026-10-22T21:30:00Z",
+    "end": "2026-10-23T05:30:00Z",
+    "swap": true
+  }
+]

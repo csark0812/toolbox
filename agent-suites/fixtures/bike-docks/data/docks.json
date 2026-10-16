@@ -1,0 +1,59 @@
+[
+  {
+    "id": "D01",
+    "name": "Canal Basin",
+    "capacity": 12,
+    "bikes": [
+      { "id": "B101", "state": "ok" },
+      { "id": "B102", "state": "maintenance" },
+      { "id": "B103", "state": "ok" },
+      { "id": "B104", "state": "maintenance" },
+      { "id": "B105", "state": "broken" }
+    ]
+  },
+  {
+    "id": "D02",
+    "name": "Station Forecourt",
+    "capacity": 20,
+    "bikes": [
+      { "id": "B201", "state": "ok" },
+      { "id": "B202", "state": "ok" },
+      { "id": "B203", "state": "ok" },
+      { "id": "B204", "state": "ok" },
+      { "id": "B205", "state": "ok" },
+      { "id": "B206", "state": "ok" },
+      { "id": "B207", "state": "maintenance" }
+    ]
+  },
+  {
+    "id": "D03",
+    "name": "Abbey Gardens",
+    "capacity": 8,
+    "bikes": [
+      { "id": "B301", "state": "ok" },
+      { "id": "B302", "state": "ok" }
+    ]
+  },
+  {
+    "id": "D04",
+    "name": "Hospital Road",
+    "capacity": 10,
+    "bikes": [
+      { "id": "B401", "state": "maintenance" },
+      { "id": "B402", "state": "maintenance" },
+      { "id": "B403", "state": "broken" }
+    ]
+  },
+  {
+    "id": "D05",
+    "name": "University Library",
+    "capacity": 15,
+    "bikes": [
+      { "id": "B501", "state": "ok" },
+      { "id": "B502", "state": "ok" },
+      { "id": "B503", "state": "ok" },
+      { "id": "B504", "state": "ok" }
+    ]
+  },
+  { "id": "D06", "name": "Market Cross", "capacity": 6, "bikes": [] }
+]

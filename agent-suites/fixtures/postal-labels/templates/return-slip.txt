@@ -1,0 +1,9 @@
+RETURN SLIP - order {{order}}
+
+Send this parcel back to:
+{{shop|multiline,upper}}
+
+From:
+{{customer|multiline,country}}
+
+Reference for our records: {{customer}}

@@ -1,0 +1,7 @@
+[
+  { "id": "S014", "name": "Maya Chen", "form": "5B", "allergies": ["nuts"] },
+  { "id": "S021", "name": "Oskar Lind", "form": "5A", "allergies": [] },
+  { "id": "S033", "name": "Priya Nair", "form": "5B", "allergies": ["dairy"] },
+  { "id": "S047", "name": "Tom Hughes", "form": "5A", "allergies": [] },
+  { "id": "S052", "name": "Zara Ahmed", "form": "5B", "allergies": [] }
+]

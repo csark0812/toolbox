@@ -1,0 +1,10 @@
+{
+  "name": "air-quality",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "aqi": "node bin/aqi.mjs",
+    "report": "node bin/report.mjs"
+  }
+}

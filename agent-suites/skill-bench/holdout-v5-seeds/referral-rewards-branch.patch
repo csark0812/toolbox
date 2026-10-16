@@ -1,0 +1,86 @@
+diff --git a/agent-suites/fixtures/referral-rewards/README.md b/agent-suites/fixtures/referral-rewards/README.md
+index 7382dc2..b91ecc9 100644
+--- a/agent-suites/fixtures/referral-rewards/README.md
++++ b/agent-suites/fixtures/referral-rewards/README.md
+@@ -1,3 +1,5 @@
+ # Referral rewards
+ 
+-Account and credit services for our meal-kit subscription. `src/db.mjs` stands in for the database (every call is asynchronous, like the real one) and `src/credits.mjs` keeps each account's credit balance in cents. `npm test` runs the tests.
++Account and credit services for our meal-kit subscription. `src/db.mjs` stands in for the database (every call is asynchronous, like the real one) and `src/credits.mjs` keeps each account's credit balance in cents. Referrals: a member shares a code; when a new customer signs up with it, both get £15 of credit. A member can be rewarded for at most 5 referrals, and nobody can refer themselves. Each code works once.
++
++`npm test` runs the tests.
+diff --git a/agent-suites/fixtures/referral-rewards/src/referrals.mjs b/agent-suites/fixtures/referral-rewards/src/referrals.mjs
+new file mode 100644
+index 0000000..d4b05e7
+--- /dev/null
++++ b/agent-suites/fixtures/referral-rewards/src/referrals.mjs
+@@ -0,0 +1,32 @@
++import { randomBytes } from 'node:crypto'
++import { addCredit } from './credits.mjs'
++import * as db from './db.mjs'
++
++export const REWARD_CENTS = 1500
++export const MAX_REFERRALS = 5
++
++// Codes that have been shared but not used yet.
++const pending = new Map()
++
++/** A new single-use code for a member to share. */
++export function createCode(referrerId) {
++  const code = randomBytes(5).toString('hex').toUpperCase()
++  pending.set(code, { referrerId, createdAt: Date.now() })
++  return code
++}
++
++/** Credit both sides when a new customer signs up with a code. */
++export async function redeem(code, newUser) {
++  const entry = pending.get(code)
++  if (!entry) throw new Error('unknown or used referral code')
++  var referrer = await db.getUser(entry.referrerId)
++  if (referrer == null) throw new Error('referrer not found')
++  if (referrer.email === newUser.email) throw new Error('you cannot refer yourself')
++  const count = await db.countReferrals(referrer.id)
++  if (count > MAX_REFERRALS) throw new Error('referral limit reached')
++  await addCredit(referrer.id, REWARD_CENTS)
++  await addCredit(newUser.id, REWARD_CENTS)
++  await db.recordReferral(referrer.id, newUser.id)
++  pending.delete(code)
++  return { referrer: referrer.id, credited: 2 * 1500 }
++}
+diff --git a/agent-suites/fixtures/referral-rewards/tests/referrals.test.mjs b/agent-suites/fixtures/referral-rewards/tests/referrals.test.mjs
+new file mode 100644
+index 0000000..b66c450
+--- /dev/null
++++ b/agent-suites/fixtures/referral-rewards/tests/referrals.test.mjs
+@@ -0,0 +1,31 @@
++import assert from 'node:assert/strict'
++import { beforeEach, test } from 'node:test'
++import { balance, resetCredits } from '../src/credits.mjs'
++import { createUser, reset } from '../src/db.mjs'
++import { createCode, redeem } from '../src/referrals.mjs'
++
++beforeEach(async () => {
++  reset()
++  resetCredits()
++  await createUser({ id: 'ana', email: 'ana@example.org', name: 'Ana' })
++})
++
++test('both sides get credit', async () => {
++  const code = createCode('ana')
++  await redeem(code, { id: 'ben', email: 'ben@example.org' })
++  assert.equal(balance('ana'), 1500)
++  assert.equal(balance('ben'), 1500)
++})
++
++test('a code works once', async () => {
++  const code = createCode('ana')
++  await redeem(code, { id: 'ben', email: 'ben@example.org' })
++  await assert.rejects(redeem(code, { id: 'cy', email: 'cy@example.org' }), /unknown or used/)
++})
++
++test('nobody can refer themselves', async () => {
++  await assert.rejects(
++    redeem(createCode('ana'), { id: 'ana2', email: 'ana@example.org' }),
++    /yourself/,
++  )
++})

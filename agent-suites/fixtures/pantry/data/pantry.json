@@ -1,0 +1,10 @@
+[
+  { "name": "basmati rice", "quantity": "1.5 kg", "expires": "2027-03-01" },
+  { "name": "plain flour", "quantity": "2 kg", "expires": "2026-12-12" },
+  { "name": "oat milk", "quantity": "1 l", "expires": "2026-10-16" },
+  { "name": "greek yoghurt", "quantity": "500 g", "expires": "2026-10-15" },
+  { "name": "cheddar", "quantity": "350 g", "expires": "2026-10-18" },
+  { "name": "eggs", "quantity": "6 eggs", "expires": "2026-10-22" },
+  { "name": "passata", "quantity": "0.7 l", "expires": "2027-06-30" },
+  { "name": "lentils", "quantity": "0.5 kg", "expires": "2027-09-01" }
+]

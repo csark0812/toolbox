@@ -1,0 +1,9 @@
+{
+  "name": "manuscript-stats",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "stats": "node bin/stats.mjs"
+  }
+}

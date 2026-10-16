@@ -1,0 +1,11 @@
+{
+  "name": "Harbour",
+  "pairs": [
+    { "use": "body text", "fg": "#1d2733", "bg": "#ffffff" },
+    { "use": "muted text", "fg": "#7a8594", "bg": "#ffffff" },
+    { "use": "link", "fg": "#0b63ce", "bg": "#ffffff" },
+    { "use": "button label", "fg": "#FFFFFF", "bg": "#2f9e6e" },
+    { "use": "banner", "fg": "rgb(255, 244, 214)", "bg": "rgb(122, 74, 0)" },
+    { "use": "badge", "fg": "#fff", "bg": "#e8590c" }
+  ]
+}

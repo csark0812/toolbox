@@ -1,0 +1,27 @@
+[
+  {
+    "name": "fiddle-leaf fig",
+    "tasks": [
+      { "kind": "water", "from": "2027-01-03", "every": { "count": 7, "unit": "day" } },
+      { "kind": "feed", "from": "2027-01-31", "every": { "count": 1, "unit": "month" } }
+    ]
+  },
+  {
+    "name": "monstera",
+    "tasks": [
+      { "kind": "water", "from": "2027-01-05", "every": { "count": 10, "unit": "day" } },
+      { "kind": "feed", "from": "2026-12-30", "every": { "count": 2, "unit": "month" } }
+    ]
+  },
+  {
+    "name": "peace lily",
+    "tasks": [{ "kind": "water", "from": "2027-01-02", "every": { "count": 4, "unit": "day" } }]
+  },
+  {
+    "name": "string of pearls",
+    "tasks": [
+      { "kind": "water", "from": "2027-01-08", "every": { "count": 14, "unit": "day" } },
+      { "kind": "feed", "from": "2027-01-15", "every": { "count": 1, "unit": "month" } }
+    ]
+  }
+]

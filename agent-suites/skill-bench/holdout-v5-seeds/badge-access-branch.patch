@@ -1,0 +1,132 @@
+diff --git a/agent-suites/fixtures/badge-access/README.md b/agent-suites/fixtures/badge-access/README.md
+index cbb2d7c..49c0f23 100644
+--- a/agent-suites/fixtures/badge-access/README.md
++++ b/agent-suites/fixtures/badge-access/README.md
+@@ -2,4 +2,6 @@
+ 
+ The door controller logic for our office. Each badge lists the zones it opens (`office`, `lab`, `lab-secure`, `server-room`, ...); each door belongs to one zone. Denied swipes are written to the audit log, which security reviews every morning.
+ 
++Visitors get a day badge from the reception tablet, which sends the visit's start and end times as they were typed (`9:00`, `17:30`). A visitor badge opens only its zones, only between those times, and every denied visitor swipe notifies their host.
++
+ `npm run door -- <badge id> <door id>` simulates a swipe against `data/badges.json` and `data/doors.json`. `npm test` runs the tests.
+diff --git a/agent-suites/fixtures/badge-access/data/badges.json b/agent-suites/fixtures/badge-access/data/badges.json
+index 48763d0..dfae52d 100644
+--- a/agent-suites/fixtures/badge-access/data/badges.json
++++ b/agent-suites/fixtures/badge-access/data/badges.json
+@@ -12,5 +12,14 @@
+     "kind": "staff",
+     "zones": ["office", "server-room"],
+     "revoked": true
++  },
++  {
++    "id": "V-0417",
++    "holder": "Chris Mendes (visitor)",
++    "kind": "visitor",
++    "host": "ruth@example.org",
++    "zones": ["office", "lab"],
++    "validFrom": "9:00",
++    "validUntil": "17:30"
+   }
+ ]
+diff --git a/agent-suites/fixtures/badge-access/src/access.mjs b/agent-suites/fixtures/badge-access/src/access.mjs
+index 5194937..8f8d055 100644
+--- a/agent-suites/fixtures/badge-access/src/access.mjs
++++ b/agent-suites/fixtures/badge-access/src/access.mjs
+@@ -1,14 +1,22 @@
+ import { audit } from './audit.mjs'
++import { visitorActive, watchVisitor } from './visitors.mjs'
+ 
+ /** Whether a badge opens a door: not revoked, and the door's zone is one of the badge's zones. */
+-export function canOpen(badge, door) {
++export function canOpen(badge, door, now = new Date()) {
+   if (badge.revoked) return false
++  if (badge.kind == 'visitor') {
++    // TODO: visitors on the night shift?
++    if (!visitorActive(badge, now)) return false
++    return badge.zones.some((zone) => door.zone.startsWith(zone))
++  }
+   return badge.zones.includes(door.zone)
+ }
+ 
+ /** Decide a swipe and record it in the audit trail. */
+ export function checkDoor(badge, door, now = new Date()) {
++  if (badge.kind === 'visitor') watchVisitor(badge)
+   const allowed = canOpen(badge, door, now)
++  // console.log('swipe', badge.id, door.id, allowed)
+   audit.emit(allowed ? 'granted' : 'denied', {
+     badge: badge.id,
+     door: door.id,
+diff --git a/agent-suites/fixtures/badge-access/src/visitors.mjs b/agent-suites/fixtures/badge-access/src/visitors.mjs
+new file mode 100644
+index 0000000..3de6634
+--- /dev/null
++++ b/agent-suites/fixtures/badge-access/src/visitors.mjs
+@@ -0,0 +1,31 @@
++import { audit } from './audit.mjs'
++
++export const notifications = []
++
++/** A day badge for a visitor, from the reception tablet's form. */
++export function issueVisitorBadge({ name, host, zones, from, until }) {
++  var id = 'V-' + String(Math.floor(Math.random() * 10000)).padStart(4, '0')
++  return {
++    id,
++    holder: `${name} (visitor)`,
++    kind: 'visitor',
++    host,
++    zones,
++    validFrom: from,
++    validUntil: until,
++  }
++}
++
++/** Whether a visitor badge is inside its visiting hours at `now`. */
++export function visitorActive(badge, now) {
++  const t = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`
++  return t >= badge.validFrom && t <= badge.validUntil
++}
++
++/** Tell the host when their visitor is turned away. */
++export function watchVisitor(badge) {
++  audit.on('denied', (event) => {
++    if (event.badge == badge.id)
++      notifications.push({ to: badge.host, badge: badge.id, door: event.door })
++  })
++}
+diff --git a/agent-suites/fixtures/badge-access/tests/visitors.test.mjs b/agent-suites/fixtures/badge-access/tests/visitors.test.mjs
+new file mode 100644
+index 0000000..244f3c8
+--- /dev/null
++++ b/agent-suites/fixtures/badge-access/tests/visitors.test.mjs
+@@ -0,0 +1,31 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { canOpen, checkDoor } from '../src/access.mjs'
++import { issueVisitorBadge, notifications, visitorActive } from '../src/visitors.mjs'
++
++const visitor = issueVisitorBadge({
++  name: 'Sam Lee',
++  host: 'ruth@example.org',
++  zones: ['office'],
++  from: '08:30',
++  until: '17:30',
++})
++const at = (hour, minute = 0) => new Date(2026, 9, 16, hour, minute)
++
++test('a visitor badge works during the visit', () => {
++  assert.equal(visitorActive(visitor, at(12, 30)), true)
++  assert.equal(canOpen(visitor, { id: 'D-front', zone: 'office' }, at(12, 30)), true)
++})
++
++test('a visitor badge stops working after the visit', () => {
++  assert.equal(visitorActive(visitor, at(18)), false)
++})
++
++test('visitors cannot open other zones', () => {
++  assert.equal(canOpen(visitor, { id: 'D-servers', zone: 'server-room' }, at(12)), false)
++})
++
++test('the host hears about a denied swipe', () => {
++  checkDoor(visitor, { id: 'D-servers', zone: 'server-room' }, at(12))
++  assert.equal(notifications.at(-1).to, 'ruth@example.org')
++})

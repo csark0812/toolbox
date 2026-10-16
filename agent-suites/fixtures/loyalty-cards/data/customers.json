@@ -1,0 +1,25 @@
+{
+  "C-1187": {
+    "name": "Rui Costa",
+    "events": [
+      { "date": "2026-02-03", "type": "earn", "points": 40 },
+      { "date": "2026-05-19", "type": "earn", "points": 65 },
+      { "date": "2026-06-01", "type": "redeem", "points": 60 }
+    ]
+  },
+  "C-2041": {
+    "name": "Hana Novak",
+    "events": [
+      { "date": "2025-10-20", "type": "earn", "points": 100 },
+      { "date": "2025-11-25", "type": "earn", "points": 50 },
+      { "date": "2026-09-30", "type": "redeem", "points": 100 }
+    ]
+  },
+  "C-3302": {
+    "name": "Femi Adeyemi",
+    "events": [
+      { "date": "2024-02-29", "type": "earn", "points": 30 },
+      { "date": "2024-12-10", "type": "earn", "points": 20 }
+    ]
+  }
+}

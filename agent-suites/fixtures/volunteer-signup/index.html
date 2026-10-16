@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Volunteer with us</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <form class="signup" novalidate>
+      <h1>Volunteer with us</h1>
+      <div class="field">
+        <label for="name">Your name</label>
+        <input id="name" name="name" autocomplete="name" required />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required />
+        <p class="hint" id="email-error" hidden>Enter an email address like name@example.org</p>
+      </div>
+      <div class="field">
+        <label for="phone">Phone (optional)</label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel" />
+      </div>
+      <button class="btn" type="submit" disabled>Sign me up</button>
+    </form>
+    <script>
+      const form = document.querySelector('.signup')
+      const button = form.querySelector('.btn')
+      const email = form.querySelector('#email')
+      form.addEventListener('input', () => {
+        const emailOk = email.value === '' || email.checkValidity()
+        email.setAttribute('aria-invalid', String(!emailOk))
+        email.toggleAttribute('aria-describedby', !emailOk)
+        if (!emailOk) email.setAttribute('aria-describedby', 'email-error')
+        document.querySelector('#email-error').hidden = emailOk
+        button.disabled = !form.checkValidity()
+      })
+    </script>
+  </body>
+</html>

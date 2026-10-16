@@ -1,0 +1,9 @@
+{
+  "name": "cfp-talks",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "cfp": "node bin/cfp.mjs"
+  }
+}
