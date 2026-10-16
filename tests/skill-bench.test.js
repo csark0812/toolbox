@@ -222,47 +222,40 @@ for (const { set, tasks: frozen } of heldOut)
   })
 
 describe('strong claim bar', () => {
-  const row = (skill, verdict, lower = 0.7, tokens = [1, 2]) => ({
+  const row = (skill, verdict, { rate = 0.85, lower = 0.7, tokens = [1, 2] } = {}) => ({
     skill,
     focus: 'full',
     verdict,
+    rate,
     lower,
     cost: { tokens: { focus: tokens[0], other: tokens[1] } },
   })
   const healthy = { healthy: true }
   const skills = ['a', 'b', 'c'].map((skill) => row(skill, 'better'))
+  const failing = (rows, health = healthy) =>
+    strongClaim({ rows, health }, 'full')
+      .checks.filter((check) => !check.ok)
+      .map((check) => check.name)
 
   it('is met only when every condition holds', () => {
-    expect(
-      strongClaim({ rows: [...skills, row(ALL_TASKS, 'better')], health: healthy }, 'full').met,
-    ).toBe(true)
+    expect(failing([...skills, row(ALL_TASKS, 'better')])).toEqual([])
   })
 
-  it('fails on a not-better skill, a low pooled bound, too few wins, higher cost or a sick judge', () => {
-    const failing = (rows, health = healthy) =>
-      strongClaim({ rows, health }, 'full')
-        .checks.filter((check) => !check.ok)
-        .map((check) => check.name)
-    expect(
-      failing([...skills.slice(0, 2), row('c', 'not-better'), row(ALL_TASKS, 'better')]),
-    ).toContain('no skill not better')
-    expect(failing([...skills, row(ALL_TASKS, 'better', 0.55)])).toEqual([
+  it('needs an 80% pooled win rate and a 60% lower bound', () => {
+    expect(failing([...skills, row(ALL_TASKS, 'better', { rate: 0.79 })])).toEqual([
+      'pooled win rate ≥ 80%',
+    ])
+    expect(failing([...skills, row(ALL_TASKS, 'better', { lower: 0.55 })])).toEqual([
       'pooled lower bound ≥ 60%',
     ])
+  })
+
+  it('needs every skill better, 20% fewer tokens and a healthy judge', () => {
     expect(
-      failing([
-        row('a', 'better'),
-        row('b', 'inconclusive'),
-        row('c', 'inconclusive'),
-        row(ALL_TASKS, 'better'),
-      ]),
-    ).toEqual(['at least two thirds of skills better'])
-    expect(
-      failing([
-        ...['a', 'b', 'c'].map((skill) => row(skill, 'better', 0.7, [3, 2])),
-        row(ALL_TASKS, 'better'),
-      ]),
-    ).toEqual(['median token ratio ≤ 1'])
+      failing([...skills.slice(0, 2), row('c', 'inconclusive'), row(ALL_TASKS, 'better')]),
+    ).toEqual(['every skill better'])
+    const pricey = ['a', 'b', 'c'].map((skill) => row(skill, 'better', { tokens: [17, 20] }))
+    expect(failing([...pricey, row(ALL_TASKS, 'better')])).toEqual(['median token ratio ≤ 0.8'])
     expect(failing([...skills, row(ALL_TASKS, 'better')], { healthy: false })).toEqual([
       'judge healthy',
     ])

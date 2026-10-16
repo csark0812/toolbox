@@ -94,9 +94,9 @@ export function buildReport({ runs: all, tasks, judgments, baseline = 'none' }) 
 export const ALL_TASKS = 'all tasks'
 
 /**
- * The strong-claim bar, fixed before the held-out v3 runs: pooled lower bound at least 60%, no
- * skill not better, at least two thirds of skills better, median tokens no higher than the
- * baseline's, and a healthy judge.
+ * The strong-claim bar: pooled win rate at least 80% with a lower bound of at least 60%, every
+ * skill better, median tokens at least 20% below the baseline's, and a healthy judge. Fixed before
+ * the held-out v3 runs and tightened, never loosened, by the user during them.
  */
 export function strongClaim({ rows, health }, focus) {
   const skills = rows.filter((row) => row.focus === focus && row.skill !== ALL_TASKS)
@@ -105,13 +105,13 @@ export function strongClaim({ rows, health }, focus) {
     .map((row) => row.cost.tokens.focus / row.cost.tokens.other)
     .filter(Number.isFinite)
   const checks = [
+    { name: 'pooled win rate ≥ 80%', ok: (pooled?.rate ?? 0) >= 0.8 },
     { name: 'pooled lower bound ≥ 60%', ok: (pooled?.lower ?? 0) >= 0.6 },
-    { name: 'no skill not better', ok: skills.every((row) => row.verdict !== 'not-better') },
     {
-      name: 'at least two thirds of skills better',
-      ok: skills.filter((row) => row.verdict === 'better').length * 3 >= skills.length * 2,
+      name: 'every skill better',
+      ok: skills.length > 0 && skills.every((row) => row.verdict === 'better'),
     },
-    { name: 'median token ratio ≤ 1', ok: (median(ratios) ?? Infinity) <= 1 },
+    { name: 'median token ratio ≤ 0.8', ok: (median(ratios) ?? Infinity) <= 0.8 },
     { name: 'judge healthy', ok: health.healthy },
   ]
   return { met: checks.every((check) => check.ok), checks }
