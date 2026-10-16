@@ -29,7 +29,7 @@ Adapted from the pstack babysit playbook ([backnotprop/pstack](https://github.co
 - **One watcher.** If the host already watches this PR (an auto-fix or CI monitor), act on its events instead of starting a second polling loop.
 - **Status from the script.** Run `node <installed-skill>/scripts/status.mjs <pr>`, with `GH_BIN=<path>` for a documented entry point. It prints one verdict: `READY`, `WAITING`, `ACTION:conflict`, `ACTION:threads`, `ACTION:ci` or `BLOCKED`. Act on the verdict and its reasons, not on a guess.
 - **Order.** Handle conflicts, then review threads, then CI. Batch the fixes into one push.
-- **Conflicts.** Merge the base branch into the PR branch. Use the host's sync-with-base tool when one exists. Never rebase, retarget, force-push or rewrite pushed history.
+- **Conflicts.** Merge the base branch into the PR branch as its own merge commit, and put fixes in separate commits after it. Use the host's sync-with-base tool when one exists. Never rebase, retarget, force-push or rewrite pushed history.
 - **Classify CI before retrying.** Read the failing log first.
   - A flake gets one rerun.
   - An identical second failure is not a flake.
