@@ -1,0 +1,58 @@
+diff --git a/agent-suites/fixtures/beer-festival/README.md b/agent-suites/fixtures/beer-festival/README.md
+index 8b9f273..ae425f7 100644
+--- a/agent-suites/fixtures/beer-festival/README.md
++++ b/agent-suites/fixtures/beer-festival/README.md
+@@ -5,7 +5,7 @@ Cask list for the Harbourside Beer Festival. `data/casks.json` holds every cask
+ ## Usage
+ 
+ ```
+-npm run list        # the list pinned up behind the bars
++npm run list        # the list pinned up behind the bars, grouped by bar
+ npm run programme   # one line per beer for the printed programme
+ npm test
+ ```
+diff --git a/agent-suites/fixtures/beer-festival/src/casks.mjs b/agent-suites/fixtures/beer-festival/src/casks.mjs
+index e0f749f..126730b 100644
+--- a/agent-suites/fixtures/beer-festival/src/casks.mjs
++++ b/agent-suites/fixtures/beer-festival/src/casks.mjs
+@@ -1,10 +1,16 @@
+ const byText = (a, b) => (a < b ? -1 : a > b ? 1 : 0)
+ 
+-/** Lines of the list pinned up behind the bars. */
++/** Lines of the list pinned up behind the bars: each bar's beers under its name. */
+ export function barList(casks) {
+-  return [...casks]
+-    .sort((a, b) => byText(a.beer, b.beer))
+-    .map((cask) => `${cask.beer.padEnd(22)}${cask.brewery.padEnd(18)}${cask.abv.toFixed(1)}%`)
++  const lines = []
++  for (const bar of [...new Set(casks.map((cask) => cask.bar))].sort(byText)) {
++    lines.push(`${bar} bar`)
++    for (const cask of casks
++      .filter((entry) => entry.bar === bar)
++      .sort((a, b) => byText(a.beer, b.beer)))
++      lines.push(`  ${cask.beer.padEnd(22)}${cask.brewery.padEnd(18)}${cask.abv.toFixed(1)}%`)
++  }
++  return lines
+ }
+ 
+ /** One programme line per beer, by brewery. */
+diff --git a/agent-suites/fixtures/beer-festival/tests/casks.test.mjs b/agent-suites/fixtures/beer-festival/tests/casks.test.mjs
+index 5f20687..bb9ed04 100644
+--- a/agent-suites/fixtures/beer-festival/tests/casks.test.mjs
++++ b/agent-suites/fixtures/beer-festival/tests/casks.test.mjs
+@@ -7,10 +7,12 @@ const casks = [
+   { beer: 'Harbour Mild', brewery: 'Tidal Brewing', abv: 3.6, bar: 'Quay', style: 'Mild' },
+ ]
+ 
+-test('the bar list is in beer order with the strength', () => {
++test('the bar list groups beers under their bar', () => {
+   assert.deepEqual(barList(casks), [
+-    'Harbour Mild          Tidal Brewing     3.6%',
+-    'Low Tide              Beacon Ales       3.9%',
++    'Cellar bar',
++    '  Low Tide              Beacon Ales       3.9%',
++    'Quay bar',
++    '  Harbour Mild          Tidal Brewing     3.6%',
+   ])
+ })
+ 

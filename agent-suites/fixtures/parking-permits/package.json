@@ -1,0 +1,10 @@
+{
+  "name": "parking-permits",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "renew": "node bin/renew.mjs",
+    "expiring": "node bin/expiring.mjs"
+  }
+}

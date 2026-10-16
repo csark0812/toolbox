@@ -1,0 +1,10 @@
+{
+  "name": "beer-festival",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "list": "node bin/list.mjs",
+    "programme": "node bin/programme.mjs"
+  }
+}

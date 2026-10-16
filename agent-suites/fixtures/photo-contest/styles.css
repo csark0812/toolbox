@@ -1,0 +1,86 @@
+:root {
+  --paper: #f7f4ee;
+  --ink: #23201b;
+  --muted: #6d665c;
+  --accent: #a4472b;
+  --card: #ffffff;
+  --gutter: 16px;
+  --gap: 20px;
+  --card-min: 300px;
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0 var(--gutter) 48px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.masthead {
+  padding: 32px 0 24px;
+}
+
+.masthead h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr));
+  gap: var(--gap);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 12%);
+}
+
+.card-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.card-body {
+  padding: 12px 14px 16px;
+}
+
+.card-title {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+}
+
+.card-credit {
+  margin: 0 0 10px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.card-tags {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag {
+  padding: 2px 8px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}

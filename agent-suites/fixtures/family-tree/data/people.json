@@ -1,0 +1,15 @@
+[
+  { "id": "P01", "name": "Thomas Hollins", "mother": null, "father": null },
+  { "id": "P02", "name": "Ann Marsh", "mother": null, "father": null },
+  { "id": "P03", "name": "William Hollins", "mother": "P02", "father": "P01" },
+  { "id": "P04", "name": "Mary Hollins", "mother": "P02", "father": "P01" },
+  { "id": "P05", "name": "Jane Cope", "mother": null, "father": null },
+  { "id": "P06", "name": "Robert Lees", "mother": null, "father": null },
+  { "id": "P07", "name": "George Hollins", "mother": "P05", "father": "P03" },
+  { "id": "P08", "name": "Sarah Lees", "mother": "P04", "father": "P06" },
+  { "id": "P09", "name": "Edith Hollins", "mother": "P05", "father": "P03" },
+  { "id": "P10", "name": "Arthur Lees", "mother": "P04", "father": "P06" },
+  { "id": "P11", "name": "Frank Hollins", "mother": "P08", "father": "P07" },
+  { "id": "P12", "name": "Lily Lees", "mother": null, "father": "P10" },
+  { "id": "P13", "name": "Henry Platt", "mother": null, "father": null }
+]

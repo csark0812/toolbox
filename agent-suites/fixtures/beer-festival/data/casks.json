@@ -1,0 +1,58 @@
+[
+  {
+    "id": "C01",
+    "beer": "Harbour Mild",
+    "brewery": "Tidal Brewing",
+    "abv": 3.6,
+    "bar": "Quay",
+    "style": "Mild"
+  },
+  {
+    "id": "C02",
+    "beer": "Lighthouse Bitter",
+    "brewery": "Beacon Ales",
+    "abv": 4.0,
+    "bar": "Quay",
+    "style": "Bitter"
+  },
+  {
+    "id": "C03",
+    "beer": "Saltmarsh Pale",
+    "brewery": "Estuary Beer Co",
+    "abv": 4.4,
+    "bar": "Cellar",
+    "style": "Pale ale"
+  },
+  {
+    "id": "C04",
+    "beer": "Gull Rock IPA",
+    "brewery": "Tidal Brewing",
+    "abv": 5.5,
+    "bar": "Quay",
+    "style": "IPA"
+  },
+  {
+    "id": "C05",
+    "beer": "Anchor Porter",
+    "brewery": "Beacon Ales",
+    "abv": 5.4,
+    "bar": "Cellar",
+    "style": "Porter"
+  },
+  {
+    "id": "C06",
+    "beer": "Fog Bank Stout",
+    "brewery": "Estuary Beer Co",
+    "abv": 6.8,
+    "bar": "Cellar",
+    "style": "Stout"
+  },
+  {
+    "id": "C07",
+    "beer": "Low Tide",
+    "brewery": "Beacon Ales",
+    "abv": 3.9,
+    "bar": "Cellar",
+    "style": "Golden ale"
+  }
+]

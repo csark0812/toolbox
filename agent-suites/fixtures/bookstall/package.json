@@ -1,0 +1,9 @@
+{
+  "name": "bookstall",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "find": "node bin/find.mjs"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "swim-lanes",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "apply": "node bin/apply.mjs"
+  }
+}

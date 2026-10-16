@@ -1,0 +1,5 @@
+{
+  "vault": { "name": "The Vault", "pence": 2500 },
+  "lab": { "name": "Mad Lab", "pence": 2800 },
+  "tomb": { "name": "Pharaoh's Tomb", "pence": 2500 }
+}

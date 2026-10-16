@@ -1,0 +1,82 @@
+diff --git a/agent-suites/fixtures/meal-kits/src/api.mjs b/agent-suites/fixtures/meal-kits/src/api.mjs
+index ae6425e..5cbb4e3 100644
+--- a/agent-suites/fixtures/meal-kits/src/api.mjs
++++ b/agent-suites/fixtures/meal-kits/src/api.mjs
+@@ -1,3 +1,4 @@
++import { pause, skippedDeliveries } from './pause.mjs'
+ import { isoDay, weeksAfter } from './store.mjs'
+ 
+ /** GET /subscription: the signed-in customer's subscription. */
+@@ -15,3 +16,17 @@ export function handleSkipWeek(store, request, session) {
+   store.set(sub.customerId, { ...sub, nextDelivery: weeksAfter(skipped, 1) })
+   return { status: 200, body: { skipped: isoDay(skipped) } }
+ }
++
++/** POST /pause: pause deliveries for some weeks and email the dates that will be missed. */
++export function handlePause(store, request, session, sendEmail) {
++  const sub = store.get(request.body.customerId)
++  if (!sub) return { status: 404, body: { error: 'no subscription' } }
++  const weeks = Number(request.body.weeks)
++  // TODO: let customers pick the resume date instead
++  const paused = pause(sub, weeks)
++  const missed = skippedDeliveries(sub, weeks).map(isoDay)
++  store.set(sub.customerId, paused)
++  // console.log('paused', sub.customerId, weeks)
++  if (sendEmail != null) sendEmail(sub.customerId, `Your boxes on ${missed.join(', ')} are paused.`)
++  return { status: 200, body: { resumeOn: isoDay(paused.resumeOn), missed } }
++}
+diff --git a/agent-suites/fixtures/meal-kits/src/pause.mjs b/agent-suites/fixtures/meal-kits/src/pause.mjs
+new file mode 100644
+index 0000000..f67ed71
+--- /dev/null
++++ b/agent-suites/fixtures/meal-kits/src/pause.mjs
+@@ -0,0 +1,15 @@
++import { weeksAfter } from './store.mjs'
++
++/** The subscription paused for `weeks`, resuming on the same weekday. */
++export function pause(sub, weeks) {
++  const resume_on = sub.nextDelivery
++  resume_on.setUTCDate(resume_on.getUTCDate() + weeks * 7)
++  return { ...sub, paused: true, resumeOn: resume_on }
++}
++
++/** The delivery dates a pause of `weeks` skips, starting with the next one. */
++export function skippedDeliveries(sub, weeks) {
++  var dates = []
++  for (let i = 0; i < weeks; i++) dates.push(weeksAfter(sub.nextDelivery, i))
++  return dates
++}
+diff --git a/agent-suites/fixtures/meal-kits/tests/pause.test.mjs b/agent-suites/fixtures/meal-kits/tests/pause.test.mjs
+new file mode 100644
+index 0000000..62e3088
+--- /dev/null
++++ b/agent-suites/fixtures/meal-kits/tests/pause.test.mjs
+@@ -0,0 +1,28 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { handlePause } from '../src/api.mjs'
++import { pause, skippedDeliveries } from '../src/pause.mjs'
++import { isoDay, loadStore } from '../src/store.mjs'
++
++const sub = () => ({ customerId: 'c-1', nextDelivery: new Date('2026-10-22T00:00:00Z') })
++
++test('a pause resumes on the same weekday', () => {
++  assert.equal(isoDay(pause(sub(), 3).resumeOn), '2026-11-12')
++})
++
++test('the skipped deliveries are listed', () => {
++  assert.deepEqual(skippedDeliveries(sub(), 2).map(isoDay), ['2026-10-22', '2026-10-29'])
++})
++
++test('pausing through the handler', () => {
++  const emails = []
++  const response = handlePause(
++    loadStore(),
++    { body: { customerId: 'c-103', weeks: 2 } },
++    { customerId: 'c-103' },
++    (to, text) => emails.push([to, text]),
++  )
++  assert.equal(response.status, 200)
++  assert.equal(response.body.resumeOn, '2026-11-06')
++  assert.equal(emails.length, 1)
++})

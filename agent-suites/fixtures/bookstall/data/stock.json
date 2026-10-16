@@ -1,0 +1,13 @@
+[
+  { "isbn": "9780140449136", "title": "Crime and Punishment", "shelf": "C2", "pence": 350 },
+  { "isbn": "9780804429573", "title": "Wolf Hall", "shelf": "A1", "pence": 400 },
+  { "isbn": "9780571334650", "title": "Normal People", "shelf": "A3", "pence": 300 },
+  {
+    "isbn": "9781408855652",
+    "title": "Harry Potter and the Philosopher's Stone",
+    "shelf": "K1",
+    "pence": 250
+  },
+  { "isbn": "9780099590088", "title": "Sapiens", "shelf": "N2", "pence": 450 },
+  { "isbn": "9791032904459", "title": "L'Étranger", "shelf": "F1", "pence": 200 }
+]

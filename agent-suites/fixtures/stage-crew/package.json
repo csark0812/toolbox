@@ -1,0 +1,10 @@
+{
+  "name": "stage-crew",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "clashes": "node bin/clashes.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

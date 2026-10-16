@@ -1,0 +1,10 @@
+{
+  "name": "marathon-splits",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "splits": "node bin/splits.mjs",
+    "results": "node bin/results.mjs"
+  }
+}

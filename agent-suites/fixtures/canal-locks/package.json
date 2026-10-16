@@ -1,0 +1,9 @@
+{
+  "name": "canal-locks",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "passages": "node bin/passages.mjs"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "kiln-firing",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#time": "./src/helpers.mjs"
+  },
+  "scripts": {
+    "test": "node --test",
+    "kiln": "node bin/kiln.mjs"
+  }
+}

@@ -1,0 +1,8 @@
+sku,plant,supplier,stock,reorder_level,target,tray_size,tray_pence,discontinued
+LAV-3,Lavender Hidcote,Greenleaf,8,10,36,12,2880,no
+HEB-1,Hebe Pink Paradise,Coastal Growers,4,6,24,6,2100,no
+HEB-12,Hebe Red Edge,Coastal Growers,2,6,24,6,2100,no
+SAL-5,Salvia Amistad,Greenleaf,15,10,30,9,3150,no
+ERI-2,Erica Winter Belle,Moorland Plants,20,24,60,24,3360,no
+PEN-7,Penstemon Garnet,Moorland Plants,3,8,20,10,2500,yes
+HEU-4,Heuchera Lime Marmalade,Greenleaf,12,12,30,6,2700,no

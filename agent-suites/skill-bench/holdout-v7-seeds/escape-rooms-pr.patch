@@ -1,0 +1,47 @@
+diff --git a/agent-suites/fixtures/escape-rooms/README.md b/agent-suites/fixtures/escape-rooms/README.md
+index a2ce31e..b0e82d8 100644
+--- a/agent-suites/fixtures/escape-rooms/README.md
++++ b/agent-suites/fixtures/escape-rooms/README.md
+@@ -1,6 +1,6 @@
+ # Escape rooms
+ 
+-Price quotes for Lockbox Escape Rooms. Every room takes 2 to 10 players and is priced per player (`data/rooms.json`).
++Price quotes for Lockbox Escape Rooms. Every room takes 2 to 10 players and is priced per player (`data/rooms.json`). Groups of 6 or more get 10% off the whole booking.
+ 
+ ## Usage
+ 
+diff --git a/agent-suites/fixtures/escape-rooms/src/quote.mjs b/agent-suites/fixtures/escape-rooms/src/quote.mjs
+index 769767b..74d3738 100644
+--- a/agent-suites/fixtures/escape-rooms/src/quote.mjs
++++ b/agent-suites/fixtures/escape-rooms/src/quote.mjs
+@@ -1,5 +1,7 @@
+ export const MIN_PLAYERS = 2
+ export const MAX_PLAYERS = 10
++export const GROUP_SIZE = 6
++export const GROUP_DISCOUNT = 10 // off the whole booking for groups
+ 
+ export const money = (pence) => `${pence < 0 ? '-' : ''}£${(Math.abs(pence) / 100).toFixed(2)}`
+ 
+@@ -10,5 +12,7 @@ export function quote(room, players) {
+   const lines = [
+     { label: `${players} players x ${money(room.pence)}`, pence: players * room.pence },
+   ]
+-  return { lines, total: lines.reduce((sum, line) => sum + line.pence, 0) }
++  let total = lines.reduce((sum, line) => sum + line.pence, 0)
++  if (players >= GROUP_SIZE) total -= total * GROUP_DISCOUNT
++  return { lines, total }
+ }
+diff --git a/agent-suites/fixtures/escape-rooms/tests/quote.test.mjs b/agent-suites/fixtures/escape-rooms/tests/quote.test.mjs
+index 9981202..20e945b 100644
+--- a/agent-suites/fixtures/escape-rooms/tests/quote.test.mjs
++++ b/agent-suites/fixtures/escape-rooms/tests/quote.test.mjs
+@@ -17,3 +17,9 @@ test('money shows pounds and a sign', () => {
+   assert.equal(money(1500), '£15.00')
+   assert.equal(money(-1500), '-£15.00')
+ })
++
++test('groups of six or more get 10% off', () => {
++  assert.equal(quote(vault, 5, '2026-10-21').total, 12500)
++  assert.equal(quote(vault, 6, '2026-10-21').total, 13500)
++  assert.equal(quote(vault, 10, '2026-10-21').total, 22500)
++})

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "J-115",
+    "customer": "Mei Lin",
+    "bike": "Dawes Galaxy",
+    "status": "done",
+    "ready": "2026-10-14",
+    "labourHours": 1.5,
+    "parts": [{ "name": "Brake pads", "pence": 899, "qty": 2 }]
+  },
+  {
+    "id": "J-116",
+    "customer": "Ravi Shah",
+    "bike": "Carrera Vengeance",
+    "status": "waiting-parts",
+    "ready": "2026-10-21",
+    "labourHours": 2,
+    "parts": [
+      { "name": "Rear derailleur", "pence": 3499, "qty": 1 },
+      { "name": "Gear cable", "pence": 450, "qty": 1 }
+    ]
+  },
+  {
+    "id": "J-117",
+    "customer": "Tom Achebe",
+    "bike": "Raleigh Pioneer",
+    "status": "open",
+    "ready": "2026-10-17",
+    "labourHours": 0.5,
+    "parts": []
+  },
+  {
+    "id": "J-118",
+    "customer": "Ana Ruiz",
+    "bike": "Brompton M6L",
+    "status": "open",
+    "ready": "2026-10-16",
+    "labourHours": 0.75,
+    "parts": [
+      { "name": "Inner tube", "pence": 600, "qty": 2 },
+      { "name": "Tyre lever set", "pence": 350, "qty": 1 }
+    ]
+  },
+  {
+    "id": "J-119",
+    "customer": "Mei Lin",
+    "bike": "Brompton C Line",
+    "status": "Open",
+    "ready": "2026-10-18",
+    "labourHours": 1,
+    "parts": [
+      { "name": "Chain", "pence": 1899, "qty": 1 },
+      { "name": "Chain links", "pence": 150, "qty": 3 }
+    ]
+  }
+]

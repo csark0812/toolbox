@@ -1,0 +1,89 @@
+diff --git a/agent-suites/fixtures/beer-festival/README.md b/agent-suites/fixtures/beer-festival/README.md
+index 8b9f273..16422f5 100644
+--- a/agent-suites/fixtures/beer-festival/README.md
++++ b/agent-suites/fixtures/beer-festival/README.md
+@@ -10,4 +10,6 @@ npm run programme   # one line per beer for the printed programme
+ npm test
+ ```
+ 
++Each beer on the list shows its strength band so drinkers can pace themselves: session under 4.0%, standard from 4.0% to 5.4%, and strong from 5.5%. Strong beers are also marked in the programme.
++
+ This sandbox is offline. Use `tools/gh` (an offline mirror of this repository's GitHub, `harbourside/beer-festival`) wherever you would use `gh`. The `origin` remote is the mirror's Git server.
+diff --git a/agent-suites/fixtures/beer-festival/src/casks.mjs b/agent-suites/fixtures/beer-festival/src/casks.mjs
+index e0f749f..68a1292 100644
+--- a/agent-suites/fixtures/beer-festival/src/casks.mjs
++++ b/agent-suites/fixtures/beer-festival/src/casks.mjs
+@@ -1,10 +1,20 @@
+ const byText = (a, b) => (a < b ? -1 : a > b ? 1 : 0)
+ 
++/** The strength band shown next to each beer: session, standard or strong. */
++export function band(abv) {
++  if (abv < 4) return 'session'
++  if (abv > 5.5) return 'strong'
++  return 'standard'
++}
++
+ /** Lines of the list pinned up behind the bars. */
+ export function barList(casks) {
+   return [...casks]
+     .sort((a, b) => byText(a.beer, b.beer))
+-    .map((cask) => `${cask.beer.padEnd(22)}${cask.brewery.padEnd(18)}${cask.abv.toFixed(1)}%`)
++    .map(
++      (cask) =>
++        `${cask.beer.padEnd(22)}${cask.brewery.padEnd(18)}${cask.abv.toFixed(1)}%  ${band(cask.abv)}`,
++    )
+ }
+ 
+ /** One programme line per beer, by brewery. */
+@@ -13,6 +23,6 @@ export function programme(casks) {
+     .sort((a, b) => byText(a.brewery, b.brewery) || byText(a.beer, b.beer))
+     .map(
+       (cask) =>
+-        `${cask.brewery}: ${cask.beer}, ${cask.style.toLowerCase()}, ${cask.abv.toFixed(1)}%`,
++        `${cask.brewery}: ${cask.beer}, ${cask.style.toLowerCase()}, ${cask.abv.toFixed(1)}%${cask.abv >= 5.5 ? ' (strong)' : ''}`,
+     )
+ }
+diff --git a/agent-suites/fixtures/beer-festival/tests/casks.test.mjs b/agent-suites/fixtures/beer-festival/tests/casks.test.mjs
+index 5f20687..73f6ae7 100644
+--- a/agent-suites/fixtures/beer-festival/tests/casks.test.mjs
++++ b/agent-suites/fixtures/beer-festival/tests/casks.test.mjs
+@@ -1,16 +1,16 @@
+ import assert from 'node:assert/strict'
+ import { test } from 'node:test'
+-import { barList, programme } from '../src/casks.mjs'
++import { band, barList, programme } from '../src/casks.mjs'
+ 
+ const casks = [
+   { beer: 'Low Tide', brewery: 'Beacon Ales', abv: 3.9, bar: 'Cellar', style: 'Golden ale' },
+   { beer: 'Harbour Mild', brewery: 'Tidal Brewing', abv: 3.6, bar: 'Quay', style: 'Mild' },
+ ]
+ 
+-test('the bar list is in beer order with the strength', () => {
++test('the bar list is in beer order with the strength and its band', () => {
+   assert.deepEqual(barList(casks), [
+-    'Harbour Mild          Tidal Brewing     3.6%',
+-    'Low Tide              Beacon Ales       3.9%',
++    'Harbour Mild          Tidal Brewing     3.6%  session',
++    'Low Tide              Beacon Ales       3.9%  session',
+   ])
+ })
+ 
+@@ -20,3 +20,18 @@ test('the programme is by brewery', () => {
+     'Tidal Brewing: Harbour Mild, mild, 3.6%',
+   ])
+ })
++
++test('strength bands', () => {
++  assert.equal(band(3.9), 'session')
++  assert.equal(band(4.0), 'standard')
++  assert.equal(band(5.4), 'standard')
++  assert.equal(band(5.5), 'strong')
++  assert.equal(band(6.8), 'strong')
++})
++
++test('strong beers are marked in the programme', () => {
++  assert.deepEqual(
++    programme([{ beer: 'Fog Bank Stout', brewery: 'Estuary', abv: 6.8, style: 'Stout' }]),
++    ['Estuary: Fog Bank Stout, stout, 6.8% (strong)'],
++  )
++})

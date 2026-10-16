@@ -1,0 +1,35 @@
+[
+  {
+    "pitch": "A1",
+    "trader": "Hill Farm Eggs",
+    "fees": [
+      { "item": "Pitch", "pence": 3200 },
+      { "item": "Electric hook-up", "pence": 650 }
+    ]
+  },
+  {
+    "pitch": "A2",
+    "trader": "Riverside Bakery",
+    "fees": [
+      { "item": "Pitch", "pence": 3200 },
+      { "item": "Gazebo hire", "pence": 1275 }
+    ]
+  },
+  {
+    "pitch": "B4",
+    "trader": "Moor Cheese Co",
+    "fees": [
+      { "item": "Double pitch", "pence": 5900 },
+      { "item": "Rain refund, 3 Oct", "pence": -1450 }
+    ]
+  },
+  {
+    "pitch": "C1",
+    "trader": "Fromagerie Leclerc",
+    "fees": [
+      { "item": "Pitch", "pence": 3200 },
+      { "item": "Electric hook-up", "pence": 650 },
+      { "item": "Late setup", "pence": 375 }
+    ]
+  }
+]

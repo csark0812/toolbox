@@ -1,0 +1,80 @@
+:root {
+  --paper: #ffffff;
+  --ink: #1f1d1a;
+  --muted: #6b665e;
+  --field-border: #b8b2a7;
+  --field-bg: #ffffff;
+  --focus: #2457c5;
+  --danger: #b3261e;
+  --brand: #e2571e;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #181715;
+    --ink: #f2eee7;
+    --muted: #a8a196;
+    --field-border: #5a554d;
+    --field-bg: #24221f;
+    --focus: #8fb0ff;
+    --danger: #ff8a80;
+    --brand: #ff8a4c;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: system-ui, sans-serif;
+}
+
+.join {
+  max-width: 28rem;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+label {
+  font-weight: 600;
+}
+
+input {
+  padding: 10px 12px;
+  border: 2px solid var(--field-border);
+  border-radius: 6px;
+  background: var(--field-bg);
+  color: var(--ink);
+  font: inherit;
+}
+
+input:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+}
+
+input:invalid {
+  border-color: #b3261e;
+}
+
+.field-error {
+  margin: 0;
+  color: #b3261e;
+  font-size: 0.9rem;
+}
+
+.join-submit {
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--brand);
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+}

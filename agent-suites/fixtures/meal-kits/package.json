@@ -1,0 +1,9 @@
+{
+  "name": "meal-kits",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "deliveries": "node bin/deliveries.mjs"
+  }
+}

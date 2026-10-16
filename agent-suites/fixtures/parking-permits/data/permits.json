@@ -1,0 +1,58 @@
+[
+  {
+    "id": "P-2201",
+    "holder": "A. Novak",
+    "street": "Mill Lane",
+    "vehicle": "KX19 RTA",
+    "ends": "2026-11-30"
+  },
+  {
+    "id": "P-2203",
+    "holder": "J. Okoye",
+    "street": "Mill Lane",
+    "vehicle": "LB68 ZPO",
+    "ends": "2027-01-31"
+  },
+  {
+    "id": "P-2204",
+    "holder": "S. Fairweather",
+    "street": "Castle Street",
+    "vehicle": "WP21 HHN",
+    "ends": "2027-02-27"
+  },
+  {
+    "id": "P-2205",
+    "holder": "R. Dutta",
+    "street": "Castle Street",
+    "vehicle": "YA70 KLM",
+    "ends": "2027-02-28"
+  },
+  {
+    "id": "P-2207",
+    "holder": "M. Okafor",
+    "street": "Bridge Row",
+    "vehicle": "GN17 CEE",
+    "ends": "2027-03-31"
+  },
+  {
+    "id": "P-2209",
+    "holder": "T. Brennan",
+    "street": "Bridge Row",
+    "vehicle": "OU66 BVF",
+    "ends": "2027-04-14"
+  },
+  {
+    "id": "P-2210",
+    "holder": "H. Lindqvist",
+    "street": "Mill Lane",
+    "vehicle": "FD20 XYW",
+    "ends": "2027-04-30"
+  },
+  {
+    "id": "P-2212",
+    "holder": "C. Mbeki",
+    "street": "Castle Street",
+    "vehicle": "BJ23 PLA",
+    "ends": "2028-03-31"
+  }
+]

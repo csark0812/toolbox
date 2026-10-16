@@ -1,0 +1,30 @@
+[
+  {
+    "customerId": "c-101",
+    "name": "Priya Nair",
+    "plan": "family",
+    "nextDelivery": "2026-10-22",
+    "paused": false
+  },
+  {
+    "customerId": "c-102",
+    "name": "Tom Hale",
+    "plan": "couple",
+    "nextDelivery": "2026-10-22",
+    "paused": false
+  },
+  {
+    "customerId": "c-103",
+    "name": "Ines Duarte",
+    "plan": "couple",
+    "nextDelivery": "2026-10-23",
+    "paused": false
+  },
+  {
+    "customerId": "c-104",
+    "name": "Kwame Asante",
+    "plan": "family",
+    "nextDelivery": "2026-10-29",
+    "paused": true
+  }
+]

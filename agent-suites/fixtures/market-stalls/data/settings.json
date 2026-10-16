@@ -1,0 +1,5 @@
+{
+  "boardTitle": "Marché du Quai",
+  "boardPrice": ["EUR", true, 0],
+  "eurosPerPound": 1.15
+}

@@ -1,0 +1,11 @@
+[
+  { "date": "2026-10-12", "lock": 14, "boat": "Kingfisher", "in": "09:05", "out": "09:22" },
+  { "date": "2026-10-12", "lock": 14, "boat": "Dawn Treader", "in": "09:40", "out": "10:31" },
+  { "date": "2026-10-12", "lock": 15, "boat": "Kingfisher", "in": "09:48", "out": "10:03" },
+  { "date": "2026-10-12", "lock": 15, "boat": "Slow Boat", "in": "11:10", "out": "13:25" },
+  { "date": "2026-10-13", "lock": 14, "boat": "Heron", "in": "08:30", "out": "09:00" },
+  { "date": "2026-10-13", "lock": 16, "boat": "Dawn Treader", "in": "10:15", "out": "11:45" },
+  { "date": "2026-10-13", "lock": 16, "boat": "Otter", "in": "12:00", "out": "12:30" },
+  { "date": "2026-10-14", "lock": 15, "boat": "Narrow Escape", "in": "14:00", "out": "16:00" },
+  { "date": "2026-10-14", "lock": 14, "boat": "Heron", "in": "16:20", "out": "16:31" }
+]

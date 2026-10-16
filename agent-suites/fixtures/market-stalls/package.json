@@ -1,0 +1,11 @@
+{
+  "name": "market-stalls",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "invoices": "node bin/invoices.mjs",
+    "export": "node bin/export.mjs",
+    "board": "node bin/board.mjs"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Riverside Marathon 2026",
+  "gun": "09:00:00",
+  "mats": [
+    { "id": "start", "label": "Start", "km": 0 },
+    { "id": "10k", "label": "10K", "km": 10 },
+    { "id": "half", "label": "Half", "km": 21.0975 },
+    { "id": "30k", "label": "30K", "km": 30 },
+    { "id": "finish", "label": "Finish", "km": 42.195 }
+  ],
+  "runners": { "7": "Kofi Mensah", "88": "Ruth Adler", "214": "Grace Obi", "305": "Liam Byrne" }
+}

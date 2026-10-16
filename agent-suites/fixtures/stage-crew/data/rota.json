@@ -1,0 +1,58 @@
+[
+  {
+    "id": "S101",
+    "crew": "Kim Ade",
+    "stage": "Main",
+    "start": "2026-10-16T14:00",
+    "end": "2026-10-16T18:00"
+  },
+  {
+    "id": "S102",
+    "crew": "kim ade ",
+    "stage": "Studio 1",
+    "start": "2026-10-16T17:30",
+    "end": "2026-10-16T22:00"
+  },
+  {
+    "id": "S103",
+    "crew": "Ola Berg",
+    "stage": "Main",
+    "start": "2026-10-16T18:00",
+    "end": "2026-10-16T23:00"
+  },
+  {
+    "id": "S104",
+    "crew": "Ola Berg",
+    "stage": "Studio 2",
+    "start": "2026-10-16T13:00",
+    "end": "2026-10-16T18:00"
+  },
+  {
+    "id": "S105",
+    "crew": "Rui Costa",
+    "stage": "Studio 2",
+    "start": "2026-10-16T19:00",
+    "end": "2026-10-17T00:30"
+  },
+  {
+    "id": "S106",
+    "crew": "RUI COSTA",
+    "stage": "Main",
+    "start": "2026-10-17T00:00",
+    "end": "2026-10-17T02:00"
+  },
+  {
+    "id": "S107",
+    "crew": "Kim Ade",
+    "stage": "Studio 2",
+    "start": "2026-10-16T19:00",
+    "end": "2026-10-16T21:00"
+  },
+  {
+    "id": "S108",
+    "crew": "Tess Lund",
+    "stage": "Main",
+    "start": "2026-10-17T10:00",
+    "end": "2026-10-17T14:00"
+  }
+]

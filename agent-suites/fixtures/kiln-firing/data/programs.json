@@ -1,0 +1,20 @@
+{
+  "bisque": [
+    { "shape": "ramp", "to": 100, "rate": 60 },
+    { "shape": "hold", "minutes": 60 },
+    { "shape": "ramp", "to": 600, "rate": 100 },
+    { "shape": "ramp", "to": 1000, "rate": 150 },
+    { "shape": "hold", "minutes": 10 }
+  ],
+  "glaze": [
+    { "shape": "ramp", "to": 600, "rate": 150 },
+    { "shape": "ramp", "to": 1160, "rate": 200 },
+    { "shape": "ramp", "to": 1222, "rate": 60 },
+    { "shape": "hold", "minutes": 15 }
+  ],
+  "lustre": [
+    { "shape": "ramp", "to": 400, "rate": 120 },
+    { "shape": "ramp", "to": 740, "rate": 200 },
+    { "shape": "hold", "minutes": 5 }
+  ]
+}

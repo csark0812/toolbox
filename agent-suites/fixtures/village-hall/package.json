@@ -1,0 +1,10 @@
+{
+  "name": "village-hall",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "request": "node bin/request.mjs",
+    "week": "node bin/week.mjs"
+  }
+}

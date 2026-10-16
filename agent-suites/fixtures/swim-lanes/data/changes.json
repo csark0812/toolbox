@@ -1,0 +1,15 @@
+[
+  { "op": "book", "id": "b1", "club": "Seals", "lane": 1, "day": "2026-10-17", "hour": 6 },
+  { "op": "book", "id": "b2", "club": "Seals", "lane": 2, "day": "2026-10-17", "hour": 6 },
+  { "op": "book", "id": "b3", "club": "Masters", "lane": 3, "day": "2026-10-17", "hour": 6 },
+  { "op": "book", "id": "b4", "club": "Triathlon", "lane": 1, "day": "2026-10-17", "hour": 7 },
+  { "op": "book", "id": "b5", "club": "Masters", "lane": 4, "day": "2026-10-17", "hour": 8 },
+  { "op": "cancel", "id": "b2" },
+  { "op": "book", "id": "b6", "club": "Otters", "lane": 2, "day": "2026-10-17", "hour": 6 },
+  { "op": "book", "id": "b7", "club": "Otters", "lane": 3, "day": "2026-10-17", "hour": 6 },
+  { "op": "cancel", "id": "b4" },
+  { "op": "book", "id": "b8", "club": "Juniors", "lane": 2, "day": "2026-10-17", "hour": 7 },
+  { "op": "cancel", "id": "b9" },
+  { "op": "book", "id": "b10", "club": "Juniors", "lane": 1, "day": "2026-10-17", "hour": 7 },
+  { "op": "cancel", "id": "b5" }
+]

@@ -1,0 +1,54 @@
+diff --git a/agent-suites/fixtures/escape-rooms/README.md b/agent-suites/fixtures/escape-rooms/README.md
+index a2ce31e..39ec8d7 100644
+--- a/agent-suites/fixtures/escape-rooms/README.md
++++ b/agent-suites/fixtures/escape-rooms/README.md
+@@ -1,6 +1,6 @@
+ # Escape rooms
+ 
+-Price quotes for Lockbox Escape Rooms. Every room takes 2 to 10 players and is priced per player (`data/rooms.json`).
++Price quotes for Lockbox Escape Rooms. Every room takes 2 to 10 players and is priced per player (`data/rooms.json`). Saturdays and Sundays cost £5 more per player.
+ 
+ ## Usage
+ 
+diff --git a/agent-suites/fixtures/escape-rooms/src/quote.mjs b/agent-suites/fixtures/escape-rooms/src/quote.mjs
+index 769767b..a79ad6d 100644
+--- a/agent-suites/fixtures/escape-rooms/src/quote.mjs
++++ b/agent-suites/fixtures/escape-rooms/src/quote.mjs
+@@ -1,14 +1,22 @@
+ export const MIN_PLAYERS = 2
+ export const MAX_PLAYERS = 10
++export const WEEKEND_PENCE = 500
++
++const isWeekend = (date) => [0, 6].includes(new Date(`${date}T00:00:00Z`).getUTCDay())
+ 
+ export const money = (pence) => `${pence < 0 ? '-' : ''}£${(Math.abs(pence) / 100).toFixed(2)}`
+ 
+ /** A booking's charges as lines ({ label, pence }) and the total in pence. */
+-export function quote(room, players) {
++export function quote(room, players, date) {
+   if (!Number.isInteger(players) || players < MIN_PLAYERS || players > MAX_PLAYERS)
+     throw new RangeError(`rooms take ${MIN_PLAYERS} to ${MAX_PLAYERS} players, not ${players}`)
+   const lines = [
+     { label: `${players} players x ${money(room.pence)}`, pence: players * room.pence },
+   ]
++  if (isWeekend(date))
++    lines.push({
++      label: `Weekend ${players} x ${money(WEEKEND_PENCE)}`,
++      pence: players * WEEKEND_PENCE,
++    })
+   return { lines, total: lines.reduce((sum, line) => sum + line.pence, 0) }
+ }
+diff --git a/agent-suites/fixtures/escape-rooms/tests/quote.test.mjs b/agent-suites/fixtures/escape-rooms/tests/quote.test.mjs
+index 9981202..6eabd60 100644
+--- a/agent-suites/fixtures/escape-rooms/tests/quote.test.mjs
++++ b/agent-suites/fixtures/escape-rooms/tests/quote.test.mjs
+@@ -17,3 +17,9 @@ test('money shows pounds and a sign', () => {
+   assert.equal(money(1500), '£15.00')
+   assert.equal(money(-1500), '-£15.00')
+ })
++
++test('weekends cost £5 more per player', () => {
++  assert.equal(quote(vault, 4, '2026-10-24').total, 12000)
++  assert.equal(quote(vault, 4, '2026-10-25').total, 12000)
++  assert.equal(quote(vault, 4, '2026-10-26').total, 10000)
++})
