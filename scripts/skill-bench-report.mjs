@@ -94,7 +94,7 @@ export function buildReport({ runs: all, tasks, judgments, baseline = 'none' }) 
 export const ALL_TASKS = 'all tasks'
 
 /**
- * The strong-claim bar: pooled win rate at least 80% with a lower bound of at least 60%, every
+ * The strong-claim bar: pooled win rate at least 90% with a lower bound of at least 60%, every
  * skill better, median tokens at least 20% below the baseline's, and a healthy judge. Fixed before
  * the held-out v3 runs and tightened, never loosened, by the user during them.
  */
@@ -105,7 +105,7 @@ export function strongClaim({ rows, health }, focus) {
     .map((row) => row.cost.tokens.focus / row.cost.tokens.other)
     .filter(Number.isFinite)
   const checks = [
-    { name: 'pooled win rate ≥ 80%', ok: (pooled?.rate ?? 0) >= 0.8 },
+    { name: 'pooled win rate ≥ 90%', ok: (pooled?.rate ?? 0) >= 0.9 },
     { name: 'pooled lower bound ≥ 60%', ok: (pooled?.lower ?? 0) >= 0.6 },
     {
       name: 'every skill better',

@@ -222,7 +222,7 @@ for (const { set, tasks: frozen } of heldOut)
   })
 
 describe('strong claim bar', () => {
-  const row = (skill, verdict, { rate = 0.85, lower = 0.7, tokens = [1, 2] } = {}) => ({
+  const row = (skill, verdict, { rate = 0.95, lower = 0.7, tokens = [1, 2] } = {}) => ({
     skill,
     focus: 'full',
     verdict,
@@ -241,7 +241,7 @@ describe('strong claim bar', () => {
     expect(failing([...skills, row(ALL_TASKS, 'better')])).toEqual([])
   })
 
-  it('needs an 80% pooled win rate and a 60% lower bound', () => {
+  it('needs a 90% pooled win rate and a 60% lower bound', () => {
     expect(failing([...skills, row(ALL_TASKS, 'better', { rate: 0.79 })])).toEqual([
       'pooled win rate ≥ 80%',
     ])
