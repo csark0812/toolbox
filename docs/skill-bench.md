@@ -1,21 +1,21 @@
 # Skill bench
 
 <!-- source-of-truth: blinded pairwise benchmark that decides whether a skill beats its baseline -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-16 -->
 
 A skill ships or stays only if it beats its baseline in this bench. Conformance suites prove that a skill is followed. The bench asks whether following it produces better work.
 
 ## How it works
 
 1. **Arms and runners.** Each run installs one skill set: `none`, `full`, `only:<slug>`, `without:<slug>`, or `pack:<name>[@<entry>]` for a comparison pack such as pstack. Everything else is identical. `--runner codex|claude` picks the agent host for every arm.
-   - A pack arm gets the setup its own docs call for. `node scripts/fetch-pack.mjs pstack` fetches pstack at a pinned commit, places its per-runner model settings file and (on Claude) its subagents in the workspace, and the entry prompt names the entry skill (`/poteto-mode`) the way pstack documents.
+   - A pack arm gets the setup its own docs call for. `node scripts/fetch-pack.mjs pstack` fetches pstack at a pinned commit, places its per-runner model settings file and (on Claude) its subagents in the workspace, and the entry skill starts the way pstack documents: as the slash command `/poteto-mode` on Claude, and named in the prompt on Codex.
 2. **Blinding.**
    - Runs use `_agent/bench-workspace-<runner>`, where fixtures live under `projects/` and the workspace instructions carry no testing words.
    - Root skill sources and fixture folders named after a skill are removed.
    - `scripts/lib/skill-bench-material.mjs` lists the banned words. Tests check every task prompt against it.
 3. **Tasks.** Each task names its target skill and 3–6 criteria that only the judge sees.
    - [`tasks.json`](../agent-suites/skill-bench/tasks.json) is the development set. It reuses claim-suite scenarios and may be used to tune skills.
-   - [`holdout.json`](../agent-suites/skill-bench/holdout.json) and [`holdout-v2.json`](../agent-suites/skill-bench/holdout-v2.json) are held-out sets (`--taskset holdout` or `holdout-v2`). Each has its own `<set>-checks/` folder and `<set>.lock.json`; freeze a new set with `node scripts/freeze-holdout.mjs --set <set> --write` before its first run.
+   - `holdout.json` and `holdout-v2.json` through `holdout-v5.json` in [`agent-suites/skill-bench/`](../agent-suites/skill-bench/) are held-out sets (`--taskset holdout-v5` and so on). Each has its own `<set>-checks/` folder and `<set>.lock.json`; freeze a new set with `node scripts/freeze-holdout.mjs --set <set> --write` before its first run.
    - Each held-out set is written and frozen before any run and is never tuned against. Each task has a hidden acceptance check that never enters the agent's workspace. The lock pins a SHA-256 over every file the set uses, and a test fails on drift. Development tasks may have hidden checks too, under `dev-checks/`. Re-freezing after seeing results voids the held-out claim.
 4. **Runs.** `agent-suites/skill-bench/skill-bench.spec.ts` records the reply, tool calls, diff, commits and hard-check result for each run under `.agent-test/skill-bench/<id>/runs/`. A failed hard check is recorded, not thrown.
 5. **Judge.** `scripts/skill-bench-judge.mjs` compares every cross-arm pair in both orders.
@@ -37,7 +37,7 @@ A skill ships or stays only if it beats its baseline in this bench. Conformance 
 "Toolbox is undeniably better than a comparison pack" is claimed only when one frozen held-out set meets every condition below, on **each** runner (Claude and Codex). The arms are toolbox as installed (`full`, no skill named in the prompt) and the pack at full strength (`pack:pstack@poteto-mode`). The report prints the check as **Strong claim**.
 
 1. **Pooled win rate ≥ 90%, lower bound ≥ 60%.** Pool every decided pair across the set's tasks. Toolbox wins at least 90% of them, and the bootstrap lower bound (resampling tasks, then runs) is at least 60%.
-2. **Every skill better.** Each skill has two tasks, so its verdict rests on 8 runs per arm.
+2. **Every skill better.** Each skill has two or three tasks, so its verdict rests on 8–12 runs per arm.
 3. **At least 20% fewer tokens.** The median token ratio across skills is 0.8 or less.
 4. **Healthy judge.**
 

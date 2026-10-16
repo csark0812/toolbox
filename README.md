@@ -1,7 +1,7 @@
 # toolbox
 
 <!-- source-of-truth: user-level process and orchestrator Cursor/Claude agent skills. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-16 -->
 
 Public process SSOT. Engineers install skills globally (`-g`). Product repos keep product workflows and shared standards — they should not vendor these process skill folders.
 
@@ -112,22 +112,22 @@ Consumer projects may add product/standards slugs locally. Ambient shared refs a
 
 ## How toolbox compares with pstack
 
-[pstack](https://github.com/backnotprop/pstack) is the closest comparable skill pack. On every held-out set so far, toolbox beats it overall on both Claude and Codex at lower token cost, but it has not yet met the bar this repo sets for calling it undeniably better. Results come from the [skill bench](docs/skill-bench.md).
+[pstack](https://github.com/backnotprop/pstack) is the closest comparable skill pack. On every held-out set so far, toolbox beats it overall at lower token cost, but it has not yet met the bar this repo sets for calling it undeniably better. Results come from the [skill bench](docs/skill-bench.md).
 
-**The bar.** On a frozen held-out set, on both Claude and Codex, toolbox as installed (no skill named in the prompt) must clear all four conditions against pstack at full strength:
+**The bar.** On a frozen held-out set, toolbox as installed (no skill named in the prompt) must clear all four conditions against pstack at full strength:
 
 - win at least 90% of decided comparisons pooled across tasks, with the 95% lower bound at least 60%;
 - be better on every skill;
 - use at least 20% fewer tokens;
 - pass every judge health check.
 
-The bar is fixed in [docs/skill-bench.md](docs/skill-bench.md#strong-claim-fixed-before-held-out-v3). It may be tightened but is never loosened after seeing results.
+The bar is fixed in [docs/skill-bench.md](docs/skill-bench.md#strong-claim-fixed-before-held-out-v3). It may be tightened but is never loosened after seeing results. It was set for both Claude and Codex. While the Codex subscription is exhausted, the user narrowed it to Claude, judged by Opus.
 
 **How it is measured**
 
 - **Fresh frozen sets.** Each held-out set is written by an agent that has seen no results and no skill files, and is locked (`holdout-v*.lock.json`) before any run. A set is never tuned against. Fixes are developed on separate development tasks, and each round is judged on a new set.
 - **pstack at full strength:** a pinned commit, its per-runner model settings, its subagents on Claude, and its entry skill started as `/poteto-mode` (Claude) or named in the prompt (Codex).
-- **Judging:** 4 runs per arm per task. A judge from the other model family compares every pair in both orders, blind to which pack is which, with identical-pair, known-gap and re-test controls.
+- **Judging:** 4 runs per arm per task. A judge compares every pair in both orders, blind to which pack is which, with identical-pair, known-gap and re-test controls. The judge is from the other model family by default; Claude results from v4 on are judged by Opus, the same family, and are labelled that way.
 
 **Results**
 
@@ -145,7 +145,7 @@ The bar is fixed in [docs/skill-bench.md](docs/skill-bench.md#strong-claim-fixed
 - **Losses.**
   - **v4 Codex code review: 0/36/12.** The reviews stopped after the first blockers and missed findings, such as a guessable `Math.random()` token.
   - **v3 Codex babysit-pr: close to even.** On Codex, PR tasks were also harder than they should be: before the run-local `TMPDIR` fix, the offline mirror's CI could not pass for either pack.
-- **Not yet judged.** v4 Claude was not judged, because the Codex judge hit its usage limit. v5 (27 tasks, frozen at the fixes below) waits for that limit to reset.
+- **Pending.** v4 and v5 on Claude are being judged by Opus. The Codex runs of v5 wait for the Codex subscription limit to reset.
 - **What changed between rounds.** Fixes came from judge reasons and were developed against development tasks only:
   - **Auto-invocation on Claude:** valid YAML frontmatter, and short trigger-first descriptions with example requests. Invocation went from 9 of 32 to 14 of 14 on development tasks.
   - **A reply check inside every skill:** a result must name a command that was run after the last edit.
