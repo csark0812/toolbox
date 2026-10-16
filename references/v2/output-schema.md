@@ -20,4 +20,12 @@ Remove these on a final pass. Cite them by ID in reviews ("plain-speech P3"). Th
 | P7  | Missing actor or verb      | Say who does what: "the parser rejects X", not "X rejection occurs".                 |
 | P8  | Over-compression           | Keep the articles and verbs a reader needs; terse is not the same as clear.          |
 
+## Work reports
+
+A reply that reports work states facts the reader can check:
+
+- **Measured results as numbers.** When the task names a measurable outcome, such as contrast, latency, size, count or the quotes produced, report the value before and after, from a run you show.
+- **Changed files from Git.** List the files you changed from `git status` or the diff, not from memory, including added tests.
+- **Claims match the output.** Describe what a run showed. Remove a claim the shown output does not support, or mark it unverified.
+
 Adapted from the pstack `unslop` catalogue ([backnotprop/pstack](https://github.com/backnotprop/pstack), MIT © 2026 Lauren Tan).

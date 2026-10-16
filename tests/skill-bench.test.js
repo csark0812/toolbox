@@ -12,7 +12,7 @@ import {
   planPairs,
   renderRun,
 } from '../scripts/lib/skill-bench-material.mjs'
-import { buildReport } from '../scripts/skill-bench-report.mjs'
+import { ALL_TASKS, buildReport, strongClaim } from '../scripts/skill-bench-report.mjs'
 
 const root = join(import.meta.dirname, '..')
 const { tasks } = JSON.parse(
@@ -220,6 +220,54 @@ for (const { set, tasks: frozen } of heldOut)
         expect(task.criteria.length).toBeLessThanOrEqual(6)
       })
   })
+
+describe('strong claim bar', () => {
+  const row = (skill, verdict, lower = 0.7, tokens = [1, 2]) => ({
+    skill,
+    focus: 'full',
+    verdict,
+    lower,
+    cost: { tokens: { focus: tokens[0], other: tokens[1] } },
+  })
+  const healthy = { healthy: true }
+  const skills = ['a', 'b', 'c'].map((skill) => row(skill, 'better'))
+
+  it('is met only when every condition holds', () => {
+    expect(
+      strongClaim({ rows: [...skills, row(ALL_TASKS, 'better')], health: healthy }, 'full').met,
+    ).toBe(true)
+  })
+
+  it('fails on a not-better skill, a low pooled bound, too few wins, higher cost or a sick judge', () => {
+    const failing = (rows, health = healthy) =>
+      strongClaim({ rows, health }, 'full')
+        .checks.filter((check) => !check.ok)
+        .map((check) => check.name)
+    expect(
+      failing([...skills.slice(0, 2), row('c', 'not-better'), row(ALL_TASKS, 'better')]),
+    ).toContain('no skill not better')
+    expect(failing([...skills, row(ALL_TASKS, 'better', 0.55)])).toEqual([
+      'pooled lower bound ≥ 60%',
+    ])
+    expect(
+      failing([
+        row('a', 'better'),
+        row('b', 'inconclusive'),
+        row('c', 'inconclusive'),
+        row(ALL_TASKS, 'better'),
+      ]),
+    ).toEqual(['at least two thirds of skills better'])
+    expect(
+      failing([
+        ...['a', 'b', 'c'].map((skill) => row(skill, 'better', 0.7, [3, 2])),
+        row(ALL_TASKS, 'better'),
+      ]),
+    ).toEqual(['median token ratio ≤ 1'])
+    expect(failing([...skills, row(ALL_TASKS, 'better')], { healthy: false })).toEqual([
+      'judge healthy',
+    ])
+  })
+})
 
 describe('task sets', () => {
   it('have unique ids across development and every held-out set', () => {

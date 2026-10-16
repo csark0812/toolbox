@@ -57,7 +57,7 @@ Composition boundaries → [process-skill-composition.md](https://raw.githubuser
 2. Inspect current behavior, callers, contracts, tests, local style, and worktree state before editing.
 3. Ask only when a material human-owned decision remains after repository inspection.
 4. Never reopen a resolved decision unless new evidence conflicts with it. Show that evidence first.
-5. Define one coherent slice and its proof before editing.
+5. Define one coherent slice and its proof before editing. When behavior must stay the same, record a baseline before the first edit: run the public entry points over many representative inputs, generated to cover edge cases and every caller's input shape, and save the outputs. After each slice, compare against that baseline and report the count compared and any differences. Existing tests alone do not prove behavior unchanged.
 6. Implement, prove, and inspect the slice for residue from the old design.
 7. Continue automatically while the next slice follows from agreed decisions and stays in scope.
 8. Stop at contract, authority, scope, or evidence boundaries.

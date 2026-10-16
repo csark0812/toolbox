@@ -24,3 +24,15 @@ Keep the project's styling ownership: semantic tokens and component variants whe
 ## Implement and prove
 
 Make the focused change in the owning stylesheet or component. Test the original positive failure case and the affected widths and states. Inspect computed behavior and rendered output, including keyboard focus and reduced motion when relevant. Check long content and browser support or fallback for newer features. A mechanical check exits nonzero on failure; a skipped browser or crashed render is unverified. Report the cause, chosen technique, focused proof, and any remaining browser limitation. Do not claim the whole interface is visually verified from a CSS unit test alone.
+
+## Exit
+
+The reply contains, in this order:
+
+- **Cause:** every rule that produced the defect, with its file and line, for example each rule that removes an outline or sets the colliding color.
+- **Fix:** the declarations before and after, quoted.
+- **Measured result:** the numbers that show the outcome, such as the contrast ratio of each fixed pair, the computed value of each matched declaration, or the widths checked. Compute them with a script when no browser is available.
+- **Unchanged:** the states and rules you checked stayed the same, such as hover, mouse focus or light mode.
+- **Changed files:** taken from `git status`, including tests.
+
+See [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/output-schema.md) § Work reports.

@@ -34,6 +34,7 @@ Omit fields only when they add no information. Do not paste the full refactor ca
 
 Use the strongest cheap evidence relevant to the slice:
 
+0. When behavior must stay the same, compare outputs over many representative inputs against a baseline recorded before the first edit.
 1. Search removed symbols, aliases, old terms, and duplicate paths.
 2. Trace callers and consumers of the changed boundary.
 3. Inspect the diff and run `git diff --check`.

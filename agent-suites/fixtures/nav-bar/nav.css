@@ -1,0 +1,31 @@
+:root {
+  --ink: #1f2937;
+  --accent: #2563eb;
+  --surface: #ffffff;
+}
+
+.nav {
+  display: flex;
+  gap: 1.5rem;
+  background: var(--surface);
+}
+
+.nav a {
+  color: var(--ink);
+  text-decoration: none;
+  outline: none;
+}
+
+.nav a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.nav a:focus {
+  outline: none;
+}
+
+.button {
+  background: var(--accent);
+  color: var(--surface);
+}

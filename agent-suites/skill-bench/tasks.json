@@ -97,6 +97,36 @@
         "Nothing outside the three items changes.",
         "Every claim in the reply matches the output shown in the actions; no reproduction or result is described differently from what was observed."
       ]
+    },
+    {
+      "id": "money-helper-merge",
+      "targetSkill": "refactor-companion",
+      "check": "invoice-kit",
+      "claim": {
+        "prompt": "In agent-suites/fixtures/invoice-kit there are two money formatting helpers, src/format.mjs and src/legacy/currency.mjs. Consolidate them into one, update every caller, and delete the legacy file. Invoices and receipts must print exactly what they print today.",
+        "fixtureGate": "agent-suites/fixtures/invoice-kit"
+      },
+      "criteria": [
+        "The legacy helper is deleted and every caller uses the single remaining module.",
+        "Output is unchanged, proven by recording invoice and receipt output over many inputs before the change and comparing after; the two helpers differ (cents vs dollars, thousands separators, parentheses for negatives) and both behaviors are preserved.",
+        "Existing tests pass before and after.",
+        "The reply lists the callers migrated, the differences found between the helpers, and the size and result of the before/after comparison."
+      ]
+    },
+    {
+      "id": "nav-focus-visible",
+      "targetSkill": "css-craft",
+      "check": "nav-bar",
+      "claim": {
+        "prompt": "Keyboard users can't see which link in the top nav is focused (agent-suites/fixtures/nav-bar). Fix it without changing how it looks for mouse users.",
+        "fixtureGate": "agent-suites/fixtures/nav-bar"
+      },
+      "criteria": [
+        "The cause is named: outline is removed on `.nav a` and `.nav a:focus` with no replacement.",
+        "Keyboard focus gets a visible indicator through :focus-visible using an existing token, and hover and mouse-click appearance are unchanged.",
+        "The fix is checked by inspecting the resolved declarations, and the indicator's contrast against the nav surface is reported as a number.",
+        "The reply lists every changed file and the declarations before and after."
+      ]
     }
   ]
 }

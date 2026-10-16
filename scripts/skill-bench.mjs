@@ -7,9 +7,18 @@
 //   node scripts/skill-bench.mjs fill --id <id> [--taskset holdout] [--arms ...] [--repeats 4]   (top up missing cells)
 //   node scripts/skill-bench.mjs preflight
 //   node scripts/skill-bench.mjs quick [--arms none,full] [--tasks a,b]   (2 repeats, matched pairs, no verdict)
-import { spawnSync } from 'node:child_process'
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { execFileSync, spawnSync } from 'node:child_process'
+import {
+  chmodSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  realpathSync,
+  writeFileSync,
+} from 'node:fs'
+import { homedir } from 'node:os'
+import { dirname, join } from 'node:path'
 
 const [command = 'run', ...rest] = process.argv.slice(2)
 const option = (name, fallback) => {
@@ -28,6 +37,41 @@ const step = (args, env = {}, { allowFailure = false } = {}) => {
   if (result.status !== 0 && !allowFailure) process.exit(result.status ?? 1)
 }
 
+/**
+ * The harness sandbox sets `--preserve-symlinks-main`, so `npm` started through a bin symlink cannot
+ * find its own files. Shims start npm and npx from their real install path, placed where each
+ * runner's sandbox can read them: Codex reads `~/.cache` and runs zsh login shells, where macOS
+ * `path_helper` moves inherited PATH entries last, so a bench-owned ZDOTDIR puts them first again;
+ * Claude Code reads only its own scratch folder and sources CLAUDE_ENV_FILE before each command.
+ * Every arm gets the same environment.
+ */
+function benchShellEnv() {
+  const npmPath = execFileSync('sh', ['-c', 'command -v npm'], { encoding: 'utf8' }).trim()
+  const npmBin = dirname(realpathSync(npmPath))
+  const shims = (root) => {
+    const bin = join(root, 'bin')
+    mkdirSync(bin, { recursive: true })
+    for (const tool of ['npm', 'npx']) {
+      writeFileSync(
+        join(bin, tool),
+        `#!/bin/sh\nexec node ${join(npmBin, `${tool}-cli.js`)} "$@"\n`,
+      )
+      chmodSync(join(bin, tool), 0o755)
+    }
+    return bin
+  }
+  const codexBin = shims(join(homedir(), '.cache', 'toolbox-bench'))
+  const zdot = join(homedir(), '.cache', 'toolbox-bench', 'zdot')
+  mkdirSync(zdot, { recursive: true })
+  for (const file of ['.zshenv', '.zprofile', '.zshrc'])
+    writeFileSync(join(zdot, file), `export PATH="${codexBin}:$PATH"\n`)
+  const claudeRoot = join(`/private/tmp/claude-${process.getuid()}`, 'toolbox-bench')
+  const claudeBin = shims(claudeRoot)
+  const claudeEnv = join(claudeRoot, 'claude-env.sh')
+  writeFileSync(claudeEnv, `export PATH="${claudeBin}:$PATH"\n`)
+  return { PATH: `${codexBin}:${process.env.PATH}`, ZDOTDIR: zdot, CLAUDE_ENV_FILE: claudeEnv }
+}
+
 function run({ arms, tasks, repeats, id, runner = option('runner', 'codex'), grep, offset = 0 }) {
   step(['--experimental-strip-types', 'scripts/prepare-evaluation-workspace.mjs', '--bench'], {
     SKILL_BENCH_RUNNER: runner,
@@ -43,6 +87,7 @@ function run({ arms, tasks, repeats, id, runner = option('runner', 'codex'), gre
       ...(grep ? ['--grep', grep] : []),
     ],
     {
+      ...benchShellEnv(),
       SKILL_BENCH_ARMS: arms,
       SKILL_BENCH_RUNNER: runner,
       SKILL_BENCH_TASKSET: option('taskset', 'tasks'),

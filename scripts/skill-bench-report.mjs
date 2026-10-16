@@ -28,73 +28,93 @@ export function median(values) {
   return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2
 }
 
-/** Verdict rows for every focus arm against the baseline, grouped by each task's target skill. */
+/** Verdict rows for every focus arm against the baseline: one per target skill, then all tasks pooled. */
 export function buildReport({ runs: all, tasks, judgments, baseline = 'none' }) {
   const runs = all.filter((run) => !run.infrastructure)
   const excluded = all.length - runs.length
   const arms = [...new Set(runs.map((run) => run.arm))].filter((arm) => arm !== baseline)
   const resolved = resolveOrders(judgments)
   const health = judgeHealth(judgments)
-  const rows = []
-  for (const skill of [...new Set(tasks.map((task) => task.targetSkill))])
-    for (const focus of arms) {
-      // Only tasks this bench actually ran: the same skill can also target tasks in another task set.
-      const taskIds = new Set(
-        tasks
-          .filter((task) => task.targetSkill === skill && runs.some((run) => run.task === task.id))
-          .map((task) => task.id),
-      )
-      if (!taskIds.size) continue
-      const outcomes = contrastOutcomes(
-        resolved.filter((pair) => taskIds.has(pair.task)),
-        focus,
-        baseline,
-      )
-      if (!outcomes.length) continue
-      const rate = winRate(outcomes)
-      const interval = clusterBootstrap(outcomes)
-      const repeats = Math.min(
-        ...[focus, baseline].flatMap((arm) =>
-          [...taskIds].map(
-            (task) => runs.filter((run) => run.task === task && run.arm === arm).length,
-          ),
+  // Only tasks this bench actually ran: the same skill can also target tasks in another task set.
+  const ran = tasks.filter((task) => runs.some((run) => run.task === task.id))
+  const contrast = (skill, taskIds, focus) => {
+    const outcomes = contrastOutcomes(
+      resolved.filter((pair) => taskIds.has(pair.task)),
+      focus,
+      baseline,
+    )
+    if (!outcomes.length) return null
+    const rate = winRate(outcomes)
+    const interval = clusterBootstrap(outcomes)
+    const repeats = Math.min(
+      ...[focus, baseline].flatMap((arm) =>
+        [...taskIds].map(
+          (task) => runs.filter((run) => run.task === task && run.arm === arm).length,
         ),
-      )
-      const failures = (arm) =>
-        runs.filter((run) => taskIds.has(run.task) && run.arm === arm && !run.hardCheck.passed)
-          .length
-      const defects = { focus: failures(focus), other: failures(baseline) }
-      // Cost is reported beside the verdict, never fed to the judge, so it cannot bias quality.
-      const costOf = (arm, key) =>
-        median(
-          runs.filter((run) => taskIds.has(run.task) && run.arm === arm).map((run) => run[key]),
-        )
-      const cost = {
-        tokens: { focus: costOf(focus, 'tokens'), other: costOf(baseline, 'tokens') },
-        seconds: {
-          focus: costOf(focus, 'durationMs') / 1000 || null,
-          other: costOf(baseline, 'durationMs') / 1000 || null,
-        },
-      }
-      const call =
-        repeats < MIN_REPEATS
-          ? `signal only (${repeats} run${repeats === 1 ? '' : 's'} per arm)`
-          : health.healthy
-            ? verdict({ ...rate, ...interval, repeats }, defects)
-            : 'withheld'
-      rows.push({
-        skill,
-        focus,
-        baseline,
-        ...rate,
-        ...interval,
-        repeats,
-        defects,
-        cost,
-        verdict: call,
-      })
+      ),
+    )
+    const failures = (arm) =>
+      runs.filter((run) => taskIds.has(run.task) && run.arm === arm && !run.hardCheck.passed).length
+    const defects = { focus: failures(focus), other: failures(baseline) }
+    // Cost is reported beside the verdict, never fed to the judge, so it cannot bias quality.
+    const costOf = (arm, key) =>
+      median(runs.filter((run) => taskIds.has(run.task) && run.arm === arm).map((run) => run[key]))
+    const cost = {
+      tokens: { focus: costOf(focus, 'tokens'), other: costOf(baseline, 'tokens') },
+      seconds: {
+        focus: costOf(focus, 'durationMs') / 1000 || null,
+        other: costOf(baseline, 'durationMs') / 1000 || null,
+      },
     }
+    const call =
+      repeats < MIN_REPEATS
+        ? `signal only (${repeats} run${repeats === 1 ? '' : 's'} per arm)`
+        : health.healthy
+          ? verdict({ ...rate, ...interval, repeats }, defects)
+          : 'withheld'
+    return { skill, focus, baseline, ...rate, ...interval, repeats, defects, cost, verdict: call }
+  }
+  const rows = []
+  for (const focus of arms) {
+    for (const skill of [...new Set(ran.map((task) => task.targetSkill))]) {
+      const row = contrast(
+        skill,
+        new Set(ran.filter((task) => task.targetSkill === skill).map((task) => task.id)),
+        focus,
+      )
+      if (row) rows.push(row)
+    }
+    const pooled = contrast(ALL_TASKS, new Set(ran.map((task) => task.id)), focus)
+    if (pooled) rows.push(pooled)
+  }
   return { rows, health, excluded }
+}
+
+/** Label of the row that pools every task the bench ran. */
+export const ALL_TASKS = 'all tasks'
+
+/**
+ * The strong-claim bar, fixed before the held-out v3 runs: pooled lower bound at least 60%, no
+ * skill not better, at least two thirds of skills better, median tokens no higher than the
+ * baseline's, and a healthy judge.
+ */
+export function strongClaim({ rows, health }, focus) {
+  const skills = rows.filter((row) => row.focus === focus && row.skill !== ALL_TASKS)
+  const pooled = rows.find((row) => row.focus === focus && row.skill === ALL_TASKS)
+  const ratios = skills
+    .map((row) => row.cost.tokens.focus / row.cost.tokens.other)
+    .filter(Number.isFinite)
+  const checks = [
+    { name: 'pooled lower bound ≥ 60%', ok: (pooled?.lower ?? 0) >= 0.6 },
+    { name: 'no skill not better', ok: skills.every((row) => row.verdict !== 'not-better') },
+    {
+      name: 'at least two thirds of skills better',
+      ok: skills.filter((row) => row.verdict === 'better').length * 3 >= skills.length * 2,
+    },
+    { name: 'median token ratio ≤ 1', ok: (median(ratios) ?? Infinity) <= 1 },
+    { name: 'judge healthy', ok: health.healthy },
+  ]
+  return { met: checks.every((check) => check.ok), checks }
 }
 
 const percent = (value) => (value === null ? '–' : `${Math.round(value * 100)}%`)
@@ -119,6 +139,15 @@ export function renderMarkdown(id, { rows, health, excluded = 0 }) {
         `| ${row.skill} | ${row.focus} vs ${row.baseline} | ${row.wins}/${row.losses}/${row.ties} | ${percent(row.rate)} | ${percent(row.lower)}–${percent(row.upper)} | ${row.repeats} | ${row.defects.focus} vs ${row.defects.other} | ${pair(row.cost?.tokens, thousands)} | ${pair(row.cost?.seconds, seconds)} | **${row.verdict}** |`,
     ),
     '',
+    ...[...new Set(rows.map((row) => row.focus))].flatMap((focus) => {
+      const claim = strongClaim({ rows, health }, focus)
+      return [
+        `## Strong claim for ${focus}: ${claim.met ? 'met' : 'not met'}`,
+        '',
+        ...claim.checks.map((check) => `- ${check.ok ? 'ok' : 'FAIL'} ${check.name}`),
+        '',
+      ]
+    }),
     `## Judge health: ${health.healthy ? 'healthy' : 'unhealthy (verdicts withheld)'}`,
     '',
     ...health.checks.map(

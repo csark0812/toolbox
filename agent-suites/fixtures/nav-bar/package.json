@@ -1,0 +1,8 @@
+{
+  "name": "nav-bar",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

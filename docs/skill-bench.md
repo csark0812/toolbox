@@ -32,6 +32,18 @@ A skill ships or stays only if it beats its baseline in this bench. Conformance 
 
    No verdict is given before 4 runs per arm per task; fewer runs report **signal only**. An unhealthy judge withholds every verdict.
 
+## Strong claim (fixed before held-out v3)
+
+"Toolbox is undeniably better than a comparison pack" is claimed only when one frozen held-out set meets every condition below, on **each** runner (Claude and Codex). The arms are toolbox as installed (`full`, no skill named in the prompt) and the pack at full strength (`pack:pstack@poteto-mode`). The report prints the check as **Strong claim**.
+
+1. **Pooled lower bound ≥ 60%.** Pool every decided pair across the set's tasks; the bootstrap lower bound (resampling tasks, then runs) is at least 60%.
+2. **No skill not better.**
+3. **At least two thirds of skills better.** Each skill has two tasks, so its verdict rests on 8 runs per arm.
+4. **Median token ratio ≤ 1** across skills.
+5. **Healthy judge.**
+
+These conditions were written before any held-out v3 run and are not changed after seeing its results. If a set misses the bar, the next attempt fixes skills against development tasks and uses a new frozen set.
+
 ## Commands
 
 | Step                                                           | Command                                                                                                  |
