@@ -41,6 +41,8 @@ For a code or behavior verdict, state the level its load-bearing fact reached on
 
 When evidence touches structure, apply [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/dialogue-contract.md) § Structural checks. Name the spectrum in **What to do next** (localized change vs staged or ground-up).
 
+**Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
+
 ### Evidence protocol
 
 Follow [framework.md](references/framework.md). Summary:
@@ -52,7 +54,7 @@ Follow [framework.md](references/framework.md). Summary:
 5. **Forage or leave** — follow scent (callers, tests, citations, error sites). **Leave** the patch when 2–3 reads yield no confirmatory or disconfirmatory signal. Then re-rank hypos. You can switch material class (for example repo → docs → repo). Leaving is completion, not failure.
 6. **Locate enough to cite** — the verdict needs domain-appropriate citations. For behavioral code hunches, narrow to a citable locus, then stop.
 7. **When evidence is external** — do a lateral check and name the source class before you settle. If independents conflict, say so in the verdict and test competing explanations with [parallel-perspective.md](references/parallel-perspective.md) when multi-agent orchestration is active, or serially when it is not. If you gather multiple topics without a single hunch, use [parallel-research.md](references/parallel-research.md) with the same rule. Then return to this loop if a specific claim remains.
-8. **Return a verdict** — one clear-English settlement (what holds, what does not, what stays open). Always cite specific locations in the primary material. If the hunch is unfounded, say so. Do not invent problems to validate it. When evidence supports multiple mechanisms, report them separately. Do not force a single narrative root cause. **Completion gate:** no code fix, patch, or implementation steps in the verdict or evidence. Put those only in **What to do next** when you route onward. **What to do next** also covers state the mechanism has already affected, such as stored records that a code change alone would leave wrong.
+8. **Return a verdict** — one clear-English settlement (what holds, what does not, what stays open). Always cite specific locations in the primary material. If the hunch is unfounded, say so. Do not invent problems to validate it. When evidence supports multiple mechanisms, report them separately. Do not force a single narrative root cause. **Completion gate:** no code fix, patch, or implementation steps in the verdict or evidence. Put those only in **What to do next** when you route onward. **What to do next** also covers state the mechanism has already affected, such as stored records that a code change alone would leave wrong. Compute every number you report with a script, never by hand. Observe the deciding value directly, for example by calling the function and printing its return or reason field, and isolate the cause with one controlled run that changes only the suspected variable. State the scope: which records or cases are affected and which are not.
 
 ### Evidence standard
 

@@ -24,10 +24,12 @@ Read [research-basis.md](references/research-basis.md) only when you calibrate s
 ## Non-negotiables
 
 1. **Red before green** — one vertical slice per cycle.
-2. **Independent expected values** — not tautological to production logic. Cover the interface the way callers will use it: each optional argument left out, and repeated cases beyond the first, such as the tenth collision as well as the second.
+2. **Independent expected values** — not tautological to production logic. Cover the interface the way callers will use it: each optional argument left out, and repeated cases beyond the first, such as the tenth collision as well as the second. Test hostile input: wrong types, a trailing newline, `NaN`, `Infinity` and numeric strings. Check every value passed to a platform API against that API's limits, such as `setTimeout` above 2^31−1 ms or integer overflow. Read each returned field the way its name tells a caller, and say which reading you chose when it is ambiguous.
 3. **Refactor out of scope** — defer structural cleanup unless the user asks.
 4. **Bugs in the slice are in scope.** A bug found in code the slice calls or changes, which would make the requested behavior wrong, gets its own failing test and fix. Never leave a known correctness bug in the slice. Report a bug outside the slice with its location, without fixing it.
 5. **Review before done.** When the user asks for review, review the final diff, including changes made after an earlier review, and report what the review found.
+
+**Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
 
 ## Workflow
 
@@ -38,6 +40,8 @@ Read [research-basis.md](references/research-basis.md) only when you calibrate s
 ## Exit artifact
 
 Per [output.md](references/output.md) — seam, cycle summary, test path citations.
+
+**Reply check.** Every result you state names a command that appears in your actions and ran after your last edit: say `node --test` if that is what ran, not `npm test`. Claim a clean tree only after `git status`, and claim a test failed first only when that failing run is shown.
 
 ## Consumer bindings
 

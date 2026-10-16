@@ -52,6 +52,8 @@ Extended design vocabulary is available in [codebase-design.md](https://raw.gith
 
 Choose one primary mode from the requested outcome, not repository size. A lens changes the evidence to inspect; it does not create another mode. Read [interaction-modes.md](references/interaction-modes.md).
 
+**Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
+
 ## Run the review
 
 1. Bind the source, scope, lens, and filing breadth.
@@ -62,7 +64,9 @@ Choose one primary mode from the requested outcome, not repository size. A lens 
 6. Consolidate findings by root cause. For merge requests, include only blocked findings plus an explicit advisory section for non-blocking opportunities.
 7. Omit empty sections and repeated synthesis.
 8. For a merge gate, recheck identity and mutable contract evidence immediately before the final status.
-9. Deliver. With an open PR and no restriction, publish one COMMENT review with inline findings per [independence-and-delivery.md](references/independence-and-delivery.md) and give the review URL. Otherwise save the local artifact and state why nothing was posted (for example "No open PR for this branch" or "User asked for chat only").
+9. Deliver. With an open PR and no restriction, publish one COMMENT review with inline findings per [independence-and-delivery.md](references/independence-and-delivery.md) and give the review URL. Otherwise deliver the review in your reply and state why nothing was posted (for example "No open PR for this branch"). Never write review notes or reports into the reviewed workspace; it stays exactly as you found it.
+
+**Review reply.** Open with the merge verdict in one line, such as "Hold the merge: two blocking bugs". Then list findings by severity, using distinct levels, so that not everything is high. Give each finding its `file:line`, a concrete failing scenario with inputs, and its impact, with a number when you can, such as how many records a race loses. Style and naming are advisory, never blockers. Trace concurrency and ordering bugs through an actual interleaving. **Reply check.** Every result you state names a command that appears in your actions and ran after your last edit: say `node --test` if that is what ran, not `npm test`. Claim a clean tree only after `git status`, and claim a test failed first only when that failing run is shown.
 
 When the reviewed path has meaningful state, identity, lifecycle, policy, side effects, recovery, or a trust boundary, name the concept, owner, public contract, and test seam before judging its design. File movement alone does not prove a boundary.
 

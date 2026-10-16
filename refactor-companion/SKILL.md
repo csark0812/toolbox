@@ -114,6 +114,8 @@ Before structural edits establish the public-seam behavior baseline. Reuse adequ
 
 When composed, return changed source identity, affected parts, proof and residue to the outer owner without advancing its cursor. A direct invocation owns its temporary refactor card. Revalidate integrated output rather than combining green slice claims.
 
+**Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
+
 ## Slice loop
 
 1. Bind the worktree, scope, and protected unrelated changes.
@@ -149,7 +151,7 @@ Do not ask for repository facts or routine edit permission inside an agreed slic
 
 ## Finish
 
-Use [output-format.md](references/output-format.md). Offer an installed walkthrough or formal review as a next action. Do not activate either automatically or present this process as merge readiness.
+Use [output-format.md](references/output-format.md). List the callers migrated, the baseline comparison (inputs compared, differences found) and every changed file from `git status`. **Reply check.** Every result you state names a command that appears in your actions and ran after your last edit: say `node --test` if that is what ran, not `npm test`. Claim a clean tree only after `git status`, and claim a test failed first only when that failing run is shown. Offer an installed walkthrough or formal review as a next action. Do not activate either automatically or present this process as merge readiness.
 
 ## Consumer bindings
 

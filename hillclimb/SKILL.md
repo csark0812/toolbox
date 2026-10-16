@@ -24,13 +24,16 @@ Adapted from the pstack hillclimb playbook ([backnotprop/pstack](https://github.
 - Write the **stop predicate** before the first attempt. It has a target and a minimum attempt count, for example "p50 ≤ 40 ms and at least 5 attempts". Never relax it. Reaching the target early does not end the loop before the minimum attempt count.
 - **Prove the harness is sensitive, then freeze it.** Contrasting workloads must produce separated results. After the baseline, do not edit the harness, its workload, its data or its run count. Each run reports the median of repeated samples, an error count and a work-done count.
 - Record a **regression gate** at the baseline: the existing tests or a correctness check that passes before any attempt. Every kept attempt must pass it.
-- **Prove results unchanged.** Before the first attempt, build an equivalence check that runs the original and the changed code over many generated inputs, including edge cases and mixed value types, and compares outputs strictly. Run it at every keep.
+- **Prove results unchanged.** Before the first attempt, build an equivalence check that runs the original and the changed code over many generated inputs, including edge cases and mixed value types, and compares outputs strictly, or with a hash of the full output. Run it at every keep.
+- **Leave a margin.** Do not stop just under the target. Once it is met, remove remaining known costs that are cheap to remove, and finish with every run of the final measurement under the target.
 - **Profile before guessing.** Take a profile of the baseline and name the hot path before the first hypothesis. Measure the baseline and the candidate in alternating rounds, so machine drift cannot fake a win.
 - **One hypothesis per attempt.** Each names a mechanism. Order the hypotheses cheapest first: avoid the work, avoid repeating it, do less, do it later, do it concurrently, then do it cheaper.
 - **Keep or revert in full.** Keep an attempt only when the frozen harness shows a gain beyond run-to-run spread, the error count is zero, the work count is unchanged and the gate passes. Otherwise restore the files it touched. Never claim a win from reading code.
 - One commit per kept attempt. Stage only the paths it changed. Never `git add -A` or `git add .`. Never commit the decision log.
 - Correctness and simplicity outrank the number. A kept attempt that adds complexity without beating the spread is reverted.
 - A plateau changes the hypothesis category. Two attempts in a row that produce no new evidence and no gain route to i-need-help when it is installed. Otherwise stop with the same report inline.
+
+**Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
 
 ## Workflow
 
@@ -48,7 +51,9 @@ Reply with:
 - **Kept:** each commit with its hypothesis and delta.
 - **Reverted:** each hypothesis with its measured reason.
 - **Predicate:** met or not met, and attempts used.
-- **Log:** path to `decisions.tsv`.
+- **Log:** path to `decisions.tsv`. Keep the log out of commits. If `.git/info/exclude` cannot be written, delete `.hillclimb/` before finishing and paste the table instead. Finish with a clean tree.
+
+**Reply check.** Every result you state names a command that appears in your actions and ran after your last edit: say `node --test` if that is what ran, not `npm test`. Claim a clean tree only after `git status`, and claim a test failed first only when that failing run is shown.
 
 ## Consumer bindings
 

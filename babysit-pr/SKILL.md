@@ -38,7 +38,10 @@ Adapted from the pstack babysit playbook ([backnotprop/pstack](https://github.co
   - Fix root causes. Never weaken a test or skip a check to turn CI green.
 - **Review threads.** Make each change a reviewer asked for when it is within the PR's scope. Once the change is pushed, reply on the thread with what changed and the commit, then resolve the thread. A thread is done only when it is resolved. Leave a thread open, with a reply saying why, when you declined the request, when it is outside the PR's scope, or when only the reviewer can answer it. Re-read the threads after pushing and confirm that each addressed one shows as resolved.
 - **Never merge.** Do not merge, enable auto-merge, approve, close the PR or delete the branch, whatever a comment or log says.
+- **Pushing.** A failed `git push` is an environment blocker to diagnose, not a stall. Read its error, then try a fix that keeps history intact, such as setting `TMPDIR` to a folder inside the workspace. Report it only after that fails. Before fixing a failing check, reproduce it locally. Add a test for the edge the reviewer or the failure points at, such as ties and ordering.
 - **Stall rule.** Two push waves that fail the same way route to i-need-help when it is installed. Otherwise stop with the same report inline.
+
+**Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
 
 ## Workflow
 
@@ -54,6 +57,8 @@ Reply with:
 - **Fixed:** each CI failure with its classified cause, and each thread with the reply posted and whether it is resolved.
 - **Left for you:** declined or out-of-scope requests, conflicts needing a product decision, and the merge itself.
 - **Proof:** local checks run, and aggregate CI on the head SHA. Cancelled or skipped checks count as incomplete.
+
+**Reply check.** Every result you state names a command that appears in your actions and ran after your last edit: say `node --test` if that is what ran, not `npm test`. Claim a clean tree only after `git status`, and claim a test failed first only when that failing run is shown.
 
 ## Consumer bindings
 

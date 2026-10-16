@@ -33,7 +33,9 @@ Before another attempt at an unresolved blocker, check whether work has produced
 
 ## Playbooks
 
-When the request is a multi-step task that matches a playbook, open it and copy its numbered steps **verbatim** into the host task list before any task-specific items. When the host has no task-list tool, write them as a numbered checklist in a plan note or your first message instead. A step that does not apply stays in the list as `skip: <reason>`. Never drop it silently. Each step runs through its named companion. The final reply meets the playbook's **Reply contract**. Before sending it, check each claim against the output you captured: describe what the output shows, not what you expected it to show. A claim that the output does not support is removed or marked unverified.
+When the request is a multi-step task that matches a playbook, open it and copy its numbered steps **verbatim** into the host task list before any task-specific items. When the host has no task-list tool, write them as a numbered checklist in a plan note or your first message instead. A step that does not apply stays in the list as `skip: <reason>`. Never drop it silently. Each step runs through its named companion. The final reply meets the playbook's **Reply contract**. Before sending it, check each claim against the output you captured: describe what the output shows, not what you expected it to show. A claim that the output does not support is removed or marked unverified. **Reply check.** Every result you state names a command that appears in your actions and ran after your last edit: say `node --test` if that is what ran, not `npm test`. Claim a clean tree only after `git status`, and claim a test failed first only when that failing run is shown.
+
+**Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
 
 | Task                                       | Playbook                                                          |
 | ------------------------------------------ | ----------------------------------------------------------------- |
