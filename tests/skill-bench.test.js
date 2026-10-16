@@ -242,8 +242,8 @@ describe('strong claim bar', () => {
   })
 
   it('needs a 90% pooled win rate and a 60% lower bound', () => {
-    expect(failing([...skills, row(ALL_TASKS, 'better', { rate: 0.79 })])).toEqual([
-      'pooled win rate ≥ 80%',
+    expect(failing([...skills, row(ALL_TASKS, 'better', { rate: 0.89 })])).toEqual([
+      'pooled win rate ≥ 90%',
     ])
     expect(failing([...skills, row(ALL_TASKS, 'better', { lower: 0.55 })])).toEqual([
       'pooled lower bound ≥ 60%',
