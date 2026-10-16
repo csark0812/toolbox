@@ -65,9 +65,13 @@ export function benchClaim(task: BenchTask, arm: string) {
     defaults: { ...defaults, skills: arm },
     // A pack whose skills are explicit-only is run the way it documents: through its entry skill.
     overlayDir: packSetup(arm).overlayDir,
+    // On Claude the entry skill is started as a slash command (see entryPrompt); elsewhere the prompt names it.
     prompt:
       (packEntry(arm)
-        ? `Use the ${packEntry(arm)} skill for this task. ${packSetup(arm).note}`.trim() + '\n\n'
+        ? (RUNNER === 'claude'
+            ? packSetup(arm).note
+            : `Use the ${packEntry(arm)} skill for this task. ${packSetup(arm).note}`
+          ).trim() + '\n\n'
         : '') +
       (task.prompt ?? scenario.prompt).replaceAll('agent-suites/fixtures/', `${BENCH_ROOT}/`),
     rubric: {},
@@ -76,6 +80,14 @@ export function benchClaim(task: BenchTask, arm: string) {
   const leaks = blindingLeaks(framePrompt(claim, 'neutral'))
   if (leaks.length) throw new Error(`Bench prompt for ${task.id} reveals measurement: ${leaks}`)
   return claim
+}
+
+/**
+ * A pack's documented entry on Claude Code is the user typing `/<entry>`: an explicit-only skill
+ * (disable-model-invocation) cannot be loaded by the model from a prompt that only names it.
+ */
+function entryPrompt(arm: string, prompt: string) {
+  return RUNNER === 'claude' && packEntry(arm) ? `/${packEntry(arm)} ${prompt}` : prompt
 }
 
 /** The harness's workspace guard, as an error kind (2.1+) or a plain message (2.0). */
@@ -123,7 +135,7 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
         let run
         try {
           run = await prepareClaim(coder, claim, 'neutral').run({
-            prompt: framePrompt(claim, 'neutral'),
+            prompt: entryPrompt(arm, framePrompt(claim, 'neutral')),
             includeGlobalSkills: false,
           })
         } catch (error) {
