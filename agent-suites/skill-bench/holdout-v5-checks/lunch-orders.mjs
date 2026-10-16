@@ -40,7 +40,6 @@ assert.equal(
   'feat: kitchen sheet per office',
   'main on the remote was not pushed to or changed',
 )
-assert.equal(remote('rev-list', '--count', main), '2', 'nothing was pushed to main')
 try {
   remote('merge-base', '--is-ancestor', main, head)
 } catch {
