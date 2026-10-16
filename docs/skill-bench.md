@@ -19,7 +19,7 @@ A skill ships or stays only if it beats its baseline in this bench. Conformance 
    - Each held-out set is written and frozen before any run and is never tuned against. Each task has a hidden acceptance check that never enters the agent's workspace. The lock pins a SHA-256 over every file the set uses, and a test fails on drift. Development tasks may have hidden checks too, under `dev-checks/`. Re-freezing after seeing results voids the held-out claim.
 4. **Runs.** `agent-suites/skill-bench/skill-bench.spec.ts` records the reply, tool calls, diff, commits and hard-check result for each run under `.agent-test/skill-bench/<id>/runs/`. A failed hard check is recorded, not thrown.
 5. **Judge.** `scripts/skill-bench-judge.mjs` compares every cross-arm pair in both orders.
-   - The judge is from the other model family than the runs it grades (Opus for Codex runs, Codex for Claude runs), working in an empty temporary folder.
+   - The judge is from the other model family than the runs it grades (Opus for Codex runs, Codex for Claude runs), working in an empty temporary folder. `SKILL_BENCH_JUDGE=claude|codex` overrides this when a family is unavailable, and the report names the judge model.
    - It sees the task, the criteria, and two versions labelled A and B. Skill and pack names and skill paths are masked everywhere it reads.
    - It grades from actions and checks, not from claims in the reply.
    - Controls: identical pairs, known-gap pairs (a run against a twin with the work removed) and re-tests.
@@ -40,6 +40,8 @@ A skill ships or stays only if it beats its baseline in this bench. Conformance 
 2. **Every skill better.** Each skill has two tasks, so its verdict rests on 8 runs per arm.
 3. **At least 20% fewer tokens.** The median token ratio across skills is 0.8 or less.
 4. **Healthy judge.**
+
+**Scope while Codex is unavailable.** From held-out v4 on, the user narrowed the claim to the Claude runner and accepted an Opus judge (`SKILL_BENCH_JUDGE=claude`), because the Codex subscription was exhausted. The judge is still blind to which pack is which and must pass every control, but it is the same family as the runs, so these results are labelled same-family. A cross-family re-judge follows when Codex is available.
 
 These conditions were written before any held-out v3 run. During that run the user tightened them twice, to the conditions above (from: pooled lower bound ≥ 60%, no skill not better, two thirds of skills better, token ratio ≤ 1); they may be tightened but are never loosened after seeing results. If a set misses the bar, the next attempt fixes skills against development tasks and uses a new frozen set.
 

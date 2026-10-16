@@ -262,6 +262,16 @@ describe('strong claim bar', () => {
   })
 })
 
+describe('judge family', async () => {
+  const { JUDGE_MODEL, judgeFor } = await import('../scripts/skill-bench-judge.mjs')
+
+  it('judges with the other family by default and honours an explicit override', () => {
+    expect(judgeFor('claude', undefined).name).toBe('codex')
+    expect(judgeFor('codex', undefined).name).toBe(JUDGE_MODEL)
+    expect(judgeFor('claude', 'claude').name).toBe(JUDGE_MODEL)
+  })
+})
+
 describe('task sets', () => {
   it('have unique ids across development and every held-out set', () => {
     const ids = [tasks, ...heldOut.map(({ tasks }) => tasks)].flat().map((task) => task.id)

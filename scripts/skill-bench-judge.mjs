@@ -28,8 +28,13 @@ export const JUDGE_MODEL = 'claude-opus-5-5'
  * Judge from the other model family than the runs it grades, so neither runner is scored by its
  * own family: Opus judges Codex runs and Codex judges Claude runs.
  */
-export function judgeFor(runner) {
-  return runner === 'claude'
+/**
+ * The judge is from the other model family than the runs it grades. SKILL_BENCH_JUDGE=claude|codex
+ * overrides that when one family is unavailable; the judgments record which model judged.
+ */
+export function judgeFor(runner, family = process.env.SKILL_BENCH_JUDGE) {
+  const judgeFamily = family ?? (runner === 'claude' ? 'codex' : 'claude')
+  return judgeFamily === 'codex'
     ? { name: 'codex', agent: openai({}) }
     : { name: JUDGE_MODEL, agent: claude({ model: JUDGE_MODEL, auth: { type: 'subscription' } }) }
 }

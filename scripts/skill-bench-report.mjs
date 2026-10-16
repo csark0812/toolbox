@@ -87,7 +87,8 @@ export function buildReport({ runs: all, tasks, judgments, baseline = 'none' }) 
     const pooled = contrast(ALL_TASKS, new Set(ran.map((task) => task.id)), focus)
     if (pooled) rows.push(pooled)
   }
-  return { rows, health, excluded }
+  const judges = [...new Set(judgments.map((entry) => entry.model).filter(Boolean))]
+  return { rows, health, excluded, judges }
 }
 
 /** Label of the row that pools every task the bench ran. */
@@ -126,11 +127,11 @@ const pair = (metric, format) =>
     ? `${format(metric.focus)} vs ${format(metric.other)} (${(metric.focus / metric.other).toFixed(1)}×)`
     : '–'
 
-export function renderMarkdown(id, { rows, health, excluded = 0 }) {
+export function renderMarkdown(id, { rows, health, excluded = 0, judges = [] }) {
   const lines = [
     `# Skill bench ${id}`,
     '',
-    `Judge v${JUDGE_VERSION}. A verdict needs ${MIN_REPEATS}+ runs per arm per task and a healthy judge. Infrastructure exclusions: ${excluded}.`,
+    `Judge v${JUDGE_VERSION} (${judges.join(', ') || 'none'}). A verdict needs ${MIN_REPEATS}+ runs per arm per task and a healthy judge. Infrastructure exclusions: ${excluded}.`,
     '',
     '| Skill | Arm vs baseline | W/L/T | Win rate | 95% CI | Runs | Check failures | Median tokens | Median time | Verdict |',
     '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
