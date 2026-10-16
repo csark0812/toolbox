@@ -140,12 +140,14 @@ The bar is fixed in [docs/skill-bench.md](docs/skill-bench.md#strong-claim-fixed
 | v3 (18)     | Claude | 78% (61–91%)            | 2 of 9        | 0.9×             |
 | v3 (18)     | Codex  | 62% (41–81%)            | 1 of 9        | 0.7×             |
 | v4 (27)     | Codex  | 64% (46–81%)            | 2 of 9        | 0.5×             |
+| v5 (27)     | Claude | 73% (59–85%)            | 2 of 9        | 0.8×             |
+| v6 (27)     | Claude | **81% (69–91%)**        | 4 of 9        | 0.7×             |
 
 - **Where toolbox leads.** On v3 Claude it was clearly better on hillclimb (24/1/7), code review (14/0/18) and CSS (26/1/1). On v4 Codex it led on hillclimb (28/3/17) and CSS (37/0/11).
 - **Losses.**
   - **v4 Codex code review: 0/36/12.** The reviews stopped after the first blockers and missed findings, such as a guessable `Math.random()` token.
   - **v3 Codex babysit-pr: close to even.** On Codex, PR tasks were also harder than they should be: before the run-local `TMPDIR` fix, the offline mirror's CI could not pass for either pack.
-- **Pending.** v4 and v5 on Claude are being judged by Opus. The Codex runs of v5 wait for the Codex subscription limit to reset.
+- **Latest (v6, Claude, Opus judge, answers unseen by the tuning side).** Better on workflow (36/1/11), hillclimb (41/4/3), probe (38/7/3) and CSS (29/5/14). The other five skills lean toolbox but are inconclusive: debugging 32/9, tdd 28/5, code review 25/9, babysit-pr 23/12 and refactor 22/12. The bar is still not met: 81% pooled against 90% required, and not every skill is better. v5 and v6 are Claude-only, judged by Opus (same family). The Codex runs wait for the Codex subscription limit to reset.
 - **What changed between rounds.** Fixes came from judge reasons and were developed against development tasks only:
   - **Auto-invocation on Claude:** valid YAML frontmatter, and short trigger-first descriptions with example requests. Invocation went from 9 of 32 to 14 of 14 on development tasks.
   - **A reply check inside every skill:** a result must name a command that was run after the last edit.
