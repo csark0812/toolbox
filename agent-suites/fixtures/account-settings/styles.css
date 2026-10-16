@@ -1,0 +1,108 @@
+:root {
+  --bg: #ffffff;
+  --page: #f3f4f6;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #d1d5db;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --on-primary: #ffffff;
+  --danger: #dc2626;
+  --danger-soft: #fef2f2;
+  --hover: #f3f4f6;
+  --focus-ring: rgba(79, 70, 229, 0.35);
+  --radius: 8px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font:
+    15px/1.5 system-ui,
+    sans-serif;
+  color: var(--text);
+  background: var(--page);
+}
+
+button:focus {
+  outline: none;
+}
+
+.dialog {
+  max-width: 34rem;
+  margin: 48px auto;
+  padding: 28px;
+  background: var(--bg);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.field input {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font: inherit;
+}
+
+.field input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.danger-zone {
+  margin: 24px 0;
+  padding: 16px;
+  border: 1px solid var(--danger-soft);
+  border-radius: var(--radius);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--hover);
+}
+
+.btn--primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.btn--primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn--danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.btn--danger:hover {
+  background: var(--danger);
+}

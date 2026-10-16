@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Support inbox</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="inbox">
+      <nav class="sidebar" aria-label="Folders">
+        <a class="folder folder--active" href="#">Open <span class="count">12</span></a>
+        <a class="folder" href="#">Waiting <span class="count">4</span></a>
+        <a class="folder" href="#">Closed</a>
+      </nav>
+      <main class="thread">
+        <header class="thread__header">
+          <h1 class="thread__title">Export link returns 403</h1>
+          <p class="thread__meta">Ticket #4821 · Priya Raman · Pro plan</p>
+        </header>
+        <article class="message">
+          <p class="message__author">Priya Raman <time>09:14</time></p>
+          <div class="message__body">
+            <p>
+              Hi! The export link from yesterday's email gives me a 403:
+              <a href="#"
+                >https://exports.example-cdn.com/v2/accounts/88213/exports/full-export-a7f3c9e2.csv.gz</a
+              >
+            </p>
+            <p>Here's what the browser console shows:</p>
+            <pre><code>GET https://exports.example-cdn.com/v2/accounts/88213/exports/2026-10-14/full-export.csv.gz 403
+x-request-id: 0c9b1e7f4a2d4e8b9f61a3c5d7e9f0b2c4d6e8f0a1b3c5d7e9f1</code></pre>
+          </div>
+        </article>
+        <article class="message message--agent">
+          <p class="message__author">Sam (Support) <time>09:31</time></p>
+          <div class="message__body">
+            <p>Thanks Priya, signed links expire after 24 hours. I've sent a fresh one.</p>
+          </div>
+        </article>
+      </main>
+    </div>
+  </body>
+</html>

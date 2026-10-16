@@ -1,0 +1,25 @@
+[
+  {
+    "slug": "release-train",
+    "title": "How we run the release train",
+    "date": "2026-09-30",
+    "author": "Priya",
+    "tags": ["process", "releases"],
+    "body": "Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code.\n\nShipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the"
+  },
+  {
+    "slug": "docs-in-repo",
+    "title": "Docs live next to the code now",
+    "date": "2026-10-08",
+    "author": "Marco",
+    "tags": ["docs"],
+    "body": "Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the build to a single command and the docs to the same repository as the code. Shipping small changes often keeps the release train calm and the reviews short. We moved the"
+  },
+  {
+    "slug": "about",
+    "title": "About this blog",
+    "date": "2026-10-12",
+    "author": "Priya",
+    "body": "Notes from the platform team about how we build and ship."
+  }
+]

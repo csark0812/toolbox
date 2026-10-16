@@ -1,0 +1,9 @@
+{
+  "name": "weather-station",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "daily": "node bin/weather.mjs daily"
+  }
+}

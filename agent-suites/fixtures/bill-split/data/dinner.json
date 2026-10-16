@@ -1,0 +1,11 @@
+{
+  "people": ["ana", "ben", "cy", "dee"],
+  "items": [
+    { "name": "Nachos", "price": "11.50" },
+    { "name": "Ramen", "price": "16.00", "people": ["ana"] },
+    { "name": "Burger", "price": "14.25", "people": ["ben"] },
+    { "name": "Salad", "price": "12.75", "people": ["cy", "dee"] },
+    { "name": "Wine", "price": "38.00", "people": ["ana", "cy", "dee"] }
+  ],
+  "tipPercent": 18
+}

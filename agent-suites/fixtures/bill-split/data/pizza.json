@@ -1,0 +1,4 @@
+{
+  "people": ["ana", "ben", "cy"],
+  "items": [{ "name": "Large pizza", "price": "20.00" }]
+}

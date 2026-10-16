@@ -1,0 +1,60 @@
+[
+  {
+    "id": "L1",
+    "bookId": "B-101",
+    "memberId": "m3",
+    "status": "out",
+    "outOn": "2026-10-01",
+    "dueOn": "2026-10-22"
+  },
+  {
+    "id": "L2",
+    "bookId": "B-102",
+    "memberId": "m1",
+    "status": "out",
+    "outOn": "2026-09-10",
+    "dueOn": "2026-10-01"
+  },
+  {
+    "id": "L3",
+    "bookId": "B-207",
+    "memberId": "m4",
+    "status": "Late",
+    "outOn": "2026-09-01",
+    "dueOn": "2026-09-22"
+  },
+  {
+    "id": "L4",
+    "bookId": "B-311",
+    "memberId": "m2",
+    "status": "overdue",
+    "outOn": "2026-06-01",
+    "dueOn": "2026-06-22",
+    "replacementCents": 3400
+  },
+  {
+    "id": "L5",
+    "bookId": "B-118",
+    "memberId": "m1",
+    "status": "returned",
+    "outOn": "2026-08-01",
+    "dueOn": "2026-08-22",
+    "returnedOn": "2026-08-20"
+  },
+  {
+    "id": "L6",
+    "bookId": "B-420",
+    "memberId": "m5",
+    "status": "lost",
+    "outOn": "2026-03-01",
+    "dueOn": "2026-03-22"
+  },
+  {
+    "id": "L7",
+    "bookId": "B-133",
+    "memberId": "m2",
+    "status": " OUT ",
+    "outOn": "2026-10-10",
+    "dueOn": "2026-10-31"
+  }
+]

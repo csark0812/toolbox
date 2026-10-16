@@ -1,0 +1,9 @@
+{
+  "name": "quill",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "build": "node bin/build.mjs"
+  }
+}

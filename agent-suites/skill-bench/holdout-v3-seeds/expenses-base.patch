@@ -1,0 +1,51 @@
+diff --git a/agent-suites/fixtures/expenses/bin/expenses.mjs b/agent-suites/fixtures/expenses/bin/expenses.mjs
+index 00201fc..5575fd1 100644
+--- a/agent-suites/fixtures/expenses/bin/expenses.mjs
++++ b/agent-suites/fixtures/expenses/bin/expenses.mjs
+@@ -1,15 +1,17 @@
+ #!/usr/bin/env node
+ import { argv, exit, stderr, stdout } from 'node:process'
+-import { loadExpenses } from '../src/expenses.mjs'
++import { inMonth, loadExpenses } from '../src/expenses.mjs'
+ import { formatDollars, totalsByPerson } from '../src/totals.mjs'
+ 
+-const [command] = argv.slice(2)
+-const expenses = loadExpenses()
++const [command, ...args] = argv.slice(2)
++const monthIndex = args.indexOf('--month')
++const month = monthIndex === -1 ? undefined : args[monthIndex + 1]
++const expenses = month ? inMonth(loadExpenses(), month) : loadExpenses()
+ 
+ if (command === 'summary') {
+   for (const { person, total } of totalsByPerson(expenses))
+     stdout.write(`${person.padEnd(8)} ${formatDollars(total)}\n`)
+ } else {
+-  stderr.write('usage: expenses summary\n')
++  stderr.write('usage: expenses summary [--month YYYY-MM]\n')
+   exit(1)
+ }
+diff --git a/agent-suites/fixtures/expenses/src/expenses.mjs b/agent-suites/fixtures/expenses/src/expenses.mjs
+index cffeccc..a6368f1 100644
+--- a/agent-suites/fixtures/expenses/src/expenses.mjs
++++ b/agent-suites/fixtures/expenses/src/expenses.mjs
+@@ -3,3 +3,6 @@ import { readFileSync } from 'node:fs'
+ /** Expense claims: { date, person, description, amount } with amount in dollars. */
+ export const loadExpenses = () =>
+   JSON.parse(readFileSync(new URL('../data/expenses.json', import.meta.url), 'utf8'))
++
++/** Claims dated in `month` (YYYY-MM). */
++export const inMonth = (expenses, month) => expenses.filter((e) => e.date.startsWith(`${month}-`))
+diff --git a/agent-suites/fixtures/expenses/tests/expenses.test.mjs b/agent-suites/fixtures/expenses/tests/expenses.test.mjs
+new file mode 100644
+index 0000000..3f289d1
+--- /dev/null
++++ b/agent-suites/fixtures/expenses/tests/expenses.test.mjs
+@@ -0,0 +1,8 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { inMonth } from '../src/expenses.mjs'
++
++test('filters claims by month', () => {
++  const claims = [{ date: '2026-09-30' }, { date: '2026-10-01' }, { date: '2025-10-02' }]
++  assert.deepEqual(inMonth(claims, '2026-10'), [{ date: '2026-10-01' }])
++})

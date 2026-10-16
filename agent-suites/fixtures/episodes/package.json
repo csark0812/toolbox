@@ -1,0 +1,9 @@
+{
+  "name": "episodes",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "feed": "node bin/feed.mjs"
+  }
+}

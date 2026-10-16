@@ -1,0 +1,6 @@
+{
+  "retries": 5,
+  "baseDelayMs": 2000,
+  "deadlineMs": 600000,
+  "timeoutMs": 10000
+}

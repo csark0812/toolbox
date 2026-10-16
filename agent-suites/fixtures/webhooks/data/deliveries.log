@@ -1,0 +1,23 @@
+e1 hooks.acme.example +   0s attempt 1 -> 200
+e1 hooks.acme.example delivered after 1 attempts
+e4 api.parcelpoint.example +   0s attempt 1 -> 502
+e4 api.parcelpoint.example +   2s attempt 2 -> 502
+e4 api.parcelpoint.example +   6s attempt 3 -> 0
+e4 api.parcelpoint.example +  14s attempt 4 -> 503
+e4 api.parcelpoint.example +  30s attempt 5 -> 502
+e4 api.parcelpoint.example +  62s attempt 6 -> 502
+e4 api.parcelpoint.example gave up after 6 attempts
+e6 hooks.acme.example +   0s attempt 1 -> 500
+e6 hooks.acme.example +   2s attempt 2 -> 500
+e6 hooks.acme.example +   6s attempt 3 -> 200
+e6 hooks.acme.example delivered after 3 attempts
+e7 old.partner.example +   0s attempt 1 -> 410
+e7 old.partner.example gave up after 1 attempts
+e9 events.tallyho.example +   0s attempt 1 -> 503
+e9 events.tallyho.example + 300s attempt 2 -> 503
+e9 events.tallyho.example + 600s attempt 3 -> 503
+e9 events.tallyho.example gave up after 3 attempts
+e12 events.tallyho.example +   0s attempt 1 -> 503
+e12 events.tallyho.example + 300s attempt 2 -> 503
+e12 events.tallyho.example + 600s attempt 3 -> 503
+e12 events.tallyho.example gave up after 3 attempts

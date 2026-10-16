@@ -1,0 +1,18 @@
+[
+  {
+    "date": "2026-09-03",
+    "person": "ines",
+    "description": "Taxi, airport to hotel",
+    "amount": 42.5
+  },
+  { "date": "2026-09-03", "person": "ines", "description": "Hotel (2 nights)", "amount": 318 },
+  { "date": "2026-09-12", "person": "mark", "description": "Team lunch", "amount": 96.4 },
+  {
+    "date": "2026-09-28",
+    "person": "mark",
+    "description": "Monitor cable \"USB-C\"",
+    "amount": 19.99
+  },
+  { "date": "2026-10-02", "person": "ines", "description": "Train to Leeds", "amount": 61.2 },
+  { "date": "2026-10-07", "person": "olu", "description": "Conference ticket", "amount": 450 }
+]

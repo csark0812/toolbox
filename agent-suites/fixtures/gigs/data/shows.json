@@ -1,0 +1,31 @@
+[
+  {
+    "artist": "Night Owls & Co.",
+    "startsAt": "2026-10-16T00:00:00Z",
+    "timeZone": "America/New_York",
+    "priceCents": 1800,
+    "doors": "7:00 PM"
+  },
+  {
+    "artist": "Marisol Vega Trio",
+    "startsAt": "2026-10-17T23:30:00Z",
+    "timeZone": "America/New_York",
+    "priceCents": 2250,
+    "doors": "6:30 PM",
+    "soldOut": true
+  },
+  {
+    "artist": "Open Mic <Thursday>",
+    "startsAt": "2026-10-22T23:00:00Z",
+    "timeZone": "America/New_York",
+    "priceCents": 0,
+    "doors": "6:00 PM"
+  },
+  {
+    "artist": "The Late Shift",
+    "startsAt": "2026-11-01T02:15:00Z",
+    "timeZone": "America/New_York",
+    "priceCents": 1505,
+    "doors": "9:00 PM"
+  }
+]

@@ -1,0 +1,88 @@
+diff --git a/agent-suites/fixtures/episodes/src/episodes.mjs b/agent-suites/fixtures/episodes/src/episodes.mjs
+index f1af91f..3e24c4e 100644
+--- a/agent-suites/fixtures/episodes/src/episodes.mjs
++++ b/agent-suites/fixtures/episodes/src/episodes.mjs
+@@ -1,8 +1,21 @@
++/** h:mm:ss for an hour or more, otherwise m:ss. */
++export function durationLabel(seconds) {
++  const hours = Math.floor(seconds / 3600)
++  const minutes = Math.floor((seconds % 3600) / 60)
++  const secs = String(seconds % 60).padStart(2, '0')
++  return hours > 0 ? `${hours}:${minutes}:${secs}` : `${minutes}:${secs}`
++}
++
+ /** One line of the episode list. */
+ export function formatEpisode(ep) {
+-  return `${ep.number}. ${ep.title} (${Math.round(ep.seconds / 60)} min)`
++  return `${ep.number}. ${ep.title} (${durationLabel(ep.seconds)})`
++}
++
++/** Newest episode first. */
++export function newestFirst(episodes) {
++  return [...episodes].sort((a, b) => a.publishedAt < b.publishedAt)
+ }
+ 
+ export function episodeList(episodes) {
+-  return episodes.map(formatEpisode).join('\n')
++  return newestFirst(episodes).map(formatEpisode).join('\n')
+ }
+diff --git a/agent-suites/fixtures/episodes/tests/episodes.test.mjs b/agent-suites/fixtures/episodes/tests/episodes.test.mjs
+index dbea4f3..f35a56e 100644
+--- a/agent-suites/fixtures/episodes/tests/episodes.test.mjs
++++ b/agent-suites/fixtures/episodes/tests/episodes.test.mjs
+@@ -1,18 +1,48 @@
+ import assert from 'node:assert/strict'
+ import { test } from 'node:test'
+-import { episodeList, formatEpisode } from '../src/episodes.mjs'
++import { durationLabel, episodeList, formatEpisode, newestFirst } from '../src/episodes.mjs'
+ 
+ test('formats an episode line', () => {
+   assert.equal(
+-    formatEpisode({ number: 3, title: 'Container math', seconds: 3905 }),
+-    '3. Container math (65 min)',
++    formatEpisode({ number: 4, title: 'Night shift at the crane', seconds: 2405 }),
++    '4. Night shift at the crane (40:05)',
+   )
+ })
+ 
+-test('lists episodes one per line', () => {
++test('labels durations', () => {
++  assert.equal(durationLabel(2710), '45:10')
++  assert.equal(durationLabel(59), '0:59')
++})
++
++test('keeps a list that is already newest first', () => {
++  const eps = [
++    { number: 3, publishedAt: '2026-09-01T09:00:00Z' },
++    { number: 2, publishedAt: '2026-08-18T09:00:00Z' },
++    { number: 1, publishedAt: '2026-08-04T09:00:00Z' },
++  ]
++  assert.deepEqual(
++    newestFirst(eps).map((ep) => ep.number),
++    [3, 2, 1],
++  )
++})
++
++test('puts the newest episode first', () => {
++  const eps = [
++    { number: 1, publishedAt: '2026-08-04T09:00:00Z' },
++    { number: 2, publishedAt: '2026-08-18T09:00:00Z' },
++    { number: 4, publishedAt: '2026-09-15T09:00:00Z' },
++    { number: 3, publishedAt: '2026-09-01T09:00:00Z' },
++  ]
++  assert.deepEqual(
++    newestFirst(eps).map((ep) => ep.number),
++    [4, 3, 2, 1],
++  )
++})
++
++test('lists episodes newest first', () => {
+   const list = episodeList([
+-    { number: 1, title: 'A', seconds: 60 },
+-    { number: 2, title: 'B', seconds: 120 },
++    { number: 1, title: 'A', seconds: 60, publishedAt: '2026-08-04T09:00:00Z' },
++    { number: 2, title: 'B', seconds: 120, publishedAt: '2026-08-18T09:00:00Z' },
+   ])
+-  assert.equal(list, '1. A (1 min)\n2. B (2 min)')
++  assert.equal(list, '2. B (2:00)\n1. A (1:00)')
+ })

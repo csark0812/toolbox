@@ -1,0 +1,9 @@
+{
+  "name": "roster",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "demo": "node bin/demo.mjs"
+  }
+}

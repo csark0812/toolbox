@@ -1,0 +1,39 @@
+[
+  { "event": "e1", "endpoint": "hooks.acme.example", "responses": [{ "status": 200 }] },
+  {
+    "event": "e4",
+    "endpoint": "api.parcelpoint.example",
+    "responses": [
+      { "status": 502 },
+      { "status": 502 },
+      { "status": 0 },
+      { "status": 503 },
+      { "status": 502 },
+      { "status": 502 }
+    ]
+  },
+  {
+    "event": "e6",
+    "endpoint": "hooks.acme.example",
+    "responses": [{ "status": 500 }, { "status": 500 }, { "status": 200 }]
+  },
+  { "event": "e7", "endpoint": "old.partner.example", "responses": [{ "status": 410 }] },
+  {
+    "event": "e9",
+    "endpoint": "events.tallyho.example",
+    "responses": [
+      { "status": 503, "headers": { "retry-after": "300" } },
+      { "status": 503, "headers": { "retry-after": "300" } },
+      { "status": 503, "headers": { "retry-after": "300" } }
+    ]
+  },
+  {
+    "event": "e12",
+    "endpoint": "events.tallyho.example",
+    "responses": [
+      { "status": 503, "headers": { "retry-after": "300" } },
+      { "status": 503, "headers": { "retry-after": "300" } },
+      { "status": 503, "headers": { "retry-after": "300" } }
+    ]
+  }
+]

@@ -1,0 +1,6 @@
+[
+  { "id": "s1", "station": "north", "unit": "C" },
+  { "id": "s2", "station": "harbor", "unit": "F" },
+  { "id": "s3", "station": "airport", "unit": "C" },
+  { "id": "s4", "station": "harbor", "unit": "F" }
+]

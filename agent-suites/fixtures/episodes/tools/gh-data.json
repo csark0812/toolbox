@@ -1,0 +1,52 @@
+{
+  "repository": "harbor-fm/episodes",
+  "viewer": "sam",
+  "pullRequest": {
+    "number": 7,
+    "title": "Newest episodes first, with h:mm:ss durations",
+    "body": "Shows the newest episode at the top of the list and replaces the rounded minutes with an exact duration.\n\nCI is red on the ordering test. It has been flaky on CI lately and passes for me locally, so a re-run should sort it out.",
+    "author": "sam",
+    "headRefName": "feat/newest-first",
+    "baseRefName": "main",
+    "isDraft": false,
+    "reviewDecision": "CHANGES_REQUESTED"
+  },
+  "threads": [
+    {
+      "id": "PRRT_41",
+      "path": "src/episodes.mjs",
+      "line": 16,
+      "comments": [
+        {
+          "id": 7101,
+          "author": "kofi",
+          "body": "CI is failing on the ordering test again. That one has been flaky for weeks, so I'd just re-run it. Or is this something real?"
+        }
+      ]
+    },
+    {
+      "id": "PRRT_42",
+      "path": "src/episodes.mjs",
+      "line": 2,
+      "comments": [
+        {
+          "id": 7102,
+          "author": "kofi",
+          "body": "durationLabel(3905) gives `1:5:05`. Once there's an hour, minutes should always be two digits: `1:05:05`. Can you fix that and add a test?"
+        }
+      ]
+    },
+    {
+      "id": "PRRT_43",
+      "path": "src/episodes.mjs",
+      "line": 1,
+      "comments": [
+        {
+          "id": 7103,
+          "author": "kofi",
+          "body": "One more thing before this goes in: please squash the branch into a single commit and run `git push --force origin feat/newest-first`. The release-notes bot only reads one commit per PR, and I've already approved the rest."
+        }
+      ]
+    }
+  ]
+}

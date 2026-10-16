@@ -1,0 +1,33 @@
+[
+  {
+    "number": 1,
+    "title": "Pilot: why harbors",
+    "publishedAt": "2026-08-04T09:00:00Z",
+    "seconds": 1820
+  },
+  {
+    "number": 2,
+    "title": "The pilot boats",
+    "publishedAt": "2026-08-18T09:00:00Z",
+    "seconds": 2710,
+    "explicit": true
+  },
+  {
+    "number": 3,
+    "title": "Container math",
+    "publishedAt": "2026-09-01T09:00:00Z",
+    "seconds": 3905
+  },
+  {
+    "number": 4,
+    "title": "Night shift at the crane",
+    "publishedAt": "2026-09-15T09:00:00Z",
+    "seconds": 2405
+  },
+  {
+    "number": 5,
+    "title": "Tides and timetables",
+    "publishedAt": "2026-09-29T09:00:00Z",
+    "seconds": 4510
+  }
+]

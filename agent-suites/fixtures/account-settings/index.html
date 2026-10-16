@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Account settings</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="dialog" role="dialog" aria-labelledby="title">
+      <h2 id="title">Account settings</h2>
+      <form class="form">
+        <label class="field">
+          <span>Display name</span>
+          <input type="text" value="Jordan Lee" />
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" value="jordan@example.com" />
+        </label>
+        <section class="danger-zone">
+          <h3>Danger zone</h3>
+          <p>Deleting your account removes every project and cannot be undone.</p>
+          <button type="button" class="btn btn--danger">Delete account</button>
+        </section>
+        <div class="actions">
+          <button type="button" class="btn">Cancel</button>
+          <button type="submit" class="btn btn--primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

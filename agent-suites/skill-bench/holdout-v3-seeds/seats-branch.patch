@@ -1,0 +1,173 @@
+diff --git a/agent-suites/fixtures/seats/src/reservations.mjs b/agent-suites/fixtures/seats/src/reservations.mjs
+new file mode 100644
+index 0000000..f0805de
+--- /dev/null
++++ b/agent-suites/fixtures/seats/src/reservations.mjs
+@@ -0,0 +1,40 @@
++import { writeFile } from 'node:fs/promises'
++import { join } from 'node:path'
++import { holdPayment, releaseHold } from './payments.mjs'
++
++let ticketCounter = 1000
++
++/**
++ * Books one seat for the signed-in user: holds the card payment, records the seat and writes
++ * the ticket file the user can download.
++ */
++export async function reserve(store, { showId, seat, userId, ticketsDir }) {
++  const show = await store.get(`show:${showId}`)
++  if (show == null) throw new Error('No such show')
++  if (!show.seats.includes(seat)) throw new Error('No such seat')
++
++  const existing = await store.get(`seat:${showId}:${seat}`)
++  if (existing) throw new Error('Seat already taken')
++
++  const hold = await holdPayment(userId, show.priceCents)
++  const tkt = { id: `T${ticketCounter++}`, showId, seat, userId, holdId: hold.id }
++  tkt.file = `${tkt.id}-${showId}-${seat}.txt`
++  await store.set(`seat:${showId}:${seat}`, { userId, ticketId: tkt.id })
++  await store.set(`ticket:${tkt.id}`, tkt)
++  await writeFile(join(ticketsDir, tkt.file), `${show.title} · seat ${seat} · ticket ${tkt.id}\n`)
++  return tkt
++}
++
++/** Cancels a ticket: frees the seat and releases the payment hold. */
++export async function cancel(store, { ticketId, userId }) {
++  const ticket = await store.get(`ticket:${ticketId}`)
++  if (!ticket) {
++    throw new Error('No such ticket')
++  } else {
++    // TODO: send a cancellation email to the user
++    await store.delete(`seat:${ticket.showId}:${ticket.seat}`)
++    await store.delete(`ticket:${ticketId}`)
++    await releaseHold(ticket.holdId)
++    return { cancelled: ticketId, by: userId }
++  }
++}
+diff --git a/agent-suites/fixtures/seats/src/routes.mjs b/agent-suites/fixtures/seats/src/routes.mjs
+index 55e5c22..4c93ec6 100644
+--- a/agent-suites/fixtures/seats/src/routes.mjs
++++ b/agent-suites/fixtures/seats/src/routes.mjs
+@@ -1,11 +1,54 @@
++import { readFile } from 'node:fs/promises'
++import { join } from 'node:path'
++import { cancel, reserve } from './reservations.mjs'
+ import { availableSeats } from './shows.mjs'
+ 
+ /** req: { method, path, query, body, user } (user is set by the session middleware). */
+-export async function handle(store, req) {
++export async function handle(store, req, { ticketsDir } = {}) {
+   const seats = req.path.match(/^\/shows\/([\w-]+)\/seats$/)
+   if (req.method === 'GET' && seats) {
+     const available = await availableSeats(store, seats[1])
+     return available ? { status: 200, body: available } : { status: 404, body: 'no such show' }
+   }
++
++  const booking = req.path.match(/^\/shows\/([\w-]+)\/reservations$/)
++  if (req.method === 'POST' && booking) {
++    if (!req.user) return { status: 401, body: 'sign in first' }
++    try {
++      const ticket = await reserve(store, {
++        showId: booking[1],
++        seat: req.body.seat,
++        userId: req.user.id,
++        ticketsDir,
++      })
++      return { status: 201, body: ticket }
++    } catch (error) {
++      return { status: 409, body: error.message }
++    }
++  }
++
++  const ticket = req.path.match(/^\/tickets\/(T\d+)$/)
++  if (req.method === 'DELETE' && ticket) {
++    if (!req.user) return { status: 401, body: 'sign in first' }
++    try {
++      return {
++        status: 200,
++        body: await cancel(store, { ticketId: ticket[1], userId: req.user.id }),
++      }
++    } catch (error) {
++      return { status: 404, body: error.message }
++    }
++  }
++
++  if (req.method === 'GET' && req.path === '/tickets/download') {
++    if (!req.user) return { status: 401, body: 'sign in first' }
++    try {
++      const pdf = await readFile(join(ticketsDir, req.query.file), 'utf8')
++      return { status: 200, body: pdf }
++    } catch {
++      return { status: 404, body: 'no such ticket file' }
++    }
++  }
++
+   return { status: 404, body: 'not found' }
+ }
+diff --git a/agent-suites/fixtures/seats/tests/reservations.test.mjs b/agent-suites/fixtures/seats/tests/reservations.test.mjs
+new file mode 100644
+index 0000000..0969b64
+--- /dev/null
++++ b/agent-suites/fixtures/seats/tests/reservations.test.mjs
+@@ -0,0 +1,61 @@
++import assert from 'node:assert/strict'
++import { mkdtempSync } from 'node:fs'
++import { tmpdir } from 'node:os'
++import { join } from 'node:path'
++import { test } from 'node:test'
++import { holds } from '../src/payments.mjs'
++import { handle } from '../src/routes.mjs'
++import { addShow } from '../src/shows.mjs'
++import { createStore } from '../src/store.mjs'
++
++const setup = async () => {
++  const store = createStore()
++  await addShow(store, { id: 'hamlet', title: 'Hamlet', priceCents: 4500, seats: ['A1', 'A2'] })
++  return { store, ticketsDir: mkdtempSync(join(tmpdir(), 'tickets-')) }
++}
++const as = (user, method, path, extra = {}) => ({ method, path, user, ...extra })
++
++test('books a seat and downloads the ticket', async () => {
++  const { store, ticketsDir } = await setup()
++  const booked = await handle(
++    store,
++    as({ id: 'u1' }, 'POST', '/shows/hamlet/reservations', { body: { seat: 'A1' } }),
++    { ticketsDir },
++  )
++  assert.equal(booked.status, 201)
++  assert.equal(holds.get(booked.body.holdId).amountCents, 4500)
++  const file = await handle(
++    store,
++    as({ id: 'u1' }, 'GET', '/tickets/download', { query: { file: booked.body.file } }),
++    { ticketsDir },
++  )
++  assert.match(file.body, /Hamlet · seat A1/)
++  const open = await handle(store, as(null, 'GET', '/shows/hamlet/seats'), { ticketsDir })
++  assert.deepEqual(open.body, ['A2'])
++})
++
++test('a booked seat cannot be booked again', async () => {
++  const { store, ticketsDir } = await setup()
++  const book = (id) =>
++    handle(store, as({ id }, 'POST', '/shows/hamlet/reservations', { body: { seat: 'A2' } }), {
++      ticketsDir,
++    })
++  assert.equal((await book('u1')).status, 201)
++  assert.equal((await book('u2')).status, 409)
++})
++
++test('cancelling frees the seat and releases the hold', async () => {
++  const { store, ticketsDir } = await setup()
++  const booked = await handle(
++    store,
++    as({ id: 'u1' }, 'POST', '/shows/hamlet/reservations', { body: { seat: 'A1' } }),
++    { ticketsDir },
++  )
++  const cancelled = await handle(store, as({ id: 'u1' }, 'DELETE', `/tickets/${booked.body.id}`), {
++    ticketsDir,
++  })
++  assert.equal(cancelled.status, 200)
++  assert.equal(holds.get(booked.body.holdId).status, 'released')
++  const open = await handle(store, as(null, 'GET', '/shows/hamlet/seats'), { ticketsDir })
++  assert.deepEqual(open.body, ['A1', 'A2'])
++})

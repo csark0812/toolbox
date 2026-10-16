@@ -1,0 +1,9 @@
+{
+  "name": "job-queue",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "run-job": "node bin/run.mjs"
+  }
+}

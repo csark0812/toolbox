@@ -1,0 +1,9 @@
+{
+  "name": "webhooks",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "replay": "node bin/replay.mjs"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "account-settings",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

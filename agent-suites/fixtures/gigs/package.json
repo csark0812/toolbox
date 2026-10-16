@@ -1,0 +1,9 @@
+{
+  "name": "gigs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "gigs": "node bin/gigs.mjs"
+  }
+}

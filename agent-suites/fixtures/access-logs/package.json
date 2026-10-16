@@ -1,0 +1,10 @@
+{
+  "name": "access-logs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "perf": "node perf/measure.mjs",
+    "summary": "node bin/summary.mjs"
+  }
+}

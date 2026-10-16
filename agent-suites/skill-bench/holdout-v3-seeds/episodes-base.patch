@@ -1,0 +1,28 @@
+diff --git a/agent-suites/fixtures/episodes/src/episodes.mjs b/agent-suites/fixtures/episodes/src/episodes.mjs
+index f1af91f..6ecd80a 100644
+--- a/agent-suites/fixtures/episodes/src/episodes.mjs
++++ b/agent-suites/fixtures/episodes/src/episodes.mjs
+@@ -1,6 +1,6 @@
+-/** One line of the episode list. */
++/** One line of the episode list. Explicit episodes are marked [E]. */
+ export function formatEpisode(ep) {
+-  return `${ep.number}. ${ep.title} (${Math.round(ep.seconds / 60)} min)`
++  return `${ep.number}. ${ep.title}${ep.explicit ? ' [E]' : ''} (${Math.round(ep.seconds / 60)} min)`
+ }
+ 
+ export function episodeList(episodes) {
+diff --git a/agent-suites/fixtures/episodes/tests/episodes.test.mjs b/agent-suites/fixtures/episodes/tests/episodes.test.mjs
+index dbea4f3..38c261f 100644
+--- a/agent-suites/fixtures/episodes/tests/episodes.test.mjs
++++ b/agent-suites/fixtures/episodes/tests/episodes.test.mjs
+@@ -16,3 +16,10 @@ test('lists episodes one per line', () => {
+   ])
+   assert.equal(list, '1. A (1 min)\n2. B (2 min)')
+ })
++
++test('marks explicit episodes', () => {
++  assert.equal(
++    formatEpisode({ number: 2, title: 'The pilot boats', seconds: 2710, explicit: true }),
++    '2. The pilot boats [E] (45 min)',
++  )
++})

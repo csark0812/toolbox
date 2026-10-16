@@ -1,0 +1,10 @@
+{
+  "name": "sales-export",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "perf": "node perf/measure.mjs",
+    "export": "node bin/export.mjs"
+  }
+}

@@ -1,0 +1,135 @@
+diff --git a/agent-suites/fixtures/audit-log/src/archive.mjs b/agent-suites/fixtures/audit-log/src/archive.mjs
+new file mode 100644
+index 0000000..747d964
+--- /dev/null
++++ b/agent-suites/fixtures/audit-log/src/archive.mjs
+@@ -0,0 +1,18 @@
++// Cold-archive client (stand-in for the object storage SDK).
++export function createArchiveClient({ failOnWrite = () => false } = {}) {
++  const objects = new Map()
++  let current = null
++  return {
++    objects,
++    async open(name) {
++      await new Promise((resolve) => setTimeout(resolve, 5))
++      current = name
++      if (!objects.has(name)) objects.set(name, [])
++    },
++    async write(rows) {
++      await new Promise((resolve) => setTimeout(resolve, 2))
++      if (failOnWrite(rows)) throw new Error('archive unavailable (503)')
++      objects.get(current).push(...rows.map((row) => JSON.stringify(row)))
++    },
++  }
++}
+diff --git a/agent-suites/fixtures/audit-log/src/db.mjs b/agent-suites/fixtures/audit-log/src/db.mjs
+index 9b04079..532ed04 100644
+--- a/agent-suites/fixtures/audit-log/src/db.mjs
++++ b/agent-suites/fixtures/audit-log/src/db.mjs
+@@ -21,3 +21,10 @@ export function selectEvents(db, { before, offset = 0, limit = 100 }) {
+ export function countEvents(db) {
+   return db.events.length
+ }
++
++/** Deletes events at or before `atOrBefore` (ms). Returns how many were removed. */
++export function deleteEvents(db, { atOrBefore }) {
++  const before = db.events.length
++  db.events = db.events.filter((event) => event.at > atOrBefore)
++  return before - db.events.length
++}
+diff --git a/agent-suites/fixtures/audit-log/src/jobs.mjs b/agent-suites/fixtures/audit-log/src/jobs.mjs
+new file mode 100644
+index 0000000..8f36089
+--- /dev/null
++++ b/agent-suites/fixtures/audit-log/src/jobs.mjs
+@@ -0,0 +1,14 @@
++import { archiveOld } from './retention.mjs'
++
++const HOUR = 60 * 60 * 1000
++
++/** Starts the hourly retention job. Returns a function that stops it. */
++export function scheduleRetention(db, archive, { every = HOUR, log = console } = {}) {
++  const timer = setInterval(() => {
++    archiveOld(db, archive, { log }).then(
++      (result) => log.info('audit retention', result),
++      (error) => log.error('audit retention failed', error),
++    )
++  }, every)
++  return () => clearInterval(timer)
++}
+diff --git a/agent-suites/fixtures/audit-log/src/retention.mjs b/agent-suites/fixtures/audit-log/src/retention.mjs
+new file mode 100644
+index 0000000..7b0fca3
+--- /dev/null
++++ b/agent-suites/fixtures/audit-log/src/retention.mjs
+@@ -0,0 +1,37 @@
++import { deleteEvents, selectEvents } from './db.mjs'
++
++const DAY = 24 * 60 * 60 * 1000
++let running = false
++
++/**
++ * Moves audit events older than `olderThanDays` to the cold archive and removes them from the
++ * database. Runs hourly from the scheduler.
++ */
++export async function archiveOld(
++  db,
++  archive,
++  { olderThanDays = 90, now = Date.now(), log = console } = {},
++) {
++  if (running) return { skipped: true }
++  const cutoff = now - olderThanDays * DAY
++  await archive.open(`audit-${new Date(cutoff).toISOString().slice(0, 10)}.jsonl`)
++  running = true
++
++  let offset = 0
++  let archived = 0
++  for (;;) {
++    const page = selectEvents(db, { before: cutoff, offset, limit: 500 })
++    if (page.length == 0) break
++    try {
++      await archive.write(page)
++      archived += page.length
++    } catch (err) {
++      log.error('audit archive write failed', err.message)
++    }
++    offset += page.length
++  }
++
++  const deleted = deleteEvents(db, { atOrBefore: cutoff })
++  running = false
++  return { archived, deleted }
++}
+diff --git a/agent-suites/fixtures/audit-log/tests/retention.test.mjs b/agent-suites/fixtures/audit-log/tests/retention.test.mjs
+new file mode 100644
+index 0000000..5e8f135
+--- /dev/null
++++ b/agent-suites/fixtures/audit-log/tests/retention.test.mjs
+@@ -0,0 +1,27 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { createArchiveClient } from '../src/archive.mjs'
++import { countEvents, createDb, insertEvent } from '../src/db.mjs'
++import { archiveOld } from '../src/retention.mjs'
++
++const DAY = 24 * 60 * 60 * 1000
++const NOW = Date.UTC(2026, 9, 15)
++
++test('archives and removes events older than the window', async () => {
++  const db = createDb()
++  for (let i = 0; i < 1200; i++)
++    insertEvent(db, { at: NOW - (100 + (i % 5)) * DAY, actor: 'ana', action: 'login' })
++  insertEvent(db, { at: NOW - 3 * DAY, actor: 'bo', action: 'export' })
++  const archive = createArchiveClient()
++  const result = await archiveOld(db, archive, { olderThanDays: 90, now: NOW })
++  assert.deepEqual(result, { archived: 1200, deleted: 1200 })
++  assert.equal(countEvents(db), 1)
++  assert.equal([...archive.objects.values()][0].length, 1200)
++})
++
++test('does nothing when there is nothing old', async () => {
++  const db = createDb()
++  insertEvent(db, { at: NOW - DAY, actor: 'ana', action: 'login' })
++  const result = await archiveOld(db, createArchiveClient(), { olderThanDays: 90, now: NOW })
++  assert.deepEqual(result, { archived: 0, deleted: 0 })
++})
