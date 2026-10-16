@@ -27,5 +27,6 @@ A reply that reports work states facts the reader can check:
 - **Measured results as numbers.** When the task names a measurable outcome, such as contrast, latency, size, count or the quotes produced, report the value before and after, from a run you show.
 - **Changed files from Git.** List the files you changed from `git status` or the diff, not from memory, including added tests.
 - **Claims match the output.** Describe what a run showed. Remove a claim the shown output does not support, or mark it unverified.
+- **Final runs come last.** A result you report comes from a run after your last edit. If you edited after it, run it again before you claim it.
 
 Adapted from the pstack `unslop` catalogue ([backnotprop/pstack](https://github.com/backnotprop/pstack), MIT © 2026 Lauren Tan).

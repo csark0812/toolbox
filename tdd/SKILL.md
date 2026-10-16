@@ -24,7 +24,7 @@ Read [research-basis.md](references/research-basis.md) only when you calibrate s
 ## Non-negotiables
 
 1. **Red before green** — one vertical slice per cycle.
-2. **Independent expected values** — not tautological to production logic.
+2. **Independent expected values** — not tautological to production logic. Cover the interface the way callers will use it: each optional argument left out, and repeated cases beyond the first, such as the tenth collision as well as the second.
 3. **Refactor out of scope** — defer structural cleanup unless the user asks.
 4. **Bugs in the slice are in scope.** A bug found in code the slice calls or changes, which would make the requested behavior wrong, gets its own failing test and fix. Never leave a known correctness bug in the slice. Report a bug outside the slice with its location, without fixing it.
 5. **Review before done.** When the user asks for review, review the final diff, including changes made after an earlier review, and report what the review found.

@@ -10,7 +10,7 @@
 3. Fix the root cause, not the symptom. If two fixes on one assumption fail, write the assumption down and test it first.
 4. Check scope before review. Search for sibling uses of the changed code or condition, and read the full diff, not only its stat. Fix siblings that are the same defect, and any bug in the same code path that would leave the reported behavior wrong. Report any other bug you find, with its location, and leave it unfixed.
 5. Review the change with code-review in a focused mode on the touched paths.
-6. Verify on the surface where the user saw the defect.
+6. Verify on the surface where the user saw the defect, after your last edit: rerun the tests and the original reproduction, and keep both outputs.
 
 **Reply contract:**
 
