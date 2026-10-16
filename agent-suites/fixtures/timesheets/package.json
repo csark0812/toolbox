@@ -1,0 +1,10 @@
+{
+  "name": "timesheets",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "perf": "node perf/measure.mjs",
+    "report": "node bin/report.mjs"
+  }
+}

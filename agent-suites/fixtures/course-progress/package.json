@@ -1,0 +1,9 @@
+{
+  "name": "course-progress",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "progress": "node bin/progress.mjs"
+  }
+}

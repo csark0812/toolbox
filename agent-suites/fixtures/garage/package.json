@@ -1,0 +1,9 @@
+{
+  "name": "garage",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "stays": "node bin/stays.mjs"
+  }
+}

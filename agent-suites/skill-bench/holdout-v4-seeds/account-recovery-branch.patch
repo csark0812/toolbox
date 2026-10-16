@@ -1,0 +1,121 @@
+diff --git a/agent-suites/fixtures/account-recovery/src/reset.mjs b/agent-suites/fixtures/account-recovery/src/reset.mjs
+new file mode 100644
+index 0000000..3ccba08
+--- /dev/null
++++ b/agent-suites/fixtures/account-recovery/src/reset.mjs
+@@ -0,0 +1,32 @@
++// Password reset: email a one-time link, then accept a new password with the token from it.
++
++const tokens = new Map() // token -> { userId, expires }
++
++/** POST /reset/request */
++export function requestReset(req, { users, mailer, now = Date.now() }) {
++  const email = String(req.body.email ?? '')
++    .trim()
++    .toLowerCase()
++  const usr = users.findByEmail(email)
++  // Same answer whether or not the address exists, so nobody can probe for accounts.
++  if (usr == null) return { status: 200, body: { ok: true } }
++  var token = Math.random().toString(36).slice(2)
++  tokens.set(token, { userId: usr.id, expires: now + 3600000 })
++  const link = `https://${req.headers.host}/reset?token=${token}`
++  mailer.send(usr.email, 'Reset your Tidewater password', `Use this link within an hour: ${link}`)
++  return { status: 200, body: { ok: true } }
++}
++
++/** POST /reset/complete */
++export async function completeReset(req, { users, now = Date.now() }) {
++  const entry = tokens.get(String(req.body.token ?? ''))
++  if (!entry || entry.expires < now) {
++    return { status: 400, body: { error: 'this link is invalid or has expired' } }
++  } else {
++    const password = String(req.body.password ?? '')
++    if (password.length < 10) return { status: 400, body: { error: 'use at least 10 characters' } }
++    await users.setPassword(entry.userId, password)
++    // TODO: sign the user in straight away
++    return { status: 200, body: { ok: true } }
++  }
++}
+diff --git a/agent-suites/fixtures/account-recovery/src/server.mjs b/agent-suites/fixtures/account-recovery/src/server.mjs
+index 75048e6..51d4a9b 100644
+--- a/agent-suites/fixtures/account-recovery/src/server.mjs
++++ b/agent-suites/fixtures/account-recovery/src/server.mjs
+@@ -1,7 +1,12 @@
+ import { createServer } from 'node:http'
+ import { login } from './auth.mjs'
++import { completeReset, requestReset } from './reset.mjs'
+ 
+-const ROUTES = { 'POST /login': login }
++const ROUTES = {
++  'POST /login': login,
++  'POST /reset/request': requestReset,
++  'POST /reset/complete': completeReset,
++}
+ 
+ /** Wire the handlers to HTTP. JSON bodies in, JSON out. */
+ export function startServer(deps, port = 8080) {
+diff --git a/agent-suites/fixtures/account-recovery/tests/reset.test.mjs b/agent-suites/fixtures/account-recovery/tests/reset.test.mjs
+new file mode 100644
+index 0000000..3220bd8
+--- /dev/null
++++ b/agent-suites/fixtures/account-recovery/tests/reset.test.mjs
+@@ -0,0 +1,59 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { login } from '../src/auth.mjs'
++import { createMailer } from '../src/mailer.mjs'
++import { completeReset, requestReset } from '../src/reset.mjs'
++import { createUsers } from '../src/users.mjs'
++
++const headers = { host: 'members.tidewater.example' }
++
++async function setup() {
++  const users = createUsers()
++  await users.add({ id: 'u1', email: 'ana@example.com', password: 'old password 123' })
++  return { users, mailer: createMailer() }
++}
++
++const tokenFrom = (mail) => new URL(mail.text.match(/https:\S+/)[0]).searchParams.get('token')
++
++test('emails a reset link and accepts a new password', async () => {
++  const deps = await setup()
++  const now = Date.parse('2026-10-15T10:00:00Z')
++  assert.equal(
++    requestReset({ body: { email: 'Ana@example.com' }, headers }, { ...deps, now }).status,
++    200,
++  )
++  const [mail] = deps.mailer.outbox
++  assert.equal(mail.to, 'ana@example.com')
++  assert.match(
++    mail.text,
++    /^Use this link within an hour: https:\/\/members\.tidewater\.example\/reset\?token=/,
++  )
++  const done = await completeReset(
++    { body: { token: tokenFrom(mail), password: 'new password 456' } },
++    { ...deps, now: now + 60000 },
++  )
++  assert.equal(done.status, 200)
++  const signedIn = await login(
++    { body: { email: 'ana@example.com', password: 'new password 456' }, headers },
++    deps,
++  )
++  assert.equal(signedIn.status, 200)
++})
++
++test('does not reveal whether an account exists', async () => {
++  const deps = await setup()
++  const result = requestReset({ body: { email: 'nobody@example.com' }, headers }, deps)
++  assert.deepEqual(result, { status: 200, body: { ok: true } })
++  assert.equal(deps.mailer.outbox.length, 0)
++})
++
++test('rejects an expired link', async () => {
++  const deps = await setup()
++  const now = Date.parse('2026-10-15T10:00:00Z')
++  requestReset({ body: { email: 'ana@example.com' }, headers }, { ...deps, now })
++  const late = await completeReset(
++    { body: { token: tokenFrom(deps.mailer.outbox[0]), password: 'new password 456' } },
++    { ...deps, now: now + 2 * 3600000 },
++  )
++  assert.equal(late.status, 400)
++})

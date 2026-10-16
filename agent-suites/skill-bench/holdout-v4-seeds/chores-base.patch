@@ -1,0 +1,25 @@
+diff --git a/agent-suites/fixtures/chores/src/rota.mjs b/agent-suites/fixtures/chores/src/rota.mjs
+index 986aefd..dd92272 100644
+--- a/agent-suites/fixtures/chores/src/rota.mjs
++++ b/agent-suites/fixtures/chores/src/rota.mjs
+@@ -1,6 +1,6 @@
+-/** Week number from an ISO week label like `2026-W42`. */
++/** Week number from an ISO week label like `2026-W42` (a lowercase `w` is fine too). */
+ export function weekNumber(label) {
+-  const match = /^(\d{4})-W(\d{2})$/.exec(label)
++  const match = /^(\d{4})-[Ww](\d{2})$/.exec(label)
+   if (!match) throw new RangeError(`not an ISO week: ${label}`)
+   return Number(match[1]) * 53 + Number(match[2])
+ }
+diff --git a/agent-suites/fixtures/chores/tests/rota.test.mjs b/agent-suites/fixtures/chores/tests/rota.test.mjs
+index 032a91c..a865de3 100644
+--- a/agent-suites/fixtures/chores/tests/rota.test.mjs
++++ b/agent-suites/fixtures/chores/tests/rota.test.mjs
+@@ -18,3 +18,7 @@ test('moves every chore along each week', () => {
+     now.map((name) => names[(names.indexOf(name) + 1) % 3]),
+   )
+ })
++
++test('accepts a lowercase w', () => {
++  assert.equal(weekNumber('2026-w42'), weekNumber('2026-W42'))
++})

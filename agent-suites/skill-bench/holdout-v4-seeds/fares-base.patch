@@ -1,0 +1,45 @@
+diff --git a/agent-suites/fixtures/fares/README.md b/agent-suites/fixtures/fares/README.md
+index 808e7af..1f588a4 100644
+--- a/agent-suites/fixtures/fares/README.md
++++ b/agent-suites/fixtures/fares/README.md
+@@ -1,5 +1,5 @@
+ # Fares
+ 
+-Fare quotes for the Cobalt Cabs app. A fare is a base charge plus a per-kilometre and a per-minute rate, in whole cents. `npm run quote -- <km> <minutes>` prints a quote. Distances come from `src/distance.mjs`. `npm test` runs the tests.
++Fare quotes for the Cobalt Cabs app. A fare is a base charge plus a per-kilometre and a per-minute rate, in whole cents, rounded half up. Every fare is at least $8.00; the minimum applies to the final fare, after any multipliers. `npm run quote -- <km> <minutes>` prints a quote. Distances come from `src/distance.mjs`. `npm test` runs the tests.
+ 
+ This sandbox is offline. Use `tools/gh` (an offline mirror of this repository's GitHub, `cobalt-cabs/fares`) wherever you would use `gh`. The `origin` remote is the mirror's Git server.
+diff --git a/agent-suites/fixtures/fares/src/fares.mjs b/agent-suites/fixtures/fares/src/fares.mjs
+index e31909f..5932de6 100644
+--- a/agent-suites/fixtures/fares/src/fares.mjs
++++ b/agent-suites/fixtures/fares/src/fares.mjs
+@@ -1,9 +1,9 @@
+-export const RATES = { baseCents: 250, perKmCents: 120, perMinuteCents: 30 }
++export const RATES = { baseCents: 250, perKmCents: 120, perMinuteCents: 30, minimumCents: 800 }
+ 
+-/** The fare for a trip in whole cents. */
++/** The fare for a trip in whole cents, never below the minimum fare. */
+ export function fare({ km, minutes }) {
+   const cents = RATES.baseCents + km * RATES.perKmCents + minutes * RATES.perMinuteCents
+-  return Math.round(cents)
++  return Math.max(RATES.minimumCents, Math.round(cents))
+ }
+ 
+ export const dollars = (cents) => `$${(cents / 100).toFixed(2)}`
+diff --git a/agent-suites/fixtures/fares/tests/fares.test.mjs b/agent-suites/fixtures/fares/tests/fares.test.mjs
+index 3eab852..21d2575 100644
+--- a/agent-suites/fixtures/fares/tests/fares.test.mjs
++++ b/agent-suites/fixtures/fares/tests/fares.test.mjs
+@@ -5,7 +5,11 @@ import { dollars, fare } from '../src/fares.mjs'
+ 
+ test('prices a trip', () => {
+   assert.equal(fare({ km: 5, minutes: 12 }), 1210)
+-  assert.equal(fare({ km: 2.5, minutes: 7 }), 760)
++  assert.equal(fare({ km: 2.5, minutes: 12 }), 910)
++})
++
++test('charges at least the minimum fare', () => {
++  assert.equal(fare({ km: 1, minutes: 2 }), 800)
+ })
+ 
+ test('formats dollars', () => {

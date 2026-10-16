@@ -1,0 +1,9 @@
+{
+  "name": "field-service",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "visits": "node bin/visits.mjs"
+  }
+}

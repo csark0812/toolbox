@@ -1,0 +1,110 @@
+diff --git a/agent-suites/fixtures/course-progress/bin/progress.mjs b/agent-suites/fixtures/course-progress/bin/progress.mjs
+index ff0e453..f3219fb 100644
+--- a/agent-suites/fixtures/course-progress/bin/progress.mjs
++++ b/agent-suites/fixtures/course-progress/bin/progress.mjs
+@@ -1,7 +1,13 @@
+ #!/usr/bin/env node
+ import { readFileSync } from 'node:fs'
+-import { stdout } from 'node:process'
+-import { progressLine } from '../src/progress.mjs'
++import { argv, stdout } from 'node:process'
++import { certificateLine, isValid, issueCertificate } from '../src/certificates.mjs'
++import { outcome, progressLine } from '../src/progress.mjs'
+ 
+ const learners = JSON.parse(readFileSync(new URL('../data/learners.json', import.meta.url), 'utf8'))
+-for (const learner of learners) stdout.write(`${progressLine(learner)}\n`)
++if (argv.includes('--certificates')) {
++  for (const learner of learners.filter((l) => outcome(l) === 'passed')) {
++    const cert = issueCertificate(learner, learner.finishedAt)
++    stdout.write(`${certificateLine(cert)}${isValid(cert) ? '' : ' [expired]'}\n`)
++  }
++} else for (const learner of learners) stdout.write(`${progressLine(learner)}\n`)
+diff --git a/agent-suites/fixtures/course-progress/config/settings.json b/agent-suites/fixtures/course-progress/config/settings.json
+index abc3bc5..327088f 100644
+--- a/agent-suites/fixtures/course-progress/config/settings.json
++++ b/agent-suites/fixtures/course-progress/config/settings.json
+@@ -1,4 +1,5 @@
+ {
+   "passMark": 80,
++  "certificateMonths": 12,
+   "locale": "en-GB"
+ }
+diff --git a/agent-suites/fixtures/course-progress/src/certificates.mjs b/agent-suites/fixtures/course-progress/src/certificates.mjs
+new file mode 100644
+index 0000000..3401893
+--- /dev/null
++++ b/agent-suites/fixtures/course-progress/src/certificates.mjs
+@@ -0,0 +1,32 @@
++import { settings } from './settings.mjs'
++
++/** Add whole calendar months to a YYYY-MM-DD date, clamped to the last day of the month. */
++export function addMonths(date, months) {
++  const [y, m, d] = date.split('-').map(Number)
++  const target = new Date(Date.UTC(y, m - 1 + months, 1))
++  const lastDay = new Date(
++    Date.UTC(target.getUTCFullYear(), target.getUTCMonth() + 1, 0),
++  ).getUTCDate()
++  target.setUTCDate(Math.min(d, lastDay))
++  return target.toISOString().slice(0, 10)
++}
++
++/** A certificate for a learner who passed, issued on `issuedOn` (YYYY-MM-DD). */
++export function issueCertificate(learner, issuedOn) {
++  return {
++    id: `C-${learner.name.toUpperCase()}-${issuedOn.replaceAll('-', '')}`,
++    learner: learner.name,
++    course: learner.course,
++    issuedOn,
++    expiresOn: addMonths(issuedOn, settings.certificateMonths),
++  }
++}
++
++/** Valid until the start of its expiry date. */
++export function isValid(cert, now = Date.now()) {
++  return now < Date.parse(`${cert.expiresOn}T00:00:00Z`)
++}
++
++export function certificateLine(cert) {
++  return `Certificate ${cert.id} for ${cert.learner}: ${cert.course} (issued ${cert.issuedOn})`
++}
+diff --git a/agent-suites/fixtures/course-progress/tests/certificates.test.mjs b/agent-suites/fixtures/course-progress/tests/certificates.test.mjs
+new file mode 100644
+index 0000000..3d2132e
+--- /dev/null
++++ b/agent-suites/fixtures/course-progress/tests/certificates.test.mjs
+@@ -0,0 +1,35 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { addMonths, certificateLine, isValid, issueCertificate } from '../src/certificates.mjs'
++
++const ana = { name: 'Ana', course: 'Fire Safety' }
++
++test('issues a certificate for twelve months', () => {
++  assert.deepEqual(issueCertificate(ana, '2025-10-01'), {
++    id: 'C-ANA-20251001',
++    learner: 'Ana',
++    course: 'Fire Safety',
++    issuedOn: '2025-10-01',
++    expiresOn: '2026-10-01',
++  })
++})
++
++test('clamps to the end of the month', () => {
++  assert.equal(addMonths('2024-01-31', 1), '2024-02-29')
++  assert.equal(addMonths('2025-08-31', 12), '2026-08-31')
++})
++
++test('a recent certificate is valid', () => {
++  assert.equal(isValid(issueCertificate(ana, '2025-10-01')), true)
++})
++
++test('an old certificate has expired', () => {
++  assert.equal(isValid(issueCertificate(ana, '2024-03-01')), false)
++})
++
++test('prints the certificate', () => {
++  assert.equal(
++    certificateLine(issueCertificate(ana, '2025-11-03')),
++    'Certificate C-ANA-20251103 for Ana: Fire Safety (issued 2025-11-03)',
++  )
++})

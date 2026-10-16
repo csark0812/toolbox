@@ -1,0 +1,79 @@
+:root {
+  --text: #1e2329;
+  --accent: #2f7d5b;
+  --accent-hover: #276a4d;
+  --track: #c4c9d1;
+  --track-hover: #aab0ba;
+  --thumb: #ffffff;
+  --focus: #1f5fd1;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  color: var(--text);
+}
+
+.prefs {
+  display: grid;
+  gap: 1rem;
+  max-width: 28rem;
+  padding: 1.5rem;
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.switch__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.switch__track {
+  position: relative;
+  flex: none;
+  width: 2.75rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: var(--track);
+  transition: background-color 0.15s ease;
+}
+
+.switch__thumb {
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--thumb);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+  transition: transform 0.15s ease;
+}
+
+.switch__input:checked .switch__track {
+  background: var(--accent);
+}
+
+.switch__input:checked .switch__thumb {
+  transform: translateX(1.25rem);
+}
+
+.switch__input:focus-visible + .switch__track {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.switch__input:disabled + .switch__track {
+  opacity: 0.45;
+}
+
+.switch:hover .switch__track {
+  background: var(--track-hover);
+}

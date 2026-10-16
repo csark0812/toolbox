@@ -19,7 +19,7 @@ export const BANNED_WORDS = [
 ]
 
 /** Task sets: development tasks, then frozen held-out sets. A set is `<set>.json`, with hidden checks in `<set>-checks/`. */
-export const TASK_SETS = ['tasks', 'holdout', 'holdout-v2', 'holdout-v3']
+export const TASK_SETS = ['tasks', 'holdout', 'holdout-v2', 'holdout-v3', 'holdout-v4']
 export const HELD_OUT_SETS = TASK_SETS.filter((set) => set !== 'tasks')
 
 /** Where a set's hidden acceptance checks live; development checks use `dev-checks/`. */

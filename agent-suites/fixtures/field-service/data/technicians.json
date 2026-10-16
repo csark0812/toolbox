@@ -1,0 +1,5 @@
+[
+  { "id": "t1", "name": "Dara", "base": { "lat": 53.3498, "lon": -6.2603 } },
+  { "id": "t2", "name": "Femi", "base": { "lat": 53.2707, "lon": -9.0568 } },
+  { "id": "t3", "name": "Orla", "base": { "lat": 51.8985, "lon": -8.4756 } }
+]

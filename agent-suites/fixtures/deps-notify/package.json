@@ -1,0 +1,9 @@
+{
+  "name": "deps-notify",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "outdated": "node bin/outdated.mjs"
+  }
+}

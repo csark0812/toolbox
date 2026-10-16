@@ -1,0 +1,9 @@
+{
+  "name": "chores",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "rota": "node bin/rota.mjs"
+  }
+}

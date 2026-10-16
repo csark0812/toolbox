@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Streaming uploads - Lumen SDK</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="site-header"><a href="#">Lumen SDK</a></header>
+      <div class="layout">
+        <nav class="toc" aria-label="On this page">
+          <h2>On this page</h2>
+          <a href="#setup">Setup</a>
+          <a href="#chunks">Chunk sizes</a>
+          <a href="#retries">Retries</a>
+          <a href="#progress">Progress events</a>
+          <a href="#errors">Errors</a>
+        </nav>
+        <main class="content">
+          <article>
+            <h1>Streaming uploads</h1>
+            <p id="setup">Create a client and open an upload session before sending any bytes.</p>
+            <pre><code>const session = await lumen.uploads.open({ bucket: 'field-recordings-2026', key: 'site-04/dawn-chorus/raw-take-0012.wav', contentType: 'audio/wav', checksum: 'sha256' })</code></pre>
+            <p id="chunks">Chunks must be at least 5 MB except for the last one.</p>
+            <p id="retries">Failed chunks are retried with exponential backoff.</p>
+            <p id="progress">Subscribe to progress events to drive a progress bar.</p>
+            <p id="errors">Every error carries a machine-readable code.</p>
+          </article>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

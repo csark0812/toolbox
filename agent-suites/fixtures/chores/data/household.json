@@ -1,0 +1,4 @@
+{
+  "members": [{ "name": "Aoife" }, { "name": "Bilal" }, { "name": "Carmen" }, { "name": "Dev" }],
+  "chores": ["bins", "bathroom", "kitchen", "hoovering"]
+}

@@ -1,0 +1,67 @@
+:root,
+[data-theme='light'] {
+  --bg: #fbfaf7;
+  --surface: #ffffff;
+  --text: #22261f;
+  --muted: #5f6659;
+  --accent: #3d6b35;
+  --accent-soft: #eef3ea;
+  --border: #dcd8cc;
+}
+
+[data-theme='dark'] {
+  --bg: #141712;
+  --surface: #1e221b;
+  --text: #e6e8e1;
+  --muted: #a3aa9b;
+  --accent: #9cc78f;
+  --accent-soft: #2a3526;
+  --border: #333a2e;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141712;
+    --surface: #1e221b;
+    --text: #e6e8e1;
+    --muted: #a3aa9b;
+    --accent: #9cc78f;
+    --accent-soft: #2a3526;
+    --border: #333a2e;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Georgia, serif;
+}
+
+.notes {
+  display: grid;
+  gap: 1rem;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.note-card {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.note-card p {
+  color: var(--muted);
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  background: #eef3ea;
+  color: var(--accent);
+  font-size: 0.875rem;
+}

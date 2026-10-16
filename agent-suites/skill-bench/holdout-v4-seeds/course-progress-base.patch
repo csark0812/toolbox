@@ -1,0 +1,46 @@
+diff --git a/agent-suites/fixtures/course-progress/config/settings.json b/agent-suites/fixtures/course-progress/config/settings.json
+index abc3bc5..804a193 100644
+--- a/agent-suites/fixtures/course-progress/config/settings.json
++++ b/agent-suites/fixtures/course-progress/config/settings.json
+@@ -1,4 +1,5 @@
+ {
+   "passMark": 80,
++  "reminderDays": 7,
+   "locale": "en-GB"
+ }
+diff --git a/agent-suites/fixtures/course-progress/src/reminders.mjs b/agent-suites/fixtures/course-progress/src/reminders.mjs
+new file mode 100644
+index 0000000..77b2b58
+--- /dev/null
++++ b/agent-suites/fixtures/course-progress/src/reminders.mjs
+@@ -0,0 +1,10 @@
++import { settings } from './settings.mjs'
++
++const DAY = 86400000
++
++/** A learner still in progress who has not opened a lesson for `reminderDays` gets a nudge. */
++export function needsReminder(learner, lastActive, today) {
++  if (learner.done >= learner.lessons) return false
++  const idle = (Date.parse(`${today}T00:00:00Z`) - Date.parse(`${lastActive}T00:00:00Z`)) / DAY
++  return idle >= settings.reminderDays
++}
+diff --git a/agent-suites/fixtures/course-progress/tests/reminders.test.mjs b/agent-suites/fixtures/course-progress/tests/reminders.test.mjs
+new file mode 100644
+index 0000000..f713479
+--- /dev/null
++++ b/agent-suites/fixtures/course-progress/tests/reminders.test.mjs
+@@ -0,0 +1,14 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { needsReminder } from '../src/reminders.mjs'
++
++const kofi = { lessons: 8, done: 5 }
++
++test('nudges learners idle for a week', () => {
++  assert.equal(needsReminder(kofi, '2026-10-01', '2026-10-08'), true)
++  assert.equal(needsReminder(kofi, '2026-10-02', '2026-10-08'), false)
++})
++
++test('leaves finished learners alone', () => {
++  assert.equal(needsReminder({ lessons: 8, done: 8 }, '2026-01-01', '2026-10-08'), false)
++})

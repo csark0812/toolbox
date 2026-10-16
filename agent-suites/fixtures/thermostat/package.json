@@ -1,0 +1,9 @@
+{
+  "name": "thermostat",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "target": "node bin/target.mjs"
+  }
+}

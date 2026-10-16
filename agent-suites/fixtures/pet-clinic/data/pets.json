@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Biscuit",
+    "species": "dog",
+    "owner": "R. Kaur",
+    "vaccines": [
+      { "name": "rabies", "due": "2026-10-15" },
+      { "name": "DHPP", "due": "2027-03-01" }
+    ]
+  },
+  {
+    "name": "Miso",
+    "species": "cat",
+    "owner": "J. Park",
+    "vaccines": [{ "name": "FVRCP", "due": "2026-10-20" }]
+  },
+  {
+    "name": "Clover",
+    "species": "Rabbit",
+    "owner": "A. Nowak",
+    "vaccines": [{ "name": "RHDV2", "due": "2026-10-09" }]
+  },
+  {
+    "name": "Pepper",
+    "species": "dog",
+    "owner": "T. Mensah",
+    "vaccines": [
+      { "name": "leptospirosis", "due": "2026-10-24" },
+      { "name": "rabies", "due": "2026-10-28" }
+    ]
+  },
+  {
+    "name": "Juno",
+    "species": "cat",
+    "owner": "L. Rossi",
+    "vaccines": [{ "name": "rabies", "due": "2026-10-14" }]
+  }
+]

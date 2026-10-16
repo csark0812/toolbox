@@ -1,0 +1,9 @@
+{
+  "name": "sla-clock",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "tickets": "node bin/tickets.mjs"
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "beforeCommand": ["compact"],
+  "afterCommand": []
+}

@@ -1,0 +1,6 @@
+Hi {name},
+
+This week: {runs} runs, {distance_km} ({distance_mi}) in {time}.
+Average pace {pace_km}, or {pace_mi} if you think in miles.
+
+Keep it up!

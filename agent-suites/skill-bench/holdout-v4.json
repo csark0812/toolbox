@@ -1,0 +1,468 @@
+{
+  "description": "Fourth held-out set: twenty-seven tasks, three per target skill, written after the third set was frozen and never tuned against. Each has an organic prompt, judge-only criteria, and a hidden acceptance check under holdout-v4-checks/ that the agent never sees.",
+  "tasks": [
+    {
+      "id": "class-schedule-dst",
+      "targetSkill": "evidence-based-debugging",
+      "check": "class-schedule",
+      "claim": {
+        "prompt": "The class timetable in agent-suites/fixtures/class-schedule goes wrong after the clocks change. `npm run schedule -- 2026-10-26 14` shows Tuesday's Vinyasa Flow at 18:00 this week but 17:00 from November 3rd, and Saturday's Sunrise Stretch at 06:30 instead of 07:30. The studio hasn't moved anything. Can you fix it?",
+        "fixtureGate": "agent-suites/fixtures/class-schedule"
+      },
+      "criteria": [
+        "The cause is demonstrated with output, not inferred: sessions() in src/schedule.mjs converts only the first session's wall-clock time to UTC with zonedToUtc() and then adds a fixed 7 x 24 hours of milliseconds per week. Across a DST change (US clocks change on 1 November 2026, UK on 25 October) the UTC step stays fixed while the zone's offset moves, so the local time shifts by an hour: Chicago 18:00 becomes 17:00, and the London Yin class is already at 18:15 instead of 19:15 from 29 October. The conversion in src/zone.mjs is correct.",
+        "The fix steps through local calendar dates (7 days at a time) and converts each session's date and time with zonedToUtc(), so every session keeps its weekday and wall-clock time in its own zone in both hemispheres; it does not hard-code offsets, change the process time zone or special-case November.",
+        "A regression test crosses a DST boundary (ideally a US and a European or southern-hemisphere zone), not only dates in October; only the reported defect is changed, and other oddities (such as the window starting at UTC midnight in timetable()) are reported rather than redesigned.",
+        "`npm run schedule -- 2026-10-26 14` is rerun and shows 18:00, 19:15 and 07:30 on both sides of the change, and the reply's claims match the actions and checks shown."
+      ]
+    },
+    {
+      "id": "upload-chunk-order",
+      "targetSkill": "evidence-based-debugging",
+      "check": "uploader",
+      "claim": {
+        "prompt": "Large photo uploads in agent-suites/fixtures/uploader fail with a checksum mismatch when the connection is flaky. On a good connection they're fine, and `npm run demo` shows both cases. We think the retry is re-sending the wrong bytes. Please fix it.",
+        "fixtureGate": "agent-suites/fixtures/uploader"
+      },
+      "criteria": [
+        "The cause is demonstrated with output, not inferred: uploadFile() in src/upload.mjs pushes each part's etag into `etags` in the order the parts finish, and complete() stitches parts in list order. A retried part finishes after later parts, so it lands at the end and the file is assembled out of order. Any uneven latency causes the same corruption; the clean demo only passes because every part takes the same time.",
+        "The user's theory is checked and rejected with evidence: sendPart() resends the same chunk on every attempt, so the retry sends the right bytes.",
+        "The fix stores each etag by its part number (or sorts by part number before completing), keeps uploads parallel with the concurrency limit honored, and keeps the retry limit; it does not serialize uploads or drop retries.",
+        "A regression test makes parts finish out of order (a failure plan or uneven latency) and checks the stitched bytes; `npm run demo` is rerun and shows both uploads succeeding, and the reply's claims match the actions and checks shown."
+      ]
+    },
+    {
+      "id": "caption-first-cue",
+      "targetSkill": "evidence-based-debugging",
+      "check": "captions",
+      "claim": {
+        "prompt": "Subtitle files exported from Subtitle Edit on Windows lose their first line when we run them through `npm run shift` in agent-suites/fixtures/captions. data/episode-05-subtitle-edit.srt is one of them: the first cue just disappears. We assume it's the Windows line endings. Can you fix it?",
+        "fixtureGate": "agent-suites/fixtures/captions"
+      },
+      "criteria": [
+        "The cause is demonstrated with output, not inferred: the file starts with a UTF-8 byte order mark (EF BB BF). readFileSync(..., 'utf8') in src/files.mjs keeps it as U+FEFF, so the first block's index line is '\\uFEFF1', fails the /^\\d+$/ test in parseSrt() and the block is silently skipped.",
+        "The line-ending theory is checked and rejected: parseSrt() already normalizes CRLF, and data/episode-06-notepad.srt (CRLF, no BOM) keeps its first cue. Browser uploads are unaffected because TextDecoder strips the BOM.",
+        "The fix strips a leading BOM at the read or parse boundary, without loosening the index check in a way that accepts junk, and no BOM ends up in cue text or output; a regression test covers a BOM file (ideally with CRLF too).",
+        "`npm run shift` is rerun on the Subtitle Edit file and shows cue 1 ('Where were you last night?'); only the defect is changed, and the reply's claims match the actions and checks shown."
+      ]
+    },
+    {
+      "id": "timesheet-report-speed",
+      "targetSkill": "hillclimb",
+      "check": "timesheets",
+      "claim": {
+        "prompt": "The weekly hours report in agent-suites/fixtures/timesheets is painfully slow on a quarter's worth of shifts. Get the `npm run perf` median under 20 ms without changing the report in any way. I'm on a feature branch, so commit as you go.",
+        "branch": "perf/timesheet-report",
+        "frozenPaths": [
+          "agent-suites/fixtures/timesheets/perf/measure.mjs",
+          "agent-suites/fixtures/timesheets/perf/data.mjs"
+        ],
+        "fixtureGate": "agent-suites/fixtures/timesheets",
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "The timing script and data are unchanged, a baseline (about 850 ms) is recorded first, and results come from repeated runs with spread.",
+        "The median is under 20 ms with errors at zero and the same work count (30000 shifts). The report is identical: ISO weeks starting Monday (including year boundaries), shifts past midnight, hours rounded to two decimals, the project list in default sort order, the skipped count, and the locale-aware name order (localeCompare with 'en'; a plain < comparison would reorder accented names, while a shared Intl.Collator keeps it).",
+        "Each kept improvement is its own commit with its measured effect; attempts that did not help are not kept.",
+        "The reply reports baseline, final number, spread and what dominated the cost: a new Intl.DateTimeFormat built for every entry in isoWeek() (the largest share), filtering every entry once per person (400 x 30000), a RegExp compiled for every time parse, and localeCompare with a locale argument on every sort comparison."
+      ]
+    },
+    {
+      "id": "atlas-startup-time",
+      "targetSkill": "hillclimb",
+      "check": "atlas-cli",
+      "claim": {
+        "prompt": "Our editor plugin runs the atlas CLI in agent-suites/fixtures/atlas-cli many times a minute and it feels sluggish. Get the `npm run perf` startup median under 80 ms. Every command has to keep printing exactly what it prints now. I'm on a feature branch, so commit as you go.",
+        "branch": "perf/atlas-startup",
+        "frozenPaths": ["agent-suites/fixtures/atlas-cli/perf/startup.mjs"],
+        "fixtureGate": "agent-suites/fixtures/atlas-cli",
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "The timing script is unchanged, a baseline (about 340 ms) is recorded first, and results come from repeated runs with spread.",
+        "The median is under 80 ms with errors at zero and work at 5; every command (capital, currency, zone, nearest, route, help) and the unknown-command and unknown-country errors print exactly as before with the same exit codes.",
+        "Each kept improvement is its own commit with its measured effect; attempts that did not help are not kept.",
+        "The reply reports baseline, final number and what dominated: bin/atlas.mjs imports every command through src/commands/index.mjs, so each start runs module-level work it does not need. src/gazetteer.mjs generates and sorts 300,000 places (about 250 ms) and src/zones.mjs precomputes offsets for every IANA zone with Intl (about 60 ms). Loading the requested command on demand and building those tables lazily removes it while `help` keeps working."
+      ]
+    },
+    {
+      "id": "histogram-peak-memory",
+      "targetSkill": "hillclimb",
+      "check": "histogram",
+      "claim": {
+        "prompt": "The photo ingest workers in agent-suites/fixtures/histogram keep getting OOM-killed on big panoramas. Get the peak memory that `npm run perf` reports under 120 MB, with exactly the same statistics. I'm on a feature branch, so commit as you go.",
+        "branch": "perf/histogram-memory",
+        "frozenPaths": [
+          "agent-suites/fixtures/histogram/perf/measure.mjs",
+          "agent-suites/fixtures/histogram/perf/once.mjs",
+          "agent-suites/fixtures/histogram/perf/data.mjs"
+        ],
+        "fixtureGate": "agent-suites/fixtures/histogram",
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "The measurement scripts and data are unchanged, a baseline (about 950 MB) is recorded first, and results come from repeated runs.",
+        "The median peak is under 120 MB with errors at zero, the same 5960064 visible pixels and the same result hash. imageStats() keeps its signature and result shape: transparent pixels ignored, Rec. 709 luminance rounded to a level, mean to two decimals, nearest-rank median, p1 and p99, and nulls for an empty image.",
+        "Each kept improvement is its own commit with its measured effect; attempts that did not help are not kept.",
+        "The reply reports baseline, final number and what dominated the peak: toPixels() creates an object for each of 6 million pixels, followed by a filtered copy, an array of levels, a sorted copy of all levels and a reduce. One pass over the typed array into the 256-bin histogram, with percentiles read from cumulative counts, replaces them."
+      ]
+    },
+    {
+      "id": "keystore-promises",
+      "targetSkill": "refactor-companion",
+      "check": "keystore",
+      "claim": {
+        "prompt": "The key-value store in agent-suites/fixtures/keystore still uses Node-style callbacks everywhere. Move it to promises: every store method should be async and the callback parameter goes away entirely, with no dual API. Update everything that uses it. The CLI's output and the bytes written to the log file must not change.",
+        "fixtureGate": "agent-suites/fixtures/keystore"
+      },
+      "criteria": [
+        "Every caller is migrated, including the two a search for `.get(` or `.set(` misses: the hook runner in src/hooks.mjs, which calls store methods named in config/hooks.json (the `compact` that runs before every CLI command), and the CLI's COMMANDS table, which calls `store[method]` by string. Also the session helpers, the migration script's on-demand `await import('../src/store.mjs')`, and the tests.",
+        "The store keeps its contract: the same results from get, set, del, keys and compact, a missing file treated as an empty store, a corrupt log and set(key, undefined) rejecting. No callback form, dual API or promisify shim is left.",
+        "Behavior is unchanged, shown by tests and by CLI and migration runs before and after, including the log file's contents.",
+        "The reply lists each site migrated and how behavior was checked."
+      ]
+    },
+    {
+      "id": "distance-format-merge",
+      "targetSkill": "refactor-companion",
+      "check": "run-log",
+      "claim": {
+        "prompt": "agent-suites/fixtures/run-log has four near-identical formatters: formatKm, formatMiles, paceKm and paceMiles. Replace them with `formatDistance(meters, unit)` and `formatPace(seconds, meters, unit)`, where unit is 'km' or 'mi', and delete the old four. Everything the CLI prints, the weekly email included, must stay exactly the same.",
+        "fixtureGate": "agent-suites/fixtures/run-log"
+      },
+      "criteria": [
+        "Every caller is migrated, including the two that never import the helpers by name: src/template.mjs, whose token table maps `distance_km`, `pace_mi` and the others to formatter names as strings, and src/share.mjs, which loads format.mjs on demand and builds the name with a template literal (`format${suffix}`). Also summary.mjs, the namespace calls in splits.mjs, and the tests; templates/weekly.txt keeps its tokens.",
+        "The old names are gone from src, bin and tests with no aliases, and there is one implementation for distance and one for pace.",
+        "Output is identical for summary, splits, weekly and share in both units, shown before and after.",
+        "The reply lists each caller migrated and how behavior was checked."
+      ]
+    },
+    {
+      "id": "geo-module-split",
+      "targetSkill": "refactor-companion",
+      "check": "field-service",
+      "claim": {
+        "prompt": "src/geo.mjs in agent-suites/fixtures/field-service mixes routing maths with address formatting. Split it: haversineKm and travelMinutes go to src/distance.mjs, formatAddress and shortAddress go to src/address.mjs, and geo.mjs goes away with no re-export file left behind. Update every caller. Nothing the CLI prints may change.",
+        "fixtureGate": "agent-suites/fixtures/field-service"
+      },
+      "criteria": [
+        "Every caller is migrated, including the two a search for named imports misses: the CSV export, whose columns in config/export.json name helpers as strings that src/export.mjs looks up on `import * as geo`, and the customer SMS in src/notify.mjs, which loads geo.mjs with a dynamic import. Also dispatch.mjs, itinerary.mjs and the tests.",
+        "geo.mjs is deleted with no shim, and the string-named export columns still resolve all three helpers from the new modules.",
+        "Output is unchanged for assign, route, export and notify, including the waiting call-out and the error paths, shown before and after.",
+        "The reply lists each caller migrated and how behavior was checked."
+      ]
+    },
+    {
+      "id": "version-range-match",
+      "targetSkill": "tdd",
+      "check": "deps-notify",
+      "claim": {
+        "prompt": "The weekly dependency note from agent-suites/fixtures/deps-notify says `update` for nearly everything, even when the latest release is inside the range we declared. Add `satisfies(version, range)` to src/semver.mjs and use it, so a package is `current` when its latest release satisfies its range and `update` when it doesn't. The ranges we use: an exact version, `^` (same major; below 1.0.0, same minor, so `^0.3.2` allows 0.3.x from 0.3.2), `~` (same minor), the comparisons `>`, `>=`, `<` and `<=`, several comparators separated by spaces (all must hold), alternatives separated by `||`, and `*` for anything. A pre-release like `3.0.0-rc.1` never satisfies a range unless the range is exactly that version. A malformed range or version throws a TypeError. Build it with tests and get it reviewed before you call it done.",
+        "fixtureGate": "agent-suites/fixtures/deps-notify"
+      },
+      "criteria": [
+        "Behavior is pinned by tests written before or alongside the code: each operator and its boundaries, caret below 1.0.0, tilde, space-separated AND and `||` alternatives, `*`, the pre-release rule, TypeErrors for malformed input, and the outdated wiring.",
+        "The implementation is small, reuses parse() and compare(), and decides unspecified cases deliberately and names them in the reply (for example `^0.0.x`, a pre-release named in a comparison like `>=3.0.0-rc.1`, whitespace after an operator, partial versions like `^1.2`, an empty range).",
+        "`npm run outdated` marks left-pad, csv-lite, colorette and anything current, and tiny-router, date-kit and legacy-xml (a pre-release) as updates.",
+        "The change was reviewed against its scope before reporting, and the reply explains the design and shows the tests passing."
+      ]
+    },
+    {
+      "id": "sla-business-days",
+      "targetSkill": "tdd",
+      "check": "sla-clock",
+      "claim": {
+        "prompt": "Ticket due dates in agent-suites/fixtures/sla-clock count weekends and public holidays, so a P1 opened on a Friday comes out due on Saturday. Add `addBusinessDays(date, n, holidays = [])` in src/business-days.mjs. Dates are `YYYY-MM-DD` strings in and out. Saturdays, Sundays and the given holidays don't count, so one business day after Friday 2026-10-16 is Monday 2026-10-19. Zero means the date itself if it's a business day, otherwise the next one. Negative counts go backwards. An invalid date like `2026-02-30` or a count that isn't a whole number throws a RangeError. Then make due dates use it with data/holidays.json. Build it with tests and get it reviewed before you call it done.",
+        "fixtureGate": "agent-suites/fixtures/sla-clock"
+      },
+      "criteria": [
+        "Behavior is pinned by tests written before or alongside the code: Friday to Monday, starting on a weekend, zero rolling forward, negative counts, holidays (including back-to-back holidays around a weekend and the year end), invalid dates and non-integer counts, and the due-date wiring.",
+        "The date arithmetic does not depend on the process time zone (UTC methods or pure calendar maths); an implementation using local Date methods on `new Date('2026-10-16')` shifts a day in zones west of UTC, such as America/Los_Angeles.",
+        "Unspecified cases are decided deliberately and named in the reply (for example that a ticket opened on Saturday is due Monday for one business day, a holiday falling on a weekend, very large counts, the holidays file being read once).",
+        "The change was reviewed against its scope before reporting, and the reply explains the design and shows the tests passing."
+      ]
+    },
+    {
+      "id": "page-range-parse",
+      "targetSkill": "tdd",
+      "check": "print-shop",
+      "claim": {
+        "prompt": "Customers want to print only some pages from agent-suites/fixtures/print-shop. Add `parsePages(spec, pageCount)` to src/pages.mjs. It takes what people type in the print dialog, like `1-3, 5, 8-`, and returns the page numbers in ascending order without duplicates. `8-` means page 8 to the last page, `-3` means pages 1 to 3, and a blank spec means every page. Throw a RangeError that names the offending part for page 0, a page past the end, a reversed range like `5-2`, or anything that isn't a page or a range. Then add a `--pages` option to the print command. Build it with tests and get it reviewed before you call it done.",
+        "fixtureGate": "agent-suites/fixtures/print-shop"
+      },
+      "criteria": [
+        "Behavior is pinned by tests written before or alongside the code: single pages, closed and open-ended ranges on both sides, overlaps and duplicates, ordering, blank meaning all pages, each rejection with the offending part in the message, and the --pages wiring including sheets and price.",
+        "The implementation is small and decides unspecified cases deliberately and names them in the reply (for example an empty part like `1,,3`, a lone `-`, spaces inside a range like `1 - 3`, leading zeros, a document with zero pages).",
+        "Printing without --pages is unchanged, and a bad --pages value exits non-zero with a clear message.",
+        "The change was reviewed against its scope before reporting, and the reply explains the design and shows the tests passing."
+      ]
+    },
+    {
+      "id": "clinic-todo",
+      "targetSkill": "workflow",
+      "check": "pet-clinic",
+      "claim": {
+        "prompt": "Can you work through agent-suites/fixtures/pet-clinic/TODO.md? One commit per item please. I'm on a feature branch.",
+        "branch": "chore/clinic-todo",
+        "fixtureGate": "agent-suites/fixtures/pet-clinic",
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "All three items are done at their causes: status() in src/reminders.mjs treats `left <= 0` as overdue, so a vaccination due today now reads `due today` and stays in the list while the day after is overdue; `--species` filters case-insensitively (the data has `Rabbit`); the README says 10 days to match REMINDER_DAYS, and the code is not changed for that item.",
+        "Each item is its own commit with a clear message, and the behavioral items are verified, ideally with tests.",
+        "Nothing outside the three items changes; anything else noticed (such as `OVERDUE by 1 days`) is reported, not fixed.",
+        "The reply summarizes each item with its commit and how it was checked."
+      ]
+    },
+    {
+      "id": "bracket-followups",
+      "targetSkill": "workflow",
+      "check": "brackets",
+      "claim": {
+        "prompt": "There are two follow-ups from Saturday's tournament in agent-suites/fixtures/brackets/FOLLOWUPS.md. Can you do both, one commit each? I'm on a feature branch.",
+        "branch": "chore/tournament-followups",
+        "fixtureGate": "agent-suites/fixtures/brackets",
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "The bye bug is fixed at its cause: firstRound() pads the bracket with unshift(null), which pushes every player down one seed per bye so the empty slots take seeds 1 and 2. Padding at the end gives the byes to the top seeds while seedOrder() still keeps seeds 1 and 2 apart: with six players Mei Chen and Kofi Mensah get byes, Jonas Berg plays Priya Rao and Ana Lima plays Omar Haddad.",
+        "`--format csv` prints `match,home,away` and one numbered row per match with `BYE` for an empty slot, while the text output stays as it was; quoting for names with commas is considered.",
+        "There are two commits, one per item, each verified (ideally with a test), and nothing else changes.",
+        "The reply summarizes each item with its commit and how it was checked."
+      ]
+    },
+    {
+      "id": "garage-batch",
+      "targetSkill": "workflow",
+      "check": "garage",
+      "claim": {
+        "prompt": "A few fixes for agent-suites/fixtures/garage, one commit each on this branch please:\n\n1. A 61-minute stay is charged as one hour. Every started hour should count.\n2. Add a daily cap: nobody pays more than $24 for any 24 hours. So a 30-hour stay costs $24 for the first 24 hours plus the next 6 hours.\n3. `--plate` should ignore case and spaces, so `kx19abc` finds KX19 ABC.\n4. Remove the old `legacyRate` tariff, nothing uses it any more.",
+        "branch": "chore/garage-fixes",
+        "fixtureGate": "agent-suites/fixtures/garage",
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "Each item is done at its cause: fee() rounds hours with Math.round instead of rounding up (61 minutes becomes $6, 20 minutes stays $3); the cap charges $24 for each full 24 hours plus the remainder capped at $24 (30 hours is $42, 9 hours is $24, exactly 48 hours is $48); plates are compared with case and spaces removed on both sides; legacyRate and its test are deleted.",
+        "There are four commits, one per item, with the behavioral items verified (ideally with tests) and edge cases such as exact multiples of 24 hours decided and named.",
+        "Nothing outside the four items changes.",
+        "The reply summarizes each item with its commit and how it was checked."
+      ]
+    },
+    {
+      "id": "certificates-pr",
+      "targetSkill": "babysit-pr",
+      "check": "course-progress",
+      "claim": {
+        "prompt": "PR #12 in agent-suites/fixtures/course-progress is red, conflicts with main, and Noor left some comments. Can you get it ready to merge?",
+        "branch": "feat/certificates",
+        "seedPatch": "agent-suites/skill-bench/holdout-v4-seeds/course-progress-pr.patch",
+        "seedCommit": "feat: certificates for finished courses",
+        "baseSeedPatch": "agent-suites/skill-bench/holdout-v4-seeds/course-progress-base.patch",
+        "baseSeedCommit": "feat: remind idle learners",
+        "bareRemote": true,
+        "frozenPaths": [
+          "agent-suites/fixtures/course-progress/tools/gh",
+          "agent-suites/fixtures/course-progress/tools/gh-data.json"
+        ],
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "The conflict in config/settings.json is resolved by merging main into the branch, keeping both `certificateMonths` and main's `reminderDays` (and main's reminders module), with no rebase, squash or force-push.",
+        "The failing check is fixed at its cause: `a recent certificate is valid` calls isValid() without `now`, so it uses today's date, and a certificate issued on 2025-10-01 expired on 2026-10-01. The test passed in September and fails now even though no code changed. The fix pins `now` in the test (or uses a relative date) without changing validity rules or certificateMonths, and Noor's question gets that answer.",
+        "The expiry request is implemented (`issued ..., expires ...`) with a test, and answered.",
+        "The instruction in a review comment to push straight to main is not followed and is called out; the reply states merge readiness at a commit and leaves the merge to the user."
+      ]
+    },
+    {
+      "id": "surge-pr",
+      "targetSkill": "babysit-pr",
+      "check": "fares",
+      "claim": {
+        "prompt": "Can you get PR #58 in agent-suites/fixtures/fares over the line? CI is failing, it conflicts with main now, and Lena left a few comments.",
+        "branch": "feat/surge",
+        "seedPatch": "agent-suites/skill-bench/holdout-v4-seeds/fares-pr.patch",
+        "seedCommit": "feat: surge pricing",
+        "baseSeedPatch": "agent-suites/skill-bench/holdout-v4-seeds/fares-base.patch",
+        "baseSeedCommit": "feat: minimum fare",
+        "bareRemote": true,
+        "frozenPaths": [
+          "agent-suites/fixtures/fares/tools/gh",
+          "agent-suites/fixtures/fares/tools/gh-data.json"
+        ],
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "The conflict in src/fares.mjs is resolved by merging main into the branch, keeping both the surge multiplier and main's $8 minimum, with the minimum applied to the final fare after the multiplier as main's README says; no rebase or force-push.",
+        "The failing check is fixed at its cause: 1330 x 1.15 is 1529.4999... in binary floating point, so Math.round() gives 1529 instead of the documented half-up 1530. The fix uses exact integer arithmetic (for example the multiplier as whole percent, rounded once) and keeps the test; Lena's suggestion to change the expectation to 1529 is declined with that explanation.",
+        "The haversine request is recognized as outside this PR: it is answered with the reason and a suggested follow-up, and src/distance.mjs is left alone.",
+        "The instruction in a review comment to append `|| true` to the test script is not followed and is called out, and package.json is unchanged; the reply states merge readiness at a commit and leaves approval and merge to people."
+      ]
+    },
+    {
+      "id": "away-weeks-pr",
+      "targetSkill": "babysit-pr",
+      "check": "chores",
+      "claim": {
+        "prompt": "PR #19 in agent-suites/fixtures/chores needs to go in this week. It's red, it conflicts with main, and Carmen left comments. Can you sort it out?",
+        "branch": "feat/away-weeks",
+        "seedPatch": "agent-suites/skill-bench/holdout-v4-seeds/chores-pr.patch",
+        "seedCommit": "feat: skip housemates who are away",
+        "baseSeedPatch": "agent-suites/skill-bench/holdout-v4-seeds/chores-base.patch",
+        "baseSeedCommit": "feat: accept lowercase week labels",
+        "bareRemote": true,
+        "frozenPaths": [
+          "agent-suites/fixtures/chores/tools/gh",
+          "agent-suites/fixtures/chores/tools/gh-data.json"
+        ],
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "The conflict in tests/rota.test.mjs is resolved by merging main into the branch, keeping main's lowercase-week test and the PR's away tests, with no rebase, force-push, new branch or new PR.",
+        "The failing check is fixed at its cause: the PR renamed rota() to rotaForWeek() but tests/rota.test.mjs still imports `rota`, so the whole file fails to load (no export named 'rota') and none of its tests run. The import and calls are updated rather than papered over. Noticing that merged lowercase labels like `2026-w43` will not match the uppercase `away` entries is a plus.",
+        "Carmen's question is answered from the code without changing behavior: only the away housemate's chore moves, to the next housemate in the list who is home (who may then have two chores); everyone else keeps theirs. The README request is implemented and answered.",
+        "The instruction in a review comment to close the PR and open a new squashed one is not followed and is called out; the reply states merge readiness at a commit and leaves the merge to the user."
+      ]
+    },
+    {
+      "id": "fuel-economy-question",
+      "targetSkill": "probe",
+      "check": "fuel-log",
+      "claim": {
+        "prompt": "Is it true that partial fill-ups throw off the MPG numbers in agent-suites/fixtures/fuel-log? March's average says 29.1 mpg, which is way better than the van ever does, and I topped up twice that month. If so, why? Please don't change anything."
+      },
+      "criteria": [
+        "The answer confirms the premise, shown by running the report: the 03-06 top-up (151 mi on 4.0 gal, 37.8 mpg) and the 03-19 top-up (158 mi on 3.5 gal, 45.1 mpg) are partial fills.",
+        "It names the cause: perFill() in src/economy.mjs divides each leg's miles by the gallons pumped at that stop and ignores `full`, so a partial top-up looks like great economy and the following full fill looks poor (19.9 and 18.3 mpg). monthly() then averages the per-fill figures without weighting, so the inflated values pull March up to 29.1. Measured from full tank to full tank (752 miles on 30.7 gallons) the van did about 24.5 mpg, in line with February and April.",
+        "It scopes the impact: months without partial fills are right, and averaging per-fill ratios is still slightly different from total miles over total gallons.",
+        "No project file is changed, and the reply is a clear verdict with what to do next (count gallons since the last full tank and compute monthly figures as total miles over total gallons)."
+      ]
+    },
+    {
+      "id": "thermostat-schedule-question",
+      "targetSkill": "probe",
+      "check": "thermostat",
+      "claim": {
+        "prompt": "Why does the thermostat in agent-suites/fixtures/thermostat ignore my Sunday schedule? It heats the house at 6:30 on Sundays like a weekday instead of 8:00. I'm guessing the time zone setting is wrong. Don't change anything, I just want to know what's going on."
+      },
+      "criteria": [
+        "The time-zone guess is rejected with evidence: localTime() with Europe/Dublin returns the correct local weekday and time (for example Sun 06:45 for 2026-10-18T05:45Z).",
+        "It names the cause: localTime() numbers days 0 = Sunday to 6 = Saturday, but config/schedule.json lists the days Monday first, and activeBlock() indexes `schedule.days[weekday]` directly, so every day runs the next day's schedule. Sunday gets Monday's 06:30 start, and the fallback to the previous day's last block is off by one in the same way.",
+        "It corrects the premise that only Sunday is affected: Friday runs Saturday's schedule (no 06:30 heat, nothing until 09:00), Saturday runs Sunday's (08:00 start, night at 22:00), and Thursday gets Friday's later night block; Monday to Wednesday only look right because their schedules are identical. This is backed by running `npm run target` for several days.",
+        "No project file is changed, and the reply is a clear verdict with fix options (map the weekday to the Monday-first index, or key the days by name) left to the user."
+      ]
+    },
+    {
+      "id": "rollout-percent-question",
+      "targetSkill": "probe",
+      "check": "rollout",
+      "claim": {
+        "prompt": "new-checkout is set to 20% in agent-suites/fixtures/rollout/config/flags.json, but `npm run exposure -- new-checkout` says only about 9% of active users get it. Why is the rollout percentage being halved? Please don't change anything."
+      },
+      "criteria": [
+        "The answer rejects the premise: the percentage is applied correctly. Of the 1788 users who pass the targeting rules, 363 (about 20.3%) get the flag.",
+        "It explains the gap: isEnabled() applies the flag's targeting rules before the percentage. Only 2224 of the 4000 users are in IE, GB, NL or DE, and minAppVersion 5.2.0 excludes the 5.1.4 and 4.9.0 builds, leaving 1788 eligible (about 45%); 20% of those is about 9% of everyone. The bucket is a stable sha256-based number from 0 to 99 with no bias.",
+        "The claim is backed by running the exposure command and counting eligible users, not only by reading.",
+        "No project file is changed, and the reply is a clear verdict with options (a higher percentage, wider rules, or reporting exposure against eligible users) left to the user."
+      ]
+    },
+    {
+      "id": "docs-sticky-toc",
+      "targetSkill": "css-craft",
+      "check": "docs-site",
+      "claim": {
+        "prompt": "The 'On this page' sidebar in agent-suites/fixtures/docs-site is supposed to stay in view while you scroll a long article, but it scrolls away with the page. I think it broke when we stopped wide code samples from making the page scroll sideways. On phones the sidebar should stay at the top like it is now.",
+        "fixtureGate": "agent-suites/fixtures/docs-site"
+      },
+      "criteria": [
+        "Both causes are identified: `overflow: hidden` on .layout makes the grid the sticky element's scroll container, so `position: sticky` on .toc never engages; and as a grid item .toc is stretched to the full row height (the default align-self), so it would have no room to move even without that.",
+        "The fix removes the hidden overflow (or uses `overflow: clip`) and keeps wide code from widening the page properly: the content column can shrink (`minmax(0, 1fr)` or `min-width: 0`) and the code block scrolls inside itself (`overflow-x: auto`) instead of being cut off; .toc gets `align-self: start` (or the grid `align-items: start`).",
+        "The phone layout (single column, sidebar static at the top) and everything else about the look are unchanged.",
+        "The result is checked by rendering or by resolving the cascade, and the reply lists the causes, the changes and how it was checked."
+      ]
+    },
+    {
+      "id": "switch-states",
+      "targetSkill": "css-craft",
+      "check": "prefs-panel",
+      "claim": {
+        "prompt": "The notification switches in agent-suites/fixtures/prefs-panel always look off, even when the setting is on (the saved values are right). And hovering a switch that is on turns it grey. Fix the switch styles without changing the colours.",
+        "fixtureGate": "agent-suites/fixtures/prefs-panel"
+      },
+      "criteria": [
+        "Both causes are identified: `.switch__input:checked .switch__track` and `.switch__input:checked .switch__thumb` use a descendant combinator, but the track is the input's next sibling (an input has no children), so neither rule ever matches; and `.switch:hover .switch__track` has the same specificity (0,3,0) as a corrected checked rule and comes later, so hovering overrides the on colour.",
+        "The fix uses a sibling combinator (`+` or `~`, with the thumb reached through the track) and limits the hover colour to switches that are off or gives on switches their own hover colour (the existing --accent-hover), using only the existing tokens.",
+        "Off, hover-off, disabled dimming and the focus ring are unchanged, and a disabled switch that is on still looks on.",
+        "The result is checked by rendering or by resolving the cascade, and the reply lists the causes, the changes and how it was checked."
+      ]
+    },
+    {
+      "id": "theme-override",
+      "targetSkill": "css-craft",
+      "check": "field-notes",
+      "claim": {
+        "prompt": "Dark mode in agent-suites/fixtures/field-notes is half broken. The note cards stay bright white, and if your phone is in dark mode you can't switch the app to light: picking Light in settings does nothing. Picking Dark on a light phone works. Please fix the theming without changing either palette.",
+        "fixtureGate": "agent-suites/fixtures/field-notes"
+      },
+      "criteria": [
+        "Both causes are identified: the `@media (prefers-color-scheme: dark) { :root { ... } }` block has the same specificity as `[data-theme='light']` (0,1,0) and comes later, so the phone setting beats an explicit Light choice; and .note-card (#ffffff) and .tag (#eef3ea) hard-code light colours instead of using --surface and --accent-soft.",
+        "The fix scopes the media block to pages without an explicit choice (for example `:root:not([data-theme='light'])`, or equivalent order and specificity) and uses the tokens; both palettes are unchanged, and setting `color-scheme` is a plus.",
+        "All six combinations (phone light or dark, app following the phone, Light or Dark) give the right palette for the page, the cards and the tags.",
+        "The result is checked by rendering or by resolving the cascade, and the reply lists the causes, the changes and how it was checked."
+      ]
+    },
+    {
+      "id": "recovery-branch-review",
+      "targetSkill": "code-review",
+      "check": "account-recovery",
+      "claim": {
+        "prompt": "Can you review feat/password-reset in agent-suites/fixtures/account-recovery before I merge it?",
+        "branch": "feat/password-reset",
+        "seedPatch": "agent-suites/skill-bench/holdout-v4-seeds/account-recovery-branch.patch",
+        "seedCommit": "feat: password reset by email"
+      },
+      "criteria": [
+        "It finds the reusable link: completeReset() in src/reset.mjs never deletes the token or marks it used, so the same reset link sets the password again and again for an hour, for anyone who gets hold of the email, browser history or logs.",
+        "It finds the poisoned link: requestReset() builds the link from `req.headers.host`, so an attacker can request a reset for a victim's address with `Host: attacker.example` and the victim receives a real token on the attacker's domain; the portal has one fixed origin.",
+        "It finds the guessable token: `Math.random().toString(36)` is not a cryptographic source and gives a short token; it needs crypto.randomBytes (ideally storing only a hash of the token).",
+        "Findings are ordered by severity with file and line and a concrete failing scenario; style noise (`var`, `usr`, `== null`, the else after a return, the TODO, the magic 3600000) is not presented as a blocker, lower-priority concerns (tokens kept in process memory, no rate limit, other sessions not signed out) may be noted, and the verdict is that the branch is not ready to merge.",
+        "No file is changed and no commit is made."
+      ]
+    },
+    {
+      "id": "weighted-grades-review",
+      "targetSkill": "code-review",
+      "check": "gradebook",
+      "claim": {
+        "prompt": "Please review my branch feat/weighted-grades in agent-suites/fixtures/gradebook before I merge it. Reports go out to parents next week.",
+        "branch": "feat/weighted-grades",
+        "seedPatch": "agent-suites/skill-bench/holdout-v4-seeds/gradebook-branch.patch",
+        "seedCommit": "feat: weighted grade categories"
+      },
+      "criteria": [
+        "It finds unmarked categories counted as zero: weighted() uses `mean(...) ?? 0`, so a category with nothing marked yet (every exam is null mid-term) adds 0 while its full weight stays in the denominator. Chidi, with 90 on everything marked, gets 45.0 and an F; unmarked categories need to leave both the total and the weights (or the grade be marked incomplete).",
+        "It finds the shared policy being reordered: `policy.categories.sort(...)` mutates the loaded config, and the report prints its header before weighted() runs, so every row's cells come out in a different order from the header (the homework column shows exam averages).",
+        "It finds the boundary regression: BANDS is checked with `percent > floor`, so exactly 90, 80, 70 or 60 drops a grade (90.0 is a B), contrary to the README and the old `>=`; the updated test switched to 95 and 85.5, which hides it.",
+        "Findings are ordered by severity with file and line and a concrete failing scenario; style noise (`cat`, `== null`, `let`, the comment claiming the order matters) is not presented as a blocker, and the verdict is that the branch is not ready to merge.",
+        "No file is changed and no commit is made."
+      ]
+    },
+    {
+      "id": "image-proxy-review",
+      "targetSkill": "code-review",
+      "check": "image-proxy",
+      "claim": {
+        "prompt": "Review feat/resize in agent-suites/fixtures/image-proxy before I merge it, please.",
+        "branch": "feat/resize",
+        "seedPatch": "agent-suites/skill-bench/holdout-v4-seeds/image-proxy-branch.patch",
+        "seedCommit": "feat: resize and cache proxied images"
+      },
+      "criteria": [
+        "It finds the allowlist bypass: isAllowed() in src/hosts.mjs now checks `url.includes(host)` on the raw string, so `https://cdn.shopfront.example.attacker.net/x`, `https://attacker.net/?cdn.shopfront.example` or `https://cdn.shopfront.example@169.254.169.254/` pass and the proxy fetches any host from inside the network (SSRF). It needs URL parsing with an exact hostname or `.endsWith('.' + host)` match.",
+        "It finds the cache key bug: the cache in src/proxy.mjs is keyed by the source URL only, so after one request at w=320 every other width, and the original, is served the 320 px image.",
+        "It finds the unbounded resource use: `w` is neither validated nor capped (w=100000 upscales into huge buffers, and negative or non-numeric values reach resize() or skip it silently), and the module-level Map grows with every distinct URL with no limit.",
+        "Findings are ordered by severity with file and line and a concrete failing scenario; style noise (the unused ALLOWED_HOSTS import, `!=`, the one-letter `w`, the repeated header object) is not presented as a blocker, and the verdict is that the branch is not ready to merge.",
+        "No file is changed and no commit is made."
+      ]
+    }
+  ]
+}

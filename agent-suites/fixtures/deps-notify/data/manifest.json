@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "left-pad": "^1.2.0",
+    "tiny-router": "~2.4.1",
+    "date-kit": "^0.3.2",
+    "csv-lite": ">=1.0.0 <2.0.0",
+    "colorette": "2.1.0",
+    "legacy-xml": "^1.0.0 || ^2.0.0",
+    "anything": "*"
+  }
+}

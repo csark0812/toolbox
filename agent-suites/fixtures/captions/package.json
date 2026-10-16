@@ -1,0 +1,9 @@
+{
+  "name": "captions",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "shift": "node bin/shift.mjs"
+  }
+}

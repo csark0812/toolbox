@@ -1,0 +1,9 @@
+{
+  "name": "run-log",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "runs": "node bin/runlog.mjs"
+  }
+}

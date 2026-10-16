@@ -1,0 +1,65 @@
+diff --git a/agent-suites/fixtures/fares/bin/quote.mjs b/agent-suites/fixtures/fares/bin/quote.mjs
+index 44342f4..6c98dd6 100644
+--- a/agent-suites/fixtures/fares/bin/quote.mjs
++++ b/agent-suites/fixtures/fares/bin/quote.mjs
+@@ -2,9 +2,14 @@
+ import { argv, exit, stderr, stdout } from 'node:process'
+ import { dollars, fare } from '../src/fares.mjs'
+ 
+-const [km, minutes] = argv.slice(2).map(Number)
++const args = argv.slice(2)
++const surgeAt = args.indexOf('--surge')
++const surge = surgeAt === -1 ? 1 : Number(args.splice(surgeAt, 2)[1])
++const [km, minutes] = args.map(Number)
+ if (!(km >= 0) || !(minutes >= 0)) {
+-  stderr.write('usage: quote <km> <minutes>\n')
++  stderr.write('usage: quote <km> <minutes> [--surge <multiplier>]\n')
+   exit(2)
+ }
+-stdout.write(`${dollars(fare({ km, minutes }))}\n`)
++stdout.write(
++  `${dollars(fare({ km, minutes }, { surge }))}${surge > 1 ? ` (surge x${surge})` : ''}\n`,
++)
+diff --git a/agent-suites/fixtures/fares/src/fares.mjs b/agent-suites/fixtures/fares/src/fares.mjs
+index e31909f..2170d0e 100644
+--- a/agent-suites/fixtures/fares/src/fares.mjs
++++ b/agent-suites/fixtures/fares/src/fares.mjs
+@@ -1,9 +1,13 @@
+ export const RATES = { baseCents: 250, perKmCents: 120, perMinuteCents: 30 }
+ 
+-/** The fare for a trip in whole cents. */
+-export function fare({ km, minutes }) {
++/**
++ * The fare for a trip in whole cents, rounded half up. During busy periods `surge` multiplies
++ * the metered fare (1.15 means 15% more).
++ */
++export function fare({ km, minutes }, { surge = 1 } = {}) {
++  if (!(surge >= 1)) throw new RangeError(`surge must be at least 1, got ${surge}`)
+   const cents = RATES.baseCents + km * RATES.perKmCents + minutes * RATES.perMinuteCents
+-  return Math.round(cents)
++  return Math.round(cents * surge)
+ }
+ 
+ export const dollars = (cents) => `$${(cents / 100).toFixed(2)}`
+diff --git a/agent-suites/fixtures/fares/tests/surge.test.mjs b/agent-suites/fixtures/fares/tests/surge.test.mjs
+new file mode 100644
+index 0000000..cf093d1
+--- /dev/null
++++ b/agent-suites/fixtures/fares/tests/surge.test.mjs
+@@ -0,0 +1,16 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { fare } from '../src/fares.mjs'
++
++test('no surge by default', () => {
++  assert.equal(fare({ km: 6, minutes: 12 }), 1330)
++})
++
++test('applies the surge multiplier, rounding half up to the cent', () => {
++  assert.equal(fare({ km: 5, minutes: 12 }, { surge: 1.5 }), 1815)
++  assert.equal(fare({ km: 6, minutes: 12 }, { surge: 1.15 }), 1530)
++})
++
++test('refuses a multiplier below 1', () => {
++  assert.throws(() => fare({ km: 1, minutes: 1 }, { surge: 0.9 }), RangeError)
++})

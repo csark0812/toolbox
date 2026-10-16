@@ -1,0 +1,10 @@
+{
+  "name": "keystore",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "kv": "node bin/kv.mjs",
+    "migrate": "node scripts/migrate-v1.mjs"
+  }
+}

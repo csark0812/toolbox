@@ -1,0 +1,13 @@
+{
+  "people": [
+    { "id": "p1", "name": "Ruth Okafor" },
+    { "id": "p2", "name": "Ana Lima" }
+  ],
+  "entries": [
+    { "person": "p1", "project": "harbor", "date": "2026-09-14", "start": "09:00", "end": "17:30" },
+    { "person": "p1", "project": "atlas", "date": "2026-09-15", "start": "22:00", "end": "06:00" },
+    { "person": "p2", "project": "harbor", "date": "2026-09-20", "start": "10:00", "end": "14:15" },
+    { "person": "p2", "project": "harbor", "date": "2026-09-21", "start": "10:00", "end": "12:00" },
+    { "person": "p9", "project": "atlas", "date": "2026-09-21", "start": "08:00", "end": "09:00" }
+  ]
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "vinyasa-tue",
+    "name": "Vinyasa Flow",
+    "weekday": "Tue",
+    "time": "18:00",
+    "timeZone": "America/Chicago",
+    "starts": "2026-09-01"
+  },
+  {
+    "id": "sunrise-sat",
+    "name": "Sunrise Stretch",
+    "weekday": "Sat",
+    "time": "07:30",
+    "timeZone": "America/Chicago",
+    "starts": "2026-09-05"
+  },
+  {
+    "id": "online-yin-thu",
+    "name": "Yin (online, London)",
+    "weekday": "Thu",
+    "time": "19:15",
+    "timeZone": "Europe/London",
+    "starts": "2026-09-03"
+  }
+]

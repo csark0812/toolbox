@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Ana",
+    "course": "Fire Safety",
+    "lessons": 10,
+    "done": 10,
+    "mark": 92,
+    "finishedAt": "2026-09-14"
+  },
+  {
+    "name": "Kofi",
+    "course": "Manual Handling",
+    "lessons": 8,
+    "done": 5,
+    "mark": null,
+    "finishedAt": null
+  },
+  {
+    "name": "Mei",
+    "course": "Fire Safety",
+    "lessons": 10,
+    "done": 10,
+    "mark": 71,
+    "finishedAt": "2026-10-02"
+  }
+]

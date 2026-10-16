@@ -1,0 +1,8 @@
+{
+  "new-checkout": {
+    "percent": 20,
+    "rules": { "countries": ["IE", "GB", "NL", "DE"], "minAppVersion": "5.2.0" }
+  },
+  "dark-mode": { "percent": 100 },
+  "gift-wrap": { "percent": 50, "rules": { "countries": ["IE"] } }
+}

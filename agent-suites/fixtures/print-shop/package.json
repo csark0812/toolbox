@@ -1,0 +1,9 @@
+{
+  "name": "print-shop",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "print": "node bin/print.mjs"
+  }
+}

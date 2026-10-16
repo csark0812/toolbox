@@ -1,0 +1,12 @@
+{
+  "name": "atlas-cli",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "atlas": "bin/atlas.mjs"
+  },
+  "scripts": {
+    "test": "node --test",
+    "perf": "node perf/startup.mjs"
+  }
+}

@@ -1,0 +1,5 @@
+{"op":"set","key":"theme","value":"dark"}
+{"op":"set","key":"session:41","value":{"user":"ana","cart":3}}
+{"op":"set","key":"locale","value":"pt-BR"}
+{"op":"del","key":"session:41"}
+{"op":"set","key":"theme","value":"light"}

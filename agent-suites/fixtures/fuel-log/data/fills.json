@@ -1,0 +1,12 @@
+[
+  { "date": "2026-02-02", "odometer": 41020, "gallons": 15.1, "full": true },
+  { "date": "2026-02-11", "odometer": 41402, "gallons": 15.6, "full": true },
+  { "date": "2026-02-20", "odometer": 41771, "gallons": 15.0, "full": true },
+  { "date": "2026-03-02", "odometer": 42150, "gallons": 15.4, "full": true },
+  { "date": "2026-03-06", "odometer": 42301, "gallons": 4.0, "full": false },
+  { "date": "2026-03-12", "odometer": 42530, "gallons": 11.5, "full": true },
+  { "date": "2026-03-19", "odometer": 42688, "gallons": 3.5, "full": false },
+  { "date": "2026-03-27", "odometer": 42902, "gallons": 11.7, "full": true },
+  { "date": "2026-04-04", "odometer": 43276, "gallons": 15.3, "full": true },
+  { "date": "2026-04-13", "odometer": 43652, "gallons": 15.4, "full": true }
+]

@@ -1,0 +1,5 @@
+[
+  { "name": "Adebayo", "marks": { "homework": [95, 88, 92], "labs": [90, 85], "exam": [null] } },
+  { "name": "Bea", "marks": { "homework": [70, 75, null], "labs": [80, 90], "exam": [null] } },
+  { "name": "Chidi", "marks": { "homework": [90, 90, 90], "labs": [90, 90], "exam": [null] } }
+]

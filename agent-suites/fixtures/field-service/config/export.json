@@ -1,0 +1,10 @@
+{
+  "columns": [
+    { "header": "Call-out", "field": "id" },
+    { "header": "Customer", "field": "customer" },
+    { "header": "Address", "format": "shortAddress", "from": "address" },
+    { "header": "Technician", "field": "technician" },
+    { "header": "Distance (km)", "format": "haversineKm", "from": ["base", "location"] },
+    { "header": "Travel (min)", "format": "travelMinutes", "from": "km" }
+  ]
+}

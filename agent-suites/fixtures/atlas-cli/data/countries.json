@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Peru",
+    "capital": "Lima",
+    "currency": ["PEN", "Sol"],
+    "zone": "America/Lima",
+    "lat": -12.05,
+    "lon": -77.04
+  },
+  {
+    "name": "Japan",
+    "capital": "Tokyo",
+    "currency": ["JPY", "Yen"],
+    "zone": "Asia/Tokyo",
+    "lat": 35.68,
+    "lon": 139.69
+  },
+  {
+    "name": "Kenya",
+    "capital": "Nairobi",
+    "currency": ["KES", "Shilling"],
+    "zone": "Africa/Nairobi",
+    "lat": -1.29,
+    "lon": 36.82
+  },
+  {
+    "name": "Norway",
+    "capital": "Oslo",
+    "currency": ["NOK", "Krone"],
+    "zone": "Europe/Oslo",
+    "lat": 59.91,
+    "lon": 10.75
+  },
+  {
+    "name": "Chile",
+    "capital": "Santiago",
+    "currency": ["CLP", "Peso"],
+    "zone": "America/Santiago",
+    "lat": -33.45,
+    "lon": -70.67
+  },
+  {
+    "name": "Canada",
+    "capital": "Ottawa",
+    "currency": ["CAD", "Dollar"],
+    "zone": "America/Toronto",
+    "lat": 45.42,
+    "lon": -75.7
+  },
+  {
+    "name": "India",
+    "capital": "New Delhi",
+    "currency": ["INR", "Rupee"],
+    "zone": "Asia/Kolkata",
+    "lat": 28.61,
+    "lon": 77.21
+  },
+  {
+    "name": "Portugal",
+    "capital": "Lisbon",
+    "currency": ["EUR", "Euro"],
+    "zone": "Europe/Lisbon",
+    "lat": 38.72,
+    "lon": -9.14
+  },
+  {
+    "name": "New Zealand",
+    "capital": "Wellington",
+    "currency": ["NZD", "Dollar"],
+    "zone": "Pacific/Auckland",
+    "lat": -41.29,
+    "lon": 174.78
+  },
+  {
+    "name": "Morocco",
+    "capital": "Rabat",
+    "currency": ["MAD", "Dirham"],
+    "zone": "Africa/Casablanca",
+    "lat": 34.02,
+    "lon": -6.83
+  }
+]

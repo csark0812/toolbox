@@ -1,0 +1,73 @@
+:root {
+  --text: #1d2430;
+  --muted: #5b6474;
+  --border: #d9dde3;
+  --code-bg: #f5f7fa;
+  --accent: #3a5bd9;
+  --gap: 2rem;
+  --header-height: 3.5rem;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: var(--header-height);
+  padding: 0 1.5rem;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+
+/* overflow: hidden stops wide code samples from making the whole page scroll sideways */
+.layout {
+  display: grid;
+  grid-template-columns: 16rem 1fr;
+  gap: var(--gap);
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  overflow: hidden;
+}
+
+.toc {
+  position: sticky;
+  top: calc(var(--header-height) + 1rem);
+  max-height: calc(100vh - var(--header-height) - 2rem);
+  overflow-y: auto;
+  padding-top: 1rem;
+}
+
+.toc a {
+  display: block;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--accent);
+}
+
+.content pre {
+  background: var(--code-bg);
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+@media (max-width: 800px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .toc {
+    position: static;
+    max-height: none;
+    border-bottom: 1px solid var(--border);
+  }
+}

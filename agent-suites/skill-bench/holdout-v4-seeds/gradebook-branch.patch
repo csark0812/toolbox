@@ -1,0 +1,117 @@
+diff --git a/agent-suites/fixtures/gradebook/bin/report.mjs b/agent-suites/fixtures/gradebook/bin/report.mjs
+index 50cdbcc..63ba963 100644
+--- a/agent-suites/fixtures/gradebook/bin/report.mjs
++++ b/agent-suites/fixtures/gradebook/bin/report.mjs
+@@ -1,10 +1,23 @@
+ #!/usr/bin/env node
+ import { readFileSync } from 'node:fs'
+ import { stdout } from 'node:process'
+-import { letter, overall } from '../src/grades.mjs'
++import { letter, mean, weighted } from '../src/grades.mjs'
+ 
+-const students = JSON.parse(readFileSync(new URL('../data/class.json', import.meta.url), 'utf8'))
++const read = (path) => JSON.parse(readFileSync(new URL(`../${path}`, import.meta.url), 'utf8'))
++const students = read('data/class.json')
++const policy = read('config/policy.json')
++
++const columns = policy.categories.map((cat) => cat.name)
++stdout.write(
++  `${'student'.padEnd(10)} ${columns.map((name) => name.padStart(9)).join(' ')}  overall\n`,
++)
+ for (const student of students) {
+-  const percent = overall(student)
+-  stdout.write(`${student.name.padEnd(10)} ${percent.toFixed(1).padStart(5)}  ${letter(percent)}\n`)
++  const percent = weighted(student, policy)
++  const cells = policy.categories.map((cat) => {
++    const avg = mean(student.marks[cat.name] ?? [])
++    return (avg == null ? '-' : avg.toFixed(1)).padStart(9)
++  })
++  stdout.write(
++    `${student.name.padEnd(10)} ${cells.join(' ')}  ${percent.toFixed(1).padStart(5)} ${letter(percent)}\n`,
++  )
+ }
+diff --git a/agent-suites/fixtures/gradebook/config/policy.json b/agent-suites/fixtures/gradebook/config/policy.json
+new file mode 100644
+index 0000000..4c110c1
+--- /dev/null
++++ b/agent-suites/fixtures/gradebook/config/policy.json
+@@ -0,0 +1,7 @@
++{
++  "categories": [
++    { "name": "homework", "weight": 0.2 },
++    { "name": "labs", "weight": 0.3 },
++    { "name": "exam", "weight": 0.5 }
++  ]
++}
+diff --git a/agent-suites/fixtures/gradebook/src/grades.mjs b/agent-suites/fixtures/gradebook/src/grades.mjs
+index f84577e..f87d241 100644
+--- a/agent-suites/fixtures/gradebook/src/grades.mjs
++++ b/agent-suites/fixtures/gradebook/src/grades.mjs
+@@ -9,10 +9,30 @@ export function overall(student) {
+   return mean(Object.values(student.marks).flat())
+ }
+ 
++/**
++ * The weighted percentage: each category's mean times its weight from the grading policy.
++ * Categories are processed biggest weight first.
++ */
++export function weighted(student, policy) {
++  policy.categories.sort((a, b) => b.weight - a.weight)
++  let total = 0
++  let weights = 0
++  for (const cat of policy.categories) {
++    const avg = mean(student.marks[cat.name] ?? []) ?? 0
++    total += avg * cat.weight
++    weights += cat.weight
++  }
++  return total / weights
++}
++
++const BANDS = [
++  [90, 'A'],
++  [80, 'B'],
++  [70, 'C'],
++  [60, 'D'],
++]
++
+ export function letter(percent) {
+-  if (percent >= 90) return 'A'
+-  if (percent >= 80) return 'B'
+-  if (percent >= 70) return 'C'
+-  if (percent >= 60) return 'D'
++  for (const [floor, grade] of BANDS) if (percent > floor) return grade
+   return 'F'
+ }
+diff --git a/agent-suites/fixtures/gradebook/tests/grades.test.mjs b/agent-suites/fixtures/gradebook/tests/grades.test.mjs
+index b7b967a..d22db2e 100644
+--- a/agent-suites/fixtures/gradebook/tests/grades.test.mjs
++++ b/agent-suites/fixtures/gradebook/tests/grades.test.mjs
+@@ -1,6 +1,6 @@
+ import assert from 'node:assert/strict'
+ import { test } from 'node:test'
+-import { letter, mean, overall } from '../src/grades.mjs'
++import { letter, mean, overall, weighted } from '../src/grades.mjs'
+ 
+ test('averages marked work only', () => {
+   assert.equal(mean([80, null, 90]), 85)
+@@ -11,8 +11,18 @@ test('averages across categories', () => {
+   assert.equal(overall({ marks: { a: [100], b: [80, 90] } }), 90)
+ })
+ 
++test('weights categories by the policy', () => {
++  const policy = {
++    categories: [
++      { name: 'hw', weight: 0.25 },
++      { name: 'exam', weight: 0.75 },
++    ],
++  }
++  assert.equal(weighted({ marks: { hw: [80], exam: [60] } }, policy), 65)
++})
++
+ test('maps percentages to letters', () => {
+-  assert.equal(letter(90), 'A')
+-  assert.equal(letter(89.9), 'B')
++  assert.equal(letter(95), 'A')
++  assert.equal(letter(85.5), 'B')
+   assert.equal(letter(59), 'F')
+ })

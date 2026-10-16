@@ -1,0 +1,9 @@
+{
+  "name": "rollout",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "exposure": "node bin/exposure.mjs"
+  }
+}

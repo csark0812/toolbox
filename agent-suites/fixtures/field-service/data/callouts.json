@@ -1,0 +1,54 @@
+[
+  {
+    "id": "c101",
+    "customer": "M. Byrne",
+    "phone": "+353 87 111 2222",
+    "address": {
+      "line1": "14 Harbour Road",
+      "line2": "",
+      "town": "Howth",
+      "county": "Dublin",
+      "eircode": "D13 X2Y4"
+    },
+    "location": { "lat": 53.3874, "lon": -6.0653 }
+  },
+  {
+    "id": "c102",
+    "customer": "S. Walsh",
+    "phone": "+353 86 333 4444",
+    "address": {
+      "line1": "Unit 3",
+      "line2": "Riverside Business Park",
+      "town": "Cork",
+      "county": "Cork",
+      "eircode": "T12 AB34"
+    },
+    "location": { "lat": 51.9036, "lon": -8.4681 }
+  },
+  {
+    "id": "c103",
+    "customer": "P. Ní Bhriain",
+    "phone": "+353 85 555 6666",
+    "address": {
+      "line1": "2 Quay Street",
+      "line2": "",
+      "town": "Galway",
+      "county": "Galway",
+      "eircode": "H91 C5D6"
+    },
+    "location": { "lat": 53.2707, "lon": -9.0533 }
+  },
+  {
+    "id": "c104",
+    "customer": "K. Doyle",
+    "phone": "+353 83 777 8888",
+    "address": {
+      "line1": "The Old Mill",
+      "line2": "Main Street",
+      "town": "Naas",
+      "county": "Kildare",
+      "eircode": "W91 E7F8"
+    },
+    "location": { "lat": 53.2159, "lon": -6.6669 }
+  }
+]
