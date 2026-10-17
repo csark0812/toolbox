@@ -142,12 +142,13 @@ The bar is fixed in [docs/skill-bench.md](docs/skill-bench.md#strong-claim-fixed
 | v4 (27)     | Codex  | 64% (46–81%)            | 2 of 9        | 0.5×             |
 | v5 (27)     | Claude | 73% (59–85%)            | 2 of 9        | 0.8×             |
 | v6 (27)     | Claude | **81% (69–91%)**        | 4 of 9        | 0.7×             |
+| v7 (18)     | Claude | 75% (58–89%)            | 2 of 9        | 0.6×             |
 
 - **Where toolbox leads.** On v3 Claude it was clearly better on hillclimb (24/1/7), code review (14/0/18) and CSS (26/1/1). On v4 Codex it led on hillclimb (28/3/17) and CSS (37/0/11).
 - **Losses.**
   - **v4 Codex code review: 0/36/12.** The reviews stopped after the first blockers and missed findings, such as a guessable `Math.random()` token.
   - **v3 Codex babysit-pr: close to even.** On Codex, PR tasks were also harder than they should be: before the run-local `TMPDIR` fix, the offline mirror's CI could not pass for either pack.
-- **Latest (v6, Claude, Opus judge, answers unseen by the tuning side).** Better on workflow (36/1/11), hillclimb (41/4/3), probe (38/7/3) and CSS (29/5/14). The other five skills lean toolbox but are inconclusive: debugging 32/9, tdd 28/5, code review 25/9, babysit-pr 23/12 and refactor 22/12. The bar is still not met: 81% pooled against 90% required, and not every skill is better. v5 and v6 are Claude-only, judged by Opus (same family). The Codex runs wait for the Codex subscription limit to reset.
+- **Latest (v6, Claude, Opus judge, answers unseen by the tuning side).** Better on workflow (36/1/11), hillclimb (41/4/3), probe (38/7/3) and CSS (29/5/14). The other five skills lean toolbox but are inconclusive: debugging 32/9, tdd 28/5, code review 25/9, babysit-pr 23/12 and refactor 22/12. The bar is still not met: 81% pooled against 90% required, and not every skill is better. v7 (18 tasks, after round-6 fixes) came in at 75% pooled, with 2 of 9 skills better (hillclimb 28/0/4, CSS 14/0/18), at 0.6× tokens. That is within the noise of v6 and not an improvement: Claude results have plateaued at 73–81% since v3. v5 and v6 are Claude-only, judged by Opus (same family). The Codex runs wait for the Codex subscription limit to reset.
 - **What changed between rounds.** Fixes came from judge reasons and were developed against development tasks only:
   - **Auto-invocation on Claude:** valid YAML frontmatter, and short trigger-first descriptions with example requests. Invocation went from 9 of 32 to 14 of 14 on development tasks.
   - **A reply check inside every skill:** a result must name a command that was run after the last edit.
