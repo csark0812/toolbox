@@ -206,6 +206,8 @@ Live dogfood uses the configured Codex subscription in isolated workspaces. Run:
 npm run agent:test:live
 ```
 
+Live runs execute 4 tests at once by default. Set `AGENT_TEST_WORKERS=<n>` to change that; lower it if runs start failing as infrastructure errors from subscription rate limits.
+
 Use `node node_modules/@post-print/agent-test/dist/cli.js viewer --config agent-test.config.ts --port 4179` for the visual run viewer. Local traces are saved under `.agent-test/executions/`. See [`agent-suites/README.md`](agent-suites/README.md).
 
 Toolbox owns portable process-contract behavior (`code-review`, `grill`, …). Consumer repos keep product-specific integration suites that mention local app paths, private docs, custom validation commands, or repo-specific overlays.
