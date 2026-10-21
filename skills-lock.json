@@ -127,12 +127,6 @@
       "skillPath": "workflow/SKILL.md",
       "computedHash": "0c0deb622ceed6f9016b6f5284603d9283f0b00a809ea51306072ae4463d8493"
     },
-    "interface-design": {
-      "source": "csark0812/toolbox",
-      "sourceType": "github",
-      "skillPath": "interface-design/SKILL.md",
-      "computedHash": "0aca0a53abc984aad1bfd41691bf765a85134dcf2d1c8e1dee5cba04e43bc9a3"
-    },
     "css-craft": {
       "source": "csark0812/toolbox",
       "sourceType": "github",

@@ -74,7 +74,7 @@ Canonical recipes live under `references/planning/soft-default/` and are package
 
 Existing committed toolbox process skill dirs keep loading until removed. Delete only vendored copies of registered toolbox skill slugs under project skill dirs; keep product/standards skills; reinstall process skills with `-g`. Soft-default under `.skeleton/customize/` is not a process skill dir. See [docs/tiers.md](docs/tiers.md).
 
-See the [design and CSS source index](references/design-source-index.md) for the source material behind the new design skills. The [replacement matrix](references/design-replacement-matrix.md) maps old capabilities to their new owners. Use the [rendered browser verifier](scripts/check-rendered-interface.mjs) on a served page when proving an interface.
+See the [design and CSS source index](references/design-source-index.md) for the source material behind the new design skills. The [replacement matrix](references/design-replacement-matrix.md) maps old capabilities to their new owners. The [rendered browser verifier](scripts/check-rendered-interface.mjs) checks a served page for overflow, page errors, and primary-action visibility, contrast, and keyboard focus.
 
 ## Skills
 
@@ -88,7 +88,6 @@ See the [design and CSS source index](references/design-source-index.md) for the
 | Process      | review-walkthrough       | Explain a bounded change through the smallest useful causal story                               |
 | Process      | second-opinion           | Adversarial critique of a written artifact — invent lenses; layer council for multi-agent depth |
 | Process      | grill                    | Decision-focused dialogue for unclear intent and consequential design choices                   |
-| Process      | interface-design         | Visual direction options to choose from before a build; routes native and media briefs          |
 | Process      | css-craft                | Focused CSS diagnosis, technique choice, and browser-aware proof                                |
 | Process      | taste                    | Build or polish a page or screen so it looks designed for its subject; screenshot and fix       |
 | Process      | evidence-based-debugging | Reproduce and diagnose failures; demonstrate and verify authorized repairs                      |

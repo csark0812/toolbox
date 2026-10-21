@@ -10,13 +10,6 @@ export const SKILLS = [
     optional: [],
   },
   { slug: 'grill', kind: 'process', invocation: 'automatic', required: [], optional: [] },
-  {
-    slug: 'interface-design',
-    kind: 'process',
-    invocation: 'automatic',
-    required: [],
-    optional: [],
-  },
   { slug: 'css-craft', kind: 'process', invocation: 'automatic', required: [], optional: [] },
   { slug: 'taste', kind: 'process', invocation: 'automatic', required: [], optional: [] },
   { slug: 'second-opinion', kind: 'process', invocation: 'automatic', required: [], optional: [] },
