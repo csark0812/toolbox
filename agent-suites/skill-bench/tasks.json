@@ -201,6 +201,82 @@
       ]
     },
     {
+      "id": "pottery-checkout",
+      "targetSkill": "taste",
+      "check": "kiln-yard-checkout",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "People keep giving up halfway through the checkout in agent-suites/fixtures/kiln-yard-checkout. The README has what the potters want from it. Rebuild it so it is easy to finish, on a phone too."
+      },
+      "criteria": [
+        "A visitor always knows where they are and what is left: clear steps (cart, details, delivery or collection, review), one obvious next action per step, and a way back that keeps what they typed.",
+        "Mistakes are prevented or explained where they happen: a missing or wrong field shows a plain message next to it saying how to fix it (not the browser's bubble), focus or attention goes to the first problem, and nothing typed is lost.",
+        "The cart is read from data/cart.json, quantities and removals update the totals, the delivery charge follows data/shop.json, an empty cart says so with a way back to the shop, and the confirmation shows a KY- reference, the email used and what happens next (payment link after wrapping).",
+        "It looks made for this pottery and stays calm: controls large enough to tap, labels above fields, one primary button per step that responds to hover and keyboard focus, and the money right-aligned and correctly formatted.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
+      "id": "presenter-settings",
+      "targetSkill": "taste",
+      "check": "wharf-radio-settings",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "The settings screen for our station's presenter app in agent-suites/fixtures/wharf-radio-settings needs redoing. The README says what it has to do. Presenters mostly use it on their phones between shows."
+      },
+      "criteria": [
+        "Settings are grouped the way a presenter thinks (profile, notifications, studio defaults), each with real labelled controls read from data/settings.json: switches or checkboxes for each notification, the slot length and the usual studio as choices, a live character count for the bio.",
+        "Saving is never in doubt: unsaved changes are visible, saving confirms what was saved, and a missing or too-long field is marked and explained next to it and blocks the save.",
+        "Leaving the station cannot happen by accident: it is set apart from the other settings, asks for confirmation, and says what will be lost (the three upcoming slots).",
+        "It reads as a well-made app screen with a voice of its own for the station: clear hierarchy, quiet surfaces, comfortable tap targets, visible hover and keyboard focus states, no decorative clutter.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
+      "id": "coworking-pricing",
+      "targetSkill": "taste",
+      "check": "ropewalk-pricing",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "Teams keep emailing to ask what they would pay at our coworking space. Turn the pricing on the page in agent-suites/fixtures/ropewalk-pricing into something that answers that, and make the page feel like the building. The README has the rules."
+      },
+      "criteria": [
+        "The pricing answers what this team would pay: picking a plan, team size and billing updates the monthly total and the yearly bill at once, computed from data/pricing.json (3 fixed desks annually is £612 a month, £7,344 a year; 5 people need two studios at £1,240 a month), with VAT stated once.",
+        "It helps the visitor decide: what the team gets (meeting room hours for the team) and, when studios would cost a fixed-desk team less (from 4 people: £340 a month less for 4), says so and by how much.",
+        "The controls are easy and clear: real labelled controls with a visible selected state, comfortable tap targets, the result visually dominant and changing in place without layout jumps, and visible hover and focus states.",
+        "The page looks designed for this building (a long Victorian ropewalk), not a SaaS pricing template: no three identical cards with shadows, the story, hall, address and booking link kept and improved.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
+      "id": "planning-applications",
+      "targetSkill": "taste",
+      "check": "parish-planning",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "Our parish council's planning applications screen in agent-suites/fixtures/parish-planning is one huge table nobody can use. Redesign it for the clerk and councillors; the README explains how they use it."
+      },
+      "criteria": [
+        "What needs the council's comment comes first: applications under consultation with the date comments close and days left (the Old Net Loft closes 30 Oct, 9 days away), closing soon standing out without relying on colour alone.",
+        "Finding things is fast: search by reference, address or proposal as you type, ward and status filters, and a count of what matches.",
+        "An empty result says so plainly, names the search or filters that caused it, and offers one action that clears them; the data is rendered from data/applications.json and dates read as 30 Oct 2026.",
+        "It reads as a dense but calm working screen: aligned columns, a clear type scale, status shown with text, quiet surfaces, visible hover and focus on rows and controls.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
       "id": "toolbar-danger-variant",
       "targetSkill": "css-craft",
       "check": "editor-toolbar",

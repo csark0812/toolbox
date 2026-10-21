@@ -1,0 +1,34 @@
+{
+  "currency": "GBP",
+  "vat": "Prices exclude VAT at 20%",
+  "annualDiscount": 0.15,
+  "teamSize": { "min": 1, "max": 20 },
+  "plans": [
+    {
+      "id": "hot-desk",
+      "name": "Hot desk",
+      "unit": "person",
+      "monthly": 150,
+      "meetingHours": 2,
+      "summary": "Any free desk along the hall, weekdays 8:00 to 19:00"
+    },
+    {
+      "id": "fixed-desk",
+      "name": "Fixed desk",
+      "unit": "person",
+      "monthly": 240,
+      "meetingHours": 4,
+      "summary": "Your own desk and locker, 24-hour key fob"
+    },
+    {
+      "id": "studio",
+      "name": "Private studio",
+      "unit": "studio",
+      "capacity": 4,
+      "monthly": 620,
+      "meetingHours": 8,
+      "summary": "A lockable glass studio for up to 4 at the far end of the hall"
+    }
+  ],
+  "dayPass": 22.5
+}

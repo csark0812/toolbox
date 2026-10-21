@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Planning applications</title>
+    <style>
+      body {
+        font-family: 'Times New Roman', serif;
+        margin: 16px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 1200px;
+      }
+      td,
+      th {
+        border: 1px solid #999;
+        padding: 4px;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Planning applications</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Ref</th>
+          <th>Address</th>
+          <th>Ward</th>
+          <th>Proposal</th>
+          <th>Status</th>
+          <th>Received</th>
+          <th>Decision due</th>
+          <th>Comments close</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <script>
+      fetch('data/applications.json')
+        .then((response) => response.json())
+        .then((data) => {
+          document.getElementById('rows').innerHTML = data.applications
+            .map(
+              (app) =>
+                `<tr><td>${app.ref}</td><td>${app.address}</td><td>${app.ward}</td><td>${app.proposal}</td><td>${app.status}</td><td>${app.received}</td><td>${app.decisionDue}</td><td>${app.commentsClose ?? ''}</td></tr>`,
+            )
+            .join('')
+        })
+    </script>
+  </body>
+</html>
