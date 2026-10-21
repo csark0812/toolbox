@@ -50,7 +50,8 @@ async function setTeam(tab, size) {
   const field = tab
     .getByRole('spinbutton')
     .or(tab.getByRole('slider'))
-    .or(tab.getByLabel(/team|people|how many|seats|members/i).locator('visible=true'))
+    .or(tab.getByLabel(/team|people|how many|seats|members/i).and(tab.locator('input, select')))
+    .filter({ visible: true })
     .first()
   const tag = await field.evaluate((el) => el.tagName.toLowerCase())
   if (tag === 'select') await field.selectOption(String(size))

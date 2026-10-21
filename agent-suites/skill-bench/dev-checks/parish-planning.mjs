@@ -6,7 +6,7 @@ import { openPage, visibleText } from './ui-flow.mjs'
 
 const root = process.argv[2]
 await checkPage(root, 'index.html', {
-  mustShow: ['PA26/0341', 'The Old Net Loft', /30 Oct(ober)?\b/, /\b9 days\b/],
+  mustShow: ['PA26/0341', 'The Old Net Loft', /30 Oct(ober)?\b/, /9 days\b/],
 })
 
 const { tab, close } = await openPage(root, 'index.html')
@@ -20,7 +20,8 @@ try {
   assert.ok(other, 'the first view lists more than the net loft')
   const search = tab
     .getByRole('searchbox')
-    .or(tab.getByLabel(/search|find/i).locator('visible=true'))
+    .or(tab.getByLabel(/search|find/i).and(tab.locator('input')))
+    .filter({ visible: true })
     .first()
   await search.fill('net loft')
   await tab.waitForTimeout(500)

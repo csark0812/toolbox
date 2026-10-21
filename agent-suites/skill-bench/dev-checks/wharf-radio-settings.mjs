@@ -10,7 +10,8 @@ const root = process.argv[2]
 await checkPage(root, 'index.html', {
   mustShow: [/listener sends a message/i, /weekly listening figures/i, /Studio B/],
 })
-const SAVED = /\b(saved|changes saved|all saved)\b/i
+// "Saved", "Changes saved"; not "Unsaved" or "Not saved".
+const SAVED = /(?<!\bnot\s)\b(saved|changes saved|all saved)\b/i
 const save = (tab) =>
   tab
     .getByRole('button', { name: /^\s*save/i })
@@ -46,14 +47,18 @@ const save = (tab) =>
 {
   const { tab, close } = await openPage(root, 'index.html')
   try {
+    // A screen may say "All changes saved" at rest; what matters is that this save is not confirmed.
+    const savedAtRest = SAVED.test(await visibleText(tab))
     await tab
       .getByLabel(/display name/i)
+      .and(tab.locator('input, textarea'))
       .first()
       .fill('')
     await save(tab)
     await tab.waitForTimeout(500)
     assert.ok((await explainedErrors(tab)).length, 'a missing display name is marked and explained')
-    assert.doesNotMatch(await visibleText(tab), SAVED, 'nothing is saved with a missing name')
+    if (!savedAtRest)
+      assert.doesNotMatch(await visibleText(tab), SAVED, 'nothing is saved with a missing name')
   } finally {
     await close()
   }

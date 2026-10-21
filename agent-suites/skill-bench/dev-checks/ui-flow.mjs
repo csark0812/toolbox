@@ -136,6 +136,9 @@ const NOT_FORWARD = /back|previous|remove|edit|change|delete|cancel|shop|browse/
 /** Press the visible button that moves the flow forward. Resolves to its text, or null. */
 export async function pressForward(tab) {
   const buttons = tab.locator('button, input[type="submit"], [role="button"], a.button, a.btn')
+  // The flow's own next button, not a step in a progress list: a submit button or one whose label
+  // starts with a forward verb scores higher; one inside a nav, list or tab list scores lower.
+  let best = null
   for (let index = 0; index < (await buttons.count()); index++) {
     const button = buttons.nth(index)
     if (!(await button.isVisible().catch(() => false))) continue
@@ -143,11 +146,19 @@ export async function pressForward(tab) {
     const text = (
       (await button.innerText().catch(() => '')) || (await button.inputValue().catch(() => ''))
     ).trim()
-    if (FORWARD.test(text) && !NOT_FORWARD.test(text)) {
-      await button.click({ timeout: 5000 }).catch(() => {})
-      await tab.waitForTimeout(500)
-      return text
-    }
+    if (!FORWARD.test(text) || NOT_FORWARD.test(text)) continue
+    const where = await button.evaluate((el) => ({
+      submit: el.type === 'submit',
+      inList: Boolean(el.closest('nav, ol, ul, [role="tablist"]')),
+    }))
+    const score =
+      (/^(continue|next|review|place|confirm|checkout|proceed|go to|pay)/i.test(text) ? 2 : 0) +
+      (where.submit ? 1 : 0) -
+      (where.inList ? 5 : 0)
+    if (!best || score >= best.score) best = { button, text, score }
   }
-  return null
+  if (!best) return null
+  await best.button.click({ timeout: 5000 }).catch(() => {})
+  await tab.waitForTimeout(500)
+  return best.text
 }
