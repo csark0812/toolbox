@@ -22,6 +22,7 @@ A skill ships or stays only if it beats its baseline in this bench. Conformance 
    - The judge is from the other model family than the runs it grades (Opus for Codex runs, Codex for Claude runs), working in an empty temporary folder. `SKILL_BENCH_JUDGE=claude|codex` overrides this when a family is unavailable, and the report names the judge model.
    - It sees the task, the criteria, and two versions labelled A and B. Skill and pack names and skill paths are masked everywhere it reads.
    - It grades from actions and checks, not from claims in the reply.
+   - A visual task (one with `render`) adds pictures taken the same way for every arm by `scripts/lib/bench-render.mjs`: every screen at 390 and 1440px, plus motion and interaction frames at 1440px. The frames show the first screen 0, 300 and 1200ms after load, the first button or button-styled link at rest, on hover and on keyboard focus, the next two sections as they scroll in and once settled, and the first screen with reduced motion. The judge sees them in labelled groups under neutral names.
    - Controls: identical pairs, known-gap pairs (a run against a twin with the work removed) and re-tests.
 6. **Verdict.** `scripts/skill-bench-report.mjs` applies the rules in `scripts/lib/pairwise-stats.mjs`, ported from the UI bench:
    - **Better:** win rate ≥ 60%, bootstrap lower bound > 50%, and no more hard-check failures than the baseline.

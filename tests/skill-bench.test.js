@@ -6,6 +6,8 @@ import {
   blindingLeaks,
   checksDir,
   degrade,
+  FRAME_GROUPS,
+  frameName,
   HELD_OUT_SETS,
   maskSkillNames,
   parseVerdict,
@@ -129,6 +131,47 @@ describe('skill bench pairs and controls', () => {
     expect(view).not.toContain('.agent-test')
     expect(renderRun(degrade(visual), 'A')).toContain('the page did not render')
     expect(renderRun(run(), 'A')).not.toContain('Rendered page')
+  })
+
+  it('a visual run lists its motion frames by group under neutral names', () => {
+    const frames = [
+      {
+        file: '.agent-test/x/full__0.frames/frame-load-0ms.jpg',
+        group: 'entrance',
+        step: 'load-0ms',
+      },
+      {
+        file: '.agent-test/x/full__0.frames/frame-action-hover.jpg',
+        group: 'action',
+        step: 'action-hover',
+      },
+      {
+        file: '.agent-test/x/full__0.frames/frame-reduced-motion.jpg',
+        group: 'reduced-motion',
+        step: 'reduced-motion',
+      },
+    ]
+    const visual = run({
+      screenshots: [],
+      frames,
+      frameNotes: ['Only 1 section(s) were found below the first screen.'],
+    })
+    const names = frames.map((frame) => frameName('B', frame))
+    expect(names[0]).toBe('B-frame-load-0ms.jpg')
+    const view = renderRun(visual, 'B', { frameNames: names })
+    expect(view).toContain('## Motion and interaction')
+    expect(view).toContain(`### ${FRAME_GROUPS.entrance}`)
+    expect(view).toContain(`### ${FRAME_GROUPS.action}`)
+    expect(view).not.toContain(`### ${FRAME_GROUPS.scroll}`)
+    expect(view.indexOf('B-frame-load-0ms.jpg')).toBeLessThan(view.indexOf('B-frame-action-hover'))
+    expect(view).toContain('Note: Only 1 section(s)')
+    expect(view).not.toContain('.agent-test')
+    // A frame whose file could not be copied is left out.
+    expect(renderRun(visual, 'B', { frameNames: [names[0], null, names[2]] })).not.toContain(
+      'action-hover',
+    )
+    expect(degrade(visual).frames).toEqual([])
+    expect(renderRun(run({ screenshots: [] }), 'A')).not.toContain('Motion and interaction')
   })
 
   it('parses the last verdict object and rejects a bad winner', () => {
@@ -382,4 +425,33 @@ describe('saturated verdict', () => {
       'inconclusive',
     )
   })
+})
+
+describe('motion and interaction frames', async () => {
+  const { captureFrames, chromePath, FRAME_PLAN } = await import('../scripts/lib/bench-render.mjs')
+  const { mkdtempSync, writeFileSync } = await import('node:fs')
+  const { tmpdir } = await import('node:os')
+  const page = `<!doctype html><html><head><style>
+    body { margin: 0; font: 18px sans-serif }
+    header { height: 900px } section { height: 700px }
+    h1 { animation: rise 1s ease-out both } @keyframes rise { from { opacity: 0 } }
+    nav a { padding: 0 } .cta { display: inline-block; padding: 12px 20px; background: #135; color: #fff }
+    .cta:hover { background: #246 } .cta:focus-visible { outline: 3px solid #f80 }
+    @media (prefers-reduced-motion: reduce) { h1 { animation: none } }
+  </style></head><body><header><nav><a href="#a">Plain link</a></nav><h1>Title</h1>
+  <a class="cta" href="#order">Order bread</a></header>
+  <main><section id="a">Two</section><section>Three</section><section>Four</section></main></body></html>`
+
+  it.skipIf(!chromePath())(
+    'takes every planned frame, finds the button-styled link and the next two sections',
+    async () => {
+      const dir = mkdtempSync(join(tmpdir(), 'frames-'))
+      writeFileSync(join(dir, 'index.html'), page)
+      const { frames, notes } = await captureFrames(dir, 'index.html', join(dir, 'out'))
+      expect(notes).toEqual([])
+      expect(frames.map((frame) => frame.step)).toEqual(FRAME_PLAN.map((frame) => frame.step))
+      for (const frame of frames) expect(existsSync(frame.file)).toBe(true)
+    },
+    60000,
+  )
 })

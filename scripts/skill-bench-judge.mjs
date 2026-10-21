@@ -13,6 +13,7 @@ import {
 import {
   JUDGE_RUBRIC,
   degrade,
+  frameName,
   parseVerdict,
   planPairs,
   renderRun,
@@ -214,17 +215,27 @@ export async function judgePair({
       const shots = run.screenshots ?? []
       for (const shot of shots)
         await copyFile(shot.file, join(sealed.path, screenshotName(label, shot)))
+      // Motion and interaction frames likewise; a frame whose file is gone is left out of the list.
+      const frames = []
+      for (const frame of run.frames ?? [])
+        frames.push(
+          await copyFile(frame.file, join(sealed.path, frameName(label, frame))).then(
+            () => frameName(label, frame),
+            () => null,
+          ),
+        )
       await writeFile(
         join(sealed.path, names[label]),
         renderRun(run, label, {
           skillNames,
           screenshotNames: shots.map((shot) => screenshotName(label, shot)),
+          frameNames: frames,
         }),
       )
     }
     const prompt = `${JUDGE_RUBRIC}${visual ? `\n\n${VISUAL_RUBRIC}` : ''}
 
-Read task.md, then read ${names.A} and ${names.B} in full with whatever file-reading tool you have.${visual ? ' Then open every screenshot file each version lists.' : ''}
+Read task.md, then read ${names.A} and ${names.B} in full with whatever file-reading tool you have.${visual ? ' Then open every screenshot and frame file each version lists.' : ''}
 
 Reply with only this JSON:
 {"scoreA": 1-5, "scoreB": 1-5, "winner": "A" | "B" | "tie", "confidence": 1 | 2 | 3, "reasons": ["short reason", "..."]}`

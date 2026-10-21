@@ -102,7 +102,11 @@ export function maskSkillNames(text, names = []) {
  * The judge's view of one run: reply, changes, actions and automatic checks.
  * It carries no arm, skill, pack or model name: skill identities are masked with `<skill>`.
  */
-export function renderRun(run, label, { skillNames = [], screenshotNames = [] } = {}) {
+export function renderRun(
+  run,
+  label,
+  { skillNames = [], screenshotNames = [], frameNames = [] } = {},
+) {
   const mask = (text) => maskSkillNames(text, skillNames)
   const checks = run.hardCheck.passed
     ? 'All automatic checks passed.'
@@ -133,6 +137,7 @@ export function renderRun(run, label, { skillNames = [], screenshotNames = [] } 
     mask(checks),
     '',
     ...(run.screenshots ? renderedSection(run, screenshotNames) : []),
+    ...(run.frames ? framesSection(run, frameNames) : []),
   ].join('\n')
 }
 
@@ -152,6 +157,37 @@ function renderedSection(run, names) {
   ]
 }
 
+/** What each group of motion and interaction frames shows, in the order the judge reads them. */
+export const FRAME_GROUPS = {
+  entrance:
+    'Entrance: the first screen at desktop width 0ms, 300ms and 1200ms after the page loaded.',
+  action:
+    "The first screen's primary action (its first button, or link styled as one), cropped: at rest, with the pointer over it, and reached with the Tab key.",
+  scroll:
+    'Scrolling: each of the next two sections just as it comes into view, then after it has settled.',
+  'reduced-motion':
+    'The first screen just after load with the visitor’s reduced-motion setting on: content should be there and still.',
+}
+
+/** The motion and interaction frames for one version, grouped and labelled. */
+function framesSection(run, names) {
+  const notes = (run.frameNotes ?? []).map((note) => `Note: ${note}`)
+  if (!names.length)
+    return ['## Motion and interaction', '', ...(notes.length ? notes : ['No frames.']), '']
+  const lines = ['## Motion and interaction', '']
+  for (const [group, caption] of Object.entries(FRAME_GROUPS)) {
+    const files = run.frames
+      .map((frame, index) => ({ frame, name: names[index] }))
+      .filter(({ frame, name }) => frame.group === group && name)
+    if (!files.length) continue
+    lines.push(`### ${caption}`, '', ...files.map(({ name }) => `- ${name}`), '')
+  }
+  return [...lines, ...notes, ...(notes.length ? [''] : [])]
+}
+
+/** A frame's file name as the judge sees it: `A-frame-load-300ms.jpg` and so on. */
+export const frameName = (label, frame) => `${label}-frame-${frame.step}.jpg`
+
 /** Screenshot file names for one version as the judge sees them: `A-phone-1.jpg` and so on. */
 export const screenshotName = (label, shot) => `${label}-${shot.viewport}-${shot.screen}.jpg`
 
@@ -166,6 +202,7 @@ export function degrade(run) {
     toolCalls: [],
     hardCheck: { passed: false, failure: 'no work was done' },
     ...(run.screenshots ? { screenshots: [], screenshotsTruncated: [] } : {}),
+    ...(run.frames ? { frames: [], frameNotes: [] } : {}),
   }
 }
 
@@ -211,7 +248,18 @@ width. Open and look at every screenshot before scoring. Judge the page a visito
 looks deliberately designed for this subject rather than like a generic template, the hierarchy and
 first-screen clarity, typography, colour, spacing and composition, whether the requested content is all
 there and readable, and whether the phone layout holds up. Something broken or missing in a screenshot
-counts even if the reply says otherwise. Code quality and process still count, but after the result.`
+counts even if the reply says otherwise. Code quality and process still count, but after the result.
+
+A version may also list motion and interaction frames, taken the same way for every version. Use them
+to judge how the page behaves, not only how it rests:
+- Entrance: content that is missing, blank or half-faded at 1200ms, or a first screen that is empty at
+  0ms and only appears later, costs the visitor time; a quick, ordered settle is fine, and so is none.
+- Feedback: the primary action should visibly respond to the pointer and show a clear focus indicator
+  from the keyboard. No visible change on hover or focus is a defect; so is a focus ring that is hard to see.
+- Scrolling: a section that is still hidden or faded once settled is broken. Motion should guide the eye
+  to the section's content, not delay it.
+- Reduced motion: the content must be present and readable. Hidden content there is a defect.
+More motion is not better in itself; judge whether it helps the visitor read and act.`
 
 /** Every balanced, string-aware `{...}` span in the text, in order. */
 function jsonObjects(text) {

@@ -14,7 +14,7 @@ import {
   type Claim,
 } from '../v2/support'
 import { blindingLeaks, checksDir, TASK_SETS } from '../../scripts/lib/skill-bench-material.mjs'
-import { captureScreens } from '../../scripts/lib/bench-render.mjs'
+import { captureFrames, captureScreens } from '../../scripts/lib/bench-render.mjs'
 
 const BENCH_ROOT = 'projects'
 // --taskset picks a frozen held-out set (holdout, holdout-v2); the default is the development tasks.
@@ -183,6 +183,9 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
         // A visual task's page is photographed outside the run, so the judge sees it as a visitor would.
         let screenshots: { file: string; viewport: string; screen: number }[] = []
         let screenshotsTruncated: string[] = []
+        // Motion and interaction frames: entrance, the primary action's states, scroll-ins, reduced motion.
+        let frames: { file: string; group: string; step: string }[] = []
+        let frameNotes: string[] = []
         if (task.render)
           try {
             const shots = await captureScreens(
@@ -198,6 +201,18 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
               failure: `page could not be rendered: ${String(error).slice(0, 400)}`,
             }
           }
+        if (task.render && screenshots.length)
+          try {
+            const captured = await captureFrames(
+              holdoutDir(run.workspace.root, task),
+              task.render.page,
+              join(benchDir, file.replace(/\.json$/, '.frames')),
+            )
+            frames = captured.frames
+            frameNotes = captured.notes
+          } catch (error) {
+            frameNotes = [`The motion frames could not be taken: ${String(error).slice(0, 300)}`]
+          }
         const record = {
           task: task.id,
           arm,
@@ -210,7 +225,7 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
           hardCheck,
           durationMs: run.durationMs,
           tokens: run.usage.tokens.total ?? null,
-          ...(task.render ? { screenshots, screenshotsTruncated } : {}),
+          ...(task.render ? { screenshots, screenshotsTruncated, frames, frameNotes } : {}),
         }
         await save(record)
       },
