@@ -9,7 +9,7 @@ Motion explains change: where something came from, what responded to the visitor
 
 - **Always:** feedback on every control (hover, press, keyboard focus, selected), and state changes the visitor caused (a step advancing, a total updating, a panel opening, an error appearing).
 - **Usually, briefly:** the first screen settling in on load, and sections arriving as they scroll in.
-- **Rarely:** anything that loops, moves on its own, or ties to the scroll position. One such move per page at most, and only when it says something about the subject.
+- **Rarely:** anything that loops, moves on its own, or ties to the scroll position. One such move per page at most, and only when it says something about the subject. If it moves by itself for more than 5s (a carousel, a ticker, a looping figure), give it a visible pause control.
 - **Never:** motion that hides content until it finishes, moves text while it is being read, or makes the visitor wait to act.
 
 ## Timing
@@ -32,7 +32,7 @@ Motion explains change: where something came from, what responded to the visitor
 
 - **The first screen is readable from the first frame.** The headline and the primary action are there at first paint; at most they settle a few pixels. Secondary pieces (the supporting line, the picture, the details) may follow.
 - **One lead, then the rest.** Order the entrance by reading order: headline, supporting line, action, picture. Stagger 40–80ms between items and keep the whole sequence under about 600ms, so by the time someone has read the headline everything is still.
-- **Small travel.** Rise 8–24px with a fade from a visible start (opacity 0.01 to 1 is fine for a secondary item, never for the headline). Large slides and zooms draw the eye away from the words.
+- **Small travel.** Rise 8–24px with a fade. Secondary items may start from opacity 0, but only under the `.js` class (see Scroll entrances); the headline never starts hidden. Large slides and zooms draw the eye away from the words.
 - **Animate `transform` and `opacity` only.** Animating width, height, top or margins causes jank and moves the layout under the reader.
 - **No layout jumps.** Reserve space for what will appear (an error message, a changing total) so nothing below it shifts.
 
@@ -45,12 +45,11 @@ Motion explains change: where something came from, what responded to the visitor
 
 ## Feedback on controls
 
-- **Hover:** a clear change in tone, underline or border for links and buttons, 100–150ms. Something that only changes the cursor gives no feedback.
+SKILL.md sets hover, press, focus and selected states and their timing. In addition:
+
 - **Press:** an immediate, smaller change (a darker tone, a 1–2px shift down, or scale to about 0.98).
-- **Keyboard focus:** a visible ring with at least 3:1 contrast against its surroundings, offset so it does not touch the text, styled with `:focus-visible`. Never remove the outline without a replacement. Focus must not be hidden behind a sticky bar.
-- **Selected and current:** a choice that is on (a plan, a step, a filter, a tab) looks on without hovering: filled, bordered or marked, never shown by colour alone.
-- **Working:** an action that takes longer than about a fifth of a second shows that it is working (the button's label changes, or a small spinner inside it) and cannot be pressed twice.
-- **Results:** when a total, count or list changes, show the new value in place; a brief highlight (200ms) on what changed helps the eye find it.
+- **Selected and current:** marked by fill, border or a mark as well as colour.
+- **Results:** a brief highlight (200ms) on a value that changed helps the eye find it.
 
 ## Reduced motion
 

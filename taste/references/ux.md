@@ -16,10 +16,10 @@ Read this whenever the page has something to do: a form, a flow, a calculator, f
 
 ## Actions
 
-- **One primary action per view,** filled in the accent. Secondary actions are outlined or plain; tertiary ones look like links. Two filled buttons side by side make the visitor choose before they understand.
+- **Below the one filled primary action** (SKILL.md), tertiary actions look like links.
 - **Name actions for their result:** "Place order", "Save changes", "Leave the station", never "Submit" or "OK".
 - **Destructive actions** sit apart, look quiet until chosen, and confirm with the consequence spelled out ("This removes your account and your 3 booked slots"). The confirm button names the action.
-- **Targets:** at least 24px in both directions everywhere, 44px for anything on a phone that is not a link inside running text, with space between neighbours.
+- **Space between neighbouring targets,** so a thumb never lands on two.
 
 ## Forms and flows
 
@@ -36,8 +36,10 @@ Every screen that loads, filters, saves or submits has more states than the happ
 - **Empty:** what would be here, why it is empty, and the one action that fills it ("Your cart is empty. Back to the shop"). Hide filters and totals that have nothing to work on.
 - **No results:** say nothing matched, repeat the search or filters that caused it, and offer one action that clears them.
 - **Loading:** keep the layout's shape so nothing jumps when data arrives.
+- **Working:** disable the button the moment it is pressed so it cannot be sent twice; show a busy label or spinner only if the wait passes about 0.4–1s, so quick actions do not flicker.
 - **Error:** what went wrong in the visitor's terms and what to do; never only a red border.
 - **Unsaved and saved:** a visible note when there are changes not yet saved, and a confirmation after saving that says what was saved.
+- **Announced:** live totals, match counts and save confirmations sit in an `aria-live="polite"` region, so a screen reader hears the change without losing its place.
 - **Success:** the confirmation is a page of its own weight: what happened, the reference, where the email went, what comes next.
 
 ## Interactive sections
