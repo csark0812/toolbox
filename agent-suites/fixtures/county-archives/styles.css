@@ -1,0 +1,13 @@
+.page {
+  font-size: 12px;
+  border: 2px solid #ff6600;
+}
+
+.page h3 {
+  color: #ff6600;
+  font-family: Arial, sans-serif;
+}
+
+.page td {
+  padding: 4px;
+}

@@ -1,0 +1,70 @@
+/* Hollinshire County Council brand: shared by every council site. Owned by Communications.
+   Do not edit; request changes through the brand team. */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap');
+
+:root {
+  --hc-green: #1f4d3a;
+  --hc-green-light: #dfe9e3;
+  --hc-stone: #f3efe6;
+  --hc-slate: #2e3440;
+  --hc-slate-muted: #5c6370;
+  --hc-gold: #b8862b;
+  --hc-alert: #a12a2a;
+  --hc-white: #ffffff;
+  --hc-font-display: 'Libre Baskerville', Georgia, serif;
+  --hc-font-text: 'Source Sans 3', 'Segoe UI', Arial, sans-serif;
+  --hc-radius: 4px;
+  --hc-space: 8px;
+}
+
+body {
+  margin: 0;
+  background: var(--hc-stone);
+  color: var(--hc-slate);
+  font-family: var(--hc-font-text);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--hc-font-display);
+  color: var(--hc-green);
+  line-height: 1.2;
+}
+
+a {
+  color: var(--hc-green);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--hc-gold);
+  outline-offset: 2px;
+}
+
+.hc-masthead {
+  background: var(--hc-green);
+  color: var(--hc-white);
+  padding: calc(var(--hc-space) * 2) calc(var(--hc-space) * 3);
+  font-family: var(--hc-font-display);
+  font-weight: 700;
+}
+
+.hc-masthead a {
+  color: var(--hc-white);
+}
+
+.hc-footer {
+  background: var(--hc-slate);
+  color: var(--hc-stone);
+  padding: calc(var(--hc-space) * 4) calc(var(--hc-space) * 3);
+  font-size: 0.9375rem;
+}
+
+.hc-footer a {
+  color: var(--hc-stone);
+}

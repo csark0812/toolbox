@@ -1,13 +1,13 @@
 ---
 name: workflow
-description: Start here for repo work with several steps or items - a bug fix, a TODO batch, a feature, a refactor, a speed target, a PR to merge-ready, or resuming work. Runs a step playbook and routes to specialists. Not one task already aimed at a skill.
-when_to_use: Requests such as "go through this checklist and commit each fix", "fix these three things and commit each one", "take this from bug report to a reviewed fix", "pick up where the last session left off", "handle this list of issues".
+description: Use whenever a request lists two or more jobs, fixes or changes, especially one commit each, even if each looks small; also for a bug report to reviewed fix, or resuming work. Runs a step playbook and routes to specialists. Not one task already aimed at a skill.
+when_to_use: A numbered or bulleted list of changes, such as "a few things from the team, one commit each", "go through this checklist and commit each fix", "fix these three things", "pick up where the last session left off".
 ---
 
 # Workflow
 
 <!-- source-of-truth: Route engineering work and coordinate ownership sessions when the user wants to understand, adopt, change, or verify agent-created work -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-21 -->
 
 ## Route
 

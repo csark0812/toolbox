@@ -35,7 +35,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "evidence-based-debugging/SKILL.md",
-      "computedHash": "46a69a0457215b28590f469d0af78d29b6aeaad141e5b1f343c400836843ed1d"
+      "computedHash": "92bdcf6764b91d690c4cfe5e7c3bd7c8c754b394b2bbbc7171713738be1affb2"
     },
     "grill": {
       "source": "csark0812/toolbox",
@@ -65,7 +65,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "probe/SKILL.md",
-      "computedHash": "3dd7e6fbe908090c3e6472a961f7d1ea26d33c540fc0ddc87b0844710e7b782c"
+      "computedHash": "b4e06dcc54dda4461f5d201855b8269ce54c98228bb996f190b89cdef9df31b7"
     },
     "prototype": {
       "source": "csark0812/toolbox",
@@ -77,7 +77,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "refactor-companion/SKILL.md",
-      "computedHash": "d1b4a6c8d9e7db71edbe989fd04402d9370e859dfd8ae5fd91bee3de652e3191"
+      "computedHash": "1005701b9cd63125c4692aa521ec4a47e0042d1939c24aa1317e56f5431fb56e"
     },
     "retro": {
       "source": "csark0812/toolbox",
@@ -107,7 +107,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "tdd/SKILL.md",
-      "computedHash": "7c81c86ec2e93f3108235e7c01252892b40018de67954ea55790c8909c6855de"
+      "computedHash": "e773ea4372b5db8ef30d5035ab44cf414309fdd93f91087274cbf76057343bbe"
     },
     "technical-writing": {
       "source": "csark0812/toolbox",
@@ -125,7 +125,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "workflow/SKILL.md",
-      "computedHash": "0c0deb622ceed6f9016b6f5284603d9283f0b00a809ea51306072ae4463d8493"
+      "computedHash": "94ae973faf275c12e17c106263f81d0f183729cd81ed7455759c59997df02780"
     },
     "css-craft": {
       "source": "csark0812/toolbox",

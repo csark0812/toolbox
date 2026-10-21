@@ -3,7 +3,8 @@
 // width. Every arm's page is photographed the same way; the judge sees only these pictures.
 /* global document, getComputedStyle, window */
 import { createServer } from 'node:http'
-import { existsSync, mkdirSync, readFileSync, statSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync } from 'node:fs'
+import { homedir } from 'node:os'
 import { extname, join, normalize, relative, resolve } from 'node:path'
 import { chromium } from 'playwright'
 
@@ -39,7 +40,12 @@ const TYPES = {
 export async function serve(root) {
   const base = resolve(root)
   const server = createServer((request, response) => {
-    const path = decodeURIComponent(new URL(request.url, 'http://local').pathname)
+    let path
+    try {
+      path = decodeURIComponent(new URL(request.url, 'http://local').pathname)
+    } catch {
+      return response.writeHead(400).end()
+    }
     let file = normalize(join(base, path))
     if (relative(base, file).startsWith('..')) return response.writeHead(403).end()
     if (existsSync(file) && statSync(file).isDirectory()) file = join(file, 'index.html')
@@ -54,20 +60,57 @@ export async function serve(root) {
   }
 }
 
-/**
- * The browser every arm and the judge's camera use: CHROME_PATH, else a preinstalled Chromium or
- * Chrome, else Playwright's own download. The bench passes it to runs as CHROME_PATH.
- */
-export function chromePath() {
-  const candidates = [
+/** Chromium executables inside a Playwright browser cache, newest revision first. */
+function playwrightCache(dir) {
+  if (!dir || !existsSync(dir)) return []
+  const builds = readdirSync(dir)
+    .filter((name) => /^chromium-\d+$/.test(name))
+    .sort((a, b) => Number(b.split('-')[1]) - Number(a.split('-')[1]))
+  return builds.flatMap((build) =>
+    [
+      'chrome-linux/chrome',
+      'chrome-linux64/chrome',
+      'chrome-mac/Chromium.app/Contents/MacOS/Chromium',
+      'chrome-mac-arm64/Chromium.app/Contents/MacOS/Chromium',
+      'chrome-mac/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing',
+      'chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing',
+    ].map((tail) => join(dir, build, tail)),
+  )
+}
+
+/** Every place a Chromium or Chrome is looked for, in order of preference. */
+export function chromeCandidates() {
+  let bundled
+  try {
+    bundled = chromium.executablePath()
+  } catch {
+    bundled = undefined
+  }
+  return [
     process.env.CHROME_PATH,
     '/opt/pw-browsers/chromium',
+    ...playwrightCache(process.env.PLAYWRIGHT_BROWSERS_PATH),
+    ...playwrightCache('/opt/pw-browsers'),
+    ...playwrightCache(join(homedir(), '.cache', 'ms-playwright')),
+    ...playwrightCache(join(homedir(), 'Library', 'Caches', 'ms-playwright')),
+    bundled,
     '/usr/bin/chromium',
+    '/usr/bin/chromium-browser',
     '/usr/bin/google-chrome',
+    '/usr/bin/google-chrome-stable',
+    '/snap/bin/chromium',
     '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
     '/Applications/Chromium.app/Contents/MacOS/Chromium',
-  ]
-  return candidates.find((path) => path && existsSync(path))
+  ].filter(Boolean)
+}
+
+/**
+ * The browser every arm and the judge's camera use: CHROME_PATH, else a Playwright download, else
+ * a system Chromium or Chrome. The bench passes it to runs as CHROME_PATH. Undefined when none is
+ * installed.
+ */
+export function chromePath() {
+  return chromeCandidates().find((path) => existsSync(path))
 }
 
 export async function launchBrowser() {
@@ -85,6 +128,17 @@ export async function launchBrowser() {
 const pause = (ms) => new Promise((done) => setTimeout(done, ms))
 
 /**
+ * Open `url` in `tab` the same way for every page: wait for the load event, then give the network a
+ * few seconds to go quiet (a page that keeps polling never does, and is not broken for it), then
+ * wait for web fonts.
+ */
+export async function openPage(tab, url) {
+  await tab.goto(url, { waitUntil: 'load', timeout: 30000 })
+  await tab.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {})
+  await tab.evaluate(() => document.fonts?.ready.then(() => true)).catch(() => {})
+}
+
+/**
  * Photograph `page` (a path relative to `root`) screen by screen at each viewport into `outDir`.
  * Returns [{ file, viewport, screen }] plus whether any viewport was cut off at MAX_SCREENS.
  */
@@ -99,10 +153,12 @@ export async function captureScreens(root, page, outDir) {
       const tab = await browser.newPage({
         viewport: { width: viewport.width, height: viewport.height },
       })
-      await tab.goto(`${server.url}/${page}`, { waitUntil: 'networkidle', timeout: 30000 })
+      await openPage(tab, `${server.url}/${page}`)
       const height = () => tab.evaluate(() => document.documentElement.scrollHeight)
-      // Scroll through once so observers and lazy pictures fire, then return to the top.
-      for (let y = 0; y < (await height()); y += viewport.height / 2) {
+      // Scroll through once so observers and lazy pictures fire, then return to the top. Only as far
+      // as the screens photographed: a page that grows as it scrolls would never end.
+      const limit = MAX_SCREENS * viewport.height
+      for (let y = 0; y < Math.min(await height(), limit); y += viewport.height / 2) {
         await tab.evaluate((top) => window.scrollTo(0, top), y)
         await pause(150)
       }
@@ -131,8 +187,9 @@ export const FRAME_VIEWPORT = VIEWPORTS.find((viewport) => viewport.name === 'de
 
 /**
  * The fixed frame set every arm gets, in the order the judge sees it. `group` labels the judge's
- * view; `step` names the file. Entrance times count from the load event with animations frozen
- * between frames, so a frame shows the page at that moment however long the camera takes.
+ * view; `step` names the file. Entrance times count from the load event with CSS animations and
+ * the page's script clock frozen between frames, so a frame shows the page at that moment however
+ * long the camera takes, for CSS and script-driven motion alike.
  */
 export const FRAME_PLAN = [
   { group: 'entrance', step: 'load-0ms', at: 0 },
@@ -186,19 +243,37 @@ export function markPrimaryAction() {
 }
 
 /**
- * In the page: the top (in page coordinates) of the next two sections below the first screen. A
- * section is a `section`, or a direct child of `main` (or of `body` when there is no `main`), at
- * least 120px tall, not inside another candidate, starting below most of the first screen.
+ * In the page: the top (in page coordinates) of the next two sections below the first screen, found
+ * by position so the same page reads the same however it is wrapped. Single wrappers that hold the
+ * whole page (`<div id="root">`, `<main>`, …) are descended through; the blocks are then the
+ * `section` elements, the children of `main`, of `body`'s children and of that innermost wrapper.
+ * A block counts when it is at least 120px tall and half the screen wide and starts below most of
+ * the first screen; blocks that start within 60px of each other are one section.
  */
 export function sectionTops() {
-  const main = document.querySelector('main') ?? document.body
-  const candidates = [...document.querySelectorAll('section'), ...main.children]
-  const tops = candidates
-    .filter((el) => !candidates.some((other) => other !== el && other.contains(el)))
-    .map((el) => ({ el, box: el.getBoundingClientRect() }))
-    .filter(({ box }) => box.height >= 120 && box.top + window.scrollY >= window.innerHeight * 0.8)
-    .map(({ box }) => Math.round(box.top + window.scrollY))
-  return [...new Set(tops)].sort((a, b) => a - b).slice(0, 2)
+  const skip = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE', 'LINK', 'META'])
+  const blocks = (el) =>
+    [...el.children].filter((child) => !skip.has(child.tagName) && child.offsetHeight > 0)
+  let root = document.body
+  for (let depth = 0; depth < 12; depth++) {
+    const children = blocks(root)
+    if (children.length !== 1 || children[0].offsetHeight < window.innerHeight) break
+    root = children[0]
+  }
+  const candidates = new Set([
+    ...document.querySelectorAll('section, main > *, body > * > *'),
+    ...blocks(document.body),
+    ...blocks(root),
+  ])
+  const tops = [...candidates]
+    .map((el) => el.getBoundingClientRect())
+    .filter((box) => box.height >= 120 && box.width >= window.innerWidth / 2)
+    .map((box) => Math.round(box.top + window.scrollY))
+    .filter((top) => top >= window.innerHeight * 0.8)
+    .sort((a, b) => a - b)
+  const sections = []
+  for (const top of tops) if (!sections.length || top - sections.at(-1) >= 60) sections.push(top)
+  return sections.slice(0, 2)
 }
 
 /**
@@ -212,6 +287,7 @@ export async function captureFrames(root, page, outDir) {
   const server = await serve(root)
   const browser = await launchBrowser()
   const viewport = FRAME_VIEWPORT
+  const url = `${server.url}/${page}`
   const frames = []
   const notes = []
   const shoot = async (tab, step, options = {}) => {
@@ -220,19 +296,24 @@ export async function captureFrames(root, page, outDir) {
     await tab.screenshot({ path: file, type: 'jpeg', quality: 70, ...options })
     frames.push({ file, group, step })
   }
+  const fresh = (options = {}) =>
+    browser.newPage({ viewport: { width: viewport.width, height: viewport.height }, ...options })
   try {
-    const tab = await browser.newPage({
-      viewport: { width: viewport.width, height: viewport.height },
-    })
+    const tab = await fresh()
     const cdp = await tab.context().newCDPSession(tab)
     await cdp.send('Animation.enable')
     const rate = (playbackRate) => cdp.send('Animation.setPlaybackRate', { playbackRate })
-    // Frozen before the page exists, so time zero is the load event however slow the camera is.
+    // Both clocks are frozen before the page exists, so time zero is the load event however slow
+    // the camera is: CSS animations and transitions through the animation playback rate, script
+    // timers, requestAnimationFrame, performance.now() and Date through Playwright's page clock.
+    await tab.clock.install({ time: Date.now() })
+    await tab.clock.pauseAt(Date.now() + 1)
     await rate(0)
-    await tab.goto(`${server.url}/${page}`, { waitUntil: 'load', timeout: 30000 })
+    await tab.goto(url, { waitUntil: 'load', timeout: 30000 })
     let clock = 0
     for (const { step, at } of FRAME_PLAN.filter((frame) => frame.group === 'entrance')) {
       if (at > clock) {
+        await tab.clock.runFor(at - clock)
         await rate(1)
         await pause(at - clock)
         await rate(0)
@@ -240,8 +321,10 @@ export async function captureFrames(root, page, outDir) {
       }
       await shoot(tab, step)
     }
+    await tab.clock.resume()
     await rate(1)
-    await tab.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {})
+    await tab.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {})
+    await tab.evaluate(() => document.fonts?.ready.then(() => true)).catch(() => {})
     await pause(1500)
 
     const action = await tab.evaluate(markPrimaryAction)
@@ -273,35 +356,38 @@ export async function captureFrames(root, page, outDir) {
       await tab.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
       await pause(500)
       await shoot(tab, 'action-focus', { clip })
-      await tab.evaluate(() => document.activeElement?.blur())
     } else notes.push('No button or button-styled link was found in the first screen.')
+    await tab.close()
 
-    const tops = await tab.evaluate(sectionTops)
+    // The Tab walk above can scroll the page and fire one-shot reveals, so the scroll frames start
+    // from a fresh load that has never been scrolled.
+    const scroller = await fresh()
+    await openPage(scroller, url)
+    await pause(1500)
+    const tops = await scroller.evaluate(sectionTops)
     for (const [index, top] of tops.entries()) {
       const number = index + 2
       // The section's top a quarter of the way up from the bottom edge: it has just come into view.
-      await tab.evaluate(
+      await scroller.evaluate(
         (y) => window.scrollTo({ top: y, behavior: 'instant' }),
         Math.max(0, top - viewport.height * 0.75),
       )
       await pause(150)
-      await shoot(tab, `section-${number}-entering`)
-      await tab.evaluate(
+      await shoot(scroller, `section-${number}-entering`)
+      await scroller.evaluate(
         (y) => window.scrollTo({ top: y, behavior: 'instant' }),
         Math.max(0, top - viewport.height * 0.25),
       )
       await pause(1200)
-      await shoot(tab, `section-${number}-settled`)
+      await shoot(scroller, `section-${number}-settled`)
     }
     if (tops.length < 2)
       notes.push(`Only ${tops.length} section(s) were found below the first screen.`)
-    await tab.close()
+    await scroller.close()
 
-    const reduced = await browser.newPage({
-      viewport: { width: viewport.width, height: viewport.height },
-      reducedMotion: 'reduce',
-    })
-    await reduced.goto(`${server.url}/${page}`, { waitUntil: 'load', timeout: 30000 })
+    const reduced = await fresh({ reducedMotion: 'reduce' })
+    await reduced.goto(url, { waitUntil: 'load', timeout: 30000 })
+    await reduced.evaluate(() => document.fonts?.ready.then(() => true)).catch(() => {})
     await pause(150)
     await shoot(reduced, 'reduced-motion')
     await reduced.close()

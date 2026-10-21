@@ -4,7 +4,7 @@
 import assert from 'node:assert/strict'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { launchBrowser, serve } from '../../../scripts/lib/bench-render.mjs'
+import { launchBrowser, openPage, serve } from '../../../scripts/lib/bench-render.mjs'
 
 export async function checkPage(root, page, { mustShow = [] } = {}) {
   assert.ok(existsSync(join(root, page)), `${page} exists`)
@@ -15,7 +15,7 @@ export async function checkPage(root, page, { mustShow = [] } = {}) {
       const tab = await browser.newPage({ viewport: { width, height: 900 } })
       const errors = []
       tab.on('pageerror', (error) => errors.push(error.message))
-      await tab.goto(`${server.url}/${page}`, { waitUntil: 'networkidle', timeout: 30000 })
+      await openPage(tab, `${server.url}/${page}`)
       const facts = await tab.evaluate(() => ({
         scroll: document.documentElement.scrollWidth,
         client: document.documentElement.clientWidth,

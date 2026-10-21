@@ -28,22 +28,50 @@ export function median(values) {
   return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2
 }
 
-/** Verdict rows for every focus arm against the baseline: one per target skill, then all tasks pooled. */
+/** A skill the task set targets but the bench has no judged pair for: it cannot pass any bar. */
+const missingRow = (skill, focus, baseline) => ({
+  skill,
+  focus,
+  baseline,
+  wins: 0,
+  losses: 0,
+  ties: 0,
+  rate: null,
+  lower: null,
+  upper: null,
+  repeats: 0,
+  defects: { focus: 0, other: 0 },
+  cost: { tokens: { focus: null, other: null }, seconds: { focus: null, other: null } },
+  verdict: 'missing',
+})
+
+/**
+ * Verdict rows for every focus arm against the baseline: one per target skill, then all tasks
+ * pooled. The skills are every target skill of the task set (or sets) the bench's runs come from,
+ * so a skill whose runs were all lost or never judged shows as `missing` instead of dropping out.
+ */
 export function buildReport({ runs: all, tasks, judgments, baseline = 'none' }) {
   const runs = all.filter((run) => !run.infrastructure)
   const excluded = all.length - runs.length
   const arms = [...new Set(runs.map((run) => run.arm))].filter((arm) => arm !== baseline)
   const resolved = resolveOrders(judgments)
   const health = judgeHealth(judgments)
-  // Only tasks this bench actually ran: the same skill can also target tasks in another task set.
-  const ran = tasks.filter((task) => runs.some((run) => run.task === task.id))
+  // The set the bench used, inferred from its run task ids (each task carries its set's name).
+  const recorded = new Set(all.map((run) => run.task))
+  const sets = new Set(tasks.filter((task) => recorded.has(task.id)).map((task) => task.set))
+  const skills = [
+    ...new Set(tasks.filter((task) => sets.has(task.set)).map((task) => task.targetSkill)),
+  ]
+  // Only tasks this bench attempted, lost runs included, so a cell lost to infrastructure counts as
+  // zero runs: the same skill can also target tasks in another task set.
+  const ran = tasks.filter((task) => recorded.has(task.id))
   const contrast = (skill, taskIds, focus) => {
     const outcomes = contrastOutcomes(
       resolved.filter((pair) => taskIds.has(pair.task)),
       focus,
       baseline,
     )
-    if (!outcomes.length) return null
+    if (!outcomes.length) return missingRow(skill, focus, baseline)
     const rate = winRate(outcomes)
     const interval = clusterBootstrap(outcomes)
     const repeats = Math.min(
@@ -76,16 +104,15 @@ export function buildReport({ runs: all, tasks, judgments, baseline = 'none' }) 
   }
   const rows = []
   for (const focus of arms) {
-    for (const skill of [...new Set(ran.map((task) => task.targetSkill))]) {
-      const row = contrast(
-        skill,
-        new Set(ran.filter((task) => task.targetSkill === skill).map((task) => task.id)),
-        focus,
+    for (const skill of skills)
+      rows.push(
+        contrast(
+          skill,
+          new Set(ran.filter((task) => task.targetSkill === skill).map((task) => task.id)),
+          focus,
+        ),
       )
-      if (row) rows.push(row)
-    }
-    const pooled = contrast(ALL_TASKS, new Set(ran.map((task) => task.id)), focus)
-    if (pooled) rows.push(pooled)
+    rows.push(contrast(ALL_TASKS, new Set(ran.map((task) => task.id)), focus))
   }
   const judges = [...new Set(judgments.map((entry) => entry.model).filter(Boolean))]
   return { rows, health, excluded, judges }
@@ -121,7 +148,8 @@ export function strongClaim({ rows, health }, focus) {
 /**
  * The required bar every held-out set must clear: the pooled verdict is better, every skill is
  * better or saturated (both arms tied on nearly every pair, so nothing could be better), and the
- * judge is healthy. Inconclusive is not enough. Set by the user after held-out v8.
+ * judge is healthy. Inconclusive is not enough, and a `missing` skill (no judged pairs) fails it.
+ * Set by the user after held-out v8.
  */
 export function requiredBar({ rows, health }, focus) {
   const skills = rows.filter((row) => row.focus === focus && row.skill !== ALL_TASKS)
