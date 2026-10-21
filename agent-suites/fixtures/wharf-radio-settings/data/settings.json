@@ -1,0 +1,24 @@
+{
+  "presenter": {
+    "displayName": "Mo Okafor",
+    "email": "mo.okafor@wharf.example",
+    "showName": "Low Tide Breakfast",
+    "bio": "Soul, reggae and the shipping forecast, read badly, every Tuesday and Thursday from six."
+  },
+  "notifications": [
+    { "id": "slot-confirmed", "label": "A studio slot is confirmed", "on": true },
+    { "id": "listener-message", "label": "A listener sends a message", "on": true },
+    { "id": "weekly-figures", "label": "Weekly listening figures", "on": false },
+    { "id": "swap-request", "label": "A fellow presenter asks to swap a slot", "on": true }
+  ],
+  "studio": { "slotHours": 2, "usual": "A" },
+  "studios": [
+    { "id": "A", "name": "Studio A", "note": "The big desk, two guest microphones" },
+    { "id": "B", "name": "Studio B", "note": "Small, with the phone-in line" }
+  ],
+  "upcomingSlots": [
+    { "date": "2026-10-27", "start": "06:00", "hours": 2, "studio": "A" },
+    { "date": "2026-10-29", "start": "06:00", "hours": 2, "studio": "A" },
+    { "date": "2026-11-03", "start": "06:00", "hours": 2, "studio": "B" }
+  ]
+}

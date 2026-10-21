@@ -2,7 +2,7 @@
 /* global document */
 import assert from 'node:assert/strict'
 import { checkPage } from './visual-page.mjs'
-import { launchBrowser, serve } from '../../../scripts/lib/bench-render.mjs'
+import { launchBrowser, openPage, serve } from '../../../scripts/lib/bench-render.mjs'
 const root = process.argv[2]
 await checkPage(root, 'index.html', {
   mustShow: [
@@ -18,7 +18,7 @@ const server = await serve(root)
 const browser = await launchBrowser()
 try {
   const tab = await browser.newPage({ viewport: { width: 1440, height: 900 } })
-  await tab.goto(`${server.url}/index.html`, { waitUntil: 'networkidle' })
+  await openPage(tab, `${server.url}/index.html`)
   const raw = await tab.evaluate(() =>
     [...document.querySelectorAll('pre')].some((pre) => pre.innerText.includes('"onCall"')),
   )
