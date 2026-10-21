@@ -1,6 +1,6 @@
 ---
 name: taste
-description: Use to build, redesign or restyle a web page, site or app screen (dashboard, internal tool, admin view) so it looks designed for its subject, not generic. Decides a direction, builds it, screenshots and fixes it. Not a single CSS bug.
+description: Load before writing markup whenever you build, redesign or restyle a whole web page, site or app screen (landing page, timetable, dashboard, internal tool). Decides a direction from the subject, builds it, screenshots and fixes it. Not a single CSS bug.
 when_to_use: Requests such as "make a site for my café", "our homepage feels like a template", "design the orders screen for our staff tool", "give this pricing page some character", "rework this event page for mobile".
 ---
 
@@ -11,7 +11,14 @@ when_to_use: Requests such as "make a site for my café", "our homepage feels li
 
 A model's default page is the average of every page it has seen. This skill replaces those defaults with decisions taken from the subject, builds them in full, and looks at the result in a real browser. User instructions, the project's brand and its design system outrank everything here.
 
-Work in few, large steps: read everything in one command, write each file whole, look, fix everything in one pass, look once more. Every extra tool call re-reads the whole conversation.
+Work in few, large steps; every extra tool call re-reads the whole conversation. After loading this skill, the whole job is six turns:
+
+1. One command that reads the brief, page, brand files and data.
+2. One command that writes every file whole (heredocs) and ends by running the camera.
+3. Both camera pictures opened together, in one turn of parallel reads.
+4. One command that applies every fix and runs the camera again.
+5. The pictures opened again, together.
+6. One command that removes `.taste/` and prints `git status --short`.
 
 ## 1. Read the subject
 
@@ -41,7 +48,7 @@ For example: a ferry's departure board becomes the timetable; a market's chalked
 
 Fix the system as CSS custom properties:
 
-- **Type:** one family, two at most; a display size several steps above body (64–120px desktop, 36–56px phone); body 16–18px. Web fonts with a similar-width fallback.
+- **Type:** one family, two at most, chosen for the subject; a display size several steps above body (72–140px desktop, 40–60px phone, never smaller than the section headings); body 16–18px. Link web fonts (for example Google Fonts with `display=swap`) with a similar-width fallback, even when this machine is offline: visitors get them. A default system serif or sans on a pale ground with a blue button reads as a reskin, not a design.
 - **Colour:** one ground, one ink, one accent for actions, at most one or two fields of colour, taken from the subject's own material. Not violet or indigo on near-black, not cream with terracotta, no gradients.
 - **Layout:** one grid with equal outer margins; neighbouring sections use different forms (table, timeline, board, list, map); one dominant thing per screen.
 
@@ -51,7 +58,7 @@ Fix the system as CSS custom properties:
 
 Build in the existing stack with the project's tokens. Write each file in one go: tokens, then the first screen, then every section with real content, carrying the idea through pricing, timetables, FAQ and footer.
 
-- **Imagery:** the project's own pictures; else subject material drawn in CSS or SVG (the route, the street, the label, the product's own interface as a working fragment with numbers that add up); else type and colour alone. Never fake photographs or screenshots.
+- **Imagery:** the project's own pictures; else subject material drawn in CSS or SVG (the route, the street, the label, the ticket); else type and colour alone. For software, show each feature as a small working fragment of its own interface, built in HTML with numbers that add up, never as an icon or a bare text list. Never fake photographs. A ruled or gridded background must line up with the text on it, or go.
 - **Fullness:** each desktop screen is a poster. A screen that is mostly empty ground, or a column with nothing beside it, is unfinished. Use the width: two columns, a large figure, a wide table.
 - **Fit:** long lists on a phone become compact rows or scroll inside their own region; tags and labels wrap rather than overflow their box.
 - **Semantics:** one `h1`, a heading per section, real links and buttons, visible focus, alt text. Motion only after the still page works, with a `prefers-reduced-motion` fallback.
@@ -64,7 +71,7 @@ node <skill>/scripts/look.mjs <project-folder-or-html-file>
 
 It serves the folder, opens it in headless Chrome (set `CHROME_PATH` if not found), and prints measurements: sideways scroll and its cause, `h1` count, long headlines, low contrast, broken images, page errors. It writes one picture per width (390 and 1440px) showing every screen in reading order: open both `look` pictures it prints with your file-reading tool. Open a single screen from the folder only when you need to read detail.
 
-Critique the pictures, not the code, in four lines in your notes: the five-second read of the first screen; the three biggest visible problems (empty stretches, weak hierarchy, a generic tell, overflow, cramped phone layout, missing content); and whether the idea survives past the first screen. Fix every `FAIL` and all three problems in one editing pass, run the camera again and open the pictures again. Stop after that second look unless a `FAIL` remains. If no browser can run, say the page is unverified.
+Critique the pictures, not the code, in four lines in your notes: the five-second read of the first screen; the three biggest visible problems (empty stretches, weak hierarchy, a generic tell, overflow, cramped phone layout, missing content); and whether the idea survives past the first screen. Fix every `FAIL` and all three problems in one editing pass, run the camera again and open both pictures again, phone included. Stop after that second look unless a `FAIL` remains. Scroll-triggered fades are best left out: a reviewer's screenshot can catch them half-faded. If no browser can run, say the page is unverified.
 
 Delete `.taste/` before you finish.
 

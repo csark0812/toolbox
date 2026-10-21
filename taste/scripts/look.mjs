@@ -141,7 +141,12 @@ const endpoint = await new Promise((done, fail) => {
 const finish = (code) => {
   browser.kill('SIGKILL')
   server.close()
-  rmSync(profile, { recursive: true, force: true })
+  // Chrome may still be writing its profile as it dies; a leftover profile is harmless.
+  try {
+    rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 })
+  } catch {
+    // left for the next run, which clears the folder first
+  }
   process.exit(code)
 }
 
@@ -204,8 +209,9 @@ const MEASURE = `(() => {
   const headlines = [...document.querySelectorAll('h1, h2, h3')].filter(visible).map((el) => { const lh = parseFloat(getComputedStyle(el).lineHeight) || parseFloat(getComputedStyle(el).fontSize) * 1.2; return { tag: el.tagName.toLowerCase(), lines: Math.round(el.getBoundingClientRect().height / lh), text: el.textContent.trim().slice(0, 50) } })
   const wide = [...document.querySelectorAll('body *')].filter((el) => el.getBoundingClientRect().right > html.clientWidth + 1 && visible(el) && getComputedStyle(el).position !== 'fixed').slice(0, 5).map((el) => el.tagName.toLowerCase() + (el.className && typeof el.className === 'string' ? '.' + el.className.split(' ')[0] : ''))
   const fonts = [...new Set(texts.map((el) => getComputedStyle(el).fontFamily.split(',')[0].replace(/["']/g, '').trim()))]
+  const declared = [...document.fonts].map((f) => f.family.replace(/["']/g, ''))
   const loaded = [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family.replace(/["']/g, ''))
-  return { height: html.scrollHeight, sideways: html.scrollWidth > html.clientWidth + 1 ? html.scrollWidth : 0, wide, h1: document.querySelectorAll('h1').length, smallest: Math.min(...sizes), fonts, missingFonts: fonts.filter((f) => !loaded.includes(f) && !/^(system-ui|-apple-system|sans-serif|serif|monospace|Arial|Helvetica|Georgia|Times New Roman|Segoe UI|Roboto)$/i.test(f)), headlines: headlines.filter((h) => h.lines > 2), lowContrast, images: [...document.images].filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.getAttribute('src')).slice(0, 5) }
+  return { height: html.scrollHeight, sideways: html.scrollWidth > html.clientWidth + 1 ? html.scrollWidth : 0, wide, h1: document.querySelectorAll('h1').length, smallest: Math.min(...sizes), fonts, missingFonts: fonts.filter((f) => declared.includes(f) && !loaded.includes(f)), headlines: headlines.filter((h) => h.lines > 2), lowContrast, images: [...document.images].filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.getAttribute('src')).slice(0, 5) }
 })()`
 
 /**
