@@ -1,0 +1,9 @@
+{
+  "name": "beach-huts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "huts": "node bin/huts.mjs"
+  }
+}
