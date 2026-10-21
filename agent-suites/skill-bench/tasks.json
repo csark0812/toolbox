@@ -680,6 +680,36 @@
         "The week rules live in one exported function that the command reuses, and the plain listing and existing functions are unchanged.",
         "Open cases are decided deliberately and named in the reply, for example `--free` given twice or with other arguments and whether `W` may sit on only one end, and the reply shows verbatim output of the real command run after the last edit."
       ]
+    },
+    {
+      "id": "workshop-job-totals",
+      "targetSkill": "tdd",
+      "check": "bike-workshop",
+      "claim": {
+        "prompt": "Job cards at agent-suites/fixtures/bike-workshop are piling up and I want to see how long each mechanic has spent on the bench. Add `toMinutes(text)` in src/time.mjs that turns the time written on a card into minutes: hours (`2h`), minutes (`45m`), or hours then minutes (`1h 30m`). The units are `h` or `hr` and `m` or `min`, in either case, with or without a space after the number. Numbers are whole, and in the hours-then-minutes form the minutes are under 60. Anything else throws a RangeError that quotes the text. Then add `--totals` to `npm run jobs`: one line per mechanic, in order of their first card, like `Sam: 2h 5m`, from the sum of their cards. A card whose time can't be read is left out of the sum and named on stderr by its card number, and the command still exits 0. Plain `npm run jobs` must not change.",
+        "fixtureGate": "agent-suites/fixtures/bike-workshop"
+      },
+      "criteria": [
+        "Every rule is pinned by tests at the public interface written before or alongside the code: each form, both spellings of each unit in upper, lower and mixed case as the shipped cards use them (`40 Min`, `1HR 5MIN`, `1h 15M`), with and without the space, 59 minutes accepted and 60 refused, hostile input such as `ages`, `1.5h`, `-5m`, `1h 30`, `30m 1h`, an empty string and non-strings, and command-line tests that run the real command on the shipped cards and check stdout, stderr and the exit code by exact equality.",
+        "`in either case` is applied to every unit, so cards 104, 105 and 108 are counted and only card 106 is named on stderr; `--totals` prints exactly `Ana: 3h 50m`, `Tom: 1h 50m` and `Priya: 1h 55m` and exits 0, and no real card is reported to the user as invalid.",
+        "The time rules live in one exported function that the command reuses, the plain listing and existing functions are unchanged, and the README documents `--totals` with the accepted time notation and that unreadable cards are skipped.",
+        "Open cases are decided deliberately and named in the reply (for example how a total under an hour or with no spare minutes prints, `--totals` given twice, and `1h30m` with no space), no rejection is added that the request did not ask for, and the reply shows verbatim output of the real command run after the last edit."
+      ]
+    },
+    {
+      "id": "library-late-fines",
+      "targetSkill": "tdd",
+      "check": "lending-library",
+      "claim": {
+        "prompt": "Volunteers at the library in agent-suites/fixtures/lending-library still work out late fines by hand. Add `parseDate(text)` in src/dates.mjs that reads a date written `YYYY-MM-DD` and returns `{ year, month, day }` as numbers. It has to be a real calendar date (no 31 April, and 29 February only in a leap year) with a year from 2000 to 2099. Anything else throws a RangeError whose message includes the text. Then add `--fines <date>` to `npm run loans`. For each loan overdue on that date, in the order listed, print a line like `Sam Lee: Emma, 4 days, £0.60`. A loan is overdue from the day after it is due, and the fine is 15p for each day overdue, up to £3.00 a book. Finish with `Total: £x.xx`, the sum of the fines, which is just `Total: £0.00` when nothing is overdue. If the date is bad or missing, print nothing on stdout, explain on stderr and exit 2. Plain `npm run loans` must not change.",
+        "fixtureGate": "agent-suites/fixtures/lending-library"
+      },
+      "criteria": [
+        "Every rule is pinned by tests at the public interface written before or alongside the code, including both sides of each boundary: `2000-01-01` and `2099-12-31` accepted, `1999-12-31` and `2100-01-01` refused, `2028-02-29` and `2000-02-29` accepted, `2026-02-29` and `2026-04-31` refused, plus malformed text such as `2026-1-05`, `21/10/2026`, an empty string and non-strings.",
+        "Fines are exact whole pence: nothing on the due date itself, 15p a day from the day after, capped at £3.00 (19 days is £2.85, 20 days and more £3.00); `--fines 2026-10-20` prints exactly the four overdue loans, leaving out Cleo Marsh whose book is due that day, and `Total: £9.45`.",
+        "Command-line tests run the real command on the shipped loans and check stdout, stderr and the exit code by exact equality, including the total, a date with nothing overdue, a valid boundary date such as `2099-12-31` and each bad `--fines` value; the plain listing and existing functions are unchanged.",
+        "The README documents `--fines` with the date notation and the fine rule (15p a day from the day after the due date, at most £3.00 a book); open cases such as `1 day` against `1 days` and `--fines` given twice are decided and named in the reply, which shows verbatim output of the real command run after the last edit."
+      ]
     }
   ]
 }
