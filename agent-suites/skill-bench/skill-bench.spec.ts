@@ -13,7 +13,12 @@ import {
   runHardChecks,
   type Claim,
 } from '../v2/support'
-import { blindingLeaks, checksDir, TASK_SETS } from '../../scripts/lib/skill-bench-material.mjs'
+import {
+  blindingLeaks,
+  checksDir,
+  TASK_SETS,
+  withoutPaths,
+} from '../../scripts/lib/skill-bench-material.mjs'
 import { captureFrames, captureScreens } from '../../scripts/lib/bench-render.mjs'
 
 const BENCH_ROOT = 'projects'
@@ -198,7 +203,7 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
           } catch (error) {
             hardCheck = {
               passed: false,
-              failure: `page could not be rendered: ${String(error).slice(0, 400)}`,
+              failure: `page could not be rendered: ${withoutPaths(error).slice(0, 400)}`,
             }
           }
         if (task.render && screenshots.length)
@@ -211,7 +216,10 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
             frames = captured.frames
             frameNotes = captured.notes
           } catch (error) {
-            frameNotes = [`The motion frames could not be taken: ${String(error).slice(0, 300)}`]
+            // The error text is kept, its paths are not: a path names the run's arm.
+            frameNotes = [
+              `The motion frames could not be taken: ${withoutPaths(error).slice(0, 300)}`,
+            ]
           }
         const record = {
           task: task.id,

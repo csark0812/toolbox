@@ -100,7 +100,12 @@ const TYPES = {
   '.mp4': 'video/mp4',
 }
 const server = createServer((request, response) => {
-  let file = normalize(join(root, decodeURIComponent(new URL(request.url, 'http://x').pathname)))
+  let file
+  try {
+    file = normalize(join(root, decodeURIComponent(new URL(request.url, 'http://x').pathname)))
+  } catch {
+    return response.writeHead(400).end()
+  }
   if (relative(root, file).startsWith('..')) return response.writeHead(403).end()
   if (existsSync(file) && statSync(file).isDirectory()) file = join(file, 'index.html')
   // Browsers ask for a favicon nobody wrote; that miss is not the page's error.

@@ -12,6 +12,11 @@ export const MIN_REPEATS = 4
  * result so often that there was nothing left to do better.
  */
 export const SATURATED_TIES = 0.75
+/**
+ * Highest focus/baseline median-token ratio at which a saturated skill counts as cheaper: at least
+ * 10% fewer tokens, so run-to-run noise in token counts cannot decide it.
+ */
+export const SATURATED_TOKEN_RATIO = 0.9
 /** Fewer re-judged pairs than this cannot fail the test–retest health check. */
 export const MIN_RETESTS = 5
 
@@ -178,8 +183,9 @@ export function clusterBootstrap(rows, { samples = BOOTSTRAP_SAMPLES, seed = 1 }
  * Three-way verdict on the primary contrast (focus arm vs baseline arm).
  * Better: rate ≥ BAR, lower bound > FLOOR, and no more hard-check failures.
  * Not better: upper bound < BAR. Saturated: otherwise undecided, but at least SATURATED_TIES of
- * the pairs are ties, wins are at least losses, no more hard-check failures, and fewer median
- * tokens: when nothing could be done better, the cheaper arm is the better one. Otherwise
+ * the pairs are ties, wins are at least losses, no more hard-check failures, and median tokens at
+ * least 10% below the baseline's (ratio ≤ SATURATED_TOKEN_RATIO): when nothing could be done
+ * better, the clearly cheaper arm is the better one. Otherwise
  * inconclusive. Never final before MIN_REPEATS runs per arm per task.
  */
 export function verdict(
@@ -189,7 +195,8 @@ export function verdict(
 ) {
   if (repeats < MIN_REPEATS) return 'inconclusive'
   const total = wins + losses + ties
-  const cheaper = tokens.focus > 0 && tokens.other > 0 && tokens.focus < tokens.other
+  const cheaper =
+    tokens.focus > 0 && tokens.other > 0 && tokens.focus / tokens.other <= SATURATED_TOKEN_RATIO
   const saturated =
     total > 0 &&
     ties / total >= SATURATED_TIES &&

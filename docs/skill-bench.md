@@ -22,12 +22,12 @@ A skill ships or stays only if it beats its baseline in this bench. Conformance 
    - The judge is from the other model family than the runs it grades (Opus for Codex runs, Codex for Claude runs), working in an empty temporary folder. `SKILL_BENCH_JUDGE=claude|codex` overrides this when a family is unavailable, and the report names the judge model.
    - It sees the task, the criteria, and two versions labelled A and B. Skill and pack names and skill paths are masked everywhere it reads.
    - It grades from actions and checks, not from claims in the reply.
-   - A visual task (one with `render`) adds pictures taken the same way for every arm by `scripts/lib/bench-render.mjs`: every screen at 390 and 1440px, plus motion and interaction frames at 1440px. The frames show the first screen 0, 300 and 1200ms after load, the first button or button-styled link at rest, on hover and on keyboard focus, the next two sections as they scroll in and once settled, and the first screen with reduced motion. The judge sees them in labelled groups under neutral names.
+   - A visual task (one with `render`) adds pictures taken the same way for every arm by `scripts/lib/bench-render.mjs`: every screen at 390 and 1440px, plus motion and interaction frames at 1440px. The frames show the first screen 0, 300 and 1200ms after load (CSS animations and the page's script clock are both paused between frames, so the times hold for either kind of motion), the first button or button-styled link at rest, on hover and on keyboard focus, the next two sections as they scroll in and once settled (from a fresh load, found by position however the page is wrapped), and the first screen with reduced motion. The judge sees them in labelled groups under neutral names. When only one version of a pair has screenshots, or frames, that section is left out for both and the judge is told so. `run` stops before any agent starts when the selected tasks include a visual task and no Chromium or Chrome is installed.
    - Controls: identical pairs, known-gap pairs (a run against a twin with the work removed) and re-tests.
 6. **Verdict.** `scripts/skill-bench-report.mjs` applies the rules in `scripts/lib/pairwise-stats.mjs`, ported from the UI bench:
    - **Better:** win rate ≥ 60%, bootstrap lower bound > 50%, and no more hard-check failures than the baseline.
    - **Not better:** upper bound < 60%.
-   - **Saturated:** none of the above, but at least 75% of pairs are ties, wins are at least losses, there are no more hard-check failures than the baseline, and median tokens are lower. Both arms reached the same verified result so often that nothing could be better, so the cheaper arm is the better one.
+   - **Saturated:** none of the above, but at least 75% of pairs are ties, wins are at least losses, there are no more hard-check failures than the baseline, and median tokens are at least 10% lower (a focus-to-baseline ratio of 0.9 or less). Both arms reached the same verified result so often that nothing could be better, so the clearly cheaper arm is the better one.
    - **Inconclusive:** anything else.
 
    The report also shows median tokens and wall-clock time per arm, with the ratio. Cost is never shown to the judge, so it cannot bias the quality call; read the two side by side.
@@ -39,7 +39,7 @@ A skill ships or stays only if it beats its baseline in this bench. Conformance 
 Every held-out set must clear this before toolbox counts as better than a comparison pack. The report prints it as **Required bar**.
 
 1. **The pooled verdict is better.**
-2. **Every skill is better or saturated.** Inconclusive is not enough. Saturated is the one exception: it marks a skill whose tasks left no room to do better, which also says the set should give that skill harder tasks next time.
+2. **Every skill is better or saturated.** Inconclusive is not enough. Saturated is the one exception: it marks a skill whose tasks left no room to do better, which also says the set should give that skill harder tasks next time. Every skill the set targets gets a row: one with no judged pairs (its runs lost or never judged) reports **missing**, which fails the bar.
 3. **Healthy judge.**
 
 ## Strong claim (fixed before held-out v3)
