@@ -3,7 +3,9 @@
 //   node <skill>/scripts/look.mjs <folder-or-html-file> [--out <dir>] [--widths 390,1440]
 // Serves the folder over a throwaway local server, opens it in headless Chrome or Chromium (CHROME_PATH,
 // or a usual install path), scrolls once so scroll-triggered content appears, then saves one screenshot
-// per screen at each width and prints measurements. Node 22+, no dependencies, nothing installed.
+// per screen at each width and prints measurements. At the widest width it also checks how the page
+// behaves: the first screen 1.2s after load, hover and keyboard focus, the page without its scripts,
+// and the page with reduced motion. Node 22+, no dependencies, nothing installed.
 /* global WebSocket */
 import { execFileSync, spawn } from 'node:child_process'
 import { createServer } from 'node:http'
@@ -106,7 +108,13 @@ const server = createServer((request, response) => {
   // Browsers ask for a favicon nobody wrote; that miss is not the page's error.
   if (!existsSync(file)) return response.writeHead(request.url === '/favicon.ico' ? 204 : 404).end()
   response.writeHead(200, { 'content-type': TYPES[extname(file)] ?? 'application/octet-stream' })
-  response.end(readFileSync(file))
+  // The no-script view: the same page with its scripts taken out, to find content only a script reveals.
+  const noScript = request.url.includes('look-noscript') && extname(file) === '.html'
+  response.end(
+    noScript
+      ? readFileSync(file, 'utf8').replace(/<script\b[\s\S]*?<\/script>/gi, '')
+      : readFileSync(file),
+  )
 })
 await new Promise((done) => server.listen(0, '127.0.0.1', done))
 const url = `http://127.0.0.1:${server.address().port}/${page}`
@@ -227,7 +235,18 @@ const MEASURE = `(() => {
   const fonts = [...new Set(texts.map((el) => getComputedStyle(el).fontFamily.split(',')[0].replace(/["']/g, '').trim()))]
   const declared = [...document.fonts].map((f) => f.family.replace(/["']/g, ''))
   const loaded = [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family.replace(/["']/g, ''))
-  return { height: html.scrollHeight, sideways: html.scrollWidth > html.clientWidth + 1 ? html.scrollWidth : 0, wide, h1: document.querySelectorAll('h1').length, smallest: Math.min(...sizes), fonts, missingFonts: fonts.filter((f) => declared.includes(f) && !loaded.includes(f)), headlines: headlines.filter((h) => h.lines > 2), lowContrast, images: [...document.images].filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.getAttribute('src')).slice(0, 5) }
+  const rounded = [...new Set(sizes.map((size) => Math.round(size)))].sort((a, b) => a - b)
+  const closeSizes = rounded.filter((size, i) => i > 0 && size / rounded[i - 1] < 1.1 && size >= 13)
+  const weights = [...new Set(texts.map((el) => getComputedStyle(el).fontWeight))]
+  const inks = [...new Set(texts.map((el) => getComputedStyle(el).color))]
+  const controls = [...document.querySelectorAll('a[href], button, input:not([type=hidden]), select, textarea, [role=button], [role=switch], [role=tab]')].filter(visible)
+  const inline = (el) => el.tagName === 'A' && [...el.parentElement.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())
+  const tiny = controls.filter((el) => { const r = el.getBoundingClientRect(); const box = el.type === 'checkbox' || el.type === 'radio' ? (el.labels?.[0]?.getBoundingClientRect() ?? r) : r; return !inline(el) && (box.width < 24 || box.height < 24) }).slice(0, 5).map((el) => el.tagName.toLowerCase() + ': ' + (el.textContent.trim() || el.getAttribute('aria-label') || el.name || '').slice(0, 30))
+  const small = controls.filter((el) => { const r = el.getBoundingClientRect(); return !inline(el) && ['BUTTON', 'INPUT', 'SELECT'].includes(el.tagName) && !['checkbox', 'radio'].includes(el.type) && r.height < 40 }).length
+  const transparent = (c) => /^(transparent|rgba\\(\\d+, \\d+, \\d+, 0\\))$/.test(c)
+  const filled = controls.filter((el) => { const r = el.getBoundingClientRect(); const st = getComputedStyle(el); return r.top < innerHeight && r.bottom > 0 && ['A', 'BUTTON'].includes(el.tagName) && !transparent(st.backgroundColor) && st.backgroundColor !== getComputedStyle(document.body).backgroundColor && r.width >= 60 })
+  const filledColours = new Set(filled.map((el) => getComputedStyle(el).backgroundColor))
+  return { sizeCount: rounded.length, closeSizes, weights: weights.length, inks: inks.length, tiny, small, filled: filled.length, filledColours: filledColours.size, height: html.scrollHeight, sideways: html.scrollWidth > html.clientWidth + 1 ? html.scrollWidth : 0, wide, h1: document.querySelectorAll('h1').length, smallest: Math.min(...sizes), fonts, missingFonts: fonts.filter((f) => declared.includes(f) && !loaded.includes(f)), headlines: headlines.filter((h) => h.lines > 2), lowContrast, images: [...document.images].filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.getAttribute('src')).slice(0, 5) }
 })()`
 
 /**
@@ -266,6 +285,118 @@ async function contactSheet(width, files) {
   const file = join(out, `${width}-all.jpg`)
   writeFileSync(file, Buffer.from(data, 'base64'))
   return file
+}
+
+// What a still screenshot hides: how the page enters, how its controls answer the pointer and the
+// keyboard, and whether content survives without scripts and with reduced motion.
+const INVISIBLE = `(() => {
+  const faint = (el) => { let o = 1; for (let e = el; e; e = e.parentElement) { const s = getComputedStyle(e); if (s.visibility === 'hidden') return 0; o *= Number(s.opacity) } return o }
+  const texts = [...document.querySelectorAll('body *')].filter((el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()) && el.getBoundingClientRect().height > 0)
+  const firstScreen = texts.filter((el) => el.getBoundingClientRect().top < innerHeight)
+  return { hidden: texts.filter((el) => faint(el) < 0.1).length, firstHidden: firstScreen.filter((el) => faint(el) < 0.1).length, fading: firstScreen.filter((el) => faint(el) < 0.9).length, running: document.getAnimations().filter((a) => a.playState === 'running' && Number(a.effect?.getTiming().duration) > 200).length }
+})()`
+const PRIMARY = `(() => {
+  const transparent = (c) => /^(transparent|rgba\\(\\d+, \\d+, \\d+, 0\\))$/.test(c)
+  const looks = (el) => { const s = getComputedStyle(el); return (!transparent(s.backgroundColor) || (parseFloat(s.borderTopWidth) > 0 && s.borderTopStyle !== 'none')) && parseFloat(s.paddingLeft) >= 8 }
+  const el = [...document.querySelectorAll('button, [role=button], a[href], input[type=submit]')].find((el) => { const r = el.getBoundingClientRect(); return r.width >= 24 && r.height >= 20 && r.top < innerHeight && r.bottom > 0 && getComputedStyle(el).visibility !== 'hidden' && (el.tagName !== 'A' || looks(el)) })
+  if (!el) return null
+  document.querySelectorAll('[data-look-action]').forEach((other) => other.removeAttribute('data-look-action'))
+  el.setAttribute('data-look-action', '')
+  const r = el.getBoundingClientRect()
+  return { x: r.x + r.width / 2, y: r.y + r.height / 2, text: el.textContent.trim().slice(0, 30) }
+})()`
+const STYLE = (selector) =>
+  `(() => { const el = ${selector}; if (!el) return null; const s = getComputedStyle(el); return [s.backgroundColor, s.color, s.borderColor, s.boxShadow, s.outlineStyle + s.outlineWidth + s.outlineColor, s.textDecorationLine, s.transform, s.opacity].join('|') })()`
+const ACTIVE_RING = `(() => { const el = document.activeElement; if (!el || el === document.body) return null; const s = getComputedStyle(el); return { ring: (s.outlineStyle !== 'none' && parseFloat(s.outlineWidth) > 0) || s.boxShadow !== 'none', name: el.tagName.toLowerCase() + ': ' + (el.textContent.trim() || el.getAttribute('aria-label') || el.name || '').slice(0, 30), action: el.hasAttribute('data-look-action') } })()`
+
+async function load(width, address = url) {
+  await call('Emulation.setDeviceMetricsOverride', {
+    width,
+    height: 900,
+    deviceScaleFactor: 1,
+    mobile: false,
+  })
+  const loaded = new Promise((done) => {
+    const listen = (message) => {
+      if (message.sessionId !== sessionId || message.method !== 'Page.loadEventFired') return
+      listeners.splice(listeners.indexOf(listen), 1)
+      done()
+    }
+    listeners.push(listen)
+  })
+  await call('Page.navigate', { url: address })
+  await Promise.race([loaded, pause(15000)])
+}
+const press = (key, code, keyCode) =>
+  call('Input.dispatchKeyEvent', {
+    type: 'keyDown',
+    key,
+    code,
+    windowsVirtualKeyCode: keyCode,
+  }).then(() =>
+    call('Input.dispatchKeyEvent', { type: 'keyUp', key, code, windowsVirtualKeyCode: keyCode }),
+  )
+
+async function probe(width) {
+  const flags = []
+  await load(width)
+  await pause(1200)
+  const entrance = await evaluate(INVISIBLE)
+  if (entrance.fading)
+    flags.push(
+      `WARN ${entrance.fading} text block(s) in the first screen are still hidden or fading 1.2s after load; let the first screen settle within about 0.6s`,
+    )
+  await pause(800)
+  const action = await evaluate(PRIMARY)
+  if (action) {
+    const rest = await evaluate(STYLE(`document.querySelector('[data-look-action]')`))
+    await call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: action.x, y: action.y })
+    await pause(450)
+    const hover = await evaluate(STYLE(`document.querySelector('[data-look-action]')`))
+    if (rest === hover)
+      flags.push(`WARN the primary action ("${action.text}") does not change on hover`)
+    await call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: width - 1, y: 899 })
+    await pause(300)
+    const missing = []
+    for (let stop = 0; stop < 40; stop++) {
+      await press('Tab', 'Tab', 9)
+      await pause(60)
+      const focused = await evaluate(ACTIVE_RING)
+      if (!focused) continue
+      if (!focused.ring && missing.length < 5 && !missing.includes(focused.name))
+        missing.push(focused.name)
+      if (focused.action || stop >= 7) break
+    }
+    if (missing.length) flags.push(`FAIL no visible keyboard focus on: ${missing.join('; ')}`)
+  } else
+    flags.push(
+      'WARN no button or button-styled link in the first screen: what is the one thing to do here?',
+    )
+
+  await load(width, `${url}${url.includes('?') ? '&' : '?'}look-noscript`)
+  await pause(300)
+  const noScript = await evaluate(INVISIBLE)
+  if (noScript.hidden)
+    flags.push(
+      `FAIL ${noScript.hidden} text block(s) are invisible until a script runs (opacity 0 or hidden in the CSS); start visible and let the script add the motion`,
+    )
+
+  await call('Emulation.setEmulatedMedia', {
+    features: [{ name: 'prefers-reduced-motion', value: 'reduce' }],
+  })
+  await load(width)
+  await pause(300)
+  const reduced = await evaluate(INVISIBLE)
+  await call('Emulation.setEmulatedMedia', { features: [] })
+  if (reduced.firstHidden)
+    flags.push(
+      `FAIL ${reduced.firstHidden} text block(s) in the first screen stay hidden with reduced motion on`,
+    )
+  if (reduced.running)
+    flags.push(
+      `WARN ${reduced.running} animation(s) longer than 200ms still run with reduced motion on`,
+    )
+  return flags
 }
 
 let problems = 0
@@ -323,6 +454,27 @@ try {
       flags.push(
         `WARN not loaded as web fonts, so visitors without them installed see a fallback: ${facts.missingFonts.join(', ')}`,
       )
+    if (facts.sizeCount > 8)
+      flags.push(
+        `WARN ${facts.sizeCount} different text sizes; a type scale needs about five to seven`,
+      )
+    if (facts.closeSizes.length)
+      flags.push(
+        `WARN text sizes too close to read as different steps: ${facts.closeSizes.join(', ')}px; merge each with its neighbour`,
+      )
+    if (facts.weights > 3) flags.push(`WARN ${facts.weights} font weights; two or three are enough`)
+    if (facts.inks > 6)
+      flags.push(`WARN ${facts.inks} text colours; use an ink, a muted ink and the accent`)
+    if (width < 600 && facts.tiny.length)
+      flags.push(`WARN tap targets under 24px at ${width}px: ${facts.tiny.join('; ')}`)
+    if (width < 600 && facts.small)
+      flags.push(
+        `WARN ${facts.small} button(s) or field(s) under 40px tall on the phone; aim for 44px`,
+      )
+    if (facts.filled > 2 || facts.filledColours > 1)
+      flags.push(
+        `WARN ${facts.filled} filled buttons in the first screen (${facts.filledColours} colours) compete; keep one primary action filled and make the others quieter`,
+      )
     if (facts.images.length) flags.push(`FAIL broken images: ${facts.images.join(', ')}`)
     problems += flags.filter((flag) => flag.startsWith('FAIL')).length
     report.push(
@@ -330,6 +482,13 @@ try {
       ...flags.map((flag) => `  ${flag}`),
     )
   }
+  const probeWidth = Math.max(...widths)
+  const behaviour = await probe(probeWidth)
+  problems += behaviour.filter((flag) => flag.startsWith('FAIL')).length
+  report.push(
+    `${probeWidth}px entrance, hover, keyboard focus, no-script and reduced motion:${behaviour.length ? '' : ' nothing to flag'}`,
+    ...behaviour.map((flag) => `  ${flag}`),
+  )
   for (const [width, files] of shotsByWidth)
     report.push(`look ${await contactSheet(width, files)}  (${width}px, every screen)`)
   report.push(`single screens: ${out}/<width>-<screen>.jpg`)

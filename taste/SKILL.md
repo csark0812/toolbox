@@ -13,7 +13,7 @@ A model's default page is the average of every page it has seen. This skill repl
 
 Work in few, large steps; every extra tool call re-reads the whole conversation. After loading this skill, the whole job is five turns and the reply:
 
-1. One command that lists the project and prints every file in it with its name, for example `cd <project> && ls -R && tail -n +1 README* *.html *.css *.js data/*` (for an app screen, add `<skill>/references/app-screens.md`). No separate look-around first.
+1. One command that lists the project and prints every file in it with its name, for example `cd <project> && ls -R && tail -n +1 README* *.html *.css *.js data/*` plus `<skill>/references/motion.md`, and for an app screen `<skill>/references/app-screens.md`, for anything with a form, flow, calculator, filters or settings `<skill>/references/ux.md`. No separate look-around first.
 2. One command that writes every file whole (heredocs) and ends by running the camera.
 3. Both camera pictures opened together, in one turn of parallel reads.
 4. One command that applies every fix (rewrite a file, or one script with all the replacements; never one edit per change), runs the camera again and prints `git status --short`.
@@ -25,6 +25,7 @@ From that one read, note the reader, the one thing they must do, fixed brand col
 
 - **A page** (read and scrolled: landing, shop, event): follow steps 2–6.
 - **An app screen** (worked in: dashboard, rota, queue, admin): follow steps 2–6 with [app screens](references/app-screens.md) in place of the page rules on direction and fullness.
+- **Something to do** (a checkout, sign-up, settings, a calculator or configurator, search and filters), on a page or a screen: also follow [hierarchy and UX](references/ux.md). List every state before writing: empty, no results, error beside each field, unsaved, saved, success. The visitor finishing the task is the design.
 
 If the brief is vague, state your reading in one line and carry on.
 
@@ -50,6 +51,8 @@ Fix the system as CSS custom properties:
 - **Type:** one family, two at most, chosen for the subject; a display size several steps above body (72–140px desktop, 40–60px phone, never smaller than the section headings); body 16–18px. Link web fonts (for example Google Fonts with `display=swap`) with a similar-width fallback, even when this machine is offline: visitors get them. A default system serif or sans on a pale ground with a blue button reads as a reskin, not a design.
 - **Colour:** one ground, one ink, one accent for actions, at most one or two fields of colour, taken from the subject's own material. Not violet or indigo on near-black, not cream with terracotta, no gradients.
 - **Layout:** one grid with equal outer margins; neighbouring sections use different forms (table, timeline, board, list, map); one dominant thing per screen.
+- **Hierarchy:** step the rest down rather than the main thing up: a muted ink for secondary text, two weights, five to seven type sizes clearly apart. One filled primary action per view; others outlined or plain.
+- **Motion:** custom properties for two or three durations and an ease-out curve ([motion](references/motion.md)).
 
 **Never use:** small uppercase letter-spaced labels anywhere (above the `h1`, above sections, as kickers); pill badges; gradient text, buttons or backgrounds; glows and resting shadows; frosted nav; three identical icon cards; everything centred; an accent-styled word in a headline; 01/02/03 numbering; wave dividers; emoji or icons in tinted squares. [Direction](references/direction.md) has the reasoning if you need it.
 
@@ -60,7 +63,8 @@ Build in the existing stack with the project's tokens. Write each file in one go
 - **Imagery:** the project's own pictures; else subject material drawn in CSS or SVG (the route, the street, the label, the ticket); else type and colour alone. For software, show each feature as a small working fragment of its own interface, built in HTML with numbers that add up, never as an icon or a bare text list. Never fake photographs. A ruled or gridded background must line up with the text on it, or go.
 - **Fullness:** each desktop screen is a poster. A screen that is mostly empty ground, a hero with space above or beside it, or a band holding one short line is unfinished: use the width (two columns, a large figure, a wide table) or merge the thin section into its neighbour.
 - **Fit:** long lists on a phone become compact rows or scroll inside their own region; tags and labels wrap rather than overflow their box.
-- **Semantics:** one `h1`, a heading per section, real links and buttons, visible focus, alt text. Motion only after the still page works, with a `prefers-reduced-motion` fallback.
+- **Semantics:** one `h1`, a heading per section, real links and buttons with labels, alt text. Tap targets 44px on a phone.
+- **Feedback and motion, in the same pass:** every control has hover, press and `:focus-visible` states (a clear ring, 3:1); selected choices look selected. The first screen is readable from its first frame (headline and action never start hidden) and settles within about 600ms; sections' parts rise a few pixels as they enter, staggered, starting visible without the script (hide only under a class the script adds). Values that change (totals, counts, errors) change in place without shifting the layout. A `prefers-reduced-motion` block shows everything at rest.
 
 ## 5. Look at it
 
@@ -68,16 +72,16 @@ Build in the existing stack with the project's tokens. Write each file in one go
 node <skill>/scripts/look.mjs <project-folder-or-html-file>
 ```
 
-It serves the folder, opens it in headless Chrome (set `CHROME_PATH` if not found), and prints measurements: sideways scroll and its cause, `h1` count, long headlines, low contrast, broken images, page errors. It writes one picture per width (390 and 1440px) showing every screen in reading order: open both `look` pictures it prints with your file-reading tool. Open a single screen from the folder only when you need to read detail.
+It serves the folder, opens it in headless Chrome (set `CHROME_PATH` if not found), and prints measurements: sideways scroll and its cause, `h1` count, long headlines, low contrast, broken images, page errors, the type scale, small tap targets, competing primary actions, and how the page behaves: still fading at 1.2s, hover and keyboard focus on the primary action and the first controls, content hidden without the script or with reduced motion. It writes one picture per width (390 and 1440px) showing every screen in reading order: open both `look` pictures it prints with your file-reading tool. Open a single screen from the folder only when you need to read detail.
 
-Critique the pictures, not the code, in four lines in your notes: the five-second read of the first screen; the three biggest visible problems (empty stretches, weak hierarchy, a generic tell, overflow, cramped phone layout, missing content); and whether the idea survives past the first screen. Fix every `FAIL` and all three problems in one editing pass, run the camera again and open both pictures again, phone included. Stop after that second look unless a `FAIL` remains. Scroll-triggered fades are best left out: a reviewer's screenshot can catch them half-faded. If no browser can run, say the page is unverified.
+Critique the pictures, not the code, in four lines in your notes: the five-second read of the first screen; the three biggest visible problems (empty stretches, weak hierarchy, a generic tell, overflow, cramped phone layout, missing content); and whether the idea survives past the first screen. Fix every `FAIL` and all three problems in one editing pass, run the camera again and open both pictures again, phone included. Stop after that second look unless a `FAIL` remains. If no browser can run, say the page is unverified.
 
 In a git repository the pictures live inside `.git/`, so there is nothing to clean up; elsewhere delete `.taste/` before you finish.
 
 ## 6. Reply
 
 - **Direction:** the idea sentence, and one line each on type, colour and layout and why they fit.
-- **What was built:** the sections, the files changed, how the phone layout differs.
+- **What was built:** the sections, the states and the motion, the files changed, how the phone layout differs.
 - **Looked at:** the widths, the camera's final FAIL and WARN counts, the top remaining weakness.
 - **To replace:** every invented detail, inferred rule and drawn stand-in.
 
