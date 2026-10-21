@@ -131,13 +131,13 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "css-craft/SKILL.md",
-      "computedHash": "39fcd03abe434f917bcfe9412e8e35f74f7047f4ea6f3c3cfeffa5ccad30bdb8"
+      "computedHash": "56e050b5e551c8d80d9c033e5689e3116f135ff871316d867de740eed148d26a"
     },
     "hillclimb": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "hillclimb/SKILL.md",
-      "computedHash": "2cd711e2733f8c47be65b157c46821f277ea05871db2061e6f92349e3540157d"
+      "computedHash": "ea1e68183532490ef313a1f6b55b37f77d1f778ea79e64af104fe43aa4523007"
     },
     "babysit-pr": {
       "source": "csark0812/toolbox",

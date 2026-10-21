@@ -7,9 +7,9 @@ when_to_use: Requests such as "get p95 latency under 200 ms", "make this page lo
 # Hillclimb
 
 <!-- source-of-truth: target-driven metric improvement through a frozen harness and a logged keep-or-revert loop. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-21 -->
 
-**Process skill.** Move one number toward a target with attempts that are measured, kept or reverted in full, and logged. Measurement rules → [measurement.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/measurement.md). Named principles → [engineering-principles.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/engineering-principles.md). Composition → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md).
+**Process skill.** Move one number toward a target with attempts that are measured, kept or reverted in full, and logged. This page is enough to run the loop; open a reference only when a rule here is unclear. Measurement rules → [measurement.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/measurement.md). Named principles → [engineering-principles.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/engineering-principles.md). Composition → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md).
 
 Adapted from the pstack hillclimb playbook ([backnotprop/pstack](https://github.com/backnotprop/pstack), MIT © 2026 Lauren Tan).
 
@@ -21,7 +21,7 @@ Adapted from the pstack hillclimb playbook ([backnotprop/pstack](https://github.
 
 ## Non-negotiables
 
-- Write the **stop predicate** before the first attempt. It has a target and a minimum attempt count, for example "p50 ≤ 40 ms and at least 5 attempts". Never relax it. Reaching the target early does not end the loop before the minimum attempt count.
+- Write the **stop predicate** before the first attempt. It has a target and a minimum attempt count, for example "median ≤ 5 ms and at least 3 attempts". Never relax it. Reaching the target early does not end the loop before the minimum attempt count.
 - **Prove the harness is sensitive, then freeze it.** Contrasting workloads must produce separated results. After the baseline, do not edit the harness, its workload, its data or its run count. Each run reports the median of repeated samples, an error count and a work-done count.
 - Record a **regression gate** at the baseline: the existing tests or a correctness check that passes before any attempt. Every kept attempt must pass it.
 - **Prove results unchanged.** Before the first attempt, build an equivalence check that runs the original and the changed code over many generated inputs, including edge cases and mixed value types, and compares outputs strictly, or with a hash of the full output. Run it at every keep. When it is small, commit it as a test that keeps a frozen copy of the original, so the protection stays in the repository; show once that it fails on a deliberately broken version.
@@ -33,21 +33,28 @@ Adapted from the pstack hillclimb playbook ([backnotprop/pstack](https://github.
 - Correctness and simplicity outrank the number. A kept attempt that adds complexity without beating the spread is reverted.
 - A plateau changes the hypothesis category. Two attempts in a row that produce no new evidence and no gain route to i-need-help when it is installed. Otherwise stop with the same report inline.
 
-**Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
+## Tools
+
+Three helpers sit in `<skill>/scripts/`, where `<skill>` is the folder this file was loaded from. Run them; there is no need to read them.
+
+- `node <skill>/scripts/ab.mjs --rounds 5 -- <bench command>`, run from the folder the bench runs in, alternates the bench on `HEAD` and on the working tree and prints three lines: each side's median, range, errors and work, then the delta and whether the ranges separate. `--ref <sha>` compares against another commit, such as the baseline. `--field <name>` picks the JSON field when the first number is not the metric.
+- `node --cpu-prof --cpu-prof-dir=<tmp> <bench script>`, then `node <skill>/scripts/hot.mjs <tmp>`, prints the ten hottest functions by self time with file and line.
+- `node <skill>/scripts/log.mjs <decisions.tsv> <id> <hypothesis> <change> <before> <after> <delta> <gate> <verdict> <note>` appends one row to the decision log.
 
 ## Workflow
 
-1. Pass the entry gate. State metric, direction, target, stop predicate and gate in one short block.
-2. Build or locate the harness. Answer the seven questions in measurement.md for the baseline. Freeze the harness.
-3. Start the decision log: `node <installed-skill>/scripts/log.mjs .hillclimb/<slug>/decisions.tsv baseline "-" "-" "-" <value> "-" pass baseline "<limiter>"`. Exclude `.hillclimb/` from Git through `.git/info/exclude` when it is not ignored.
-4. Loop: read the log, pick the next hypothesis, change only what it needs, measure with the frozen harness, run the gate, keep or revert, log the row. Log reverted attempts too.
-5. Stop when the predicate holds or the stall rule fires.
+Each step below is one response. Every extra round trip re-sends the whole conversation, so batching is the main cost lever and quiet output the second (`npm run -s`, `| tail -3`, a summary-only test reporter). A reader of the log sees only the first line or so of each command, so a measurement chained after an edit is invisible: when a step changes code and then measures, send the change and the measurement as two tool calls in the same response, which run in order. The shell stays in the folder of the last `cd`, so do not `cd` into it again.
+
+1. **Orient.** One command prints every tracked file of a small project, or in a large one the files the metric touches (`cd <project> && for f in $(git ls-files .); do echo "== $f"; cat "$f"; done`) and runs the branch and status, one bench run, the tests and a baseline profile through `hot.mjs`. Before the next step, write one short block in your reply text: metric, direction, target, the stop predicate with its minimum attempt count, gate and hot path.
+2. **Set up and first attempt.** First call: write the equivalence test and its frozen copy of the original, run it, break the code on purpose and show the test fails, restore, commit the test, exclude `.hillclimb/` through `.git/info/exclude` when it is not ignored, log the baseline row (`log.mjs .hillclimb/<slug>/decisions.tsv baseline "-" "-" "-" <value> "-" pass baseline "<limiter>"`), then apply the first hypothesis. Second call: `ab.mjs` against `HEAD`, then the gate.
+3. **Next attempt.** Read the result. First call opens with the decision's log row (measured before, after and delta), then commits the explicit paths or restores them, then applies the next hypothesis. Second call: `ab.mjs` and the gate. Log reverted attempts too.
+4. **Finish** only when the whole predicate holds, minimum attempt count included, or the stall rule fires. First call: the last log row and decision. Second call: `ab.mjs --ref <baseline sha>` for the final numbers (its range is the final spread, so no extra bench runs are needed), the gate, `git status` and `git log --oneline`.
 
 ## Exit artifact
 
 Reply with:
 
-- **Result:** baseline → final with unit, run count, range and the limiter now. Use the verdict words from measurement.md.
+- **Result:** baseline → final with unit, run count, range and the limiter now. Lead with **faster**, **slower**, **no measurable difference** or **inconclusive**.
 - **Kept:** each commit with its hypothesis and delta.
 - **Reverted:** each hypothesis with its measured reason.
 - **Predicate:** met or not met, and attempts used.
