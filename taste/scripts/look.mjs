@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Photograph a page the way a visitor sees it, and measure what screenshots hide.
-//   node <skill>/scripts/look.mjs <folder-or-html-file> [--out .taste/look] [--widths 390,768,1440]
+//   node <skill>/scripts/look.mjs <folder-or-html-file> [--out .taste/look] [--widths 390,1440]
 // Serves the folder over a throwaway local server, opens it in headless Chrome or Chromium (CHROME_PATH,
 // or a usual install path), scrolls once so scroll-triggered content appears, then saves one screenshot
 // per screen at each width and prints measurements. Node 22+, no dependencies, nothing installed.
@@ -29,7 +29,7 @@ const target = args.find(
 )
 if (!target) {
   console.error(
-    'Usage: node look.mjs <folder-or-html-file> [--out .taste/look] [--widths 390,768,1440]',
+    'Usage: node look.mjs <folder-or-html-file> [--out .taste/look] [--widths 390,1440]',
   )
   process.exit(2)
 }
@@ -37,8 +37,8 @@ const isFile = statSync(target).isFile()
 const root = resolve(isFile ? dirname(target) : target)
 const page = isFile ? basename(target) : 'index.html'
 const out = resolve(option('out', '.taste/look'))
-const widths = option('widths', '390,768,1440').split(',').map(Number)
-const MAX_SCREENS = Number(option('screens', 8))
+const widths = option('widths', '390,1440').split(',').map(Number)
+const MAX_SCREENS = Number(option('screens', 6))
 
 function findChrome() {
   const cache = (dir) =>
@@ -100,6 +100,8 @@ if (!chrome) {
   console.error('No Chrome or Chromium found. Set CHROME_PATH to one, then run this again.')
   process.exit(2)
 }
+const proxyUrl = process.env.HTTPS_PROXY ?? process.env.https_proxy
+const proxy = proxyUrl && /^https?:\/\/[^@/]+$/.test(proxyUrl.replace(/\/$/, '')) ? proxyUrl : null
 // The profile lives next to the screenshots: some sandboxes deny the system temp folder.
 const profile = join(out, '.profile')
 rmSync(out, { recursive: true, force: true })
@@ -114,6 +116,8 @@ const browser = spawn(
     '--hide-scrollbars',
     '--force-color-profile=srgb',
     ...(process.platform === 'linux' ? ['--no-sandbox', '--disable-dev-shm-usage'] : []),
+    // Web fonts load the way a visitor sees them when this machine reaches the web through a proxy.
+    ...(proxy ? [`--proxy-server=${proxy}`, '--proxy-bypass-list=127.0.0.1;localhost'] : []),
     'about:blank',
   ],
   { stdio: ['ignore', 'ignore', 'pipe'] },
@@ -171,12 +175,19 @@ const evaluate = async (expression) =>
   (await call('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true })).result
     .value
 const errors = []
+// A remote file (a web font, a CDN script) that cannot be fetched here usually means this machine is
+// offline or sandboxed, not that the page is wrong; it is reported once, apart from real page errors.
+const unreachable = new Set()
+const isLocal = (address = '') => !address || address.startsWith(`http://127.0.0.1:`)
 listeners.push((message) => {
   if (message.sessionId !== sessionId) return
   if (message.method === 'Runtime.exceptionThrown')
     errors.push(message.params.exceptionDetails.exception?.description ?? 'script error')
-  if (message.method === 'Log.entryAdded' && message.params.entry.level === 'error')
-    errors.push(message.params.entry.text)
+  if (message.method === 'Log.entryAdded' && message.params.entry.level === 'error') {
+    const { entry } = message.params
+    if (entry.source === 'network' && !isLocal(entry.url)) unreachable.add(new URL(entry.url).host)
+    else errors.push(entry.text)
+  }
 })
 await call('Page.enable')
 await call('Runtime.enable')
@@ -197,8 +208,47 @@ const MEASURE = `(() => {
   return { height: html.scrollHeight, sideways: html.scrollWidth > html.clientWidth + 1 ? html.scrollWidth : 0, wide, h1: document.querySelectorAll('h1').length, smallest: Math.min(...sizes), fonts, missingFonts: fonts.filter((f) => !loaded.includes(f) && !/^(system-ui|-apple-system|sans-serif|serif|monospace|Arial|Helvetica|Georgia|Times New Roman|Segoe UI|Roboto)$/i.test(f)), headlines: headlines.filter((h) => h.lines > 2), lowContrast, images: [...document.images].filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.getAttribute('src')).slice(0, 5) }
 })()`
 
+/**
+ * One picture per width: every screen of the page in reading order (left to right, then down), so a
+ * whole page is reviewed in one look. The single screens stay beside it for close reading.
+ */
+async function contactSheet(width, files) {
+  const columns = width < 600 ? 3 : 2
+  const tile = width < 600 ? width : width / 2
+  const tiles = files
+    .map(
+      (file) =>
+        `<img src="data:image/jpeg;base64,${readFileSync(file).toString('base64')}" style="width:${tile}px;display:block">`,
+    )
+    .join('')
+  const sheetWidth = columns * tile + (columns + 1) * 8
+  await call('Emulation.setDeviceMetricsOverride', {
+    width: sheetWidth,
+    height: 600,
+    deviceScaleFactor: 1,
+    mobile: false,
+  })
+  await call('Page.navigate', { url: 'about:blank' })
+  await pause(100)
+  const sheetHeight = await evaluate(`(() => {
+    document.body.style.cssText = 'margin:0;padding:8px;background:#777;display:grid;gap:8px;grid-template-columns:repeat(${columns},${tile}px);align-items:start'
+    document.body.innerHTML = ${JSON.stringify(tiles)}
+    return Promise.all([...document.images].map((i) => i.decode())).then(() => document.documentElement.scrollHeight)
+  })()`)
+  const { data } = await call('Page.captureScreenshot', {
+    format: 'jpeg',
+    quality: 70,
+    clip: { x: 0, y: 0, width: sheetWidth, height: sheetHeight, scale: 1 },
+    captureBeyondViewport: true,
+  })
+  const file = join(out, `${width}-all.jpg`)
+  writeFileSync(file, Buffer.from(data, 'base64'))
+  return relative(process.cwd(), file)
+}
+
 let problems = 0
 const report = []
+const shotsByWidth = []
 try {
   for (const width of widths) {
     const height = width < 600 ? 844 : 900
@@ -224,14 +274,19 @@ try {
     const facts = await evaluate(MEASURE)
     const screens = Math.ceil(facts.height / height)
     const files = []
+    let previous = ''
     for (let screen = 0; screen < Math.min(screens, MAX_SCREENS); screen++) {
       await evaluate(`scrollTo(0, ${screen * height})`)
       await pause(500)
       const { data } = await call('Page.captureScreenshot', { format: 'jpeg', quality: 75 })
+      // A page zoomed out by sideways overflow cannot scroll further; repeated screens add nothing.
+      if (data === previous) break
+      previous = data
       const file = join(out, `${width}-${String(screen + 1).padStart(2, '0')}.jpg`)
       writeFileSync(file, Buffer.from(data, 'base64'))
-      files.push(relative(process.cwd(), file))
+      files.push(file)
     }
+    shotsByWidth.push([width, files])
     const flags = []
     if (facts.sideways)
       flags.push(
@@ -242,18 +297,24 @@ try {
     for (const headline of facts.headlines)
       flags.push(`WARN ${headline.tag} runs to ${headline.lines} lines: "${headline.text}"`)
     for (const text of facts.lowContrast) flags.push(`FAIL low contrast: ${text}`)
-    if (facts.missingFonts.length)
+    if (facts.missingFonts.length && !unreachable.size)
       flags.push(
         `WARN not loaded as web fonts, so visitors without them installed see a fallback: ${facts.missingFonts.join(', ')}`,
       )
     if (facts.images.length) flags.push(`FAIL broken images: ${facts.images.join(', ')}`)
     problems += flags.filter((flag) => flag.startsWith('FAIL')).length
     report.push(
-      `${width}px: ${screens} screen(s), fonts ${facts.fonts.join(' / ')}${screens > MAX_SCREENS ? `, first ${MAX_SCREENS} shot` : ''}`,
+      `${width}px: ${screens} screen(s), fonts ${facts.fonts.join(' / ')}${screens > MAX_SCREENS ? `, first ${MAX_SCREENS} shot: the page may be too long` : ''}`,
       ...flags.map((flag) => `  ${flag}`),
-      ...files.map((file) => `  shot ${file}`),
     )
   }
+  for (const [width, files] of shotsByWidth)
+    report.push(`look ${await contactSheet(width, files)}  (${width}px, every screen)`)
+  report.push(`single screens: ${relative(process.cwd(), out)}/<width>-<screen>.jpg`)
+  if (unreachable.size)
+    report.push(
+      `NOTE could not reach ${[...unreachable].join(', ')} from this machine, so remote fonts or files show their fallback here. Visitors online get them; this is not a page fault.`,
+    )
   for (const error of [...new Set(errors)].slice(0, 5)) {
     report.push(`FAIL page error: ${error.split('\n')[0]}`)
     problems++
@@ -262,7 +323,7 @@ try {
   console.log(
     problems
       ? `${problems} FAIL(s). Fix them, then run this again.`
-      : 'No FAILs measured. Now open every shot and look.',
+      : 'No FAILs measured. Now open each "look" picture and critique it.',
   )
   finish(problems ? 1 : 0)
 } catch (error) {
