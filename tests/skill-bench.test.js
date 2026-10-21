@@ -46,6 +46,31 @@ const run = (overrides = {}) => ({
   ...overrides,
 })
 
+describe('skill bench wording variants', () => {
+  const variants = tasks.filter((task) => task.variant)
+  it('marks every -plain task as a variant, and nothing else', () => {
+    expect(variants.map((task) => task.id).sort()).toEqual(
+      tasks
+        .filter((task) => task.id.endsWith('-plain'))
+        .map((task) => task.id)
+        .sort(),
+    )
+    expect(variants.length).toBeGreaterThan(0)
+  })
+  for (const variant of variants)
+    it(`${variant.id} rewords an original with the same skill, check and fixture`, () => {
+      const original = tasks.find(
+        (task) =>
+          !task.variant &&
+          task.check === variant.check &&
+          task.targetSkill === variant.targetSkill &&
+          task.claim?.fixtureGate === variant.claim?.fixtureGate,
+      )
+      expect(original, 'an original task shares this check').toBeTruthy()
+      expect(variant.claim.prompt).not.toBe(original.claim.prompt)
+    })
+})
+
 describe('skill bench blinding', () => {
   it('flags measurement words as whole words only', () => {
     expect(blindingLeaks('Please evaluate the candidate against the rubric')).toEqual([

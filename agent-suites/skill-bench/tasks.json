@@ -398,7 +398,7 @@
       "criteria": [
         "Tests are written before or alongside the code and pin the public behaviour: each written form, both units in mixed case, the tablespoon conversion, hostile input (a pinch, a bare number, no unit, a zero denominator, a negative, cups, non-strings), and a command-line test that runs the real `npm run blend` on the shipped recipes and checks stdout, stderr and the exit code exactly, including star anise named on stderr and every bad `--jars` value.",
         "The implementation is small, keeps the amount rules in one place, and decides unspecified cases deliberately and names them in the reply (for example how amounts are rounded or printed, `--jars` given twice or before the name, extra spaces, and the exit code when a spice is skipped), without changing behaviour the request did not ask about.",
-        "Without the option the recipe prints exactly as before, and the README documents --jars.",
+        "Without the option the recipe prints exactly as before.",
         "An independent review checked the change against the request and tried hostile input; issues it found got a failing test and a fix, the tests and the command were rerun after the last fix, and the reply shows the tests passing and verbatim sample output."
       ]
     },
@@ -406,6 +406,7 @@
       "id": "feed-staleness-plain",
       "targetSkill": "probe",
       "check": "feed-reader",
+      "variant": true,
       "claim": {
         "prompt": "My partner swears the feed reader in agent-suites/fixtures/feed-reader only refreshes every few hours, because the sidebar's 'Updated' time is hours old even though it's set to refresh every 10 minutes. Which of us is right? Just explain it, I'll decide about changes later."
       },
@@ -420,6 +421,7 @@
       "id": "takings-plain",
       "targetSkill": "probe",
       "check": "pool-passes",
+      "variant": true,
       "claim": {
         "prompt": "Quick sanity check before the committee meets: is the £612 October figure from `npm run takings` in agent-suites/fixtures/pool-passes inflated by cancelled passes, like our treasurer says? If so, what's the true number? Leave the code as it is.",
         "fixtureGate": "agent-suites/fixtures/pool-passes"
@@ -435,6 +437,7 @@
       "id": "money-helper-plain",
       "targetSkill": "refactor-companion",
       "check": "invoice-kit",
+      "variant": true,
       "claim": {
         "prompt": "agent-suites/fixtures/invoice-kit has src/legacy/currency.mjs as well as src/format.mjs, and both format money. Fold the legacy one into src/format.mjs, point everything at that and remove the legacy file. Printed invoices and receipts must not change at all.",
         "fixtureGate": "agent-suites/fixtures/invoice-kit"
@@ -450,6 +453,7 @@
       "id": "seat-rename-plain",
       "targetSkill": "refactor-companion",
       "check": "orchestra-seating",
+      "variant": true,
       "claim": {
         "prompt": "Small tidy-up in agent-suites/fixtures/orchestra-seating: we call it a seat now, so the `chair` field on a player should be `seat` in the code, the tests and data/players.json, with no `chair` alias left in the code. Whatever `npm run export`, `npm run seating -- --by chair` and `npm run seating -- --principals` print today, they have to keep printing.",
         "fixtureGate": "agent-suites/fixtures/orchestra-seating"
@@ -465,6 +469,7 @@
       "id": "garden-jobs-plain",
       "targetSkill": "workflow",
       "check": "community-garden",
+      "variant": true,
       "claim": {
         "prompt": "The garden committee sent over a few bits for agent-suites/fixtures/community-garden. Bram Ola's half plot is billed £60 rent, but half plots are £35. The treasurer wants `--unpaid` on `npm run plots` to see who still owes. Water is £15 a plot this year, so change it wherever it's written down. And could each bill line show the plot number so people can find theirs? Commit each one separately on this branch.",
         "branch": "fix/garden-bills",
@@ -483,6 +488,7 @@
       "id": "shelf-todo-plain",
       "targetSkill": "workflow",
       "check": "shelf-app",
+      "variant": true,
       "claim": {
         "prompt": "There's a TODO.md in agent-suites/fixtures/shelf-app with a few fixes the team wants. Can you get through them? Separate commits please, I'm on a feature branch.",
         "branch": "chore/shelf",
@@ -500,6 +506,7 @@
       "id": "meter-plain",
       "targetSkill": "tdd",
       "check": "usage-meter",
+      "variant": true,
       "claim": {
         "prompt": "The usage meter in agent-suites/fixtures/usage-meter needs `remaining(account, nowMs)`: the units an account has left in the current UTC day, never below zero. Tests before code please, and have someone look it over before you finish.",
         "fixtureGate": "agent-suites/fixtures/usage-meter"
@@ -515,6 +522,7 @@
       "id": "canoe-plain",
       "targetSkill": "evidence-based-debugging",
       "check": "canoe-queue",
+      "variant": true,
       "claim": {
         "prompt": "Priya was first in the canoe queue at 8:50, but `npm run queue` in agent-suites/fixtures/canoe-queue sent her out on C2 at 10:30 when C1 was back at 9:05. I reckon the dock tablet's clock is on UTC. Could you sort it?",
         "fixtureGate": "agent-suites/fixtures/canoe-queue"
@@ -530,6 +538,7 @@
       "id": "file-list-plain",
       "targetSkill": "css-craft",
       "check": "file-browser",
+      "variant": true,
       "claim": {
         "prompt": "On my phone the file browser in agent-suites/fixtures/file-browser gets wider than the screen whenever a file has a long name, and the size gets pushed off the side. Long names should just end in '…'.",
         "fixtureGate": "agent-suites/fixtures/file-browser"
@@ -546,6 +555,7 @@
       "id": "dark-notice-plain",
       "targetSkill": "css-craft",
       "check": "settings-panel",
+      "variant": true,
       "claim": {
         "prompt": "In dark mode the renewal notice on the settings page in agent-suites/fixtures/settings-panel is really hard to read. Light mode's fine. Can you sort the colours out?",
         "fixtureGate": "agent-suites/fixtures/settings-panel"
