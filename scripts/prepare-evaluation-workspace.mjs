@@ -27,15 +27,6 @@ await writeFile(
     ? '# Projects\n\nEach folder under projects/ is a small service with its own README and package.json. Keep file access and changes inside this workspace. Parent directories, parent AGENTS.md files, global installs and other repositories are out of scope. Discover commands from each project’s manifest.\n'
     : '# Isolated conformance fixture\n\nThis workspace contains all applicable fixture instructions, public sample sources and available skills. Keep file access and changes inside this workspace. Parent directories, parent AGENTS.md files, global installs and other repositories are outside the fixture boundary. Discover commands from the fixture manifests and preserve the task’s diagnosis or repair authority.\n',
 )
-// Claude Code's Linux sandbox blocks Unix sockets, which headless Chrome needs to start. Every arm gets
-// the same allowance so visual work can be rendered and looked at; network access is unchanged.
-if (bench && process.env.SKILL_BENCH_RUNNER === 'claude') {
-  await mkdir(join(target, '.claude'), { recursive: true })
-  await writeFile(
-    join(target, '.claude', 'settings.json'),
-    JSON.stringify({ sandbox: { network: { allowAllUnixSockets: true } } }, null, 2),
-  )
-}
 await writeFile(
   join(target, 'package.json'),
   JSON.stringify(

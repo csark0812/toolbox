@@ -76,8 +76,15 @@ function benchShellEnv() {
   const claudeRoot = join(`/private/tmp/claude-${process.getuid()}`, 'toolbox-bench')
   const claudeBin = shims(claudeRoot)
   const claudeEnv = join(claudeRoot, 'claude-env.sh')
-  // Every arm can open the same browser for visual work; none is told it exists.
-  const chrome = chromePath()
+  // Every arm can open the same browser for visual work; none is told it exists. Chrome refuses to
+  // start as root without --no-sandbox, so as root the arms get a shim that adds it.
+  const browser = chromePath()
+  let chrome = browser
+  if (browser && process.platform === 'linux' && process.getuid() === 0) {
+    chrome = join(claudeRoot, 'bin', 'chrome')
+    writeFileSync(chrome, `#!/bin/sh\nexec "${browser}" --no-sandbox "$@"\n`)
+    chmodSync(chrome, 0o755)
+  }
   writeFileSync(
     claudeEnv,
     `export PATH="${claudeBin}:$PATH"\n${chrome ? `export CHROME_PATH="${chrome}"\n` : ''}`,
@@ -87,6 +94,11 @@ function benchShellEnv() {
     ZDOTDIR: zdot,
     CLAUDE_ENV_FILE: claudeEnv,
     ...(chrome ? { CHROME_PATH: chrome } : {}),
+    // Runs go through a wrapper that lets the sandbox open Unix sockets, so Chrome can start.
+    TOOLBOX_REAL_CLAUDE_BIN:
+      process.env.CLAUDE_CODE_BIN ??
+      execFileSync('sh', ['-c', 'command -v claude'], { encoding: 'utf8' }).trim(),
+    CLAUDE_CODE_BIN: join(import.meta.dirname, 'lib', 'claude-bench-bin.mjs'),
   }
 }
 
