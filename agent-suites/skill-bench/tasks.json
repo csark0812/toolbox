@@ -247,6 +247,84 @@
         "The fix is checked under each way dark mode can apply (OS setting and theme switch), not only one.",
         "The reply lists every changed file and quotes the declarations before and after."
       ]
+    },
+    {
+      "id": "canoe-wait-times",
+      "targetSkill": "evidence-based-debugging",
+      "check": "canoe-queue",
+      "claim": {
+        "prompt": "People in the canoe queue at agent-suites/fixtures/canoe-queue are waiting far too long. `npm run queue` put Priya, who was first in line at 8:50, on C2 at 10:30, but C1 was back at 9:05. I think the dock tablet saves return times in UTC, so they're an hour out. Can you fix it?",
+        "fixtureGate": "agent-suites/fixtures/canoe-queue"
+      },
+      "criteria": [
+        "The cause is shown with output, not guessed: earliestFirst() in src/times.mjs compares the `back` times as strings, and unpadded times such as `10:30` sort before `9:05`, so canoes go out in the wrong order.",
+        "The UTC theory is checked and rejected with evidence: every time in data/returns.json is local and written the same way, and the order is wrong only where an hour has one digit.",
+        "The fix is at the shared helper, so both the queue and the \"Next due back\" line are corrected, and a regression test with several times across 9:xx and 10:xx was seen failing before the fix and passing after.",
+        "`npm run queue` is rerun and its output shown: Priya C1 at 9:05 (15 min), Dan C3 at 9:40, Mo C2 at 10:30, Ana C4 at 11:15, Theo none, next due C1 at 9:05. The reply says plainly that Mo and Ana now wait longer than the old output said, and its claims match what was run."
+      ]
+    },
+    {
+      "id": "garden-jobs-batch",
+      "targetSkill": "workflow",
+      "check": "community-garden",
+      "claim": {
+        "prompt": "Jobs from the garden committee for agent-suites/fixtures/community-garden, one commit each on this branch please:\n\n1. Bram Ola rents a half plot and his bill says £60 rent. Half plots are £35.\n2. Add `--unpaid` to `npm run plots` so the treasurer can see who still owes.\n3. Water goes up to £15 a plot this year. Change it everywhere it's written down.\n4. Could each bill line show the plot number, so people can find theirs?",
+        "branch": "fix/garden-bills",
+        "fixtureGate": "agent-suites/fixtures/community-garden",
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "Each item is done at its cause: sizeName() in src/bills.mjs treats 0.5 as a full plot and 0.25 as a half, so the fix also changes Cy Wren's half plot to £35 and Dee Moss's quarter plot from £35 to £20, which the committee did not mention. `--unpaid` reads `paid` loosely enough to include Eli Hart's `No ` and exclude Fen Achebe's `Yes`. WATER in src/config.mjs, the test and the README all say £15.",
+        "Item 4 is recognised as already done (every line already starts with `Plot N`) and reported as such, with no empty or cosmetic commit for it.",
+        "There is one commit per real change, each verified (ideally with tests for the plot sizes and the unpaid filter), with edge cases named, such as the other half plot, the quarter plot and the oddly typed paid values.",
+        "Nothing outside the items changes, the data is not edited, and main is untouched.",
+        "The reply summarises each item with its commit hash as it stands at the end and how it was checked, says plainly that item 4 needed no change, and names every other plot whose bill changed."
+      ]
+    },
+    {
+      "id": "pool-takings-question",
+      "targetSkill": "probe",
+      "check": "pool-passes",
+      "claim": {
+        "prompt": "Our treasurer thinks `npm run takings` in agent-suites/fixtures/pool-passes is still counting passes that were cancelled. It says we took £612 in October. Is she right, and what should the figure be? Please don't change anything yet, I need to explain it at the committee meeting.",
+        "fixtureGate": "agent-suites/fixtures/pool-passes"
+      },
+      "criteria": [
+        "The verdict leads: she is right. takings() in src/takings.mjs drops only a status of exactly `cancelled`, so Kit Barnes's `Cancelled` (£48) and Una Kerr's `CANCELLED` (£30) are still counted.",
+        "It also finds what she did not raise: the README says refunded passes are not counted, but Ada Nwosu (£30) and Bea Holt (£48) are counted too. The real October figure is £456, £156 less, worked out by running code rather than by hand.",
+        "It notes that the existing tests only use a lowercase `cancelled` and no refunded pass, which is why nothing caught it, and that Nia Cole's September pass is correctly left out.",
+        "Nothing is changed or committed. A fix is described, not made, and the reply gives the user wording they can use at the meeting."
+      ]
+    },
+    {
+      "id": "orchestra-seat-rename",
+      "targetSkill": "refactor-companion",
+      "check": "orchestra-seating",
+      "claim": {
+        "prompt": "In agent-suites/fixtures/orchestra-seating, rename the `chair` field on a player to `seat` everywhere: the code, the tests and data/players.json. Don't keep `chair` as an alias in the code. The librarian's spreadsheet reads `npm run export`, and section leaders use `npm run seating -- --by chair` and `npm run seating -- --principals`, so all three must print exactly what they print now.",
+        "fixtureGate": "agent-suites/fixtures/orchestra-seating"
+      },
+      "criteria": [
+        "Every hidden use of the field name is found before editing: the CSV header in bin/export.mjs comes from Object.keys of a player, the `--by` value is used directly as a field name, and the `Chair` label in bin/seating.mjs is built from the field name in FIELDS.",
+        "The data, src and tests use `seat` only. The external names (`chair` in the CSV header, `--by chair` and the `Chair` label) are kept by an explicit mapping at the command-line boundary, not by an alias in core code or by deriving labels from field names.",
+        "Before-and-after output of all three commands is captured and shown byte-identical, and the tests pass.",
+        "The reply lists every migrated site and each external name kept on purpose, and its claims match what was run."
+      ]
+    },
+    {
+      "id": "spice-jar-scaling",
+      "targetSkill": "tdd",
+      "check": "spice-blends",
+      "claim": {
+        "prompt": "The stall is going to sell big bags as well as jars, so agent-suites/fixtures/spice-blends needs to scale recipes. Add `toTeaspoons(text)` in src/amounts.mjs that turns an amount like `1 1/2 tsp` into teaspoons (1.5). An amount is a whole number, a decimal, a fraction like `3/4`, or a whole number and a fraction like `1 1/4`, then `tsp` or `tbsp` (a tablespoon is 3 teaspoons), in any case. Anything else throws a RangeError that quotes the text. Then add `--jars <n>` to `npm run blend` that prints each spice's amount for n jars in teaspoons, like `  4.5 tsp cumin`. n is a whole number from 1 to 50; a bad or missing n exits 2 with a message on stderr and nothing on stdout. If a spice's amount can't be read, leave it out and name it on stderr. Please work test-first and have it reviewed before you call it done.",
+        "fixtureGate": "agent-suites/fixtures/spice-blends"
+      },
+      "criteria": [
+        "Tests are written before or alongside the code and pin the public behaviour: each written form, both units in mixed case, the tablespoon conversion, hostile input (a pinch, a bare number, no unit, a zero denominator, a negative, cups, non-strings), and a command-line test that runs the real `npm run blend` on the shipped recipes and checks stdout, stderr and the exit code exactly, including star anise named on stderr and every bad `--jars` value.",
+        "The implementation is small, keeps the amount rules in one place, and decides unspecified cases deliberately and names them in the reply (for example how amounts are rounded or printed, `--jars` given twice or before the name, extra spaces, and the exit code when a spice is skipped), without changing behaviour the request did not ask about.",
+        "Without the option the recipe prints exactly as before, and the README documents --jars.",
+        "An independent review checked the change against the request and tried hostile input; issues it found got a failing test and a fix, the tests and the command were rerun after the last fix, and the reply shows the tests passing and verbatim sample output."
+      ]
     }
   ]
 }
