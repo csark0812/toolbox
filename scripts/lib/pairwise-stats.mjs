@@ -178,14 +178,24 @@ export function clusterBootstrap(rows, { samples = BOOTSTRAP_SAMPLES, seed = 1 }
  * Three-way verdict on the primary contrast (focus arm vs baseline arm).
  * Better: rate ≥ BAR, lower bound > FLOOR, and no more hard-check failures.
  * Not better: upper bound < BAR. Saturated: otherwise undecided, but at least SATURATED_TIES of
- * the pairs are ties, wins are at least losses, and no more hard-check failures. Otherwise
+ * the pairs are ties, wins are at least losses, no more hard-check failures, and fewer median
+ * tokens: when nothing could be done better, the cheaper arm is the better one. Otherwise
  * inconclusive. Never final before MIN_REPEATS runs per arm per task.
  */
-export function verdict({ rate, lower, upper, repeats, wins = 0, losses = 0, ties = 0 }, defects) {
+export function verdict(
+  { rate, lower, upper, repeats, wins = 0, losses = 0, ties = 0 },
+  defects,
+  tokens = {},
+) {
   if (repeats < MIN_REPEATS) return 'inconclusive'
   const total = wins + losses + ties
+  const cheaper = tokens.focus > 0 && tokens.other > 0 && tokens.focus < tokens.other
   const saturated =
-    total > 0 && ties / total >= SATURATED_TIES && wins >= losses && defects.focus <= defects.other
+    total > 0 &&
+    ties / total >= SATURATED_TIES &&
+    wins >= losses &&
+    defects.focus <= defects.other &&
+    cheaper
   if (rate === null || lower === null || upper === null)
     return saturated ? 'saturated' : 'inconclusive'
   if (upper < BAR) return 'not-better'

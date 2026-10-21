@@ -70,7 +70,7 @@ export function buildReport({ runs: all, tasks, judgments, baseline = 'none' }) 
       repeats < MIN_REPEATS
         ? `signal only (${repeats} run${repeats === 1 ? '' : 's'} per arm)`
         : health.healthy
-          ? verdict({ ...rate, ...interval, repeats }, defects)
+          ? verdict({ ...rate, ...interval, repeats }, defects, cost.tokens)
           : 'withheld'
     return { skill, focus, baseline, ...rate, ...interval, repeats, defects, cost, verdict: call }
   }

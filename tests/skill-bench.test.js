@@ -354,16 +354,25 @@ describe('required bar', () => {
 
 describe('saturated verdict', () => {
   const none = { focus: 0, other: 0 }
+  const cheaper = { focus: 80, other: 100 }
   const base = { rate: 0.5, lower: 0.2, upper: 0.8, repeats: 4 }
 
   it('marks an undecided skill saturated when nearly every pair ties and it is not behind', () => {
-    expect(verdict({ ...base, wins: 4, losses: 4, ties: 40 }, none)).toBe('saturated')
+    expect(verdict({ ...base, wins: 4, losses: 4, ties: 40 }, none, cheaper)).toBe('saturated')
     expect(
       verdict(
         { ...base, rate: null, lower: null, upper: null, wins: 0, losses: 0, ties: 48 },
         none,
+        cheaper,
       ),
     ).toBe('saturated')
+  })
+
+  it('stays inconclusive when it costs as many tokens or more', () => {
+    expect(
+      verdict({ ...base, wins: 4, losses: 4, ties: 40 }, none, { focus: 100, other: 100 }),
+    ).toBe('inconclusive')
+    expect(verdict({ ...base, wins: 4, losses: 4, ties: 40 }, none)).toBe('inconclusive')
   })
 
   it('stays inconclusive when ties are fewer, it trails, or it fails more checks', () => {

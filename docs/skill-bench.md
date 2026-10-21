@@ -26,7 +26,7 @@ A skill ships or stays only if it beats its baseline in this bench. Conformance 
 6. **Verdict.** `scripts/skill-bench-report.mjs` applies the rules in `scripts/lib/pairwise-stats.mjs`, ported from the UI bench:
    - **Better:** win rate ≥ 60%, bootstrap lower bound > 50%, and no more hard-check failures than the baseline.
    - **Not better:** upper bound < 60%.
-   - **Saturated:** none of the above, but at least 75% of pairs are ties, wins are at least losses, and there are no more hard-check failures than the baseline. Both arms reached the same verified result so often that nothing could be better.
+   - **Saturated:** none of the above, but at least 75% of pairs are ties, wins are at least losses, there are no more hard-check failures than the baseline, and median tokens are lower. Both arms reached the same verified result so often that nothing could be better, so the cheaper arm is the better one.
    - **Inconclusive:** anything else.
 
    The report also shows median tokens and wall-clock time per arm, with the ratio. Cost is never shown to the judge, so it cannot bias the quality call; read the two side by side.
