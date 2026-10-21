@@ -1,7 +1,7 @@
 # Agent entry (toolbox)
 
 <!-- source-of-truth: agent cold-start in this repo. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-21 -->
 
 Public process skills SSOT (user-level install). Markdown skills + skeleton audits — not a TypeScript app. No runtime env vars required (see `.env.example`).
 
