@@ -70,7 +70,7 @@ export function buildReport({ runs: all, tasks, judgments, baseline = 'none' }) 
       repeats < MIN_REPEATS
         ? `signal only (${repeats} run${repeats === 1 ? '' : 's'} per arm)`
         : health.healthy
-          ? verdict({ ...rate, ...interval, repeats }, defects)
+          ? verdict({ ...rate, ...interval, repeats }, defects, cost.tokens)
           : 'withheld'
     return { skill, focus, baseline, ...rate, ...interval, repeats, defects, cost, verdict: call }
   }
@@ -118,6 +118,26 @@ export function strongClaim({ rows, health }, focus) {
   return { met: checks.every((check) => check.ok), checks }
 }
 
+/**
+ * The required bar every held-out set must clear: the pooled verdict is better, every skill is
+ * better or saturated (both arms tied on nearly every pair, so nothing could be better), and the
+ * judge is healthy. Inconclusive is not enough. Set by the user after held-out v8.
+ */
+export function requiredBar({ rows, health }, focus) {
+  const skills = rows.filter((row) => row.focus === focus && row.skill !== ALL_TASKS)
+  const pooled = rows.find((row) => row.focus === focus && row.skill === ALL_TASKS)
+  const short = skills.filter((row) => !['better', 'saturated'].includes(row.verdict))
+  const checks = [
+    { name: 'pooled verdict better', ok: pooled?.verdict === 'better' },
+    {
+      name: `every skill better or saturated${short.length ? ` (short: ${short.map((row) => `${row.skill} ${row.verdict}`).join(', ')})` : ''}`,
+      ok: skills.length > 0 && short.length === 0,
+    },
+    { name: 'judge healthy', ok: health.healthy },
+  ]
+  return { met: checks.every((check) => check.ok), checks }
+}
+
 const percent = (value) => (value === null ? '–' : `${Math.round(value * 100)}%`)
 const thousands = (value) => `${Math.round(value / 1000)}k`
 const seconds = (value) => `${Math.round(value)}s`
@@ -142,7 +162,12 @@ export function renderMarkdown(id, { rows, health, excluded = 0, judges = [] }) 
     '',
     ...[...new Set(rows.map((row) => row.focus))].flatMap((focus) => {
       const claim = strongClaim({ rows, health }, focus)
+      const required = requiredBar({ rows, health }, focus)
       return [
+        `## Required bar for ${focus}: ${required.met ? 'met' : 'not met'}`,
+        '',
+        ...required.checks.map((check) => `- ${check.ok ? 'ok' : 'FAIL'} ${check.name}`),
+        '',
         `## Strong claim for ${focus}: ${claim.met ? 'met' : 'not met'}`,
         '',
         ...claim.checks.map((check) => `- ${check.ok ? 'ok' : 'FAIL'} ${check.name}`),

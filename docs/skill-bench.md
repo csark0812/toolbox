@@ -26,11 +26,20 @@ A skill ships or stays only if it beats its baseline in this bench. Conformance 
 6. **Verdict.** `scripts/skill-bench-report.mjs` applies the rules in `scripts/lib/pairwise-stats.mjs`, ported from the UI bench:
    - **Better:** win rate ≥ 60%, bootstrap lower bound > 50%, and no more hard-check failures than the baseline.
    - **Not better:** upper bound < 60%.
+   - **Saturated:** none of the above, but at least 75% of pairs are ties, wins are at least losses, there are no more hard-check failures than the baseline, and median tokens are lower. Both arms reached the same verified result so often that nothing could be better, so the cheaper arm is the better one.
    - **Inconclusive:** anything else.
 
    The report also shows median tokens and wall-clock time per arm, with the ratio. Cost is never shown to the judge, so it cannot bias the quality call; read the two side by side.
 
    No verdict is given before 4 runs per arm per task; fewer runs report **signal only**. An unhealthy judge withholds every verdict.
+
+## Required bar (set after held-out v8)
+
+Every held-out set must clear this before toolbox counts as better than a comparison pack. The report prints it as **Required bar**.
+
+1. **The pooled verdict is better.**
+2. **Every skill is better or saturated.** Inconclusive is not enough. Saturated is the one exception: it marks a skill whose tasks left no room to do better, which also says the set should give that skill harder tasks next time.
+3. **Healthy judge.**
 
 ## Strong claim (fixed before held-out v3)
 
