@@ -1,0 +1,9 @@
+{
+  "name": "canoe-queue",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "queue": "node bin/queue.mjs"
+  }
+}

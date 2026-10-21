@@ -1,0 +1,9 @@
+{
+  "name": "spice-blends",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "blend": "node bin/blend.mjs"
+  }
+}

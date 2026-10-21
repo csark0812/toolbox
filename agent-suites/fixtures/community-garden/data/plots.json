@@ -1,0 +1,8 @@
+[
+  { "plot": 1, "holder": "Ines Ford", "size": 1, "paid": "yes" },
+  { "plot": 2, "holder": "Bram Ola", "size": 0.5, "paid": "no" },
+  { "plot": 3, "holder": "Cy Wren", "size": 0.5, "paid": "yes" },
+  { "plot": 4, "holder": "Dee Moss", "size": 0.25, "paid": "no" },
+  { "plot": 5, "holder": "Eli Hart", "size": 1, "paid": "No " },
+  { "plot": 6, "holder": "Fen Achebe", "size": 1, "paid": "Yes" }
+]

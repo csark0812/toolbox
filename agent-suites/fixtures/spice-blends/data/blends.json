@@ -1,0 +1,21 @@
+{
+  "ras el hanout": [
+    { "spice": "cumin", "amount": "1 1/2 tsp" },
+    { "spice": "ginger", "amount": "1 tsp" },
+    { "spice": "cinnamon", "amount": "3/4 tsp" },
+    { "spice": "turmeric", "amount": "1 TBSP" },
+    { "spice": "cloves", "amount": "1/4 tsp" }
+  ],
+  "chili crunch base": [
+    { "spice": "chili flakes", "amount": "2 tbsp" },
+    { "spice": "sichuan pepper", "amount": "0.5 tsp" },
+    { "spice": "star anise", "amount": "a pinch" },
+    { "spice": "sesame", "amount": "1 Tbsp" }
+  ],
+  "pumpkin spice": [
+    { "spice": "cinnamon", "amount": "3 tbsp" },
+    { "spice": "ginger", "amount": "2 tsp" },
+    { "spice": "nutmeg", "amount": "1 1/4 tsp" },
+    { "spice": "allspice", "amount": "1/2 tsp" }
+  ]
+}
