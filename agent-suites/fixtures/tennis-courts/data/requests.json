@@ -1,0 +1,11 @@
+[
+  { "member": "M1001", "court": 1, "date": "2026-11-07", "hour": 9 },
+  { "member": "M1002", "court": 2, "date": "2026-11-07", "hour": 9 },
+  { "member": "M1005", "court": 1, "date": "2026-11-07", "hour": 10 },
+  { "member": "M1004", "court": 3, "date": "2026-11-07", "hour": 9 },
+  { "member": "M1003", "court": 2, "date": "2026-11-07", "hour": 10 },
+  { "member": "M1007", "court": 1, "date": "2026-11-07", "hour": 9 },
+  { "member": "M1009", "court": 4, "date": "2026-11-07", "hour": 11 },
+  { "member": "M1001", "court": 5, "date": "2026-11-08", "hour": 9 },
+  { "member": "M1002", "court": 2, "date": "2026-11-07", "hour": 11 }
+]

@@ -1,0 +1,9 @@
+{
+  "name": "balloon-flights",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "flights": "node bin/flights.mjs"
+  }
+}

@@ -1,0 +1,49 @@
+diff --git a/agent-suites/fixtures/balloon-flights/README.md b/agent-suites/fixtures/balloon-flights/README.md
+index 7e36d80..55fdbaf 100644
+--- a/agent-suites/fixtures/balloon-flights/README.md
++++ b/agent-suites/fixtures/balloon-flights/README.md
+@@ -5,7 +5,7 @@ Passenger flights for Vale Balloons. `data/flights.json` lists the week's flight
+ ## Usage
+ 
+ ```
+-npm run flights   # the week's flights for the office board
++npm run flights   # the week's flights for the office board, with each flight's pilot
+ npm test
+ ```
+ 
+diff --git a/agent-suites/fixtures/balloon-flights/src/flights.mjs b/agent-suites/fixtures/balloon-flights/src/flights.mjs
+index d77e910..c2f010e 100644
+--- a/agent-suites/fixtures/balloon-flights/src/flights.mjs
++++ b/agent-suites/fixtures/balloon-flights/src/flights.mjs
+@@ -1,12 +1,12 @@
+ /** Seats still free on a flight. */
+ export const seatsLeft = (flight) => flight.basket - flight.booked
+ 
+-/** Lines of the office board, by date and then dawn before dusk. */
++/** Lines of the office board, by date and then dawn before dusk, with the pilot. */
+ export function board(flights) {
+   return [...flights]
+     .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.slot === 'dawn' ? -1 : 1))
+     .map(
+       (flight) =>
+-        `${flight.date}  ${flight.slot.padEnd(5)} ${flight.site.padEnd(14)}${String(seatsLeft(flight)).padStart(2)} left`,
++        `${flight.date}  ${flight.slot.padEnd(5)} ${flight.site.padEnd(14)}${String(seatsLeft(flight)).padStart(2)} left  ${flight.pilot}`,
+     )
+ }
+diff --git a/agent-suites/fixtures/balloon-flights/tests/flights.test.mjs b/agent-suites/fixtures/balloon-flights/tests/flights.test.mjs
+index e12d688..f1dad50 100644
+--- a/agent-suites/fixtures/balloon-flights/tests/flights.test.mjs
++++ b/agent-suites/fixtures/balloon-flights/tests/flights.test.mjs
+@@ -27,9 +27,9 @@ test('seats left is the basket less the bookings', () => {
+   assert.equal(seatsLeft(flights[1]), 2)
+ })
+ 
+-test('the board lists dawn before dusk', () => {
++test('the board lists dawn before dusk with the pilot', () => {
+   assert.deepEqual(board(flights), [
+-    '2026-11-05  dawn  Castle Meadow  2 left',
+-    '2026-11-05  dusk  Castle Meadow  0 left',
++    '2026-11-05  dawn  Castle Meadow  2 left  Hal',
++    '2026-11-05  dusk  Castle Meadow  0 left  Ros',
+   ])
+ })

@@ -1,0 +1,11 @@
+[
+  { "ref": "K-201", "surname": "Okafor", "people": 5, "day": "Tue", "status": "active" },
+  { "ref": "K-202", "surname": "Brennan", "people": 2, "day": "Tue", "status": "active" },
+  { "ref": "K-203", "surname": "Novak", "people": 4, "day": "Tue", "status": "Cancelled" },
+  { "ref": "K-204", "surname": "Haddad", "people": 7, "day": "Tue", "status": "active" },
+  { "ref": "K-205", "surname": "Price", "people": 1, "day": "Thu", "status": "active" },
+  { "ref": "K-206", "surname": "Kowalski", "people": 3, "day": "Thu", "status": "cancelled" },
+  { "ref": "K-207", "surname": "Mensah", "people": 5, "day": "Thu", "status": "active" },
+  { "ref": "K-208", "surname": "Ali", "people": 6, "day": "Thu", "status": "cancelled " },
+  { "ref": "K-209", "surname": "Doyle", "people": 3, "day": "Sat", "status": "active" }
+]

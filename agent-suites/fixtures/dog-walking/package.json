@@ -1,0 +1,10 @@
+{
+  "name": "dog-walking",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "walks": "node bin/walks.mjs",
+    "invoice": "node bin/invoice.mjs"
+  }
+}

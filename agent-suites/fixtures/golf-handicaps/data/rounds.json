@@ -1,0 +1,17 @@
+[
+  { "id": "R001", "player": "Ann Kerr", "date": "2026-09-05", "course": "Old Course", "gross": 88 },
+  { "id": "R002", "player": "Tom Hale", "date": "2026-09-05", "course": "Heath", "gross": 79 },
+  { "id": "R003", "player": "ANN KERR", "date": "2026-09-12", "course": "Heath", "gross": 84 },
+  { "id": "R004", "player": "Ann Kerr", "date": "2026-09-19", "course": "Links", "gross": 95 },
+  {
+    "id": "R005",
+    "player": " ann kerr",
+    "date": "2026-09-26",
+    "course": "Old Course",
+    "gross": 86
+  },
+  { "id": "R006", "player": "Tom Hale", "date": "2026-09-26", "course": "Links", "gross": 83 },
+  { "id": "R008", "player": "Ann Kerr", "date": "2026-10-03", "course": "Heath", "gross": 81 },
+  { "id": "R007", "player": "Ann Kerr", "date": "2026-10-03", "course": "Old Course", "gross": 90 },
+  { "id": "R009", "player": "Tom Hale", "date": "2026-10-10", "course": "Old Course", "gross": 80 }
+]

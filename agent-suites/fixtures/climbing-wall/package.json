@@ -1,0 +1,9 @@
+{
+  "name": "climbing-wall",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "problems": "node bin/problems.mjs"
+  }
+}

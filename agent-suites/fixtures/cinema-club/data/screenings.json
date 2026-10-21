@@ -1,0 +1,7 @@
+[
+  { "id": "S1", "date": "2026-11-06", "time": "19:30", "film": "Local Hero" },
+  { "id": "S2", "date": "2026-11-07", "time": "14:00", "film": "Spirited Away" },
+  { "id": "S3", "date": "2026-11-07", "time": "20:00", "film": "Withnail and I" },
+  { "id": "S4", "date": "2026-11-08", "time": "16:45", "film": "The Red Shoes" },
+  { "id": "S5", "date": "2026-11-08", "time": "17:00", "film": "Brief Encounter" }
+]

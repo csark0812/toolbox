@@ -1,0 +1,10 @@
+{
+  "name": "tide-tables",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "ask": "node bin/ask.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}
