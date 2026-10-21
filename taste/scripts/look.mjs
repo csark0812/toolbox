@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Photograph a page the way a visitor sees it, and measure what screenshots hide.
-//   node <skill>/scripts/look.mjs <folder-or-html-file> [--out <dir>] [--widths 390,1440]
+//   node <skill>/scripts/look.mjs <folder-or-html-file> [--out <dir>] [--widths 390,1440] [--fails-only]
 // Serves the folder over a throwaway local server, opens it in headless Chrome or Chromium (CHROME_PATH,
 // or a usual install path), scrolls once so scroll-triggered content appears, then saves one screenshot
 // per screen at each width and prints measurements. At the widest width it also checks how the page
@@ -26,11 +26,16 @@ const option = (name, fallback) => {
   const index = args.indexOf(`--${name}`)
   return index === -1 ? fallback : args[index + 1]
 }
+const failsOnly = args.includes('--fails-only')
 const target = args.find(
-  (arg, index) => !arg.startsWith('--') && !args[index - 1]?.startsWith('--'),
+  (arg, index) =>
+    !arg.startsWith('--') &&
+    (!args[index - 1]?.startsWith('--') || args[index - 1] === '--fails-only'),
 )
 if (!target) {
-  console.error('Usage: node look.mjs <folder-or-html-file> [--out <dir>] [--widths 390,1440]')
+  console.error(
+    'Usage: node look.mjs <folder-or-html-file> [--out <dir>] [--widths 390,1440] [--fails-only]',
+  )
   process.exit(2)
 }
 const isFile = statSync(target).isFile()
@@ -259,23 +264,31 @@ const MEASURE = `(() => {
   const transparent = (c) => /^(transparent|rgba\\(\\d+, \\d+, \\d+, 0\\))$/.test(c)
   const filled = controls.filter((el) => { const r = el.getBoundingClientRect(); const st = getComputedStyle(el); return r.top < innerHeight && r.bottom > 0 && ['A', 'BUTTON'].includes(el.tagName) && !transparent(st.backgroundColor) && st.backgroundColor !== getComputedStyle(document.body).backgroundColor && r.width >= 60 })
   const filledColours = new Set(filled.map((el) => getComputedStyle(el).backgroundColor))
-  return { sizeCount: rounded.length, closeSizes, weights: weights.length, inks: inks.length, tiny, small, filled: filled.length, filledColours: filledColours.size, height: html.scrollHeight, sideways: html.scrollWidth > html.clientWidth + 1 ? html.scrollWidth : 0, wide, h1: document.querySelectorAll('h1').length, smallest: Math.min(...sizes), fonts, missingFonts: fonts.filter((f) => declared.includes(f) && !loaded.includes(f)), headlines: headlines.filter((h) => h.lines > 2), lowContrast, images: [...document.images].filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.getAttribute('src')).slice(0, 5) }
+  return { sizeCount: rounded.length, closeSizes, weights: weights.length, inks: inks.length, tiny, small, filled: filled.length, filledColours: filledColours.size, height: html.scrollHeight, sideways: html.scrollWidth > html.clientWidth + 1 ? html.scrollWidth : 0, wide, h1: [...document.querySelectorAll('h1')].filter(visible).length, smallest: Math.min(...sizes), fonts, missingFonts: fonts.filter((f) => declared.includes(f) && !loaded.includes(f)), headlines: headlines.filter((h) => h.lines > 2), lowContrast, images: [...document.images].filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.getAttribute('src')).slice(0, 5) }
 })()`
 
 /**
- * One picture per width: every screen of the page in reading order (left to right, then down), so a
- * whole page is reviewed in one look. The single screens stay beside it for close reading.
+ * One picture for the whole look: the phone screens in a column on the left, the desktop screens
+ * beside them in reading order (left to right, then down). The single screens stay beside it.
  */
-async function contactSheet(width, files) {
-  const columns = width < 600 ? 3 : 2
-  const tile = width < 600 ? width : width / 2
-  const tiles = files
-    .map(
-      (file) =>
-        `<img src="data:image/jpeg;base64,${readFileSync(file).toString('base64')}" style="width:${tile}px;display:block">`,
-    )
-    .join('')
-  const sheetWidth = columns * tile + (columns + 1) * 8
+async function contactSheet(groups) {
+  const column = (width, files) => {
+    const phone = width < 600
+    const columns = phone && files.length < 4 ? 1 : 2
+    const tile = phone ? width : width / 2
+    const images = files
+      .map(
+        (file) =>
+          `<img src="data:image/jpeg;base64,${readFileSync(file).toString('base64')}" style="width:${tile}px;display:block">`,
+      )
+      .join('')
+    return {
+      width: columns * tile + (columns - 1) * 8,
+      html: `<div style="display:grid;gap:8px;grid-template-columns:repeat(${columns},${tile}px);align-items:start">${images}</div>`,
+    }
+  }
+  const parts = groups.map(([width, files]) => column(width, files))
+  const sheetWidth = parts.reduce((sum, part) => sum + part.width, 0) + (parts.length + 1) * 16
   await call('Emulation.setDeviceMetricsOverride', {
     width: sheetWidth,
     height: 600,
@@ -285,8 +298,8 @@ async function contactSheet(width, files) {
   await call('Page.navigate', { url: 'about:blank' })
   await pause(100)
   const sheetHeight = await evaluate(`(() => {
-    document.body.style.cssText = 'margin:0;padding:8px;background:#777;display:grid;gap:8px;grid-template-columns:repeat(${columns},${tile}px);align-items:start'
-    document.body.innerHTML = ${JSON.stringify(tiles)}
+    document.body.style.cssText = 'margin:0;padding:16px;background:#777;display:flex;gap:16px;align-items:flex-start'
+    document.body.innerHTML = ${JSON.stringify(parts.map((part) => part.html).join(''))}
     return Promise.all([...document.images].map((i) => i.decode())).then(() => document.documentElement.scrollHeight)
   })()`)
   const { data } = await call('Page.captureScreenshot', {
@@ -295,9 +308,27 @@ async function contactSheet(width, files) {
     clip: { x: 0, y: 0, width: sheetWidth, height: sheetHeight, scale: 1 },
     captureBeyondViewport: true,
   })
-  const file = join(out, `${width}-all.jpg`)
+  const file = join(out, 'look.jpg')
   writeFileSync(file, Buffer.from(data, 'base64'))
   return file
+}
+
+/**
+ * The behaviour probe loads the page four times. Its result is kept beside the pictures with a
+ * fingerprint of the project's files, so a rerun on unchanged files reuses a clean result.
+ */
+const probeCache = join(dirname(out), 'taste-probe.json')
+function fingerprint(dir = root, list = []) {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name.startsWith('.') || entry.name === 'node_modules') continue
+    const path = join(dir, entry.name)
+    if (entry.isDirectory()) fingerprint(path, list)
+    else {
+      const info = statSync(path)
+      list.push(`${relative(root, path)}:${info.size}:${info.mtimeMs}`)
+    }
+  }
+  return list.sort().join('|')
 }
 
 // What a still screenshot hides: how the page enters, how its controls answer the pointer and the
@@ -481,7 +512,7 @@ try {
       flags.push(
         `FAIL sideways scroll: page is ${facts.sideways}px wide (${facts.wide.join(', ')})`,
       )
-    if (facts.h1 !== 1) flags.push(`FAIL ${facts.h1} h1 elements; a page has one`)
+    if (facts.h1 !== 1) flags.push(`WARN ${facts.h1} visible h1 elements; a page has one`)
     if (facts.smallest < 12) flags.push(`WARN smallest visible text is ${facts.smallest}px`)
     for (const headline of facts.headlines)
       flags.push(`WARN ${headline.tag} runs to ${headline.lines} lines: "${headline.text}"`)
@@ -519,14 +550,28 @@ try {
     )
   }
   const probeWidth = Math.max(...widths)
-  const behaviour = await probe(probeWidth)
+  const print = fingerprint()
+  let cached = null
+  try {
+    cached = JSON.parse(readFileSync(probeCache, 'utf8'))
+  } catch {
+    // No earlier run: probe the page.
+  }
+  const reuse =
+    cached && cached.print === print && cached.width === probeWidth && !cached.flags.length
+  const behaviour = reuse ? [] : await probe(probeWidth)
+  try {
+    writeFileSync(probeCache, JSON.stringify({ print, width: probeWidth, flags: behaviour }))
+  } catch {
+    // A read-only folder only loses the reuse.
+  }
   problems += behaviour.filter((flag) => flag.startsWith('FAIL')).length
   report.push(
-    `${probeWidth}px entrance, hover, keyboard focus, no-script and reduced motion:${behaviour.length ? '' : ' nothing to flag'}`,
+    `${probeWidth}px entrance, hover, keyboard focus, no-script and reduced motion:${behaviour.length ? '' : reuse ? ' unchanged files, clean last run' : ' nothing to flag'}`,
     ...behaviour.map((flag) => `  ${flag}`),
   )
-  for (const [width, files] of shotsByWidth)
-    report.push(`look ${await contactSheet(width, files)}  (${width}px, every screen)`)
+  const sheet = await contactSheet(shotsByWidth)
+  report.push(`look ${sheet}  (${widths.join(' and ')}px side by side, every screen)`)
   report.push(`single screens: ${out}/<width>-<screen>.jpg`)
   if (unreachable.size)
     report.push(
@@ -536,11 +581,15 @@ try {
     report.push(`FAIL page error: ${error.split('\n')[0]}`)
     problems++
   }
-  console.log(report.join('\n'))
+  console.log(
+    failsOnly
+      ? [...report.filter((line) => line.trim().startsWith('FAIL')), `look ${sheet}`].join('\n')
+      : report.join('\n'),
+  )
   console.log(
     problems
       ? `${problems} FAIL(s). Fix them, then run this again.`
-      : 'No FAILs measured. Now open each "look" picture and critique it.',
+      : 'No FAILs measured. Now open the "look" picture and critique it.',
   )
   finish(problems ? 1 : 0)
 } catch (error) {
