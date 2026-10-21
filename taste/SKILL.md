@@ -1,6 +1,6 @@
 ---
 name: taste
-description: Load before writing markup whenever you build, redesign or restyle a whole web page, site or app screen (landing page, timetable, dashboard, internal tool). Decides a direction from the subject, builds it, screenshots and fixes it. Not a single CSS bug.
+description: Load before writing markup whenever you build, rebuild or restyle a whole web page, site, app screen or flow (landing page, dashboard, checkout, settings, pricing calculator). Decides a direction from the subject, builds every state, screenshots and fixes it. Not a single CSS bug.
 when_to_use: Requests such as "make a site for my café", "our homepage feels like a template", "design the orders screen for our staff tool", "give this pricing page some character", "rework this event page for mobile".
 ---
 
