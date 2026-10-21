@@ -136,11 +136,19 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
           await writeFile(join(benchDir, file), JSON.stringify(record, null, 2))
         }
         let run
-        try {
-          run = await prepareClaim(coder, claim, 'neutral').run({
+        const attempt = () =>
+          prepareClaim(coder, claim, 'neutral').run({
             prompt: entryPrompt(arm, framePrompt(claim, 'neutral')),
             includeGlobalSkills: false,
           })
+        try {
+          // The guard ends a run on any outside path, even a read-only `ls ~/.cache`. Up to two
+          // fresh attempts in new workspaces, for every arm alike, keep such cells from going missing.
+          const retry = (error: unknown) => {
+            if (!isWorkspaceEscape(error)) throw error
+            return attempt()
+          }
+          run = await attempt().catch(retry).catch(retry)
         } catch (error) {
           // The harness's lexical escape guard also fires on in-workspace paths such as `../..`
           // after a `cd`. Keep the run as an infrastructure exclusion so it never forms a pair.
