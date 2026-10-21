@@ -4,6 +4,7 @@
 // Serves the folder over a throwaway local server, opens it in headless Chrome or Chromium (CHROME_PATH,
 // or a usual install path), scrolls once so scroll-triggered content appears, then saves one screenshot
 // per screen at each width and prints measurements. Node 22+, no dependencies, nothing installed.
+/* global WebSocket */
 import { spawn } from 'node:child_process'
 import { createServer } from 'node:http'
 import {

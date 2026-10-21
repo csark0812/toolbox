@@ -1,7 +1,7 @@
 # Skill tiers
 
 <!-- source-of-truth: skill tier assignment across the agent harness ecosystem. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-21 -->
 
 Assign each skill to exactly one **group**. Update when adding skills.
 
@@ -34,7 +34,7 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | **review-walkthrough**       | Explain a bound code change through the smallest useful causal story; stay read-only and separate formal review.                                              |
 | **second-opinion**           | Adversarial critique of a written artifact — invent lenses; single-pass by default; layer **council** for multi-perspective depth                             |
 | **grill**                    | Clarify intent or pressure-test consequential design choices through focused dialogue before implementation                                                   |
-| **interface-design**         | Web interface direction, implementation, and rendered proof; native and media brief routing                                                                   |
+| **interface-design**         | Visual direction options for the user to choose before a build; native and media brief routing                                                                |
 | **css-craft**                | Focused CSS diagnosis, browser-aware technique choice, and rendered verification                                                                              |
 | **taste**                    | Page and app-screen visual craft from the subject, built in full, screenshot look-and-fix loop                                                                |
 | **evidence-based-debugging** | Reproduce and diagnose reported failures; repair a demonstrated cause when authorized and verify the affected surface                                         |

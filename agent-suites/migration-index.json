@@ -136,7 +136,7 @@
       "rubric": {
         "must": ["Advisory", "No proven blocker", "optimisticSubmit", "follow-up"],
         "mustInvokeSkill": ["code-review"],
-        "mustNot": ["merge-blocker \u00b7 optimisticSubmit", "git commit", "git push"],
+        "mustNot": ["merge-blocker · optimisticSubmit", "git commit", "git push"],
         "judge": [
           "The requested cleanliness concern appears as a non-blocking advisory item and does not weaken the blocker evidence bar."
         ]
@@ -3248,6 +3248,128 @@
         ]
       },
       "assertion": "automatic orchestrator routing (invoked or not read) + playbook steps verbatim in task-list tool calls + reply contract judge + repair contract or frozen harness where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "taste:1",
+      "suite": "taste",
+      "name": "landing page from a brief: direction from the subject, rendered and looked at",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["taste"],
+        "judge": [
+          "The reply states one idea taken from the bakery itself (its harbour, its once-a-day bake, its sell-out hours) and the type, colour and layout choices that carry it.",
+          "Every loaf and pastry with its price, the opening days and hours, the address and the reserve-by-text rule appear in the page.",
+          "The page was rendered in a browser at a phone and a desktop width after the last edit, and the reply names what the screenshots showed."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "taste:2",
+      "suite": "taste",
+      "name": "generic page restyle: tells removed, content kept",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["taste"],
+        "judge": [
+          "The gradient text and buttons, glow shadows, glass nav, emoji icons, eyebrow labels and three identical cards are gone from the page.",
+          "All features, both price tiers and all three FAQ answers are kept.",
+          "The page was rendered and looked at after the last edit, and the reply reports what was checked."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "taste:3",
+      "suite": "taste",
+      "name": "app screen: questions first, computed from the data",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["taste"],
+        "judge": [
+          "The screen renders data/station.json and shows whether today can cover a launch and which days in the week cannot (23, 24 and 27 October).",
+          "Training lapsing soon is shown for Loveday Curnow, Aisha Hendry and Morwenna Kitto.",
+          "The screen was rendered at a phone and a desktop width after the last edit."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "taste:4",
+      "suite": "taste",
+      "name": "near miss: one focus-ring CSS defect",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["taste/SKILL.md"],
+        "judge": [
+          "Keyboard focus on nav links gets a visible :focus-visible indicator and the hover style is unchanged."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "taste:5",
+      "suite": "taste",
+      "name": "near miss: a factual question about a page",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["taste/SKILL.md"],
+        "judge": [
+          "The reply lists the two typefaces and the five colour tokens from brand.css.",
+          "No file was changed."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "taste:6",
+      "suite": "taste",
+      "name": "near miss: a data bug behind a screen",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["taste/SKILL.md"],
+        "judge": [
+          "The reply answers two (9 and 11 minutes) from data/station.json.",
+          "No file was changed."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
       "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",

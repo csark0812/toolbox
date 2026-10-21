@@ -1,3 +1,4 @@
+/* global document */
 document.querySelectorAll('.card').forEach((card, index) => {
   card.style.opacity = 0
   setTimeout(() => {

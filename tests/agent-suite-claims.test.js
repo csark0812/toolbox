@@ -6,7 +6,7 @@ const root = join(import.meta.dirname, '..')
 const index = JSON.parse(readFileSync(join(root, 'agent-suites/migration-index.json'), 'utf8'))
 
 describe('claim-file suites', () => {
-  for (const suite of ['hillclimb', 'babysit-pr', 'workflow'])
+  for (const suite of ['hillclimb', 'babysit-pr', 'workflow', 'taste'])
     it(`${suite} migration rows mirror claims.json and cover routing both ways`, () => {
       const claims = JSON.parse(
         readFileSync(join(root, `agent-suites/${suite}/claims.json`), 'utf8'),
