@@ -17,11 +17,13 @@ export function decide({ pr, checks, threads }) {
   if (pr.mergeable === 'CONFLICTING' || pr.mergeStateStatus === 'DIRTY')
     return { verdict: 'ACTION:conflict', reasons: ['Merge conflicts with the base branch'] }
 
+  // A thread whose latest comment is a reply to its opener waits on the reviewer, not on us.
   const open = threads.filter((thread) => !thread.isResolved && !thread.isOutdated)
-  if (open.length)
+  const unanswered = open.filter((thread) => !answered(thread))
+  if (unanswered.length)
     return {
       verdict: 'ACTION:threads',
-      reasons: open.map((thread) => `Unresolved thread on ${thread.path ?? 'PR'}`),
+      reasons: unanswered.map((thread) => `Unresolved thread on ${thread.path ?? 'PR'}`),
     }
 
   const failed = checks.filter((check) => check.bucket === 'fail')
@@ -38,6 +40,8 @@ export function decide({ pr, checks, threads }) {
   for (const check of checks.filter((check) => check.bucket === 'pending'))
     reasons.push(`Pending check: ${check.name}`)
   if (pr.mergeable === 'UNKNOWN') reasons.push('Mergeability not computed yet')
+  for (const thread of open.filter(answered))
+    reasons.push(`Replied thread on ${thread.path ?? 'PR'} awaits the reviewer`)
   if (pr.reviewDecision === 'CHANGES_REQUESTED')
     reasons.push('Changes requested; awaiting re-review')
   if (reasons.length) return { verdict: 'WAITING', reasons }
@@ -45,9 +49,16 @@ export function decide({ pr, checks, threads }) {
   return { verdict: 'READY', reasons: [] }
 }
 
+/** True when someone other than the thread's opener wrote its latest comment. */
+function answered(thread) {
+  const authors = (thread.comments?.nodes ?? []).map((comment) => comment.author?.login)
+  return authors.length > 1 && authors.at(-1) !== authors[0]
+}
+
 const THREADS_QUERY = `query($owner: String!, $repo: String!, $number: Int!) {
   repository(owner: $owner, name: $repo) { pullRequest(number: $number) {
-    reviewThreads(first: 100) { nodes { isResolved isOutdated path } } } } }`
+    reviewThreads(first: 100) { nodes { isResolved isOutdated path
+      comments(first: 100) { nodes { author { login } } } } } } } }`
 
 function gh(bin, args) {
   return execFileSync(bin, args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
