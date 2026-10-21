@@ -559,6 +559,8 @@ describe('masking skill names in paths', () => {
       '- Read: /tmp/agent-harness-seal-7IIXbH/workspace/projects/ledger-launch/.taste/look/390-01.jpg',
       '- Bash: node ../../.claude/skills/taste/scripts/look.mjs . 2>&1 | grep -E "FAIL|WARN h1|overflow"; rm -rf .taste; git status --short',
       '- Bash: S=/tmp/agent-harness-seal-P27tkm/workspace/.claude/skills/taste-skill && node $S/scripts/draw.mjs --out .taste-skill/app',
+      // fix-smoke, full arm: the skill's own scratch folder inside .git.
+      '- Read: /tmp/agent-harness-seal-3FmsaR/workspace/.git/taste-look/390-all.jpg',
     ].join('\n')
     expect(maskSkillNames(actions, names)).not.toMatch(/taste/i)
   })

@@ -81,7 +81,8 @@ const escape = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
  * enough to mask anywhere, in any case and with `_` for `-` (`TASTE_SKILL_HISTORY`). Plain-word
  * names (`how`, `probe`) are masked when the text calls them a skill, playbook or mode, quotes them
  * in backticks, or uses them as a path segment: a dot folder (`.taste`, `rm -rf .taste`), a folder
- * between slashes (`a/taste/b`), or the first folder of a path (`taste/look/1.jpg`). Ordinary prose
+ * between slashes, alone or with a suffix (`a/taste/b`, `.git/taste-look/`), or the first folder of
+ * a path (`taste/look/1.jpg`). Ordinary prose
  * survives, including `how/why`.
  */
 export function maskSkillNames(text, names = []) {
@@ -104,9 +105,10 @@ export function maskSkillNames(text, names = []) {
         new RegExp(`(?<![\\w-])/?${word}(?=\\s+(?:skill|skills|playbook|mode)\\b)`, 'gi'),
         '<skill>',
       )
-      // Path segments: `.taste` and `.taste/…`, `…/taste/…`, and `taste/…` starting a path.
-      .replace(new RegExp(`(?<![\\w.-])\\.${word}(?![\\w-])`, 'gi'), '.<skill>')
-      .replace(new RegExp(`(?<=/)${word}(?=/)`, 'gi'), '<skill>')
+      // Path segments: `.taste` and `.taste/…`, `…/taste/…` (also `…/taste-look/…`, a folder a
+      // skill names after itself), and `taste/…` starting a path.
+      .replace(new RegExp(`(?<![\\w.-])\\.${word}(?:[-_][\\w-]*)?(?![\\w-])`, 'gi'), '.<skill>')
+      .replace(new RegExp(`(?<=/)${word}(?:[-_][\\w-]*)?(?=/)`, 'gi'), '<skill>')
       .replace(new RegExp(`(?<![\\w./-])${word}/(?=[\\w-]*(?:/|\\.\\w))`, 'gi'), '<skill>/')
   }
   return masked
