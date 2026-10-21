@@ -1,0 +1,29 @@
+{
+  "repository": "gusts/kite-stock",
+  "viewer": "sam",
+  "reviewer": "lee",
+  "pullRequest": {
+    "number": 23,
+    "title": "Add a reorder report",
+    "body": "Adds reorderReport(), listing every kite at or below its reorder level so we can restock before the weekend.",
+    "author": "sam",
+    "headRefName": "feat/reorder-report",
+    "baseRefName": "main",
+    "isDraft": false,
+    "reviewDecision": "CHANGES_REQUESTED"
+  },
+  "threads": [
+    {
+      "id": "PRRT_31",
+      "path": "src/stock.mjs",
+      "line": 14,
+      "comments": [
+        {
+          "id": 9301,
+          "author": "lee",
+          "body": "When nothing needs reordering this returns an empty string. Could it say `Nothing to reorder` instead?"
+        }
+      ]
+    }
+  ]
+}

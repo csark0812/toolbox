@@ -1,0 +1,3 @@
+DARKROOM IN USE - DO NOT OPEN
+Check the rota with `npm run slots` on the club laptop.
+Steward: Ruth Pike
