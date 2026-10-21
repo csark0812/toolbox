@@ -10,10 +10,13 @@ import {
   frameName,
   HELD_OUT_SETS,
   maskSkillNames,
+  OMITTED_NOTES,
   parseVerdict,
+  pictureSections,
   planPairs,
   renderRun,
   screenshotName,
+  withoutPaths,
 } from '../scripts/lib/skill-bench-material.mjs'
 import { ALL_TASKS, buildReport, requiredBar, strongClaim } from '../scripts/skill-bench-report.mjs'
 import { verdict } from '../scripts/lib/pairwise-stats.mjs'
@@ -451,6 +454,282 @@ describe('motion and interaction frames', async () => {
       expect(notes).toEqual([])
       expect(frames.map((frame) => frame.step)).toEqual(FRAME_PLAN.map((frame) => frame.step))
       for (const frame of frames) expect(existsSync(frame.file)).toBe(true)
+    },
+    60000,
+  )
+})
+
+describe('missing skills in the report', () => {
+  const tasks = [
+    { id: 't1', targetSkill: 'hillclimb', set: 'holdout-x' },
+    { id: 't2', targetSkill: 'tdd', set: 'holdout-x' },
+    { id: 'other', targetSkill: 'probe', set: 'tasks' },
+  ]
+  const judged = (task) => [
+    { pairId: task, task, first: `${task}|full|0`, second: `${task}|none|0`, winner: 'first' },
+    { pairId: task, task, first: `${task}|none|0`, second: `${task}|full|0`, winner: 'second' },
+  ]
+  const skills = (report) => report.rows.map((row) => `${row.skill}:${row.verdict}`)
+
+  it('reports a skill whose runs were all lost as missing, from the set the runs came from', () => {
+    const report = buildReport({
+      runs: [
+        run({ arm: 'none' }),
+        run(),
+        { task: 't2', arm: 'full', repetition: 0, infrastructure: 'escape' },
+        { task: 't2', arm: 'none', repetition: 0, infrastructure: 'escape' },
+      ],
+      tasks,
+      judgments: judged('t1'),
+    })
+    expect(skills(report)).toEqual([
+      'hillclimb:signal only (1 run per arm)',
+      'tdd:missing',
+      `${ALL_TASKS}:signal only (0 runs per arm)`,
+    ])
+    expect(report.rows[1]).toMatchObject({ wins: 0, repeats: 0, rate: null })
+  })
+
+  it('reports a skill of the set that never ran or was never judged as missing', () => {
+    const report = buildReport({
+      runs: [run({ arm: 'none' }), run()],
+      tasks,
+      judgments: judged('t1'),
+    })
+    expect(skills(report)).toContain('tdd:missing')
+    expect(skills(report).join(' ')).not.toContain('probe')
+  })
+
+  it('fails the required bar and the strong claim on a missing skill', () => {
+    const rows = [
+      { skill: 'hillclimb', focus: 'full', verdict: 'better', cost: { tokens: {} } },
+      { skill: 'tdd', focus: 'full', verdict: 'missing', cost: { tokens: {} } },
+      { skill: ALL_TASKS, focus: 'full', verdict: 'better', rate: 1, lower: 1 },
+    ]
+    const bar = requiredBar({ rows, health: { healthy: true } }, 'full')
+    expect(bar.met).toBe(false)
+    expect(bar.checks.map((check) => check.name).join(' ')).toContain('tdd missing')
+    expect(strongClaim({ rows, health: { healthy: true } }, 'full').met).toBe(false)
+  })
+})
+
+describe('saturated token margin', () => {
+  const none = { focus: 0, other: 0 }
+  const tied = { rate: null, lower: null, upper: null, repeats: 4, wins: 0, losses: 0, ties: 48 }
+
+  it('needs median tokens at least 10% below the baseline', () => {
+    expect(verdict(tied, none, { focus: 90, other: 100 })).toBe('saturated')
+    expect(verdict(tied, none, { focus: 91, other: 100 })).toBe('inconclusive')
+    expect(verdict(tied, none, { focus: 9999, other: 10000 })).toBe('inconclusive')
+  })
+})
+
+describe('masking skill names in paths', () => {
+  const names = ['taste', 'how', 'taste-skill', 'babysit-pr']
+
+  it('masks plain-word names used as path segments', () => {
+    expect(
+      maskSkillNames('Read: /tmp/w/projects/ledger-launch/.taste/look/1440-01.jpg', names),
+    ).toBe('Read: /tmp/w/projects/ledger-launch/.<skill>/look/1440-01.jpg')
+    expect(maskSkillNames('grep -E "FAIL"; rm -rf .taste; git status --short', names)).toBe(
+      'grep -E "FAIL"; rm -rf .<skill>; git status --short',
+    )
+    expect(maskSkillNames('ls taste/look/1.jpg and a/how/b.md', names)).toBe(
+      'ls <skill>/look/1.jpg and a/<skill>/b.md',
+    )
+  })
+
+  it('masks underscore and upper-case spellings of hyphenated names', () => {
+    expect(maskSkillNames('TASTE_SKILL_HISTORY=/x node draw.mjs', names)).toBe(
+      '<skill>_HISTORY=/x node draw.mjs',
+    )
+    expect(maskSkillNames('taste_skill notes and BABYSIT_PR', names)).toBe(
+      '<skill> notes and <skill>',
+    )
+  })
+
+  it('leaves ordinary prose alone', () => {
+    const prose =
+      'This is how it works: how/why it broke, a matter of taste. The taste is fine; file.taste stays.'
+    expect(maskSkillNames(prose, names)).toBe(prose)
+  })
+
+  it('masks the real smoke-design actions', () => {
+    const actions = [
+      '- Read: /tmp/agent-harness-seal-7IIXbH/workspace/projects/ledger-launch/.taste/look/390-01.jpg',
+      '- Bash: node ../../.claude/skills/taste/scripts/look.mjs . 2>&1 | grep -E "FAIL|WARN h1|overflow"; rm -rf .taste; git status --short',
+      '- Bash: S=/tmp/agent-harness-seal-P27tkm/workspace/.claude/skills/taste-skill && node $S/scripts/draw.mjs --out .taste-skill/app',
+    ].join('\n')
+    expect(maskSkillNames(actions, names)).not.toMatch(/taste/i)
+  })
+})
+
+describe('frame notes in the judge view', () => {
+  it('masks names and drops paths in frame notes', () => {
+    const view = renderRun(
+      run({
+        frames: [{ file: 'f', group: 'entrance', step: 'load-0ms' }],
+        frameNotes: [
+          'The motion frames could not be taken: Error: ENOENT .agent-test/skill-bench/b/runs/t1__pack-taste-skill__0.frames/frame-x.jpg',
+          'The how skill page had no button.',
+        ],
+      }),
+      'A',
+      { skillNames: ['how', 'taste-skill'], frameNames: ['A-frame-load-0ms.jpg'] },
+    )
+    expect(view).toContain('Note: The motion frames could not be taken: Error: ENOENT <path>')
+    expect(view).toContain('Note: The <skill> skill page had no button.')
+    expect(view).not.toMatch(/taste|pack-|\.agent-test/)
+  })
+
+  it('withoutPaths keeps the message and drops absolute and relative paths', () => {
+    expect(
+      withoutPaths("Error: ENOENT: no such file, open '/tmp/x/a__only-how__0.frames/y.jpg'"),
+    ).toBe("Error: ENOENT: no such file, open '<path>'")
+    expect(withoutPaths('TimeoutError: page.goto: Timeout 30000ms exceeded.')).toBe(
+      'TimeoutError: page.goto: Timeout 30000ms exceeded.',
+    )
+  })
+})
+
+describe('picture sections in a mixed bench', () => {
+  const shots = [{ file: 's', viewport: 'phone', screen: 1 }]
+  const frames = [{ file: 'f', group: 'entrance', step: 'load-0ms' }]
+
+  it('shows a section only when both runs recorded it', () => {
+    expect(
+      pictureSections(run({ screenshots: shots, frames }), run({ screenshots: shots })),
+    ).toEqual({ screenshots: 'show', frames: 'omit' })
+    expect(pictureSections(run(), run())).toEqual({ screenshots: 'none', frames: 'none' })
+    // A degraded twin's empty lists are evidence (nothing rendered), so they still show.
+    const visual = run({ screenshots: shots, frames })
+    expect(pictureSections(visual, degrade(visual))).toEqual({
+      screenshots: 'show',
+      frames: 'show',
+    })
+  })
+
+  it('leaves an omitted section out of both views with the same neutral note', () => {
+    const views = [run({ screenshots: shots, frames }), run({ screenshots: shots })].map(
+      (version, index) =>
+        renderRun(version, 'AB'[index], {
+          screenshotNames: ['x.jpg'],
+          frameNames: ['f.jpg'],
+          omitted: ['frames'],
+        }),
+    )
+    for (const view of views) {
+      expect(view).not.toContain('## Motion and interaction')
+      expect(view).toContain(OMITTED_NOTES.frames)
+      expect(view).toContain('## Rendered page')
+    }
+  })
+
+  it('skips picture files that are gone and notes it for that version', () => {
+    const version = run({ screenshots: [...shots, ...shots], frames: [...frames, ...frames] })
+    const view = renderRun(version, 'A', {
+      screenshotNames: ['A-phone-1.jpg', null],
+      frameNames: [null, 'A-frame-load-0ms.jpg'],
+    })
+    expect(view).toContain('- A-phone-1.jpg')
+    expect(view).toContain('1 screenshot of this version could not be found')
+    expect(view).toContain('1 frame of this version could not be found')
+    expect(view).not.toContain('null')
+  })
+})
+
+describe('claude bench wrapper', async () => {
+  const { benchArgs, signalStatus } = await import('../scripts/lib/claude-bench-bin.mjs')
+  const settings = JSON.stringify({ sandbox: { filesystem: { denyRead: ['/tmp'] } } })
+  const parsed = (args) =>
+    JSON.parse(args.find((arg) => arg.startsWith('{')) ?? args[0].slice('--settings='.length))
+  const sockets = ['/var/run/docker.sock', '/run/user/1000/bus']
+
+  it('allows Unix sockets only on Linux and denies the escape sockets', () => {
+    const linux = parsed(benchArgs(['-p', '--settings', settings], { platform: 'linux', sockets }))
+    expect(linux.sandbox.network.allowAllUnixSockets).toBe(true)
+    expect(linux.sandbox.filesystem.denyRead).toEqual(['/tmp', ...sockets])
+    expect(linux.sandbox.filesystem.denyWrite).toEqual(sockets)
+    const mac = parsed(benchArgs(['--settings', settings], { platform: 'darwin', sockets }))
+    expect(mac.sandbox.network).toBeUndefined()
+    expect(mac.sandbox.filesystem.denyRead).toEqual(['/tmp', ...sockets])
+  })
+
+  it('reads --settings from a file and accepts --settings=', () => {
+    const fromFile = benchArgs(['--settings', '/x/settings.json'], {
+      platform: 'linux',
+      sockets: [],
+      readFile: () => settings,
+    })
+    expect(parsed(fromFile).sandbox.network.allowAllUnixSockets).toBe(true)
+    const inline = benchArgs([`--settings=${settings}`, '-p'], { platform: 'linux', sockets: [] })
+    expect(inline[0].startsWith('--settings={')).toBe(true)
+    expect(parsed(inline).sandbox.network.allowAllUnixSockets).toBe(true)
+    expect(inline[1]).toBe('-p')
+  })
+
+  it('leaves arguments without settings alone', () => {
+    expect(benchArgs(['-p', 'hi'], { sockets })).toEqual(['-p', 'hi'])
+  })
+
+  it('reports a killed CLI as killed, not as a clean exit', async () => {
+    const { spawnSync } = await import('node:child_process')
+    const { chmodSync, mkdtempSync, writeFileSync } = await import('node:fs')
+    const { tmpdir } = await import('node:os')
+    const fake = join(mkdtempSync(join(tmpdir(), 'bench-bin-')), 'claude')
+    writeFileSync(fake, '#!/bin/sh\nkill -TERM $$\n')
+    chmodSync(fake, 0o755)
+    const result = spawnSync(
+      process.execPath,
+      [join(root, 'scripts/lib/claude-bench-bin.mjs'), '-p', 'hi'],
+      { env: { ...process.env, TOOLBOX_REAL_CLAUDE_BIN: fake } },
+    )
+    expect(result.status === signalStatus('SIGTERM') || result.signal === 'SIGTERM').toBe(true)
+    expect(result.status).not.toBe(0)
+  })
+})
+
+describe('sections found by position', async () => {
+  const { chromePath, launchBrowser, openPage, sectionTops, serve } =
+    await import('../scripts/lib/bench-render.mjs')
+  const { mkdirSync, mkdtempSync, writeFileSync } = await import('node:fs')
+  const { tmpdir } = await import('node:os')
+  const body = `<header style="height:900px">Hero</header>
+    <section style="height:800px">Two</section><section style="height:800px">Three</section>`
+  const pages = {
+    main: `<main>${body}</main>`,
+    root: `<div id="root">${body}</div>`,
+    deep: `<div id="root"><div class="app"><div>${body.replaceAll('section', 'div')}</div></div></div>`,
+  }
+
+  it.skipIf(!chromePath())(
+    'finds the same sections whether the page sits in main or in wrapper divs',
+    async () => {
+      const dir = mkdtempSync(join(tmpdir(), 'tops-'))
+      for (const [name, html] of Object.entries(pages)) {
+        mkdirSync(join(dir, name))
+        writeFileSync(
+          join(dir, name, 'index.html'),
+          `<!doctype html><html><body style="margin:0">${html}</body></html>`,
+        )
+      }
+      const server = await serve(dir)
+      const browser = await launchBrowser()
+      try {
+        const tops = {}
+        for (const name of Object.keys(pages)) {
+          const tab = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+          await openPage(tab, `${server.url}/${name}/index.html`)
+          tops[name] = await tab.evaluate(sectionTops)
+          await tab.close()
+        }
+        expect(tops).toEqual({ main: [900, 1700], root: [900, 1700], deep: [900, 1700] })
+        // A malformed address is a bad request, not a crash.
+        expect((await fetch(`${server.url}/%E0%A4%A`)).status).toBe(400)
+      } finally {
+        await browser.close()
+        await server.close()
+      }
     },
     60000,
   )

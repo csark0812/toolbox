@@ -15,6 +15,7 @@ import {
   degrade,
   frameName,
   parseVerdict,
+  pictureSections,
   planPairs,
   renderRun,
   runId,
@@ -76,10 +77,13 @@ export async function knownSkillNames() {
   return [...new Set([...Object.keys(lock.skills), ...packSkills.flat()])]
 }
 
-/** Development and held-out tasks together; ids are unique across every set. */
+/** Development and held-out tasks together, each tagged with its `set`; ids are unique across every set. */
 export async function loadTasks() {
-  const sets = TASK_SETS.map((set) => `agent-suites/skill-bench/${set}.json`).filter(existsSync)
-  const read = async (path) => JSON.parse(await readFile(path, 'utf8')).tasks
+  const sets = TASK_SETS.filter((set) => existsSync(`agent-suites/skill-bench/${set}.json`))
+  const read = async (set) =>
+    JSON.parse(await readFile(`agent-suites/skill-bench/${set}.json`, 'utf8')).tasks.map(
+      (task) => ({ ...task, set }),
+    )
   return (await Promise.all(sets.map(read))).flat()
 }
 
@@ -207,30 +211,31 @@ export async function judgePair({
     const names = { A: `version-A-${tag}.md`, B: `version-B-${tag}.md` }
     await writeFile(join(sealed.path, 'task.md'), brief)
     const visual = Boolean(first.screenshots || second.screenshots)
+    // A picture section only one of the two runs recorded is left out for both, with a note.
+    const sections = pictureSections(first, second)
+    const omitted = Object.keys(sections).filter((key) => sections[key] === 'omit')
+    // Pictures are copied in under neutral names; their paths never reach the judge. A file that is
+    // gone is left out of that version's list with a note, and the comparison goes on.
+    const copied = (file, name) =>
+      copyFile(file, join(sealed.path, name)).then(
+        () => name,
+        () => null,
+      )
     for (const [label, run] of [
       ['A', first],
       ['B', second],
     ]) {
-      // Pictures are copied in under neutral names; their paths never reach the judge.
-      const shots = run.screenshots ?? []
-      for (const shot of shots)
-        await copyFile(shot.file, join(sealed.path, screenshotName(label, shot)))
-      // Motion and interaction frames likewise; a frame whose file is gone is left out of the list.
-      const frames = []
-      for (const frame of run.frames ?? [])
-        frames.push(
-          await copyFile(frame.file, join(sealed.path, frameName(label, frame))).then(
-            () => frameName(label, frame),
-            () => null,
-          ),
-        )
+      const screenshotNames = []
+      if (sections.screenshots === 'show')
+        for (const shot of run.screenshots)
+          screenshotNames.push(await copied(shot.file, screenshotName(label, shot)))
+      const frameNames = []
+      if (sections.frames === 'show')
+        for (const frame of run.frames)
+          frameNames.push(await copied(frame.file, frameName(label, frame)))
       await writeFile(
         join(sealed.path, names[label]),
-        renderRun(run, label, {
-          skillNames,
-          screenshotNames: shots.map((shot) => screenshotName(label, shot)),
-          frameNames: frames,
-        }),
+        renderRun(run, label, { skillNames, screenshotNames, frameNames, omitted }),
       )
     }
     const prompt = `${JUDGE_RUBRIC}${visual ? `\n\n${VISUAL_RUBRIC}` : ''}

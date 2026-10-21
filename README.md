@@ -114,7 +114,7 @@ Consumer projects may add product/standards slugs locally. Ambient shared refs a
 
 [pstack](https://github.com/backnotprop/pstack) is the closest comparable skill pack. On every held-out set so far, toolbox beats it overall at lower token cost, but it has not yet met the bar this repo sets for calling it undeniably better. Results come from the [skill bench](docs/skill-bench.md).
 
-**The required bar.** Before toolbox counts as better than pstack at all, a frozen held-out set must give a pooled verdict of **better**, with every skill **better** or **saturated** and a healthy judge. Inconclusive is not enough. Saturated is the one exception: nearly every comparison is a tie because both packs reached the same verified result, and toolbox got there on fewer tokens. See [docs/skill-bench.md](docs/skill-bench.md#required-bar-set-after-held-out-v8).
+**The required bar.** Before toolbox counts as better than pstack at all, a frozen held-out set must give a pooled verdict of **better**, with every skill **better** or **saturated** and a healthy judge. Inconclusive is not enough. Saturated is the one exception: nearly every comparison is a tie because both packs reached the same verified result, and toolbox got there on at least 10% fewer tokens. See [docs/skill-bench.md](docs/skill-bench.md#required-bar-set-after-held-out-v8).
 
 **The strong bar.** On a frozen held-out set, toolbox as installed (no skill named in the prompt) must clear all four conditions against pstack at full strength:
 

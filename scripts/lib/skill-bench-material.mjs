@@ -78,14 +78,24 @@ const escape = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 /**
  * Replace skill identities with `<skill>` so the judge cannot tell which skill set ran.
  * Installed-skill paths and pack words are always masked. Hyphenated names are distinctive
- * enough to mask anywhere; plain-word names (`how`, `probe`) only when the text calls them a
- * skill, playbook or mode, or quotes them in backticks, so ordinary prose survives.
+ * enough to mask anywhere, in any case and with `_` for `-` (`TASTE_SKILL_HISTORY`). Plain-word
+ * names (`how`, `probe`) are masked when the text calls them a skill, playbook or mode, quotes them
+ * in backticks, or uses them as a path segment: a dot folder (`.taste`, `rm -rf .taste`), a folder
+ * between slashes (`a/taste/b`), or the first folder of a path (`taste/look/1.jpg`). Ordinary prose
+ * survives, including `how/why`.
  */
 export function maskSkillNames(text, names = []) {
   let masked = text.replace(/((?:\.claude|\.agents|\.codex|~)\/skills)\/[^\s/'"`)]+/g, '$1/<skill>')
-  const distinctive = [...PACK_WORDS, ...names.filter((name) => name.includes('-'))]
+  const hyphenated = names.filter((name) => name.includes('-'))
+  const distinctive = [...PACK_WORDS, ...hyphenated]
   for (const name of distinctive.sort((a, b) => b.length - a.length))
     masked = masked.replace(new RegExp(`(?<![\\w-])/?${escape(name)}(?![\\w-])`, 'gi'), '<skill>')
+  // Environment-variable and identifier spellings: `taste_skill`, `TASTE_SKILL_HISTORY`.
+  for (const name of [...PACK_WORDS, ...hyphenated].filter((name) => name.includes('-')))
+    masked = masked.replace(
+      new RegExp(`(?<![A-Za-z0-9])${escape(name.replaceAll('-', '_'))}(?![A-Za-z0-9])`, 'gi'),
+      '<skill>',
+    )
   for (const name of names) {
     const word = escape(name)
     masked = masked
@@ -94,8 +104,38 @@ export function maskSkillNames(text, names = []) {
         new RegExp(`(?<![\\w-])/?${word}(?=\\s+(?:skill|skills|playbook|mode)\\b)`, 'gi'),
         '<skill>',
       )
+      // Path segments: `.taste` and `.taste/…`, `…/taste/…`, and `taste/…` starting a path.
+      .replace(new RegExp(`(?<![\\w.-])\\.${word}(?![\\w-])`, 'gi'), '.<skill>')
+      .replace(new RegExp(`(?<=/)${word}(?=/)`, 'gi'), '<skill>')
+      .replace(new RegExp(`(?<![\\w./-])${word}/(?=[\\w-]*(?:/|\\.\\w))`, 'gi'), '<skill>/')
   }
   return masked
+}
+
+/** Error text without file paths, which can carry run, arm or skill names. */
+export const withoutPaths = (text) =>
+  String(text).replace(/(?:[\w.~-]*\/)+[^\s'"`):;,]*/g, '<path>')
+
+/**
+ * Which picture sections a pair shows. A section (screenshots, or motion frames) is shown for both
+ * versions only when both runs recorded it; when only one did (a bench that mixes runs from before
+ * and after a camera change), it is left out for both so neither side gets evidence the other
+ * lacks. Returns { screenshots, frames }, each 'show', 'omit' (one side only) or 'none'.
+ */
+export function pictureSections(first, second) {
+  const decide = (key) => {
+    const has = [first, second].filter((run) => Array.isArray(run[key])).length
+    return has === 2 ? 'show' : has === 1 ? 'omit' : 'none'
+  }
+  return { screenshots: decide('screenshots'), frames: decide('frames') }
+}
+
+/** The neutral note both versions carry when a picture section is left out of the pair. */
+export const OMITTED_NOTES = {
+  screenshots:
+    'Screenshots are not shown for either version in this comparison: only one of them was photographed. Judge both from the rest.',
+  frames:
+    'Motion and interaction frames are not shown for either version in this comparison: only one of them was recorded. Judge both from the rest.',
 }
 
 /**
@@ -105,7 +145,7 @@ export function maskSkillNames(text, names = []) {
 export function renderRun(
   run,
   label,
-  { skillNames = [], screenshotNames = [], frameNames = [] } = {},
+  { skillNames = [], screenshotNames = [], frameNames = [], omitted = [] } = {},
 ) {
   const mask = (text) => maskSkillNames(text, skillNames)
   const checks = run.hardCheck.passed
@@ -136,14 +176,35 @@ export function renderRun(
     '',
     mask(checks),
     '',
-    ...(run.screenshots ? renderedSection(run, screenshotNames) : []),
-    ...(run.frames ? framesSection(run, frameNames) : []),
+    ...(run.screenshots && !omitted.includes('screenshots')
+      ? renderedSection(run, screenshotNames)
+      : []),
+    ...(run.frames && !omitted.includes('frames') ? framesSection(run, frameNames, mask) : []),
+    ...omitted.flatMap((section) => [`Note: ${OMITTED_NOTES[section]}`, '']),
   ].join('\n')
 }
 
-/** The screenshot files the judge is given for a visual task, in screen order. */
+/** The note for picture files of one version that were recorded but are gone. */
+const lostNote = (count, kind) =>
+  `Note: ${count} ${kind} of this version could not be found after capture and ${count === 1 ? 'is' : 'are'} left out.`
+
+/**
+ * The screenshot files the judge is given for a visual task, in screen order. `names` lines up with
+ * run.screenshots; a null name is a file that could not be found and is left out with a note.
+ */
 function renderedSection(run, names) {
-  if (!names.length) return ['## Rendered page', '', 'No screenshots: the page did not render.', '']
+  const present = names.filter(Boolean)
+  const lost = names.length - present.length
+  const lostLines = lost ? [lostNote(lost, lost === 1 ? 'screenshot' : 'screenshots'), ''] : []
+  if (!present.length)
+    return [
+      '## Rendered page',
+      '',
+      lost
+        ? lostNote(lost, 'screenshots').replace('Note: ', '')
+        : 'No screenshots: the page did not render.',
+      '',
+    ]
   const cut = run.screenshotsTruncated?.length
     ? ` The page is longer than the screens shown at ${run.screenshotsTruncated.join(' and ')} width.`
     : ''
@@ -152,8 +213,9 @@ function renderedSection(run, names) {
     '',
     `Screenshots of the final page, one screen at a time, top to bottom.${cut}`,
     '',
-    ...names.map((name) => `- ${name}`),
+    ...present.map((name) => `- ${name}`),
     '',
+    ...lostLines,
   ]
 }
 
@@ -169,10 +231,17 @@ export const FRAME_GROUPS = {
     'The first screen just after load with the visitor’s reduced-motion setting on: content should be there and still.',
 }
 
-/** The motion and interaction frames for one version, grouped and labelled. */
-function framesSection(run, names) {
-  const notes = (run.frameNotes ?? []).map((note) => `Note: ${note}`)
-  if (!names.length)
+/**
+ * The motion and interaction frames for one version, grouped and labelled. Notes pass through the
+ * mask, since an error can name a path; a null name is a frame file that could not be found.
+ */
+function framesSection(run, names, mask = (text) => text) {
+  const lost = names.filter((name) => !name).length
+  const notes = [
+    ...(run.frameNotes ?? []).map((note) => `Note: ${mask(withoutPaths(note))}`),
+    ...(lost ? [lostNote(lost, lost === 1 ? 'frame' : 'frames')] : []),
+  ]
+  if (!names.some(Boolean))
     return ['## Motion and interaction', '', ...(notes.length ? notes : ['No frames.']), '']
   const lines = ['## Motion and interaction', '']
   for (const [group, caption] of Object.entries(FRAME_GROUPS)) {
