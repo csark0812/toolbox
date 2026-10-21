@@ -1,0 +1,9 @@
+{
+  "name": "hymn-boards",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "services": "node bin/services.mjs"
+  }
+}

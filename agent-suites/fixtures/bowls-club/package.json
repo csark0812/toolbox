@@ -1,0 +1,9 @@
+{
+  "name": "bowls-club",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "sheet": "node bin/sheet.mjs"
+  }
+}

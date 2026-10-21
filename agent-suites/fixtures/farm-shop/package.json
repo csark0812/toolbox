@@ -1,0 +1,9 @@
+{
+  "name": "farm-shop",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "till": "node bin/till.mjs"
+  }
+}

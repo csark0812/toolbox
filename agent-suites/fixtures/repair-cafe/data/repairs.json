@@ -1,0 +1,62 @@
+[
+  {
+    "ticket": 104,
+    "item": "toaster",
+    "category": "electrical",
+    "outcome": "fixed",
+    "mains": true,
+    "patTested": false
+  },
+  { "ticket": 98, "item": "wool jumper", "category": "textile", "outcome": "fixed" },
+  {
+    "ticket": 112,
+    "item": "desk lamp",
+    "category": "electrical",
+    "outcome": "fixed",
+    "mains": true,
+    "patTested": false
+  },
+  {
+    "ticket": 101,
+    "item": "radio",
+    "category": "electrical",
+    "outcome": "fixed",
+    "mains": false,
+    "patTested": false
+  },
+  {
+    "ticket": 99,
+    "item": "kettle",
+    "category": "electrical",
+    "outcome": "fixed",
+    "mains": true,
+    "patTested": true
+  },
+  { "ticket": 107, "item": "bike puncture", "category": "bike", "outcome": "fixed" },
+  {
+    "ticket": 110,
+    "item": "hairdryer",
+    "category": "electrical",
+    "outcome": "unfixable",
+    "mains": true,
+    "patTested": false
+  },
+  { "ticket": 103, "item": "rain coat", "category": "textile", "outcome": "advice" },
+  {
+    "ticket": 96,
+    "item": "drill",
+    "category": "electrical",
+    "outcome": "fixed",
+    "mains": true,
+    "patTested": false
+  },
+  { "ticket": 115, "item": "kitchen chair", "category": "furniture", "outcome": "unfixable" },
+  {
+    "ticket": 109,
+    "item": "desk fan",
+    "category": "electrical",
+    "outcome": "advice",
+    "mains": true,
+    "patTested": false
+  }
+]

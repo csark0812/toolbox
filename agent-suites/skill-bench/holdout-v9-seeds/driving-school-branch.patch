@@ -1,0 +1,169 @@
+diff --git a/agent-suites/fixtures/driving-school/README.md b/agent-suites/fixtures/driving-school/README.md
+index 0e99f44..c5af343 100644
+--- a/agent-suites/fixtures/driving-school/README.md
++++ b/agent-suites/fixtures/driving-school/README.md
+@@ -11,4 +11,6 @@ Rules for every endpoint:
+ - A learner's phone number and pickup address are only ever shown to that learner's own instructor.
+ - Cancelled lessons stay in `lessons.json` with `status: "cancelled"` and are never shown in a diary.
+ 
++Moving a lesson: `POST /lessons/:id/move` with `{ start }`. Instructors get a calendar subscription link from `GET /feed-link`; the link (`GET /feed/:token`) works without signing in so that phone calendar apps can use it.
++
+ `src/api.mjs` routes requests to the handlers. `npm test` runs the handler tests.
+diff --git a/agent-suites/fixtures/driving-school/src/api.mjs b/agent-suites/fixtures/driving-school/src/api.mjs
+index 7434150..dab8081 100644
+--- a/agent-suites/fixtures/driving-school/src/api.mjs
++++ b/agent-suites/fixtures/driving-school/src/api.mjs
+@@ -1,8 +1,13 @@
++import { feedLink, instructorFeed } from './feed.mjs'
+ import { bookLesson, listLessons } from './lessons.mjs'
++import { rescheduleLesson } from './reschedule.mjs'
+ 
+ const ROUTES = {
+   'GET /lessons': listLessons,
+   'POST /lessons': bookLesson,
++  'POST /lessons/:id/move': rescheduleLesson,
++  'GET /feed-link': feedLink,
++  'GET /feed/:token': instructorFeed,
+ }
+ 
+ const match = (pattern, path) => {
+diff --git a/agent-suites/fixtures/driving-school/src/feed.mjs b/agent-suites/fixtures/driving-school/src/feed.mjs
+new file mode 100644
+index 0000000..817471e
+--- /dev/null
++++ b/agent-suites/fixtures/driving-school/src/feed.mjs
+@@ -0,0 +1,41 @@
++import { instructors, learners, lessons } from './store.mjs'
++
++/** The secret part of an instructor's calendar subscription link. */
++export function feedToken(instructorId) {
++  return Buffer.from(`feed:${instructorId}`).toString('base64url')
++}
++
++const stamp = (start) => `${start.replace(/[-:]/g, '')}00Z`
++
++/**
++ * An instructor's diary as an iCalendar feed for their phone. Calendar apps can't sign in,
++ * so the token in the link is what identifies the instructor.
++ */
++export function instructorFeed(request) {
++  const id = Buffer.from(request.params.token, 'base64url').toString('utf8').replace('feed:', '')
++  const instructor = instructors().find((entry) => entry.id == id)
++  if (!instructor) return { status: 404, body: { error: 'not found' } }
++  const events = lessons()
++    .filter((lesson) => lesson.instructorId === instructor.id)
++    .map((lesson) => {
++      const learner = learners().find((entry) => entry.id === lesson.learnerId)
++      return [
++        'BEGIN:VEVENT',
++        `UID:${lesson.id}@northgate-driving`,
++        `DTSTART:${stamp(lesson.start)}`,
++        `DURATION:PT${lesson.minutes}M`,
++        `SUMMARY:Lesson with ${learner.name}`,
++        `LOCATION:${learner.pickup}`,
++        `DESCRIPTION:Phone ${learner.phone}`,
++        'END:VEVENT',
++      ].join('\r\n')
++    })
++  const calendar = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Northgate//Diary//EN']
++  return { status: 200, body: [...calendar, ...events, 'END:VCALENDAR'].join('\r\n') }
++}
++
++/** The signed-in instructor's calendar subscription link. */
++export function feedLink(request, session) {
++  if (!session?.instructorId) return { status: 401, body: { error: 'sign in' } }
++  return { status: 200, body: { url: `/feed/${feedToken(session.instructorId)}` } }
++}
+diff --git a/agent-suites/fixtures/driving-school/src/reschedule.mjs b/agent-suites/fixtures/driving-school/src/reschedule.mjs
+new file mode 100644
+index 0000000..2b5dbb5
+--- /dev/null
++++ b/agent-suites/fixtures/driving-school/src/reschedule.mjs
+@@ -0,0 +1,27 @@
++import { learners, lessons, saveLesson } from './store.mjs'
++
++export const LATE_FEE_PENCE = 1500
++
++/** Moves one of the learner's lessons to a new start time, adding the late-change fee inside 48 hours. */
++export function rescheduleLesson(request, session) {
++  if (!session?.learnerId) return { status: 401, body: { error: 'sign in' } }
++  const lesson = lessons().find(
++    (entry) => entry.id === request.params.id && entry.learnerId === session.learnerId,
++  )
++  if (!lesson) return { status: 404, body: { error: 'not found' } }
++  const now = request.now ?? new Date()
++  const start = new Date(`${lesson.start}Z`)
++  // hours of notice the learner is giving
++  const notice =
++    (start.getUTCDate() - now.getUTCDate()) * 24 + (start.getUTCHours() - now.getUTCHours())
++  var late = notice < 48
++  // TODO: email the instructor when a lesson moves
++  const moved = {
++    ...lesson,
++    start: request.body.start,
++    feePence: (lesson.feePence ?? 0) + (late ? LATE_FEE_PENCE : 0),
++  }
++  saveLesson(moved)
++  // console.log('rescheduled', moved.id, moved.start)
++  return { status: 200, body: moved }
++}
+diff --git a/agent-suites/fixtures/driving-school/tests/feed.test.mjs b/agent-suites/fixtures/driving-school/tests/feed.test.mjs
+new file mode 100644
+index 0000000..ae75000
+--- /dev/null
++++ b/agent-suites/fixtures/driving-school/tests/feed.test.mjs
+@@ -0,0 +1,15 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { route } from '../src/api.mjs'
++
++test("an instructor's feed link shows their diary", () => {
++  const link = route('GET', '/feed-link', {}, { instructorId: 'i-1' })
++  assert.equal(link.status, 200)
++  const feed = route('GET', link.body.url)
++  assert.equal(feed.status, 200)
++  assert.match(feed.body, /SUMMARY:Lesson with Maya Brooks/)
++})
++
++test('the feed link needs an instructor session', () => {
++  assert.equal(route('GET', '/feed-link', {}, { learnerId: 'l-1' }).status, 401)
++})
+diff --git a/agent-suites/fixtures/driving-school/tests/reschedule.test.mjs b/agent-suites/fixtures/driving-school/tests/reschedule.test.mjs
+new file mode 100644
+index 0000000..d48bb2f
+--- /dev/null
++++ b/agent-suites/fixtures/driving-school/tests/reschedule.test.mjs
+@@ -0,0 +1,33 @@
++import assert from 'node:assert/strict'
++import { beforeEach, test } from 'node:test'
++import { route } from '../src/api.mjs'
++import { reset } from '../src/store.mjs'
++
++beforeEach(reset)
++const maya = { learnerId: 'l-1' }
++
++test('moving a lesson a week ahead is free', () => {
++  const request = {
++    body: { start: '2026-10-28T15:00' },
++    now: new Date('2026-10-21T09:00Z'),
++  }
++  const response = route('POST', '/lessons/ls-101/move', request, maya)
++  assert.equal(response.status, 200)
++  assert.equal(response.body.start, '2026-10-28T15:00')
++  assert.equal(response.body.feePence, 0)
++})
++
++test('moving a lesson the day before costs the late fee', () => {
++  const request = {
++    body: { start: '2026-11-02T15:00' },
++    now: new Date('2026-11-01T12:00Z'),
++  }
++  const response = route('POST', '/lessons/ls-103/move', request, maya)
++  assert.equal(response.status, 200)
++  assert.equal(response.body.feePence, 1500)
++})
++
++test("a learner cannot move someone else's lesson", () => {
++  const request = { body: { start: '2026-10-28T15:00' }, now: new Date('2026-10-21T09:00Z') }
++  assert.equal(route('POST', '/lessons/ls-102/move', request, maya).status, 404)
++})

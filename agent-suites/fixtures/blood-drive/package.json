@@ -1,0 +1,9 @@
+{
+  "name": "blood-drive",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "clinic": "node bin/clinic.mjs"
+  }
+}

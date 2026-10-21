@@ -1,0 +1,19 @@
+[
+  { "customer": "C01", "date": "2026-09-07" },
+  { "customer": "C04", "date": "2026-09-07" },
+  { "customer": "C09", "date": "2026-09-08" },
+  { "customer": "C02", "date": "2026-09-09" },
+  { "customer": "C03", "date": "2026-09-10" },
+  { "customer": "C10", "date": "2026-09-09" },
+  { "customer": "C07", "date": "2026-09-11" },
+  { "customer": "C08", "date": "2026-09-13" },
+  { "customer": "C05", "date": "2026-09-14" },
+  { "customer": "C06", "date": "2026-09-14" },
+  { "customer": "C01", "date": "2026-10-05" },
+  { "customer": "C02", "date": "2026-10-07" },
+  { "customer": "C10", "date": "2026-10-07" },
+  { "customer": "C03", "date": "2026-10-08" },
+  { "customer": "C07", "date": "2026-10-09" },
+  { "customer": "C08", "date": "2026-10-11" },
+  { "customer": "C05", "date": "2026-10-12" }
+]

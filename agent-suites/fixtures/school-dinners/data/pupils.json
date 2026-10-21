@@ -1,0 +1,66 @@
+[
+  {
+    "id": "P01",
+    "name": "Ava Brown",
+    "class": "3B",
+    "lunch": "school",
+    "freeMeals": false,
+    "allergies": []
+  },
+  {
+    "id": "P02",
+    "name": "Ben Carter",
+    "class": "3B",
+    "lunch": "packed",
+    "freeMeals": false,
+    "allergies": []
+  },
+  {
+    "id": "P03",
+    "name": "Chloe Diaz",
+    "class": "4A",
+    "lunch": "school",
+    "freeMeals": false,
+    "allergies": ["nuts"]
+  },
+  {
+    "id": "P04",
+    "name": "Dan Evans",
+    "class": "4A",
+    "lunch": "school",
+    "freeMeals": true,
+    "allergies": []
+  },
+  {
+    "id": "P05",
+    "name": "Maya Patel",
+    "class": "3B",
+    "lunch": "school",
+    "freeMeals": false,
+    "allergies": ["dairy"]
+  },
+  {
+    "id": "P06",
+    "name": "Noah Fisher",
+    "class": "5C",
+    "lunch": "packed",
+    "freeMeals": false,
+    "allergies": ["nuts"]
+  },
+  {
+    "id": "P07",
+    "name": "Leo Grant",
+    "class": "5C",
+    "lunch": "school",
+    "freeMeals": false,
+    "allergies": []
+  },
+  {
+    "id": "P08",
+    "name": "Zara Hussain",
+    "class": "4A",
+    "lunch": "school",
+    "freeMeals": false,
+    "allergies": ["gluten"]
+  }
+]

@@ -1,0 +1,17 @@
+donor,date,outcome,site
+D01,2026-03-02,donated,main
+D01,2026-05-26,donated,main
+D01,2026-08-10,donated,main
+D01,2026-09-14,deferred,main
+D02,2026-04-28,donated,mobile
+D02,2026-07-30,donated,main
+D02,2026-10-01,deferred,main
+D03,2026-04-27,donated,mobile
+D03,2026-7-20,donated,mobile
+D03,2026-10-02,donated,main
+D04,2026-05-19,donated,main
+D04,2026-08-11,donated,main
+D05,2026-6-13,donated,mobile
+D05,2026-9-5,donated,mobile
+D07,2026-06-15,donated,main
+D07,2026-9-9,donated,mobile

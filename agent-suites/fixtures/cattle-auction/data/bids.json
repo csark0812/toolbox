@@ -1,0 +1,18 @@
+[
+  { "lot": "1", "paddle": "P14", "amount": 3400, "at": "10:30:12" },
+  { "lot": "1", "paddle": "P22", "amount": 3550, "at": "10:30:40" },
+  { "lot": "1", "paddle": " p14", "amount": 3650, "at": "10:31:02" },
+  { "lot": "1", "paddle": "P31", "amount": 3700, "at": "10:31:45" },
+  { "lot": "2", "paddle": "P47", "amount": 2400, "at": "10:33:00" },
+  { "lot": "2", "paddle": "P22", "amount": 2450, "at": "10:33:30" },
+  { "lot": "3", "paddle": "P31", "amount": 6100, "at": "10:36:50" },
+  { "lot": "3", "paddle": "P99", "amount": 6500, "at": "10:37:10" },
+  { "lot": "3", "paddle": "P47", "amount": 6300, "at": "10:37:30" },
+  { "lot": "3", "paddle": "P14", "amount": 6300, "at": "10:37:30" },
+  { "lot": "4", "paddle": "P22", "amount": 1950, "at": "10:39:15" },
+  { "lot": "4", "paddle": "P14", "amount": 2050, "at": "10:39:40" },
+  { "lot": "4", "paddle": "P31", "amount": 2000, "at": "10:40:10" },
+  { "lot": "5", "paddle": "P47", "amount": 5300, "at": "10:43:20" },
+  { "lot": "5", "paddle": "p22", "amount": 5450, "at": "10:44:00" },
+  { "lot": "5", "paddle": "P22", "amount": 5500, "at": "10:44:30" }
+]

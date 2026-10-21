@@ -1,0 +1,38 @@
+[
+  {
+    "id": "t-1",
+    "landlordId": "ll-1",
+    "tenant": "Chloe Evans",
+    "property": "Flat 2, 9 Quay Street",
+    "depositPence": 120000,
+    "start": "2025-10-10",
+    "end": "2026-10-09"
+  },
+  {
+    "id": "t-2",
+    "landlordId": "ll-1",
+    "tenant": "Sam Okafor",
+    "property": "41 Ropewalk",
+    "depositPence": 95000,
+    "start": "2025-04-01",
+    "end": "2027-03-31"
+  },
+  {
+    "id": "t-3",
+    "landlordId": "ll-2",
+    "tenant": "Lena Fischer",
+    "property": "Top Floor, 3 Chapel Lane",
+    "depositPence": 110000,
+    "start": "2025-10-15",
+    "end": "2026-10-14"
+  },
+  {
+    "id": "t-4",
+    "landlordId": "ll-2",
+    "tenant": "Jamie Rowe",
+    "property": "7 Harbour View",
+    "depositPence": 80000,
+    "start": "2024-11-01",
+    "end": "2026-10-31"
+  }
+]

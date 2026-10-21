@@ -1,0 +1,64 @@
+diff --git a/agent-suites/fixtures/repair-cafe/README.md b/agent-suites/fixtures/repair-cafe/README.md
+index 77a5d16..b348c02 100644
+--- a/agent-suites/fixtures/repair-cafe/README.md
++++ b/agent-suites/fixtures/repair-cafe/README.md
+@@ -4,7 +4,7 @@ The session log for the Canal Street Repair Café. `data/repairs.json` lists wha
+ 
+ ## Report
+ 
+-The end-of-session report counts the items seen and each outcome.
++The end-of-session report counts the items seen and each outcome, then breaks the items down by category.
+ 
+ ## Usage
+ 
+diff --git a/agent-suites/fixtures/repair-cafe/src/report.mjs b/agent-suites/fixtures/repair-cafe/src/report.mjs
+index 4367fde..2c43b00 100644
+--- a/agent-suites/fixtures/repair-cafe/src/report.mjs
++++ b/agent-suites/fixtures/repair-cafe/src/report.mjs
+@@ -1,12 +1,21 @@
+ /** How many of the repairs had this outcome. */
+ const count = (repairs, outcome) => repairs.filter((repair) => repair.outcome === outcome).length
+ 
+-/** Lines of the end-of-session report. */
++const OUTCOMES = [
++  ['fixed', 'Fixed'],
++  ['advice', 'Advice given'],
++  ['unfixable', 'Not fixable'],
++]
++const CATEGORIES = ['electrical', 'textile', 'bike', 'furniture']
++
++/** Lines of the end-of-session report: the outcomes, then each category. */
+ export function report(repairs) {
+   return [
+     `Items seen: ${repairs.length}`,
+-    `Fixed: ${count(repairs, 'fixed')}`,
+-    `Advice given: ${count(repairs, 'advice')}`,
+-    `Not fixable: ${count(repairs, 'unfixable')}`,
++    ...OUTCOMES.map(([outcome, label]) => `${label}: ${count(repairs, outcome)}`),
++    ...CATEGORIES.map((category) => {
++      const items = repairs.filter((repair) => repair.category === category)
++      return `  ${category}: ${items.length} seen, ${count(items, 'fixed')} fixed`
++    }),
+   ]
+ }
+diff --git a/agent-suites/fixtures/repair-cafe/tests/report.test.mjs b/agent-suites/fixtures/repair-cafe/tests/report.test.mjs
+index afd9f84..824bdf3 100644
+--- a/agent-suites/fixtures/repair-cafe/tests/report.test.mjs
++++ b/agent-suites/fixtures/repair-cafe/tests/report.test.mjs
+@@ -15,11 +15,15 @@ const repairs = [
+   { ticket: 3, item: 'stool', category: 'furniture', outcome: 'unfixable' },
+ ]
+ 
+-test('the report counts each outcome', () => {
++test('the report counts each outcome and category', () => {
+   assert.deepEqual(report(repairs), [
+     'Items seen: 3',
+     'Fixed: 2',
+     'Advice given: 0',
+     'Not fixable: 1',
++    '  electrical: 1 seen, 1 fixed',
++    '  textile: 1 seen, 1 fixed',
++    '  bike: 0 seen, 0 fixed',
++    '  furniture: 1 seen, 0 fixed',
+   ])
+ })

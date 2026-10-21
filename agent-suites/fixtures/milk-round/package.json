@@ -1,0 +1,9 @@
+{
+  "name": "milk-round",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "customers": "node bin/customers.mjs"
+  }
+}

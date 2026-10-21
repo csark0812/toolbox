@@ -1,0 +1,49 @@
+diff --git a/agent-suites/fixtures/rowing-club/README.md b/agent-suites/fixtures/rowing-club/README.md
+index 6fc3e0f..66d2298 100644
+--- a/agent-suites/fixtures/rowing-club/README.md
++++ b/agent-suites/fixtures/rowing-club/README.md
+@@ -4,7 +4,7 @@ Outings for Weir Bend Rowing Club. `data/outings.json` lists the week's outings:
+ 
+ ## Board
+ 
+-The boathouse board lists the week's outings in start order. Each line shows the start, the boat and its class.
++The boathouse board lists the week's outings in start order. Each line shows the start, the boat, its class and the crew.
+ 
+ ## Usage
+ 
+diff --git a/agent-suites/fixtures/rowing-club/src/outings.mjs b/agent-suites/fixtures/rowing-club/src/outings.mjs
+index f6b090d..5a93578 100644
+--- a/agent-suites/fixtures/rowing-club/src/outings.mjs
++++ b/agent-suites/fixtures/rowing-club/src/outings.mjs
+@@ -1,9 +1,12 @@
+ /** The day and time an outing starts, as shown on the board. */
+ const when = (outing) => outing.start.replace('T', '  ')
+ 
+-/** Lines of the boathouse board, in start order. */
++/** Lines of the boathouse board, in start order, with the crew. */
+ export function board(outings) {
+   return [...outings]
+     .sort((a, b) => (a.start < b.start ? -1 : a.start > b.start ? 1 : 0))
+-    .map((outing) => `${when(outing)}  ${outing.boat.padEnd(8)}${outing.class}`)
++    .map(
++      (outing) =>
++        `${when(outing)}  ${outing.boat.padEnd(8)}${outing.class.padEnd(4)}${outing.crew.join(', ')}`,
++    )
+ }
+diff --git a/agent-suites/fixtures/rowing-club/tests/outings.test.mjs b/agent-suites/fixtures/rowing-club/tests/outings.test.mjs
+index bb40739..9b45957 100644
+--- a/agent-suites/fixtures/rowing-club/tests/outings.test.mjs
++++ b/agent-suites/fixtures/rowing-club/tests/outings.test.mjs
+@@ -13,9 +13,9 @@ const outings = [
+   { id: 'R1', start: '2026-11-07T07:00', boat: 'Heron', class: '1x', crew: ['Ana'] },
+ ]
+ 
+-test('the board lists outings in start order', () => {
++test('the board lists outings in start order with the crew', () => {
+   assert.deepEqual(board(outings), [
+-    '2026-11-07  07:00  Heron   1x',
+-    '2026-11-07  07:30  Kestrel 4x',
++    '2026-11-07  07:00  Heron   1x  Ana',
++    '2026-11-07  07:30  Kestrel 4x  Ben, Cal, Dee, Eve',
+   ])
+ })
