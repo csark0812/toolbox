@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.panel {
+  max-width: 40rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.panel .hint {
+  color: var(--text-muted);
+}
+
+.panel a {
+  color: var(--link);
+}
+
+.notice {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid #d97706;
+  background: var(--notice-bg, #fef3c7);
+  color: var(--text);
+}
