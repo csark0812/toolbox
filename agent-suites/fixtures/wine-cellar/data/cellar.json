@@ -1,0 +1,83 @@
+[
+  {
+    "id": "B001",
+    "producer": "Ch. Musar",
+    "wine": "Rouge",
+    "vintage": 2012,
+    "score": 92,
+    "opens": "2022-01-01",
+    "closes": "2027-12-31"
+  },
+  {
+    "id": "B002",
+    "producer": "ch. musar ",
+    "wine": "Rouge",
+    "vintage": 2012,
+    "score": 94,
+    "opens": "2024-01-01",
+    "closes": "2030-12-31"
+  },
+  {
+    "id": "B003",
+    "producer": "CH. MUSAR",
+    "wine": "Blanc",
+    "vintage": 2012,
+    "score": 92,
+    "opens": "2020-06-01",
+    "closes": "2026-12-31"
+  },
+  {
+    "id": "B004",
+    "producer": "Tyrrell's",
+    "wine": "Vat 1 Semillon",
+    "vintage": 2015,
+    "score": 95,
+    "opens": "2023-01-01",
+    "closes": "2035-12-31"
+  },
+  {
+    "id": "B005",
+    "producer": "Tyrrell's",
+    "wine": "Vat 1 Semillon",
+    "vintage": 2015,
+    "score": 95,
+    "opens": "2027-01-01",
+    "closes": "2035-12-31"
+  },
+  {
+    "id": "B006",
+    "producer": "Domaine Huet",
+    "wine": "Le Mont Sec",
+    "vintage": 2019,
+    "score": 90,
+    "opens": "2024-03-01",
+    "closes": "2026-11-30"
+  },
+  {
+    "id": "B007",
+    "producer": "domaine huet",
+    "wine": "Clos du Bourg",
+    "vintage": 2019,
+    "score": 91,
+    "opens": "2025-01-01",
+    "closes": "2026-11-30"
+  },
+  {
+    "id": "B008",
+    "producer": "Felton Road",
+    "wine": "Block 3 Pinot Noir",
+    "vintage": 2018,
+    "score": 93,
+    "opens": "2023-01-01",
+    "closes": "2026-11-01"
+  },
+  {
+    "id": "B009",
+    "producer": "Felton Road",
+    "wine": "Bannockburn Pinot Noir",
+    "vintage": 2018,
+    "score": 89,
+    "opens": "2026-11-02",
+    "closes": "2029-12-31"
+  }
+]

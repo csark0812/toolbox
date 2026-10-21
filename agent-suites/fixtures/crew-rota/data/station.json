@@ -1,0 +1,116 @@
+{
+  "station": "Porthgarrow",
+  "today": "2026-10-21",
+  "now": "14:20",
+  "roles": ["helm", "crew", "tractor"],
+  "launchNeeds": { "helm": 1, "crew": 2, "tractor": 1 },
+  "people": [
+    {
+      "id": "jt",
+      "name": "Jory Treloar",
+      "roles": ["helm", "crew"],
+      "pager": "available",
+      "trainingDue": "2027-03-02"
+    },
+    {
+      "id": "mk",
+      "name": "Morwenna Kitto",
+      "roles": ["helm", "crew"],
+      "pager": "at work, 20 min",
+      "trainingDue": "2026-11-04"
+    },
+    {
+      "id": "dp",
+      "name": "Dan Pascoe",
+      "roles": ["crew"],
+      "pager": "available",
+      "trainingDue": "2027-01-15"
+    },
+    {
+      "id": "ah",
+      "name": "Aisha Hendry",
+      "roles": ["crew"],
+      "pager": "available",
+      "trainingDue": "2026-10-28"
+    },
+    {
+      "id": "bw",
+      "name": "Ben Williams",
+      "roles": ["crew", "tractor"],
+      "pager": "off call",
+      "trainingDue": "2027-05-20"
+    },
+    {
+      "id": "sr",
+      "name": "Sam Rowe",
+      "roles": ["tractor"],
+      "pager": "available",
+      "trainingDue": "2026-12-01"
+    },
+    {
+      "id": "lc",
+      "name": "Loveday Curnow",
+      "roles": ["crew"],
+      "pager": "away until 24 Oct",
+      "trainingDue": "2026-10-23"
+    },
+    {
+      "id": "pn",
+      "name": "Piran Nance",
+      "roles": ["helm", "crew", "tractor"],
+      "pager": "available",
+      "trainingDue": "2027-02-10"
+    }
+  ],
+  "week": [
+    { "date": "2026-10-21", "onCall": ["jt", "dp", "ah", "sr"] },
+    { "date": "2026-10-22", "onCall": ["jt", "dp", "ah", "sr"] },
+    { "date": "2026-10-23", "onCall": ["mk", "dp", "sr"] },
+    { "date": "2026-10-24", "onCall": ["mk", "lc", "dp"] },
+    { "date": "2026-10-25", "onCall": ["pn", "lc", "bw", "ah"] },
+    { "date": "2026-10-26", "onCall": ["pn", "bw", "ah", "sr"] },
+    { "date": "2026-10-27", "onCall": ["jt", "ah"] }
+  ],
+  "launches": [
+    {
+      "date": "2026-10-18",
+      "time": "06:42",
+      "call": "Fishing vessel, fouled propeller, 3 nm SW",
+      "helm": "pn",
+      "crew": ["dp", "ah"],
+      "tractor": "sr",
+      "minutesToLaunch": 9,
+      "outcome": "Towed to harbour"
+    },
+    {
+      "date": "2026-10-09",
+      "time": "17:15",
+      "call": "Paddleboarder drifting offshore",
+      "helm": "jt",
+      "crew": ["ah", "bw"],
+      "tractor": "sr",
+      "minutesToLaunch": 7,
+      "outcome": "Casualty recovered, handed to ambulance"
+    },
+    {
+      "date": "2026-09-30",
+      "time": "22:03",
+      "call": "Flare sighting near Gull Rock",
+      "helm": "mk",
+      "crew": ["dp", "lc"],
+      "tractor": "bw",
+      "minutesToLaunch": 11,
+      "outcome": "False alarm with good intent"
+    },
+    {
+      "date": "2026-09-21",
+      "time": "13:30",
+      "call": "Yacht taking on water",
+      "helm": "pn",
+      "crew": ["jt", "dp"],
+      "tractor": "sr",
+      "minutesToLaunch": 8,
+      "outcome": "Pump transferred, escorted in"
+    }
+  ]
+}

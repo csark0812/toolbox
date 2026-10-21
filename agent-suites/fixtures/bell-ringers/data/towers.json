@@ -1,0 +1,8 @@
+[
+  { "name": "St Mary, Thornbury", "bells": 8, "tenor": "24-1-12", "practice": "Tue" },
+  { "name": "St Peter, Frampton", "bells": 6, "tenor": "11-0-3", "practice": "Thu" },
+  { "name": "All Saints, Oldbury", "bells": 10, "tenor": "31-2-0", "practice": "Wed" },
+  { "name": "St John, Aust", "tenor": "7-3-20", "practice": "Mon" },
+  { "name": "Holy Trinity, Westerleigh", "bells": 5, "tenor": "9-1-14", "practice": "Fri" },
+  { "name": "St Andrew, Chew", "bells": 12, "tenor": "28-0-26", "practice": "Tue" }
+]

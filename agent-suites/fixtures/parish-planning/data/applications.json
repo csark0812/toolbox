@@ -1,0 +1,400 @@
+{
+  "council": "Trevennick Parish Council",
+  "asOf": "2026-10-21",
+  "applications": [
+    {
+      "ref": "PA26/0304",
+      "address": "56 Fore Street",
+      "ward": "Church Town",
+      "proposal": "Removal of a protected ash tree (TPO 14)",
+      "status": "Under consultation",
+      "received": "2026-06-30",
+      "decisionDue": "2026-08-25",
+      "commentsClose": "2026-07-21",
+      "comments": 3
+    },
+    {
+      "ref": "PA26/0310",
+      "address": "46 Vicarage Close",
+      "ward": "Church Town",
+      "proposal": "Garden room and decking",
+      "status": "Approved",
+      "received": "2026-09-04",
+      "decisionDue": "2026-10-30",
+      "comments": 2
+    },
+    {
+      "ref": "PA26/0318",
+      "address": "43 Polgooth Road",
+      "ward": "Polgooth",
+      "proposal": "Removal of a protected ash tree (TPO 14)",
+      "status": "Approved",
+      "received": "2026-06-08",
+      "decisionDue": "2026-08-03",
+      "comments": 11
+    },
+    {
+      "ref": "PA26/0325",
+      "address": "8 Vicarage Close",
+      "ward": "Church Town",
+      "proposal": "New vehicle access and dropped kerb",
+      "status": "Approved",
+      "received": "2026-10-08",
+      "decisionDue": "2026-12-03",
+      "comments": 6
+    },
+    {
+      "ref": "PA26/0333",
+      "address": "55 Gwel an Mor",
+      "ward": "Trewidden",
+      "proposal": "Loft conversion with rear dormer",
+      "status": "Under consultation",
+      "received": "2026-07-17",
+      "decisionDue": "2026-09-11",
+      "commentsClose": "2026-08-07",
+      "comments": 1
+    },
+    {
+      "ref": "PA26/0341",
+      "address": "The Old Net Loft, Quay Road",
+      "ward": "Harbour",
+      "proposal": "Conversion of net loft to two flats",
+      "status": "Under consultation",
+      "received": "2026-10-10",
+      "decisionDue": "2026-12-05",
+      "commentsClose": "2026-10-30",
+      "comments": 10
+    },
+    {
+      "ref": "PA26/0344",
+      "address": "17 Fore Street",
+      "ward": "Church Town",
+      "proposal": "Two-storey side extension",
+      "status": "Approved",
+      "received": "2026-08-11",
+      "decisionDue": "2026-10-06",
+      "comments": 10
+    },
+    {
+      "ref": "PA26/0354",
+      "address": "22 Fore Street",
+      "ward": "Church Town",
+      "proposal": "Removal of a protected ash tree (TPO 14)",
+      "status": "Under consultation",
+      "received": "2026-09-02",
+      "decisionDue": "2026-10-28",
+      "commentsClose": "2026-09-23",
+      "comments": 1
+    },
+    {
+      "ref": "PA26/0357",
+      "address": "18 Polgooth Road",
+      "ward": "Polgooth",
+      "proposal": "Removal of a protected ash tree (TPO 14)",
+      "status": "Under consultation",
+      "received": "2026-07-30",
+      "decisionDue": "2026-09-24",
+      "commentsClose": "2026-08-20",
+      "comments": 7
+    },
+    {
+      "ref": "PA26/0366",
+      "address": "55 Chapel Hill",
+      "ward": "Church Town",
+      "proposal": "New vehicle access and dropped kerb",
+      "status": "Approved",
+      "received": "2026-09-29",
+      "decisionDue": "2026-11-24",
+      "comments": 6
+    },
+    {
+      "ref": "PA26/0374",
+      "address": "42 Mill Lane",
+      "ward": "Polgooth",
+      "proposal": "Change of use from shop to café",
+      "status": "Withdrawn",
+      "received": "2026-07-26",
+      "decisionDue": "2026-09-20",
+      "comments": 7
+    },
+    {
+      "ref": "PA26/0382",
+      "address": "3 Chapel Hill",
+      "ward": "Church Town",
+      "proposal": "Replacement windows (conservation area)",
+      "status": "Approved",
+      "received": "2026-09-20",
+      "decisionDue": "2026-11-15",
+      "commentsClose": "2026-10-11",
+      "comments": 9
+    },
+    {
+      "ref": "PA26/0389",
+      "address": "25 Fore Street",
+      "ward": "Church Town",
+      "proposal": "Change of use from shop to café",
+      "status": "Under consultation",
+      "received": "2026-06-11",
+      "decisionDue": "2026-08-06",
+      "commentsClose": "2026-07-02",
+      "comments": 7
+    },
+    {
+      "ref": "PA26/0396",
+      "address": "28 Quay Road",
+      "ward": "Harbour",
+      "proposal": "Demolition of outbuilding",
+      "status": "Approved",
+      "received": "2026-06-20",
+      "decisionDue": "2026-08-15",
+      "comments": 10
+    },
+    {
+      "ref": "PA26/0398",
+      "address": "55 Gwel an Mor",
+      "ward": "Trewidden",
+      "proposal": "Change of use from shop to café",
+      "status": "Refused",
+      "received": "2026-07-09",
+      "decisionDue": "2026-09-03",
+      "comments": 0
+    },
+    {
+      "ref": "PA26/0407",
+      "address": "38 Fore Street",
+      "ward": "Church Town",
+      "proposal": "Replacement of timber shopfront",
+      "status": "Under consultation",
+      "received": "2026-09-12",
+      "decisionDue": "2026-11-07",
+      "commentsClose": "2026-10-03",
+      "comments": 2
+    },
+    {
+      "ref": "PA26/0412",
+      "address": "15 Gwel an Mor",
+      "ward": "Trewidden",
+      "proposal": "Removal of a protected ash tree (TPO 14)",
+      "status": "Under consultation",
+      "received": "2026-10-04",
+      "decisionDue": "2026-11-29",
+      "commentsClose": "2026-10-25",
+      "comments": 0
+    },
+    {
+      "ref": "PA26/0424",
+      "address": "39 Gwel an Mor",
+      "ward": "Trewidden",
+      "proposal": "Two-storey side extension",
+      "status": "Withdrawn",
+      "received": "2026-06-03",
+      "decisionDue": "2026-07-29",
+      "comments": 11
+    },
+    {
+      "ref": "PA26/0427",
+      "address": "41 Mill Lane",
+      "ward": "Polgooth",
+      "proposal": "Change of use to holiday let",
+      "status": "Under consultation",
+      "received": "2026-07-02",
+      "decisionDue": "2026-08-27",
+      "commentsClose": "2026-07-23",
+      "comments": 0
+    },
+    {
+      "ref": "PA26/0433",
+      "address": "43 Vicarage Close",
+      "ward": "Church Town",
+      "proposal": "Replacement windows (conservation area)",
+      "status": "Approved",
+      "received": "2026-08-09",
+      "decisionDue": "2026-10-04",
+      "comments": 11
+    },
+    {
+      "ref": "PA26/0445",
+      "address": "42 Quay Road",
+      "ward": "Harbour",
+      "proposal": "Garden room and decking",
+      "status": "Withdrawn",
+      "received": "2026-06-06",
+      "decisionDue": "2026-08-01",
+      "comments": 11
+    },
+    {
+      "ref": "PA26/0451",
+      "address": "46 Sandy Lane",
+      "ward": "Polgooth",
+      "proposal": "Demolition of outbuilding",
+      "status": "Under consultation",
+      "received": "2026-07-05",
+      "decisionDue": "2026-08-30",
+      "commentsClose": "2026-07-26",
+      "comments": 4
+    },
+    {
+      "ref": "PA26/0456",
+      "address": "25 Chapel Hill",
+      "ward": "Church Town",
+      "proposal": "New vehicle access and dropped kerb",
+      "status": "Withdrawn",
+      "received": "2026-08-18",
+      "decisionDue": "2026-10-13",
+      "comments": 8
+    },
+    {
+      "ref": "PA26/0462",
+      "address": "44 Polgooth Road",
+      "ward": "Polgooth",
+      "proposal": "Air source heat pump to side elevation",
+      "status": "Under consultation",
+      "received": "2026-06-28",
+      "decisionDue": "2026-08-23",
+      "commentsClose": "2026-07-19",
+      "comments": 11
+    },
+    {
+      "ref": "PA26/0471",
+      "address": "53 Bodmin Road",
+      "ward": "Trewidden",
+      "proposal": "Two-storey side extension",
+      "status": "Withdrawn",
+      "received": "2026-06-28",
+      "decisionDue": "2026-08-23",
+      "comments": 5
+    },
+    {
+      "ref": "PA26/0476",
+      "address": "47 Mill Lane",
+      "ward": "Polgooth",
+      "proposal": "Solar panels on south roof slope",
+      "status": "Withdrawn",
+      "received": "2026-08-07",
+      "decisionDue": "2026-10-02",
+      "comments": 1
+    },
+    {
+      "ref": "PA26/0486",
+      "address": "32 Bodmin Road",
+      "ward": "Trewidden",
+      "proposal": "Erection of a detached garage",
+      "status": "Approved",
+      "received": "2026-08-10",
+      "decisionDue": "2026-10-05",
+      "comments": 9
+    },
+    {
+      "ref": "PA26/0493",
+      "address": "18 Fore Street",
+      "ward": "Church Town",
+      "proposal": "Loft conversion with rear dormer",
+      "status": "Approved",
+      "received": "2026-06-29",
+      "decisionDue": "2026-08-24",
+      "comments": 2
+    },
+    {
+      "ref": "PA26/0500",
+      "address": "26 Bodmin Road",
+      "ward": "Trewidden",
+      "proposal": "Demolition of outbuilding",
+      "status": "Received",
+      "received": "2026-09-17",
+      "decisionDue": "2026-11-12",
+      "comments": 10
+    },
+    {
+      "ref": "PA26/0506",
+      "address": "58 The Platt",
+      "ward": "Harbour",
+      "proposal": "Replacement of timber shopfront",
+      "status": "Received",
+      "received": "2026-09-15",
+      "decisionDue": "2026-11-10",
+      "comments": 10
+    },
+    {
+      "ref": "PA26/0510",
+      "address": "9 Fore Street",
+      "ward": "Church Town",
+      "proposal": "Single-storey rear extension",
+      "status": "Received",
+      "received": "2026-06-16",
+      "decisionDue": "2026-08-11",
+      "comments": 7
+    },
+    {
+      "ref": "PA26/0521",
+      "address": "12 Sandy Lane",
+      "ward": "Polgooth",
+      "proposal": "Change of use from shop to café",
+      "status": "Received",
+      "received": "2026-06-29",
+      "decisionDue": "2026-08-24",
+      "comments": 5
+    },
+    {
+      "ref": "PA26/0526",
+      "address": "26 Sandy Lane",
+      "ward": "Polgooth",
+      "proposal": "Solar panels on south roof slope",
+      "status": "Approved",
+      "received": "2026-09-17",
+      "decisionDue": "2026-11-12",
+      "comments": 0
+    },
+    {
+      "ref": "PA26/0536",
+      "address": "49 Chapel Hill",
+      "ward": "Church Town",
+      "proposal": "Removal of a protected ash tree (TPO 14)",
+      "status": "Withdrawn",
+      "received": "2026-06-22",
+      "decisionDue": "2026-08-17",
+      "comments": 1
+    },
+    {
+      "ref": "PA26/0539",
+      "address": "37 Chapel Hill",
+      "ward": "Church Town",
+      "proposal": "New vehicle access and dropped kerb",
+      "status": "Under consultation",
+      "received": "2026-06-11",
+      "decisionDue": "2026-08-06",
+      "commentsClose": "2026-07-02",
+      "comments": 6
+    },
+    {
+      "ref": "PA26/0546",
+      "address": "60 Harbour Terrace",
+      "ward": "Harbour",
+      "proposal": "Single-storey rear extension",
+      "status": "Received",
+      "received": "2026-07-28",
+      "decisionDue": "2026-09-22",
+      "comments": 0
+    },
+    {
+      "ref": "PA26/0556",
+      "address": "6 Polgooth Road",
+      "ward": "Polgooth",
+      "proposal": "Erection of one dwelling",
+      "status": "Under consultation",
+      "received": "2026-10-08",
+      "decisionDue": "2026-12-03",
+      "commentsClose": "2026-10-29",
+      "comments": 5
+    },
+    {
+      "ref": "PA26/0562",
+      "address": "58 Gwel an Mor",
+      "ward": "Trewidden",
+      "proposal": "Erection of a detached garage",
+      "status": "Refused",
+      "received": "2026-09-01",
+      "decisionDue": "2026-10-27",
+      "comments": 4
+    }
+  ]
+}

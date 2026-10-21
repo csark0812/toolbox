@@ -127,6 +127,446 @@
         "The fix is checked by inspecting the resolved declarations, and the indicator's contrast against the nav surface is reported as a number.",
         "The reply lists every changed file and the declarations before and after."
       ]
+    },
+    {
+      "id": "bakery-landing",
+      "targetSkill": "taste",
+      "check": "harbour-bakery",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "Can you build the website for the bakery in agent-suites/fixtures/harbour-bakery? The owner's brief is in the README. One page, static."
+      },
+      "criteria": [
+        "The page looks designed for this bakery specifically (its harbour, its once-a-day bake, its sell-out hours, its loaves), not like a generic template: a clear concept from the subject carried beyond the first screen.",
+        "The first screen says what and where it is and how to get bread in large, confident type; every loaf and pastry with its price, the opening days and hours, the address and the reserve-by-text rule are all present and easy to find.",
+        "Typography, colour and spacing are deliberate and consistent; no stock template tells (centred hero over three icon cards, gradients, glows, emoji icons, eyebrow labels, invented reviews or statistics).",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
+      "id": "generic-page-restyle",
+      "targetSkill": "taste",
+      "check": "ledger-launch",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "Our landing page in agent-suites/fixtures/ledger-launch looks like every AI-generated SaaS page out there. Make it look like someone actually designed it for this product. Keep the content and sections, keep it static."
+      },
+      "criteria": [
+        "The generic tells are removed (gradient text and buttons, glow shadows, glass nav, emoji icons in tinted squares, monospace eyebrow labels, pill badge, three identical cards) and replaced by a specific visual idea that comes from the product (balances, settling up, a shared house), not just a new colour scheme.",
+        "All content is kept: the three features, both price tiers with their conditions, all three FAQ answers, the call to action.",
+        "Hierarchy and composition are clearly better at both widths: one dominant thing per screen, sections that do not all share one layout, readable contrast.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
+      "id": "crew-screen",
+      "targetSkill": "taste",
+      "check": "crew-rota",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "Build the main screen for the crew rota tool in agent-suites/fixtures/crew-rota. The README says what the coxswain needs from it. It should look like a real, well-made internal tool, and work on a phone too."
+      },
+      "criteria": [
+        "The screen answers the coxswain's questions at a glance: who is on call now and that today is covered (Jory helm, Dan and Aisha crew, Sam tractor); the days in the next week that cannot cover a launch, computed from the data (23 Oct one crew short, 24 Oct no tractor driver, 27 Oct one crew and the tractor short); training lapsing soon (Loveday 23 Oct, Aisha 28 Oct, Morwenna 4 Nov); and the recent launches.",
+        "It reads as a working app screen, not a landing page: a quiet shell, numbers and dates aligned, status shown with colour used sparingly and never as the only signal, no decorative charts or vanity numbers.",
+        "The data is rendered from data/station.json, not hard-coded or dumped, and the coverage logic is correct.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
+      "id": "ferry-timetable-redesign",
+      "targetSkill": "taste",
+      "check": "tidewater-ferries",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "The timetable and fares page in agent-suites/fixtures/tidewater-ferries is a mess and breaks on phones. Redesign it. The brand file is owned by another team, so work within it."
+      },
+      "criteria": [
+        "brand.css is untouched and its tokens are used: estuary green and mudflat as the main colours, buoy red only for actions and alerts, the two brand typefaces; no off-brand colours.",
+        "The timetable is redesigned for the question a passenger has (when is the next boat on my route, and the last one back), not just restyled tables: routes, crossing times, first/last/frequency, winter differences, and the seasonal route notice are all clear.",
+        "Fares are clear and correctly formatted as money (£7.50, £12.00, free for dogs); notices read as notices, not a yellow box.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
+      "id": "pottery-checkout",
+      "targetSkill": "taste",
+      "check": "kiln-yard-checkout",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "People keep giving up halfway through the checkout in agent-suites/fixtures/kiln-yard-checkout. The README has what the potters want from it. Rebuild it so it is easy to finish, on a phone too."
+      },
+      "criteria": [
+        "A visitor always knows where they are and what is left: clear steps (cart, details, delivery or collection, review), one obvious next action per step, and a way back that keeps what they typed.",
+        "Mistakes are prevented or explained where they happen: a missing or wrong field shows a plain message next to it saying how to fix it (not the browser's bubble), focus or attention goes to the first problem, and nothing typed is lost.",
+        "The cart is read from data/cart.json, quantities and removals update the totals, the delivery charge follows data/shop.json, an empty cart says so with a way back to the shop, and the confirmation shows a KY- reference, the email used and what happens next (payment link after wrapping).",
+        "It looks made for this pottery and stays calm: controls large enough to tap, labels above fields, one primary button per step that responds to hover and keyboard focus, and the money right-aligned and correctly formatted.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
+      "id": "presenter-settings",
+      "targetSkill": "taste",
+      "check": "wharf-radio-settings",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "The settings screen for our station's presenter app in agent-suites/fixtures/wharf-radio-settings needs redoing. The README says what it has to do. Presenters mostly use it on their phones between shows."
+      },
+      "criteria": [
+        "Settings are grouped the way a presenter thinks (profile, notifications, studio defaults), each with real labelled controls read from data/settings.json: switches or checkboxes for each notification, the slot length and the usual studio as choices, a live character count for the bio.",
+        "Saving is never in doubt: unsaved changes are visible, saving confirms what was saved, and a missing or too-long field is marked and explained next to it and blocks the save.",
+        "Leaving the station cannot happen by accident: it is set apart from the other settings, asks for confirmation, and says what will be lost (the three upcoming slots).",
+        "It reads as a well-made app screen with a voice of its own for the station: clear hierarchy, quiet surfaces, comfortable tap targets, visible hover and keyboard focus states, no decorative clutter.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
+      "id": "coworking-pricing",
+      "targetSkill": "taste",
+      "check": "ropewalk-pricing",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "Teams keep emailing to ask what they would pay at our coworking space. Turn the pricing on the page in agent-suites/fixtures/ropewalk-pricing into something that answers that, and make the page feel like the building. The README has the rules."
+      },
+      "criteria": [
+        "The pricing answers what this team would pay: picking a plan, team size and billing updates the monthly total and the yearly bill at once, computed from data/pricing.json (3 fixed desks annually is £612 a month, £7,344 a year; 5 people need two studios at £1,240 a month), with VAT stated once.",
+        "It helps the visitor decide: what the team gets (meeting room hours for the team) and, when studios would cost a fixed-desk team less (from 4 people: £340 a month less for 4), says so and by how much.",
+        "The controls are easy and clear: real labelled controls with a visible selected state, comfortable tap targets, the result visually dominant and changing in place without layout jumps, and visible hover and focus states.",
+        "The page looks designed for this building (a long Victorian ropewalk), not a SaaS pricing template: no three identical cards with shadows, the story, hall, address and booking link kept and improved.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
+      "id": "planning-applications",
+      "targetSkill": "taste",
+      "check": "parish-planning",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "Our parish council's planning applications screen in agent-suites/fixtures/parish-planning is one huge table nobody can use. Redesign it for the clerk and councillors; the README explains how they use it."
+      },
+      "criteria": [
+        "What needs the council's comment comes first: applications under consultation with the date comments close and days left (the Old Net Loft closes 30 Oct, 9 days away), closing soon standing out without relying on colour alone.",
+        "Finding things is fast: search by reference, address or proposal as you type, ward and status filters, and a count of what matches.",
+        "An empty result says so plainly, names the search or filters that caused it, and offers one action that clears them; the data is rendered from data/applications.json and dates read as 30 Oct 2026.",
+        "It reads as a dense but calm working screen: aligned columns, a clear type scale, status shown with text, quiet surfaces, visible hover and focus on rows and controls.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
+      "id": "toolbar-danger-variant",
+      "targetSkill": "css-craft",
+      "check": "editor-toolbar",
+      "claim": {
+        "prompt": "In the editor toolbar the Delete button is grey instead of red, even though red delete buttons look right everywhere else (agent-suites/fixtures/editor-toolbar). Please fix it.",
+        "fixtureGate": "agent-suites/fixtures/editor-toolbar"
+      },
+      "criteria": [
+        "The cause is named: `.toolbar .btn` in styles/toolbar.css outranks `.btn-danger` in styles/buttons.css by specificity (two classes against one), and it overrides both background and text colour, including on hover.",
+        "The toolbar Delete button gets the danger background, danger text colour and danger hover from the existing tokens, without !important and without changing the markup's class names.",
+        "Other toolbar buttons and danger buttons outside the toolbar look the same as before, at rest and on hover.",
+        "The fix is checked by resolving the winning declarations or computed colours for each button and state, not only by reading the stylesheet.",
+        "The reply lists every changed file and quotes the declarations before and after."
+      ]
+    },
+    {
+      "id": "file-list-overflow",
+      "targetSkill": "css-craft",
+      "check": "file-browser",
+      "claim": {
+        "prompt": "On a phone-width screen, a file with a long name makes the file list page scroll sideways and pushes the size off the edge (agent-suites/fixtures/file-browser). Long names should be cut off with an ellipsis instead.",
+        "fixtureGate": "agent-suites/fixtures/file-browser"
+      },
+      "criteria": [
+        "The cause is named: the flex item `.details` keeps its automatic minimum width (the long name's unwrapped width), and the grid's `1fr` track also refuses to shrink below its content, so both must be allowed to shrink.",
+        "The fix lets the name truncate with an ellipsis while the size stays visible on one line, and the page no longer scrolls sideways at phone width.",
+        "The desktop layout is unchanged: the sidebar keeps its width and short names are not truncated.",
+        "The fix is checked by measuring rendered widths or overflow at a phone width and a desktop width, and the numbers are reported.",
+        "The reply lists every changed file and quotes the declarations before and after."
+      ]
+    },
+    {
+      "id": "dark-notice-contrast",
+      "targetSkill": "css-craft",
+      "check": "settings-panel",
+      "claim": {
+        "prompt": "The renewal notice on the settings page is nearly unreadable in dark mode, though it looks fine in light mode (agent-suites/fixtures/settings-panel). Please fix it.",
+        "fixtureGate": "agent-suites/fixtures/settings-panel"
+      },
+      "criteria": [
+        "The cause is named: `--notice-bg` is never defined, so the notice always falls back to the light `#fef3c7` background while its text and link take the dark theme's light colours.",
+        "The fix adds a theme token for the notice background that works both when the OS is dark and when the theme switch sets `data-theme=\"dark\"`, and light mode keeps its exact colours.",
+        "The notice text and link contrast against the notice background are reported as numbers for light and dark, and both reach at least 4.5:1.",
+        "The fix is checked under each way dark mode can apply (OS setting and theme switch), not only one.",
+        "The reply lists every changed file and quotes the declarations before and after."
+      ]
+    },
+    {
+      "id": "canoe-wait-times",
+      "targetSkill": "evidence-based-debugging",
+      "check": "canoe-queue",
+      "claim": {
+        "prompt": "People in the canoe queue at agent-suites/fixtures/canoe-queue are waiting far too long. `npm run queue` put Priya, who was first in line at 8:50, on C2 at 10:30, but C1 was back at 9:05. I think the dock tablet saves return times in UTC, so they're an hour out. Can you fix it?",
+        "fixtureGate": "agent-suites/fixtures/canoe-queue"
+      },
+      "criteria": [
+        "The cause is shown with output, not guessed: earliestFirst() in src/times.mjs compares the `back` times as strings, and unpadded times such as `10:30` sort before `9:05`, so canoes go out in the wrong order.",
+        "The UTC theory is checked and rejected with evidence: every time in data/returns.json is local and written the same way, and the order is wrong only where an hour has one digit.",
+        "The fix is at the shared helper, so both the queue and the \"Next due back\" line are corrected, and a regression test with several times across 9:xx and 10:xx was seen failing before the fix and passing after.",
+        "`npm run queue` is rerun and its output shown: Priya C1 at 9:05 (15 min), Dan C3 at 9:40, Mo C2 at 10:30, Ana C4 at 11:15, Theo none, next due C1 at 9:05. The reply says plainly that Mo and Ana now wait longer than the old output said, and its claims match what was run."
+      ]
+    },
+    {
+      "id": "garden-jobs-batch",
+      "targetSkill": "workflow",
+      "check": "community-garden",
+      "claim": {
+        "prompt": "Jobs from the garden committee for agent-suites/fixtures/community-garden, one commit each on this branch please:\n\n1. Bram Ola rents a half plot and his bill says £60 rent. Half plots are £35.\n2. Add `--unpaid` to `npm run plots` so the treasurer can see who still owes.\n3. Water goes up to £15 a plot this year. Change it everywhere it's written down.\n4. Could each bill line show the plot number, so people can find theirs?",
+        "branch": "fix/garden-bills",
+        "fixtureGate": "agent-suites/fixtures/community-garden",
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "Each item is done at its cause: sizeName() in src/bills.mjs treats 0.5 as a full plot and 0.25 as a half, so the fix also changes Cy Wren's half plot to £35 and Dee Moss's quarter plot from £35 to £20, which the committee did not mention. `--unpaid` reads `paid` loosely enough to include Eli Hart's `No ` and exclude Fen Achebe's `Yes`. WATER in src/config.mjs, the test and the README all say £15.",
+        "Item 4 is recognised as already done (every line already starts with `Plot N`) and reported as such, with no empty or cosmetic commit for it.",
+        "There is one commit per real change, each verified (ideally with tests for the plot sizes and the unpaid filter), with edge cases named, such as the other half plot, the quarter plot and the oddly typed paid values.",
+        "Nothing outside the items changes, the data is not edited, and main is untouched.",
+        "The reply summarises each item with its commit hash as it stands at the end and how it was checked, says plainly that item 4 needed no change, and names every other plot whose bill changed."
+      ]
+    },
+    {
+      "id": "pool-takings-question",
+      "targetSkill": "probe",
+      "check": "pool-passes",
+      "claim": {
+        "prompt": "Our treasurer thinks `npm run takings` in agent-suites/fixtures/pool-passes is still counting passes that were cancelled. It says we took £612 in October. Is she right, and what should the figure be? Please don't change anything yet, I need to explain it at the committee meeting.",
+        "fixtureGate": "agent-suites/fixtures/pool-passes"
+      },
+      "criteria": [
+        "The verdict leads: she is right. takings() in src/takings.mjs drops only a status of exactly `cancelled`, so Kit Barnes's `Cancelled` (£48) and Una Kerr's `CANCELLED` (£30) are still counted.",
+        "It also finds what she did not raise: the README says refunded passes are not counted, but Ada Nwosu (£30) and Bea Holt (£48) are counted too. The real October figure is £456, £156 less, worked out by running code rather than by hand.",
+        "It notes that the existing tests only use a lowercase `cancelled` and no refunded pass, which is why nothing caught it, and that Nia Cole's September pass is correctly left out.",
+        "Nothing is changed or committed. A fix is described, not made, and the reply gives the user wording they can use at the meeting."
+      ]
+    },
+    {
+      "id": "orchestra-seat-rename",
+      "targetSkill": "refactor-companion",
+      "check": "orchestra-seating",
+      "claim": {
+        "prompt": "In agent-suites/fixtures/orchestra-seating, rename the `chair` field on a player to `seat` everywhere: the code, the tests and data/players.json. Don't keep `chair` as an alias in the code. The librarian's spreadsheet reads `npm run export`, and section leaders use `npm run seating -- --by chair` and `npm run seating -- --principals`, so all three must print exactly what they print now.",
+        "fixtureGate": "agent-suites/fixtures/orchestra-seating"
+      },
+      "criteria": [
+        "Every hidden use of the field name is found before editing: the CSV header in bin/export.mjs comes from Object.keys of a player, the `--by` value is used directly as a field name, and the `Chair` label in bin/seating.mjs is built from the field name in FIELDS.",
+        "The data, src and tests use `seat` only. The external names (`chair` in the CSV header, `--by chair` and the `Chair` label) are kept by an explicit mapping at the command-line boundary, not by an alias in core code or by deriving labels from field names.",
+        "Before-and-after output of all three commands is captured and shown byte-identical, and the tests pass.",
+        "The reply lists every migrated site and each external name kept on purpose, and its claims match what was run."
+      ]
+    },
+    {
+      "id": "spice-jar-scaling",
+      "targetSkill": "tdd",
+      "check": "spice-blends",
+      "claim": {
+        "prompt": "The stall is going to sell big bags as well as jars, so agent-suites/fixtures/spice-blends needs to scale recipes. Add `toTeaspoons(text)` in src/amounts.mjs that turns an amount like `1 1/2 tsp` into teaspoons (1.5). An amount is a whole number, a decimal, a fraction like `3/4`, or a whole number and a fraction like `1 1/4`, then `tsp` or `tbsp` (a tablespoon is 3 teaspoons), in any case. Anything else throws a RangeError that quotes the text. Then add `--jars <n>` to `npm run blend` that prints each spice's amount for n jars in teaspoons, like `  4.5 tsp cumin`. n is a whole number from 1 to 50; a bad or missing n exits 2 with a message on stderr and nothing on stdout. If a spice's amount can't be read, leave it out and name it on stderr. Please work test-first and have it reviewed before you call it done.",
+        "fixtureGate": "agent-suites/fixtures/spice-blends"
+      },
+      "criteria": [
+        "Tests are written before or alongside the code and pin the public behaviour: each written form, both units in mixed case, the tablespoon conversion, hostile input (a pinch, a bare number, no unit, a zero denominator, a negative, cups, non-strings), and a command-line test that runs the real `npm run blend` on the shipped recipes and checks stdout, stderr and the exit code exactly, including star anise named on stderr and every bad `--jars` value.",
+        "The implementation is small, keeps the amount rules in one place, and decides unspecified cases deliberately and names them in the reply (for example how amounts are rounded or printed, `--jars` given twice or before the name, extra spaces, and the exit code when a spice is skipped), without changing behaviour the request did not ask about.",
+        "Without the option the recipe prints exactly as before.",
+        "An independent review checked the change against the request and tried hostile input; issues it found got a failing test and a fix, the tests and the command were rerun after the last fix, and the reply shows the tests passing and verbatim sample output."
+      ]
+    },
+    {
+      "id": "feed-staleness-plain",
+      "targetSkill": "probe",
+      "check": "feed-reader",
+      "variant": true,
+      "claim": {
+        "prompt": "My partner swears the feed reader in agent-suites/fixtures/feed-reader only refreshes every few hours, because the sidebar's 'Updated' time is hours old even though it's set to refresh every 10 minutes. Which of us is right? Just explain it, I'll decide about changes later."
+      },
+      "criteria": [
+        "The premise is checked by observation before it is explained: the cache does refresh after 10 minutes, shown with a run or concrete trace.",
+        "The answer identifies that the sidebar's 'Updated' time is the newest item's publish time, not the fetch time, with file and line evidence.",
+        "No project file is changed.",
+        "The reply leads with the corrected premise and gives what to do next."
+      ]
+    },
+    {
+      "id": "takings-plain",
+      "targetSkill": "probe",
+      "check": "pool-passes",
+      "variant": true,
+      "claim": {
+        "prompt": "Quick sanity check before the committee meets: is the £612 October figure from `npm run takings` in agent-suites/fixtures/pool-passes inflated by cancelled passes, like our treasurer says? If so, what's the true number? Leave the code as it is.",
+        "fixtureGate": "agent-suites/fixtures/pool-passes"
+      },
+      "criteria": [
+        "The verdict leads: she is right. takings() in src/takings.mjs drops only a status of exactly `cancelled`, so Kit Barnes's `Cancelled` (£48) and Una Kerr's `CANCELLED` (£30) are still counted.",
+        "It also finds what she did not raise: the README says refunded passes are not counted, but Ada Nwosu (£30) and Bea Holt (£48) are counted too. The real October figure is £456, £156 less, worked out by running code rather than by hand.",
+        "It notes that the existing tests only use a lowercase `cancelled` and no refunded pass, which is why nothing caught it, and that Nia Cole's September pass is correctly left out.",
+        "Nothing is changed or committed. A fix is described, not made, and the reply gives the user wording they can use at the meeting."
+      ]
+    },
+    {
+      "id": "money-helper-plain",
+      "targetSkill": "refactor-companion",
+      "check": "invoice-kit",
+      "variant": true,
+      "claim": {
+        "prompt": "agent-suites/fixtures/invoice-kit has src/legacy/currency.mjs as well as src/format.mjs, and both format money. Fold the legacy one into src/format.mjs, point everything at that and remove the legacy file. Printed invoices and receipts must not change at all.",
+        "fixtureGate": "agent-suites/fixtures/invoice-kit"
+      },
+      "criteria": [
+        "The legacy helper is deleted and every caller uses the single remaining module.",
+        "Output is unchanged, proven by recording invoice and receipt output over many inputs before the change and comparing after; the two helpers differ (cents vs dollars, thousands separators, parentheses for negatives) and both behaviors are preserved.",
+        "Existing tests pass before and after.",
+        "The reply lists the callers migrated, the differences found between the helpers, and the size and result of the before/after comparison."
+      ]
+    },
+    {
+      "id": "seat-rename-plain",
+      "targetSkill": "refactor-companion",
+      "check": "orchestra-seating",
+      "variant": true,
+      "claim": {
+        "prompt": "Small tidy-up in agent-suites/fixtures/orchestra-seating: we call it a seat now, so the `chair` field on a player should be `seat` in the code, the tests and data/players.json, with no `chair` alias left in the code. Whatever `npm run export`, `npm run seating -- --by chair` and `npm run seating -- --principals` print today, they have to keep printing.",
+        "fixtureGate": "agent-suites/fixtures/orchestra-seating"
+      },
+      "criteria": [
+        "Every hidden use of the field name is found before editing: the CSV header in bin/export.mjs comes from Object.keys of a player, the `--by` value is used directly as a field name, and the `Chair` label in bin/seating.mjs is built from the field name in FIELDS.",
+        "The data, src and tests use `seat` only. The external names (`chair` in the CSV header, `--by chair` and the `Chair` label) are kept by an explicit mapping at the command-line boundary, not by an alias in core code or by deriving labels from field names.",
+        "Before-and-after output of all three commands is captured and shown byte-identical, and the tests pass.",
+        "The reply lists every migrated site and each external name kept on purpose, and its claims match what was run."
+      ]
+    },
+    {
+      "id": "garden-jobs-plain",
+      "targetSkill": "workflow",
+      "check": "community-garden",
+      "variant": true,
+      "claim": {
+        "prompt": "The garden committee sent over a few bits for agent-suites/fixtures/community-garden. Bram Ola's half plot is billed £60 rent, but half plots are £35. The treasurer wants `--unpaid` on `npm run plots` to see who still owes. Water is £15 a plot this year, so change it wherever it's written down. And could each bill line show the plot number so people can find theirs? Commit each one separately on this branch.",
+        "branch": "fix/garden-bills",
+        "fixtureGate": "agent-suites/fixtures/community-garden",
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "Each item is done at its cause: sizeName() in src/bills.mjs treats 0.5 as a full plot and 0.25 as a half, so the fix also changes Cy Wren's half plot to £35 and Dee Moss's quarter plot from £35 to £20, which the committee did not mention. `--unpaid` reads `paid` loosely enough to include Eli Hart's `No ` and exclude Fen Achebe's `Yes`. WATER in src/config.mjs, the test and the README all say £15.",
+        "Item 4 is recognised as already done (every line already starts with `Plot N`) and reported as such, with no empty or cosmetic commit for it.",
+        "There is one commit per real change, each verified (ideally with tests for the plot sizes and the unpaid filter), with edge cases named, such as the other half plot, the quarter plot and the oddly typed paid values.",
+        "Nothing outside the items changes, the data is not edited, and main is untouched.",
+        "The reply summarises each item with its commit hash as it stands at the end and how it was checked, says plainly that item 4 needed no change, and names every other plot whose bill changed."
+      ]
+    },
+    {
+      "id": "shelf-todo-plain",
+      "targetSkill": "workflow",
+      "check": "shelf-app",
+      "variant": true,
+      "claim": {
+        "prompt": "There's a TODO.md in agent-suites/fixtures/shelf-app with a few fixes the team wants. Can you get through them? Separate commits please, I'm on a feature branch.",
+        "branch": "chore/shelf",
+        "fixtureGate": "agent-suites/fixtures/shelf-app",
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "All three items are fixed at their causes, each in its own commit with a clear message.",
+        "Each behavioral fix has a regression test that fails before and passes after.",
+        "Nothing outside the three items changes.",
+        "Every claim in the reply matches the output shown in the actions; no reproduction or result is described differently from what was observed."
+      ]
+    },
+    {
+      "id": "meter-plain",
+      "targetSkill": "tdd",
+      "check": "usage-meter",
+      "variant": true,
+      "claim": {
+        "prompt": "The usage meter in agent-suites/fixtures/usage-meter needs `remaining(account, nowMs)`: the units an account has left in the current UTC day, never below zero. Tests before code please, and have someone look it over before you finish.",
+        "fixtureGate": "agent-suites/fixtures/usage-meter"
+      },
+      "criteria": [
+        "Behavior is pinned by tests written before or alongside the code, including usage on both sides of midday UTC and the day reset.",
+        "The existing day bucketing rounds instead of flooring, so usage after 12:00 UTC lands in the next day; it is found, pinned by a failing test and fixed rather than left or worked around.",
+        "The change was reviewed against its scope, including any change made after the review, before reporting.",
+        "The reply explains the design, names the bucketing bug and shows the tests passing."
+      ]
+    },
+    {
+      "id": "canoe-plain",
+      "targetSkill": "evidence-based-debugging",
+      "check": "canoe-queue",
+      "variant": true,
+      "claim": {
+        "prompt": "Priya was first in the canoe queue at 8:50, but `npm run queue` in agent-suites/fixtures/canoe-queue sent her out on C2 at 10:30 when C1 was back at 9:05. I reckon the dock tablet's clock is on UTC. Could you sort it?",
+        "fixtureGate": "agent-suites/fixtures/canoe-queue"
+      },
+      "criteria": [
+        "The cause is shown with output, not guessed: earliestFirst() in src/times.mjs compares the `back` times as strings, and unpadded times such as `10:30` sort before `9:05`, so canoes go out in the wrong order.",
+        "The UTC theory is checked and rejected with evidence: every time in data/returns.json is local and written the same way, and the order is wrong only where an hour has one digit.",
+        "The fix is at the shared helper, so both the queue and the \"Next due back\" line are corrected, and a regression test with several times across 9:xx and 10:xx was seen failing before the fix and passing after.",
+        "`npm run queue` is rerun and its output shown: Priya C1 at 9:05 (15 min), Dan C3 at 9:40, Mo C2 at 10:30, Ana C4 at 11:15, Theo none, next due C1 at 9:05. The reply says plainly that Mo and Ana now wait longer than the old output said, and its claims match what was run."
+      ]
+    },
+    {
+      "id": "file-list-plain",
+      "targetSkill": "css-craft",
+      "check": "file-browser",
+      "variant": true,
+      "claim": {
+        "prompt": "On my phone the file browser in agent-suites/fixtures/file-browser gets wider than the screen whenever a file has a long name, and the size gets pushed off the side. Long names should just end in '…'.",
+        "fixtureGate": "agent-suites/fixtures/file-browser"
+      },
+      "criteria": [
+        "The cause is named: the flex item `.details` keeps its automatic minimum width (the long name's unwrapped width), and the grid's `1fr` track also refuses to shrink below its content, so both must be allowed to shrink.",
+        "The fix lets the name truncate with an ellipsis while the size stays visible on one line, and the page no longer scrolls sideways at phone width.",
+        "The desktop layout is unchanged: the sidebar keeps its width and short names are not truncated.",
+        "The fix is checked by measuring rendered widths or overflow at a phone width and a desktop width, and the numbers are reported.",
+        "The reply lists every changed file and quotes the declarations before and after."
+      ]
+    },
+    {
+      "id": "dark-notice-plain",
+      "targetSkill": "css-craft",
+      "check": "settings-panel",
+      "variant": true,
+      "claim": {
+        "prompt": "In dark mode the renewal notice on the settings page in agent-suites/fixtures/settings-panel is really hard to read. Light mode's fine. Can you sort the colours out?",
+        "fixtureGate": "agent-suites/fixtures/settings-panel"
+      },
+      "criteria": [
+        "The cause is named: `--notice-bg` is never defined, so the notice always falls back to the light `#fef3c7` background while its text and link take the dark theme's light colours.",
+        "The fix adds a theme token for the notice background that works both when the OS is dark and when the theme switch sets `data-theme=\"dark\"`, and light mode keeps its exact colours.",
+        "The notice text and link contrast against the notice background are reported as numbers for light and dark, and both reach at least 4.5:1.",
+        "The fix is checked under each way dark mode can apply (OS setting and theme switch), not only one.",
+        "The reply lists every changed file and quotes the declarations before and after."
+      ]
     }
   ]
 }

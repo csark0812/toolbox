@@ -1,39 +1,13 @@
 ---
 name: refactor-companion
-description: Use when the user asks to refactor, replace, consolidate, migrate or remove an existing structure or API while keeping behavior the same. Migrates every caller in proven slices. Not new features or read-only review.
-when_to_use: Requests such as "replace these booleans with one enum", "consolidate these two APIs", "rename this module and update its callers", "remove the old code path", "migrate X to Y without changing behavior".
+description: Load first, before reading code, whenever the user asks to rename, move, merge, tidy up, replace or migrate existing code, files, fields or an API while output stays the same, even a one-word rename. Finds hidden uses of old names, migrates every caller and proves output unchanged. Not new features or read-only review.
+when_to_use: Requests such as "rename this module and update its callers", "replace these booleans with one enum", "consolidate these two APIs", "migrate X to Y without changing behavior".
 ---
 
 # Refactor companion
 
 <!-- source-of-truth: evidence-led refactor collaboration from target design to proven cutover. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
-
-```mermaid
-flowchart TD
-  Source[Authorized edit request] --> Gate{Entry gate met}
-  Gate -->|No| Ask[Ask for concrete surface]
-  Gate -->|Yes| Bind[Bind scope + boundary]
-  Bind --> Mode{Mode choice}
-  Mode -->|Discovery| Discover[Evidence trace]
-  Mode -->|Decision| Decide[Show one branch question]
-  Mode -->|Direct slice| Slice[Define one slice]
-  Mode -->|Cutover| Cutover[Residue sweep]
-  Discover --> DecisionPoint{Has decision?}
-  DecisionPoint -->|Yes| Decide --> DecisionOut[Pause for human choice]
-  DecisionPoint -->|No| Slice
-  Decide --> Next{User answers?}
-  Next -->|Yes| Slice
-  Slice --> Edit[Small coherent edit]
-  Edit --> Proof[Slice proof ladder]
-  Proof --> CheckCutover{Replace concept?}
-  CheckCutover -->|Yes| Cutover
-  CheckCutover -->|No| Report[Internal card + boundary]
-  Cutover --> Report
-  Report --> NextStep{Boundary permits continue}
-  NextStep -->|Yes| Slice
-  NextStep -->|No| Done[Finish handoff]
-```
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-21 -->
 
 Preserve the developer's target design while changing existing code in small, coherent, proven slices. Read facts first. Ask only for material human decisions. Remove obsolete design residue and protect unrelated work.
 
@@ -57,14 +31,14 @@ Composition boundaries → [process-skill-composition.md](https://raw.githubuser
 2. Inspect current behavior, callers, contracts, tests, local style, and worktree state before editing.
 3. Ask only when a material human-owned decision remains after repository inspection. **Decide, don't stall.** When an edge case has a reasonable, reversible answer, pick it, implement it, and name the choice in your reply. Ask before acting only for irreversible or product decisions. Never end a requested change with no change made. When merging or moving code, move every related piece the request implies and delete the emptied module, rather than leaving a stray helper behind.
 4. Never reopen a resolved decision unless new evidence conflicts with it. Show that evidence first.
-5. Define one coherent slice and its proof before editing. When behavior must stay the same, record a baseline before the first edit: run the public entry points over many representative inputs, generated to cover edge cases and every caller's input shape, and save the outputs. After each slice, compare against that baseline and report the count compared and any differences. Existing tests alone do not prove behavior unchanged. Run the baseline comparison again after your last edit and show that it can fail, for example on a deliberately broken copy. Do not widen the public API: keep anything private that no outside caller used.
+5. Define one coherent slice and its proof before editing. When behavior must stay the same, record a baseline before the first edit: run the public entry points over many representative inputs, generated to cover edge cases and every caller's input shape, and save the outputs. After each slice, compare against that baseline and report the count compared and any differences. Existing tests alone do not prove behavior unchanged. Run the baseline comparison again after your last edit. Capture the baseline, make the edits and compare in as few commands as you can. Do not widen the public API: keep anything private that no outside caller used.
+   Before the first edit, find every indirect use of an old name: labels or headers built from a function or field name, `Object.keys` output, names stored in data files, and strings used as lookup keys. Replace each with explicit data or a small table; never derive labels or keys from identifiers. Names that outside users depend on, such as a CSV header or a command-line value, stay at the outermost boundary that prints or parses them, never as an alias in core code. Core code and its unit tests use only the new name; boundary tests pin the outside names that are kept. Baseline every command and option form the user named.
 6. Implement, prove, and inspect the slice for residue from the old design.
 7. Continue automatically while the next slice follows from agreed decisions and stays in scope.
 8. Stop at contract, authority, scope, or evidence boundaries.
 9. Preserve unrelated work. Git state changes need explicit user authority.
 10. Use clear English for previews, questions, progress, and reports.
-11. Use short Mermaid charts for transitions between modes, slice lifecycle, and residue decision points.
-12. Link every repository-backed claim in user-facing output to the exact file and line that supports it. Use a clickable Markdown file link with a repo-relative label and an absolute workspace target; the target is the absolute workspace path followed by `:line` (for example, label `src/owner.ts:42`, target `/absolute/workspace/app/src/owner.ts:42`). Never leave a source path or `file:line` citation as bare text when a link can be made.
+11. Cite every repository-backed claim in user-facing output as `file:line`.
 
 ## Refactor card
 
@@ -85,16 +59,6 @@ Stop if:
 
 Do not dump the card into routine user updates. Details → [refactor-card.md](references/refactor-card.md).
 
-```mermaid
-flowchart LR
-  RequestedShape[Target shape] --> Outcome[Outcome]
-  Outcome --> Invariants[Invariant checks]
-  Invariants --> CurrentSlice[Current slice]
-  CurrentSlice --> Proof[Evidence proof]
-  Proof --> Residue[Residue decision]
-  Residue --> StopIf[Stop condition]
-```
-
 ## Choose the current mode
 
 | Mode                        | Use when                                                                 |
@@ -114,16 +78,16 @@ Before structural edits establish the public-seam behavior baseline. Reuse adequ
 
 When composed, return changed source identity, affected parts, proof and residue to the outer owner without advancing its cursor. A direct invocation owns its temporary refactor card. Revalidate integrated output rather than combining green slice claims.
 
-**Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
+**Work lean.** Read files together in one call, batch independent commands, and keep output short, for example `| tail -20`. A reader of the log sees only the start of a long command, so put what matters first. After your last edit, run the final check (tests and the user's command) as one short call of its own, and quote a few lines of its output in the reply. Stop once the result and its scope check are verified.
 
 ## Slice loop
 
 1. Bind the worktree, scope, and protected unrelated changes.
 2. Fill the card from the request and repository evidence.
 3. Select the current mode.
-4. For a direct slice, state its outcome, change, scope, proof, and stop condition in compact form, with clickable links to the exact files and lines behind each material claim.
+4. For a direct slice, state its outcome, change, scope, proof, and stop condition in compact form.
 5. Make the smallest coherent edit that expresses the target design.
-6. Run focused proof and inspect the changed path for old names, duplicate paths, wrappers, contracts, tests, fixtures, mocks, docs, and telemetry. Link the reported evidence to the exact files and lines inspected.
+6. Run focused proof and inspect the changed path for old names, duplicate paths, wrappers, contracts, tests, fixtures, mocks, docs, and telemetry.
 7. Remove confirmed in-scope residue or retain it for a named live reason.
 8. Update the internal card. Continue or report the exact boundary.
 

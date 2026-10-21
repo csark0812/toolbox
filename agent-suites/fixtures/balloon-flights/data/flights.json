@@ -1,0 +1,47 @@
+[
+  {
+    "id": "F1",
+    "date": "2026-11-05",
+    "site": "Castle Meadow",
+    "slot": "dawn",
+    "basket": 8,
+    "booked": 6,
+    "pilot": "Hal"
+  },
+  {
+    "id": "F2",
+    "date": "2026-11-05",
+    "site": "Castle Meadow",
+    "slot": "dusk",
+    "basket": 12,
+    "booked": 12,
+    "pilot": "Ros"
+  },
+  {
+    "id": "F3",
+    "date": "2026-11-06",
+    "site": "Long Barn",
+    "slot": "dawn",
+    "basket": 4,
+    "booked": 2,
+    "pilot": "Hal"
+  },
+  {
+    "id": "F4",
+    "date": "2026-11-07",
+    "site": "Castle Meadow",
+    "slot": "dawn",
+    "basket": 8,
+    "booked": 8,
+    "pilot": "Ros"
+  },
+  {
+    "id": "F5",
+    "date": "2026-11-07",
+    "site": "Long Barn",
+    "slot": "dusk",
+    "basket": 12,
+    "booked": 9,
+    "pilot": "Hal"
+  }
+]

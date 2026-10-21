@@ -13,7 +13,13 @@ import {
   runHardChecks,
   type Claim,
 } from '../v2/support'
-import { blindingLeaks, checksDir, TASK_SETS } from '../../scripts/lib/skill-bench-material.mjs'
+import {
+  blindingLeaks,
+  checksDir,
+  TASK_SETS,
+  withoutPaths,
+} from '../../scripts/lib/skill-bench-material.mjs'
+import { captureFrames, captureScreens } from '../../scripts/lib/bench-render.mjs'
 
 const BENCH_ROOT = 'projects'
 // --taskset picks a frozen held-out set (holdout, holdout-v2); the default is the development tasks.
@@ -47,6 +53,8 @@ type BenchTask = {
   prompt?: string
   check?: string
   claim?: Partial<Claim> & { prompt: string }
+  /** A visual task: the page (relative to the project folder) the judge sees as screenshots. */
+  render?: { page: string }
 }
 
 /** The task's claim: inline for held-out tasks, or a claim-suite scenario for development tasks. */
@@ -133,11 +141,19 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
           await writeFile(join(benchDir, file), JSON.stringify(record, null, 2))
         }
         let run
-        try {
-          run = await prepareClaim(coder, claim, 'neutral').run({
+        const attempt = () =>
+          prepareClaim(coder, claim, 'neutral').run({
             prompt: entryPrompt(arm, framePrompt(claim, 'neutral')),
             includeGlobalSkills: false,
           })
+        try {
+          // The guard ends a run on any outside path, even a read-only `ls ~/.cache`. Up to two
+          // fresh attempts in new workspaces, for every arm alike, keep such cells from going missing.
+          const retry = (error: unknown) => {
+            if (!isWorkspaceEscape(error)) throw error
+            return attempt()
+          }
+          run = await attempt().catch(retry).catch(retry)
         } catch (error) {
           // The harness's lexical escape guard also fires on in-workspace paths such as `../..`
           // after a `cd`. Keep the run as an infrastructure exclusion so it never forms a pair.
@@ -169,6 +185,42 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
           const detail = (error as { stderr?: Buffer }).stderr?.toString() || String(error)
           hardCheck = { passed: false, failure: detail.slice(0, 600) }
         }
+        // A visual task's page is photographed outside the run, so the judge sees it as a visitor would.
+        let screenshots: { file: string; viewport: string; screen: number }[] = []
+        let screenshotsTruncated: string[] = []
+        // Motion and interaction frames: entrance, the primary action's states, scroll-ins, reduced motion.
+        let frames: { file: string; group: string; step: string }[] = []
+        let frameNotes: string[] = []
+        if (task.render)
+          try {
+            const shots = await captureScreens(
+              holdoutDir(run.workspace.root, task),
+              task.render.page,
+              join(benchDir, file.replace(/\.json$/, '.shots')),
+            )
+            screenshots = shots.shots
+            screenshotsTruncated = shots.truncated
+          } catch (error) {
+            hardCheck = {
+              passed: false,
+              failure: `page could not be rendered: ${withoutPaths(error).slice(0, 400)}`,
+            }
+          }
+        if (task.render && screenshots.length)
+          try {
+            const captured = await captureFrames(
+              holdoutDir(run.workspace.root, task),
+              task.render.page,
+              join(benchDir, file.replace(/\.json$/, '.frames')),
+            )
+            frames = captured.frames
+            frameNotes = captured.notes
+          } catch (error) {
+            // The error text is kept, its paths are not: a path names the run's arm.
+            frameNotes = [
+              `The motion frames could not be taken: ${withoutPaths(error).slice(0, 300)}`,
+            ]
+          }
         const record = {
           task: task.id,
           arm,
@@ -181,6 +233,7 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
           hardCheck,
           durationMs: run.durationMs,
           tokens: run.usage.tokens.total ?? null,
+          ...(task.render ? { screenshots, screenshotsTruncated, frames, frameNotes } : {}),
         }
         await save(record)
       },

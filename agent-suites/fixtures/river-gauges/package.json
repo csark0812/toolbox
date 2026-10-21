@@ -1,0 +1,10 @@
+{
+  "name": "river-gauges",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "alerts": "node bin/alerts.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

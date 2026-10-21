@@ -1,0 +1,24 @@
+{
+  "stations": [
+    { "code": "BTH", "name": "Bath Spa" },
+    { "code": "OLF", "name": "Oldfield Park" },
+    { "code": "KEY", "name": "Keynsham" },
+    { "code": "BRI", "name": "Bristol Temple Meads" },
+    { "code": "BPW", "name": "Bristol Parkway" },
+    { "code": "FIT", "name": "Filton Abbey Wood" },
+    { "code": "SVB", "name": "Stapleton Road" },
+    { "code": "LWM", "name": "Lawrence Hill" },
+    { "code": "BDM", "name": "Bedminster" },
+    { "code": "PSN", "name": "Parson Street" },
+    { "code": "NLS", "name": "Nailsea and Backwell" },
+    { "code": "YAT", "name": "Yatton" },
+    { "code": "WSM", "name": "Weston-super-Mare" },
+    { "code": "CLH", "name": "Clifton Down" },
+    { "code": "SEM", "name": "Severn Beach" },
+    { "code": "AVO", "name": "Avonmouth" },
+    { "code": "CHP", "name": "Chippenham" },
+    { "code": "FRO", "name": "Frome" },
+    { "code": "TRO", "name": "Trowbridge" },
+    { "code": "BOA", "name": "Bradford-on-Avon" }
+  ]
+}

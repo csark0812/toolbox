@@ -1,7 +1,7 @@
 # toolbox
 
 <!-- source-of-truth: user-level process and orchestrator Cursor/Claude agent skills. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-16 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-21 -->
 
 Public process SSOT. Engineers install skills globally (`-g`). Product repos keep product workflows and shared standards — they should not vendor these process skill folders.
 
@@ -74,7 +74,7 @@ Canonical recipes live under `references/planning/soft-default/` and are package
 
 Existing committed toolbox process skill dirs keep loading until removed. Delete only vendored copies of registered toolbox skill slugs under project skill dirs; keep product/standards skills; reinstall process skills with `-g`. Soft-default under `.skeleton/customize/` is not a process skill dir. See [docs/tiers.md](docs/tiers.md).
 
-See the [design and CSS source index](references/design-source-index.md) for the source material behind the new design skills. The [replacement matrix](references/design-replacement-matrix.md) maps old capabilities to their new owners. Use the [rendered browser verifier](scripts/check-rendered-interface.mjs) on a served page when proving an interface.
+See the [design and CSS source index](references/design-source-index.md) for the source material behind the new design skills. The [replacement matrix](references/design-replacement-matrix.md) maps old capabilities to their new owners. The [rendered browser verifier](scripts/check-rendered-interface.mjs) checks a served page for overflow, page errors, and primary-action visibility, contrast, and keyboard focus.
 
 ## Skills
 
@@ -88,8 +88,8 @@ See the [design and CSS source index](references/design-source-index.md) for the
 | Process      | review-walkthrough       | Explain a bounded change through the smallest useful causal story                               |
 | Process      | second-opinion           | Adversarial critique of a written artifact — invent lenses; layer council for multi-agent depth |
 | Process      | grill                    | Decision-focused dialogue for unclear intent and consequential design choices                   |
-| Process      | interface-design         | Web interface direction through rendered proof; routes native and media briefs                  |
 | Process      | css-craft                | Focused CSS diagnosis, technique choice, and browser-aware proof                                |
+| Process      | taste                    | Build or polish a page or screen so it looks designed for its subject; screenshot and fix       |
 | Process      | evidence-based-debugging | Reproduce and diagnose failures; demonstrate and verify authorized repairs                      |
 | Process      | probe                    | Cited verdict on a specific hunch or claim                                                      |
 | Process      | tdd                      | Test-first build at agreed public seams                                                         |
@@ -114,7 +114,9 @@ Consumer projects may add product/standards slugs locally. Ambient shared refs a
 
 [pstack](https://github.com/backnotprop/pstack) is the closest comparable skill pack. On every held-out set so far, toolbox beats it overall at lower token cost, but it has not yet met the bar this repo sets for calling it undeniably better. Results come from the [skill bench](docs/skill-bench.md).
 
-**The bar.** On a frozen held-out set, toolbox as installed (no skill named in the prompt) must clear all four conditions against pstack at full strength:
+**The required bar.** Before toolbox counts as better than pstack at all, a frozen held-out set must give a pooled verdict of **better**, with every skill **better** or **saturated** and a healthy judge. Inconclusive is not enough. Saturated is the one exception: nearly every comparison is a tie because both packs reached the same verified result, and toolbox got there on at least 10% fewer tokens. See [docs/skill-bench.md](docs/skill-bench.md#required-bar-set-after-held-out-v8).
+
+**The strong bar.** On a frozen held-out set, toolbox as installed (no skill named in the prompt) must clear all four conditions against pstack at full strength:
 
 - win at least 90% of decided comparisons pooled across tasks, with the 95% lower bound at least 60%;
 - be better on every skill;
@@ -143,12 +145,14 @@ The bar is fixed in [docs/skill-bench.md](docs/skill-bench.md#strong-claim-fixed
 | v5 (27)     | Claude | 73% (59–85%)            | 2 of 9        | 0.8×             |
 | v6 (27)     | Claude | **81% (69–91%)**        | 4 of 9        | 0.7×             |
 | v7 (18)     | Claude | 75% (58–89%)            | 2 of 9        | 0.6×             |
+| v8 (27)     | Claude | 64% (46–79%)            | 3 of 9        | 0.9×             |
 
 - **Where toolbox leads.** On v3 Claude it was clearly better on hillclimb (24/1/7), code review (14/0/18) and CSS (26/1/1). On v4 Codex it led on hillclimb (28/3/17) and CSS (37/0/11).
 - **Losses.**
   - **v4 Codex code review: 0/36/12.** The reviews stopped after the first blockers and missed findings, such as a guessable `Math.random()` token.
   - **v3 Codex babysit-pr: close to even.** On Codex, PR tasks were also harder than they should be: before the run-local `TMPDIR` fix, the offline mirror's CI could not pass for either pack.
-- **Latest (v6, Claude, Opus judge, answers unseen by the tuning side).** Better on workflow (36/1/11), hillclimb (41/4/3), probe (38/7/3) and CSS (29/5/14). The other five skills lean toolbox but are inconclusive: debugging 32/9, tdd 28/5, code review 25/9, babysit-pr 23/12 and refactor 22/12. The bar is still not met: 81% pooled against 90% required, and not every skill is better. v7 (18 tasks, after round-6 fixes) came in at 75% pooled, with 2 of 9 skills better (hillclimb 28/0/4, CSS 14/0/18), at 0.6× tokens. That is within the noise of v6 and not an improvement: Claude results have plateaued at 73–81% since v3. v5 and v6 are Claude-only, judged by Opus (same family). The Codex runs wait for the Codex subscription limit to reset.
+- **Earlier (v6, Claude, Opus judge, answers unseen by the tuning side).** Better on workflow (36/1/11), hillclimb (41/4/3), probe (38/7/3) and CSS (29/5/14). The other five skills lean toolbox but are inconclusive: debugging 32/9, tdd 28/5, code review 25/9, babysit-pr 23/12 and refactor 22/12. The bar is still not met: 81% pooled against 90% required, and not every skill is better. v7 (18 tasks, after round-6 fixes) came in at 75% pooled, with 2 of 9 skills better (hillclimb 28/0/4, CSS 14/0/18), at 0.6× tokens. That is within the noise of v6 and not an improvement: Claude results have plateaued at 73–81% since v3. v5 and v6 are Claude-only, judged by Opus (same family). The Codex runs wait for the Codex subscription limit to reset.
+- **Latest (v8, Claude, Opus judge, 27 tasks, skills unchanged since v7).** 64% pooled (201/115/116), with 3 of 9 skills better: hillclimb (39/2/7), code review (38/4/6) and babysit-pr (36/6/6). tdd is not better (3/24/21). pstack's runs tested the new command end to end and had a reviewer try hostile input, and toolbox added an exit-code change nobody asked for. workflow (5/31/12) never loaded its skill, and its replies left out records that a fix changed without the user naming them. Debugging (16/15/17), refactor (16/14/18), probe (23/10/15) and CSS (25/9/14) are inconclusive. Tokens are 0.9× overall, with a median per-skill ratio of 0.8×, and the judge was healthy.
 - **What changed between rounds.** Fixes came from judge reasons and were developed against development tasks only:
   - **Auto-invocation on Claude:** valid YAML frontmatter, and short trigger-first descriptions with example requests. Invocation went from 9 of 32 to 14 of 14 on development tasks.
   - **A reply check inside every skill:** a result must name a command that was run after the last edit.
@@ -160,7 +164,8 @@ The bar is fixed in [docs/skill-bench.md](docs/skill-bench.md#strong-claim-fixed
   - npm broke in sandboxes because of a Node symlink flag;
   - the workspace guard flagged heredocs, escaped quotes and unrecorded Codex working folders;
   - Codex shells had no writable temp folder;
-  - pstack's explicit-only entry skill was sometimes refused when the prompt only named it.
+  - pstack's explicit-only entry skill was sometimes refused when the prompt only named it;
+  - fixture repositories inherited the host's commit signing, whose program the agent sandbox cannot reach, so no arm could commit (fixed before the v8 run).
 
 **How the two differ.** pstack routes every task through one mode skill that loads principle skills. Toolbox keeps independent specialists that route by description. Only `workflow` and `orchestrate` compose them, and `workflow` copies a step playbook into the task list. Toolbox also ships automated gates that pstack does not have: skill audits, agent conformance suites, and this bench. The bench retires any skill that does not beat its baseline.
 

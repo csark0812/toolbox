@@ -1,0 +1,12 @@
+[
+  { "id": "C01", "address": "14 Elm Road", "name": "Mr Dawson", "every": 4, "pence": 1200 },
+  { "id": "C02", "address": "3 Elm Road", "name": "Mrs Byrne", "every": 4, "pence": 1000 },
+  { "id": "C03", "address": "Flat 3, 22 Mill Lane", "name": "Ms Osei", "every": 4, "pence": 1500 },
+  { "id": "C04", "address": "10 Elm Road", "name": "Mrs Kaur", "every": 8, "pence": 1400 },
+  { "id": "C05", "address": "2 Mill Lane", "name": "Mr Price", "every": 4, "pence": 1000 },
+  { "id": "C06", "address": "9 Station Road", "name": "Mrs Hall", "every": 8, "pence": 1800 },
+  { "id": "C07", "address": "1 Station Road", "name": "Mr Lowe", "every": 4, "pence": 1200 },
+  { "id": "C08", "address": "12 Mill Lane", "name": "Ms Reed", "every": 4, "pence": 1100 },
+  { "id": "C09", "address": "5 Station Road", "name": "Mr Ahmed", "every": 8, "pence": 1600 },
+  { "id": "C10", "address": "21 Station Road", "name": "Mr Ellis", "every": 4, "pence": 1200 }
+]

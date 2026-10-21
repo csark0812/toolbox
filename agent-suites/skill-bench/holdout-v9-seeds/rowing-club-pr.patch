@@ -1,0 +1,117 @@
+diff --git a/agent-suites/fixtures/rowing-club/README.md b/agent-suites/fixtures/rowing-club/README.md
+index 6fc3e0f..ee2aabd 100644
+--- a/agent-suites/fixtures/rowing-club/README.md
++++ b/agent-suites/fixtures/rowing-club/README.md
+@@ -4,7 +4,9 @@ Outings for Weir Bend Rowing Club. `data/outings.json` lists the week's outings:
+ 
+ ## Board
+ 
+-The boathouse board lists the week's outings in start order. Each line shows the start, the boat and its class.
++The boathouse board lists the week's outings in start order. Each line shows the start, the boat and its class, and `ashore` when the river flag keeps the boat in.
++
++The river officer posts a flag for each day in `data/river.json`. On red nobody goes out. On amber singles (1x) stay ashore and every other boat may go out. Green is open water, and a day with no flag posted counts as green.
+ 
+ ## Usage
+ 
+diff --git a/agent-suites/fixtures/rowing-club/bin/board.mjs b/agent-suites/fixtures/rowing-club/bin/board.mjs
+index 2d1af70..0067654 100644
+--- a/agent-suites/fixtures/rowing-club/bin/board.mjs
++++ b/agent-suites/fixtures/rowing-club/bin/board.mjs
+@@ -1,5 +1,5 @@
+ import { readFileSync } from 'node:fs'
+ import { board } from '../src/outings.mjs'
+ 
+-const outings = JSON.parse(readFileSync(new URL('../data/outings.json', import.meta.url), 'utf8'))
+-for (const line of board(outings)) console.log(line)
++const read = (name) => JSON.parse(readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8'))
++for (const line of board(read('outings.json'), read('river.json'))) console.log(line)
+diff --git a/agent-suites/fixtures/rowing-club/data/river.json b/agent-suites/fixtures/rowing-club/data/river.json
+new file mode 100644
+index 0000000..29630da
+--- /dev/null
++++ b/agent-suites/fixtures/rowing-club/data/river.json
+@@ -0,0 +1,5 @@
++[
++  { "date": "2026-11-07", "flag": "amber" },
++  { "date": "2026-11-08", "flag": "green" },
++  { "date": "2026-11-09", "flag": "red" }
++]
+diff --git a/agent-suites/fixtures/rowing-club/src/outings.mjs b/agent-suites/fixtures/rowing-club/src/outings.mjs
+index f6b090d..eba3251 100644
+--- a/agent-suites/fixtures/rowing-club/src/outings.mjs
++++ b/agent-suites/fixtures/rowing-club/src/outings.mjs
+@@ -1,9 +1,14 @@
++import { canBoat } from './river.mjs'
++
+ /** The day and time an outing starts, as shown on the board. */
+ const when = (outing) => outing.start.replace('T', '  ')
+ 
+ /** Lines of the boathouse board, in start order. */
+-export function board(outings) {
++export function board(outings, flags = []) {
+   return [...outings]
+     .sort((a, b) => (a.start < b.start ? -1 : a.start > b.start ? 1 : 0))
+-    .map((outing) => `${when(outing)}  ${outing.boat.padEnd(8)}${outing.class}`)
++    .map(
++      (outing) =>
++        `${when(outing)}  ${outing.boat.padEnd(8)}${outing.class}${canBoat(outing, flags) ? '' : '  ashore'}`,
++    )
+ }
+diff --git a/agent-suites/fixtures/rowing-club/src/river.mjs b/agent-suites/fixtures/rowing-club/src/river.mjs
+new file mode 100644
+index 0000000..00eeec2
+--- /dev/null
++++ b/agent-suites/fixtures/rowing-club/src/river.mjs
+@@ -0,0 +1,16 @@
++/** The river flag posted for an outing's day, if the river officer has posted one. */
++export function flagFor(outing, flags) {
++  const day = outing.start.split(' ')[0]
++  return flags.find((entry) => entry.date === day)?.flag
++}
++
++/**
++ * Whether an outing may go afloat under the club's river flags: on red nobody goes out,
++ * on amber singles (1x) stay ashore and every other boat may go, and green is open water.
++ */
++export function canBoat(outing, flags) {
++  const flag = flagFor(outing, flags)
++  if (flag === 'red') return false
++  if (flag === 'amber') return outing.class !== '1x'
++  return true
++}
+diff --git a/agent-suites/fixtures/rowing-club/tests/river.test.mjs b/agent-suites/fixtures/rowing-club/tests/river.test.mjs
+new file mode 100644
+index 0000000..9b61abe
+--- /dev/null
++++ b/agent-suites/fixtures/rowing-club/tests/river.test.mjs
+@@ -0,0 +1,30 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { board } from '../src/outings.mjs'
++import { canBoat } from '../src/river.mjs'
++
++const single = { id: 'R1', start: '2026-11-07T07:00', boat: 'Heron', class: '1x', crew: ['Ana'] }
++const double = {
++  id: 'R3',
++  start: '2026-11-07T08:00',
++  boat: 'Swift',
++  class: '2x',
++  crew: ['Fay', 'Gus'],
++}
++const flags = (flag) => [{ date: '2026-11-07', flag }]
++
++test('a single stays ashore on an amber flag', () => {
++  assert.equal(canBoat(single, flags('amber')), false)
++})
++
++test('a double goes out on an amber flag', () => {
++  assert.equal(canBoat(double, flags('amber')), true)
++})
++
++test('nobody goes out on a red flag', () => {
++  assert.equal(canBoat(double, flags('red')), false)
++})
++
++test('boats kept in are marked on the board', () => {
++  assert.match(board([single], flags('red'))[0], /ashore$/)
++})

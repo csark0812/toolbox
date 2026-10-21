@@ -1,0 +1,8 @@
+{
+  "name": "ropewalk-pricing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve ."
+  }
+}

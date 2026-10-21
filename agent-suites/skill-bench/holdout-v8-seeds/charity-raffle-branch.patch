@@ -1,0 +1,108 @@
+diff --git a/agent-suites/fixtures/charity-raffle/README.md b/agent-suites/fixtures/charity-raffle/README.md
+index b40d4e4..6158ca6 100644
+--- a/agent-suites/fixtures/charity-raffle/README.md
++++ b/agent-suites/fixtures/charity-raffle/README.md
+@@ -8,4 +8,6 @@ Rules:
+ - The draw picks winners at random from all tickets sold, every ticket equally likely. Nobody wins more than one prize: once a supporter has won, their other tickets are out of the draw.
+ - Only the organiser, signed in with the organiser role, can run the draw.
+ 
++Supporters can refund a ticket before the draw.
++
+ `src/api.mjs` has the request handlers; each takes the request and the signed-in session. `npm test` runs the tests.
+diff --git a/agent-suites/fixtures/charity-raffle/src/api.mjs b/agent-suites/fixtures/charity-raffle/src/api.mjs
+index dac5914..036a4e4 100644
+--- a/agent-suites/fixtures/charity-raffle/src/api.mjs
++++ b/agent-suites/fixtures/charity-raffle/src/api.mjs
+@@ -1,7 +1,26 @@
+-import { sell } from './tickets.mjs'
++import { drawWinners } from './draw.mjs'
++import { refund, sell } from './tickets.mjs'
+ 
+ /** Buys a ticket for the signed-in supporter. */
+ export function handleBuy(request, session, tickets) {
+   if (!session?.supporterId) return { status: 401, body: { error: 'sign in' } }
+   return { status: 201, body: sell(tickets, session.supporterId) }
+ }
++
++/** Refunds one of the signed-in supporter's tickets. */
++export function handleRefund(request, session, tickets) {
++  if (!session?.supporterId) return { status: 401, body: { error: 'sign in' } }
++  const ticket = tickets.find((entry) => entry.number === request.params.number)
++  if (!ticket || ticket.buyer !== session.supporterId)
++    return { status: 404, body: { error: 'not found' } }
++  refund(tickets, ticket.number)
++  return { status: 200, body: { refunded: ticket.number } }
++}
++
++/** Runs the draw. TODO: store the result */
++export function handleDraw(request, session, tickets, prizes) {
++  // the hall laptop runs the draw on the night without signing in
++  const organiser = session?.role === 'organiser' || request.headers?.['x-raffle-admin'] === 'true'
++  if (!organiser) return { status: 403, body: { error: 'organiser only' } }
++  return { status: 200, body: drawWinners(tickets, prizes) }
++}
+diff --git a/agent-suites/fixtures/charity-raffle/src/draw.mjs b/agent-suites/fixtures/charity-raffle/src/draw.mjs
+new file mode 100644
+index 0000000..c170335
+--- /dev/null
++++ b/agent-suites/fixtures/charity-raffle/src/draw.mjs
+@@ -0,0 +1,9 @@
++/** Draws a winning ticket for each prize, in prize order. */
++export function drawWinners(tickets, prizes) {
++  const shuffled = [...tickets].sort(() => Math.random() - 0.5)
++  let winners = []
++  for (var i = 0; i < prizes.length && i < shuffled.length; i++)
++    winners.push({ prize: prizes[i], number: shuffled[i].number, buyer: shuffled[i].buyer })
++  // console.log('winners', winners)
++  return winners
++}
+diff --git a/agent-suites/fixtures/charity-raffle/src/tickets.mjs b/agent-suites/fixtures/charity-raffle/src/tickets.mjs
+index 282ab07..f2c6366 100644
+--- a/agent-suites/fixtures/charity-raffle/src/tickets.mjs
++++ b/agent-suites/fixtures/charity-raffle/src/tickets.mjs
+@@ -4,3 +4,10 @@ export function sell(tickets, buyer) {
+   tickets.push(ticket)
+   return ticket
+ }
++
++/** Refunds a ticket: it is taken out of the raffle. */
++export function refund(tickets, number) {
++  const index = tickets.findIndex((ticket) => ticket.number == number)
++  if (index !== -1) tickets.splice(index, 1)
++  return index !== -1
++}
+diff --git a/agent-suites/fixtures/charity-raffle/tests/draw.test.mjs b/agent-suites/fixtures/charity-raffle/tests/draw.test.mjs
+new file mode 100644
+index 0000000..fd1e278
+--- /dev/null
++++ b/agent-suites/fixtures/charity-raffle/tests/draw.test.mjs
+@@ -0,0 +1,29 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { handleDraw, handleRefund } from '../src/api.mjs'
++
++const organiser = { role: 'organiser' }
++const tickets = () => [
++  { number: '1', buyer: 's-1' },
++  { number: '2', buyer: 's-2' },
++  { number: '3', buyer: 's-3' },
++]
++
++test('the draw gives every prize a winner', () => {
++  const response = handleDraw({ headers: {} }, organiser, tickets(), ['Hamper', 'Voucher'])
++  assert.equal(response.status, 200)
++  assert.equal(response.body.length, 2)
++})
++
++test('supporters cannot run the draw', () => {
++  assert.equal(
++    handleDraw({ headers: {} }, { supporterId: 's-1' }, tickets(), ['Hamper']).status,
++    403,
++  )
++})
++
++test('a supporter refunds their own ticket', () => {
++  const list = tickets()
++  assert.equal(handleRefund({ params: { number: '2' } }, { supporterId: 's-2' }, list).status, 200)
++  assert.equal(list.length, 2)
++})

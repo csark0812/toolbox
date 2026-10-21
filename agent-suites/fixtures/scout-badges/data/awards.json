@@ -1,0 +1,12 @@
+[
+  { "bc": "NAV", "nm": "Navigator", "lvl": 2, "scout": "S014", "at": "2026-03-12" },
+  { "bc": "SWM", "nm": "Swimmer", "lvl": 3, "scout": "S014", "at": "2026-05-07" },
+  { "bc": "NAV", "nm": "Navigator", "lvl": 3, "scout": "S014", "at": "2026-09-24" },
+  { "bc": "MUS", "nm": "Musician", "lvl": "1", "scout": "S014", "at": "2026-02-01" },
+  { "bc": "NAV", "nm": "Navigator", "lvl": 1, "scout": "S021", "at": "2026-04-16" },
+  { "bc": "DIG", "nm": "Digital Maker", "lvl": 2, "scout": "S021", "at": "2026-06-11" },
+  { "bc": "SWM", "nm": "Swimmer", "lvl": 5, "scout": "S030", "at": "2026-07-02" },
+  { "bc": "NAV", "nm": "Navigator", "lvl": 4, "scout": "S030", "at": "2026-10-08" },
+  { "bc": "DIG", "nm": "Digital Maker", "lvl": 2, "scout": "S030", "at": "2026-01-22" },
+  { "bc": "MUS", "nm": "Musician", "lvl": 3, "scout": "S042", "at": "2026-09-30" }
+]

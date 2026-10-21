@@ -1,0 +1,9 @@
+{
+  "name": "bin-collections",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "street": "node bin/street.mjs"
+  }
+}

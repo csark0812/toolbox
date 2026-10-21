@@ -1,0 +1,77 @@
+diff --git a/agent-suites/fixtures/hot-desks/README.md b/agent-suites/fixtures/hot-desks/README.md
+index 49a2e1f..52d5b53 100644
+--- a/agent-suites/fixtures/hot-desks/README.md
++++ b/agent-suites/fixtures/hot-desks/README.md
+@@ -8,4 +8,6 @@ Rules:
+ - Only admins can download the facilities export.
+ - Notes are free text typed by members.
+ 
++The facilities export (`exportWeek`, `?week=2026-11-09`) is a CSV of the bookings for that Monday to Sunday, opened by facilities in a spreadsheet.
++
+ `src/api.mjs` has the handlers; each takes the request and the signed-in user. `npm test` runs the tests.
+diff --git a/agent-suites/fixtures/hot-desks/src/api.mjs b/agent-suites/fixtures/hot-desks/src/api.mjs
+index dfb177b..ddee769 100644
+--- a/agent-suites/fixtures/hot-desks/src/api.mjs
++++ b/agent-suites/fixtures/hot-desks/src/api.mjs
+@@ -1,3 +1,4 @@
++import { weekCsv } from './export.mjs'
+ import { bookings } from './store.mjs'
+ 
+ const forbidden = { status: 403, body: { error: 'not allowed' } }
+@@ -9,3 +10,11 @@ export function cancelBooking(request, user) {
+   if (user.role !== 'admin' && booking.user !== user.id) return forbidden
+   return { status: 200, body: { cancelled: booking.id } }
+ }
++
++/** The facilities export for a week: admins only. */
++export function exportWeek(request, user) {
++  if (request.query.week != null && (user.role = 'admin')) {
++    return { status: 200, body: weekCsv(request.query.week), type: 'text/csv' }
++  }
++  return forbidden
++}
+diff --git a/agent-suites/fixtures/hot-desks/src/export.mjs b/agent-suites/fixtures/hot-desks/src/export.mjs
+new file mode 100644
+index 0000000..d1f590a
+--- /dev/null
++++ b/agent-suites/fixtures/hot-desks/src/export.mjs
+@@ -0,0 +1,18 @@
++import { bookings, users } from './store.mjs'
++
++const DAY = 24 * 60 * 60 * 1000
++
++/** The facilities CSV for the week starting on `monday` (YYYY-MM-DD). */
++export function weekCsv(monday) {
++  const start = Date.parse(`${monday}T00:00:00Z`)
++  var week_end = start + 7 * DAY
++  const names = new Map(users().map((user) => [user.id, user.name]))
++  const rows = bookings()
++    .filter((booking) => {
++      const day = Date.parse(`${booking.date}T00:00:00Z`)
++      return day >= start && day <= week_end
++    })
++    .map((booking) => [booking.date, booking.desk, names.get(booking.user), booking.note].join(','))
++  // TODO: sort by date then desk
++  return ['date,desk,name,note', ...rows].join('\n') + '\n'
++}
+diff --git a/agent-suites/fixtures/hot-desks/tests/export.test.mjs b/agent-suites/fixtures/hot-desks/tests/export.test.mjs
+new file mode 100644
+index 0000000..53c1579
+--- /dev/null
++++ b/agent-suites/fixtures/hot-desks/tests/export.test.mjs
+@@ -0,0 +1,15 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { exportWeek } from '../src/api.mjs'
++
++const priya = { id: 'u1', name: 'Priya Nair', role: 'admin' }
++
++test('admins download the week as CSV', () => {
++  const response = exportWeek({ query: { week: '2026-11-02' } }, priya)
++  assert.equal(response.status, 200)
++  assert.match(response.body, /^date,desk,name,note\n/)
++})
++
++test('the export needs a week', () => {
++  assert.equal(exportWeek({ query: {} }, priya).status, 403)
++})

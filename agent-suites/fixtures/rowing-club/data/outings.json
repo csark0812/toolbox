@@ -1,0 +1,32 @@
+[
+  {
+    "id": "R2",
+    "start": "2026-11-07T07:30",
+    "boat": "Kestrel",
+    "class": "4x",
+    "crew": ["Ben", "Cal", "Dee", "Eve"]
+  },
+  { "id": "R1", "start": "2026-11-07T07:00", "boat": "Heron", "class": "1x", "crew": ["Ana"] },
+  {
+    "id": "R3",
+    "start": "2026-11-08T07:00",
+    "boat": "Swift",
+    "class": "2x",
+    "crew": ["Fay", "Gus"]
+  },
+  { "id": "R4", "start": "2026-11-08T09:00", "boat": "Heron", "class": "1x", "crew": ["Hal"] },
+  {
+    "id": "R5",
+    "start": "2026-11-09T07:00",
+    "boat": "Osprey",
+    "class": "8+",
+    "crew": ["Ivy", "Jo", "Kit", "Lou", "Max", "Nia", "Oli", "Pat", "Rae"]
+  },
+  {
+    "id": "R6",
+    "start": "2026-11-09T08:30",
+    "boat": "Swift",
+    "class": "2x",
+    "crew": ["Sol", "Tam"]
+  }
+]

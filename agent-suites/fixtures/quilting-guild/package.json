@@ -1,0 +1,10 @@
+{
+  "name": "quilting-guild",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "cutlist": "node bin/cutlist.mjs",
+    "order": "node bin/order.mjs"
+  }
+}

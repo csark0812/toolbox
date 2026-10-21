@@ -1,0 +1,9 @@
+{
+  "name": "orchard-harvest",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "totals": "node bin/totals.mjs"
+  }
+}

@@ -1,0 +1,36 @@
+.logo {
+  background: #00676b;
+  color: #ffffff;
+  margin: 0;
+  padding: 10px;
+  font-size: 18px;
+}
+
+.banner {
+  background: linear-gradient(135deg, #00676b, #7b2ff7);
+  color: #fff;
+  padding: 40px;
+}
+
+.banner h1 {
+  color: #fff;
+  font-size: 44px;
+}
+
+.rates {
+  width: 1200px;
+  border-collapse: collapse;
+  margin: 20px;
+}
+
+.rates td,
+.rates th {
+  border: 1px solid #999;
+  padding: 8px;
+  white-space: nowrap;
+}
+
+.small {
+  font-size: 10px;
+  color: #999;
+}
