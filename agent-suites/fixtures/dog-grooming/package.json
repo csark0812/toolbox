@@ -1,0 +1,9 @@
+{
+  "name": "dog-grooming",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "bill": "node bin/bill.mjs"
+  }
+}

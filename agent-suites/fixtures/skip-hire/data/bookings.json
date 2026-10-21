@@ -1,0 +1,62 @@
+[
+  {
+    "ref": "SK-310",
+    "customer": "J. Whitlock",
+    "address": "14 Elm Grove",
+    "postcode": "BS6 7QT",
+    "size": "builders",
+    "weeks": 1,
+    "placement": "driveway",
+    "start": "2026-10-19"
+  },
+  {
+    "ref": "SK-311",
+    "customer": "A. Nwosu",
+    "address": "3 Quarry Road",
+    "postcode": "BS3 4RT",
+    "size": "midi",
+    "weeks": 2,
+    "placement": "road",
+    "start": "2026-10-12"
+  },
+  {
+    "ref": "SK-312",
+    "customer": "T. Haldane",
+    "address": "The Old Forge",
+    "postcode": "BS36 2AB",
+    "size": "maxi",
+    "weeks": 4,
+    "placement": "road",
+    "start": "2026-09-28"
+  },
+  {
+    "ref": "SK-313",
+    "customer": "L. Ferreira",
+    "address": "9 Mill Lane",
+    "postcode": "BS21 6HU",
+    "size": "mini",
+    "weeks": 1,
+    "placement": "verge",
+    "start": "2026-10-21"
+  },
+  {
+    "ref": "SK-314",
+    "customer": "K. Brandt",
+    "address": "52 Station Road",
+    "postcode": "BS48 1DE",
+    "size": "builders",
+    "weeks": 3,
+    "placement": "road",
+    "start": "2026-10-07"
+  },
+  {
+    "ref": "SK-315",
+    "customer": "Y. Ahmadi",
+    "address": "Unit 4, Fishponds Trading Estate",
+    "postcode": "BS16 3QQ",
+    "size": "maxi",
+    "weeks": 2,
+    "placement": "private",
+    "start": "2026-10-14"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "name": "shoe-repair",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "tickets": "node bin/tickets.mjs"
+  }
+}

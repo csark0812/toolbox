@@ -1,0 +1,9 @@
+[
+  { "horse": "Toffee", "date": "2026-09-05", "work": "trim", "paid": true },
+  { "horse": "Dandy", "date": "2026-09-06", "work": "trim", "paid": false },
+  { "horse": "Clover", "date": "2026-09-13", "work": "trim", "paid": true },
+  { "horse": "Pepper", "date": "2026-09-20", "work": "all", "paid": true },
+  { "horse": "Moss", "date": "2026-09-24", "work": "front", "paid": true },
+  { "horse": "Hector", "date": "2026-10-03", "work": "all", "paid": false },
+  { "horse": "Juniper", "date": "2026-10-14", "work": "trim", "paid": false }
+]

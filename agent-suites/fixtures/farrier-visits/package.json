@@ -1,0 +1,10 @@
+{
+  "name": "farrier-visits",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "round": "node bin/round.mjs",
+    "owed": "node bin/owed.mjs"
+  }
+}

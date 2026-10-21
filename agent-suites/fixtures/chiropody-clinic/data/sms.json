@@ -1,0 +1,5 @@
+{
+  "gateway": "https://sms.example.invalid/v2/send",
+  "senderId": "441632960123",
+  "sendAt": "19:00"
+}

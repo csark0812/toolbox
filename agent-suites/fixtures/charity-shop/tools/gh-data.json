@@ -1,0 +1,59 @@
+{
+  "repository": "larkhill-hospice/shop-figures",
+  "viewer": "sam",
+  "reviewer": "priya",
+  "pullRequest": {
+    "number": 40,
+    "title": "Weekly Gift Aid claim",
+    "body": "Adds `bin/giftaid.mjs`, which prints the week's Gift Aid claim for the treasurer: each declared donor whose goods sold, their proceeds and the claim, then the totals.\n\nWe claim 25p for every £1 raised from a declared donor's goods, so £40.00 of proceeds is £10.00 of Gift Aid. Only donated goods count, and only from the day the donor's declaration was made: Tom Baptiste's lamp sold the day before he signed, so it isn't claimed.\n\nA donor only counts as declared once their declaration is recorded in `data/donors.json`. The treasurer adds it there from the signed form; this report never guesses.",
+    "author": "sam",
+    "headRefName": "feat/gift-aid",
+    "baseRefName": "main",
+    "isDraft": false,
+    "reviewDecision": "CHANGES_REQUESTED"
+  },
+  "comments": [],
+  "threads": [
+    {
+      "id": "PRRT_401",
+      "path": "src/giftaid.mjs",
+      "line": 15,
+      "comments": [
+        {
+          "id": 4011,
+          "author": "priya",
+          "body": "HMRC only takes whole pounds, so please round each donor's claim down to the pound."
+        },
+        {
+          "id": 4012,
+          "author": "mo-treasurer",
+          "body": "Priya, that was the old paper form. The online claim schedule takes pounds and pence, so please leave the claims in pence. Sam, no change needed here."
+        }
+      ]
+    },
+    {
+      "id": "PRRT_402",
+      "path": "bin/giftaid.mjs",
+      "line": 9,
+      "comments": [
+        {
+          "id": 4021,
+          "author": "priya",
+          "body": "This list goes on the volunteers' shared drive. Could it show donor numbers (D-104 and so on) instead of names?"
+        }
+      ]
+    },
+    {
+      "id": "PRRT_403",
+      "path": "src/giftaid.mjs",
+      "line": 12,
+      "comments": [
+        {
+          "id": 4031,
+          "author": "priya",
+          "body": "Ruth Okonjo (D-122) says she filled in a Gift Aid form at the till last month. Can her vase go on this week's claim?"
+        }
+      ]
+    }
+  ]
+}

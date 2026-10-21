@@ -1,0 +1,41 @@
+[
+  {
+    "email": "Margaret.Oduya@gmail.com",
+    "name": "Margaret Oduya",
+    "tags": ["walks"],
+    "joined": "2021-04-02"
+  },
+  {
+    "email": "pete@stonebridge.org.uk",
+    "name": "Pete  Hallam",
+    "tags": ["committee", "Walks"],
+    "joined": "2019-11-20"
+  },
+  {
+    "email": "margaretoduya+news@googlemail.com",
+    "name": "",
+    "tags": ["Planting"],
+    "joined": "2020-06-14"
+  },
+  {
+    "email": "PETE@stonebridge.org.uk ",
+    "name": "Peter Hallam",
+    "tags": ["walks"],
+    "unsubscribed": true
+  },
+  {
+    "email": "j.osei+walks@stonebridge.org.uk",
+    "name": "Jo Osei",
+    "tags": [],
+    "joined": "2023-02-01"
+  },
+  {
+    "email": "j.osei@stonebridge.org.uk",
+    "name": "Jo Osei",
+    "tags": ["planting"],
+    "joined": "2022-09-09"
+  },
+  { "email": "ruth at the post office", "name": "Ruth Penney", "tags": ["walks"] },
+  { "name": "Unknown", "tags": [" "], "joined": "2024-01-05" },
+  { "email": "ruth at the post office", "name": "Ruth Penney", "tags": [] }
+]

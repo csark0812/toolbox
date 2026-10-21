@@ -1,0 +1,13 @@
+[
+  { "id": "A1", "tenant": "Jo Marsh", "rent": 4500, "dueDay": 31, "firstUnpaid": "2026-08-31" },
+  { "id": "A2", "tenant": "Priya Nair", "rent": 6000, "dueDay": 15, "firstUnpaid": null },
+  { "id": "B1", "tenant": "Tom Reid", "rent": 3500, "dueDay": 28, "firstUnpaid": "2026-10-28" },
+  { "id": "B2", "tenant": "Ella Shaw", "rent": 3500, "dueDay": 27, "firstUnpaid": "2026-10-27" },
+  { "id": "B3", "tenant": "Sam Cole", "rent": 6000, "dueDay": 21, "firstUnpaid": "2026-10-21" },
+  { "id": "B4", "tenant": "Max Wood", "rent": 3000, "dueDay": 20, "firstUnpaid": "2026-10-20" },
+  { "id": "C1", "tenant": "Ann Hale", "rent": 8000, "dueDay": 30, "firstUnpaid": "2026-02-28" },
+  { "id": "C2", "tenant": "Mia Cross", "rent": 5000, "dueDay": 31, "firstUnpaid": "2026-12-31" },
+  { "id": "C3", "tenant": "Leo Park", "rent": 5000, "dueDay": 15, "firstUnpaid": "2026-02-28" },
+  { "id": "C4", "tenant": "Raj Dutt", "rent": 45.5, "dueDay": 3, "firstUnpaid": "2026-10-03" },
+  { "id": "D1", "tenant": "Kay Moss", "rent": 4000, "dueDay": 31, "firstUnpaid": "2026-09-31" }
+]

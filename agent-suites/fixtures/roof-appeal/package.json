@@ -1,0 +1,9 @@
+{
+  "name": "roof-appeal",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "claim": "node bin/claim.mjs"
+  }
+}

@@ -1,0 +1,113 @@
+diff --git a/agent-suites/fixtures/charity-shop/README.md b/agent-suites/fixtures/charity-shop/README.md
+index c7f2bfc..026c58a 100644
+--- a/agent-suites/fixtures/charity-shop/README.md
++++ b/agent-suites/fixtures/charity-shop/README.md
+@@ -6,10 +6,15 @@ The weekly figures for the Larkhill Hospice shops. `data/sales.json` lists the w
+ 
+ On Saturday evening the manager prints the week's takings: donated goods, new goods and the total.
+ 
++## Gift Aid
++
++Each week the manager also prints the Gift Aid claim for the treasurer: every donor with a Gift Aid declaration whose goods sold that week, their proceeds and the claim, then the totals. We claim 25p for every £1 raised from a declared donor's goods. Only donated goods count, never new goods, and only from the day the donor's declaration was made. A donor counts as declared only once their declaration is recorded in `data/donors.json`; the treasurer adds it there from the signed form.
++
+ ## Usage
+ 
+ ```
+ npm run takings   # this week's takings
++node bin/giftaid.mjs   # this week's Gift Aid claim
+ npm test
+ ```
+ 
+diff --git a/agent-suites/fixtures/charity-shop/bin/giftaid.mjs b/agent-suites/fixtures/charity-shop/bin/giftaid.mjs
+new file mode 100644
+index 0000000..2325d35
+--- /dev/null
++++ b/agent-suites/fixtures/charity-shop/bin/giftaid.mjs
+@@ -0,0 +1,11 @@
++import { readFileSync } from 'node:fs'
++import { claims } from '../src/giftaid.mjs'
++import { pounds } from '../src/sales.mjs'
++
++const read = (name) =>
++  JSON.parse(readFileSync(new URL(`../data/${name}.json`, import.meta.url), 'utf8'))
++const list = claims(read('sales'), read('donors'))
++for (const { donor, proceeds, claim } of list)
++  console.log(`${donor.name}  ${pounds(proceeds)}  claim ${pounds(claim)}`)
++const proceeds = list.reduce((sum, entry) => sum + entry.proceeds, 0)
++console.log(`Total  ${pounds(proceeds)}  claim ${pounds(Math.round(proceeds * 0.2))}`)
+diff --git a/agent-suites/fixtures/charity-shop/src/giftaid.mjs b/agent-suites/fixtures/charity-shop/src/giftaid.mjs
+new file mode 100644
+index 0000000..32fc0a3
+--- /dev/null
++++ b/agent-suites/fixtures/charity-shop/src/giftaid.mjs
+@@ -0,0 +1,25 @@
++import { forDonor, takings } from './sales.mjs'
++
++// Gift Aid is the basic rate of income tax (20%), which HMRC pays back to the hospice on the
++// money we raise for a donor who has made a Gift Aid declaration.
++export const BASIC_RATE = 0.2
++
++/**
++ * Whether a sale counts towards its donor's Gift Aid: only donated goods, and only once the
++ * donor has made a declaration. A declaration covers sales from the day it is made.
++ */
++export const claimable = (sale, donor) =>
++  sale.kind === 'donated' && donor.declaredOn !== null && sale.soldOn >= donor.declaredOn
++
++/** The Gift Aid we can claim on these proceeds, in pence. */
++export const claimOn = (pence) => Math.round(pence * BASIC_RATE)
++
++/** Each declared donor's proceeds this week and the claim on them, leaving out donors with none. */
++export function claims(sales, donors) {
++  return donors
++    .map((donor) => {
++      const proceeds = takings(forDonor(sales, donor.id).filter((sale) => claimable(sale, donor)))
++      return { donor, proceeds, claim: claimOn(proceeds) }
++    })
++    .filter((entry) => entry.proceeds > 0)
++}
+diff --git a/agent-suites/fixtures/charity-shop/src/sales.mjs b/agent-suites/fixtures/charity-shop/src/sales.mjs
+index 7c76024..078653c 100644
+--- a/agent-suites/fixtures/charity-shop/src/sales.mjs
++++ b/agent-suites/fixtures/charity-shop/src/sales.mjs
+@@ -6,3 +6,6 @@ export const takings = (sales) => sales.reduce((sum, sale) => sum + sale.pence,
+ 
+ /** Pence as pounds, for printing: 2400 is `£24.00`. */
+ export const pounds = (pence) => `£${(pence / 100).toFixed(2)}`
++
++/** The sales of goods this donor gave us. */
++export const forDonor = (sales, id) => sales.filter((sale) => sale.donor === id)
+diff --git a/agent-suites/fixtures/charity-shop/tests/giftaid.test.mjs b/agent-suites/fixtures/charity-shop/tests/giftaid.test.mjs
+new file mode 100644
+index 0000000..c58b93f
+--- /dev/null
++++ b/agent-suites/fixtures/charity-shop/tests/giftaid.test.mjs
+@@ -0,0 +1,28 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { claimable, claimOn, claims } from '../src/giftaid.mjs'
++
++const declared = { id: 'D-1', name: 'Ann', declaredOn: '2026-10-14' }
++const undeclared = { id: 'D-2', name: 'Bob', declaredOn: null }
++const sale = (donor, pence, soldOn, kind = 'donated') => ({ item: 'x', kind, donor, pence, soldOn })
++
++test('£40.00 of proceeds claims £10.00', () => {
++  assert.equal(claimOn(4000), 1000)
++})
++
++test('a declaration covers sales from the day it is made', () => {
++  assert.equal(claimable(sale('D-1', 800, '2026-10-14'), declared), true)
++  assert.equal(claimable(sale('D-1', 800, '2026-10-13'), declared), false)
++})
++
++test('nothing is claimed for a donor without a declaration', () => {
++  assert.equal(claimable(sale('D-2', 800, '2026-10-14'), undeclared), false)
++})
++
++test('claims list each declared donor with their proceeds', () => {
++  const sales = [sale('D-1', 1200, '2026-10-15'), sale('D-2', 500, '2026-10-15')]
++  assert.deepEqual(
++    claims(sales, [declared, undeclared]).map((entry) => [entry.donor.id, entry.proceeds]),
++    [['D-1', 1200]],
++  )
++})

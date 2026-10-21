@@ -1,0 +1,148 @@
+diff --git a/agent-suites/fixtures/shoe-repair/README.md b/agent-suites/fixtures/shoe-repair/README.md
+index 3321d20..e539474 100644
+--- a/agent-suites/fixtures/shoe-repair/README.md
++++ b/agent-suites/fixtures/shoe-repair/README.md
+@@ -1,15 +1,20 @@
+ # Shoe repair
+ 
+-Collection tickets for Pryce & Daughter, shoe repairs and key cutting on Bridge Street. `data/jobs.json` lists the jobs on the rack: the ticket number, the customer, the job (`heels`, `stitching` or `resole`) and the day the shoes came in.
++Collection tickets for Pryce & Daughter, shoe repairs and key cutting on Bridge Street. `data/jobs.json` lists the jobs on the rack: the ticket number, the customer, the job (`heels`, `stitching` or `resole`), the day the shoes came in and the initials of whoever is doing the work.
+ 
+ ## Tickets
+ 
+-When shoes come in, the counter prints a collection ticket for the customer, one line per job.
++When shoes come in, the counter prints a collection ticket for the customer, one line per job, with the initials of whoever is doing it.
++
++## Opening days
++
++The shop is open Tuesday to Saturday. It is shut on Sundays and Mondays and on the dates in `data/closed.json` (bank holidays and the Christmas break). `src/hours.mjs` is the one place that knows when the shop is open; the door sign is printed from it.
+ 
+ ## Usage
+ 
+ ```
+ npm run tickets   # the tickets for the jobs on the rack
++npm run sign      # the door sign for the coming fortnight
+ npm test
+ ```
+ 
+diff --git a/agent-suites/fixtures/shoe-repair/bin/sign.mjs b/agent-suites/fixtures/shoe-repair/bin/sign.mjs
+new file mode 100644
+index 0000000..9c97042
+--- /dev/null
++++ b/agent-suites/fixtures/shoe-repair/bin/sign.mjs
+@@ -0,0 +1,8 @@
++import { isOpen } from '../src/hours.mjs'
++
++const DAY = 86400000
++const start = Date.parse(process.argv[2] ?? new Date().toISOString().slice(0, 10))
++for (let i = 0; i < 14; i++) {
++  const date = new Date(start + i * DAY).toISOString().slice(0, 10)
++  console.log(`${date}  ${isOpen(date) ? 'open 9–5' : 'closed'}`)
++}
+diff --git a/agent-suites/fixtures/shoe-repair/data/closed.json b/agent-suites/fixtures/shoe-repair/data/closed.json
+new file mode 100644
+index 0000000..f13949a
+--- /dev/null
++++ b/agent-suites/fixtures/shoe-repair/data/closed.json
+@@ -0,0 +1 @@
++["2026-12-25", "2026-12-26", "2027-01-01"]
+diff --git a/agent-suites/fixtures/shoe-repair/data/jobs.json b/agent-suites/fixtures/shoe-repair/data/jobs.json
+index d619a09..494eba1 100644
+--- a/agent-suites/fixtures/shoe-repair/data/jobs.json
++++ b/agent-suites/fixtures/shoe-repair/data/jobs.json
+@@ -1,8 +1,8 @@
+ [
+-  { "ticket": 301, "customer": "A. Morgan", "job": "heels", "in": "2026-12-11" },
+-  { "ticket": 302, "customer": "B. Lewis", "job": "resole", "in": "2026-12-15" },
+-  { "ticket": 303, "customer": "C. Price", "job": "stitching", "in": "2026-12-17" },
+-  { "ticket": 304, "customer": "D. Hughes", "job": "heels", "in": "2026-12-22" },
+-  { "ticket": 305, "customer": "E. Jones", "job": "heels", "in": "2026-12-23" },
+-  { "ticket": 306, "customer": "F. Owen", "job": "resole", "in": "2026-12-29" }
++  { "ticket": 301, "customer": "A. Morgan", "job": "heels", "in": "2026-12-11", "by": "GP" },
++  { "ticket": 302, "customer": "B. Lewis", "job": "resole", "in": "2026-12-15", "by": "DP" },
++  { "ticket": 303, "customer": "C. Price", "job": "stitching", "in": "2026-12-17", "by": "GP" },
++  { "ticket": 304, "customer": "D. Hughes", "job": "heels", "in": "2026-12-22", "by": "DP" },
++  { "ticket": 305, "customer": "E. Jones", "job": "heels", "in": "2026-12-23", "by": "GP" },
++  { "ticket": 306, "customer": "F. Owen", "job": "resole", "in": "2026-12-29", "by": "DP" }
+ ]
+diff --git a/agent-suites/fixtures/shoe-repair/package.json b/agent-suites/fixtures/shoe-repair/package.json
+index c43d096..c936b4c 100644
+--- a/agent-suites/fixtures/shoe-repair/package.json
++++ b/agent-suites/fixtures/shoe-repair/package.json
+@@ -4,6 +4,7 @@
+   "type": "module",
+   "scripts": {
+     "test": "node --test",
+-    "tickets": "node bin/tickets.mjs"
++    "tickets": "node bin/tickets.mjs",
++    "sign": "node bin/sign.mjs"
+   }
+ }
+diff --git a/agent-suites/fixtures/shoe-repair/src/hours.mjs b/agent-suites/fixtures/shoe-repair/src/hours.mjs
+new file mode 100644
+index 0000000..72553b8
+--- /dev/null
++++ b/agent-suites/fixtures/shoe-repair/src/hours.mjs
+@@ -0,0 +1,12 @@
++import { readFileSync } from 'node:fs'
++
++/** Days the shop is shut besides Sundays and Mondays: bank holidays and the Christmas break. */
++export const CLOSED = JSON.parse(
++  readFileSync(new URL('../data/closed.json', import.meta.url), 'utf8'),
++)
++
++/** Whether the shop is open on this ISO date: Tuesday to Saturday, except the closed dates. */
++export function isOpen(date, closed = CLOSED) {
++  const weekday = new Date(date).getUTCDay()
++  return weekday >= 2 && weekday <= 6 && !closed.includes(date)
++}
+diff --git a/agent-suites/fixtures/shoe-repair/src/tickets.mjs b/agent-suites/fixtures/shoe-repair/src/tickets.mjs
+index f3b68dc..070aac9 100644
+--- a/agent-suites/fixtures/shoe-repair/src/tickets.mjs
++++ b/agent-suites/fixtures/shoe-repair/src/tickets.mjs
+@@ -1,2 +1,2 @@
+-/** One line of a collection ticket: the ticket number, the customer and the job. */
+-export const ticket = (job) => `#${job.ticket}  ${job.customer}  ${job.job}`
++/** One line of a collection ticket: the ticket number, the customer, the job and who's doing it. */
++export const ticket = (job) => `#${job.ticket}  ${job.customer}  ${job.job}  (${job.by})`
+diff --git a/agent-suites/fixtures/shoe-repair/tests/hours.test.mjs b/agent-suites/fixtures/shoe-repair/tests/hours.test.mjs
+new file mode 100644
+index 0000000..38d5a6c
+--- /dev/null
++++ b/agent-suites/fixtures/shoe-repair/tests/hours.test.mjs
+@@ -0,0 +1,18 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { isOpen } from '../src/hours.mjs'
++
++test('the shop is open Tuesday to Saturday', () => {
++  assert.equal(isOpen('2026-12-15'), true)
++  assert.equal(isOpen('2026-12-19'), true)
++})
++
++test('the shop is shut on Sundays and Mondays', () => {
++  assert.equal(isOpen('2026-12-13'), false)
++  assert.equal(isOpen('2026-12-14'), false)
++})
++
++test('the shop is shut on Christmas Day and Boxing Day', () => {
++  assert.equal(isOpen('2026-12-25'), false)
++  assert.equal(isOpen('2026-12-26'), false)
++})
+diff --git a/agent-suites/fixtures/shoe-repair/tests/tickets.test.mjs b/agent-suites/fixtures/shoe-repair/tests/tickets.test.mjs
+index a32936d..ebd38ae 100644
+--- a/agent-suites/fixtures/shoe-repair/tests/tickets.test.mjs
++++ b/agent-suites/fixtures/shoe-repair/tests/tickets.test.mjs
+@@ -2,9 +2,9 @@ import assert from 'node:assert/strict'
+ import { test } from 'node:test'
+ import { ticket } from '../src/tickets.mjs'
+ 
+-test('a ticket shows the number, the customer and the job', () => {
++test('a ticket shows the number, the customer, the job and who is doing it', () => {
+   assert.equal(
+-    ticket({ ticket: 301, customer: 'A. Morgan', job: 'heels', in: '2026-12-11' }),
+-    '#301  A. Morgan  heels',
++    ticket({ ticket: 301, customer: 'A. Morgan', job: 'heels', in: '2026-12-11', by: 'GP' }),
++    '#301  A. Morgan  heels  (GP)',
+   )
+ })

@@ -1,0 +1,9 @@
+{
+  "name": "storage-units",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "units": "node bin/units.mjs"
+  }
+}
