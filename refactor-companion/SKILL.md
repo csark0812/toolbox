@@ -1,7 +1,7 @@
 ---
 name: refactor-companion
-description: Use whenever the user asks to rename, move, refactor, replace, consolidate or migrate existing code, a field or an API while output stays the same, even a simple rename. Finds hidden uses of old names, migrates every caller and proves output unchanged. Not new features or read-only review.
-when_to_use: Requests such as "rename this module and update its callers", "replace these booleans with one enum", "consolidate these two APIs", "remove the old code path", "migrate X to Y without changing behavior".
+description: Load first, before reading code, whenever the user asks to rename, move, merge, tidy up, replace or migrate existing code, files, fields or an API while output stays the same, even a one-word rename. Finds hidden uses of old names, migrates every caller and proves output unchanged. Not new features or read-only review.
+when_to_use: Requests such as "rename this module and update its callers", "replace these booleans with one enum", "consolidate these two APIs", "migrate X to Y without changing behavior".
 ---
 
 # Refactor companion
@@ -32,7 +32,7 @@ Composition boundaries → [process-skill-composition.md](https://raw.githubuser
 3. Ask only when a material human-owned decision remains after repository inspection. **Decide, don't stall.** When an edge case has a reasonable, reversible answer, pick it, implement it, and name the choice in your reply. Ask before acting only for irreversible or product decisions. Never end a requested change with no change made. When merging or moving code, move every related piece the request implies and delete the emptied module, rather than leaving a stray helper behind.
 4. Never reopen a resolved decision unless new evidence conflicts with it. Show that evidence first.
 5. Define one coherent slice and its proof before editing. When behavior must stay the same, record a baseline before the first edit: run the public entry points over many representative inputs, generated to cover edge cases and every caller's input shape, and save the outputs. After each slice, compare against that baseline and report the count compared and any differences. Existing tests alone do not prove behavior unchanged. Run the baseline comparison again after your last edit. Capture the baseline, make the edits and compare in as few commands as you can. Do not widen the public API: keep anything private that no outside caller used.
-   Before the first edit, find every indirect use of an old name: labels or headers built from a function or field name, `Object.keys` output, names stored in data files, and strings used as lookup keys. Replace each with an explicit mapping. Names that outside users depend on, such as a CSV header or a command-line value, stay at the boundary that prints or parses them, never as an alias in core code. Baseline every command the user named, not only one.
+   Before the first edit, find every indirect use of an old name: labels or headers built from a function or field name, `Object.keys` output, names stored in data files, and strings used as lookup keys. Replace each with explicit data or a small table, not a new naming rule such as stripping a suffix. Names that outside users depend on, such as a CSV header or a command-line value, stay at the outermost boundary that prints or parses them (the command script, not the library), never as an alias in core code; library code and tests use only the new name. Baseline every command the user named, both with its options and without any.
 6. Implement, prove, and inspect the slice for residue from the old design.
 7. Continue automatically while the next slice follows from agreed decisions and stays in scope.
 8. Stop at contract, authority, scope, or evidence boundaries.
@@ -78,7 +78,7 @@ Before structural edits establish the public-seam behavior baseline. Reuse adequ
 
 When composed, return changed source identity, affected parts, proof and residue to the outer owner without advancing its cursor. A direct invocation owns its temporary refactor card. Revalidate integrated output rather than combining green slice claims.
 
-**Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
+**Work lean.** Read files together in one call, batch independent commands, and keep output short, for example `| tail -20`. A reader of the log sees only the start of a long command, so put what matters first. After your last edit, run the final check (tests and the user's command) as one short call of its own, and quote a few lines of its output in the reply. Stop once the result is verified.
 
 ## Slice loop
 

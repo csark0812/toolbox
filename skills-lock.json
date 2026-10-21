@@ -35,7 +35,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "evidence-based-debugging/SKILL.md",
-      "computedHash": "92bdcf6764b91d690c4cfe5e7c3bd7c8c754b394b2bbbc7171713738be1affb2"
+      "computedHash": "6603cc0d70b886a49a386cd0c3d5556ee085d60126c480c28138236426c99e69"
     },
     "grill": {
       "source": "csark0812/toolbox",
@@ -65,7 +65,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "probe/SKILL.md",
-      "computedHash": "b4e06dcc54dda4461f5d201855b8269ce54c98228bb996f190b89cdef9df31b7"
+      "computedHash": "32418d50bcf052751b75b8402f4822ef76d5c611c607e4887f4230df2df2f028"
     },
     "prototype": {
       "source": "csark0812/toolbox",
@@ -77,7 +77,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "refactor-companion/SKILL.md",
-      "computedHash": "1005701b9cd63125c4692aa521ec4a47e0042d1939c24aa1317e56f5431fb56e"
+      "computedHash": "0f0625704996344e0e68ac3369146f147fd9d5c4fa783a34b39597838ef3617e"
     },
     "retro": {
       "source": "csark0812/toolbox",
@@ -107,7 +107,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "tdd/SKILL.md",
-      "computedHash": "e773ea4372b5db8ef30d5035ab44cf414309fdd93f91087274cbf76057343bbe"
+      "computedHash": "4d0b5ed6f64ff75ef9beb9e4eaf234f4e40ea6188c33acf8385359b8067e8df5"
     },
     "technical-writing": {
       "source": "csark0812/toolbox",
@@ -125,13 +125,13 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "workflow/SKILL.md",
-      "computedHash": "94ae973faf275c12e17c106263f81d0f183729cd81ed7455759c59997df02780"
+      "computedHash": "12aa23f4bcbe80b6af7e29b05ec3dc68550dbf2ecfcf94f2e47104d126d67bcf"
     },
     "css-craft": {
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "css-craft/SKILL.md",
-      "computedHash": "132513cb486d3edc16e238eef1fb94beeea40a3b2aa7b4b97e504a07fe7ba57f"
+      "computedHash": "749ee793d1605ef2cbb35aa71d1873d7e4e4f5d57d335e1437b001c42942ed3b"
     },
     "hillclimb": {
       "source": "csark0812/toolbox",
