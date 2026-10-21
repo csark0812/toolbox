@@ -1,13 +1,13 @@
 ---
 name: probe
-description: Use when the user asks why or how code, data or a document behaves, or whether a claim is true, and wants an answer, not a change. Checks the premise first and returns a cited verdict. Not debugging with a fix.
-when_to_use: Any why or how question about existing behavior, such as "why does X happen?", "is it true that", "what is going on with", "how does this work".
+description: Use whenever the user asks whether a claim about code, data or a figure is right, or why something behaves as it does, and wants an answer, not a change ("don't change anything yet"). Checks the premise, runs code and tests, returns a cited verdict. Not debugging with a fix.
+when_to_use: Questions such as "a customer says the invoice total is too high, are they correct?", "is it true that", "why does X happen?", "don't fix it yet, I want to understand it".
 ---
 
 # Probe
 
 <!-- source-of-truth: evidence-based assessment of specific hunches and claims. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-21 -->
 
 **Process skill** — one concrete doubt, one evidence boundary, and one cited verdict. Evidence and verdict only; reproduction-led investigation and repair have a separate implementation contract. Optional parallel gathering uses the local recipes when multi-agent orchestration is active. Otherwise perform the same reads serially.
 
@@ -31,6 +31,8 @@ For a code or behavior verdict, state the level its load-bearing fact reached on
 
 **Check the premise first.** When the question asserts a behavior ("the job runs twice", "the value is stale"), observe that behavior with a quick run or calculation before explaining it. If the observation contradicts the premise, the verdict leads with that, shows the observation, and explains what actually happens. Never build an explanation for a behavior you have not seen.
 
+**Settle it in full.** Read and run the existing tests for the code in question, and say whether they cover the case and why they did not catch it. Search the data with a script for every other record the same mechanism affects, including cases the claim did not mention, and compute the corrected figures in code. Open the reply with the direct answer and the correct figure, then the mechanism. When the core of the claim holds, answer yes, even if there is more to it, and add what the claim missed after that. Check every count and name in the reply against the script output. When the user has to pass the answer on, end with two or three sentences they can use.
+
 ### Evidence stance
 
 - One framework for repo and external material. Phases can weave code → research → code. Full loop → [framework.md](references/framework.md)
@@ -47,13 +49,13 @@ When evidence touches structure, apply [dialogue-contract.md](https://raw.github
 
 Follow [framework.md](references/framework.md). Summary:
 
-1. **Target-clarification chain.** Ask **short, invitational** questions until you know _where_ to look. Continue until the target is concrete enough that reading primary material has a purpose. Work dimension by dimension if needed. If the user can only gesture at the discomfort, stay with one branch before you widen. Start deep investigation only when files, a subsystem, or a primary source is plausible. If the user explicitly asks you to fish broadly, use [parallel-broad.md](references/parallel-broad.md) when multi-agent orchestration is active; otherwise inspect the independent areas serially. Then tell the user that you are doing a wider pass and why.
+1. **Target-clarification chain.** When you do not yet know where to look, ask short questions until reading primary material has a purpose. A named command, file or record is already a target. For an explicit broad pass, see [parallel-broad.md](references/parallel-broad.md).
 2. **Form 2–4 ranked, falsifiable hypotheses** before you gather evidence. Prefer mechanism or model hypos over situation guesses. For code: "If `<X>` is the cause, then `<Y>` at `file:line` must show `<Z>`." For claims: "If `<X>` is true, then the primary source must show `<Z>`."
 3. **Discriminating checks** — for each ranked hypo, name the cheapest kill test (strong inference: most information per unit cost). Run top kill tests **before** confirmatory forage.
 4. **Read primary material** — actual code, docs, data, or cited sources. Tool rankings or "likely file" lists are not evidence.
 5. **Forage or leave** — follow scent (callers, tests, citations, error sites). **Leave** the patch when 2–3 reads yield no confirmatory or disconfirmatory signal. Then re-rank hypos. You can switch material class (for example repo → docs → repo). Leaving is completion, not failure.
 6. **Locate enough to cite** — the verdict needs domain-appropriate citations. For behavioral code hunches, narrow to a citable locus, then stop.
-7. **When evidence is external** — do a lateral check and name the source class before you settle. If independents conflict, say so in the verdict and test competing explanations with [parallel-perspective.md](references/parallel-perspective.md) when multi-agent orchestration is active, or serially when it is not. If you gather multiple topics without a single hunch, use [parallel-research.md](references/parallel-research.md) with the same rule. Then return to this loop if a specific claim remains.
+7. **When evidence is external** — do a lateral check and name the source class before you settle. If independent sources conflict, say so in the verdict.
 8. **Return a verdict** — one clear-English settlement (what holds, what does not, what stays open). Always cite specific locations in the primary material. If the hunch is unfounded, say so. Do not invent problems to validate it. When evidence supports multiple mechanisms, report them separately. Do not force a single narrative root cause. **Completion gate:** no code fix, patch, or implementation steps in the verdict or evidence. Put those only in **What to do next** when you route onward. **What to do next** also covers state the mechanism has already affected, such as stored records that a code change alone would leave wrong. Compute every number you report with a script, never by hand. Observe the deciding value directly, for example by calling the function and printing its return or reason field, and isolate the cause with one controlled run that changes only the suspected variable. State the scope: which records or cases are affected and which are not.
 
 ### Evidence standard
