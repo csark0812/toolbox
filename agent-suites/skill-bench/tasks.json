@@ -398,7 +398,7 @@
       "criteria": [
         "Tests are written before or alongside the code and pin the public behaviour: each written form, both units in mixed case, the tablespoon conversion, hostile input (a pinch, a bare number, no unit, a zero denominator, a negative, cups, non-strings), and a command-line test that runs the real `npm run blend` on the shipped recipes and checks stdout, stderr and the exit code exactly, including star anise named on stderr and every bad `--jars` value.",
         "The implementation is small, keeps the amount rules in one place, and decides unspecified cases deliberately and names them in the reply (for example how amounts are rounded or printed, `--jars` given twice or before the name, extra spaces, and the exit code when a spice is skipped), without changing behaviour the request did not ask about.",
-        "Without the option the recipe prints exactly as before, and the README documents --jars.",
+        "Without the option the recipe prints exactly as before.",
         "An independent review checked the change against the request and tried hostile input; issues it found got a failing test and a fix, the tests and the command were rerun after the last fix, and the reply shows the tests passing and verbatim sample output."
       ]
     },

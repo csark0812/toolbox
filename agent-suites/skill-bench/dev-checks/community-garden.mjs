@@ -1,6 +1,7 @@
 // Development check for the garden batch: half and quarter plots pay their own rent, --unpaid
 // lists only the plots that still owe however `paid` is typed, water is £15 in the code and the
-// README, the work is committed on the branch in at least three commits, and main is untouched.
+// README (the prompt asks for it everywhere it is written down; it does not ask for --unpaid to
+// be documented, so the README is not checked for it), the work is committed on the branch in at least three commits, and main is untouched.
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
@@ -28,7 +29,6 @@ assert.deepEqual(listed, [2, 4, 5], '--unpaid lists plots 2, 4 and 5')
 const readme = readFileSync(join(dir, 'README.md'), 'utf8')
 assert.match(readme, /£15/)
 assert.doesNotMatch(readme, /£12/)
-assert.match(readme, /--unpaid/)
 const git = (...args) => execFileSync('git', args, { cwd: dir, encoding: 'utf8' }).trim()
 const baseline = git('log', '--all', '--format=%H', '--grep=^Fixture baseline$').split('\n').at(-1)
 assert.equal(git('rev-parse', 'main'), baseline, 'main is untouched')
