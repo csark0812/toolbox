@@ -19,6 +19,7 @@ import {
 } from 'node:fs'
 import { homedir } from 'node:os'
 import { dirname, join } from 'node:path'
+import { chromePath } from './lib/bench-render.mjs'
 
 const [command = 'run', ...rest] = process.argv.slice(2)
 const option = (name, fallback) => {
@@ -75,8 +76,18 @@ function benchShellEnv() {
   const claudeRoot = join(`/private/tmp/claude-${process.getuid()}`, 'toolbox-bench')
   const claudeBin = shims(claudeRoot)
   const claudeEnv = join(claudeRoot, 'claude-env.sh')
-  writeFileSync(claudeEnv, `export PATH="${claudeBin}:$PATH"\n`)
-  return { PATH: `${codexBin}:${process.env.PATH}`, ZDOTDIR: zdot, CLAUDE_ENV_FILE: claudeEnv }
+  // Every arm can open the same browser for visual work; none is told it exists.
+  const chrome = chromePath()
+  writeFileSync(
+    claudeEnv,
+    `export PATH="${claudeBin}:$PATH"\n${chrome ? `export CHROME_PATH="${chrome}"\n` : ''}`,
+  )
+  return {
+    PATH: `${codexBin}:${process.env.PATH}`,
+    ZDOTDIR: zdot,
+    CLAUDE_ENV_FILE: claudeEnv,
+    ...(chrome ? { CHROME_PATH: chrome } : {}),
+  }
 }
 
 function run({ arms, tasks, repeats, id, runner = option('runner', 'codex'), grep, offset = 0 }) {

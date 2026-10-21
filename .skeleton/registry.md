@@ -46,6 +46,7 @@
 | hillclimb                | [hillclimb/SKILL.md](../hillclimb/SKILL.md)                               |
 | babysit-pr               | [babysit-pr/SKILL.md](../babysit-pr/SKILL.md)                             |
 | retro                    | [retro/SKILL.md](../retro/SKILL.md)                                       |
+| taste                    | [taste/SKILL.md](../taste/SKILL.md)                                       |
 | workflow                 | [workflow/SKILL.md](../workflow/SKILL.md)                                 |
 | orchestrate              | [orchestrate/SKILL.md](../orchestrate/SKILL.md)                           |
 | verification             | [verification/SKILL.md](../verification/SKILL.md)                         |

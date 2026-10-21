@@ -34,6 +34,7 @@ include = [
   "hillclimb/**",
   "babysit-pr/**",
   "retro/**",
+  "taste/**",
 ]
 exclude = [
   "references/**",
@@ -75,4 +76,5 @@ ownedSlugs = [
   "hillclimb",
   "babysit-pr",
   "retro",
+  "taste",
 ]

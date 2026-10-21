@@ -36,6 +36,7 @@ Each process skill is an **atom**: entry gate → non-negotiables → workflow �
 | **grill**                    | Clarify intent or pressure-test consequential design choices through focused dialogue before implementation                                                   |
 | **interface-design**         | Web interface direction, implementation, and rendered proof; native and media brief routing                                                                   |
 | **css-craft**                | Focused CSS diagnosis, browser-aware technique choice, and rendered verification                                                                              |
+| **taste**                    | Page and app-screen visual craft from the subject, built in full, screenshot look-and-fix loop                                                                |
 | **evidence-based-debugging** | Reproduce and diagnose reported failures; repair a demonstrated cause when authorized and verify the affected surface                                         |
 | **probe**                    | Primary-evidence verdict on a specific hunch or claim                                                                                                         |
 | **tdd**                      | Test-first build at agreed public seams — red-green on a **Slice**                                                                                            |

@@ -131,7 +131,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "interface-design/SKILL.md",
-      "computedHash": "a04a86ff89dcc84f1810902038fa08fd257d1362749f147a28944d21352b46e7"
+      "computedHash": "0aca0a53abc984aad1bfd41691bf765a85134dcf2d1c8e1dee5cba04e43bc9a3"
     },
     "css-craft": {
       "source": "csark0812/toolbox",
@@ -150,6 +150,12 @@
       "sourceType": "github",
       "skillPath": "babysit-pr/SKILL.md",
       "computedHash": "9354307e86b0aad1b2d4ee7fb6d7a07a342ac09c68a92e600a468462563c1d6a"
+    },
+    "taste": {
+      "source": "csark0812/toolbox",
+      "sourceType": "github",
+      "skillPath": "taste/SKILL.md",
+      "computedHash": "765de05b953e520c4fec38a5571b5cd07a28ad3ffb88cdc577099a35e0b46bc9"
     }
   }
 }

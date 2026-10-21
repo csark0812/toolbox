@@ -1,6 +1,6 @@
 ---
 name: interface-design
-description: Use to design or redesign a substantial web interface, page or app where visual direction is unsettled; proves it rendered. Not a small CSS fix (css-craft) or native and media work.
+description: Use when the user wants visual direction options to choose from before a substantial web interface is built, or a direction set across a product's screens; proves it rendered. To build or polish a page or screen directly, taste. Not a CSS fix or native and media work.
 ---
 
 # Interface Design
@@ -12,7 +12,7 @@ Make a few specific visual decisions that fit the user's task and existing produ
 
 ## Entry and scope
 
-Use this process for a new web page or app screen, a major visual redesign, or a substantial component whose direction is not settled. For a narrow layout or CSS defect, diagnose and repair it directly without concept exploration. When a direction is already explicit, preserve it and begin at the content and implementation step. Keep small edits proportional.
+Use this process when the user wants to see and choose between directions before a new web page, app screen, major redesign or substantial component is built. When they asked for the build itself, decide the direction, state it, and build; do not stop for a choice they did not ask to make. For a narrow layout or CSS defect, diagnose and repair it directly without concept exploration. When a direction is already explicit, preserve it and begin at the content and implementation step. Keep small edits proportional.
 
 For an iPhone or other native app, identify its core daily action, target platform, existing assets, and required deliverable; hand production to an available native design workflow. For a standalone video or other media piece, define its audience, duration, format, visual concept, and proof needs; hand production to a media workflow. A web render does not prove native or video behavior.
 

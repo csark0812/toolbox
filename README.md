@@ -88,8 +88,9 @@ See the [design and CSS source index](references/design-source-index.md) for the
 | Process      | review-walkthrough       | Explain a bounded change through the smallest useful causal story                               |
 | Process      | second-opinion           | Adversarial critique of a written artifact — invent lenses; layer council for multi-agent depth |
 | Process      | grill                    | Decision-focused dialogue for unclear intent and consequential design choices                   |
-| Process      | interface-design         | Web interface direction through rendered proof; routes native and media briefs                  |
+| Process      | interface-design         | Visual direction options to choose from before a build; routes native and media briefs          |
 | Process      | css-craft                | Focused CSS diagnosis, technique choice, and browser-aware proof                                |
+| Process      | taste                    | Build or polish a page or screen so it looks designed for its subject; screenshot and fix       |
 | Process      | evidence-based-debugging | Reproduce and diagnose failures; demonstrate and verify authorized repairs                      |
 | Process      | probe                    | Cited verdict on a specific hunch or claim                                                      |
 | Process      | tdd                      | Test-first build at agreed public seams                                                         |

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Judges every not-yet-judged cross-arm pair of a skill bench in both orders, plus identical,
 // known-gap and re-test controls, with Opus in an empty sealed workspace per comparison.
-import { readFile, readdir, writeFile, mkdir } from 'node:fs/promises'
+import { copyFile, readFile, readdir, writeFile, mkdir } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import {
@@ -17,7 +17,9 @@ import {
   planPairs,
   renderRun,
   runId,
+  screenshotName,
   TASK_SETS,
+  VISUAL_RUBRIC,
 } from './lib/skill-bench-material.mjs'
 import { mulberry32 } from './lib/pairwise-stats.mjs'
 
@@ -203,11 +205,26 @@ export async function judgePair({
   try {
     const names = { A: `version-A-${tag}.md`, B: `version-B-${tag}.md` }
     await writeFile(join(sealed.path, 'task.md'), brief)
-    await writeFile(join(sealed.path, names.A), renderRun(first, 'A', { skillNames }))
-    await writeFile(join(sealed.path, names.B), renderRun(second, 'B', { skillNames }))
-    const prompt = `${JUDGE_RUBRIC}
+    const visual = Boolean(first.screenshots || second.screenshots)
+    for (const [label, run] of [
+      ['A', first],
+      ['B', second],
+    ]) {
+      // Pictures are copied in under neutral names; their paths never reach the judge.
+      const shots = run.screenshots ?? []
+      for (const shot of shots)
+        await copyFile(shot.file, join(sealed.path, screenshotName(label, shot)))
+      await writeFile(
+        join(sealed.path, names[label]),
+        renderRun(run, label, {
+          skillNames,
+          screenshotNames: shots.map((shot) => screenshotName(label, shot)),
+        }),
+      )
+    }
+    const prompt = `${JUDGE_RUBRIC}${visual ? `\n\n${VISUAL_RUBRIC}` : ''}
 
-Read task.md, then read ${names.A} and ${names.B} in full with whatever file-reading tool you have.
+Read task.md, then read ${names.A} and ${names.B} in full with whatever file-reading tool you have.${visual ? ' Then open every screenshot file each version lists.' : ''}
 
 Reply with only this JSON:
 {"scoreA": 1-5, "scoreB": 1-5, "winner": "A" | "B" | "tie", "confidence": 1 | 2 | 3, "reasons": ["short reason", "..."]}`

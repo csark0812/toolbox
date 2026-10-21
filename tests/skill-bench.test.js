@@ -11,6 +11,7 @@ import {
   parseVerdict,
   planPairs,
   renderRun,
+  screenshotName,
 } from '../scripts/lib/skill-bench-material.mjs'
 import { ALL_TASKS, buildReport, strongClaim } from '../scripts/skill-bench-report.mjs'
 
@@ -111,6 +112,22 @@ describe('skill bench pairs and controls', () => {
     expect(twin.diff).toBe('')
     expect(twin.toolCalls).toEqual([])
     expect(twin.hardCheck.passed).toBe(false)
+  })
+
+  it('a visual run lists its screenshots under neutral names; its twin has none', () => {
+    const shots = [
+      { file: '.agent-test/x/full__0.shots/phone-1.jpg', viewport: 'phone', screen: 1 },
+      { file: '.agent-test/x/full__0.shots/desktop-1.jpg', viewport: 'desktop', screen: 1 },
+    ]
+    const visual = run({ screenshots: shots, screenshotsTruncated: ['phone'] })
+    const names = shots.map((shot) => screenshotName('A', shot))
+    expect(names).toEqual(['A-phone-1.jpg', 'A-desktop-1.jpg'])
+    const view = renderRun(visual, 'A', { screenshotNames: names })
+    expect(view).toContain('- A-phone-1.jpg')
+    expect(view).toContain('longer than the screens shown at phone width')
+    expect(view).not.toContain('.agent-test')
+    expect(renderRun(degrade(visual), 'A')).toContain('the page did not render')
+    expect(renderRun(run(), 'A')).not.toContain('Rendered page')
   })
 
   it('parses the last verdict object and rejects a bad winner', () => {

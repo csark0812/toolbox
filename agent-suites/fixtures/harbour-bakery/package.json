@@ -1,0 +1,8 @@
+{
+  "name": "harbour-bakery",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve ."
+  }
+}

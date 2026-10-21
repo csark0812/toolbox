@@ -14,6 +14,7 @@ import {
   type Claim,
 } from '../v2/support'
 import { blindingLeaks, checksDir, TASK_SETS } from '../../scripts/lib/skill-bench-material.mjs'
+import { captureScreens } from '../../scripts/lib/bench-render.mjs'
 
 const BENCH_ROOT = 'projects'
 // --taskset picks a frozen held-out set (holdout, holdout-v2); the default is the development tasks.
@@ -47,6 +48,8 @@ type BenchTask = {
   prompt?: string
   check?: string
   claim?: Partial<Claim> & { prompt: string }
+  /** A visual task: the page (relative to the project folder) the judge sees as screenshots. */
+  render?: { page: string }
 }
 
 /** The task's claim: inline for held-out tasks, or a claim-suite scenario for development tasks. */
@@ -169,6 +172,24 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
           const detail = (error as { stderr?: Buffer }).stderr?.toString() || String(error)
           hardCheck = { passed: false, failure: detail.slice(0, 600) }
         }
+        // A visual task's page is photographed outside the run, so the judge sees it as a visitor would.
+        let screenshots: { file: string; viewport: string; screen: number }[] = []
+        let screenshotsTruncated: string[] = []
+        if (task.render)
+          try {
+            const shots = await captureScreens(
+              holdoutDir(run.workspace.root, task),
+              task.render.page,
+              join(benchDir, file.replace(/\.json$/, '.shots')),
+            )
+            screenshots = shots.shots
+            screenshotsTruncated = shots.truncated
+          } catch (error) {
+            hardCheck = {
+              passed: false,
+              failure: `page could not be rendered: ${String(error).slice(0, 400)}`,
+            }
+          }
         const record = {
           task: task.id,
           arm,
@@ -181,6 +202,7 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
           hardCheck,
           durationMs: run.durationMs,
           tokens: run.usage.tokens.total ?? null,
+          ...(task.render ? { screenshots, screenshotsTruncated } : {}),
         }
         await save(record)
       },

@@ -51,6 +51,13 @@ export const PACKS = {
     entryNote: 'Its model settings file is .agents/pstack-models.md.',
     claudeAgents: ['agents'],
   },
+  // The visual-design comparison pack. Its one skill is model-invoked, so it needs no entry prompt
+  // and no setup: it routes from its description like a toolbox skill.
+  'taste-skill': {
+    repo: 'https://github.com/Leonxlnx/taste-skill',
+    commit: '6010f91a9935f1c167dfc500fb1a475681892e6b',
+    setup: {},
+  },
 }
 
 export async function fetchPack(name) {

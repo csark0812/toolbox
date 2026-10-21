@@ -19,7 +19,16 @@ export const BANNED_WORDS = [
 ]
 
 /** Task sets: development tasks, then frozen held-out sets. A set is `<set>.json`, with hidden checks in `<set>-checks/`. */
-export const TASK_SETS = ['tasks', 'holdout', 'holdout-v2', 'holdout-v3', 'holdout-v4', 'holdout-v5', 'holdout-v6', 'holdout-v7']
+export const TASK_SETS = [
+  'tasks',
+  'holdout',
+  'holdout-v2',
+  'holdout-v3',
+  'holdout-v4',
+  'holdout-v5',
+  'holdout-v6',
+  'holdout-v7',
+]
 export const HELD_OUT_SETS = TASK_SETS.filter((set) => set !== 'tasks')
 
 /** Where a set's hidden acceptance checks live; development checks use `dev-checks/`. */
@@ -54,7 +63,14 @@ export function summarizeActions(toolCalls = []) {
 }
 
 /** Pack and product names that identify a skill set even outside a skill name. */
-const PACK_WORDS = ['pstack', 'poteto', 'toolbox']
+const PACK_WORDS = [
+  'pstack',
+  'poteto',
+  'toolbox',
+  'tasteskill',
+  'taste-skill',
+  'design-taste-frontend',
+]
 
 const escape = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
@@ -85,7 +101,7 @@ export function maskSkillNames(text, names = []) {
  * The judge's view of one run: reply, changes, actions and automatic checks.
  * It carries no arm, skill, pack or model name: skill identities are masked with `<skill>`.
  */
-export function renderRun(run, label, { skillNames = [] } = {}) {
+export function renderRun(run, label, { skillNames = [], screenshotNames = [] } = {}) {
   const mask = (text) => maskSkillNames(text, skillNames)
   const checks = run.hardCheck.passed
     ? 'All automatic checks passed.'
@@ -115,8 +131,28 @@ export function renderRun(run, label, { skillNames = [] } = {}) {
     '',
     mask(checks),
     '',
+    ...(run.screenshots ? renderedSection(run, screenshotNames) : []),
   ].join('\n')
 }
+
+/** The screenshot files the judge is given for a visual task, in screen order. */
+function renderedSection(run, names) {
+  if (!names.length) return ['## Rendered page', '', 'No screenshots: the page did not render.', '']
+  const cut = run.screenshotsTruncated?.length
+    ? ` The page is longer than the screens shown at ${run.screenshotsTruncated.join(' and ')} width.`
+    : ''
+  return [
+    '## Rendered page',
+    '',
+    `Screenshots of the final page, one screen at a time, top to bottom.${cut}`,
+    '',
+    ...names.map((name) => `- ${name}`),
+    '',
+  ]
+}
+
+/** Screenshot file names for one version as the judge sees them: `A-phone-1.jpg` and so on. */
+export const screenshotName = (label, shot) => `${label}-${shot.viewport}-${shot.screen}.jpg`
 
 /** A known-worse twin of a run for the known-gap control: no changes, no actions, a non-answer. */
 export function degrade(run) {
@@ -128,6 +164,7 @@ export function degrade(run) {
     commits: '',
     toolCalls: [],
     hardCheck: { passed: false, failure: 'no work was done' },
+    ...(run.screenshots ? { screenshots: [], screenshotsTruncated: [] } : {}),
   }
 }
 
@@ -163,6 +200,17 @@ or misstate results. Do not assume either version is better because of its label
 
 Score each version 1-5 on whether you would ship it as-is: 1 harmful or wrong, 2 not shippable,
 3 shippable with real fixes, 4 shippable with nits, 5 ship as-is.`
+
+/**
+ * Added to the rubric when the versions carry screenshots: the task is visual, so the page as a
+ * visitor sees it is the main evidence, ahead of what the reply says about it.
+ */
+export const VISUAL_RUBRIC = `This task is visual. Each version comes with screenshots of its final page at a phone and a desktop
+width. Open and look at every screenshot before scoring. Judge the page a visitor would see: whether it
+looks deliberately designed for this subject rather than like a generic template, the hierarchy and
+first-screen clarity, typography, colour, spacing and composition, whether the requested content is all
+there and readable, and whether the phone layout holds up. Something broken or missing in a screenshot
+counts even if the reply says otherwise. Code quality and process still count, but after the result.`
 
 /** Every balanced, string-aware `{...}` span in the text, in order. */
 function jsonObjects(text) {

@@ -127,6 +127,78 @@
         "The fix is checked by inspecting the resolved declarations, and the indicator's contrast against the nav surface is reported as a number.",
         "The reply lists every changed file and the declarations before and after."
       ]
+    },
+    {
+      "id": "bakery-landing",
+      "targetSkill": "taste",
+      "check": "harbour-bakery",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "Can you build the website for the bakery in agent-suites/fixtures/harbour-bakery? The owner's brief is in the README. One page, static."
+      },
+      "criteria": [
+        "The page looks designed for this bakery specifically (its harbour, its once-a-day bake, its sell-out hours, its loaves), not like a generic template: a clear concept from the subject carried beyond the first screen.",
+        "The first screen says what and where it is and how to get bread in large, confident type; every loaf and pastry with its price, the opening days and hours, the address and the reserve-by-text rule are all present and easy to find.",
+        "Typography, colour and spacing are deliberate and consistent; no stock template tells (centred hero over three icon cards, gradients, glows, emoji icons, eyebrow labels, invented reviews or statistics).",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
+      "id": "generic-page-restyle",
+      "targetSkill": "taste",
+      "check": "ledger-launch",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "Our landing page in agent-suites/fixtures/ledger-launch looks like every AI-generated SaaS page out there. Make it look like someone actually designed it for this product. Keep the content and sections, keep it static."
+      },
+      "criteria": [
+        "The generic tells are removed (gradient text and buttons, glow shadows, glass nav, emoji icons in tinted squares, monospace eyebrow labels, pill badge, three identical cards) and replaced by a specific visual idea that comes from the product (balances, settling up, a shared house), not just a new colour scheme.",
+        "All content is kept: the three features, both price tiers with their conditions, all three FAQ answers, the call to action.",
+        "Hierarchy and composition are clearly better at both widths: one dominant thing per screen, sections that do not all share one layout, readable contrast.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
+      "id": "crew-screen",
+      "targetSkill": "taste",
+      "check": "crew-rota",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "Build the main screen for the crew rota tool in agent-suites/fixtures/crew-rota. The README says what the coxswain needs from it. It should look like a real, well-made internal tool, and work on a phone too."
+      },
+      "criteria": [
+        "The screen answers the coxswain's questions at a glance: who is on call now and that today is covered (Jory helm, Dan and Aisha crew, Sam tractor); the days in the next week that cannot cover a launch, computed from the data (23 Oct one crew short, 24 Oct no tractor driver, 27 Oct one crew and the tractor short); training lapsing soon (Loveday 23 Oct, Aisha 28 Oct, Morwenna 4 Nov); and the recent launches.",
+        "It reads as a working app screen, not a landing page: a quiet shell, numbers and dates aligned, status shown with colour used sparingly and never as the only signal, no decorative charts or vanity numbers.",
+        "The data is rendered from data/station.json, not hard-coded or dumped, and the coverage logic is correct.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
+    },
+    {
+      "id": "ferry-timetable-redesign",
+      "targetSkill": "taste",
+      "check": "tidewater-ferries",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "The timetable and fares page in agent-suites/fixtures/tidewater-ferries is a mess and breaks on phones. Redesign it. The brand file is owned by another team, so work within it."
+      },
+      "criteria": [
+        "brand.css is untouched and its tokens are used: estuary green and mudflat as the main colours, buoy red only for actions and alerts, the two brand typefaces; no off-brand colours.",
+        "The timetable is redesigned for the question a passenger has (when is the next boat on my route, and the last one back), not just restyled tables: routes, crossing times, first/last/frequency, winter differences, and the seasonal route notice are all clear.",
+        "Fares are clear and correctly formatted as money (£7.50, £12.00, free for dogs); notices read as notices, not a yellow box.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
+      ]
     }
   ]
 }
