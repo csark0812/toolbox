@@ -1,13 +1,13 @@
 ---
 name: css-craft
-description: Use for a CSS defect or technique question - layout, cascade, responsive styles, themes, hover and focus states, motion, or making one style match another. Keeps the project's tokens. Not full-page design.
-when_to_use: Requests such as "the layout breaks on narrow screens", "these two buttons should match", "the hover state is wrong", "the focus ring is clipped", "which CSS approach should I use for".
+description: Use for any CSS or styling bug, even one that looks simple - wrong colour, unreadable theme, invisible focus, overflow, one rule beating another - or a CSS technique question. Keeps the project's tokens. Not full-page design.
+when_to_use: Any visual or stylesheet defect, such as "this button is the wrong colour here", "unreadable in dark mode", "focus isn't visible", "the page scrolls sideways on mobile", "which CSS approach should I use".
 ---
 
 # CSS Craft
 
 <!-- source-of-truth: portable CSS diagnosis, technique selection, and rendered verification process. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-07 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-21 -->
 
 Fix the observed styling problem with the smallest technique that preserves the project's design contract and supported browser behavior. Prefer a concrete rendered cause over a speculative rewrite. User instructions and project rules outrank external examples.
 
@@ -27,7 +27,7 @@ Keep the project's styling ownership: semantic tokens and component variants whe
 
 **Decide, don't stall.** When an edge case has a reasonable, reversible answer, pick it, implement it, and name the choice in your reply. Ask before acting only for irreversible or product decisions. Never end a requested change with no change made.
 
-Make the focused change in the owning stylesheet or component. Test the original positive failure case and the affected widths and states. A test that only searches the stylesheet text proves a rule exists, not that it wins: check the resolved values, for example with a small cascade resolution over every theme or state combination. Inspect computed behavior and rendered output, including keyboard focus and reduced motion when relevant. Check long content and browser support or fallback for newer features. A mechanical check exits nonzero on failure; a skipped browser or crashed render is unverified. Report the cause, chosen technique, focused proof, and any remaining browser limitation. Do not claim the whole interface is visually verified from a CSS unit test alone.
+Make the focused change in the owning stylesheet or component. Test the original positive failure case and the affected widths and states. A test that only searches the stylesheet text proves a rule exists, not that it wins: check the resolved values. Read computed styles in a headless browser when one is installed; otherwise write a small script that resolves the cascade. Cover every way the state can apply: each theme path (media query and attribute switch), each width, and rest, hover and focus. Inspect computed behavior and rendered output, including keyboard focus and reduced motion when relevant. Check long content and browser support or fallback for newer features. A mechanical check exits nonzero on failure; a skipped browser or crashed render is unverified. Report the cause, chosen technique, focused proof, and any remaining browser limitation. Do not claim the whole interface is visually verified from a CSS unit test alone.
 
 ## Exit
 

@@ -1,0 +1,28 @@
+:root {
+  --surface: #ffffff;
+  --surface-raised: #f9fafb;
+  --text: #111827;
+  --text-muted: #4b5563;
+  --link: #1d4ed8;
+  --border: #e5e7eb;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --surface: #111827;
+    --surface-raised: #1f2937;
+    --text: #f9fafb;
+    --text-muted: #d1d5db;
+    --link: #93c5fd;
+    --border: #374151;
+  }
+}
+
+:root[data-theme='dark'] {
+  --surface: #111827;
+  --surface-raised: #1f2937;
+  --text: #f9fafb;
+  --text-muted: #d1d5db;
+  --link: #93c5fd;
+  --border: #374151;
+}
