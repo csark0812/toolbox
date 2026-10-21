@@ -1,7 +1,7 @@
 # toolbox
 
 <!-- source-of-truth: user-level process and orchestrator Cursor/Claude agent skills. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-16 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-21 -->
 
 Public process SSOT. Engineers install skills globally (`-g`). Product repos keep product workflows and shared standards — they should not vendor these process skill folders.
 
@@ -190,7 +190,7 @@ npm run check
 pre-commit install          # runs npm test on commit
 ```
 
-`npm run check` / `npm start` runs format, lint, typecheck, vitest unit fixtures, hub + skills audits, `validate:ci`, and the production dependency audit (matches CI). `npm test` is the skill gate subset (unit + audits + validate:ci). `npm ci` pulls `@csark0812/skeleton` from the registry; for local dogfood only: `npm install ../skeleton` (do not commit the link).
+`npm run check` / `npm start` runs format, lint, typecheck, vitest unit fixtures, hub + skills audits, `validate:ci`, `agent:test`, and the production dependency audit (matches CI). `npm test` is the skill gate subset (unit + audits + validate:ci). `npm ci` pulls `@csark0812/skeleton` from the registry; for local dogfood only: `npm install ../skeleton` (do not commit the link).
 
 ### Agent suites
 
