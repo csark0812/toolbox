@@ -325,6 +325,162 @@
         "Without the option the recipe prints exactly as before, and the README documents --jars.",
         "An independent review checked the change against the request and tried hostile input; issues it found got a failing test and a fix, the tests and the command were rerun after the last fix, and the reply shows the tests passing and verbatim sample output."
       ]
+    },
+    {
+      "id": "feed-staleness-plain",
+      "targetSkill": "probe",
+      "check": "feed-reader",
+      "claim": {
+        "prompt": "My partner swears the feed reader in agent-suites/fixtures/feed-reader only refreshes every few hours, because the sidebar's 'Updated' time is hours old even though it's set to refresh every 10 minutes. Which of us is right? Just explain it, I'll decide about changes later."
+      },
+      "criteria": [
+        "The premise is checked by observation before it is explained: the cache does refresh after 10 minutes, shown with a run or concrete trace.",
+        "The answer identifies that the sidebar's 'Updated' time is the newest item's publish time, not the fetch time, with file and line evidence.",
+        "No project file is changed.",
+        "The reply leads with the corrected premise and gives what to do next."
+      ]
+    },
+    {
+      "id": "takings-plain",
+      "targetSkill": "probe",
+      "check": "pool-passes",
+      "claim": {
+        "prompt": "Quick sanity check before the committee meets: is the £612 October figure from `npm run takings` in agent-suites/fixtures/pool-passes inflated by cancelled passes, like our treasurer says? If so, what's the true number? Leave the code as it is.",
+        "fixtureGate": "agent-suites/fixtures/pool-passes"
+      },
+      "criteria": [
+        "The verdict leads: she is right. takings() in src/takings.mjs drops only a status of exactly `cancelled`, so Kit Barnes's `Cancelled` (£48) and Una Kerr's `CANCELLED` (£30) are still counted.",
+        "It also finds what she did not raise: the README says refunded passes are not counted, but Ada Nwosu (£30) and Bea Holt (£48) are counted too. The real October figure is £456, £156 less, worked out by running code rather than by hand.",
+        "It notes that the existing tests only use a lowercase `cancelled` and no refunded pass, which is why nothing caught it, and that Nia Cole's September pass is correctly left out.",
+        "Nothing is changed or committed. A fix is described, not made, and the reply gives the user wording they can use at the meeting."
+      ]
+    },
+    {
+      "id": "money-helper-plain",
+      "targetSkill": "refactor-companion",
+      "check": "invoice-kit",
+      "claim": {
+        "prompt": "agent-suites/fixtures/invoice-kit has src/legacy/currency.mjs as well as src/format.mjs, and both format money. Fold the legacy one into src/format.mjs, point everything at that and remove the legacy file. Printed invoices and receipts must not change at all.",
+        "fixtureGate": "agent-suites/fixtures/invoice-kit"
+      },
+      "criteria": [
+        "The legacy helper is deleted and every caller uses the single remaining module.",
+        "Output is unchanged, proven by recording invoice and receipt output over many inputs before the change and comparing after; the two helpers differ (cents vs dollars, thousands separators, parentheses for negatives) and both behaviors are preserved.",
+        "Existing tests pass before and after.",
+        "The reply lists the callers migrated, the differences found between the helpers, and the size and result of the before/after comparison."
+      ]
+    },
+    {
+      "id": "seat-rename-plain",
+      "targetSkill": "refactor-companion",
+      "check": "orchestra-seating",
+      "claim": {
+        "prompt": "Small tidy-up in agent-suites/fixtures/orchestra-seating: we call it a seat now, so the `chair` field on a player should be `seat` in the code, the tests and data/players.json, with no `chair` alias left in the code. Whatever `npm run export`, `npm run seating -- --by chair` and `npm run seating -- --principals` print today, they have to keep printing.",
+        "fixtureGate": "agent-suites/fixtures/orchestra-seating"
+      },
+      "criteria": [
+        "Every hidden use of the field name is found before editing: the CSV header in bin/export.mjs comes from Object.keys of a player, the `--by` value is used directly as a field name, and the `Chair` label in bin/seating.mjs is built from the field name in FIELDS.",
+        "The data, src and tests use `seat` only. The external names (`chair` in the CSV header, `--by chair` and the `Chair` label) are kept by an explicit mapping at the command-line boundary, not by an alias in core code or by deriving labels from field names.",
+        "Before-and-after output of all three commands is captured and shown byte-identical, and the tests pass.",
+        "The reply lists every migrated site and each external name kept on purpose, and its claims match what was run."
+      ]
+    },
+    {
+      "id": "garden-jobs-plain",
+      "targetSkill": "workflow",
+      "check": "community-garden",
+      "claim": {
+        "prompt": "The garden committee sent over a few bits for agent-suites/fixtures/community-garden. Bram Ola's half plot is billed £60 rent, but half plots are £35. The treasurer wants `--unpaid` on `npm run plots` to see who still owes. Water is £15 a plot this year, so change it wherever it's written down. And could each bill line show the plot number so people can find theirs? Commit each one separately on this branch.",
+        "branch": "fix/garden-bills",
+        "fixtureGate": "agent-suites/fixtures/community-garden",
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "Each item is done at its cause: sizeName() in src/bills.mjs treats 0.5 as a full plot and 0.25 as a half, so the fix also changes Cy Wren's half plot to £35 and Dee Moss's quarter plot from £35 to £20, which the committee did not mention. `--unpaid` reads `paid` loosely enough to include Eli Hart's `No ` and exclude Fen Achebe's `Yes`. WATER in src/config.mjs, the test and the README all say £15.",
+        "Item 4 is recognised as already done (every line already starts with `Plot N`) and reported as such, with no empty or cosmetic commit for it.",
+        "There is one commit per real change, each verified (ideally with tests for the plot sizes and the unpaid filter), with edge cases named, such as the other half plot, the quarter plot and the oddly typed paid values.",
+        "Nothing outside the items changes, the data is not edited, and main is untouched.",
+        "The reply summarises each item with its commit hash as it stands at the end and how it was checked, says plainly that item 4 needed no change, and names every other plot whose bill changed."
+      ]
+    },
+    {
+      "id": "shelf-todo-plain",
+      "targetSkill": "workflow",
+      "check": "shelf-app",
+      "claim": {
+        "prompt": "There's a TODO.md in agent-suites/fixtures/shelf-app with a few fixes the team wants. Can you get through them? Separate commits please, I'm on a feature branch.",
+        "branch": "chore/shelf",
+        "fixtureGate": "agent-suites/fixtures/shelf-app",
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "All three items are fixed at their causes, each in its own commit with a clear message.",
+        "Each behavioral fix has a regression test that fails before and passes after.",
+        "Nothing outside the three items changes.",
+        "Every claim in the reply matches the output shown in the actions; no reproduction or result is described differently from what was observed."
+      ]
+    },
+    {
+      "id": "meter-plain",
+      "targetSkill": "tdd",
+      "check": "usage-meter",
+      "claim": {
+        "prompt": "The usage meter in agent-suites/fixtures/usage-meter needs `remaining(account, nowMs)`: the units an account has left in the current UTC day, never below zero. Tests before code please, and have someone look it over before you finish.",
+        "fixtureGate": "agent-suites/fixtures/usage-meter"
+      },
+      "criteria": [
+        "Behavior is pinned by tests written before or alongside the code, including usage on both sides of midday UTC and the day reset.",
+        "The existing day bucketing rounds instead of flooring, so usage after 12:00 UTC lands in the next day; it is found, pinned by a failing test and fixed rather than left or worked around.",
+        "The change was reviewed against its scope, including any change made after the review, before reporting.",
+        "The reply explains the design, names the bucketing bug and shows the tests passing."
+      ]
+    },
+    {
+      "id": "canoe-plain",
+      "targetSkill": "evidence-based-debugging",
+      "check": "canoe-queue",
+      "claim": {
+        "prompt": "Priya was first in the canoe queue at 8:50, but `npm run queue` in agent-suites/fixtures/canoe-queue sent her out on C2 at 10:30 when C1 was back at 9:05. I reckon the dock tablet's clock is on UTC. Could you sort it?",
+        "fixtureGate": "agent-suites/fixtures/canoe-queue"
+      },
+      "criteria": [
+        "The cause is shown with output, not guessed: earliestFirst() in src/times.mjs compares the `back` times as strings, and unpadded times such as `10:30` sort before `9:05`, so canoes go out in the wrong order.",
+        "The UTC theory is checked and rejected with evidence: every time in data/returns.json is local and written the same way, and the order is wrong only where an hour has one digit.",
+        "The fix is at the shared helper, so both the queue and the \"Next due back\" line are corrected, and a regression test with several times across 9:xx and 10:xx was seen failing before the fix and passing after.",
+        "`npm run queue` is rerun and its output shown: Priya C1 at 9:05 (15 min), Dan C3 at 9:40, Mo C2 at 10:30, Ana C4 at 11:15, Theo none, next due C1 at 9:05. The reply says plainly that Mo and Ana now wait longer than the old output said, and its claims match what was run."
+      ]
+    },
+    {
+      "id": "file-list-plain",
+      "targetSkill": "css-craft",
+      "check": "file-browser",
+      "claim": {
+        "prompt": "On my phone the file browser in agent-suites/fixtures/file-browser gets wider than the screen whenever a file has a long name, and the size gets pushed off the side. Long names should just end in '…'.",
+        "fixtureGate": "agent-suites/fixtures/file-browser"
+      },
+      "criteria": [
+        "The cause is named: the flex item `.details` keeps its automatic minimum width (the long name's unwrapped width), and the grid's `1fr` track also refuses to shrink below its content, so both must be allowed to shrink.",
+        "The fix lets the name truncate with an ellipsis while the size stays visible on one line, and the page no longer scrolls sideways at phone width.",
+        "The desktop layout is unchanged: the sidebar keeps its width and short names are not truncated.",
+        "The fix is checked by measuring rendered widths or overflow at a phone width and a desktop width, and the numbers are reported.",
+        "The reply lists every changed file and quotes the declarations before and after."
+      ]
+    },
+    {
+      "id": "dark-notice-plain",
+      "targetSkill": "css-craft",
+      "check": "settings-panel",
+      "claim": {
+        "prompt": "In dark mode the renewal notice on the settings page in agent-suites/fixtures/settings-panel is really hard to read. Light mode's fine. Can you sort the colours out?",
+        "fixtureGate": "agent-suites/fixtures/settings-panel"
+      },
+      "criteria": [
+        "The cause is named: `--notice-bg` is never defined, so the notice always falls back to the light `#fef3c7` background while its text and link take the dark theme's light colours.",
+        "The fix adds a theme token for the notice background that works both when the OS is dark and when the theme switch sets `data-theme=\"dark\"`, and light mode keeps its exact colours.",
+        "The notice text and link contrast against the notice background are reported as numbers for light and dark, and both reach at least 4.5:1.",
+        "The fix is checked under each way dark mode can apply (OS setting and theme switch), not only one.",
+        "The reply lists every changed file and quotes the declarations before and after."
+      ]
     }
   ]
 }

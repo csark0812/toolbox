@@ -1,7 +1,7 @@
 ---
 name: workflow
-description: Use whenever a request lists two or more jobs, fixes or changes, especially one commit each, even if each looks small; also for a bug report to reviewed fix, or resuming work. Runs a step playbook and routes to specialists. Not one task already aimed at a skill.
-when_to_use: A numbered or bulleted list of changes, such as "a few things from the team, one commit each", "go through this checklist and commit each fix", "fix these three things", "pick up where the last session left off".
+description: Load first, before reading code, when one message asks for two or more separate jobs or fixes (a list, a TODO file or several requests in a paragraph), even small ones; also resuming work. Routes each to its playbook; reports every record a fix changed. Not one feature or fix already aimed at a skill.
+when_to_use: Several changes in one request, such as "three requests from the committee, commit each separately", "can you also change X and add Y", "pick up where the last session left off".
 ---
 
 # Workflow
@@ -37,7 +37,7 @@ When the request is a multi-step task that matches a playbook, open it and copy 
 
 **Decide, don't stall.** When an edge case has a reasonable, reversible answer, pick it, implement it, and name the choice in your reply. Ask before acting only for irreversible or product decisions. Never end a requested change with no change made.
 
-**Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
+**Work lean.** Read files together in one call, batch independent commands, and keep output short, for example `| tail -20`. A reader of the log sees only the start of a long command, so put what matters first. After your last edit, run the final check (tests and the user's command) as one short call of its own, and quote a few lines of its output in the reply. Stop once the result and its scope check are verified. For each item, run its check and commit only if it passes (`<check> && git add <paths> && git commit ...`), then diff the outputs; update the task list only when an item finishes.
 
 | Task                                       | Playbook                                                          |
 | ------------------------------------------ | ----------------------------------------------------------------- |
