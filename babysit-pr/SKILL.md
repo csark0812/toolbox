@@ -1,6 +1,6 @@
 ---
 name: babysit-pr
-description: Use when the user wants an open PR green, its CI fixed, its conflicts or review comments handled, or asks if it is ready to merge. Pushes fixes, resolves threads, never merges. Not code review or branch inventory.
+description: Use when the user wants an open PR green, its CI fixed, its conflicts or review comments handled, or asks if it is ready to merge. Pushes fixes, answers every thread, never merges. Not code review or branch inventory.
 when_to_use: Requests such as "CI is red on my PR, fix it", "address the review comments on my PR", "get this PR mergeable", "is my PR ready to merge?".
 ---
 
