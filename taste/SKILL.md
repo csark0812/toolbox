@@ -13,7 +13,7 @@ A model's default page is the average of every page it has seen. This skill repl
 
 Work in few, large steps; every extra tool call re-reads the whole conversation. After loading this skill, the whole job is five turns and the reply:
 
-1. One command that reads the brief, page, brand files and data (for an app screen, also `<skill>/references/app-screens.md`).
+1. One command that lists the project and prints every file in it with its name, for example `cd <project> && ls -R && tail -n +1 README* *.html *.css *.js data/*` (for an app screen, add `<skill>/references/app-screens.md`). No separate look-around first.
 2. One command that writes every file whole (heredocs) and ends by running the camera.
 3. Both camera pictures opened together, in one turn of parallel reads.
 4. One command that applies every fix (rewrite a file, or one script with all the replacements; never one edit per change), runs the camera again and prints `git status --short`.
@@ -21,7 +21,7 @@ Work in few, large steps; every extra tool call re-reads the whole conversation.
 
 ## 1. Read the subject
 
-Read the brief, README, existing page, brand files and data in one command. Note the reader, the one thing they must do, fixed brand colours and type, and the imagery that truly exists. List **eight particulars** that belong to this subject and no competitor: its name, place and materials; the numbers in the brief; the constraint it lives with; the printed things of its world (a ticket, a label, a board).
+From that one read, note the reader, the one thing they must do, fixed brand colours and type, and the imagery that truly exists. List **eight particulars** that belong to this subject and no competitor: its name, place and materials; the numbers in the brief; the constraint it lives with; the printed things of its world (a ticket, a label, a board).
 
 - **A page** (read and scrolled: landing, shop, event): follow steps 2–6.
 - **An app screen** (worked in: dashboard, rota, queue, admin): follow steps 2–6 with [app screens](references/app-screens.md) in place of the page rules on direction and fullness.
@@ -58,7 +58,7 @@ Fix the system as CSS custom properties:
 Build in the existing stack with the project's tokens. Write each file in one go: tokens, then the first screen, then every section with real content, carrying the idea through pricing, timetables, FAQ and footer.
 
 - **Imagery:** the project's own pictures; else subject material drawn in CSS or SVG (the route, the street, the label, the ticket); else type and colour alone. For software, show each feature as a small working fragment of its own interface, built in HTML with numbers that add up, never as an icon or a bare text list. Never fake photographs. A ruled or gridded background must line up with the text on it, or go.
-- **Fullness:** each desktop screen is a poster. A screen that is mostly empty ground, or a column with nothing beside it, is unfinished. Use the width: two columns, a large figure, a wide table.
+- **Fullness:** each desktop screen is a poster. A screen that is mostly empty ground, a hero with space above or beside it, or a band holding one short line is unfinished: use the width (two columns, a large figure, a wide table) or merge the thin section into its neighbour.
 - **Fit:** long lists on a phone become compact rows or scroll inside their own region; tags and labels wrap rather than overflow their box.
 - **Semantics:** one `h1`, a heading per section, real links and buttons, visible focus, alt text. Motion only after the still page works, with a `prefers-reduced-motion` fallback.
 

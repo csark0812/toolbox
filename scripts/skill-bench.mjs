@@ -147,11 +147,15 @@ else if (command === 'quick') {
   step(['scripts/skill-bench-judge.mjs', quickId, '--matched'])
   step(['scripts/skill-bench-report.mjs', quickId, option('baseline', 'none')])
 } else if (command === 'fill') {
-  // Rerun each (task, arm) cell that has fewer usable runs than --repeats, with fresh repetition numbers.
+  // Rerun each (task, arm) cell that has fewer usable runs than --repeats. A repetition lost to
+  // infrastructure is rerun under its own number, which overwrites the exclusion record, so matched
+  // pairs (equal repetitions) still form; any further runs get fresh numbers after the last one.
   const target = Number(option('repeats', 4))
   const dir = join('.agent-test/skill-bench', id, 'runs')
   const runs = existsSync(dir)
-    ? readdirSync(dir).map((file) => JSON.parse(readFileSync(join(dir, file), 'utf8')))
+    ? readdirSync(dir)
+        .filter((file) => file.endsWith('.json'))
+        .map((file) => JSON.parse(readFileSync(join(dir, file), 'utf8')))
     : []
   const taskset = JSON.parse(
     readFileSync(`agent-suites/skill-bench/${option('taskset', 'tasks')}.json`, 'utf8'),
@@ -162,10 +166,17 @@ else if (command === 'quick') {
       const cell = runs.filter((record) => record.task === task.id && record.arm === arm)
       const missing = target - cell.filter((record) => !record.infrastructure).length
       if (missing <= 0) continue
-      const offset = Math.max(-1, ...cell.map((record) => record.repetition)) + 1
       const escaped = `${task.id} [${arm}]`.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-      console.log(`Filling ${task.id} [${arm}]: ${missing} run(s) from repetition ${offset}`)
-      run({ arms: arm, tasks: task.id, repeats: missing, id, grep: escaped, offset })
+      const lost = cell.filter((record) => record.infrastructure).map((record) => record.repetition)
+      for (const repetition of lost.slice(0, missing)) {
+        console.log(`Refilling ${task.id} [${arm}] repetition ${repetition}`)
+        run({ arms: arm, tasks: task.id, repeats: 1, id, grep: escaped, offset: repetition })
+      }
+      const fresh = missing - Math.min(lost.length, missing)
+      if (fresh <= 0) continue
+      const offset = Math.max(-1, ...cell.map((record) => record.repetition)) + 1
+      console.log(`Filling ${task.id} [${arm}]: ${fresh} run(s) from repetition ${offset}`)
+      run({ arms: arm, tasks: task.id, repeats: fresh, id, grep: escaped, offset })
     }
 } else if (command === 'judge') step(['scripts/skill-bench-judge.mjs', ...rest])
 else if (command === 'report') step(['scripts/skill-bench-report.mjs', ...rest])
