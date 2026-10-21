@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Car parks - Harbourside Parking</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#">Harbourside Parking</a>
+      <form class="search" role="search" onsubmit="return false">
+        <label class="visually-hidden" for="q">Find a car park</label>
+        <input id="q" type="search" placeholder="Find a car park" autocomplete="off" />
+        <ul class="suggestions" id="suggestions" hidden>
+          <li><button type="button">Quay Street</button></li>
+          <li><button type="button">Customs House</button></li>
+          <li><button type="button">Ferry Terminal</button></li>
+          <li><button type="button">Rope Walk</button></li>
+          <li><button type="button">Chandlers Yard</button></li>
+          <li><button type="button">Lighthouse Point</button></li>
+        </ul>
+      </form>
+    </header>
+    <main>
+      <h1>Car parks near the harbour</h1>
+      <p class="intro">Tap a pin to see free spaces and prices, then pay from your phone.</p>
+      <div class="map" role="region" aria-label="Map of car parks">
+        <div class="map__tiles"></div>
+        <div class="map__controls">
+          <button class="zoom" type="button" aria-label="Zoom in">+</button>
+          <button class="zoom" type="button" aria-label="Zoom out">−</button>
+        </div>
+        <div class="marker" style="left: 22%; top: 26%">
+          <button class="marker__pin" type="button" aria-expanded="false" aria-controls="popup-1">
+            P<span class="visually-hidden"> Quay Street</span>
+          </button>
+          <div class="popup" id="popup-1" hidden>
+            <h2 class="popup__name">Quay Street</h2>
+            <p class="popup__free">42 spaces free</p>
+            <p class="popup__price">£1.80 an hour</p>
+            <button class="pay-btn" type="button" data-car-park="Quay Street">
+              Pay for parking
+            </button>
+          </div>
+        </div>
+        <div class="marker" style="left: 27%; top: 46%">
+          <button class="marker__pin" type="button" aria-expanded="false" aria-controls="popup-2">
+            P<span class="visually-hidden"> Customs House</span>
+          </button>
+          <div class="popup" id="popup-2" hidden>
+            <h2 class="popup__name">Customs House</h2>
+            <p class="popup__free">8 spaces free</p>
+            <p class="popup__price">£2.20 an hour</p>
+            <button class="pay-btn" type="button" data-car-park="Customs House">
+              Pay for parking
+            </button>
+          </div>
+        </div>
+        <div class="marker" style="left: 58%; top: 20%">
+          <button class="marker__pin" type="button" aria-expanded="false" aria-controls="popup-3">
+            P<span class="visually-hidden"> Ferry Terminal</span>
+          </button>
+          <div class="popup" id="popup-3" hidden>
+            <h2 class="popup__name">Ferry Terminal</h2>
+            <p class="popup__free">120 spaces free</p>
+            <p class="popup__price">£1.50 an hour</p>
+            <button class="pay-btn" type="button" data-car-park="Ferry Terminal">
+              Pay for parking
+            </button>
+          </div>
+        </div>
+        <div class="marker" style="left: 64%; top: 58%">
+          <button class="marker__pin" type="button" aria-expanded="false" aria-controls="popup-4">
+            P<span class="visually-hidden"> Rope Walk</span>
+          </button>
+          <div class="popup" id="popup-4" hidden>
+            <h2 class="popup__name">Rope Walk</h2>
+            <p class="popup__free">Full</p>
+            <p class="popup__price">£1.80 an hour</p>
+            <button class="pay-btn" type="button" data-car-park="Rope Walk">Pay for parking</button>
+          </div>
+        </div>
+        <div class="marker" style="left: 40%; top: 70%">
+          <button class="marker__pin" type="button" aria-expanded="false" aria-controls="popup-5">
+            P<span class="visually-hidden"> Chandlers Yard</span>
+          </button>
+          <div class="popup" id="popup-5" hidden>
+            <h2 class="popup__name">Chandlers Yard</h2>
+            <p class="popup__free">17 spaces free</p>
+            <p class="popup__price">£1.20 an hour</p>
+            <button class="pay-btn" type="button" data-car-park="Chandlers Yard">
+              Pay for parking
+            </button>
+          </div>
+        </div>
+        <div class="marker" style="left: 82%; top: 38%">
+          <button class="marker__pin" type="button" aria-expanded="false" aria-controls="popup-6">
+            P<span class="visually-hidden"> Lighthouse Point</span>
+          </button>
+          <div class="popup" id="popup-6" hidden>
+            <h2 class="popup__name">Lighthouse Point</h2>
+            <p class="popup__free">63 spaces free</p>
+            <p class="popup__price">£1.00 an hour</p>
+            <button class="pay-btn" type="button" data-car-park="Lighthouse Point">
+              Pay for parking
+            </button>
+          </div>
+        </div>
+        <p class="legend"><span class="legend__pin">P</span> Pay and display</p>
+        <div class="modal" id="pay-modal" hidden>
+          <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="pay-title">
+            <h2 id="pay-title">Pay for parking</h2>
+            <p class="modal__where">Car park: <strong id="pay-where"></strong></p>
+            <label class="field">
+              <span>Registration</span>
+              <input type="text" autocomplete="off" />
+            </label>
+            <label class="field">
+              <span>How long</span>
+              <select>
+                <option>1 hour</option>
+                <option selected>2 hours</option>
+                <option>4 hours</option>
+                <option>All day</option>
+              </select>
+            </label>
+            <div class="modal__actions">
+              <button class="btn btn--ghost" type="button" data-close>Cancel</button>
+              <button class="btn" type="button">Pay £3.60</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="tariffs">
+        <h2>Tariffs</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Car park</th>
+              <th scope="col">Per hour</th>
+              <th scope="col">All day</th>
+              <th scope="col">Open</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Quay Street</th>
+              <td>£1.80 an hour</td>
+              <td>£9.00</td>
+              <td>24 hours</td>
+            </tr>
+            <tr>
+              <th scope="row">Customs House</th>
+              <td>£2.20 an hour</td>
+              <td>£11.00</td>
+              <td>7am to 11pm</td>
+            </tr>
+            <tr>
+              <th scope="row">Ferry Terminal</th>
+              <td>£1.50 an hour</td>
+              <td>£7.50</td>
+              <td>24 hours</td>
+            </tr>
+            <tr>
+              <th scope="row">Rope Walk</th>
+              <td>£1.80 an hour</td>
+              <td>£9.00</td>
+              <td>7am to 7pm</td>
+            </tr>
+            <tr>
+              <th scope="row">Chandlers Yard</th>
+              <td>£1.20 an hour</td>
+              <td>£6.00</td>
+              <td>8am to 6pm</td>
+            </tr>
+            <tr>
+              <th scope="row">Lighthouse Point</th>
+              <td>£1.00 an hour</td>
+              <td>£5.00</td>
+              <td>24 hours</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <p>
+        Harbourside Parking is run by the Harbour Trust. Blue Badge holders park free in every car
+        park.
+      </p>
+    </footer>
+  </body>
+</html>

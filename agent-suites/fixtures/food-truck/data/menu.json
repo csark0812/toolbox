@@ -1,0 +1,9 @@
+[
+  { "name": "Halloumi wrap", "pence": 750, "kind": "main", "allergens": ["milk", "gluten"] },
+  { "name": "Falafel box", "pence": 800, "kind": "main", "allergens": ["sesame"] },
+  { "name": "Fish bites", "pence": 650, "kind": "main", "allergens": ["fish", "gluten"] },
+  { "name": "Chips", "pence": 300, "kind": "side", "allergens": [] },
+  { "name": "Satay sauce", "pence": 80, "kind": "extra", "allergens": ["peanuts"] },
+  { "name": "Chilli jam", "pence": 50, "kind": "extra", "allergens": [] },
+  { "name": "Lemonade", "pence": 250, "kind": "drink", "allergens": [] }
+]

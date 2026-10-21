@@ -1,0 +1,9 @@
+{
+  "name": "dental-recalls",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "recalls": "node bin/recalls.mjs"
+  }
+}

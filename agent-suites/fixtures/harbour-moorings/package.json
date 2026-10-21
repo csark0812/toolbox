@@ -1,0 +1,9 @@
+{
+  "name": "harbour-moorings",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "due": "node bin/due.mjs"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "allotment-rents",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "accounts": "node bin/accounts.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

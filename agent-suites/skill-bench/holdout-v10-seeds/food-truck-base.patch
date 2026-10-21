@@ -1,0 +1,83 @@
+diff --git a/agent-suites/fixtures/food-truck/README.md b/agent-suites/fixtures/food-truck/README.md
+index 8a1baad..284cf95 100644
+--- a/agent-suites/fixtures/food-truck/README.md
++++ b/agent-suites/fixtures/food-truck/README.md
+@@ -1,10 +1,10 @@
+ # Food truck
+ 
+-Orders for the Halloumi & Co. food truck. `data/menu.json` is the menu: each item's name, its price in pence, what kind of item it is (`main`, `side`, `extra` or `drink`) and its allergens. `data/orders.json` lists Saturday's orders at the market: the order number, the customer's name, and each line's item, quantity and any extras added to it.
++Orders for the Halloumi & Co. food truck. `data/menu.json` is the menu: each item's name, its price in pence, what kind of item it is (`main`, `side`, `extra` or `drink`) and, under `contains`, its allergens. `data/orders.json` lists Saturday's orders at the market: the order number, the customer's name, and each line's item, quantity and any extras added to it.
+ 
+ ## Menu board
+ 
+-The menu board lists every item with its price and, in brackets, its allergens.
++The menu board lists every item with its price and, in brackets, its allergens. Allergens are read through `allergensOf()` in `src/menu.mjs`; `data/menu.json` is exported from the council's allergen matrix, so its fields are not renamed by hand.
+ 
+ ## Tickets
+ 
+diff --git a/agent-suites/fixtures/food-truck/data/menu.json b/agent-suites/fixtures/food-truck/data/menu.json
+index c4e575a..1d472c7 100644
+--- a/agent-suites/fixtures/food-truck/data/menu.json
++++ b/agent-suites/fixtures/food-truck/data/menu.json
+@@ -1,9 +1,9 @@
+ [
+-  { "name": "Halloumi wrap", "pence": 750, "kind": "main", "allergens": ["milk", "gluten"] },
+-  { "name": "Falafel box", "pence": 800, "kind": "main", "allergens": ["sesame"] },
+-  { "name": "Fish bites", "pence": 650, "kind": "main", "allergens": ["fish", "gluten"] },
+-  { "name": "Chips", "pence": 300, "kind": "side", "allergens": [] },
+-  { "name": "Satay sauce", "pence": 80, "kind": "extra", "allergens": ["peanuts"] },
+-  { "name": "Chilli jam", "pence": 50, "kind": "extra", "allergens": [] },
+-  { "name": "Lemonade", "pence": 250, "kind": "drink", "allergens": [] }
++  { "name": "Halloumi wrap", "pence": 750, "kind": "main", "contains": ["milk", "gluten"] },
++  { "name": "Falafel box", "pence": 800, "kind": "main", "contains": ["sesame"] },
++  { "name": "Fish bites", "pence": 650, "kind": "main", "contains": ["fish", "gluten"] },
++  { "name": "Chips", "pence": 300, "kind": "side", "contains": [] },
++  { "name": "Satay sauce", "pence": 80, "kind": "extra", "contains": ["peanuts"] },
++  { "name": "Chilli jam", "pence": 50, "kind": "extra", "contains": [] },
++  { "name": "Lemonade", "pence": 250, "kind": "drink", "contains": [] }
+ ]
+diff --git a/agent-suites/fixtures/food-truck/src/menu.mjs b/agent-suites/fixtures/food-truck/src/menu.mjs
+index b965fd0..b08b8ad 100644
+--- a/agent-suites/fixtures/food-truck/src/menu.mjs
++++ b/agent-suites/fixtures/food-truck/src/menu.mjs
+@@ -8,8 +8,14 @@ export function itemNamed(menu, name) {
+   return item
+ }
+ 
++/**
++ * The allergens an item contains, under the names the council's allergen matrix uses. The
++ * menu lists them under `contains`, the field the matrix export writes.
++ */
++export const allergensOf = (item) => item.contains
++
+ /** The menu board line for an item: its name, price and allergens. */
+ export function boardLine(item) {
+-  const allergens = item.allergens.length ? `  (${item.allergens.join(', ')})` : ''
++  const allergens = allergensOf(item).length ? `  (${allergensOf(item).join(', ')})` : ''
+   return `${item.name.padEnd(14)}${pounds(item.pence).padStart(6)}${allergens}`
+ }
+diff --git a/agent-suites/fixtures/food-truck/tests/menu.test.mjs b/agent-suites/fixtures/food-truck/tests/menu.test.mjs
+index 0c34be9..d3cab9a 100644
+--- a/agent-suites/fixtures/food-truck/tests/menu.test.mjs
++++ b/agent-suites/fixtures/food-truck/tests/menu.test.mjs
+@@ -1,13 +1,17 @@
+ import assert from 'node:assert/strict'
+ import { test } from 'node:test'
+-import { boardLine } from '../src/menu.mjs'
++import { allergensOf, boardLine } from '../src/menu.mjs'
+ 
+ test('the board shows the price and allergens', () => {
+-  const wrap = { name: 'Halloumi wrap', pence: 750, kind: 'main', allergens: ['milk', 'gluten'] }
++  const wrap = { name: 'Halloumi wrap', pence: 750, kind: 'main', contains: ['milk', 'gluten'] }
+   assert.equal(boardLine(wrap), 'Halloumi wrap  £7.50  (milk, gluten)')
+ })
+ 
+ test('an item with no allergens shows none', () => {
+-  const chips = { name: 'Chips', pence: 300, kind: 'side', allergens: [] }
++  const chips = { name: 'Chips', pence: 300, kind: 'side', contains: [] }
+   assert.equal(boardLine(chips), 'Chips          £3.00')
+ })
++
++test('allergens are read from what the item contains', () => {
++  assert.deepEqual(allergensOf({ name: 'Satay sauce', contains: ['peanuts'] }), ['peanuts'])
++})
