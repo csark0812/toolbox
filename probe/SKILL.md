@@ -1,7 +1,7 @@
 ---
 name: probe
-description: Load first, before reading code, whenever the user asks if someone's claim, a number or an output is right, or why something happens, and wants an explanation rather than a change ("just explain", "leave the code"). Runs the code, tests and a script over the data, and returns a cited verdict with wording to pass on. Not a fix.
-when_to_use: Questions such as "a customer says the invoice total is too high, are they correct?", "why does X happen?", "don't fix it yet, I want to understand it".
+description: Load first, before reading code, whenever the user asks if someone's claim, a number or an output is right, or why something happens, and wants an explanation rather than a change ("explain only", "no edits yet"). Runs the code, tests and a script over the data, and returns a cited verdict with wording to pass on. Not a fix.
+when_to_use: Questions such as "a customer says the invoice total is too high, are they correct?", "why does X happen?", "before anyone touches the code, tell me what is going on".
 ---
 
 # Probe
@@ -43,7 +43,7 @@ For a code or behavior verdict, state the level its load-bearing fact reached on
 
 When evidence touches structure, apply [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/dialogue-contract.md) § Structural checks. Name the spectrum in **What to do next** (localized change vs staged or ground-up).
 
-**Work lean.** Read files together in one call, batch independent commands, and keep output short, for example `| tail -20`. A reader of the log sees only the start of a long command, so put what matters first. After your last edit, run the final check (tests and the user's command) as one short call of its own, and quote a few lines of its output in the reply. Stop once the result is verified.
+**Work lean.** Read files together in one call, batch independent commands, and keep output short, for example `| tail -20`. A reader of the log sees only the start of a long command, so put what matters first. Run the deciding command, the tests and the script that computes your figures as short calls of their own, and quote a few lines of their output in the reply. Stop once the answer and its scope are verified.
 
 ### Evidence protocol
 
