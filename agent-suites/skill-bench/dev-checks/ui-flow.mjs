@@ -1,7 +1,7 @@
 // Shared helpers for hidden checks that use a page the way a visitor does: fill what is visible, press
 // the forward button, and read what is visible. Written to accept any reasonable build of the brief.
 /* global document, getComputedStyle */
-import { launchBrowser, serve } from '../../../scripts/lib/bench-render.mjs'
+import { launchBrowser, openPage as openUrl, serve } from '../../../scripts/lib/bench-render.mjs'
 
 /** Open `page` under `root` at a desktop width; resolves to { tab, close }. */
 export async function openPage(root, page, { width = 1280, height = 900, routes = {} } = {}) {
@@ -12,7 +12,7 @@ export async function openPage(root, page, { width = 1280, height = 900, routes 
     await tab.route(pattern, (route) =>
       route.fulfill({ contentType: 'application/json', body: JSON.stringify(body) }),
     )
-  await tab.goto(`${server.url}/${page}`, { waitUntil: 'networkidle', timeout: 30000 })
+  await openUrl(tab, `${server.url}/${page}`)
   await tab.waitForTimeout(400)
   return {
     tab,

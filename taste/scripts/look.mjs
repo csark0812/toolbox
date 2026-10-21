@@ -342,8 +342,20 @@ const press = (key, code, keyCode) =>
     call('Input.dispatchKeyEvent', { type: 'keyUp', key, code, windowsVirtualKeyCode: keyCode }),
   )
 
+// The headline's opacity at the load event, with every animation held at its start.
+const FIRST_PAINT = `(() => { const h = document.querySelector('h1'); if (!h) return 1; let o = 1; for (let e = h; e; e = e.parentElement) o *= Number(getComputedStyle(e).opacity); return o })()`
+
 async function probe(width) {
   const flags = []
+  await call('Animation.enable')
+  await call('Animation.setPlaybackRate', { playbackRate: 0 })
+  await load(width)
+  const headline = await evaluate(FIRST_PAINT)
+  await call('Animation.setPlaybackRate', { playbackRate: 1 })
+  if (headline < 0.6)
+    flags.push(
+      `FAIL the h1 starts hidden (opacity ${headline.toFixed(2)} at load): the headline must be readable from the first frame; animate the secondary pieces instead`,
+    )
   await load(width)
   await pause(1200)
   const entrance = await evaluate(INVISIBLE)
