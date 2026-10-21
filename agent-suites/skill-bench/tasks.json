@@ -373,6 +373,38 @@
       ]
     },
     {
+      "id": "market-fees-question",
+      "targetSkill": "probe",
+      "check": "market-pitches",
+      "claim": {
+        "prompt": "Our market treasurer says `npm run fees` in agent-suites/fixtures/market-pitches let every trader off their pitch fee on Saturday 28 March, even though that wasn't a fifth Saturday. Is she right? How much has it cost us this year, what should this year's pitch fees come to, and when will it happen next so we can warn the traders? Don't change anything yet.",
+        "fixtureGate": "agent-suites/fixtures/market-pitches"
+      },
+      "criteria": [
+        "The verdict leads: she is right. isFifthSaturday() in src/fees.mjs treats any Saturday on or after the 28th as a fifth Saturday, but the 28th is always the fourth of its weekday, shown by running the function or the script.",
+        "It finds the case she did not raise: 28 February was waived too. The cost this year is £198 (£88 for the four standard traders on 28 February and £110 for the five on 28 March), and the correct 2026 fees are £4,180 against the £3,982 the script prints, every figure computed by a run rather than by hand.",
+        "It gives the next date the bug will strike, Saturday 28 November 2026, from a computed calendar check.",
+        "It confirms the groups the bug does not touch: season-pass and charity pitches owe nothing on the day either way, and the real fifth Saturdays (31 January, 30 May, 29 August) are rightly free. It notes the tests never try a Saturday on the 28th.",
+        "Nothing is changed or committed, and a fix is described, not made."
+      ]
+    },
+    {
+      "id": "panto-payout-question",
+      "targetSkill": "probe",
+      "check": "panto-tickets",
+      "claim": {
+        "prompt": "The ticket platform paid us £1,584.24 for the panto run, but `npm run settle` in agent-suites/fixtures/panto-tickets says we're due £1,808.72. Our box-office manager reckons the platform is still taking its 8% on refunded tickets. Is he right, and how much are we actually owed, if anything? Don't change anything, I need to write to the platform today.",
+        "fixtureGate": "agent-suites/fixtures/panto-tickets"
+      },
+      "criteria": [
+        "The verdict leads: he is wrong. The platform keeps no fee on refunds: its payout matches 92% of the sold online tickets exactly on four of the five performances, including 12-12-eve with five refunds.",
+        "It finds the real cause of most of the gap: payoutDue() in src/settle.mjs only drops door sales, so comp tickets are counted as if the platform sold them. That inflates the figure by £209.76, and the right total due is £1,598.96, worked out by running code.",
+        "It finds the one genuine shortfall: 12-19-eve was paid £331.20 against £345.92 due, £14.72 short (one adult ticket after the fee), and it makes that the thing to raise with the platform.",
+        "It confirms the groups handled correctly: door sales are rightly left out and refunds are rightly left out. It notes the tests have no comp ticket, which is why nothing caught it.",
+        "Nothing is changed or committed, and the reply gives wording the user can send to the platform."
+      ]
+    },
+    {
       "id": "orchestra-seat-rename",
       "targetSkill": "refactor-companion",
       "check": "orchestra-seating",
