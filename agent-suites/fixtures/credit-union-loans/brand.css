@@ -1,0 +1,53 @@
+/* Fenmoor Credit Union brand tokens and base styles. Shared across web, branch screens and the
+   member app. Owned by the marketing committee: do not edit. */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Work+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --fcu-teal: #00676b;
+  --fcu-teal-deep: #00464a;
+  --fcu-teal-tint: #e0f0ef;
+  --fcu-sand: #f6f1e7;
+  --fcu-ink: #1d2321;
+  --fcu-ink-soft: #4d5754;
+  --fcu-coral: #e0604a; /* calls to action only */
+  --fcu-line: #d8d2c4;
+  --fcu-font-display: 'Fraunces', Georgia, serif;
+  --fcu-font-text: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
+  --fcu-radius: 10px;
+}
+
+body {
+  margin: 0;
+  background: var(--fcu-sand);
+  color: var(--fcu-ink);
+  font-family: var(--fcu-font-text);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fcu-font-display);
+  color: var(--fcu-teal-deep);
+  font-weight: 700;
+}
+
+a {
+  color: var(--fcu-teal);
+}
+
+.fcu-button {
+  display: inline-block;
+  background: var(--fcu-coral);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--fcu-radius);
+  text-decoration: none;
+}
+
+.fcu-button:focus-visible {
+  outline: 3px solid var(--fcu-teal-deep);
+  outline-offset: 3px;
+}
