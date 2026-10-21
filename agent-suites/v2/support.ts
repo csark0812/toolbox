@@ -296,6 +296,10 @@ export function prepareClaim(
       if (framing === 'neutral' || !installed.includes(slug))
         await rm(join(workspace.path, slug), { recursive: true, force: true })
     execFileSync('git', ['init', '-q'], { cwd: workspace.path })
+    // A host may sign commits through a program the agent's sandbox cannot reach; fixture repos
+    // never sign, so every arm can commit.
+    for (const key of ['commit.gpgsign', 'tag.gpgsign'])
+      execFileSync('git', ['config', key, 'false'], { cwd: workspace.path })
     // The workspace may already be a repository; name its first branch main either way.
     execFileSync('git', ['symbolic-ref', 'HEAD', 'refs/heads/main'], { cwd: workspace.path })
     execFileSync('git', ['add', '.'], { cwd: workspace.path })
