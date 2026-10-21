@@ -17,7 +17,7 @@ List the questions the user brings to this screen, in priority order ("is today 
 ## Shell and density
 
 - A quiet shell: a plain sidebar or top bar with the product name and a few sections, a clear screen title, and the current context (date, station, account). On a phone the sections stay reachable through a menu or a bottom bar.
-- Neutral ground (not navy, not violet), one surface step or one hairline between regions. Borders, small labels and repeated panels are normal here, unlike on a page.
+- Neutral ground (not navy, not violet), one surface step or one hairline between regions. Unlike a marketing page, a work screen may use borders, compact labels and a repeated panel grid.
 - Dense but breathable: 14–16px body (secondary text no smaller than 13px), 8px spacing rhythm, aligned columns. Regions sit in a grid with no tall empty area beside or under a short panel.
 
 ## Numbers, status and charts

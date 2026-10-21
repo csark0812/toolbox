@@ -9,7 +9,7 @@ Read this whenever the page has something to do: a form, a flow, a calculator, f
 
 - **Quiet the rest instead of shouting the main thing.** Decide the one most important thing on each screen, then step everything else down: a muted ink for secondary text, a lighter one for meta, normal weight for most text. Size is the last lever, not the first.
 - **Few, separated steps.** Choose spacing and type sizes from a short scale whose neighbours are clearly different; two sizes a pixel apart read as a mistake. Two or three text colours and two weights carry most screens.
-- **Labels are secondary.** Where the value explains itself ("12 left", "£612 a month", "Closes 30 Oct"), drop the "Label:" prefix. Where a label is needed, it is smaller or quieter than its value.
+- **Labels are secondary.** Where the value explains itself ("£612 a month", "Closes 30 Oct", "Sold out"), drop the "Label:" prefix. Where a label is needed, it is smaller or quieter than its value.
 - **Group with space.** More space between groups than within them; a heading sits closer to what it introduces than to what came before. Prefer space, tone and alignment over borders and boxes.
 - **Width with intent.** Text and forms keep a comfortable measure (about 45–75 characters, forms about 30–40em) even on a wide screen; use the spare width for a second column (a summary, help text, a figure) rather than stretching.
 - **Phone first for the hard parts.** Big type shrinks more than small type at narrow widths; controls never do.

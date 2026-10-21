@@ -14,7 +14,7 @@ The short rules in the skill, with the reasoning behind them. A project's brand 
 
 ## Colour
 
-- **Proportion before hue.** One ground covering most of the page, one ink, one accent used for actions and the few things that matter, and optionally one or two whole fields of colour for rhythm. A palette is a set of proportions as much as a set of colours.
+- **Proportion before hue.** One ground covering most of the page, one ink, one accent used for actions and the few things that matter, and optionally one or two whole fields of colour for rhythm. How much of each colour appears matters as much as which colours they are.
 - **From the subject.** The harbour's paint, the bakery's flour and crust, the estuary's green and mud: a subject with colours of its own should get them. A fixed brand palette is mapped onto the same roles, not supplemented.
 - **Contrast.** Text 4.5:1 against its ground (3:1 for type 24px and larger). Colour is never the only signal for a state.
 - **Defaults to avoid:** violet, indigo or neon on near-black; purple-to-pink gradients; cream ground with terracotta and sage; every section on a different pastel.
@@ -24,7 +24,7 @@ The short rules in the skill, with the reasoning behind them. A project's brand 
 - **One frame.** Equal outer margins at every width, one content grid, sections aligned to it. Asymmetry happens inside the grid, never as a page pushed to one side.
 - **One dominant thing per screen.** A headline set large, a picture, a table, a figure. If two things compete, shrink one.
 - **Vary the sections.** Neighbouring sections do not share a layout. A list can be a table, a timeline, a menu, a board, a map; it rarely needs to be a row of cards.
-- **No empty stretches.** A void is placed only when something closes it on the far side. One deliberate rest per page at most.
+- **No empty stretches.** Empty space is fine only when content anchors it on both sides. One deliberate rest per page at most.
 - **Phone is its own composition.** Reorder, stack and resize for a thumb; do not just shrink the desktop. Navigation folds away; the primary action stays reachable.
 
 ## Imagery
@@ -40,7 +40,7 @@ Each of these marks a page as unconsidered. Remove it and put a decision in its 
 
 | Tell                                                           | Instead                                                     |
 | -------------------------------------------------------------- | ----------------------------------------------------------- |
-| Small uppercase letter-spaced label ("eyebrow") over a heading | Put the information in the heading, or drop it              |
+| Small uppercase letter-spaced label ("eyebrow") over a heading | Fold it into the heading text, or remove it                 |
 | Pill badge or "New ·" chip above the headline                  | The news in the headline or the first sentence              |
 | Gradient text, gradient buttons, gradient backgrounds          | Flat colour; a real picture                                 |
 | Glow and soft drop shadows on things at rest                   | A step in surface tone; shadows only on what floats         |

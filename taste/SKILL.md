@@ -9,7 +9,7 @@ when_to_use: Requests such as "make a site for my café", "our homepage feels li
 <!-- source-of-truth: portable visual direction, page and screen craft, and the screenshot look-and-fix loop. -->
 <!-- doc-meta: owner=eng | last-reviewed=2026-10-21 -->
 
-A model's default page is the average of every page it has seen. This skill replaces those defaults with decisions taken from the subject, builds them in full, and looks at the result in a real browser. User instructions, the project's brand and its design system outrank everything here.
+A model's default page is the average of every page it has seen. This skill swaps each default for a choice drawn from the subject, builds them in full, and looks at the result in a real browser. User instructions, the project's brand and its design system outrank everything here.
 
 Work in few, large steps; every extra tool call re-reads the whole conversation. After loading this skill, the whole job is five turns and the reply:
 
@@ -21,7 +21,7 @@ Work in few, large steps; every extra tool call re-reads the whole conversation.
 
 ## 1. Read the subject
 
-From that one read, note the reader, the one thing they must do, fixed brand colours and type, and the imagery that truly exists. List **eight particulars** that belong to this subject and no competitor: its name, place and materials; the numbers in the brief; the constraint it lives with; the printed things of its world (a ticket, a label, a board).
+From that one read, note the reader, the one thing they must do, fixed brand colours and type, and the imagery that truly exists. List **eight particulars** that belong to this subject and no competitor: its name, place and materials; the numbers in the brief; the constraint it lives with; the paper it already produces (tickets, labels, timetables, receipts).
 
 - **A page** (read and scrolled: landing, shop, event): follow steps 2–6.
 - **An app screen** (worked in: dashboard, rota, queue, admin): follow steps 2–6 with [app screens](references/app-screens.md) in place of the page rules on direction and fullness.
@@ -42,7 +42,7 @@ Write one line per section, each a claim with its proof, in the order the reader
 
 Write this sentence, both blanks from your particulars:
 
-> On this page, **[something that belongs to the subject]** becomes **[how the page is composed]**.
+> **[A particular only this subject has]** shapes **[the page's layout, type or interaction]**.
 
 For example: a ferry's departure board becomes the timetable; a market's chalked price board becomes the menu. If a competitor's name fits the sentence, find another idea. The idea must shape at least three sections, not just the first screen.
 
@@ -61,7 +61,7 @@ Fix the system as CSS custom properties:
 Build in the existing stack with the project's tokens. Write each file in one go: tokens, then the first screen, then every section with real content, carrying the idea through pricing, timetables, FAQ and footer.
 
 - **Imagery:** the project's own pictures; else subject material drawn in CSS or SVG (the route, the street, the label, the ticket); else type and colour alone. For software, show each feature as a small working fragment of its own interface, built in HTML with numbers that add up, never as an icon or a bare text list. Never fake photographs. A ruled or gridded background must line up with the text on it, or go.
-- **Fullness:** each desktop screen is a poster. A screen that is mostly empty ground, a hero with space above or beside it, or a band holding one short line is unfinished: use the width (two columns, a large figure, a wide table) or merge the thin section into its neighbour.
+- **Fullness:** each desktop screen is a poster. A screen that is largely blank, a hero with space above or beside it, or a band holding one short line is unfinished: use the width (two columns, a large figure, a wide table) or merge the thin section into its neighbour.
 - **Fit:** long lists on a phone become compact rows or scroll inside their own region; tags and labels wrap rather than overflow their box.
 - **Semantics:** one `h1`, a heading per section, real links and buttons with labels, alt text. Tap targets 44px on a phone.
 - **Feedback and motion, in the same pass:** every control has hover, press and `:focus-visible` states (a clear ring, 3:1); selected choices look selected. The first screen is readable from its first frame (headline and action never start hidden) and settles within about 600ms; sections' parts rise a few pixels as they enter, staggered, starting visible without the script (hide only under a class the script adds). Values that change (totals, counts, errors) change in place without shifting the layout. A `prefers-reduced-motion` block shows everything at rest.
