@@ -7,6 +7,11 @@ export const FLOOR = 0.5
 export const BOOTSTRAP_SAMPLES = 10000
 /** With fewer runs per arm per task, run-level resampling cannot see run-to-run spread. */
 export const MIN_REPEATS = 4
+/**
+ * Share of ties at which an undecided skill counts as saturated: both arms reached the same verified
+ * result so often that there was nothing left to do better.
+ */
+export const SATURATED_TIES = 0.75
 /** Fewer re-judged pairs than this cannot fail the test–retest health check. */
 export const MIN_RETESTS = 5
 
@@ -172,15 +177,20 @@ export function clusterBootstrap(rows, { samples = BOOTSTRAP_SAMPLES, seed = 1 }
 /**
  * Three-way verdict on the primary contrast (focus arm vs baseline arm).
  * Better: rate ≥ BAR, lower bound > FLOOR, and no more hard-check failures.
- * Not better: upper bound < BAR. Otherwise inconclusive.
- * Never final before MIN_REPEATS runs per arm per task.
+ * Not better: upper bound < BAR. Saturated: otherwise undecided, but at least SATURATED_TIES of
+ * the pairs are ties, wins are at least losses, and no more hard-check failures. Otherwise
+ * inconclusive. Never final before MIN_REPEATS runs per arm per task.
  */
-export function verdict({ rate, lower, upper, repeats }, defects) {
-  if (rate === null || lower === null || upper === null) return 'inconclusive'
+export function verdict({ rate, lower, upper, repeats, wins = 0, losses = 0, ties = 0 }, defects) {
   if (repeats < MIN_REPEATS) return 'inconclusive'
+  const total = wins + losses + ties
+  const saturated =
+    total > 0 && ties / total >= SATURATED_TIES && wins >= losses && defects.focus <= defects.other
+  if (rate === null || lower === null || upper === null)
+    return saturated ? 'saturated' : 'inconclusive'
   if (upper < BAR) return 'not-better'
   if (rate >= BAR && lower > FLOOR && defects.focus <= defects.other) return 'better'
-  return 'inconclusive'
+  return saturated ? 'saturated' : 'inconclusive'
 }
 
 /** Re-judged comparisons paired with their original, as winner run ids (or 'tie'). */

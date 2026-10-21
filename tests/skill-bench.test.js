@@ -13,7 +13,8 @@ import {
   renderRun,
   screenshotName,
 } from '../scripts/lib/skill-bench-material.mjs'
-import { ALL_TASKS, buildReport, strongClaim } from '../scripts/skill-bench-report.mjs'
+import { ALL_TASKS, buildReport, requiredBar, strongClaim } from '../scripts/skill-bench-report.mjs'
+import { verdict } from '../scripts/lib/pairwise-stats.mjs'
 
 const root = join(import.meta.dirname, '..')
 const { tasks } = JSON.parse(
@@ -326,5 +327,50 @@ describe('judge threshold calibration', async () => {
     const table = calibrationTable([1, 1, 0.5, 0.25, 0], [0, 0.25, 0, 0, 0, 0, 0, 0, 0, 0.5])
     expect(table.map((row) => row.falseCalls)).toEqual([0.2, 0.1, 0, 0])
     expect(chooseThreshold(table)).toMatchObject({ threshold: 0.5, sensitivity: 0.6 })
+  })
+})
+
+describe('required bar', () => {
+  const row = (skill, verdict) => ({ skill, focus: 'full', verdict })
+  const healthy = { healthy: true }
+  const met = (rows, health = healthy) => requiredBar({ rows, health }, 'full').met
+
+  it('needs a better pooled verdict and every skill better or saturated', () => {
+    const pooled = row(ALL_TASKS, 'better')
+    expect(met([row('a', 'better'), row('b', 'saturated'), pooled])).toBe(true)
+    expect(met([row('a', 'better'), row('b', 'inconclusive'), pooled])).toBe(false)
+    expect(met([row('a', 'better'), row(ALL_TASKS, 'inconclusive')])).toBe(false)
+    expect(met([row('a', 'better'), pooled], { healthy: false })).toBe(false)
+  })
+
+  it('names the skills that fall short', () => {
+    const names = requiredBar(
+      { rows: [row('tdd', 'not-better'), row(ALL_TASKS, 'better')], health: healthy },
+      'full',
+    ).checks.map((check) => check.name)
+    expect(names.join(' ')).toContain('tdd not-better')
+  })
+})
+
+describe('saturated verdict', () => {
+  const none = { focus: 0, other: 0 }
+  const base = { rate: 0.5, lower: 0.2, upper: 0.8, repeats: 4 }
+
+  it('marks an undecided skill saturated when nearly every pair ties and it is not behind', () => {
+    expect(verdict({ ...base, wins: 4, losses: 4, ties: 40 }, none)).toBe('saturated')
+    expect(
+      verdict(
+        { ...base, rate: null, lower: null, upper: null, wins: 0, losses: 0, ties: 48 },
+        none,
+      ),
+    ).toBe('saturated')
+  })
+
+  it('stays inconclusive when ties are fewer, it trails, or it fails more checks', () => {
+    expect(verdict({ ...base, wins: 16, losses: 15, ties: 17 }, none)).toBe('inconclusive')
+    expect(verdict({ ...base, wins: 3, losses: 6, ties: 39 }, none)).toBe('inconclusive')
+    expect(verdict({ ...base, wins: 5, losses: 5, ties: 38 }, { focus: 1, other: 0 })).toBe(
+      'inconclusive',
+    )
   })
 })
