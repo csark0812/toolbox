@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 // Photograph a page the way a visitor sees it, and measure what screenshots hide.
-//   node <skill>/scripts/look.mjs <folder-or-html-file> [--out .taste/look] [--widths 390,1440]
+//   node <skill>/scripts/look.mjs <folder-or-html-file> [--out <dir>] [--widths 390,1440]
 // Serves the folder over a throwaway local server, opens it in headless Chrome or Chromium (CHROME_PATH,
 // or a usual install path), scrolls once so scroll-triggered content appears, then saves one screenshot
 // per screen at each width and prints measurements. Node 22+, no dependencies, nothing installed.
 /* global WebSocket */
-import { spawn } from 'node:child_process'
+import { execFileSync, spawn } from 'node:child_process'
 import { createServer } from 'node:http'
 import {
   existsSync,
@@ -28,15 +28,31 @@ const target = args.find(
   (arg, index) => !arg.startsWith('--') && !args[index - 1]?.startsWith('--'),
 )
 if (!target) {
-  console.error(
-    'Usage: node look.mjs <folder-or-html-file> [--out .taste/look] [--widths 390,1440]',
-  )
+  console.error('Usage: node look.mjs <folder-or-html-file> [--out <dir>] [--widths 390,1440]')
   process.exit(2)
 }
 const isFile = statSync(target).isFile()
 const root = resolve(isFile ? dirname(target) : target)
 const page = isFile ? basename(target) : 'index.html'
-const out = resolve(option('out', '.taste/look'))
+/**
+ * Pictures go inside the project's .git folder when there is one, where they never show up as a
+ * change and need no cleaning up; otherwise into .taste/look, which the user deletes.
+ */
+function defaultOut() {
+  try {
+    const gitDir = execFileSync('git', ['rev-parse', '--absolute-git-dir'], {
+      cwd: root,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim()
+    const dir = join(gitDir, 'taste-look')
+    mkdirSync(dir, { recursive: true })
+    return dir
+  } catch {
+    return resolve('.taste/look')
+  }
+}
+const out = option('out') ? resolve(option('out')) : defaultOut()
 const widths = option('widths', '390,1440').split(',').map(Number)
 const MAX_SCREENS = Number(option('screens', 6))
 
@@ -249,7 +265,7 @@ async function contactSheet(width, files) {
   })
   const file = join(out, `${width}-all.jpg`)
   writeFileSync(file, Buffer.from(data, 'base64'))
-  return relative(process.cwd(), file)
+  return file
 }
 
 let problems = 0
@@ -316,7 +332,7 @@ try {
   }
   for (const [width, files] of shotsByWidth)
     report.push(`look ${await contactSheet(width, files)}  (${width}px, every screen)`)
-  report.push(`single screens: ${relative(process.cwd(), out)}/<width>-<screen>.jpg`)
+  report.push(`single screens: ${out}/<width>-<screen>.jpg`)
   if (unreachable.size)
     report.push(
       `NOTE could not reach ${[...unreachable].join(', ')} from this machine, so remote fonts or files show their fallback here. Visitors online get them; this is not a page fault.`,

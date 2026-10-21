@@ -11,21 +11,20 @@ when_to_use: Requests such as "make a site for my café", "our homepage feels li
 
 A model's default page is the average of every page it has seen. This skill replaces those defaults with decisions taken from the subject, builds them in full, and looks at the result in a real browser. User instructions, the project's brand and its design system outrank everything here.
 
-Work in few, large steps; every extra tool call re-reads the whole conversation. After loading this skill, the whole job is six turns:
+Work in few, large steps; every extra tool call re-reads the whole conversation. After loading this skill, the whole job is five turns and the reply:
 
-1. One command that reads the brief, page, brand files and data.
+1. One command that reads the brief, page, brand files and data (for an app screen, also `<skill>/references/app-screens.md`).
 2. One command that writes every file whole (heredocs) and ends by running the camera.
 3. Both camera pictures opened together, in one turn of parallel reads.
-4. One command that applies every fix and runs the camera again.
-5. The pictures opened again, together.
-6. One command that removes `.taste/` and prints `git status --short`.
+4. One command that applies every fix (rewrite a file, or one script with all the replacements; never one edit per change), runs the camera again and prints `git status --short`.
+5. Both pictures opened again, together.
 
 ## 1. Read the subject
 
 Read the brief, README, existing page, brand files and data in one command. Note the reader, the one thing they must do, fixed brand colours and type, and the imagery that truly exists. List **eight particulars** that belong to this subject and no competitor: its name, place and materials; the numbers in the brief; the constraint it lives with; the printed things of its world (a ticket, a label, a board).
 
 - **A page** (read and scrolled: landing, shop, event): follow steps 2–6.
-- **An app screen** (worked in: dashboard, rota, queue, admin): follow steps 2–6 with [app screens](references/app-screens.md) in place of the page rules.
+- **An app screen** (worked in: dashboard, rota, queue, admin): follow steps 2–6 with [app screens](references/app-screens.md) in place of the page rules on direction and fullness.
 
 If the brief is vague, state your reading in one line and carry on.
 
@@ -73,7 +72,7 @@ It serves the folder, opens it in headless Chrome (set `CHROME_PATH` if not foun
 
 Critique the pictures, not the code, in four lines in your notes: the five-second read of the first screen; the three biggest visible problems (empty stretches, weak hierarchy, a generic tell, overflow, cramped phone layout, missing content); and whether the idea survives past the first screen. Fix every `FAIL` and all three problems in one editing pass, run the camera again and open both pictures again, phone included. Stop after that second look unless a `FAIL` remains. Scroll-triggered fades are best left out: a reviewer's screenshot can catch them half-faded. If no browser can run, say the page is unverified.
 
-Delete `.taste/` before you finish.
+In a git repository the pictures live inside `.git/`, so there is nothing to clean up; elsewhere delete `.taste/` before you finish.
 
 ## 6. Reply
 

@@ -142,12 +142,13 @@ for (const task of tasks.filter((task: { id: string }) => !selected || selected.
             includeGlobalSkills: false,
           })
         try {
-          // The guard ends a run on any outside path, even a read-only `ls ~/.cache`. One fresh
-          // attempt in a new workspace, for every arm alike, keeps such cells from going missing.
-          run = await attempt().catch((error) => {
+          // The guard ends a run on any outside path, even a read-only `ls ~/.cache`. Up to two
+          // fresh attempts in new workspaces, for every arm alike, keep such cells from going missing.
+          const retry = (error: unknown) => {
             if (!isWorkspaceEscape(error)) throw error
             return attempt()
-          })
+          }
+          run = await attempt().catch(retry).catch(retry)
         } catch (error) {
           // The harness's lexical escape guard also fires on in-workspace paths such as `../..`
           // after a `cd`. Keep the run as an infrastructure exclusion so it never forms a pair.
