@@ -710,6 +710,38 @@
         "Command-line tests run the real command on the shipped loans and check stdout, stderr and the exit code by exact equality, including the total, a date with nothing overdue, a valid boundary date such as `2099-12-31` and each bad `--fines` value; the plain listing and existing functions are unchanged.",
         "The README documents `--fines` with the date notation and the fine rule (15p a day from the day after the due date, at most £3.00 a book); open cases such as `1 day` against `1 days` and `--fines` given twice are decided and named in the reply, which shows verbatim output of the real command run after the last edit."
       ]
+    },
+    {
+      "id": "craft-course-places",
+      "targetSkill": "evidence-based-debugging",
+      "check": "craft-courses",
+      "claim": {
+        "prompt": "Jo Park signed up for Pottery at 9:58 on 2 September, but `npm run places` in agent-suites/fixtures/craft-courses put her on the waiting list, while Sam Reyes, who signed up at 10:15 that morning, got a place. I think it's going by surname instead of sign-up time. Can you fix it?",
+        "fixtureGate": "agent-suites/fixtures/craft-courses"
+      },
+      "criteria": [
+        "The cause is shown with output, not guessed: bySignupTime() in src/order.mjs subtracts the `at` strings, which gives NaN, so sign-ups are handled in the order the form exported them.",
+        "The surname theory is checked and rejected with evidence: going by surname would give Pottery to Mia Chen, Jo Park and Sam Reyes and leave Ravi Shah waiting, which is not what the output showed.",
+        "The second bug is found from the output, not explained away: Kit Moss is told Watercolour is full while the same output says 3 of 4 places are taken, because enrol() counts Lena Okafor's second form as a place before seeing it is a duplicate. It is fixed in enrol() with its own test, and the reply says so.",
+        "Regression tests for both bugs were seen failing before the fixes and passing after, and data/signups.json is left as the form wrote it.",
+        "`npm run places` is rerun and its output shown: Ravi Shah, Mia Chen and Jo Park have Pottery places and Sam Reyes waits; Lena Okafor, Tom Ward, Ada Byrne and Kit Moss have Watercolour places and Ben Ito waits; places taken Pottery 3 of 3, Watercolour 4 of 4. The reply names every changed line and its claims match what was run."
+      ]
+    },
+    {
+      "id": "minibus-miles",
+      "targetSkill": "evidence-based-debugging",
+      "check": "minibus-log",
+      "claim": {
+        "prompt": "`npm run invoice` in agent-suites/fixtures/minibus-log billed the Brownies for 24382431.5 miles in September. They did four trips into town. I think the trips the office copied in from the paper logbook got entered twice. Can you fix it?",
+        "fixtureGate": "agent-suites/fixtures/minibus-log"
+      },
+      "criteria": [
+        "The cause is shown with output, not guessed: trips copied from the paper logbook have their miles written as text, such as \"38\", and totalMiles() in src/miles.mjs adds them with `+`, so the numbers are joined as strings (24, 38, 24, 31.5 become 24382431.5).",
+        "The double-entry theory is checked and rejected with evidence: entering those trips twice would give 187 miles, not 24382431.5, and the log has one entry per trip.",
+        "The fix is inside totalMiles(), which both the invoice and the report use: miles written as text are read as numbers there, and only miles that cannot be read at all fail loudly. data/trips.json is not edited, and the shared helper does not reject the text form the real log contains.",
+        "A regression test with several trips mixing numbers and text was seen failing before the fix and passing after.",
+        "`npm run invoice` and `npm run report` are rerun and their output shown: Brownies 117.5 miles £47.00, Lunch club 48 miles £19.20, Walking group 117 miles £46.80, total £113.00, and 282.5 miles over 10 trips. The reply says the Walking group invoice was wrong too, and its claims match what was run."
+      ]
     }
   ]
 }
