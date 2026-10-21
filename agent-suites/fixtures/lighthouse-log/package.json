@@ -1,0 +1,9 @@
+{
+  "name": "lighthouse-log",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "fog": "node bin/fog.mjs"
+  }
+}

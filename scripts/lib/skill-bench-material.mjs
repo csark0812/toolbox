@@ -28,6 +28,7 @@ export const TASK_SETS = [
   'holdout-v5',
   'holdout-v6',
   'holdout-v7',
+  'holdout-v8',
 ]
 export const HELD_OUT_SETS = TASK_SETS.filter((set) => set !== 'tasks')
 

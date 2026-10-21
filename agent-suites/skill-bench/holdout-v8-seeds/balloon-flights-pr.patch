@@ -1,0 +1,107 @@
+diff --git a/agent-suites/fixtures/balloon-flights/README.md b/agent-suites/fixtures/balloon-flights/README.md
+index 7e36d80..222865a 100644
+--- a/agent-suites/fixtures/balloon-flights/README.md
++++ b/agent-suites/fixtures/balloon-flights/README.md
+@@ -2,6 +2,8 @@
+ 
+ Passenger flights for Vale Balloons. `data/flights.json` lists the week's flights: the date, the launch site, dawn or dusk, the basket size and how many seats are booked.
+ 
++A flight is grounded when the forecast wind at launch is over 10 knots. `data/forecast.json` gives the wind in km/h (1 knot is 1.852 km/h), so the limit is about 18.5 km/h.
++
+ ## Usage
+ 
+ ```
+diff --git a/agent-suites/fixtures/balloon-flights/bin/flights.mjs b/agent-suites/fixtures/balloon-flights/bin/flights.mjs
+index 0bc8f32..9331b62 100644
+--- a/agent-suites/fixtures/balloon-flights/bin/flights.mjs
++++ b/agent-suites/fixtures/balloon-flights/bin/flights.mjs
+@@ -1,5 +1,5 @@
+ import { readFileSync } from 'node:fs'
+ import { board } from '../src/flights.mjs'
+ 
+-const flights = JSON.parse(readFileSync(new URL('../data/flights.json', import.meta.url), 'utf8'))
+-for (const line of board(flights)) console.log(line)
++const read = (name) => JSON.parse(readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8'))
++for (const line of board(read('flights.json'), read('forecast.json'))) console.log(line)
+diff --git a/agent-suites/fixtures/balloon-flights/data/forecast.json b/agent-suites/fixtures/balloon-flights/data/forecast.json
+new file mode 100644
+index 0000000..a2ff624
+--- /dev/null
++++ b/agent-suites/fixtures/balloon-flights/data/forecast.json
+@@ -0,0 +1,7 @@
++[
++  { "date": "2026-11-05", "slot": "dawn", "windKmh": 12 },
++  { "date": "2026-11-05", "slot": "dusk", "windKmh": 17 },
++  { "date": "2026-11-06", "slot": "dawn", "windKmh": 25 },
++  { "date": "2026-11-07", "slot": "dawn", "windKmh": 18.5 },
++  { "date": "2026-11-07", "slot": "dusk", "windKmh": 19 }
++]
+diff --git a/agent-suites/fixtures/balloon-flights/src/flights.mjs b/agent-suites/fixtures/balloon-flights/src/flights.mjs
+index d77e910..d5d1406 100644
+--- a/agent-suites/fixtures/balloon-flights/src/flights.mjs
++++ b/agent-suites/fixtures/balloon-flights/src/flights.mjs
+@@ -1,12 +1,14 @@
++import { canFly } from './wind.mjs'
++
+ /** Seats still free on a flight. */
+ export const seatsLeft = (flight) => flight.basket - flight.booked
+ 
+ /** Lines of the office board, by date and then dawn before dusk. */
+-export function board(flights) {
++export function board(flights, forecast = []) {
+   return [...flights]
+     .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.slot === 'dawn' ? -1 : 1))
+     .map(
+       (flight) =>
+-        `${flight.date}  ${flight.slot.padEnd(5)} ${flight.site.padEnd(14)}${String(seatsLeft(flight)).padStart(2)} left`,
++        `${flight.date}  ${flight.slot.padEnd(5)} ${flight.site.padEnd(14)}${String(seatsLeft(flight)).padStart(2)} left${canFly(flight, forecast) ? '' : '  grounded'}`,
+     )
+ }
+diff --git a/agent-suites/fixtures/balloon-flights/src/wind.mjs b/agent-suites/fixtures/balloon-flights/src/wind.mjs
+new file mode 100644
+index 0000000..448d579
+--- /dev/null
++++ b/agent-suites/fixtures/balloon-flights/src/wind.mjs
+@@ -0,0 +1,9 @@
++/** The forecast's km/h in knots. */
++export const knots = (kmh) => kmh / 1.609
++
++/** Whether a flight can go up: the forecast wind at launch is 10 knots or less. */
++export function canFly(flight, forecast) {
++  const entry = forecast.find((item) => item.date === flight.date && item.slot === flight.slot)
++  if (!entry) return true
++  return knots(entry.windKmh) <= 10
++}
+diff --git a/agent-suites/fixtures/balloon-flights/tests/wind.test.mjs b/agent-suites/fixtures/balloon-flights/tests/wind.test.mjs
+new file mode 100644
+index 0000000..357c2ea
+--- /dev/null
++++ b/agent-suites/fixtures/balloon-flights/tests/wind.test.mjs
+@@ -0,0 +1,27 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { board } from '../src/flights.mjs'
++import { canFly } from '../src/wind.mjs'
++
++const flight = {
++  id: 'F1',
++  date: '2026-11-05',
++  site: 'Castle Meadow',
++  slot: 'dawn',
++  basket: 8,
++  booked: 6,
++  pilot: 'Hal',
++}
++const forecast = (windKmh) => [{ date: '2026-11-05', slot: 'dawn', windKmh }]
++
++test('a balloon flies in 18 km/h (9.7 knots)', () => {
++  assert.equal(canFly(flight, forecast(18)), true)
++})
++
++test('a balloon is grounded in 19 km/h (10.3 knots)', () => {
++  assert.equal(canFly(flight, forecast(19)), false)
++})
++
++test('grounded flights are marked on the board', () => {
++  assert.match(board([flight], forecast(25))[0], /grounded$/)
++})

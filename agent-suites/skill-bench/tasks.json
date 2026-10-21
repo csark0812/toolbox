@@ -199,6 +199,54 @@
         "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the main action reachable.",
         "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented sample content honestly."
       ]
+    },
+    {
+      "id": "toolbar-danger-variant",
+      "targetSkill": "css-craft",
+      "check": "editor-toolbar",
+      "claim": {
+        "prompt": "In the editor toolbar the Delete button is grey instead of red, even though red delete buttons look right everywhere else (agent-suites/fixtures/editor-toolbar). Please fix it.",
+        "fixtureGate": "agent-suites/fixtures/editor-toolbar"
+      },
+      "criteria": [
+        "The cause is named: `.toolbar .btn` in styles/toolbar.css outranks `.btn-danger` in styles/buttons.css by specificity (two classes against one), and it overrides both background and text colour, including on hover.",
+        "The toolbar Delete button gets the danger background, danger text colour and danger hover from the existing tokens, without !important and without changing the markup's class names.",
+        "Other toolbar buttons and danger buttons outside the toolbar look the same as before, at rest and on hover.",
+        "The fix is checked by resolving the winning declarations or computed colours for each button and state, not only by reading the stylesheet.",
+        "The reply lists every changed file and quotes the declarations before and after."
+      ]
+    },
+    {
+      "id": "file-list-overflow",
+      "targetSkill": "css-craft",
+      "check": "file-browser",
+      "claim": {
+        "prompt": "On a phone-width screen, a file with a long name makes the file list page scroll sideways and pushes the size off the edge (agent-suites/fixtures/file-browser). Long names should be cut off with an ellipsis instead.",
+        "fixtureGate": "agent-suites/fixtures/file-browser"
+      },
+      "criteria": [
+        "The cause is named: the flex item `.details` keeps its automatic minimum width (the long name's unwrapped width), and the grid's `1fr` track also refuses to shrink below its content, so both must be allowed to shrink.",
+        "The fix lets the name truncate with an ellipsis while the size stays visible on one line, and the page no longer scrolls sideways at phone width.",
+        "The desktop layout is unchanged: the sidebar keeps its width and short names are not truncated.",
+        "The fix is checked by measuring rendered widths or overflow at a phone width and a desktop width, and the numbers are reported.",
+        "The reply lists every changed file and quotes the declarations before and after."
+      ]
+    },
+    {
+      "id": "dark-notice-contrast",
+      "targetSkill": "css-craft",
+      "check": "settings-panel",
+      "claim": {
+        "prompt": "The renewal notice on the settings page is nearly unreadable in dark mode, though it looks fine in light mode (agent-suites/fixtures/settings-panel). Please fix it.",
+        "fixtureGate": "agent-suites/fixtures/settings-panel"
+      },
+      "criteria": [
+        "The cause is named: `--notice-bg` is never defined, so the notice always falls back to the light `#fef3c7` background while its text and link take the dark theme's light colours.",
+        "The fix adds a theme token for the notice background that works both when the OS is dark and when the theme switch sets `data-theme=\"dark\"`, and light mode keeps its exact colours.",
+        "The notice text and link contrast against the notice background are reported as numbers for light and dark, and both reach at least 4.5:1.",
+        "The fix is checked under each way dark mode can apply (OS setting and theme switch), not only one.",
+        "The reply lists every changed file and quotes the declarations before and after."
+      ]
     }
   ]
 }

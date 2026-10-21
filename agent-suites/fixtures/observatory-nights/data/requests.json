@@ -1,0 +1,12 @@
+[
+  { "night": "2026-11-12", "slot": "20:00", "member": "Ivy Chen" },
+  { "night": "2026-11-12", "slot": "21:00", "member": "Omar Haddad" },
+  { "night": "2026-11-12", "slot": "21:00", "member": "Ivy Chen" },
+  { "night": "2026-11-12", "slot": "23:00", "member": "Bea Lindqvist" },
+  { "night": "2026-11-13", "slot": "20:00", "member": "Lars Moen" },
+  { "night": "2026-11-13", "slot": "21:00", "member": "Noor Rahman" },
+  { "night": "2026-11-13", "slot": "22:00", "member": "Kit Ellery" },
+  { "night": "2026-11-14", "slot": "22:00", "member": "Omar Haddad" },
+  { "night": "2026-11-14", "slot": "23:00", "member": "Bea Lindqvist" },
+  { "night": "2026-11-14", "slot": "01:00", "member": "Ivy Chen" }
+]

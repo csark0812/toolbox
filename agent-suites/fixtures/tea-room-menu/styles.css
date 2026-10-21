@@ -1,0 +1,92 @@
+:root {
+  --paper: #fbf7f0;
+  --ink: #2b2420;
+  --muted: #75695f;
+  --accent: #8c3b2e;
+  --rule: #e3d9cc;
+  --gutter: 16px;
+  --header-h: 64px;
+  --measure: 640px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Iowan Old Style', Georgia, serif;
+  line-height: 1.5;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: var(--header-h);
+  padding: 0 var(--gutter);
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.site-nav {
+  display: flex;
+  gap: 16px;
+}
+
+.site-nav a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.menu {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 var(--gutter) 48px;
+}
+
+.menu-section h2 {
+  margin: 32px 0 8px;
+  font-size: 1.4rem;
+}
+
+.dishes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dish {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px dotted var(--rule);
+}
+
+.dish-name {
+  flex: 1;
+}
+
+.dish-note {
+  display: block;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.price {
+  min-width: 4.5em;
+  text-align: right;
+}

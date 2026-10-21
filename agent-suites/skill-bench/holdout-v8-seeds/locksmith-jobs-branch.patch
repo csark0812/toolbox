@@ -1,0 +1,96 @@
+diff --git a/agent-suites/fixtures/locksmith-jobs/README.md b/agent-suites/fixtures/locksmith-jobs/README.md
+index 96f3e52..efbb3bb 100644
+--- a/agent-suites/fixtures/locksmith-jobs/README.md
++++ b/agent-suites/fixtures/locksmith-jobs/README.md
+@@ -8,4 +8,6 @@ Rules for every endpoint:
+ - Customers only ever see their own jobs and invoices. Anything belonging to someone else is answered with 404, exactly as if it didn't exist.
+ - Lists are paginated 10 to a page, and pages are numbered from 1.
+ 
++Invoices: `GET /invoices` lists the customer's invoices and `GET /invoice?file=INV-1030.txt` downloads one.
++
+ `src/api.mjs` routes requests to the handlers. `npm test` runs the handler tests.
+diff --git a/agent-suites/fixtures/locksmith-jobs/src/api.mjs b/agent-suites/fixtures/locksmith-jobs/src/api.mjs
+index 07240e6..675a89d 100644
+--- a/agent-suites/fixtures/locksmith-jobs/src/api.mjs
++++ b/agent-suites/fixtures/locksmith-jobs/src/api.mjs
+@@ -1,3 +1,4 @@
++import { handleInvoice, listInvoices } from './invoices.mjs'
+ import { jobs } from './store.mjs'
+ 
+ export const PAGE_SIZE = 10
+@@ -22,7 +23,12 @@ export function listJobs(request, session) {
+   return { status: 200, body: own.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE) }
+ }
+ 
+-const ROUTES = { 'GET /jobs': listJobs, 'GET /jobs/:id': handleJob }
++const ROUTES = {
++  'GET /jobs': listJobs,
++  'GET /jobs/:id': handleJob,
++  'GET /invoices': listInvoices,
++  'GET /invoice': handleInvoice,
++}
+ 
+ /** Routes a request to its handler. */
+ export function route(method, path, request, session) {
+diff --git a/agent-suites/fixtures/locksmith-jobs/src/invoices.mjs b/agent-suites/fixtures/locksmith-jobs/src/invoices.mjs
+new file mode 100644
+index 0000000..d6d2757
+--- /dev/null
++++ b/agent-suites/fixtures/locksmith-jobs/src/invoices.mjs
+@@ -0,0 +1,29 @@
++import { readFileSync } from 'node:fs'
++import { join } from 'node:path'
++import { customers, jobs } from './store.mjs'
++
++const INVOICE_DIR = new URL('../invoices/', import.meta.url).pathname
++var PAGE = 10
++
++/** Downloads one of the customer's invoices by its file name, e.g. ?file=INV-1030.txt */
++export function handleInvoice(request, session) {
++  if (!session) return { status: 401, body: { error: 'sign in' } }
++  const file = request.query.file
++  try {
++    // console.log('invoice download', file)
++    return { status: 200, body: readFileSync(join(INVOICE_DIR, file), 'utf8') }
++  } catch {
++    return { status: 404, body: { error: 'not found' } }
++  }
++}
++
++/** A page of the signed-in customer's invoices. */
++export function listInvoices(request, session) {
++  if (!session?.customerId) return { status: 401, body: { error: 'sign in' } }
++  let page = Number(request.query.page ?? 1)
++  // TODO: newest first like the jobs list
++  const own = jobs()
++    .filter((job) => job.customerId == session.customerId)
++    .map((job) => ({ job: job.id, date: job.date, file: `${job.invoice}.txt` }))
++  return { status: 200, body: own.slice(page * PAGE, page * PAGE + PAGE) }
++}
+diff --git a/agent-suites/fixtures/locksmith-jobs/tests/invoices.test.mjs b/agent-suites/fixtures/locksmith-jobs/tests/invoices.test.mjs
+new file mode 100644
+index 0000000..93c0e7c
+--- /dev/null
++++ b/agent-suites/fixtures/locksmith-jobs/tests/invoices.test.mjs
+@@ -0,0 +1,21 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { route } from '../src/api.mjs'
++
++const hannah = { customerId: 'c-7' }
++
++test('a customer downloads their invoice', () => {
++  const response = route('GET', '/invoice', { query: { file: 'INV-1030.txt' } }, hannah)
++  assert.equal(response.status, 200)
++  assert.match(response.body, /Invoice INV-1030/)
++})
++
++test('a customer lists their invoices', () => {
++  const response = route('GET', '/invoices', { query: {} }, hannah)
++  assert.equal(response.status, 200)
++  assert.ok(response.body.length > 0)
++})
++
++test('invoices need a session', () => {
++  assert.equal(route('GET', '/invoices', { query: {} }, null).status, 401)
++})

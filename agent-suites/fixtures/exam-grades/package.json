@@ -1,0 +1,9 @@
+{
+  "name": "exam-grades",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "grades": "node bin/grades.mjs"
+  }
+}

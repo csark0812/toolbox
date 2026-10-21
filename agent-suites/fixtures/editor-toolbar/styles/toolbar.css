@@ -1,0 +1,15 @@
+.toolbar {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--surface-hover);
+}
+
+.toolbar .btn {
+  background: var(--surface-muted);
+  color: var(--ink);
+}
+
+.toolbar .btn:hover {
+  background: var(--surface-hover);
+}

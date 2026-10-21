@@ -1,0 +1,11 @@
+{
+  "name": "bell-ringers",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "towers": "node bin/towers.mjs",
+    "export": "node bin/export.mjs",
+    "outing": "node bin/outing.mjs"
+  }
+}
