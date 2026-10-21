@@ -1,7 +1,7 @@
 ---
 name: tdd
-description: Load first, before reading code, whenever the user asks for a new function, parser, command option or feature and mentions tests, tests before code, test-first, TDD or a review before done. Red-green slices at the public interface, command tests on real data, independent review. Not hard-bug repro or spikes.
-when_to_use: Requests such as "add a function that ... and a flag to the CLI, test-first", "implement this feature with tests", "write this with TDD", "have someone check it once it's written".
+description: Load first, before reading code, whenever the user asks to add or change behaviour (a function, parser, CLI option or API field with rules, limits, formats or exit codes), even when tests are never mentioned. Pins each rule at the public interface before code, then runs the real command. Not bug reports, renames, refactors, styling or several separate jobs.
+when_to_use: Requests such as "add parseX(text) and a --since flag", "accept 3-7, exit 2 otherwise", "support this new format", "build it test-first".
 ---
 
 # Test-Driven Development

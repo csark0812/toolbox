@@ -635,6 +635,51 @@
         "The fix is checked under each way dark mode can apply (OS setting and theme switch), not only one.",
         "The reply lists every changed file and quotes the declarations before and after."
       ]
+    },
+    {
+      "id": "tee-size-lookup",
+      "targetSkill": "tdd",
+      "check": "tee-stall",
+      "claim": {
+        "prompt": "At the market people ask for a design in their size and I end up scrolling through agent-suites/fixtures/tee-stall. Sizes run XS, S, M, L, XL, XXL. Please add `sizeRange(text)` in src/sizes.mjs: it takes one size (`M`) or a span (`S-XL`) and returns the sizes it covers, smallest first. Either case is fine, spaces around the dash are fine, and `2XL` means XXL. A span that runs backwards, or a size not on that list, should raise a RangeError whose message includes what was passed in. Then give `npm run stock` a `--sizes <span>` option that lists, for each design, only the sizes in the span with at least one shirt left, in the same `Design: S 4, L 2` style. Leave out designs with nothing to offer, and if no design has anything, say so on stderr and exit 1. Rows with a size that isn't on the list should be skipped and mentioned on stderr. If the span is bad or missing, print nothing to stdout, explain on stderr and exit with status 2. Plain `npm run stock` must not change.",
+        "fixtureGate": "agent-suites/fixtures/tee-stall"
+      },
+      "criteria": [
+        "Every rule is pinned by tests at the public interface written before or alongside the code: one size, a span, mixed case, spaces around the dash, the 2XL alias, a backwards span, sizes off the list such as `XXXL` and `Medium`, hostile input such as `S-M-L`, `S,M`, an empty string and non-strings, and command-line tests that run the real `npm run stock` and check stdout, stderr and the exit code exactly, including the nothing-left case and each bad `--sizes` value.",
+        "Zero counts are hidden, Puffin's `Medium` row is named on stderr whenever `--sizes` is given, and `--sizes XL` reports nothing left and exits 1.",
+        "The size rules live in one exported function that the command reuses, and the plain stock list and existing functions are unchanged.",
+        "Open cases are decided deliberately and named in the reply, for example `--sizes` given twice, whether a size typed in the data as lower case counts, and the ordering of sizes within a design, and the reply shows verbatim output of the real command run after the last edit."
+      ]
+    },
+    {
+      "id": "deli-discount-codes",
+      "targetSkill": "tdd",
+      "check": "deli-basket",
+      "claim": {
+        "prompt": "We're starting to hand out discount codes at Marrow & Rye, so the till in agent-suites/fixtures/deli-basket has to take them. Add `parseDiscount(text)` in src/discount.mjs. A code is either a whole percentage from 1 to 90 (`15%`, giving `{ percent: 15 }`) or an amount off from £0.01 to £50 with at most two decimal places (`£2.50 off`, giving `{ pence: 250 }`; `off` in any case). Surrounding spaces don't matter. Anything else should raise a RangeError whose message includes what was passed in. Then add `--discount <code>` to `npm run receipt`. It prints `Discount -£x.xx` just above the Total line. A percentage comes off what is left after any member saving and is rounded down to a whole penny, and an amount off can never take the total below £0.00. If the code is bad or missing, print nothing to stdout, explain on stderr and exit with status 2. Receipts without `--discount` stay exactly the same.",
+        "fixtureGate": "agent-suites/fixtures/deli-basket"
+      },
+      "criteria": [
+        "Every rule is pinned by tests at the public interface written before or alongside the code: both code forms, both ends of each range (1% and 90%, £0.01 and £50), one and two decimal places, `OFF` in capitals, hostile input such as `12.5%`, `£2.555 off`, `£0 off`, `£2`, an empty string and non-strings, and command-line tests that run the real `npm run receipt` and check stdout, stderr and the exit code exactly, with and without `--member` in either order and for each bad `--discount` value.",
+        "Money stays in whole pence with no floating-point drift (`£19.99 off` is 1999 pence), the percentage is taken after the member saving and rounded down (`--member --discount 15%` gives a Total of £16.61), and a large amount off stops at £0.00.",
+        "The code rules live in one exported function that the command reuses, and the receipt without the option, the member saving and existing functions are unchanged.",
+        "Open cases are decided deliberately and named in the reply, for example `--discount` given twice, a pound sign without `off`, and whether the discount line shows when it rounds to £0.00, and the reply shows verbatim output of the real command run after the last edit."
+      ]
+    },
+    {
+      "id": "huts-free-weeks",
+      "targetSkill": "tdd",
+      "check": "beach-huts",
+      "claim": {
+        "prompt": "The phone never stops in summer with people wanting a beach hut, and agent-suites/fixtures/beach-huts can't tell me which ones are free. Add `parseWeeks(text)` in src/weeks.mjs returning `{ from, to }`: a single week like `23` or a span like `23-25`, each number optionally with a `W` in front (`w23-W25`), spaces around the dash allowed. Weeks run 1 to 52, `from` can't be after `to`, and a span covers at most 6 weeks. Anything else should raise a RangeError whose message includes what was passed in. Then add `--free <weeks>` to `npm run huts`: it prints `Hut N`, one per line in hut order, for each hut with no booking in any of those weeks (a booking's first and last weeks both count). If no hut is free, say so on stderr and exit 1. If the span is bad or missing, print nothing to stdout, explain on stderr and exit with status 2. Without `--free` the listing stays as it is.",
+        "fixtureGate": "agent-suites/fixtures/beach-huts"
+      },
+      "criteria": [
+        "Every rule is pinned by tests at the public interface written before or alongside the code: a single week, a span, the W prefix in either case, spaces around the dash, weeks 1 and 52, a reversed span, a seven-week span, hostile input such as `week 3`, `2.5`, `23-25-27`, an empty string and non-strings, and command-line tests that run the real `npm run huts` and check stdout, stderr and the exit code exactly, including a span where no hut is free and each bad `--free` value.",
+        "Overlap counts both ends of every booking and of the span, so `--free 24-25` lists only Hut 5 and `--free 20-25` lists none and exits 1.",
+        "The week rules live in one exported function that the command reuses, and the plain listing and existing functions are unchanged.",
+        "Open cases are decided deliberately and named in the reply, for example `--free` given twice or with other arguments and whether `W` may sit on only one end, and the reply shows verbatim output of the real command run after the last edit."
+      ]
     }
   ]
 }
