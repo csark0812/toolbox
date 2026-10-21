@@ -54,7 +54,9 @@ function defaultOut() {
     return resolve('.taste/look')
   }
 }
-const out = option('out') ? resolve(option('out')) : defaultOut()
+// --out names a parent folder; the script writes only into its own taste-look subfolder there,
+// because that is the folder it clears at the start of every run.
+const out = option('out') ? resolve(option('out'), 'taste-look') : defaultOut()
 const widths = option('widths', '390,1440').split(',').map(Number)
 const MAX_SCREENS = Number(option('screens', 6))
 
@@ -232,9 +234,15 @@ const MEASURE = `(() => {
   const visible = (el) => { const r = el.getBoundingClientRect(); const s = getComputedStyle(el); return r.width > 0 && r.height > 0 && s.visibility !== 'hidden' && Number(s.opacity) > 0.05 }
   const texts = [...document.querySelectorAll('body *')].filter((el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()) && visible(el))
   const sizes = texts.map((el) => parseFloat(getComputedStyle(el).fontSize))
-  const lum = (c) => { const m = c.match(/[\\d.]+/g); if (!m) return null; if (m[3] !== undefined && Number(m[3]) < 0.5) return null; return m.slice(0, 3).map(Number).map((v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4 }).reduce((a, v, i) => a + v * [0.2126, 0.7152, 0.0722][i], 0) }
-  const bg = (el) => { for (let e = el; e; e = e.parentElement) { const c = getComputedStyle(e).backgroundColor; const l = lum(c); if (l !== null) return l; if (getComputedStyle(e).backgroundImage !== 'none') return null } return 1 }
-  const lowContrast = texts.filter((el) => { const f = lum(getComputedStyle(el).color); const b = bg(el); if (f === null || b === null) return false; const r = (Math.max(f, b) + 0.05) / (Math.min(f, b) + 0.05); const big = parseFloat(getComputedStyle(el).fontSize) >= 24; return r < (big ? 3 : 4.5) }).slice(0, 5).map((el) => el.tagName.toLowerCase() + ': ' + el.textContent.trim().slice(0, 40))
+  const paint = document.createElement('canvas').getContext('2d', { willReadFrequently: true })
+  const rgba = (c) => { const m = /^rgba?\\(/.test(c) && c.match(/[\\d.]+/g); if (m) return [...m.slice(0, 3).map(Number), m[3] === undefined ? 1 : Number(m[3])]; try { if (!paint || !CSS.supports('color', c)) return null; paint.clearRect(0, 0, 1, 1); paint.fillStyle = c; paint.fillRect(0, 0, 1, 1); const d = paint.getImageData(0, 0, 1, 1).data; return [d[0], d[1], d[2], d[3] / 255] } catch { return null } }
+  const lum = (c) => { const m = rgba(c); if (!m) return null; if (m[3] < 0.5) return null; return m.slice(0, 3).map((v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4 }).reduce((a, v, i) => a + v * [0.2126, 0.7152, 0.0722][i], 0) }
+  const media = (e) => ['IMG', 'VIDEO', 'CANVAS', 'PICTURE', 'IFRAME'].includes(e.tagName) || e instanceof SVGElement
+  const ancestors = (el) => { for (let e = el; e; e = e.parentElement) { const c = getComputedStyle(e).backgroundColor; const l = lum(c); if (l !== null) return l; if (getComputedStyle(e).backgroundImage !== 'none') return null } return 1 }
+  // What is painted beneath the text, not only its ancestors: a full-bleed image under a hero headline is a sibling.
+  const bg = (el) => { const r = el.getBoundingClientRect(); let x = r.left + r.width / 2; let y = r.top + r.height / 2; if (y < 0 || y >= innerHeight) { scrollTo({ top: scrollY + y - innerHeight / 2, behavior: 'instant' }); const s = el.getBoundingClientRect(); x = s.left + s.width / 2; y = s.top + s.height / 2 } if (x < 0 || x >= innerWidth || y < 0 || y >= innerHeight) return ancestors(el); const stack = document.elementsFromPoint(x, y); const start = stack.findIndex((e) => e === el || el.contains(e)); if (start === -1) return ancestors(el); for (const e of stack.slice(start)) { if (!el.contains(e) && media(e)) return null; const s = getComputedStyle(e); const l = lum(s.backgroundColor); if (l !== null) return l; if (s.backgroundImage !== 'none') return null } return 1 }
+  const lowContrast = texts.filter((el) => { const st = getComputedStyle(el); const f = lum(st.color); const b = bg(el); if (f === null || b === null) return false; const r = (Math.max(f, b) + 0.05) / (Math.min(f, b) + 0.05); const size = parseFloat(st.fontSize); const big = size >= 24 || (size >= 18.66 && Number(st.fontWeight) >= 700); return r < (big ? 3 : 4.5) }).slice(0, 5).map((el) => el.tagName.toLowerCase() + ': ' + el.textContent.trim().slice(0, 40))
+  scrollTo({ top: 0, behavior: 'instant' })
   const headlines = [...document.querySelectorAll('h1, h2, h3')].filter(visible).map((el) => { const lh = parseFloat(getComputedStyle(el).lineHeight) || parseFloat(getComputedStyle(el).fontSize) * 1.2; return { tag: el.tagName.toLowerCase(), lines: Math.round(el.getBoundingClientRect().height / lh), text: el.textContent.trim().slice(0, 50) } })
   const wide = [...document.querySelectorAll('body *')].filter((el) => el.getBoundingClientRect().right > html.clientWidth + 1 && visible(el) && getComputedStyle(el).position !== 'fixed').slice(0, 5).map((el) => el.tagName.toLowerCase() + (el.className && typeof el.className === 'string' ? '.' + el.className.split(' ')[0] : ''))
   const fonts = [...new Set(texts.map((el) => getComputedStyle(el).fontFamily.split(',')[0].replace(/["']/g, '').trim()))]
@@ -294,11 +302,16 @@ async function contactSheet(width, files) {
 
 // What a still screenshot hides: how the page enters, how its controls answer the pointer and the
 // keyboard, and whether content survives without scripts and with reduced motion.
-const INVISIBLE = `(() => {
+// settled: the paths of text visible on the normal, settled page. Only those count as hidden in the
+// no-script and reduced-motion views, so menus, toasts and inactive tabs hidden by design never FAIL.
+const INVISIBLE = (settled = null) => `(() => {
+  const settled = ${JSON.stringify(settled)}
   const faint = (el) => { let o = 1; for (let e = el; e; e = e.parentElement) { const s = getComputedStyle(e); if (s.visibility === 'hidden') return 0; o *= Number(s.opacity) } return o }
+  const path = (el) => { const parts = []; for (let e = el; e && e !== document.documentElement; e = e.parentElement) { let n = 1; for (let p = e.previousElementSibling; p; p = p.previousElementSibling) if (p.tagName === e.tagName) n++; parts.unshift(e.tagName.toLowerCase() + ':' + n) } return parts.join('/') }
   const texts = [...document.querySelectorAll('body *')].filter((el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()) && el.getBoundingClientRect().height > 0)
   const firstScreen = texts.filter((el) => el.getBoundingClientRect().top < innerHeight)
-  return { hidden: texts.filter((el) => faint(el) < 0.1).length, firstHidden: firstScreen.filter((el) => faint(el) < 0.1).length, fading: firstScreen.filter((el) => faint(el) < 0.9).length, running: document.getAnimations().filter((a) => a.playState === 'running' && Number(a.effect?.getTiming().duration) > 200).length }
+  const wasSeen = (el) => !settled || settled.includes(path(el))
+  return { hidden: texts.filter((el) => faint(el) < 0.1 && wasSeen(el)).length, firstHidden: firstScreen.filter((el) => faint(el) < 0.1 && wasSeen(el)).length, fading: firstScreen.filter((el) => faint(el) < 0.9).length, running: document.getAnimations().filter((a) => a.playState === 'running' && Number(a.effect?.getTiming().duration) > 200).length, visible: texts.filter((el) => faint(el) >= 0.1).map(path) }
 })()`
 const PRIMARY = `(() => {
   const transparent = (c) => /^(transparent|rgba\\(\\d+, \\d+, \\d+, 0\\))$/.test(c)
@@ -312,7 +325,11 @@ const PRIMARY = `(() => {
 })()`
 const STYLE = (selector) =>
   `(() => { const el = ${selector}; if (!el) return null; const s = getComputedStyle(el); return [s.backgroundColor, s.color, s.borderColor, s.boxShadow, s.outlineStyle + s.outlineWidth + s.outlineColor, s.textDecorationLine, s.transform, s.opacity].join('|') })()`
-const ACTIVE_RING = `(() => { const el = document.activeElement; if (!el || el === document.body) return null; const s = getComputedStyle(el); return { ring: (s.outlineStyle !== 'none' && parseFloat(s.outlineWidth) > 0) || s.boxShadow !== 'none', name: el.tagName.toLowerCase() + ': ' + (el.textContent.trim() || el.getAttribute('aria-label') || el.name || '').slice(0, 30), action: el.hasAttribute('data-look-action') } })()`
+// A focus ring is any visible change focus makes: border, background, outline, shadow or underline.
+// Each control's resting look is recorded first (REST_LOOKS), then compared with its focused look.
+const FOCUS_LOOK = `(el) => { const s = getComputedStyle(el); const outline = s.outlineStyle !== 'none' && parseFloat(s.outlineWidth) > 0 ? s.outlineStyle + s.outlineWidth + s.outlineColor : 'none'; return [s.borderTopColor, s.borderRightColor, s.borderBottomColor, s.borderLeftColor, s.borderTopWidth, s.borderRightWidth, s.borderBottomWidth, s.borderLeftWidth, s.borderTopStyle, s.borderBottomStyle, s.backgroundColor, s.backgroundImage, outline, s.boxShadow, s.textDecorationLine, s.textDecorationColor, s.textDecorationThickness].join('|') }`
+const REST_LOOKS = `(() => { const look = ${FOCUS_LOOK}; window.__lookRest = new Map([...document.querySelectorAll('a[href], button, input, select, textarea, summary, [tabindex], [contenteditable]')].map((el) => [el, look(el)])); return true })()`
+const ACTIVE_RING = `(() => { const el = document.activeElement; if (!el || el === document.body) return null; const s = getComputedStyle(el); const rest = window.__lookRest?.get(el); const ring = rest !== undefined ? rest !== (${FOCUS_LOOK})(el) : (s.outlineStyle !== 'none' && parseFloat(s.outlineWidth) > 0) || s.boxShadow !== 'none'; return { ring, name: el.tagName.toLowerCase() + ': ' + (el.textContent.trim() || el.getAttribute('aria-label') || el.name || '').slice(0, 30), action: el.hasAttribute('data-look-action') } })()`
 
 async function load(width, address = url) {
   await call('Emulation.setDeviceMetricsOverride', {
@@ -358,12 +375,13 @@ async function probe(width) {
     )
   await load(width)
   await pause(1200)
-  const entrance = await evaluate(INVISIBLE)
+  const entrance = await evaluate(INVISIBLE())
   if (entrance.fading)
     flags.push(
       `WARN ${entrance.fading} text block(s) in the first screen are still hidden or fading 1.2s after load; let the first screen settle within about 0.6s`,
     )
   await pause(800)
+  const { visible: settled } = await evaluate(INVISIBLE())
   const action = await evaluate(PRIMARY)
   if (action) {
     const rest = await evaluate(STYLE(`document.querySelector('[data-look-action]')`))
@@ -374,6 +392,7 @@ async function probe(width) {
       flags.push(`WARN the primary action ("${action.text}") does not change on hover`)
     await call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: width - 1, y: 899 })
     await pause(300)
+    await evaluate(REST_LOOKS)
     const missing = []
     for (let stop = 0; stop < 40; stop++) {
       await press('Tab', 'Tab', 9)
@@ -392,7 +411,7 @@ async function probe(width) {
 
   await load(width, `${url}${url.includes('?') ? '&' : '?'}look-noscript`)
   await pause(300)
-  const noScript = await evaluate(INVISIBLE)
+  const noScript = await evaluate(INVISIBLE(settled))
   if (noScript.hidden)
     flags.push(
       `FAIL ${noScript.hidden} text block(s) are invisible until a script runs (opacity 0 or hidden in the CSS); start visible and let the script add the motion`,
@@ -403,7 +422,7 @@ async function probe(width) {
   })
   await load(width)
   await pause(300)
-  const reduced = await evaluate(INVISIBLE)
+  const reduced = await evaluate(INVISIBLE(settled))
   await call('Emulation.setEmulatedMedia', { features: [] })
   if (reduced.firstHidden)
     flags.push(

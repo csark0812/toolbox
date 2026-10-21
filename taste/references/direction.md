@@ -16,7 +16,7 @@ The short rules in the skill, with the reasoning behind them. A project's brand 
 
 - **Proportion before hue.** One ground covering most of the page, one ink, one accent used for actions and the few things that matter, and optionally one or two whole fields of colour for rhythm. How much of each colour appears matters as much as which colours they are.
 - **From the subject.** The harbour's paint, the bakery's flour and crust, the estuary's green and mud: a subject with colours of its own should get them. A fixed brand palette is mapped onto the same roles, not supplemented.
-- **Contrast.** Text 4.5:1 against its ground (3:1 for type 24px and larger). Colour is never the only signal for a state.
+- **Contrast.** Text 4.5:1 against its ground (3:1 for type 24px, or 18.7px bold, and larger). Colour is never the only signal for a state.
 - **Defaults to avoid:** violet, indigo or neon on near-black; purple-to-pink gradients; cream ground with terracotta and sage; every section on a different pastel.
 
 ## Layout
