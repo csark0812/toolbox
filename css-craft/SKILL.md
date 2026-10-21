@@ -36,10 +36,10 @@ node <skill>/scripts/probe.mjs --markup '<nav class=nav><a href=#>A</a></nav>' -
 
 `--props` picks the properties (`box` adds size, right edge and clipping), `--widths` defaults to 390,1280 and also reports page scroll width, and a theme joins an OS scheme and root attributes with `+`. It runs from the folder served as the site root. Run it on every fix: when the project has no page, pass `--markup` with the elements the selectors need. Without Chrome, write a small script that resolves the cascade and computes the numbers.
 
-**Work lean.** Every extra command re-sends the whole conversation, so aim for two:
+**Work lean.** Every extra round trip re-sends the whole conversation, so aim for two responses with tool calls. A reader of the log sees only the first line or so of each command, so a probe placed after an edit in the same command is invisible and the fix reads as unverified. Never chain the proof onto the edit; send the two as separate tool calls in the same response, which run in order:
 
 1. **Read.** One command prints every tracked file of a small project, tests and markup included, or in a large one the stylesheets, markup and tests the defect touches: `cd <project> && for f in $(git ls-files .); do echo "== $f"; cat -n "$f"; done`. The shell stays in that folder afterwards, so do not `cd` into it again.
-2. **Fix and prove.** One command: make the edit, run `probe.mjs --against HEAD` over every theme path, width and state the defect touches, then the tests and `git status`. Quote a few lines of its output in the reply. Rerun only if the proof fails.
+2. **Fix and prove, in one response.** First tool call: the edit, or one command that makes every edit and nothing else. Second tool call, in the same response: one command that starts with `node <skill>/scripts/probe.mjs ... --against HEAD` over every theme path, width and state the defect touches, then runs the tests and `git status`. Quote a few lines of its output in the reply. Rerun only if the proof fails.
 
 ## Exit
 
