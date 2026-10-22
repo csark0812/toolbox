@@ -306,8 +306,11 @@ export async function captureFrames(root, page, outDir) {
     // Both clocks are frozen before the page exists, so time zero is the load event however slow
     // the camera is: CSS animations and transitions through the animation playback rate, script
     // timers, requestAnimationFrame, performance.now() and Date through Playwright's page clock.
-    await tab.clock.install({ time: Date.now() })
-    await tab.clock.pauseAt(Date.now() + 1)
+    // The pause point is a minute ahead so a slow machine never passes it before pausing; no page
+    // exists yet, so nothing runs in that minute.
+    const start = Date.now()
+    await tab.clock.install({ time: start })
+    await tab.clock.pauseAt(start + 60_000)
     await rate(0)
     await tab.goto(url, { waitUntil: 'load', timeout: 30000 })
     let clock = 0
