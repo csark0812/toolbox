@@ -1,0 +1,9 @@
+{
+  "name": "bulb-catalogue",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "timing": "node bench/time.mjs",
+    "test": "node --test"
+  }
+}
