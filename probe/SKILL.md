@@ -7,7 +7,7 @@ when_to_use: Questions such as "a customer says the invoice total is too high, a
 # Probe
 
 <!-- source-of-truth: evidence-based assessment of specific hunches and claims. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-21 -->
+<!-- doc-meta: owner=eng | last-reviewed=2026-10-22 -->
 
 **Process skill** — one concrete doubt, one evidence boundary, and one cited verdict. Evidence and verdict only; reproduction-led investigation and repair have a separate implementation contract. Optional parallel gathering uses the local recipes when multi-agent orchestration is active. Otherwise perform the same reads serially.
 
@@ -31,11 +31,11 @@ For a code or behavior verdict, state the level its load-bearing fact reached on
 
 **Check the premise first.** When the question asserts a behavior ("the job runs twice", "the value is stale"), observe that behavior with a quick run or calculation before explaining it. If the observation contradicts the premise, the verdict leads with that, shows the observation, and explains what actually happens. Never build an explanation for a behavior you have not seen.
 
-**Settle it in full.** Read and run the existing tests for the code in question, and say whether they cover the case and why they did not catch it. Search the data with a script for every other record the same mechanism affects, including cases the claim did not mention. Then name each group of records that bypasses the mechanism, such as another status, channel or period, and confirm with the script it comes out right. **Every figure in the reply appears in printed script output:** each amount, count, date and total, including sums, gross and net amounts, row counts and the next date a condition recurs. Cut any figure no output shows. When the user has to pass the answer on, end with two or three sentences they can use, built only from figures already in the reply.
+**Settle it in full.** Read and run the existing tests for the code in question, and say whether they cover the case and why they did not catch it. Search the data with a script for every other record the same mechanism affects, including cases the claim did not mention. Then name each group of records that bypasses the mechanism, such as another status, channel or period, and confirm with the script it comes out right. **Every figure in the reply appears in printed script output:** each amount, count, date and total. The script prints each breakdown with its sum, the total it should equal, and `parts sum to total: yes`. Cut any figure no output shows. When the user has to pass the answer on, end with two or three sentences they can use, built only from figures already in the reply.
 
 ### Evidence stance
 
-- One framework for repo and external material. Phases can weave code → research → code. Full loop → [framework.md](references/framework.md)
+- Full loop → [framework.md](references/framework.md)
 - Multiple independent web topics → [parallel-research.md](references/parallel-research.md).
 - Mixed or contested evidence, or an explicit stress-test → [parallel-perspective.md](references/parallel-perspective.md).
 
@@ -56,7 +56,7 @@ Follow [framework.md](references/framework.md). Summary:
 5. **Forage or leave** — follow scent (callers, tests, citations, error sites). **Leave** the patch when 2–3 reads yield no confirmatory or disconfirmatory signal. Then re-rank hypos. You can switch material class (for example repo → docs → repo). Leaving is completion, not failure.
 6. **Locate enough to cite** — the verdict needs domain-appropriate citations. For behavioral code hunches, narrow to a citable locus, then stop.
 7. **When evidence is external** — do a lateral check and name the source class before you settle. If independent sources conflict, say so in the verdict.
-8. **Return a verdict** — one clear-English settlement (what holds, what does not, what stays open). Always cite specific locations in the primary material. If the hunch is unfounded, say so. Do not invent problems to validate it. When evidence supports multiple mechanisms, report them separately. Do not force a single narrative root cause. **What to do next** also covers state the mechanism has already affected, such as stored records that a code change alone would leave wrong. Observe the deciding value directly, for example by calling the function and printing its return or reason field, and isolate the cause with one controlled run that changes only the suspected variable. State the scope: which records or cases are affected and which are not.
+8. **Return a verdict** — one clear-English settlement (what holds, what does not, what stays open). Always cite specific locations in the primary material. If the hunch is unfounded, say so. Do not invent problems to validate it. When evidence supports multiple mechanisms, report them separately. Do not force a single narrative root cause. **What to do next** also covers state the mechanism has already affected, such as stored records that a code change alone would leave wrong. Observe the deciding value directly and isolate the cause with one controlled run that changes only the suspected variable. State the scope: which records or cases are affected and which are not.
 
 ### Evidence standard
 
@@ -74,10 +74,10 @@ Follow [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/ma
 
 Reply in this shape when the clarification chain (when needed) and evidence pass are complete — not before. If the hunch is still too vague, **ask the next narrowing question** instead of forcing a verdict.
 
-Start each opening line with Yes or No, never "partly" or "half right". When the core of a claim holds, say Yes and add what it missed after; when only part holds, the two lines carry the split. The body never contradicts a line. A why-question with no claim to test opens with one **Verdict:** line instead.
+Start each opening line with Yes or No, never "partly". The mechanism line judges only the cause the user named: Yes when a script shows that cause operating on their data, even if their figure is wrong; No only when script output shows it does not operate. A wrong figure goes on the conclusion line. The body never contradicts a line. A why-question with no claim to test opens with one **Verdict:** line instead.
 
 ```markdown
-**Is their mechanism right?** [Yes or no, with the deciding fact.]
+**Is their mechanism right?** [Yes or no: does the cause they named operate, per script output.]
 **Is their conclusion right?** [Yes or no, with the correct figure.]
 **Do now:** [the most urgent action]
 
