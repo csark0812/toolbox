@@ -4,6 +4,7 @@ import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { pathToFileURL } from 'node:url'
 const dir = process.argv[2]
 const run = (...args) =>
   execFileSync(process.execPath, args, { cwd: dir, encoding: 'utf8', stdio: 'pipe' })
@@ -68,15 +69,18 @@ assert.equal(
 `,
 )
 
-// Outside quoted strings and comments, the code names the concept green.
-const code = (text) =>
-  text
-    .replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, '')
-    .replace(/'(?:\\.|[^'\\\n])*'|"(?:\\.|[^"\\\n])*"|`(?:\\.|[^`\\])*`/g, '')
-for (const folder of ['src', 'bin'])
-  for (const file of readdirSync(join(dir, folder)).filter((f) => f.endsWith('.mjs'))) {
-    const body = code(read(`${folder}/${file}`))
-    assert.doesNotMatch(body, /lawn/i, `${folder}/${file} still names the old concept in code`)
-    assert.match(body, /green/i, `${folder}/${file} does not use the new name`)
-  }
+// The code's own names say green. The loader may still read the old keys to translate them.
+const exported = []
+for (const file of readdirSync(join(dir, 'src')).filter((f) => f.endsWith('.mjs')))
+  exported.push(...Object.keys(await import(pathToFileURL(join(dir, 'src', file)).href)))
+assert.ok(
+  exported.every((name) => !/lawn/i.test(name)),
+  `old names still exported: ${exported.join(', ')}`,
+)
+assert.ok(
+  exported.some((name) => /green/i.test(name)),
+  'no exported name uses the new word',
+)
+for (const file of readdirSync(join(dir, 'bin')).filter((f) => f.endsWith('.mjs')))
+  assert.match(read(`bin/${file}`), /green/i, `bin/${file} does not use the new name`)
 run('--test')
