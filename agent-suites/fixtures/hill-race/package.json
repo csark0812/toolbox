@@ -1,0 +1,9 @@
+{
+  "name": "hill-race",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "results": "node bin/results.mjs"
+  }
+}

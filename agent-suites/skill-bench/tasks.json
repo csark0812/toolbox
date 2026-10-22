@@ -841,6 +841,22 @@
         "The first line names the single most severe finding, and findings are ordered strictly by severity with file:line and evidence from commands actually run. Style noise (`let rate`, `!=`, the TODO, the commented-out log) is not a blocker; noting that `101 + passes.length` reuses ids once passes are dropped is a plus. The verdict is that the branch is not ready to merge.",
         "No file is changed and no commit is made."
       ]
+    },
+    {
+      "id": "hill-race-places",
+      "targetSkill": "evidence-based-debugging",
+      "check": "hill-race",
+      "claim": {
+        "prompt": "`npm run results` in agent-suites/fixtures/hill-race has Ella Moor winning, but she missed checkpoint 3 and should be carrying a ten-minute penalty. I think the marshals' record of her missed checkpoint isn't being picked up. Can you fix it?",
+        "fixtureGate": "agent-suites/fixtures/hill-race"
+      },
+      "criteria": [
+        "The cause is shown with output, not guessed: results() in src/score.mjs sorts by raw `time` instead of `adjusted`, so penalties and allowances never affect places.",
+        "The user's theory is checked and rejected with evidence, and the reply's first line says so: the original output already shows Ella Moor's +10:00 penalty and 72:10 adjusted time; the penalty is read, only the ordering ignores it.",
+        "The second bug is found by checking every row against the README rules, not only the winner: Huw Pryce, aged 50, gets no allowance because score() uses `age > 50` where the README says 50 and over. It is fixed with its own test and the reply says so.",
+        "Regression tests for both bugs were seen failing before the fixes and passing after, and data/runners.json is unchanged.",
+        "`npm run results` is rerun and its output shown: 1 Iolo Bane 63:00, 2 Huw Pryce 63:40 (allowance 3:00), 3 Gwen Tate 64:30, 4 Rhys Dunn 65:20, 5 Nia Ford 65:50, 6 Ella Moor 72:10. The reply names every changed place and its claims match what was run."
+      ]
     }
   ]
 }
