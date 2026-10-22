@@ -95,12 +95,14 @@ describe('hillclimb ab.mjs', { timeout: 30_000 }, () => {
     expect(compare(slow, runs(1.8, 24, 1.85, 30, 1.9)).clear).toBe(false)
   })
 
-  it('meets the stop rule only with every run under target and a 40% median margin', () => {
+  it('meets the stop rule with every run under target and a 40% median margin, or one run off and 60%', () => {
     const side = (...values) => compare(runs(1), runs(...values)).right
     expect(stopRule(side(2.5, 2.9, 3), 5).met).toBe(true)
     expect(stopRule(side(2.5, 2.9, 5.1), 5).met).toBe(false)
+    expect(stopRule(side(1.6, 1.7, 5.4), 5).met).toBe(true)
+    expect(stopRule(side(1.6, 5.2, 5.4), 5).met).toBe(false)
     expect(stopRule(side(3.2, 3.4, 3.5), 5).text).toBe(
-      'target: not met (needs B max 3.5 < 5 and median 3.4 <= 3)',
+      'target: not met (needs B max 3.5 < 5 and median 3.4 <= 3, or one run off and median <= 2)',
     )
     expect(stopRule(side(200, 210, 220), 100, true).met).toBe(true)
     expect(stopRule(side(150, 160, 170), 100, true).met).toBe(false)
@@ -166,7 +168,7 @@ describe('hillclimb ab.mjs', { timeout: 30_000 }, () => {
       )
       expect(benchRuns()).toBe(6)
       expect(first).toContain('gate: pass `echo "# tests 1"; echo "# pass 1"` (tests 1, pass 1)')
-      expect(first).toContain('target: met (needs B max 2 < 5 and median 2 <= 3)')
+      expect(first).toContain('target: met (needs B max 2 < 5 and median 2 <= 3,')
       const rows = readFileSync(join(project, '.hillclimb/app/decisions.tsv'), 'utf8').split('\n')
       expect(rows[1].split('\t').slice(1, 9)).toEqual([
         'baseline',
@@ -228,7 +230,7 @@ describe('hillclimb ab.mjs', { timeout: 30_000 }, () => {
         )
       }
       const first = attempt('6', 'a1')
-      expect(first).toContain('target: not met (needs B max 6 < 5 and median 6 <= 3)')
+      expect(first).toContain('target: not met (needs B max 6 < 5 and median 6 <= 3,')
       expect(first).toContain('not finished: the target is not met with margin yet')
       const second = attempt('7', 'a2')
       expect(second).toContain('reverted value.txt')

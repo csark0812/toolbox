@@ -73,6 +73,7 @@ export function sideStats(runs) {
     median: median(values),
     min: Math.min(...values),
     max: Math.max(...values),
+    values,
     errors: runs.reduce((sum, run) => sum + (run.errors ?? 0), 0),
     hasErrors: runs.some((run) => run.errors !== undefined),
     work: [...new Set(runs.map((run) => run.work).filter((w) => w !== undefined))],
@@ -114,16 +115,23 @@ export function needsAnotherRound(a, b, { min = 3, max = 9 } = {}) {
   return !separated && Math.abs(delta) > 5
 }
 
-/** Stop when every B run beats the target and the B median has a 40% margin on it. */
+/**
+ * Met when every B run beats the target and the B median has a 40% margin on it, or when a single
+ * stalled run misses the target but the median has a 60% margin.
+ */
 export function stopRule(stats, target, higher = false) {
-  const met = higher
-    ? stats.min > target && stats.median >= round3(target / 0.6)
-    : stats.max < target && stats.median <= round3(target * 0.6)
+  const beats = (value) => (higher ? value > target : value < target)
+  const within = (factor) =>
+    higher ? stats.median >= round3(target / factor) : stats.median <= round3(target * factor)
+  const misses = (stats.values ?? [stats.min, stats.max]).filter((value) => !beats(value)).length
+  const met = (misses === 0 && within(0.6)) || (misses === 1 && stats.n >= 3 && within(0.4))
   const edge = higher ? `min ${stats.min} > ${target}` : `max ${stats.max} < ${target}`
-  const margin = higher
-    ? `median ${stats.median} >= ${round3(target / 0.6)}`
-    : `median ${stats.median} <= ${round3(target * 0.6)}`
-  return { met, text: `target: ${met ? 'met' : 'not met'} (needs B ${edge} and ${margin})` }
+  const margin = `median ${stats.median} ${higher ? '>=' : '<='} ${round3(higher ? target / 0.6 : target * 0.6)}`
+  const loose = round3(higher ? target / 0.4 : target * 0.4)
+  return {
+    met,
+    text: `target: ${met ? 'met' : 'not met'} (needs B ${edge} and ${margin}, or one run off and median ${higher ? '>=' : '<='} ${loose})`,
+  }
 }
 
 /**
