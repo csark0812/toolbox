@@ -1,0 +1,92 @@
+diff --git a/agent-suites/fixtures/ghost-walks/README.md b/agent-suites/fixtures/ghost-walks/README.md
+index 3d53f91..f88f32c 100644
+--- a/agent-suites/fixtures/ghost-walks/README.md
++++ b/agent-suites/fixtures/ghost-walks/README.md
+@@ -6,6 +6,12 @@ Guide sheets for Castlebridge Ghost Walks, evening walking tours of the old town
+ 
+ Each guide takes a sheet on the night: the walk's heading, then one line per booking so they can tick people off at the start.
+ 
++## Waiting list
++
++The council's street-performance licence allows 20 people on a walk, not counting the guide. Bookings are confirmed first come, first served, and a party is never split. Once a party doesn't fit, it and every booking taken after it go on the waiting list in booking order, so nobody jumps the queue, even a smaller party that would fit. The guide rings the waiting list if anyone doesn't turn up.
++
++The limit is the licence's, not ours: Bethan agrees any change with the council's licensing team, and it goes in this README before the code changes.
++
+ ## Usage
+ 
+ ```
+diff --git a/agent-suites/fixtures/ghost-walks/src/capacity.mjs b/agent-suites/fixtures/ghost-walks/src/capacity.mjs
+new file mode 100644
+index 0000000..c00e355
+--- /dev/null
++++ b/agent-suites/fixtures/ghost-walks/src/capacity.mjs
+@@ -0,0 +1,13 @@
++// Walks are limited by the council's street-performance licence.
++export const CAPACITY = 20 // people on one walk, guide not included
++
++// Bookings are confirmed first come, first served, in the order they were taken.
++export function allocate(bookings) {
++  const confirmed = []
++  const waiting = []
++  for (const booking of bookings) {
++    if (confirmed.length < CAPACITY) confirmed.push(booking)
++    else waiting.push(booking)
++  }
++  return { confirmed, waiting }
++}
+diff --git a/agent-suites/fixtures/ghost-walks/src/sheet.mjs b/agent-suites/fixtures/ghost-walks/src/sheet.mjs
+index 05955ae..3f59a2b 100644
+--- a/agent-suites/fixtures/ghost-walks/src/sheet.mjs
++++ b/agent-suites/fixtures/ghost-walks/src/sheet.mjs
+@@ -1,4 +1,5 @@
+ import { readFileSync } from 'node:fs'
++import { allocate } from './capacity.mjs'
+ 
+ export const load = (name) => JSON.parse(readFileSync(`data/${name}.json`, 'utf8'))
+ 
+@@ -15,5 +16,8 @@ export const bookingLine = (booking) => `  ${booking.ref}  ${booking.name} x${bo
+ 
+ export function walkSheet(walk, bookings) {
+   const mine = bookings.filter((booking) => booking.walk === walk.id)
+-  return [heading(walk), ...mine.map(bookingLine)]
++  const { confirmed, waiting } = allocate(mine)
++  const lines = [heading(walk), ...confirmed.map(bookingLine)]
++  if (waiting.length) lines.push('  Waiting list:', ...waiting.map(bookingLine))
++  return lines
+ }
+diff --git a/agent-suites/fixtures/ghost-walks/tests/capacity.test.mjs b/agent-suites/fixtures/ghost-walks/tests/capacity.test.mjs
+new file mode 100644
+index 0000000..fdb180d
+--- /dev/null
++++ b/agent-suites/fixtures/ghost-walks/tests/capacity.test.mjs
+@@ -0,0 +1,30 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { allocate } from '../src/capacity.mjs'
++
++const party = (ref, people) => ({ ref, walk: 'W9', name: ref, people })
++
++test('a walk takes twenty people', () => {
++  const bookings = [1, 2, 3, 4, 5].map((n) => party(`B-${n}`, 4)).concat(party('B-6', 2))
++  const { confirmed, waiting } = allocate(bookings)
++  assert.deepEqual(
++    confirmed.map((booking) => booking.ref),
++    ['B-1', 'B-2', 'B-3', 'B-4', 'B-5'],
++  )
++  assert.deepEqual(
++    waiting.map((booking) => booking.ref),
++    ['B-6'],
++  )
++})
++
++test('a party is never split across the walk and the waiting list', () => {
++  const { confirmed, waiting } = allocate([party('B-1', 18), party('B-2', 4)])
++  assert.deepEqual(
++    confirmed.map((booking) => booking.ref),
++    ['B-1'],
++  )
++  assert.deepEqual(
++    waiting.map((booking) => booking.ref),
++    ['B-2'],
++  )
++})

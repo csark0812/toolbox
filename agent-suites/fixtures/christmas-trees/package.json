@@ -1,0 +1,9 @@
+{
+  "name": "christmas-trees",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "invoices": "node bin/invoices.mjs"
+  }
+}

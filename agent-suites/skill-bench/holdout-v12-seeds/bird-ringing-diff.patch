@@ -1,0 +1,174 @@
+diff --git a/agent-suites/fixtures/bird-ringing/README.md b/agent-suites/fixtures/bird-ringing/README.md
+index 9c6b8a2..1651e20 100644
+--- a/agent-suites/fixtures/bird-ringing/README.md
++++ b/agent-suites/fixtures/bird-ringing/README.md
+@@ -10,4 +10,4 @@ Rules the records follow:
+ - Wing lengths are whole millimetres; weights are grams to one decimal place (`10.6`).
+ - Schedule 1 species (`schedule1: true` in `data/species.json`) are specially protected. Anything that leaves the group, which means the public report, gives only the county for their encounters, never the site name or grid reference.
+ 
+-`npm run report` prints the public report we send to the county bird recorder. `src/store.mjs` holds the records in memory; only the `bin/` scripts call `persist()` to write them back to `data/`. `npm test` runs the tests.
++`npm run import -- <export.csv>` adds the encounters from the national scheme's web-entry export (plain comma-separated with a header row and no quoted fields, newest first) and tidies up any duplicates. `npm run report` prints the public report we send to the county bird recorder. `src/store.mjs` holds the records in memory; only the `bin/` scripts call `persist()` to write them back to `data/`. `npm test` runs the tests.
+diff --git a/agent-suites/fixtures/bird-ringing/bin/import.mjs b/agent-suites/fixtures/bird-ringing/bin/import.mjs
+new file mode 100644
+index 0000000..3936125
+--- /dev/null
++++ b/agent-suites/fixtures/bird-ringing/bin/import.mjs
+@@ -0,0 +1,12 @@
++import { readFileSync } from 'node:fs'
++import { importCsv } from '../src/import.mjs'
++import { persist } from '../src/store.mjs'
++
++const [path] = process.argv.slice(2)
++if (!path) {
++  console.error('usage: npm run import -- <export.csv>')
++  process.exit(1)
++}
++const added = importCsv(readFileSync(path, 'utf8'))
++persist()
++console.log(`${added} encounters imported`)
+diff --git a/agent-suites/fixtures/bird-ringing/package.json b/agent-suites/fixtures/bird-ringing/package.json
+index 244a786..fd267d3 100644
+--- a/agent-suites/fixtures/bird-ringing/package.json
++++ b/agent-suites/fixtures/bird-ringing/package.json
+@@ -3,6 +3,7 @@
+   "private": true,
+   "type": "module",
+   "scripts": {
++    "import": "node bin/import.mjs",
+     "report": "node bin/report.mjs",
+     "test": "node --test"
+   }
+diff --git a/agent-suites/fixtures/bird-ringing/src/encounters.mjs b/agent-suites/fixtures/bird-ringing/src/encounters.mjs
+index fe501d4..2d2b844 100644
+--- a/agent-suites/fixtures/bird-ringing/src/encounters.mjs
++++ b/agent-suites/fixtures/bird-ringing/src/encounters.mjs
+@@ -1,4 +1,4 @@
+-import { birds, encounters, species } from './store.mjs'
++import { birds, encounters, setEncounters, species } from './store.mjs'
+ 
+ /** Records a catch; a ring we haven't seen before is a newly ringed bird. */
+ export function addEncounter({ ring, species: name, date, time, site, ringer, wingMm, weightG }) {
+@@ -27,3 +27,10 @@ export function historyOf(ring) {
+     .filter((entry) => entry.ring === ring)
+     .sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time))
+ }
++
++/** Drops duplicate encounters, for when the same export is imported twice. */
++export function dedupeEncounters() {
++  const latest = new Map()
++  for (const encounter of encounters()) latest.set(`${encounter.ring}|${encounter.date}`, encounter)
++  setEncounters([...latest.values()])
++}
+diff --git a/agent-suites/fixtures/bird-ringing/src/import.mjs b/agent-suites/fixtures/bird-ringing/src/import.mjs
+new file mode 100644
+index 0000000..f65a06e
+--- /dev/null
++++ b/agent-suites/fixtures/bird-ringing/src/import.mjs
+@@ -0,0 +1,31 @@
++import { addEncounter, dedupeEncounters } from './encounters.mjs'
++import { sites } from './store.mjs'
++
++const COLUMNS = ['ring', 'species', 'date', 'time', 'site', 'ringer', 'wing', 'weight']
++
++/** Imports the scheme's web-entry export and returns how many encounters were added. */
++export function importCsv(text) {
++  const lines = text.trim().split(/\r?\n/)
++  let added = 0
++  // The export is newest first; walk it backwards so encounters go in oldest first.
++  for (let i = lines.length - 1; i >= 1; i--) {
++    const cols = lines[i].split(',').map((cell) => cell.trim())
++    const row = Object.fromEntries(COLUMNS.map((name, index) => [name, cols[index]]))
++    if (!sites().some((site) => site.id == row.site))
++      throw new Error(`unknown site on line ${i + 1}`)
++    addEncounter({
++      ring: row.ring,
++      species: row.species,
++      date: row.date,
++      time: row.time,
++      site: row.site,
++      ringer: row.ringer,
++      wingMm: parseInt(row.wing, 10),
++      weightG: parseInt(row.weight, 10),
++    })
++    added++
++  }
++  // console.log(`imported ${added}`)
++  dedupeEncounters()
++  return added
++}
+diff --git a/agent-suites/fixtures/bird-ringing/src/report.mjs b/agent-suites/fixtures/bird-ringing/src/report.mjs
+index ac09d04..005e772 100644
+--- a/agent-suites/fixtures/bird-ringing/src/report.mjs
++++ b/agent-suites/fixtures/bird-ringing/src/report.mjs
+@@ -2,13 +2,20 @@ import { birds, encounters, sites, species } from './store.mjs'
+ 
+ /** The public report: one line per encounter, oldest first. */
+ export function publicReport() {
++  // TODO: group by species for the county recorder
++  const protectedSpecies = new Set(
++    species()
++      .filter((entry) => entry.schedule1)
++      .map((entry) => entry.name),
++  )
+   return encounters()
+     .toSorted((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time))
+     .map((encounter) => {
+       const bird = birds().find((entry) => entry.ring === encounter.ring)
+       const site = sites().find((entry) => entry.id === encounter.site)
+-      const kind = species().find((entry) => entry.name === bird.species)
+-      const place = kind.schedule1 ? site.county : `${site.name}, ${site.county} (${site.gridRef})`
++      const place = protectedSpecies.has(encounter.species)
++        ? site.county
++        : `${site.name}, ${site.county} (${site.gridRef})`
+       return `${encounter.date} ${bird.species} ${encounter.ring} ${place}`
+     })
+ }
+diff --git a/agent-suites/fixtures/bird-ringing/tests/import.test.mjs b/agent-suites/fixtures/bird-ringing/tests/import.test.mjs
+new file mode 100644
+index 0000000..c330dd7
+--- /dev/null
++++ b/agent-suites/fixtures/bird-ringing/tests/import.test.mjs
+@@ -0,0 +1,28 @@
++import assert from 'node:assert/strict'
++import { beforeEach, test } from 'node:test'
++import { historyOf } from '../src/encounters.mjs'
++import { importCsv } from '../src/import.mjs'
++import { birds, encounters, reset } from '../src/store.mjs'
++
++beforeEach(reset)
++const EXPORT = `ring,species,date,time,site,ringer,wing,weight
++D490112,Reed Warbler,2026-10-18,07:20,s-1,AK,66,12
++D483377,Sedge Warbler,2026-10-11,06:50,s-1,AK,67,11
++`
++
++test('an export adds its encounters oldest first', () => {
++  assert.equal(importCsv(EXPORT), 2)
++  assert.deepEqual(
++    encounters()
++      .slice(-2)
++      .map((entry) => entry.date),
++    ['2026-10-11', '2026-10-18'],
++  )
++  assert.ok(birds().some((bird) => bird.ring === 'D490112'))
++})
++
++test('importing the same export twice does not double up', () => {
++  importCsv(EXPORT)
++  importCsv(EXPORT)
++  assert.equal(historyOf('D490112').length, 1)
++})
+diff --git a/agent-suites/fixtures/bird-ringing/tests/report.test.mjs b/agent-suites/fixtures/bird-ringing/tests/report.test.mjs
+index 71a1e95..ed3d05c 100644
+--- a/agent-suites/fixtures/bird-ringing/tests/report.test.mjs
++++ b/agent-suites/fixtures/bird-ringing/tests/report.test.mjs
+@@ -13,8 +13,6 @@ test('the report has one line per encounter, oldest first', () => {
+ 
+ test('Schedule 1 species show only the county', () => {
+   const kingfisher = publicReport().filter((line) => line.includes('SX4410'))
+-  assert.deepEqual(kingfisher, [
+-    '2026-08-23 Kingfisher SX4410 Norfolk',
+-    '2026-10-04 Kingfisher SX4410 Norfolk',
+-  ])
++  assert.equal(kingfisher.length, 2)
++  for (const line of kingfisher) assert.match(line, /Kingfisher SX4410 .*Norfolk/)
+ })

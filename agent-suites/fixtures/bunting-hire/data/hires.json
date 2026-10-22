@@ -1,0 +1,42 @@
+[
+  {
+    "ref": "H-101",
+    "hirer": "Mrs Ellis",
+    "item": "bunting (100 m)",
+    "due": "2026-06-14",
+    "returned": "2026-06-14",
+    "deposit": 1000
+  },
+  {
+    "ref": "H-102",
+    "hirer": "Young Farmers",
+    "item": "gazebo",
+    "due": "2026-06-20",
+    "returned": "2026-06-23",
+    "deposit": 2000
+  },
+  {
+    "ref": "H-103",
+    "hirer": "St Mary's PTA",
+    "item": "trestle tables (6)",
+    "due": "2026-06-28",
+    "returned": "2026-06-29",
+    "deposit": 1500
+  },
+  {
+    "ref": "H-104",
+    "hirer": "D. Bowen",
+    "item": "bunting (50 m)",
+    "due": "2026-07-05",
+    "returned": "2026-07-15",
+    "deposit": 1000
+  },
+  {
+    "ref": "H-105",
+    "hirer": "Cricket Club",
+    "item": "gazebo",
+    "due": "2026-07-26",
+    "returned": null,
+    "deposit": 2000
+  }
+]

@@ -1,0 +1,117 @@
+[
+  {
+    "accession": "HB1923/417-7",
+    "taxon": "Primula vulgaris",
+    "collector": "E. Hale",
+    "collected": "1923-04-12"
+  },
+  {
+    "accession": "HB1880/1-8",
+    "taxon": "Ranunculus acris",
+    "collector": "J. Marlow",
+    "collected": "1879-06-02"
+  },
+  {
+    "accession": "HB2026/99999-8",
+    "taxon": "Bellis perennis",
+    "collector": "R. Okafor",
+    "collected": "2026-05-01"
+  },
+  {
+    "accession": "HB1879/12-X",
+    "taxon": "Viola riviniana",
+    "collector": "J. Marlow",
+    "collected": "1879-05-20"
+  },
+  {
+    "accession": "HB1990/012-8",
+    "taxon": "Silene dioica",
+    "collector": "P. Shah",
+    "collected": "1990-06-14"
+  },
+  {
+    "accession": "hb1990/12-8",
+    "taxon": "Silene latifolia",
+    "collector": "P. Shah",
+    "collected": "1990-06-14"
+  },
+  {
+    "accession": "HB1990/12-3",
+    "taxon": "Silene vulgaris",
+    "collector": "P. Shah",
+    "collected": "1990-06-15"
+  },
+  {
+    "accession": "HB1954/205-x",
+    "taxon": "Orchis mascula",
+    "collector": "M. Kerr",
+    "collected": "1954-05-09"
+  },
+  {
+    "accession": "HB1923/417-7",
+    "taxon": "Primula veris",
+    "collector": "E. Hale",
+    "collected": "1923-04-12"
+  },
+  {
+    "accession": "HB1954/205-X",
+    "taxon": "Ophrys apifera",
+    "collector": "M. Kerr",
+    "collected": "1954-06-30"
+  },
+  {
+    "accession": "HB1961/88-8",
+    "taxon": "Digitalis purpurea",
+    "collector": "A. Fox",
+    "collected": "1962-06-01"
+  },
+  {
+    "accession": "HB1961/89-6",
+    "taxon": "Geranium robertianum",
+    "collector": "A. Fox",
+    "collected": "1961-12-31"
+  },
+  {
+    "accession": "HB2027/5-4",
+    "taxon": "Taraxacum officinale",
+    "collector": "R. Okafor",
+    "collected": "2026-04-18"
+  },
+  {
+    "accession": "HB1990/12-8",
+    "taxon": "Lychnis flos-cuculi",
+    "collector": "P. Shah",
+    "collected": "1990-06-20"
+  },
+  {
+    "accession": "HB1975/100000-9",
+    "taxon": "Mentha aquatica",
+    "collector": "L. Ng",
+    "collected": "1975-08-03"
+  },
+  {
+    "accession": "HB1975/0-5",
+    "taxon": "Mentha arvensis",
+    "collector": "L. Ng",
+    "collected": "1975-08-03"
+  },
+  { "accession": "HB2001/7-4", "taxon": "Hedera helix", "collector": "unknown", "collected": null },
+  {
+    "accession": "HB1999/45-7",
+    "taxon": "Rosa canina",
+    "collector": "D. Rao",
+    "collected": "2003-01-01"
+  },
+  {
+    "accession": "HB1954/230-0",
+    "taxon": "Dactylorhiza fuchsii",
+    "collector": "M. Kerr",
+    "collected": "1954-07-02"
+  },
+  {
+    "accession": "HB1954/230-O",
+    "taxon": "Dactylorhiza maculata",
+    "collector": "M. Kerr",
+    "collected": "1954-07-02"
+  }
+]

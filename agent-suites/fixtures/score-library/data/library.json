@@ -1,0 +1,56 @@
+{
+  "pieces": [
+    { "id": "S1040", "composer": "Elgar, Edward", "title": "Serenade", "parts": 12 },
+    { "id": "S2210", "composer": "Dvořák, Antonín", "title": "Symphony No. 9", "parts": 30 },
+    { "id": "S2209", "composer": "Dvorak, Antonin", "title": "Symphony No. 10", "parts": 30 },
+    { "id": "S3001", "title": "Greensleeves", "parts": 8 },
+    { "id": "S1777", "composer": "Holst, Gustav", "title": "St Paul's Suite", "parts": 10 },
+    { "id": "S1776", "composer": " ", "title": "Greensleeves", "parts": 6 },
+    { "id": "S5000", "composer": "Fauré, Gabriel", "title": "Requiem", "parts": 24 }
+  ],
+  "loans": [
+    {
+      "piece": "S1040",
+      "borrower": "Wells Orchestra",
+      "out": "2026-03-02",
+      "due": "2026-05-01",
+      "returned": "2026-04-28"
+    },
+    {
+      "piece": "S1040",
+      "borrower": "Frome Choral",
+      "out": "2026-09-10",
+      "due": "2026-12-01",
+      "returned": null
+    },
+    { "piece": "S2210", "borrower": "Taunton Sinfonia", "out": "2026-06-01", "due": "2026-09-01" },
+    {
+      "piece": "S1777",
+      "borrower": "Yeovil Singers",
+      "out": "2025-01-10",
+      "due": "2025-03-01",
+      "returned": "2025-03-01"
+    },
+    {
+      "piece": "S5000",
+      "borrower": "Frome Choral",
+      "out": "2026-10-01",
+      "due": "2026-10-21",
+      "returned": null
+    },
+    {
+      "piece": "S5000",
+      "borrower": "Wells Orchestra",
+      "out": "2026-10-01",
+      "due": "2026-10-20",
+      "returned": null
+    },
+    {
+      "piece": "S9999",
+      "borrower": "Wells Orchestra",
+      "out": "2026-01-01",
+      "due": "2026-02-01",
+      "returned": null
+    }
+  ]
+}

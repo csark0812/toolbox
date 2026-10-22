@@ -1,0 +1,7 @@
+[
+  { "name": "Blue Tit", "schedule1": false },
+  { "name": "Reed Warbler", "schedule1": false },
+  { "name": "Sedge Warbler", "schedule1": false },
+  { "name": "Kingfisher", "schedule1": true },
+  { "name": "Bearded Tit", "schedule1": true }
+]

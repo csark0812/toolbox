@@ -1,0 +1,12 @@
+{
+  "eventId": "WMRC-EXPO-27",
+  "title": "Wexcombe Model Railway Exhibition 2027",
+  "startsAt": 1804932000,
+  "endsAt": 1804957200,
+  "timezone": "Europe/London",
+  "prices": [
+    { "band": "Adult", "pence": 700, "earlyBirdPence": 500 },
+    { "band": "Child (5-15)", "pence": 300, "earlyBirdPence": 200 },
+    { "band": "Family (2+3)", "pence": 1600, "earlyBirdPence": 1200 }
+  ]
+}

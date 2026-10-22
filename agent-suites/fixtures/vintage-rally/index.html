@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hafren Vintage Rally · Entries</title>
+    <link rel="stylesheet" href="map.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#">Hafren Vintage Rally</a>
+      <nav class="site-nav" aria-label="Main">
+        <div class="dropdown">
+          <button class="menu-btn" type="button" aria-expanded="false" aria-controls="classes-menu">
+            Classes
+          </button>
+          <ul class="menu" id="classes-menu">
+            <li><a href="#entries">Pre-war cars</a></li>
+            <li><a href="#entries">Post-war cars</a></li>
+            <li><a href="#entries">Commercial vehicles</a></li>
+            <li><a href="#entries">Motorcycles</a></li>
+            <li><a href="#entries">Steam and agricultural</a></li>
+          </ul>
+        </div>
+        <a href="#getting-here">Getting here</a>
+      </nav>
+    </header>
+
+    <main class="page">
+      <section class="route-map" id="getting-here" aria-label="Map of the showground">
+        <div class="map-pane map-pane--tiles"></div>
+        <div class="map-pane map-pane--overlay">
+          <span class="map-marker" style="left: 38%; top: 46%">Showground</span>
+          <span class="map-marker" style="left: 64%; top: 30%">Car park</span>
+        </div>
+        <div class="map-control map-control--zoom">
+          <button type="button" aria-label="Zoom in">+</button>
+          <button type="button" aria-label="Zoom out">−</button>
+        </div>
+        <div class="map-attribution">Map data © OpenStreetMap contributors</div>
+      </section>
+
+      <section class="intro">
+        <h1>Entries for this year's rally</h1>
+        <p>
+          Two days of pre-war cars, steam, tractors and motorcycles on the riverside field at
+          Llanidloes, 9–10 August. Entries close on 25 July.
+        </p>
+        <button class="open-entry" type="button">Enter your vehicle</button>
+      </section>
+
+      <section class="entries" id="entries">
+        <h2>Entered so far</h2>
+        <div class="entry-grid">
+          <article class="entry-card">
+            <div
+              class="entry-card__photo entry-card__photo--1"
+              role="img"
+              aria-label="1931 Austin Seven Chummy"
+            ></div>
+            <div class="entry-card__body">
+              <h3>1931 Austin Seven Chummy</h3>
+              <p class="entry-card__owner">Gwen Hartley</p>
+            </div>
+            <div class="entry-card__foot">
+              <span class="entry-card__class">Pre-war</span>
+              <button class="badge" type="button" aria-describedby="tip-1">Concours</button>
+              <span class="tip" id="tip-1" role="tooltip"
+                >On the main field, Saturday 2pm. Best in class wins the Hafren Cup.</span
+              >
+            </div>
+          </article>
+          <article class="entry-card">
+            <div
+              class="entry-card__photo entry-card__photo--2"
+              role="img"
+              aria-label="1948 Ferguson TE20 tractor"
+            ></div>
+            <div class="entry-card__body">
+              <h3>1948 Ferguson TE20 tractor</h3>
+              <p class="entry-card__owner">Owain Lloyd</p>
+            </div>
+            <div class="entry-card__foot">
+              <span class="entry-card__class">Agricultural</span>
+              <button class="badge" type="button" aria-describedby="tip-2">Concours</button>
+              <span class="tip" id="tip-2" role="tooltip"
+                >On the main field, Saturday 2pm. Best in class wins the Hafren Cup.</span
+              >
+            </div>
+          </article>
+          <article class="entry-card">
+            <div
+              class="entry-card__photo entry-card__photo--3"
+              role="img"
+              aria-label="1955 Morris Minor Traveller"
+            ></div>
+            <div class="entry-card__body">
+              <h3>1955 Morris Minor Traveller</h3>
+              <p class="entry-card__owner">Priya Shah</p>
+            </div>
+            <div class="entry-card__foot">
+              <span class="entry-card__class">Post-war</span>
+              <button class="badge" type="button" aria-describedby="tip-3">Concours</button>
+              <span class="tip" id="tip-3" role="tooltip"
+                >On the main field, Saturday 2pm. Best in class wins the Hafren Cup.</span
+              >
+            </div>
+          </article>
+          <article class="entry-card">
+            <div
+              class="entry-card__photo entry-card__photo--4"
+              role="img"
+              aria-label="1927 Sentinel steam waggon"
+            ></div>
+            <div class="entry-card__body">
+              <h3>1927 Sentinel steam waggon</h3>
+              <p class="entry-card__owner">The Teme Valley Steam Group</p>
+            </div>
+            <div class="entry-card__foot">
+              <span class="entry-card__class">Steam</span>
+              <button class="badge" type="button" aria-describedby="tip-4">Concours</button>
+              <span class="tip" id="tip-4" role="tooltip"
+                >On the main field, Saturday 2pm. Best in class wins the Hafren Cup.</span
+              >
+            </div>
+          </article>
+          <article class="entry-card">
+            <div
+              class="entry-card__photo entry-card__photo--5"
+              role="img"
+              aria-label="1962 Land Rover Series IIA"
+            ></div>
+            <div class="entry-card__body">
+              <h3>1962 Land Rover Series IIA</h3>
+              <p class="entry-card__owner">Dan Whitcombe</p>
+            </div>
+            <div class="entry-card__foot">
+              <span class="entry-card__class">Commercial</span>
+              <button class="badge" type="button" aria-describedby="tip-5">Concours</button>
+              <span class="tip" id="tip-5" role="tooltip"
+                >On the main field, Saturday 2pm. Best in class wins the Hafren Cup.</span
+              >
+            </div>
+          </article>
+          <article class="entry-card">
+            <div
+              class="entry-card__photo entry-card__photo--6"
+              role="img"
+              aria-label="1938 Brough Superior SS80"
+            ></div>
+            <div class="entry-card__body">
+              <h3>1938 Brough Superior SS80</h3>
+              <p class="entry-card__owner">Linda Marsh</p>
+            </div>
+            <div class="entry-card__foot">
+              <span class="entry-card__class">Motorcycles</span>
+              <button class="badge" type="button" aria-describedby="tip-6">Concours</button>
+              <span class="tip" id="tip-6" role="tooltip"
+                >On the main field, Saturday 2pm. Best in class wins the Hafren Cup.</span
+              >
+            </div>
+          </article>
+          <article class="entry-card">
+            <div
+              class="entry-card__photo entry-card__photo--7"
+              role="img"
+              aria-label="1959 Bedford OB coach"
+            ></div>
+            <div class="entry-card__body">
+              <h3>1959 Bedford OB coach</h3>
+              <p class="entry-card__owner">Mid Wales Bus Preservation</p>
+            </div>
+            <div class="entry-card__foot">
+              <span class="entry-card__class">Commercial</span>
+              <button class="badge" type="button" aria-describedby="tip-7">Concours</button>
+              <span class="tip" id="tip-7" role="tooltip"
+                >On the main field, Saturday 2pm. Best in class wins the Hafren Cup.</span
+              >
+            </div>
+          </article>
+          <article class="entry-card">
+            <div
+              class="entry-card__photo entry-card__photo--8"
+              role="img"
+              aria-label="1936 Riley Kestrel"
+            ></div>
+            <div class="entry-card__body">
+              <h3>1936 Riley Kestrel</h3>
+              <p class="entry-card__owner">Alan Pryce</p>
+            </div>
+            <div class="entry-card__foot">
+              <span class="entry-card__class">Pre-war</span>
+              <button class="badge" type="button" aria-describedby="tip-8">Concours</button>
+              <span class="tip" id="tip-8" role="tooltip"
+                >On the main field, Saturday 2pm. Best in class wins the Hafren Cup.</span
+              >
+            </div>
+          </article>
+        </div>
+
+        <div
+          class="modal"
+          id="entry-form"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="entry-title"
+        >
+          <div class="modal__dialog">
+            <h2 id="entry-title">Enter your vehicle</h2>
+            <form class="modal__form">
+              <label>Your name <input name="name" autocomplete="name" /></label>
+              <label>Vehicle and year <input name="vehicle" /></label>
+              <label
+                >Class
+                <select name="class">
+                  <option>Pre-war cars</option>
+                  <option>Post-war cars</option>
+                  <option>Commercial vehicles</option>
+                  <option>Motorcycles</option>
+                  <option>Steam and agricultural</option>
+                </select>
+              </label>
+              <div class="modal__actions">
+                <button class="modal__close" type="button">Cancel</button>
+                <button class="modal__send" type="submit">Send entry</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Hafren Vintage Vehicle Society · Registered charity 1012345</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

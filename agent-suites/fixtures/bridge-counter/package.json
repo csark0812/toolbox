@@ -1,0 +1,10 @@
+{
+  "name": "bridge-counter",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "report": "node bin/report.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

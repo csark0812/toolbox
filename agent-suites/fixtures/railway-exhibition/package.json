@@ -1,0 +1,12 @@
+{
+  "name": "railway-exhibition",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "countdown": "node bin/countdown.mjs",
+    "ticket": "node bin/ticket.mjs",
+    "letters": "node bin/letters.mjs",
+    "build:web": "node bin/build-web.mjs"
+  }
+}

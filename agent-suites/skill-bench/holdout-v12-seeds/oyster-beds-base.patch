@@ -1,0 +1,55 @@
+diff --git a/agent-suites/fixtures/oyster-beds/README.md b/agent-suites/fixtures/oyster-beds/README.md
+index 81a338b..53d0522 100644
+--- a/agent-suites/fixtures/oyster-beds/README.md
++++ b/agent-suites/fixtures/oyster-beds/README.md
+@@ -1,6 +1,8 @@
+ # Oyster beds
+ 
+-The Friday pack list for Trelowarren Oyster Farm. Restaurants and shops along the river order oysters for the Friday van, sorted by size into No.1 (largest), No.2 and No.3. `data/orders.json` lists this week's orders: the customer, the grade and how many dozen.
++The Friday pack list for Trelowarren Oyster Farm. Restaurants and shops along the river order oysters for the Friday van, sorted by size into No.1 (largest), No.2 and No.3. `data/orders.json` lists this week's orders: the customer, the grade and how many oysters (`count`).
++
++Since October customers can order any number of oysters, not just whole dozens, so orders are recorded as single oysters. The price list stays per dozen: an order that isn't a whole number of dozens is charged pro rata (the price a dozen times the count, divided by twelve), rounded to the nearest penny for the order.
+ 
+ ## Pack list
+ 
+diff --git a/agent-suites/fixtures/oyster-beds/data/orders.json b/agent-suites/fixtures/oyster-beds/data/orders.json
+index 763915a..76c111a 100644
+--- a/agent-suites/fixtures/oyster-beds/data/orders.json
++++ b/agent-suites/fixtures/oyster-beds/data/orders.json
+@@ -1,7 +1,7 @@
+ [
+-  { "customer": "Harbour Kitchen", "grade": "No.2", "dozens": 6 },
+-  { "customer": "The Pilchard Inn", "grade": "No.1", "dozens": 3 },
+-  { "customer": "Fal River Cafe", "grade": "No.3", "dozens": 8 },
+-  { "customer": "Sandbar", "grade": "No.1", "dozens": 2 },
+-  { "customer": "Helford Deli", "grade": "No.2", "dozens": 4 }
++  { "customer": "Harbour Kitchen", "grade": "No.2", "count": 72 },
++  { "customer": "The Pilchard Inn", "grade": "No.1", "count": 30 },
++  { "customer": "Fal River Cafe", "grade": "No.3", "count": 100 },
++  { "customer": "Sandbar", "grade": "No.1", "count": 18 },
++  { "customer": "Helford Deli", "grade": "No.2", "count": 40 }
+ ]
+diff --git a/agent-suites/fixtures/oyster-beds/src/orders.mjs b/agent-suites/fixtures/oyster-beds/src/orders.mjs
+index a63fd27..07f1886 100644
+--- a/agent-suites/fixtures/oyster-beds/src/orders.mjs
++++ b/agent-suites/fixtures/oyster-beds/src/orders.mjs
+@@ -5,5 +5,5 @@ export function loadOrders(path = 'data/orders.json') {
+ }
+ 
+ export function packLine(order) {
+-  return `${order.customer.padEnd(18)}${order.grade.padEnd(6)}${order.dozens} dozen`
++  return `${order.customer.padEnd(18)}${order.grade.padEnd(6)}${order.count} oysters`
+ }
+diff --git a/agent-suites/fixtures/oyster-beds/tests/orders.test.mjs b/agent-suites/fixtures/oyster-beds/tests/orders.test.mjs
+index 5bb795d..0865d21 100644
+--- a/agent-suites/fixtures/oyster-beds/tests/orders.test.mjs
++++ b/agent-suites/fixtures/oyster-beds/tests/orders.test.mjs
+@@ -3,6 +3,6 @@ import { test } from 'node:test'
+ import { packLine } from '../src/orders.mjs'
+ 
+ test('a pack line names the customer, the grade and the quantity', () => {
+-  const line = packLine({ customer: 'Sandbar', grade: 'No.1', dozens: 2 })
+-  assert.match(line, /^Sandbar +No\.1 +2 dozen$/)
++  const line = packLine({ customer: 'Sandbar', grade: 'No.1', count: 18 })
++  assert.match(line, /^Sandbar +No\.1 +18 oysters$/)
+ })

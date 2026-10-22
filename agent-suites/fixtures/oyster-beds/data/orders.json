@@ -1,0 +1,7 @@
+[
+  { "customer": "Harbour Kitchen", "grade": "No.2", "dozens": 6 },
+  { "customer": "The Pilchard Inn", "grade": "No.1", "dozens": 3 },
+  { "customer": "Fal River Cafe", "grade": "No.3", "dozens": 8 },
+  { "customer": "Sandbar", "grade": "No.1", "dozens": 2 },
+  { "customer": "Helford Deli", "grade": "No.2", "dozens": 4 }
+]

@@ -1,0 +1,10 @@
+{
+  "name": "yarn-stock",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "books": "node bin/books.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

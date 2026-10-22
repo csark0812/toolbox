@@ -1,0 +1,12 @@
+{
+  "name": "coach-outings",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "manifest": "node bin/manifest.mjs",
+    "year": "node bin/year.mjs",
+    "export": "node bin/export.mjs",
+    "book": "node bin/book.mjs"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "youth-club-rota",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "rota-check": "node bin/rota-check.mjs"
+  }
+}

@@ -1,0 +1,57 @@
+/* Panes and controls for the showground map, as shipped by the map library. Not ours to edit. */
+.map-pane {
+  position: absolute;
+  inset: 0;
+}
+
+.map-pane--tiles {
+  z-index: 200;
+  background:
+    linear-gradient(90deg, rgb(255 255 255 / 0.35) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(rgb(255 255 255 / 0.35) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(160deg, #b9d3a5 0%, #9cc2a0 45%, #7fb0c9 46%, #a9cbe0 60%, #c7dbb0 61%);
+}
+
+.map-pane--overlay {
+  z-index: 400;
+}
+
+.map-marker {
+  position: absolute;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #1d3557;
+  color: #ffffff;
+  font-size: 0.8rem;
+  transform: translate(-50%, -100%);
+}
+
+.map-control {
+  position: absolute;
+  z-index: 800;
+  top: 10px;
+  left: 10px;
+  display: grid;
+  border: 2px solid rgb(0 0 0 / 0.2);
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.map-control button {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  background: #ffffff;
+  font: bold 18px/30px sans-serif;
+}
+
+.map-attribution {
+  position: absolute;
+  z-index: 800;
+  right: 0;
+  bottom: 0;
+  padding: 0 6px;
+  background: rgb(255 255 255 / 0.8);
+  color: #333333;
+  font-size: 11px;
+}

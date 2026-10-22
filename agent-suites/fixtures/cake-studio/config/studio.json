@@ -1,0 +1,5 @@
+{
+  "portionSqIn": { "wedding": 1, "party": 4 },
+  "pencePerPortion": { "sponge": 120, "fruit": 165, "chocolate": 140 },
+  "deliveryPencePerMile": 60
+}

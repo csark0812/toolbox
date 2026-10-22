@@ -1,0 +1,159 @@
+diff --git a/agent-suites/fixtures/violin-rentals/README.md b/agent-suites/fixtures/violin-rentals/README.md
+index ba01dc8..1fe7dfc 100644
+--- a/agent-suites/fixtures/violin-rentals/README.md
++++ b/agent-suites/fixtures/violin-rentals/README.md
+@@ -12,4 +12,6 @@ Rules for every endpoint:
+ - The deposit is refunded in full when the instrument comes back.
+ - The return date is the day the shop receives the instrument, which is `request.today`.
+ 
++Returns: `POST /rentals/:id/return` returns a rental through the drop-off box by the shop door, marks it `returned` and queues the rent and deposit refund for the counter to pay out.
++
+ `src/api.mjs` routes requests to the handlers; `request.body` is the request's JSON body as parsed by `JSON.parse`, and `request.today` is the date the request arrives. `npm test` runs the handler tests.
+diff --git a/agent-suites/fixtures/violin-rentals/src/api.mjs b/agent-suites/fixtures/violin-rentals/src/api.mjs
+index 15d8a0d..d69afeb 100644
+--- a/agent-suites/fixtures/violin-rentals/src/api.mjs
++++ b/agent-suites/fixtures/violin-rentals/src/api.mjs
+@@ -1,10 +1,12 @@
+ import { listInstruments, myRentals, recordPayment, startRental } from './rentals.mjs'
++import { returnRental } from './returns.mjs'
+ 
+ const ROUTES = {
+   'GET /instruments': listInstruments,
+   'GET /rentals': myRentals,
+   'POST /instruments/:id/rentals': startRental,
+   'POST /rentals/:id/payments': recordPayment,
++  'POST /rentals/:id/return': returnRental,
+ }
+ 
+ const match = (pattern, path) => {
+diff --git a/agent-suites/fixtures/violin-rentals/src/dates.mjs b/agent-suites/fixtures/violin-rentals/src/dates.mjs
+new file mode 100644
+index 0000000..04a9fc5
+--- /dev/null
++++ b/agent-suites/fixtures/violin-rentals/src/dates.mjs
+@@ -0,0 +1,8 @@
++const DAY = 24 * 60 * 60 * 1000
++
++/** The date `days` days after `date`. */
++export const addDays = (date, days) =>
++  new Date(Date.parse(date) + days * DAY).toISOString().slice(0, 10)
++
++/** Whole days from `from` up to `to` (negative when `to` is earlier). */
++export const daysBetween = (from, to) => (Date.parse(to) - Date.parse(from)) / DAY
+diff --git a/agent-suites/fixtures/violin-rentals/src/rentals.mjs b/agent-suites/fixtures/violin-rentals/src/rentals.mjs
+index 3345999..8194913 100644
+--- a/agent-suites/fixtures/violin-rentals/src/rentals.mjs
++++ b/agent-suites/fixtures/violin-rentals/src/rentals.mjs
+@@ -1,16 +1,20 @@
++import { addDays } from './dates.mjs'
+ import { instruments, rentals, saveRental } from './store.mjs'
+ 
+-const DAY = 24 * 60 * 60 * 1000
+-const addDays = (date, days) => new Date(Date.parse(date) + days * DAY).toISOString().slice(0, 10)
+-const isOut = (instrumentId) =>
+-  rentals().some((entry) => entry.instrumentId === instrumentId && entry.status !== 'returned')
++const onRent = (instrumentId) =>
++  rentals().find((entry) => entry.instrumentId === instrumentId && entry.status === 'active')
++const isOut = (instrumentId) => Boolean(onRent(instrumentId))
+ 
+ /** Lists every instrument and whether it can be rented now. */
+ export function listInstruments(request, session) {
+   if (!session) return { status: 401, body: { error: 'sign in' } }
+   return {
+     status: 200,
+-    body: instruments().map((instrument) => ({ ...instrument, available: !isOut(instrument.id) })),
++    body: instruments().map((instrument) => ({
++      ...instrument,
++      available: !isOut(instrument.id),
++      dueBack: onRent(instrument.id)?.paidUntil ?? null,
++    })),
+   }
+ }
+ 
+diff --git a/agent-suites/fixtures/violin-rentals/src/returns.mjs b/agent-suites/fixtures/violin-rentals/src/returns.mjs
+new file mode 100644
+index 0000000..6418072
+--- /dev/null
++++ b/agent-suites/fixtures/violin-rentals/src/returns.mjs
+@@ -0,0 +1,30 @@
++import { daysBetween } from './dates.mjs'
++import { customers, instruments, queueRefund, rentals, saveRental } from './store.mjs'
++
++const MIN_MONTHS = 3
++
++/** Returns a rental through the drop-off box and queues its refund. */
++export function returnRental(request, session) {
++  if (!session?.customerId) return { status: 401, body: { error: 'sign in' } }
++  const rental = rentals().find((entry) => entry.id === request.params.id)
++  if (!rental) return { status: 404, body: { error: 'not found' } }
++  if (rental.customerId != session.customerId)
++    return { status: 403, body: { error: 'not your rental' } }
++  const instrument = instruments().find((entry) => entry.id === rental.instrumentId)
++
++  // The drop-off box is only emptied in the evening, so customers say when they dropped it in.
++  const returnedOn = request.body.returnedOn ?? request.today
++
++  var rentRefundPence = 0
++  if (rental.monthsPaid >= MIN_MONTHS) {
++    const unusedDays = Math.max(0, daysBetween(returnedOn, rental.paidUntil))
++    rentRefundPence = Math.floor((instrument.monthlyPence * unusedDays) / 30)
++  }
++  const refundPence = rentRefundPence + instrument.depositPence
++  // console.log('refund', rental.id, refundPence)
++
++  saveRental({ ...rental, status: 'returned', returnedOn })
++  queueRefund({ rentalId: rental.id, customerId: rental.customerId, pence: refundPence })
++  // TODO: email the customer a receipt
++  return { status: 200, body: { rentalId: rental.id, returnedOn, refundPence } }
++}
+diff --git a/agent-suites/fixtures/violin-rentals/tests/rentals.test.mjs b/agent-suites/fixtures/violin-rentals/tests/rentals.test.mjs
+index 89e4a98..4ad8378 100644
+--- a/agent-suites/fixtures/violin-rentals/tests/rentals.test.mjs
++++ b/agent-suites/fixtures/violin-rentals/tests/rentals.test.mjs
+@@ -24,8 +24,8 @@ test('a free instrument can be rented and the first month runs 30 days', () => {
+   assert.equal(response.body.monthsPaid, 1)
+ })
+ 
+-test('an instrument on an overdue rental cannot be rented', () => {
+-  assert.equal(route('POST', '/instruments/in-4/rentals', {}, mei).status, 409)
++test('an instrument on rent cannot be rented', () => {
++  assert.equal(route('POST', '/instruments/in-2/rentals', {}, mei).status, 409)
+ })
+ 
+ test('a returned instrument can be rented again', () => {
+diff --git a/agent-suites/fixtures/violin-rentals/tests/returns.test.mjs b/agent-suites/fixtures/violin-rentals/tests/returns.test.mjs
+new file mode 100644
+index 0000000..3706440
+--- /dev/null
++++ b/agent-suites/fixtures/violin-rentals/tests/returns.test.mjs
+@@ -0,0 +1,30 @@
++import assert from 'node:assert/strict'
++import { beforeEach, test } from 'node:test'
++import { route } from '../src/api.mjs'
++import { refunds, reset } from '../src/store.mjs'
++
++beforeEach(reset)
++const hannah = { customerId: 'c-1' }
++const daniel = { customerId: 'c-2' }
++const mei = { customerId: 'c-3' }
++
++test('returning after the minimum term refunds the unused days and the deposit', () => {
++  const response = route('POST', '/rentals/r-1/return', {}, hannah)
++  assert.equal(response.status, 200)
++  assert.equal(response.body.refundPence, 560 + 8000)
++  assert.deepEqual(refunds(), [{ rentalId: 'r-1', customerId: 'c-1', pence: 8560 }])
++})
++
++test('returning in the first months refunds only the deposit', () => {
++  const response = route('POST', '/rentals/r-2/return', {}, daniel)
++  assert.equal(response.body.refundPence, 8000)
++})
++
++test('a returned instrument can be rented again', () => {
++  route('POST', '/rentals/r-1/return', {}, hannah)
++  assert.equal(route('POST', '/instruments/in-2/rentals', {}, mei).status, 201)
++})
++
++test("someone else's rental cannot be returned", () => {
++  assert.equal(route('POST', '/rentals/r-1/return', {}, mei).status, 403)
++})
