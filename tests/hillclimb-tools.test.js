@@ -100,7 +100,7 @@ describe('hillclimb ab.mjs', { timeout: 30_000 }, () => {
     expect(stopRule(side(2.5, 2.9, 3), 5).met).toBe(true)
     expect(stopRule(side(2.5, 2.9, 5.1), 5).met).toBe(false)
     expect(stopRule(side(3.2, 3.4, 3.5), 5).text).toBe(
-      'stop rule: not met (needs B max 3.5 < 5 and median 3.4 <= 3)',
+      'target: not met (needs B max 3.5 < 5 and median 3.4 <= 3)',
     )
     expect(stopRule(side(200, 210, 220), 100, true).met).toBe(true)
     expect(stopRule(side(150, 160, 170), 100, true).met).toBe(false)
@@ -166,7 +166,7 @@ describe('hillclimb ab.mjs', { timeout: 30_000 }, () => {
       )
       expect(benchRuns()).toBe(6)
       expect(first).toContain('gate: pass `echo "# tests 1"; echo "# pass 1"` (tests 1, pass 1)')
-      expect(first).toContain('stop rule: met (needs B max 2 < 5 and median 2 <= 3)')
+      expect(first).toContain('target: met (needs B max 2 < 5 and median 2 <= 3)')
       const rows = readFileSync(join(project, '.hillclimb/app/decisions.tsv'), 'utf8').split('\n')
       expect(rows[1].split('\t').slice(1, 9)).toEqual([
         'baseline',
@@ -228,11 +228,11 @@ describe('hillclimb ab.mjs', { timeout: 30_000 }, () => {
         )
       }
       const first = attempt('6', 'a1')
-      expect(first).toContain('stop rule: not met (needs B max 6 < 5 and median 6 <= 3)')
-      expect(first).toContain('not finished: the stop rule does not hold yet')
+      expect(first).toContain('target: not met (needs B max 6 < 5 and median 6 <= 3)')
+      expect(first).toContain('not finished: the target is not met with margin yet')
       const second = attempt('7', 'a2')
       expect(second).toContain('reverted value.txt')
-      expect(second).toContain('stop rule: not met (needs B max 6 < 5')
+      expect(second).toContain('target: not met (needs B max 6 < 5')
       const third = attempt('2', 'a3')
       const lines = third.split('\n')
       const base = git(
@@ -258,6 +258,31 @@ describe('hillclimb ab.mjs', { timeout: 30_000 }, () => {
           .map((row) => row.split('\t')[1]),
       ).toEqual(['id', 'baseline', 'a1', 'a2', 'a3', 'final'])
       expect(git('status', '--short')).toBe('?? decisions.tsv\n')
+    } finally {
+      rmSync(repo, { recursive: true, force: true })
+      rmSync(`${repo}-count.txt`, { force: true })
+    }
+  })
+
+  it('reuses a first win as the final comparison and reverts any change after the target is met', () => {
+    const { project, git, ab, benchRuns, repo } = benchRepo()
+    try {
+      const attempt = (value) => {
+        writeFileSync(join(project, 'value.txt'), value)
+        return ab(
+          ...['--dir', project, '--target', '5', '--change', 'value.txt'],
+          ...['--commit', `Set ${value}`, '--finish'],
+        )
+      }
+      const first = attempt('2')
+      expect(first).toMatch(
+        /final: the code now against the baseline \([0-9a-f]{7}\): the comparison above/,
+      )
+      expect(benchRuns()).toBe(6)
+      const extra = attempt('1')
+      expect(extra).toContain('verdict: revert (target already met without this change)')
+      expect(readFileSync(join(project, 'value.txt'), 'utf8')).toBe('2')
+      expect(git('log', '--format=%s').split('\n')[0]).toBe('Set 2 (median 10 -> 2, -80.0%)')
     } finally {
       rmSync(repo, { recursive: true, force: true })
       rmSync(`${repo}-count.txt`, { force: true })

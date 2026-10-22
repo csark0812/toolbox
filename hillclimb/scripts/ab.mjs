@@ -14,12 +14,13 @@
 // when present. Samples are cached under <dir>/.hillclimb/ab-cache by folder content and command, so
 // a later comparison against the same code (the next HEAD, or --ref <baseline>) reuses its side A.
 // The first run records side A's commit in <dir>/.hillclimb/baseline, and `--ref baseline` reads it.
-// --gate runs a correctness command after the comparison; --target prints whether the stop rule
-// holds. --commit acts on the verdict: keep commits exactly the --change paths (relative to --dir)
+// --gate runs a correctness command after the comparison; --target prints whether the target is met
+// with margin, and a change to code that already met it is reverted. --commit acts on the verdict: keep commits exactly the --change paths (relative to --dir)
 // with the measured medians and delta appended to the subject; revert restores those paths to HEAD.
-// --log appends the measured row (and a baseline row when the log is new). --finish, once the stop
-// rule holds for the code that was kept, also compares it with the baseline and prints the project's
-// git status and the commits since the baseline: the final evidence, in the same call.
+// --log appends the measured row (and a baseline row when the log is new). --finish, once the kept
+// code meets the target with margin, also compares it with the baseline (reusing this comparison when
+// side A was the baseline) and prints the project's git status and the commits since the baseline:
+// the final evidence, in the same call.
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import {
@@ -122,11 +123,14 @@ export function stopRule(stats, target, higher = false) {
   const margin = higher
     ? `median ${stats.median} >= ${round3(target / 0.6)}`
     : `median ${stats.median} <= ${round3(target * 0.6)}`
-  return { met, text: `stop rule: ${met ? 'met' : 'not met'} (needs B ${edge} and ${margin})` }
+  return { met, text: `target: ${met ? 'met' : 'not met'} (needs B ${edge} and ${margin})` }
 }
 
-/** keep only for a gain beyond the spread with no errors, unchanged work and a passing gate. */
-export function verdict(result, { higher = false, gate } = {}) {
+/**
+ * keep only for a gain beyond the spread with no errors, unchanged work and a passing gate, and only
+ * while side A has not already met the target (`met`): a met target needs no second change.
+ */
+export function verdict(result, { higher = false, gate, met = false } = {}) {
   const { left, right, delta, clear, trimmed } = result
   const improved = higher ? delta > 0 : delta < 0
   const sameWork =
@@ -137,6 +141,7 @@ export function verdict(result, { higher = false, gate } = {}) {
   if (right.errors) reasons.push(`errors=${right.errors}`)
   if (!sameWork) reasons.push(`work changed ${left.work.join('/')} -> ${right.work.join('/')}`)
   if (gate === false) reasons.push('gate failed')
+  if (met) reasons.push('target already met without this change')
   return reasons.length
     ? { keep: false, reason: reasons.join(', ') }
     : {
@@ -373,7 +378,8 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
           : `gate: FAIL exit ${outcome.status} \`${gateCommand}\`: ${output.trim().split('\n').slice(-4).join(' | ')}`,
       )
     }
-    const decision = verdict(result, { higher, gate })
+    const met = target !== undefined && stopRule(result.left, target, higher).met
+    const decision = verdict(result, { higher, gate, met })
     console.log(`verdict: ${decision.keep ? 'keep' : 'revert'} (${decision.reason})`)
 
     let outcomeNote = ''
@@ -417,10 +423,13 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
 
     if (flags.includes('--finish')) {
       const base = existsSync(baselineFile) ? readFileSync(baselineFile, 'utf8').trim() : sha
-      if (stop && !stop.met) console.log('not finished: the stop rule does not hold yet')
+      if (stop && !stop.met) console.log('not finished: the target is not met with margin yet')
       else {
-        console.log(`final: the code now against the baseline (${base.slice(0, 7)})`)
-        const final = measure(base, 'baseline')
+        const reuse = decision.keep && treeOf(base) === treeOf(sha)
+        console.log(
+          `final: the code now against the baseline (${base.slice(0, 7)})${reuse ? ': the comparison above' : ''}`,
+        )
+        const final = reuse ? result : measure(base, 'baseline')
         if (target !== undefined) console.log(stopRule(final.right, target, higher).text)
         log({
           result: final,
