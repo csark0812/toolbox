@@ -1,0 +1,10 @@
+{
+  "name": "wool-fair",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "day": "node bin/day.mjs",
+    "fair": "node bin/fair.mjs"
+  }
+}

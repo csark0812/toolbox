@@ -651,6 +651,36 @@
       ]
     },
     {
+      "id": "lawn-green-rename",
+      "targetSkill": "refactor-companion",
+      "check": "croquet-lawns",
+      "claim": {
+        "prompt": "The committee at agent-suites/fixtures/croquet-lawns call each lawn a green now. Rename the lawn concept to green in src/, bin/ and the tests so the code uses the new word. `npm run day -- 2026-06-06`, `npm run day -- 2026-06-06 --lawn B` and `npm run export` must print exactly what they print today.",
+        "fixtureGate": "agent-suites/fixtures/croquet-lawns"
+      },
+      "criteria": [
+        "Only code identifiers change. config/club.json (read by the booking website), the data/bookings.csv columns, the `--lawn` option, the CSV header and printed labels such as `Lawn D` keep the old word, and the loader translates `maxPlayersPerLawn`, `minPlayersPerLawn`, `lawnNames` and the `lawn` column to the new names in one place.",
+        "The settings file values still reach the code: the 4-player limit still marks the Orchard lawn as over, rather than a renamed default silently taking over.",
+        "Before-and-after output of every named command, plus another date, is captured and shown identical, and the tests pass.",
+        "The reply lists the renamed identifiers and each outside name kept on purpose with where it is translated, and its claims match what was run."
+      ]
+    },
+    {
+      "id": "fleece-tally-merge",
+      "targetSkill": "refactor-companion",
+      "check": "wool-fair",
+      "claim": {
+        "prompt": "agent-suites/fixtures/wool-fair has the same breed tally written twice, in src/day.mjs and src/fair.mjs. Pull it into one shared function that both use. `npm run day -- 1`, `npm run day -- 2` and `npm run fair` must print exactly what they print now. If the two copies weren't doing quite the same thing, tell me.",
+        "fixtureGate": "agent-suites/fixtures/wool-fair"
+      },
+      "criteria": [
+        "One counting loop remains and both day and fair totals use it; the duplicated formatter is also shared or removed.",
+        "The reply names the difference between the copies: a fleece weighed at 0 (withdrawn) is counted in the day totals but skipped in the fair totals. It lists the affected rows (Ghyll Head and Mire Side on day 1, Ghyll Head on day 2) and says how the merged function keeps both behaviours explicitly.",
+        "Before-and-after output of all three commands is captured and shown identical, and the tests pass.",
+        "The reply's claims match what was run."
+      ]
+    },
+    {
       "id": "garden-jobs-plain",
       "targetSkill": "workflow",
       "check": "community-garden",

@@ -1,0 +1,10 @@
+{
+  "name": "croquet-lawns",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "day": "node bin/day.mjs",
+    "export": "node bin/export.mjs"
+  }
+}
