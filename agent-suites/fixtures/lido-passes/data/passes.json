@@ -1,0 +1,47 @@
+[
+  {
+    "id": "P-101",
+    "holder": "h-1",
+    "swimmer": "Iris Gale",
+    "start": "2026-07-01",
+    "end": "2026-09-28",
+    "price": 9000,
+    "status": "active"
+  },
+  {
+    "id": "P-102",
+    "holder": "h-2",
+    "swimmer": "Owen Marsh",
+    "start": "2026-08-01",
+    "end": "2026-10-29",
+    "price": 9000,
+    "status": "active"
+  },
+  {
+    "id": "P-103",
+    "holder": "h-2",
+    "swimmer": "Poppy Marsh",
+    "start": "2026-08-01",
+    "end": "2026-10-29",
+    "price": 4500,
+    "status": "active"
+  },
+  {
+    "id": "P-104",
+    "holder": "h-3",
+    "swimmer": "Kofi Adams",
+    "start": "2026-09-01",
+    "end": "2026-11-29",
+    "price": 9000,
+    "status": "pending"
+  },
+  {
+    "id": "P-105",
+    "holder": "h-4",
+    "swimmer": "Mae Lund",
+    "start": "2026-08-15",
+    "end": "2026-11-12",
+    "price": 9000,
+    "status": "refunded"
+  }
+]

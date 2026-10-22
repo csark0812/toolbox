@@ -805,6 +805,42 @@
         "A regression test with several trips mixing numbers and text was seen failing before the fix and passing after.",
         "`npm run invoice` and `npm run report` are rerun and their output shown: Brownies 117.5 miles £47.00, Lunch club 48 miles £19.20, Walking group 117 miles £46.80, total £113.00, and 282.5 miles over 10 trips. The reply says the Walking group invoice was wrong too, and its claims match what was run."
       ]
+    },
+    {
+      "id": "sailing-cancel-review",
+      "targetSkill": "code-review",
+      "check": "sailing-school",
+      "claim": {
+        "prompt": "Could you look over feat/online-cancel in agent-suites/fixtures/sailing-school before I merge it? Members keep phoning the office to cancel, so this lets them do it themselves.",
+        "branch": "feat/online-cancel",
+        "seedPatch": "agent-suites/skill-bench/dev-seeds/sailing-school-branch.patch",
+        "seedCommit": "feat: online cancellation with refunds"
+      },
+      "criteria": [
+        "It finds the money bug and ranks it first: handleCancel() in src/api.mjs never checks the booking's status, so cancelling Nell Price's unpaid b3 queues a £150.00 refund for money never paid, and cancelling b1 twice, or the already-cancelled b4, queues another refund, against the README's rule that only money actually paid is refunded.",
+        "It finds the ownership hole: handleCancel() looks the booking up by id alone, so any signed-in member can cancel someone else's place (m-2 cancelling Ruth Ellis's b1 gets 200) and the response returns her name and phone number, against the README's 404 rule and unlike handleList().",
+        "It finds the boundary regression with a probe on the exact day: refundFor() in src/refunds.mjs now picks a band with `days > from`, so cancelling exactly 7 days ahead (2026-11-07 for the 2026-11-14 course) refunds £60.00 instead of £120.00. It notes that the diff moved that case in tests/refunds.test.mjs from the full-refund test to the half-refund test with 6000 to match the new output, and that the new api test only asserts `store.refunds.length > 0`.",
+        "The first line names the single most severe finding, and findings are ordered strictly by severity (money or leak first, then wrong results, then the rest) with file:line and evidence from commands actually run. Style noise (`var booking`, `==`, the TODO, the commented-out log) is not a blocker; noting that 'today' is the server's UTC date while the rules use UK dates is a plus. The verdict is that the branch is not ready to merge.",
+        "No file is changed and no commit is made."
+      ]
+    },
+    {
+      "id": "lido-renewal-review",
+      "targetSkill": "code-review",
+      "check": "lido-passes",
+      "claim": {
+        "prompt": "Please review feat/early-renewal in agent-suites/fixtures/lido-passes before it goes live. Regulars want to renew their season pass before it runs out.",
+        "branch": "feat/early-renewal",
+        "seedPatch": "agent-suites/skill-bench/dev-seeds/lido-passes-branch.patch",
+        "seedCommit": "feat: early renewal"
+      },
+      "criteria": [
+        "It finds the data loss and ranks it first: renew() in src/renew.mjs keeps only passes whose holder differs from the renewed pass's, so renewing Owen Marsh's P-102 deletes Poppy Marsh's P-103 (same holder h-2), and `npm run renew` writes that list back to data/passes.json, against the README's rule that a pass is never deleted.",
+        "It finds the state-by-action money bugs: renew() never checks the old pass's status or end date, so the unpaid P-104 (pending) and the refunded P-105 earn credit for money the lido does not hold, and renewing the expired P-101 on 2026-10-20 gives negative credit (pay £112.00) and moves its end from 2026-09-28 to 2026-10-19, making a lapsed pass valid again.",
+        "It finds the wrong results with probes on the exact boundaries: isValid() in src/passes.mjs now tests `day < end`, so a pass is refused on its last day (P-101 on 2026-09-28 is 'not valid'), and the diff changed the last-day assertion in tests/passes.test.mjs from 2026-09-28 to 2026-09-27, hiding it. Credit counts unused days with daysBetween(date, end), one short of the README's both-included rule (P-102 renewed on 2026-10-20 pays £81.00, not £80.00), which the new test's `due < 9000` cannot catch.",
+        "The first line names the single most severe finding, and findings are ordered strictly by severity with file:line and evidence from commands actually run. Style noise (`let rate`, `!=`, the TODO, the commented-out log) is not a blocker; noting that `101 + passes.length` reuses ids once passes are dropped is a plus. The verdict is that the branch is not ready to merge.",
+        "No file is changed and no commit is made."
+      ]
     }
   ]
 }
