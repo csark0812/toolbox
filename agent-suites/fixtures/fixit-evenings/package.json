@@ -1,0 +1,9 @@
+{
+  "name": "fixit-evenings",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "summary": "node bin/summary.mjs"
+  }
+}

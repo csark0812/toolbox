@@ -1,0 +1,85 @@
+id,evening,item,outcome,part_ordered
+R001,2026-01-14,kettle,fixed,no
+R002,2026-01-14,hair dryer,fixed,no
+R003,2026-01-14,vacuum cleaner,not-fixable,no
+R004,2026-01-14,sewing machine,fixed,no
+R005,2026-01-14,fan,not-fixable,no
+R006,2026-01-14,lamp,not-fixable,no
+R007,2026-01-14,kettle,not-fixable,no
+R008,2026-01-14,iron,not-fixable,no
+R009,2026-01-14,toaster,fixed,no
+R010,2026-01-14,lamp,fixed,no
+R011,2026-01-14,food mixer,awaiting-part,yes
+R012,2026-01-14,laptop,fixed,no
+R013,2026-01-14,sewing machine,taken-home,no
+R014,2026-02-11,vacuum cleaner,fixed,no
+R015,2026-02-11,chair,fixed,no
+R016,2026-02-11,lamp,fixed,yes
+R017,2026-02-11,radio,fixed,yes
+R018,2026-02-11,hair dryer,fixed,no
+R019,2026-02-11,iron,not-fixable,no
+R020,2026-02-11,food mixer,not-fixable,yes
+R021,2026-02-11,lamp,fixed,no
+R022,2026-02-11,lamp,fixed,no
+R023,2026-02-11,hair dryer,fixed,no
+R024,2026-02-11,fan,not-fixable,no
+R025,2026-02-11,iron,fixed,no
+R026,2026-02-11,iron,awaiting-part,yes
+R027,2026-03-11,speaker,fixed,no
+R028,2026-03-11,iron,fixed,no
+R029,2026-03-11,chair,fixed,yes
+R030,2026-03-11,vacuum cleaner,fixed,yes
+R031,2026-03-11,speaker,fixed,yes
+R032,2026-03-11,lamp,fixed,no
+R033,2026-03-11,laptop,fixed,yes
+R034,2026-03-11,food mixer,awaiting-part,yes
+R035,2026-03-11,lamp,fixed,no
+R036,2026-03-11,kettle,fixed,yes
+R037,2026-03-11,clock,not-fixable,no
+R038,2026-03-11,clock,not-fixable,no
+R039,2026-04-08,radio,fixed,no
+R040,2026-04-08,printer,fixed,no
+R041,2026-04-08,vacuum cleaner,fixed,no
+R042,2026-04-08,bicycle,fixed,no
+R043,2026-04-08,printer,not-fixable,no
+R044,2026-04-08,laptop,fixed,no
+R045,2026-04-08,jacket,awaiting-part,yes
+R046,2026-04-08,chair,not-fixable,no
+R047,2026-04-08,jacket,fixed,no
+R048,2026-04-08,fan,not-fixable,no
+R049,2026-05-13,toaster,fixed,no
+R050,2026-05-13,toaster,not-fixable,no
+R051,2026-05-13,laptop,taken-home,no
+R052,2026-05-13,laptop,fixed,no
+R053,2026-05-13,fan,fixed,no
+R054,2026-05-13,headphones,fixed,no
+R055,2026-05-13,vacuum cleaner,not-fixable,no
+R056,2026-06-10,food mixer,fixed,yes
+R057,2026-06-10,printer,fixed,no
+R058,2026-06-10,fan,fixed,no
+R059,2026-06-10,vacuum cleaner,not-fixable,no
+R060,2026-06-10,food mixer,not-fixable,no
+R061,2026-06-10,vacuum cleaner,fixed,no
+R062,2026-06-10,kettle,fixed,no
+R063,2026-06-10,lamp,fixed,no
+R064,2026-07-08,chair,awaiting-part,yes
+R065,2026-07-08,jacket,not-fixable,yes
+R066,2026-07-08,radio,not-fixable,no
+R067,2026-07-08,lamp,fixed,no
+R068,2026-07-08,kettle,fixed,yes
+R069,2026-07-08,hair dryer,fixed,yes
+R070,2026-07-08,iron,fixed,no
+R071,2026-07-08,toaster,taken-home,no
+R072,2026-07-08,chair,fixed,no
+R073,2026-07-08,clock,awaiting-part,yes
+R074,2026-07-08,printer,fixed,no
+R075,2026-09-09,iron,fixed,no
+R076,2026-09-09,lamp,fixed,yes
+R077,2026-09-09,speaker,not-fixable,no
+R078,2026-09-09,laptop,fixed,no
+R079,2026-09-09,clock,fixed,no
+R080,2026-09-09,speaker,fixed,no
+R081,2026-09-09,lamp,fixed,no
+R082,2026-09-09,toaster,fixed,yes
+R083,2026-09-09,printer,awaiting-part,yes
+R084,2026-09-09,hair dryer,not-fixable,no

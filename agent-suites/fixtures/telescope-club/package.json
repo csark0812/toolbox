@@ -1,0 +1,9 @@
+{
+  "name": "telescope-club",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "charges": "node bin/charges.mjs"
+  }
+}

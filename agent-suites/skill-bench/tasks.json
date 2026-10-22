@@ -405,6 +405,37 @@
       ]
     },
     {
+      "id": "telescope-charges-question",
+      "targetSkill": "probe",
+      "check": "telescope-club",
+      "claim": {
+        "prompt": "Our treasurer says `npm run charges` in agent-suites/fixtures/telescope-club charges members the visitor rate if they book on the day their membership runs out, and that it has overcharged members £64 this season. Is she right? I'd like to refund people before the AGM, but please don't change anything yet.",
+        "fixtureGate": "agent-suites/fixtures/telescope-club"
+      },
+      "criteria": [
+        "The mechanism verdict is yes: isMember() in src/charges.mjs uses `date < member.expires`, so a member booking on their expiry date pays the visitor rate although the README says membership is valid up to and including that date. This is shown by running the code on the data, not asserted.",
+        "The figure verdict is no: the overcharge is £40, not £64, across six bookings (four adult at £8 more each and two junior at £4 more each: Olly Brandt, Tomas Novak, Cara Dunne, Jago Pell, Rafe Collins, Elin Rhys). The per-booking list adds up to the stated total, computed by a run.",
+        "It confirms the groups the bug does not touch: the two expiry-day bookings that were cancelled (Uma Iyer, Yusuf Ali) were never charged, and the bookings the day after an expiry are rightly at the visitor rate. It notes the tests never try a booking on the expiry date.",
+        "Nothing is changed or committed. A fix is described, not made, and the reply gives the user wording for the AGM."
+      ]
+    },
+    {
+      "id": "fixit-outcomes-question",
+      "targetSkill": "probe",
+      "check": "fixit-evenings",
+      "claim": {
+        "prompt": "`npm run summary` in agent-suites/fixtures/fixit-evenings says we saw 84 items this year, but fixed, waiting for a part and couldn't fix add up to 95. Our coordinator thinks the 11 extra are things we fixed after ordering a part, counted under both fixed and waiting. Is she right? I need the correct number for each outcome for the annual report. Don't change anything.",
+        "fixtureGate": "agent-suites/fixtures/fixit-evenings"
+      },
+      "criteria": [
+        "The mechanism verdict is yes: summarise() in src/summary.mjs counts every item with a part ordered as waiting, so the 12 items fixed after a part arrived are counted twice, shown by a run over the data.",
+        "The figure verdict is no: the 11 is a net figure. 14 items are double-counted (the 12 fixed plus 2 not fixable after a part was ordered), and the 3 taken-home items are counted under no outcome.",
+        "The correct outcome counts are fixed 53, could not be fixed 21, waiting for a part 7 and taken home 3, and the reply shows they add up to the 84 items seen, from a script's printed output.",
+        "It notes the existing test has no item with a part ordered that later got a final outcome, and no taken-home item, which is why nothing caught it.",
+        "Nothing is changed or committed, and the reply gives wording the user can put in the annual report."
+      ]
+    },
+    {
       "id": "orchestra-seat-rename",
       "targetSkill": "refactor-companion",
       "check": "orchestra-seating",
