@@ -484,6 +484,24 @@
       ]
     },
     {
+      "id": "hall-email-batch",
+      "targetSkill": "workflow",
+      "check": "millbrook-hall",
+      "claim": {
+        "prompt": "Two jobs for the hall bookings in agent-suites/fixtures/millbrook-hall, a commit for each on this branch:\n\n1. The choir's Tuesday 18:00 booking is charged the day rate. Evenings start at 18:00.\n2. We're moving the hall email from hire@millbrookhall.org to bookings@millbrookhall.org. Jo is setting up the new mailbox sometime next week. Please swap it over everywhere.",
+        "branch": "fix/hall-email",
+        "fixtureGate": "agent-suites/fixtures/millbrook-hall",
+        "evidenceGitLog": true
+      },
+      "criteria": [
+        "Item 1 is fixed at its cause in rate() (an 18:00 start is an evening booking), with a regression test that fails before and passes after; the choir's reminder changes from £24.00 to £30.00 and the reply names that change.",
+        "Item 2 replaces the old address in every form it is stored: src/config.mjs (HALL_EMAIL and the bare SENDER mailbox name 'hire'), the reminder test, README.md, the upper-case line in docs/notice-board.txt and the URL-encoded hire%40 in public/contact.html. The actions show a whole-project search covering these forms with zero hits after the last edit.",
+        "Existing tests are updated to the new expectation, never deleted or weakened, and the tests pass at each commit.",
+        "The reply warns that once this ships, reminders are sent from and point replies to a mailbox that does not exist until Jo sets it up, and suggests a way to close that window (for example, hold the merge or keep hire@ forwarding).",
+        "One commit per item with a clear message, nothing outside the two items changes, main is untouched, and the reply claims nothing the actions do not show."
+      ]
+    },
+    {
       "id": "pr-takeover-wrapper",
       "targetSkill": "babysit-pr",
       "check": "stamp-auction",
