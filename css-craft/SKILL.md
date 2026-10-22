@@ -13,7 +13,7 @@ Fix the observed styling problem with the smallest technique that preserves the 
 
 ## Diagnose
 
-Inspect the affected markup, CSS origin and layer, computed styles, container geometry, responsive states, target browsers, and interaction state. Reproduce the defect when possible. Name the actual conflict or missing behavior before editing. For a direct visual bug, start at the earliest causal integration point. Preserve unrelated work and existing design tokens and component APIs.
+Inspect the affected markup, CSS origin and layer, computed styles, container geometry, responsive states, target browsers, and interaction state. Name the actual conflict or missing behavior before editing. For a direct visual bug, start at the earliest causal integration point. Preserve unrelated work and existing design tokens and component APIs.
 
 ## Choose
 
@@ -25,7 +25,7 @@ Keep the project's styling ownership: semantic tokens and component variants whe
 
 **Decide, don't stall.** When an edge case has a reasonable, reversible answer, pick it, implement it, and name the choice in your reply. Ask before acting only for irreversible or product decisions. Never end a requested change with no change made.
 
-Make the focused change in the owning stylesheet or component. Add only the declarations the defect needs, and derive values from the project's tokens rather than literals. When the user asks to keep the look otherwise, every other state must resolve exactly as before. A test that only searches the stylesheet text proves a rule exists, not that it wins: check the resolved values. Cover every way the state can apply: each theme path (media query and attribute switch), each width, and rest, hover and focus. Check keyboard focus and reduced motion when relevant, long content, and browser support or fallback for newer features. A mechanical check exits nonzero on failure; a skipped browser or crashed render is unverified. Do not claim the whole interface is visually verified from a CSS unit test alone.
+Make the focused change in the owning stylesheet or component. Add only the declarations the defect needs, and derive values from the project's tokens rather than literals. When the user asks to keep the look otherwise, every other state must resolve exactly as before. A test that only searches the stylesheet text proves a rule exists, not that it wins: check the resolved values. Cover every way the state can apply: each theme path (media query and attribute switch), each width, and rest, hover and focus. Check keyboard focus and reduced motion when relevant, long content, and browser support or fallback for newer features. A mechanical check exits nonzero on failure; a skipped browser or crashed render is unverified.
 
 **Probe.** `node <skill>/scripts/probe.mjs`, where `<skill>` is the folder this file was loaded from (no need to read the script), opens the page in headless Chrome (`$CHROME_PATH`, or a usual install) and prints, per theme, width and forced state, each match's computed values, its text contrast against the painted background and its outline contrast against the parent. With `--against HEAD` it renders the committed files too and prints only what changed, before and after, with a count of identical readings: that is the fix and the unchanged states in one call.
 
@@ -38,7 +38,7 @@ node <skill>/scripts/probe.mjs --markup '<nav class=nav><a href=#>A</a></nav>' -
 
 **Sideways scroll** often has several causes that break at different widths. Fix every range the sweep names.
 
-**Work lean.** Each round trip re-sends the conversation, so aim for two responses with tool calls. A log reader sees only each command's first line, so never chain the proof onto the edit; send the two as separate tool calls in the same response, which run in order:
+**Work lean.** Each round trip re-sends the conversation, so aim for two responses with tool calls. A log reader sees only each command's first line, so a probe chained after an edit is invisible and its figures read as made up. Never chain them; send the two as separate tool calls in the same response, which run in order:
 
 1. **Read.** One command prints every tracked file of a small project, tests and markup included, or in a large one the stylesheets, markup and tests the defect touches: `cd <project> && for f in $(git ls-files .); do echo "== $f"; cat -n "$f"; done`. The shell stays in that folder afterwards, so do not `cd` into it again. For sideways scroll, end it with the probe, so the sweep names every cause before you edit.
 2. **Fix and prove, in one response.** First tool call: the edit, or one command that makes every edit and nothing else. Second tool call, in the same response: one command that starts with `node <skill>/scripts/probe.mjs ... --against HEAD` over every theme path, width and state the defect touches, then runs the tests and `git status`. Quote a few lines of its output in the reply. Rerun only if the proof fails.
