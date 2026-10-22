@@ -309,6 +309,22 @@
       ]
     },
     {
+      "id": "sightings-sideways-scroll",
+      "targetSkill": "css-craft",
+      "check": "bird-hide",
+      "claim": {
+        "prompt": "On my phone the sightings page in agent-suites/fixtures/bird-hide is wider than the screen, so I have to scroll sideways to see the whole table. Please make it fit.",
+        "fixtureGate": "agent-suites/fixtures/bird-hide"
+      },
+      "criteria": [
+        "Both causes are named: `.log { min-width: 34rem }` forces the table wider than phone screens, and the `@media (min-width: 640px)` rule sets `.filters` to `flex-wrap: nowrap`, so the filter row spills past the edge on mid-width screens (about 640 to 1040px).",
+        "After the fix the page never scrolls sideways at any width from phone to desktop, and no filter or table cell is hidden or cut off by `overflow: hidden` on the page.",
+        "The desktop layout is unchanged: the filters stay on one row and the table keeps its columns.",
+        "The fix is checked by measuring page width against the viewport across a range of widths, including tablet widths, not only a phone and a desktop width, and the numbers are reported.",
+        "The reply lists every changed file and quotes the declarations before and after."
+      ]
+    },
+    {
       "id": "dark-notice-contrast",
       "targetSkill": "css-craft",
       "check": "settings-panel",

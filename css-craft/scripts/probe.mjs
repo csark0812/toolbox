@@ -1,18 +1,21 @@
 #!/usr/bin/env node
 // Resolve computed styles in headless Chrome for every theme, width and state in one call.
-//   node <skill>/scripts/probe.mjs <page.html> --select '<css selectors>' [options]
+//   node <skill>/scripts/probe.mjs <page.html> [--select '<css selectors>'] [options]
 //   node <skill>/scripts/probe.mjs --markup '<nav class=nav><a href=#>A</a></nav>' --css nav.css --select '.nav a'
 // Options:
 //   --props color,background-color,...   computed properties to print (default: colour and outline);
 //                                        `box` adds rendered size, right edge and whether content is clipped
-//   --widths 390,1280                    viewport widths (default 390,1280)
+//   --widths 390,1280                    viewport widths for the readings (default 390,1280)
+//   --sweep 320-1280/40                  overflow sweep: every 40px from 320 to the widest --widths,
+//                                        plus common device widths; `off` skips it
 //   --states rest,hover,focus,focus-visible   forced pseudo-classes (default rest,hover,focus-visible)
 //   --themes light,dark,data-theme=dark  OS colour scheme, root attributes, or both joined with +
 //   --against HEAD                       also render the files as they are at a git ref; print what changed
 //   --max 3                              elements printed per selector
 // Paths resolve from the current folder, which is served as the site root. Each line gives the
 // computed values, the text contrast against the painted background, and the outline contrast
-// against the parent's background. Per width it reports page scroll width against the viewport.
+// against the parent's background. The sweep prints each width range where the page is wider than
+// the viewport and the elements that cross its right edge, from the box they spill out of inwards.
 // Exit 2 when Chrome is missing or a selector matches nothing. Node 22+, no dependencies.
 /* global WebSocket, document, getComputedStyle, innerWidth */
 import { execFileSync, spawn } from 'node:child_process'
@@ -34,9 +37,9 @@ const list = (value) =>
 const page = args[0] && !args[0].startsWith('--') ? args[0] : null
 const markup = option('markup')
 const selectors = option('select')
-if ((!page && !markup) || !selectors) {
+if (!page && !markup) {
   console.error(
-    "Usage: node probe.mjs <page.html> | --markup '<html>' --css a.css,b.css  --select '.a, .b' [--props p1,p2] [--widths 390,1280] [--states rest,hover,focus-visible] [--themes light,dark] [--against HEAD]",
+    "Usage: node probe.mjs <page.html> | --markup '<html>' --css a.css,b.css  [--select '.a, .b'] [--props p1,p2] [--widths 390,1280] [--sweep 320-1280/40] [--states rest,hover,focus-visible] [--themes light,dark] [--against HEAD]",
   )
   process.exit(2)
 }
@@ -48,6 +51,16 @@ const states = list(option('states', 'rest,hover,focus-visible'))
 const themes = list(option('themes', 'light,dark'))
 const against = option('against')
 const max = Number(option('max', 3))
+const sweepOption = option('sweep', '')
+const sweep = (() => {
+  if (sweepOption === 'off') return []
+  const [, from = 320, to = Math.max(...widths), step = 40] =
+    sweepOption.match(/^(\d+)-(\d+)(?:\/(\d+))?$/)?.map(Number) ?? []
+  const devices = [360, 375, 390, 414, 430, 768, 800, 820, 834, 1024, 1180, 1280, 1366, 1440]
+  const all = [...devices, ...widths].filter((w) => w >= from && w <= to)
+  for (let w = from; w <= to; w += step) all.push(w)
+  return [...new Set(all)].sort((a, b) => a - b)
+})()
 const root = resolve('.')
 
 /** A file's bytes on disk, or as committed at `ref` when the probe renders the earlier version. */
@@ -266,12 +279,75 @@ const MEASURE = (selectorList, propList, limit) => {
         )
       rows.push({ key: `${selector}[${index}]`, text: [...values, ...extra].join(' ') })
     })
+  return rows
+}
+
+// Runs in the page: when the document is wider than the viewport, every chain of elements that
+// crosses the right edge (outside any clipping or scrolling box), widest first.
+const OVERFLOW = () => {
   const html = document.documentElement
-  return { rows, scroll: `${html.scrollWidth}/${innerWidth}` }
+  const edge = innerWidth + 0.5
+  if (html.scrollWidth <= innerWidth) return null
+  const name = (el) =>
+    el.localName + (el.id ? `#${el.id}` : '') + [...el.classList].map((c) => `.${c}`).join('')
+  const crosses = (el) => el.getBoundingClientRect().right > edge
+  const contained = (el) => {
+    for (let node = el; node && node !== document.body; node = node.parentElement) {
+      const style = getComputedStyle(node)
+      if (style.position === 'fixed') return true
+      if (node !== el && style.overflowX !== 'visible') return true
+    }
+    return false
+  }
+  const chains = new Map()
+  for (const el of document.body.querySelectorAll('*')) {
+    if (!crosses(el) || contained(el)) continue
+    if (getComputedStyle(el).overflowX === 'visible' && [...el.children].some(crosses)) continue
+    const path = [el]
+    while (path[0].parentElement !== document.body && crosses(path[0].parentElement))
+      path.unshift(path[0].parentElement)
+    if (path[0].parentElement !== document.body) path.unshift(path[0].parentElement)
+    const names = path.map(name)
+    const key = (names.length > 4 ? [...names.slice(0, 2), '...', ...names.slice(-2)] : names).join(
+      ' > ',
+    )
+    const over = Math.round(el.getBoundingClientRect().right - innerWidth)
+    chains.set(key, Math.max(chains.get(key) ?? 0, over))
+  }
+  const list = [...chains].sort((a, b) => b[1] - a[1]).slice(0, 3)
+  return { scroll: html.scrollWidth, names: list.map(([key]) => key) }
+}
+
+/** Sweep every width at rest; return one line per run of widths with the same offending elements. */
+async function overflowSweep() {
+  const runs = []
+  for (const width of sweep) {
+    await call('Emulation.setDeviceMetricsOverride', {
+      width,
+      height: 800,
+      deviceScaleFactor: 1,
+      mobile: false,
+    })
+    const found = await evaluate(`(${OVERFLOW})()`)
+    const key = found ? found.names.join(' | ') || '(no element found)' : ''
+    const last = runs.at(-1)
+    if (last && last.key === key) last.widths.push(width)
+    else runs.push({ key, widths: [width], worst: 0, at: width })
+    const run = runs.at(-1)
+    if (found && found.scroll - width > run.worst)
+      [run.worst, run.at] = [found.scroll - width, width]
+  }
+  const range = (w) => (w.length > 1 ? `${w[0]}-${w.at(-1)}px` : `${w[0]}px`)
+  const bad = runs.filter((run) => run.key)
+  if (!bad.length) return [`no sideways overflow at any of ${sweep.length} widths ${range(sweep)}`]
+  return bad.map(
+    (run) =>
+      `sideways overflow ${range(run.widths)} (${run.widths.length} widths) | page +${run.worst}px at ${run.at}px | ${run.key}`,
+  )
 }
 
 // Split on commas outside parentheses and brackets, so `:is(a, b)` stays one selector.
-const selectorList = selectors
+const selectorList = String(selectors ?? '')
   .split(/,(?![^()[\]]*[)\]])/)
   .map((part) => part.trim())
   .filter(Boolean)
@@ -282,6 +358,7 @@ async function matrix(ref) {
   await load()
   const out = []
   const notes = []
+  let overflow = []
   for (const theme of themes) {
     const parts = theme.split('+')
     const scheme = parts.find((part) => part === 'light' || part === 'dark') ?? 'light'
@@ -294,6 +371,7 @@ async function matrix(ref) {
       const set = ${JSON.stringify(attributes)}
       for (const [name, value] of set) html.setAttribute(name, value)
       html.dataset.probeSet = set.map(([name]) => name).join(' ') })()`)
+    if (theme === themes[0] && sweep.length) overflow = await overflowSweep()
     for (const width of widths) {
       await call('Emulation.setDeviceMetricsOverride', {
         width,
@@ -312,19 +390,17 @@ async function matrix(ref) {
         const forced = state === 'rest' ? [] : state.split('+')
         for (const nodeId of nodes)
           await call('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: forced })
-        const result = await evaluate(
+        const rows = await evaluate(
           `(${MEASURE})(${JSON.stringify(selectorList)}, ${JSON.stringify(props)}, ${max})`,
         )
-        if (state === states[0])
-          out.push({ group: 'page', theme, width, text: `scroll width ${result.scroll}` })
-        for (const row of result.rows)
+        for (const row of rows)
           out.push({ group: `${state} | ${row.key}`, theme, width, text: row.text })
       }
       for (const nodeId of nodes)
         await call('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: [] })
     }
   }
-  return { out, notes: [...new Set(notes)] }
+  return { out, notes: [...new Set(notes)], overflow }
 }
 
 /** Print one line per reading, merging widths and then themes whose readings are identical. */
@@ -353,9 +429,13 @@ function print(entries) {
 try {
   const after = await matrix()
   for (const note of after.notes) console.log(note)
-  if (!against) print(after.out)
-  else {
+  if (!against) {
+    for (const line of after.overflow) console.log(line)
+    print(after.out)
+  } else {
     const before = await matrix(against)
+    for (const line of before.overflow) console.log(`${against}: ${line}`)
+    for (const line of after.overflow) console.log(`now: ${line}`)
     const was = new Map(
       before.out.map((entry) => [`${entry.theme}|${entry.width}|${entry.group}`, entry.text]),
     )
