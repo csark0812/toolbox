@@ -1,0 +1,7 @@
+{
+	"version": 3,
+	"documentHash": "sha256:bb65ea26f1b3e67f61274f7375de1cf8868bf4ab83339ccca300a9c0dfbf477b",
+	"reviewDependencies": {
+		"hillclimb/scripts/log.mjs": "sha256:12cd8c400f61db08d2f1cd73efa42993fa665f5484f6089befa30726b59dbd9e"
+	}
+}

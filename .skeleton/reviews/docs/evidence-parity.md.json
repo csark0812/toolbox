@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"documentHash": "sha256:8b47af5b54913f1733369e6b015fb81813bdbfd1825c1b4eeedf5e8de48c52ea",
+	"reviewDependencies": {
+		"scripts/lib/evidence-v2.mjs": "sha256:7c321da8374a1c12d978fcac059c160bdecfd156b783d3741c0e8db58f79e420",
+		"scripts/run-debugging-evidence-parity.mjs": "sha256:ef72f53e6f617123b12f3d3170f82098600bc259817dca5322c237f24f4b5e3d",
+		"scripts/run-evidence-parity.mjs": "sha256:4b2dc565ff5b7108ff74cbe9b9a29f19324b03589451511b585a0ae78a470302"
+	}
+}

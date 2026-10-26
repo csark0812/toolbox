@@ -1,7 +1,7 @@
 # Performance
 
 <!-- source-of-truth: workflow playbook for a measured slowness from baseline to verified improvement -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **You own** the number from its baseline to a verified result.
 

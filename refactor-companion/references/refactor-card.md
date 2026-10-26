@@ -1,7 +1,7 @@
 # Refactor card
 
 <!-- source-of-truth: compact internal state for one refactor. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 Keep one conversation-local card. Do not create a project file unless the user requests one.
 

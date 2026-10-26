@@ -6,7 +6,7 @@ description: Use to write or revise a technical document around the reader's tas
 # Technical writing
 
 <!-- source-of-truth: Write or revise technical documents around the reader task, preserving facts, uncertainty, terms and source evidence -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-30 -->
+<!-- doc-meta: owner=eng -->
 
 Choose tutorial for guided learning, how-to for a concrete task, reference for lookup, or explanation for understanding. Mixed documents use separately purposed sections. Establish audience, task and available source evidence; infer routine choices and ask only material unknowns.
 

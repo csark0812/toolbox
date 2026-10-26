@@ -1,7 +1,7 @@
 # Council interaction patterns
 
 <!-- source-of-truth: starter interaction router for task-persona councils. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 Read this file when an independent panel is not enough. These patterns are a starter set, not a closed taxonomy.
 

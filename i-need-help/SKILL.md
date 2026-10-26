@@ -6,7 +6,7 @@ description: Use automatically when two attempts at the same blocker made no pro
 # I need help
 
 <!-- source-of-truth: stop rules and help requests for stalled agent tasks. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-05 -->
+<!-- doc-meta: owner=eng -->
 
 ## Purpose
 

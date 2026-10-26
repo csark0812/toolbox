@@ -7,7 +7,7 @@ when_to_use: Requests such as "replace these booleans with one enum", "consolida
 # Refactor companion
 
 <!-- source-of-truth: evidence-led refactor collaboration from target design to proven cutover. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 ```mermaid
 flowchart TD

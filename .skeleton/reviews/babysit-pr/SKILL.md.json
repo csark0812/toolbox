@@ -1,0 +1,7 @@
+{
+	"version": 3,
+	"documentHash": "sha256:86261b0e905e31f3df8dbe07a90b02a443b96366c98fd10a2fb9974868960c3b",
+	"reviewDependencies": {
+		"babysit-pr/scripts/status.mjs": "sha256:a981be8d90b0e5e36c6e1b85a7940a254ba2b6ffd14c0b096f7ca38906d9e8cb"
+	}
+}

@@ -6,7 +6,7 @@ description: Use when the user names council or asks for several independent exp
 # Council
 
 <!-- source-of-truth: in-session multi-agent depth through task personas, purposeful interaction, and synthesis. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-02 -->
+<!-- doc-meta: owner=eng -->
 
 Council owns persona design, member orchestration, and synthesis. A layered process skill owns the member craft and final output shape.
 

@@ -7,7 +7,7 @@ when_to_use: Any reported defect, even one that looks simple, such as "orders ge
 # Evidence-based debugging
 
 <!-- source-of-truth: reproduction, causal diagnosis and authorized repair of software and system failures. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 Own the investigation from the reported symptom through a supported diagnosis. Continue through repair and verification when the user asks to fix it. A diagnosis request alone does not authorize a production repair; existing repair authorization carries forward without another permission prompt.
 

@@ -6,7 +6,7 @@ description: Use for a throwaway logic, state or UI artifact that answers one de
 # Prototype
 
 <!-- source-of-truth: throwaway design spikes. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- doc-meta: owner=eng -->
 
 **Process skill** — declare question + mode up front. Never silent graduation to production.
 
@@ -38,7 +38,7 @@ Per [output.md](references/output.md) — question, verdict, promote/discard.
 
 ## Consumer bindings
 
-Project-specific injected context is appended on skill read. Do not edit synced copies in place.
+Project-specific context can arrive when the skill loads. Do not edit synced copies in place.
 
 ## Output format
 

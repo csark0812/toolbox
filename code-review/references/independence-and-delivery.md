@@ -1,7 +1,7 @@
 # Independent assessment and durable delivery
 
 <!-- source-of-truth: fresh review context, artifact and publication authority -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-01 -->
+<!-- doc-meta: owner=eng -->
 
 Dispatch a new reviewer context using the host's fresh/no-history option when available. Supply current source/base/head or dirty snapshot fingerprint, scope/lens, authoritative requirements with provenance, dependencies and tests. Withhold pass counts, previous conclusions, author assurances and repair narratives. Capture supplied context and exposure. Host inability to isolate is labeled exposed and never counted as fresh qualification. Do not hide legitimate source comments or requirements.
 

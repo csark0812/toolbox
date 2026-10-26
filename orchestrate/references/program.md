@@ -1,7 +1,7 @@
 # Program ownership and records
 
 <!-- source-of-truth: durable coordinator contract -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-30 -->
+<!-- doc-meta: owner=eng -->
 
 Each brief names objective, writable/forbidden scope, source revision/dirty fingerprint, current upstream inputs, settled constraints, acceptance criteria, verification recipe and expected report. Missing required inputs block dispatch. One writer owns a mutable checkout/runtime; isolate authorized work or serialize.
 

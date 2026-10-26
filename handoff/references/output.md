@@ -1,6 +1,6 @@
 # Handoff output
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- doc-meta: owner=eng -->
 
 Use this minimal shape for a **prompt** or an **artifact**. Omit empty sections.
 

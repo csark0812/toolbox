@@ -1,7 +1,7 @@
 # Readback
 
 <!-- source-of-truth: branch-status readback shape. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-13 -->
+<!-- doc-meta: owner=eng -->
 
 Default response: the readback only. No preamble, no "here's a summary".
 

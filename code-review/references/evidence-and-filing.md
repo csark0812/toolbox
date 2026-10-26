@@ -1,7 +1,7 @@
 # Code review evidence and filing
 
 <!-- source-of-truth: Action proof bar, scope rules, and filing breadth for code review. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 ## Action proof card
 

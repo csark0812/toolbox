@@ -1,7 +1,7 @@
 # Code review interaction modes
 
 <!-- source-of-truth: task-shaped mode router for code review. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 Choose one primary mode. Filing breadth is separate from mode selection.
 

@@ -1,7 +1,7 @@
 # Evidence ladder
 
 <!-- source-of-truth: how far a load-bearing claim has been proven, and where to look past text search -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **Portable ambient reference.** Use it when a verdict, finding or safety claim depends on one or two facts. Push each load-bearing fact as far down the ladder as is cheap. State the level it reached. A claim that sounds right is not evidence.
 

@@ -1,7 +1,7 @@
 # Persona member prompt
 
 <!-- source-of-truth: minimum prompt contract for one council task persona. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 Give every member the same task facts and success criteria. Add only that member's persona card and needed sources.
 

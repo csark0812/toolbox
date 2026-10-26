@@ -1,7 +1,7 @@
 # Collection procedure
 
 <!-- source-of-truth: gathering branch-status facts (local git + optional gh). -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-13 -->
+<!-- doc-meta: owner=eng -->
 
 Use `scripts/collect.sh` first. If the script is missing or fails, use this procedure.
 

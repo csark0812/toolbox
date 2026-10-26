@@ -6,9 +6,9 @@ description: Use to record glossary entries or ADRs once a term or decision is s
 # Domain model
 
 <!-- source-of-truth: persisting glossary terms and ADRs after decisions land. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- doc-meta: owner=eng -->
 
-**Process skill** — content is repo-specific. Paths from customize / `AGENTS.md`.
+**Process skill** — content is repo-specific. Paths come from the project's `AGENTS.md` or docs.
 
 References: [output.md](references/output.md) · [glossary-format.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/domain-model/glossary-format.md) · [adr-format.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/domain-model/adr-format.md).
 
@@ -36,7 +36,7 @@ Per [output.md](references/output.md) — paths written, summary of changes.
 
 ## Consumer bindings
 
-Project-specific injected context is appended on skill read. Do not edit synced copies in place.
+Project-specific context can arrive when the skill loads. Do not edit synced copies in place.
 
 ## Output format
 

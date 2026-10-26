@@ -1,7 +1,7 @@
 # Council research basis
 
 <!-- source-of-truth: evidence and transfer limits behind council interaction design. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 Read this file when changing the persona contract, interaction router, or claims about council quality.
 

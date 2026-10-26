@@ -6,7 +6,7 @@ description: Use when the user asks what changed in a diff, commit, branch or PR
 # Review walkthrough
 
 <!-- source-of-truth: task-shaped, story-first explanation of a bounded code change. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 Explain one bound version of a code change as a causal story. Use only the evidence needed for understanding. Keep formal review and implementation separate.
 

@@ -6,7 +6,7 @@ description: Use to design or redesign a substantial web interface, page or app 
 # Interface Design
 
 <!-- source-of-truth: portable interface direction, implementation, and rendered proof process. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-07 -->
+<!-- doc-meta: owner=eng -->
 
 Make a few specific visual decisions that fit the user's task and existing product. Carry the chosen direction through real content, complete states, and rendered verification. User instructions and project design contracts outrank this skill and external examples.
 

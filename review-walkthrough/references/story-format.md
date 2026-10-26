@@ -1,7 +1,7 @@
 # Review walkthrough story format
 
 <!-- source-of-truth: proportional evidence and output shapes for review walkthrough. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-03 -->
+<!-- doc-meta: owner=eng -->
 
 Use prose as the default. Evidence supports the story; it does not define the layout.
 

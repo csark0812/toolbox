@@ -1,7 +1,7 @@
 # Follow-up: nontechnical evidence-based investigation
 
 <!-- source-of-truth: deferred discussion scope for a possible nontechnical investigation skill. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-21 -->
+<!-- doc-meta: owner=eng -->
 
 **Status:** Deferred design discussion. Revisit when the user wants to explore concrete nontechnical cases. This note does not authorize creating a new skill.
 
