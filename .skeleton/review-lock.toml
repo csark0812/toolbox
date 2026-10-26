@@ -1,10 +1,10 @@
-# Skeleton review lock. Written by `skeleton audit docs --fix=doc-meta --confirm-reviewed`.
+# Skeleton review lock. Written by `skeleton attest`.
 # One entry per document. Do not edit by hand; keep the blank line between entries.
 version = 4
 
 ".skeleton/registry.md" = { doc = "sha256:3441948316be86db" }
 
-"AGENTS.md" = { doc = "sha256:49d9c8f5b666ada9", deps = "sha256:f307010d999c6466" }
+"AGENTS.md" = { doc = "sha256:b15ca9493314700b", deps = "sha256:0ec88efd84e8005b" }
 
 "README.md" = { doc = "sha256:e7d8bf974d612788", deps = "sha256:ae7fe245d3da377d" }
 
