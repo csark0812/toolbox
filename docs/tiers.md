@@ -1,7 +1,7 @@
 # Skill tiers
 
 <!-- source-of-truth: skill tier assignment across the agent harness ecosystem. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 Assign each skill to exactly one **group**. Update when adding skills.
 

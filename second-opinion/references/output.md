@@ -1,6 +1,6 @@
 # Second-opinion output
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-16 -->
+<!-- doc-meta: owner=eng -->
 
 Extends [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/output-schema.md). Synthesis procedure → [plan-review.md](plan-review.md).
 

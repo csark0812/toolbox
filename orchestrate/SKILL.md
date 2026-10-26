@@ -7,7 +7,8 @@ disable-model-invocation: true
 # Orchestrate
 
 <!-- source-of-truth: Coordinate an explicitly requested multi-unit program with durable dependencies, current evidence, exclusive ownership and recovery -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-30 -->
+<!-- doc-meta: owner=eng -->
+<!-- review-deps: paths=orchestrate/scripts/** -->
 
 Use this only for an explicit program request. Native /goal continues work only when requested; reuse a matching goal and preserve unrelated goals. Without it, retain resumable records without promising automatic continuation.
 

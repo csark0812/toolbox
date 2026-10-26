@@ -1,7 +1,7 @@
 # Prototype research basis
 
 <!-- source-of-truth: evidence and limits behind throwaway design spikes. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng -->
 
 Read when calibrating a move or making a research claim. Not for every spike.
 

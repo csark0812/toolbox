@@ -1,6 +1,6 @@
 # Glossary format
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng -->
 
 **Opt-in soft-default recipe:** Baseline glossary row shape for consumers with **no** domain-artifact remap. Consumers that remap paths via customize must open the consumer SSOT instead.
 

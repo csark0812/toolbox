@@ -1,0 +1,8 @@
+{
+	"version": 3,
+	"documentHash": "sha256:421351b664f89129d1509e3da541d0fb25a2f7c242392f95b6bd80b96bb6f93f",
+	"reviewDependencies": {
+		"code-review/scripts/github.mjs": "sha256:8630aae32efe13c995de8c2c7220b04b321a36403a8cdff8ac1e847b193a21db",
+		"code-review/scripts/review.mjs": "sha256:589f4095d39086cb0e159f544a350674ff91658fa5057f7f288301239feb5080"
+	}
+}

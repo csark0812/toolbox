@@ -1,6 +1,6 @@
 # Handoff pack & channel
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 How to **choose what to include** and **how to deliver** it. Compact procedure → [output.md](output.md). Member write rules → [handoff-subagent-dispatch.md](handoff-subagent-dispatch.md).
 

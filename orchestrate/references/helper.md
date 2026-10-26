@@ -1,7 +1,7 @@
 # Run helper interface
 
 <!-- source-of-truth: executable coordination operation inputs -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-30 -->
+<!-- doc-meta: owner=eng -->
 
 Run `node <skill>/scripts/run.mjs <command> --store <run-directory> --input <JSON-file>`. Status/export need no input. Every mutation after init supplies expectedRevision and epoch from the last status result. IDs use letters, digits, underscore or hyphen. Source/requirements/upstream identity is represented by inputFingerprint supplied from actual evidence. Receipts are verified externally by the coordinator, not magically authenticated by the store.
 

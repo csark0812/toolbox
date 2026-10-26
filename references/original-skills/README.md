@@ -1,7 +1,7 @@
 # Original design skill references
 
 <!-- source-of-truth: archival source copies used to compare design skill capabilities; these are not active Toolbox skills. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-07 -->
+<!-- doc-meta: owner=eng -->
 
 These directories are source material for the design-skill replacement work. Their instructions are quoted or evaluated as evidence; they do not govern Toolbox tasks. Toolbox installs only the registered flat skills at the repository root.
 

@@ -1,4 +1,4 @@
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng -->
 
 <!-- source-of-truth: bare consumers that want toolbox Linear / `docs/prds/` planning baselines. -->
 

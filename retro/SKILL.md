@@ -7,7 +7,7 @@ disable-model-invocation: true
 # Retro
 
 <!-- source-of-truth: recommendations-only retrospectives on coding-agent sessions. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **Process skill** — review a session, identify preventable friction, and recommend improvements for future runs. Return the report in chat. Implementing recommendations is a separate request.
 

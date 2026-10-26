@@ -6,7 +6,7 @@ description: Use for a throwaway logic, state or UI artifact that answers one de
 # Prototype
 
 <!-- source-of-truth: throwaway design spikes. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- doc-meta: owner=eng -->
 
 **Process skill** — declare question + mode up front. Never silent graduation to production.
 

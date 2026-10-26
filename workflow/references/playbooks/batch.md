@@ -1,7 +1,7 @@
 # Batch of items
 
 <!-- source-of-truth: workflow playbook for working through several independent items, one commit each -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **You own** each listed item from report to its own verified commit, and nothing beyond the list.
 

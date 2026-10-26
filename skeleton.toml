@@ -76,3 +76,12 @@ ownedSlugs = [
   "babysit-pr",
   "retro",
 ]
+
+# Code that needs an owning document (review-deps). Built-in defaults cover
+# *.{ts,js,mjs,…} and package.json; these trees are benchmark fixtures or
+# vendored originals, not behavior a document describes.
+[reviewCoverage]
+exclude = [
+  "agent-suites/skill-bench/**",
+  "references/original-skills/**",
+]

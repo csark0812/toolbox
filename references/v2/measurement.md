@@ -1,7 +1,7 @@
 # Measurement
 
 <!-- source-of-truth: procedure and verdict rules for any reported performance or metric number -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **Portable ambient reference.** Use it whenever a number will be reported or used to decide something: a before/after, a regression claim, a hill-climb harness, or a choice between options. Answer each question with evidence from a run, not from reading code.
 

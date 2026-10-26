@@ -6,7 +6,7 @@ description: Use when work must continue in a fresh chat or another agent - writ
 # Handoff
 
 <!-- source-of-truth: compact session transfer — **what to rip out**, not full orchestration. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 **Orchestrator** — cross-session A2A (`channel:prompt` vs `channel:artifact`). Shared vocabulary → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md).
 

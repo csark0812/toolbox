@@ -6,7 +6,7 @@ description: Use when the user asks what branches or PRs are open, stacked, acti
 # Branch status
 
 <!-- source-of-truth: clear readbacks of open branch work. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-13 -->
+<!-- doc-meta: owner=eng -->
 
 **Process skill** — report what work is still alive, how it relates, and what needs a decision.
 

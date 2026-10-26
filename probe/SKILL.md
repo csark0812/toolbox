@@ -7,7 +7,7 @@ when_to_use: Any why or how question about existing behavior, such as "why does 
 # Probe
 
 <!-- source-of-truth: evidence-based assessment of specific hunches and claims. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **Process skill** — one concrete doubt, one evidence boundary, and one cited verdict. Evidence and verdict only; reproduction-led investigation and repair have a separate implementation contract. Optional parallel gathering uses the local recipes when multi-agent orchestration is active. Otherwise perform the same reads serially.
 

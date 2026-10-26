@@ -1,6 +1,6 @@
 # Prototype output
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 User-facing blocks must use clear English: short sentences, concrete subjects and verbs, and one meaning per sentence.
 

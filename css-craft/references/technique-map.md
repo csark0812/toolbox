@@ -1,7 +1,7 @@
 # CSS technique map
 
 <!-- source-of-truth: compact navigation across the CSS decisions inherited from modern-css. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-07 -->
+<!-- doc-meta: owner=eng -->
 
 Use the affected behavior to pick one area. The original `modern-css` references are retained in Toolbox under `references/original-skills/modern-css/` for source comparison, but this skill works without them.
 

@@ -1,7 +1,7 @@
 # Rendered verification recipe
 
 <!-- source-of-truth: practical browser evidence for web interface completion. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-07 -->
+<!-- doc-meta: owner=eng -->
 
 Use the project's browser test runner and served app. Replace the URL and selectors with the actual surface. These checks complement full-size screenshot review and manual keyboard inspection.
 

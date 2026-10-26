@@ -1,7 +1,7 @@
 # Investigation
 
 <!-- source-of-truth: workflow playbook for a read-only question about how or why something works -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **You own** the answer and its evidence. Change nothing.
 

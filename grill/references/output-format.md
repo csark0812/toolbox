@@ -1,6 +1,6 @@
 # Grill output
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 Use only the sections that help the next action. Write in clear English.
 

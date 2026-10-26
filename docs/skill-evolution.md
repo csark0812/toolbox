@@ -1,7 +1,7 @@
 # Skill evolution
 
 <!-- source-of-truth: human-gated skill patches after agent-suite failures. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 Toolbox skills are static, human-owned sources. They never change themselves from transcripts. This is the loop for turning a live failure into a durable skill change.
 

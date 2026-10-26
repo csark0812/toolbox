@@ -1,6 +1,6 @@
 # Dialogue contract
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng -->
 
 **Portable stub (incomplete):** Toolbox ships only this baseline. **Product checks (JTBD / trust / cross-surface) are not defined here.**
 

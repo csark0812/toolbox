@@ -1,7 +1,7 @@
 # Review walkthrough source binding
 
 <!-- source-of-truth: source adapters and version integrity for review walkthrough. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-03 -->
+<!-- doc-meta: owner=eng -->
 
 Read this reference when binding or rebinding the change.
 

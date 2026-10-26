@@ -1,7 +1,7 @@
 # Code review merge gate
 
 <!-- source-of-truth: strict code-quality attestation for a current branch or pull-request snapshot. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 Use only for a branch or pull request when the user asks whether it passes code review for merge. This is a code-quality gate, not merge permission.
 

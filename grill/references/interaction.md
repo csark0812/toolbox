@@ -1,6 +1,6 @@
 # Grill interaction
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 Use the lightest question form that can resolve the active branch.
 

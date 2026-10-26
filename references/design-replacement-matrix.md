@@ -1,7 +1,7 @@
 # Design skill replacement matrix
 
 <!-- source-of-truth: capability and routing comparison for the two retired global skills. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-07 -->
+<!-- doc-meta: owner=eng -->
 
 This matrix compares the original files preserved in [original-skills](original-skills/README.md) with the active Toolbox skills. It records an intentional scope change, not a claim that short instructions reproduce every example in the originals.
 

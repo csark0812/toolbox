@@ -6,7 +6,7 @@ description: Use when the user wants an adversarial critique of a written artifa
 # Second opinion
 
 <!-- source-of-truth: adversarial artifact review — invent lenses, claim anchoring, Bottom line + Action items. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-02 -->
+<!-- doc-meta: owner=eng -->
 
 **Process skill** — shared vocabulary → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md). This skill owns critique craft and never spawns members.
 

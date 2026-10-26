@@ -1,7 +1,7 @@
 # Domain model research basis
 
 <!-- source-of-truth: evidence and limits behind glossary and ADR persistence. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng -->
 
 Read when calibrating ADR gates or making a research claim. Not for every write.
 

@@ -1,7 +1,7 @@
 # Feature
 
 <!-- source-of-truth: workflow playbook for new or changed behavior built from a named data shape -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **You own** the feature from intent to a reviewed change.
 

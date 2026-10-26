@@ -1,7 +1,7 @@
 # GitHub review delivery
 
 <!-- source-of-truth: native GitHub review adapter and observation contracts -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-01 -->
+<!-- doc-meta: owner=eng -->
 
 Use this procedure for an explicitly invoked GitHub PR review. The helper owns frozen publication data; the host owns GitHub reads and the actual tool call. Local validation verifies supplied observations, not their provenance: capture actual provider evidence.
 

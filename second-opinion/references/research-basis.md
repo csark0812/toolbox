@@ -1,7 +1,7 @@
 # Second opinion research basis
 
 <!-- source-of-truth: evidence and limits behind adversarial artifact review. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 Read this file when changing critique interaction, anchoring, or claims about multi-agent review.
 

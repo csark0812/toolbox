@@ -7,7 +7,8 @@ when_to_use: Requests such as "can you look over this PR", "check this diff for 
 # Code review
 
 <!-- source-of-truth: evidence-led code review with explicit blockers-vs-advisory output and strict optional merge gating. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
+<!-- review-deps: paths=code-review/scripts/** -->
 
 Find reachable code defects with enough evidence to act. Match the review to the result the user requested. Keep ordinary reviews light. Keep merge-gate conclusions strict.
 

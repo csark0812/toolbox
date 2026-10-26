@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"documentHash": "sha256:49d9c8f5b666ada9396d830493a641c6032c1633380ca962bda41eeb7ef63644",
+	"reviewDependencies": {
+		"eslint.config.js": "sha256:e6e1cd289e2886802d05c7e70dcb60058f9949fd979ecdb198db4e4fbef884b2",
+		"package.json": "sha256:f5d02080c39f0dc5bb3d5896a7cbb803a77efb376c1a91e3fca6980bdf564957",
+		"scripts/install-global.mjs": "sha256:a7ced7636c30e8d1317fe1563f5eb2caf7394c52fa507acc975ee2e73b4676f6",
+		"scripts/sync-claude-skills.mjs": "sha256:6d74123c68d69d43411aedd9be204088959b04708159a02dc26d5425f19bdeca",
+		"src/expected-skills.ts": "sha256:5876e6107a7cce5211c4a2de9e44616601a63f9dec8ee30e92b89440e23bdba6",
+		"vitest.config.ts": "sha256:d9480b89ea9e4cdb98ff5f8db1d723ba577ff8444aea1d7b7fa13b668013c824"
+	}
+}

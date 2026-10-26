@@ -1,7 +1,7 @@
 # Refactor companion interaction modes
 
 <!-- source-of-truth: evidence-led interaction router for refactor work. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 ```mermaid
 flowchart TD

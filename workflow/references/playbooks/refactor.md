@@ -1,7 +1,7 @@
 # Refactor
 
 <!-- source-of-truth: workflow playbook for a behavior-preserving structural change -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **You own** the structural change until the old path is gone and behavior is unchanged.
 

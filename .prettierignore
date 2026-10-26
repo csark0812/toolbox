@@ -9,3 +9,5 @@ _agent/
 .toolbox/
 test-results/
 references/original-skills/
+# Skeleton review proof — tool-written, never hand-edited
+.skeleton/reviews/

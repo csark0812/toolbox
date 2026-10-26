@@ -1,7 +1,7 @@
 # Code review source binding
 
 <!-- source-of-truth: review surface adapters and trust rules. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 Bind the material the user wants judged. Name the actual scope, not only the adapter.
 

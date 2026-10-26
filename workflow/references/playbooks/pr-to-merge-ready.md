@@ -1,7 +1,7 @@
 # PR to merge-ready
 
 <!-- source-of-truth: workflow playbook for turning local work into a merge-ready pull request -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **You own** the change from a dirty checkout to a merge-ready PR. Merging stays with the user.
 

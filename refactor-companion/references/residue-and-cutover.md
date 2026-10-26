@@ -1,7 +1,7 @@
 # Refactor residue and cutover
 
 <!-- source-of-truth: final-path and residue rules for refactor companion. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-01 -->
+<!-- doc-meta: owner=eng -->
 
 Use this reference after a path or concept is replaced.
 

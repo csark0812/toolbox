@@ -6,7 +6,7 @@ description: Use to record glossary entries or ADRs once a term or decision is s
 # Domain model
 
 <!-- source-of-truth: persisting glossary terms and ADRs after decisions land. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-20 -->
+<!-- doc-meta: owner=eng -->
 
 **Process skill** — content is repo-specific. Paths from customize / `AGENTS.md`.
 

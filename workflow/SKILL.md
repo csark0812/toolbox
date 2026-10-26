@@ -7,7 +7,7 @@ when_to_use: Requests such as "go through this checklist and commit each fix", "
 # Workflow
 
 <!-- source-of-truth: Route engineering work and coordinate ownership sessions when the user wants to understand, adopt, change, or verify agent-created work -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 ## Route
 

@@ -1,7 +1,7 @@
 # Executable recipe contract
 
 <!-- source-of-truth: generated application verification contract -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-30 -->
+<!-- doc-meta: owner=eng -->
 
 Generate SKILL.md plus a feature index containing feature, owning source, entry points, prerequisites, ordered user actions, observable expected result, side effects, evidence and limitations. Support launch/readiness, read-only doctor, user-facing drive, evidence and owned cleanup. Prefer existing harnesses. Use isolated ports/profiles/data and capture successful as well as failed runs.
 

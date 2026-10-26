@@ -1,7 +1,8 @@
 # toolbox
 
 <!-- source-of-truth: user-level process and orchestrator Cursor/Claude agent skills. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-21 -->
+<!-- doc-meta: owner=eng -->
+<!-- review-deps: paths=scripts/check-rendered-interface.mjs -->
 
 Public process SSOT. Engineers install skills globally (`-g`). Product repos keep product workflows and shared standards — they should not vendor these process skill folders.
 
@@ -58,7 +59,7 @@ After init, edit `skeleton.toml` for your layout and run `npx skeleton audit sel
 | **`.skeleton/customize/`** | Consumer-local overlays (product docs, alwaysInclude, soft-default binders) — **consumer repos only** |
 | **`references/`**          | Canonical ambient reference docs — skills link via GitHub raw URLs (not copied into each skill)       |
 
-Do not edit installed `SKILL.md` copies in place. Process SSOT updates via global install / this repo. Consumer customize overlays carry product-local context. See [skeleton customize docs](https://github.com/csark0812/skeleton/blob/main/docs/developer/customize.md).
+Do not edit installed `SKILL.md` copies in place. Process SSOT updates via global install / this repo. Consumer customize overlays carry product-local context.
 
 Ambient shared refs live once under [`references/`](references/). Skill bodies open them via `raw.githubusercontent.com/csark0812/toolbox/main/...` (network required). Validation: [docs/github-ambient-refs-validation.md](docs/github-ambient-refs-validation.md). Skill-local refs (unique to one skill) stay under `{slug}/references/`.
 
@@ -228,6 +229,6 @@ Toolbox owns portable process-contract behavior (`code-review`, `grill`, …). C
 6. Stage changes (`git add`), then `npm test` (preferred) or `npm run audit:skills && npm run validate:ci`
 7. Push → CI green → `npx skills update -g`
 
-**Validation honesty:** path-scoped `npm run validate:changed -- <skill-path>` barely checks skill bodies — skills suite rules are global. Rely on `npm test` / CI for skill edits. Hub docs (`README.md`, `docs/*`) are fine under `validate:changed`.
+**Validation honesty:** `npm run validate:changed -- <skill-path>` runs the whole `audit skills` — skills suite rules are global. Rely on `npm test` / CI for skill edits. Hub docs (`README.md`, `docs/*`) are fine under `validate:changed`.
 
 Skill-local links use relative paths. Shared contracts use `references/` raw URLs. Peer skill trees are not dependency targets; see [docs/tiers.md](docs/tiers.md).

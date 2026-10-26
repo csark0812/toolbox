@@ -1,7 +1,7 @@
 # Code review research basis
 
 <!-- source-of-truth: evidence behind review filing and evidence bar. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng -->
 
 Read when calibrating filing density or evidence claims. Not for every review.
 

@@ -7,7 +7,7 @@ when_to_use: Requests such as "add a function that", "implement this feature tes
 # Test-Driven Development
 
 <!-- source-of-truth: test-first implementation at public seams. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **Process skill** — red → green microcycle. Tests at public interfaces only. Shared vocabulary → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md).
 
