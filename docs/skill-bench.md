@@ -1,7 +1,8 @@
 # Skill bench
 
 <!-- source-of-truth: blinded pairwise benchmark that decides whether a skill beats its baseline -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-16 -->
+<!-- doc-meta: owner=eng -->
+<!-- review-deps: paths=scripts/skill-bench*.mjs,scripts/lib/skill-bench-material.mjs,scripts/lib/pairwise-stats.mjs,scripts/freeze-holdout.mjs,scripts/fetch-pack.mjs,skill-bench.config.ts -->
 
 A skill ships or stays only if it beats its baseline in this bench. Conformance suites prove that a skill is followed. The bench asks whether following it produces better work.
 
@@ -15,7 +16,7 @@ A skill ships or stays only if it beats its baseline in this bench. Conformance 
    - `scripts/lib/skill-bench-material.mjs` lists the banned words. Tests check every task prompt against it.
 3. **Tasks.** Each task names its target skill and 3–6 criteria that only the judge sees.
    - [`tasks.json`](../agent-suites/skill-bench/tasks.json) is the development set. It reuses claim-suite scenarios and may be used to tune skills.
-   - `holdout.json` and `holdout-v2.json` through `holdout-v5.json` in [`agent-suites/skill-bench/`](../agent-suites/skill-bench/) are held-out sets (`--taskset holdout-v5` and so on). Each has its own `<set>-checks/` folder and `<set>.lock.json`; freeze a new set with `node scripts/freeze-holdout.mjs --set <set> --write` before its first run.
+   - `holdout.json` and `holdout-v2.json` through `holdout-v7.json` in [`agent-suites/skill-bench/`](../agent-suites/skill-bench/) are held-out sets (`--taskset holdout-v7` and so on). Each has its own `<set>-checks/` folder and `<set>.lock.json`; freeze a new set with `node scripts/freeze-holdout.mjs --set <set> --write` before its first run.
    - Each held-out set is written and frozen before any run and is never tuned against. Each task has a hidden acceptance check that never enters the agent's workspace. The lock pins a SHA-256 over every file the set uses, and a test fails on drift. Development tasks may have hidden checks too, under `dev-checks/`. Re-freezing after seeing results voids the held-out claim.
 4. **Runs.** `agent-suites/skill-bench/skill-bench.spec.ts` records the reply, tool calls, diff, commits and hard-check result for each run under `.agent-test/skill-bench/<id>/runs/`. A failed hard check is recorded, not thrown.
 5. **Judge.** `scripts/skill-bench-judge.mjs` compares every cross-arm pair in both orders.
@@ -57,7 +58,7 @@ These conditions were written before any held-out v3 run. During that run the us
 | Held-out comparison against pstack, one runner                 | `npm run bench:skill -- --taskset holdout --arms full,pack:pstack@poteto-mode --runner claude --id <id>` |
 | Calibrate the win threshold on development runs                | `node scripts/skill-bench-calibrate.mjs <dev-bench-id>...`                                               |
 
-Every command takes `--workers <n>` (agent runs at once, default 4) and `--judges <n>` (judge calls at once, default 6). Subscription rate limits are the practical ceiling; lower them if runs start failing as infrastructure errors.
+Every `npm run bench:skill*` command takes `--workers <n>` (agent runs at once, default 4) and `--judges <n>` (judge calls at once, default 6). Subscription rate limits are the practical ceiling; lower them if runs start failing as infrastructure errors.
 
 ## Rules
 

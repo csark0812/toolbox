@@ -1,6 +1,6 @@
 # Council synthesis
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 Use for generic orchestration runs when no layered process defines the exit shape. If a process is layered, preserve its output contract.
 

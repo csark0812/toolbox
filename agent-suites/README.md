@@ -1,7 +1,8 @@
 # Toolbox agent suites
 
 <!-- source-of-truth: current SDK execution, claim mapping and evaluation boundaries -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
+<!-- review-deps: paths=agent-suites/v2/**,agent-test.config.ts,scripts/run-agent-suites.mjs,scripts/validate-agent-suites.mjs,scripts/prepare-evaluation-workspace.mjs -->
 
 Current tests are TypeScript SDK suites under v2/. claims.json files preserve original declarative claims and fixture-reader compatibility; they are not executed by a legacy SDK runtime. migration-index.json maps every historical scenario to its current assertion, selected judge inputs and normalized output.
 

@@ -7,7 +7,8 @@ when_to_use: Requests such as "CI is red on my PR, fix it", "address the review 
 # Babysit PR
 
 <!-- source-of-truth: driving one open pull request to merge-ready without merging it. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
+<!-- review-deps: paths=babysit-pr/scripts/** -->
 
 **Process skill.** Own one PR from its current state to merge-ready, then stop. Evidence levels → [evidence-ladder.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/evidence-ladder.md). Composition → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md).
 

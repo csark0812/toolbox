@@ -1,6 +1,6 @@
 # Reproduction and experiment recipes
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 Choose the fastest check that faithfully reaches the failure and distinguishes explanations. These are alternatives, not a fixed ordering or mandatory tool list.
 

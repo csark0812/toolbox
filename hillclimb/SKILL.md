@@ -7,7 +7,8 @@ when_to_use: Requests such as "get p95 latency under 200 ms", "make this page lo
 # Hillclimb
 
 <!-- source-of-truth: target-driven metric improvement through a frozen harness and a logged keep-or-revert loop. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
+<!-- review-deps: paths=hillclimb/scripts/** -->
 
 **Process skill.** Move one number toward a target with attempts that are measured, kept or reverted in full, and logged. Measurement rules → [measurement.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/measurement.md). Named principles → [engineering-principles.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/engineering-principles.md). Composition → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md).
 

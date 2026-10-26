@@ -1,7 +1,7 @@
 # Code review output
 
 <!-- source-of-truth: proportional user-facing output for each code review mode. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 Lead with the verdict or highest-severity finding. Use clear English. Omit empty sections and do not repeat findings in a synthesis.
 

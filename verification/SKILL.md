@@ -6,7 +6,7 @@ description: Use to create or update a repo's executable verification recipe and
 # Verification
 
 <!-- source-of-truth: Create or maintain an executable repository-specific verification recipe and feature index -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-30 -->
+<!-- doc-meta: owner=eng -->
 
 Select create or maintain. Inspect repository operations and test ownership first; reuse existing launch/doctor/runtime mechanisms. Read [recipe.md](references/recipe.md) to generate a consumer-local verify-<app> skill with helpers only when needed. Generic Toolbox owns no app-specific runtime or product policy.
 

@@ -1,7 +1,7 @@
 # Review artifact helper
 
 <!-- source-of-truth: review artifact and publication operation inputs -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-01 -->
+<!-- doc-meta: owner=eng -->
 
 Run `node <skill>/scripts/review.mjs <command> --store <run-directory> --input <JSON-file>`. Status and adapter are read-only. Mutations after init use expectedRevision. Default storage is resolved by run ID under git-common-dir/toolbox/reviews or workspace/.toolbox/reviews.
 

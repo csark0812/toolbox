@@ -1,7 +1,7 @@
 # Bug fix
 
 <!-- source-of-truth: workflow playbook for a reported defect from reproduction to reviewed fix -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **You own** the reported defect from report to a reviewed, verified fix, and nothing beyond it.
 

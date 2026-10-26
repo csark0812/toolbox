@@ -1,6 +1,6 @@
 # Plan review synthesis
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 How to **invent lenses** and **synthesize** a second opinion. An active orchestration layer owns member execution.
 

@@ -1,7 +1,7 @@
 # Refactor companion output
 
 <!-- source-of-truth: compact user-facing slice and completion reports. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-03 -->
+<!-- doc-meta: owner=eng -->
 
 Use clear English. Show the delta, not the full internal record.
 

@@ -1,0 +1,15 @@
+{
+	"version": 3,
+	"documentHash": "sha256:9c33c9a8a9bbb538bda0472b8e2ddef9d42827ee4af6736dc5f90badc1236ce4",
+	"reviewDependencies": {
+		"scripts/fetch-pack.mjs": "sha256:ee3d943d6313c79bfb20c2d55ce8ea6060e1178c71718b379c6f634b2be7f360",
+		"scripts/freeze-holdout.mjs": "sha256:b365cdc4bcc4932b39172c83e4711680b484ff04bda0da6c09f6cefdba3daac7",
+		"scripts/lib/pairwise-stats.mjs": "sha256:47867db9518e806a5038a7cb995c0fc28b63e79a744e8b212d52bee23007b893",
+		"scripts/lib/skill-bench-material.mjs": "sha256:cb2eedc297dda770ef93a62cb9aa7aeae8933cb9600fe33589943122aab7a39b",
+		"scripts/skill-bench-calibrate.mjs": "sha256:c8d0c8125d0c4b62fc3d06dee433804cd34e1efa82a94532594d2b7e742dd14b",
+		"scripts/skill-bench-judge.mjs": "sha256:88d97f493f51dce839bf0722c12a3425c27c0e9167efb2365676a33bb5639b19",
+		"scripts/skill-bench-report.mjs": "sha256:e7639e9543d4f9e89d427ea4bd2604594593803e056d06a794632d2237b8a7e3",
+		"scripts/skill-bench.mjs": "sha256:4877e074a6af420e315bdee0385ba04fac7b88cd7b01dbdc3192bfd27909ea9e",
+		"skill-bench.config.ts": "sha256:fcbe3f292169c12eac1223db75060149af74fae89a6ba6761539a94ce59f665d"
+	}
+}

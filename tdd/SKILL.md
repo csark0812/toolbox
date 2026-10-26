@@ -7,7 +7,7 @@ when_to_use: Requests such as "add a function that", "implement this feature tes
 # Test-Driven Development
 
 <!-- source-of-truth: test-first implementation at public seams. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **Process skill** — red → green microcycle. Tests at public interfaces only. Shared vocabulary → [process-skill-composition.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/process-skill-composition.md).
 
@@ -46,7 +46,7 @@ Per [output.md](references/output.md) — seam, cycle summary, test path citatio
 
 ## Consumer bindings
 
-Project-specific injected context is appended on skill read. Do not edit synced copies in place.
+Project-specific context can arrive when the skill loads. Do not edit synced copies in place.
 
 ## Output format
 

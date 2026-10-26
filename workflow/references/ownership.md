@@ -1,7 +1,7 @@
 # Ownership sessions
 
 <!-- source-of-truth: human adoption state and continuation -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-30 -->
+<!-- doc-meta: owner=eng -->
 
 Keep a session record of target/input identity, current part, intent, decisions and per-part status: unseen, accepted, change-requested, needs-recheck or deferred. Record supporting source and evidence for acceptance.
 

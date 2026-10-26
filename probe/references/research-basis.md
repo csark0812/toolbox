@@ -1,7 +1,7 @@
 # Investigate research basis
 
 <!-- source-of-truth: evidence and limits behind hunch verification. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng -->
 
 Read when calibrating hypothesis work, forage/leave, or making a research claim. Not for every investigation.
 

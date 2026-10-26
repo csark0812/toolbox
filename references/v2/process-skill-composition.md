@@ -1,7 +1,7 @@
 # Composition contract v2
 
 <!-- source-of-truth: declared routing, state ownership, skill boundaries and shared composition vocabulary -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 Toolbox skills are adjacent, independently complete roles. They compose through user intent, layered prompts and shared conversation state.
 

@@ -1,6 +1,6 @@
 # ADR format (MADR-style)
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
+<!-- doc-meta: owner=eng -->
 
 **Opt-in soft-default recipe:** Lightweight architecture decision records for consumers with **no** domain-artifact remap.
 

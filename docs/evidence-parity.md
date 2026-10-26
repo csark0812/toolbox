@@ -1,7 +1,8 @@
 # Evidence parity
 
 <!-- source-of-truth: paired skill-on and skill-off conformance evidence -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
+<!-- review-deps: paths=scripts/run-evidence-parity.mjs,scripts/run-debugging-evidence-parity.mjs,scripts/lib/evidence-v2.mjs -->
 
 Evidence parity runs the same scenario with the skill installed (outcomes arm) and without it (prompt and transfer arms), three times each, and compares the normalized results. Use `npm run agent:test:evidence-parity` for the probe evidence family and `npm run agent:test:debugging-evidence-parity` for the `evidence-based-debugging*` family.
 

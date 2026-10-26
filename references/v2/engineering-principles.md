@@ -1,7 +1,7 @@
 # Engineering principles
 
 <!-- source-of-truth: portable engineering principles that skills cite when a principle changes a decision -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **Portable ambient reference.** It is a menu of named principles, not a workflow. Open it when a decision is in play. Module-boundary vocabulary (deep module, seam, explicit complexity) lives in [codebase-design.md](../codebase-design.md). This file does not repeat it.
 

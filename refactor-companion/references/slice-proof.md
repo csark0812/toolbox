@@ -1,7 +1,7 @@
 # Refactor slice and proof
 
 <!-- source-of-truth: bounded slice preview and proof selection for refactor companion. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-03 -->
+<!-- doc-meta: owner=eng -->
 
 ```mermaid
 flowchart LR

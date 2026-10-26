@@ -6,7 +6,7 @@ description: Use when the user wants to shape a fuzzy idea or pressure-test desi
 # Grill
 
 <!-- source-of-truth: decision-focused dialogue before implementation. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-02 -->
+<!-- doc-meta: owner=eng -->
 
 Grill helps the user make the decisions that must be clear before implementation. It is a dialogue, not a questionnaire or a design checklist.
 

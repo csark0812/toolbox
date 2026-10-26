@@ -1,7 +1,7 @@
 # Grill research basis
 
 <!-- source-of-truth: evidence and limits behind alternate-frame and revisit-trigger checks. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-09-01 -->
+<!-- doc-meta: owner=eng -->
 
 Read this file only when making a research claim about Grill's method.
 

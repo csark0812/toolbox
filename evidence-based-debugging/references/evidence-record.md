@@ -1,6 +1,6 @@
 # Evidence record and reporting
 
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-05 -->
+<!-- doc-meta: owner=eng -->
 
 Keep only the state needed to choose the next experiment and explain the result. Maintain it in conversation for short investigations. Persist a small record when duration or handoff makes continuity useful, using the consumer's artifact convention or a temporary location. Do not create a permanent repository document by default.
 

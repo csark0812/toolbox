@@ -5,6 +5,8 @@ description: Use when the user asks to commit or organize a dirty checkout into 
 
 # Create bounded commits
 
+<!-- review-deps: paths=create-bounded-commits/scripts/** -->
+
 **Process skill** — make related uncommitted work reviewable as separate local commits without losing unfinished work.
 
 ## Entry gate

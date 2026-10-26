@@ -7,7 +7,7 @@ when_to_use: Requests such as "the layout breaks on narrow screens", "these two 
 # CSS Craft
 
 <!-- source-of-truth: portable CSS diagnosis, technique selection, and rendered verification process. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-07 -->
+<!-- doc-meta: owner=eng -->
 
 Fix the observed styling problem with the smallest technique that preserves the project's design contract and supported browser behavior. Prefer a concrete rendered cause over a speculative rewrite. User instructions and project rules outrank external examples.
 

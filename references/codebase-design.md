@@ -1,7 +1,7 @@
 # Codebase design vocabulary
 
 <!-- source-of-truth: reusable code-design vocabulary for explicit complexity, module boundaries, ownership, and test seams. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-08-30 -->
+<!-- doc-meta: owner=eng -->
 
 **Portable ambient reference** — named concepts for module boundaries and test seams. Not a staged workflow. Load on context pointer only.
 

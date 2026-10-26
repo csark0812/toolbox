@@ -1,7 +1,7 @@
 # Pause
 
 <!-- source-of-truth: workflow playbook for suspending in-flight work so it can resume cleanly -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-15 -->
+<!-- doc-meta: owner=eng -->
 
 **You own** a clean stop. Run this only when the user explicitly asks to pause. "Keep going" is not a pause.
 

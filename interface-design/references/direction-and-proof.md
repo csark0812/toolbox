@@ -1,7 +1,7 @@
 # Direction and proof
 
 <!-- source-of-truth: compact handoff and evidence contract for interface-design. -->
-<!-- doc-meta: owner=eng | last-reviewed=2026-10-07 -->
+<!-- doc-meta: owner=eng -->
 
 ## Direction card
 
