@@ -1,6 +1,6 @@
 # CreatePlan Output Format
 
-**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file. Open the consumer planning SSOT instead.
+**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap through `AGENTS.md` / project docs or a consumer-local skill must **not** use this file. Open the consumer planning SSOT instead.
 
 Use the `CreatePlan` tool to generate the plan artifact. Fill the template below. Then run the Self-Check before submitting.
 

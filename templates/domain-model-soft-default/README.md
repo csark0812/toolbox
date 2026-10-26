@@ -2,15 +2,15 @@
 
 **Opt-in soft-default recipe:** Glossary + ADR path defaults for consumers with **no** domain-artifact remap.
 
-Consumers that remap via customize (`shared-agent-references` / project docs) must **not** use this pack. Open the consumer SSOT instead.
+Consumers that remap through `AGENTS.md` / project docs or a consumer-local skill must **not** use this pack. Open the consumer SSOT instead.
 
 ## Setup
 
-1. Copy `templates/domain-model-soft-default/` → `.skeleton/customize/domain-model-soft-default/`
-2. Copy `templates/soft-default-domain-model.md` → `.skeleton/customize/soft-default-domain-model.md`
-3. Add `soft-default-domain-model.md` to `customize.alwaysInclude` in `skeleton.toml`
+1. Re-home `templates/domain-model-soft-default/` in a consumer-local skill or in project docs (for example `docs/domain-model-soft-default/`)
+2. Copy `templates/soft-default-domain-model.md` beside it as the binder
+3. Point `AGENTS.md` at the binder so agents load it with domain-model work
 
-## Default paths (override in customize stub)
+## Default paths (override in the binder)
 
 | Artifact | Default path       |
 | -------- | ------------------ |

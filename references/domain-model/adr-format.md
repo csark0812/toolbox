@@ -4,7 +4,7 @@
 
 **Opt-in soft-default recipe:** Lightweight architecture decision records for consumers with **no** domain-artifact remap.
 
-Default directory: `docs/adr/` — numbered `NNNN-title.md`. Consumer customize can remap.
+Default directory: `docs/adr/` — numbered `NNNN-title.md`. Consumers can remap it through `AGENTS.md` / project docs or a consumer-local skill.
 
 ## Template
 

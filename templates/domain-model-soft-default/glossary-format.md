@@ -1,8 +1,8 @@
 # Glossary format
 
-**Opt-in soft-default recipe:** Full glossary baseline for consumers with **no** domain-artifact remap. Consumers that remap via customize must **not** use this file. Open the consumer SSOT instead.
+**Opt-in soft-default recipe:** Full glossary baseline for consumers with **no** domain-artifact remap. Consumers that remap through `AGENTS.md` / project docs or a consumer-local skill must **not** use this file. Open the consumer SSOT instead.
 
-Save to `docs/glossary.md` unless customize remaps the path. Create the file if it does not exist.
+Save to `docs/glossary.md` unless the project remaps the path in `AGENTS.md` or project docs. Create the file if it does not exist.
 
 ## Row shape
 

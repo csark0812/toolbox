@@ -1,6 +1,6 @@
 # Linear Issues Output Format
 
-**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap via customize (`shared-agent-references` / docs) must **not** use this file. Open the consumer planning SSOT instead.
+**Opt-in soft-default recipe:** Full Linear / `docs/prds/` baseline for consumers with **no** planning remap. Consumers that remap through `AGENTS.md` / project docs or a consumer-local skill must **not** use this file. Open the consumer planning SSOT instead.
 
 Break a plan or PRD into independently grabbable Linear issues. Each issue is a vertical slice — independently testable and executable without waiting for other issues (except explicit blockers).
 

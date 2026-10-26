@@ -4,7 +4,7 @@
 
 **Portable stub (incomplete):** Toolbox ships only this baseline. **Product checks (JTBD / trust / cross-surface) are not defined here.**
 
-Consumer projects remap the full dialogue contract through hook-injected customize / alwaysInclude context (`shared-agent-references` → docs `dialogue-contract.md` or equivalent).
+Consumer projects remap the full dialogue contract through their `AGENTS.md` / project docs (`dialogue-contract.md` or equivalent) or a consumer-local skill.
 
 ## What this file is for
 
@@ -20,7 +20,7 @@ Invariants shared by dialogue modes (grill intent phase / design tree). Full Pro
 3. **Anti-premature closure** — Do not ship exit artifacts until that mode’s exit tests are met.
 4. **Concise turns** — Short mirrors and questions. Sessions can run many turns.
 
-**If you only have this stub:** prefer the hook-injected dialogue-contract context when skill read provided it. Apply that before Product checks or consumer product ambient gates.
+**If you only have this stub:** prefer consumer dialogue-contract context when it arrived as the skill loaded or the project's `AGENTS.md` points to it. Apply that before Product checks or consumer product ambient gates.
 
 ## Related
 
