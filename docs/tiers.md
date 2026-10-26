@@ -64,7 +64,7 @@ This repo is the public home for process and orchestrator skills. Install them *
 
 Private preference skills live in a separate global install outside this repo. Do not name that other home from hub docs here.
 
-Soft-default planning recipes stay out of skill trees — hosted here as a **copyable template** under [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md). After opt-in they live in the consumer (`.skeleton/customize/` **or** a consumer-local skill). Not a process skill installed by `--skill '*'`. Fail-loud stubs stay ambient; see [github-ambient-refs-validation.md](github-ambient-refs-validation.md).
+Soft-default planning recipes stay out of skill trees — hosted here as a **copyable template** under [`templates/planning-soft-default/`](../templates/planning-soft-default/) + [`templates/soft-default-planning.md`](../templates/soft-default-planning.md). After opt-in they live in the consumer (a consumer-local skill **or** project docs). Not a process skill installed by `--skill '*'`. Fail-loud stubs stay ambient; see [github-ambient-refs-validation.md](github-ambient-refs-validation.md).
 
 Shared ambient refs live in [`references/`](../references/) and are opened from skills via GitHub raw URLs (network required).
 
@@ -81,14 +81,14 @@ npx skeleton init --skills
 ```
 
 - **toolbox** — process skill content SSOT (this repo); engineers install with `-g`
-- **skeleton** — validates docs, registries, and skill links; `init --skills` configures the audit perimeter only
-- **`.skeleton/customize/`** — consumer-local overlays (product docs, alwaysInclude, soft-default binders) — **consumer repos only**
+- **skeleton** — validates docs, registries, and skill links; `init --skills` sets up audit scaffolding; it does not install toolbox skills
+- **Consumer-local skills / docs** — product docs and soft-default planning recipes after opt-in — **consumer repos only**
 
 Install destinations (where agents look): Cursor project → `.agents/skills/` (global → `~/.cursor/skills/`); Claude Code project → `.claude/skills/` (global → `~/.claude/skills/`); Codex project → `.agents/skills/` (global → `~/.codex/skills/`). Toolbox **process** skills go in **Global**. Project skill dirs are for consumer product/standards skills (and planning overlays), not vendored toolbox process copies.
 
 **Clone dogfood:** project sync of toolbox process skills is allowed **only inside this toolbox clone** while authoring — not a consumer install path.
 
-Process SSOT updates via global install / this repo — not “edit installed copies in a consumer.” Customize overlays remain for consumer-local product context.
+Process SSOT updates via global install / this repo — not “edit installed copies in a consumer.” Consumer-local skills and project docs carry product-local context.
 
 ### Migration (2026-08) — ownership cut
 
@@ -96,7 +96,7 @@ Existing project-scoped `--copy` trees of toolbox process skills keep loading un
 
 1. **Remove** vendored copies of registered toolbox skill slugs under project skill dirs (do not keep dual project+global process installs).
 2. Engineers **reinstall** via global `-g`.
-3. **Keep** consumer product / standards / planning-overlay skills in-repo. `.skeleton/customize/` soft-default overlays are not process skill dirs.
+3. **Keep** consumer product / standards / planning-overlay skills in-repo. Soft-default planning skills are consumer-owned, not toolbox process skills.
 4. Leftover project-scoped toolbox process copies are **unsupported** as a taught path after this framing lands.
 
 Consumer cleanup PRs (delete vendored dirs in other repos) are separate — this hub only teaches the recipe.

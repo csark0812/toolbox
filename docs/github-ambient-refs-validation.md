@@ -22,13 +22,13 @@ The T2 rows were recorded with the earlier Cursor SDK runner. Scenarios under `a
 
 ## Manual checklist
 
-| ID  | Case                                  | Result                   | Notes                                                  |
-| --- | ------------------------------------- | ------------------------ | ------------------------------------------------------ |
-| T3  | Project `skills add` + GitHub links   | Pending consumer dogfood | No local ambient copies under skill `references/`      |
-| T4  | Global `-g` install, no toolbox clone | Pending                  | Same ambient URLs. Network required                    |
-| T5  | Offline / no network                  | **known limitation**     | Remote SSOT requires network                           |
-| T7  | Default validation                    | **N/A**                  | Cannot validate fetch without a direct agent run       |
-| T8  | Customize coexistence                 | Pending                  | Local customize / alwaysInclude must win when injected |
+| ID  | Case                                  | Result                   | Notes                                                    |
+| --- | ------------------------------------- | ------------------------ | -------------------------------------------------------- |
+| T3  | Project `skills add` + GitHub links   | Pending consumer dogfood | No local ambient copies under skill `references/`        |
+| T4  | Global `-g` install, no toolbox clone | Pending                  | Same ambient URLs. Network required                      |
+| T5  | Offline / no network                  | **known limitation**     | Remote SSOT requires network                             |
+| T7  | Default validation                    | **N/A**                  | Cannot validate fetch without a direct agent run         |
+| T8  | Customize coexistence                 | **Obsolete**             | Skeleton 5 removed customize overlays and hook injection |
 
 ## URL shape (shipped)
 

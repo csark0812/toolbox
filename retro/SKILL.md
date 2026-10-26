@@ -57,4 +57,4 @@ Separate confirmed findings from inferred causes and missing evidence. Omit empt
 
 ## Consumer bindings
 
-Project-specific injected context is appended on skill read. Do not edit synced copies in place.
+Project-specific context can arrive when the skill loads. Do not edit synced copies in place.

@@ -39,7 +39,7 @@ For a code or behavior verdict, state the level its load-bearing fact reached on
 
 ### Structural checks
 
-When evidence touches structure, apply [dialogue-contract.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/dialogue-contract.md) § Structural checks. Name the spectrum in **What to do next** (localized change vs staged or ground-up).
+When evidence touches structure, apply [codebase-design.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/codebase-design.md) (deep module, seam, anti-patterns). Name the spectrum in **What to do next** (localized change vs staged or ground-up).
 
 **Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
 
@@ -95,4 +95,4 @@ End with this block when the clarification chain (when needed) and evidence pass
 
 ## Consumer bindings
 
-Project-specific injected context is appended on skill read. Do not edit synced copies in place.
+Project-specific context can arrive when the skill loads. Do not edit synced copies in place.

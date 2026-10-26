@@ -46,7 +46,7 @@ Per [output.md](references/output.md) — seam, cycle summary, test path citatio
 
 ## Consumer bindings
 
-Project-specific injected context is appended on skill read. Do not edit synced copies in place.
+Project-specific context can arrive when the skill loads. Do not edit synced copies in place.
 
 ## Output format
 

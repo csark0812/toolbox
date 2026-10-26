@@ -52,14 +52,14 @@ After init, edit `skeleton.toml` for your layout and run `npx skeleton audit sel
 
 ### Roles
 
-| Piece                      | Role                                                                                                  |
-| -------------------------- | ----------------------------------------------------------------------------------------------------- |
-| **toolbox** (this repo)    | Process skill SSOT — installed user-level (`-g`), not vendored into consumer repos                    |
-| **skeleton**               | Docs/skill registry linter — validates links, banners, and scan perimeter                             |
-| **`.skeleton/customize/`** | Consumer-local overlays (product docs, alwaysInclude, soft-default binders) — **consumer repos only** |
-| **`references/`**          | Canonical ambient reference docs — skills link via GitHub raw URLs (not copied into each skill)       |
+| Piece                            | Role                                                                                            |
+| -------------------------------- | ----------------------------------------------------------------------------------------------- |
+| **toolbox** (this repo)          | Process skill SSOT — installed user-level (`-g`), not vendored into consumer repos              |
+| **skeleton**                     | Docs/skill registry linter — validates links, banners, and scan perimeter                       |
+| **Consumer-local skills / docs** | Product docs and soft-default planning recipes after opt-in — **consumer repos only**           |
+| **`references/`**                | Canonical ambient reference docs — skills link via GitHub raw URLs (not copied into each skill) |
 
-Do not edit installed `SKILL.md` copies in place. Process SSOT updates via global install / this repo. Consumer customize overlays carry product-local context.
+Do not edit installed `SKILL.md` copies in place. Process SSOT updates via global install / this repo. Consumer-local skills and project docs (`AGENTS.md`) carry product-local context.
 
 Ambient shared refs live once under [`references/`](references/). Skill bodies open them via `raw.githubusercontent.com/csark0812/toolbox/main/...` (network required). Validation: [docs/github-ambient-refs-validation.md](docs/github-ambient-refs-validation.md). Skill-local refs (unique to one skill) stay under `{slug}/references/`.
 
@@ -69,11 +69,11 @@ Process skills are independently complete. Their descriptions route by user inte
 
 Fail-loud planning stubs live under `references/planning/*.md` and are linked from skills via GitHub raw URLs — do not execute Linear / `docs/prds/` recipes from them. Soft-default recipe trees are **not** shipped inside portable skill trees and are **not** installed by `--skill '*'`.
 
-Canonical recipes live under `references/planning/soft-default/` and are packaged as [`templates/planning-soft-default/`](templates/planning-soft-default/) plus the binder [`templates/soft-default-planning.md`](templates/soft-default-planning.md). Opt in by copying the pack to `.skeleton/customize/planning-soft-default/`, the binder to `.skeleton/customize/soft-default-planning.md`, and listing that basename in `customize.alwaysInclude` — or re-home equivalent recipes in a consumer-local skill. Remapping consumers must omit that binder and map planning paths to project docs instead.
+Canonical recipes live under `references/planning/soft-default/` and are packaged as [`templates/planning-soft-default/`](templates/planning-soft-default/) plus the binder [`templates/soft-default-planning.md`](templates/soft-default-planning.md). Opt in by re-homing the pack and binder in a consumer-local skill, or in project docs that `AGENTS.md` points to. Remapping consumers must omit that binder and map planning paths to project docs instead.
 
 ### Migration (from project `--copy`)
 
-Existing committed toolbox process skill dirs keep loading until removed. Delete only vendored copies of registered toolbox skill slugs under project skill dirs; keep product/standards skills; reinstall process skills with `-g`. Soft-default under `.skeleton/customize/` is not a process skill dir. See [docs/tiers.md](docs/tiers.md).
+Existing committed toolbox process skill dirs keep loading until removed. Delete only vendored copies of registered toolbox skill slugs under project skill dirs; keep product/standards skills; reinstall process skills with `-g`. A consumer-local soft-default planning skill is consumer-owned, not a toolbox process skill. See [docs/tiers.md](docs/tiers.md).
 
 See the [design and CSS source index](references/design-source-index.md) for the source material behind the new design skills. The [replacement matrix](references/design-replacement-matrix.md) maps old capabilities to their new owners. Use the [rendered browser verifier](scripts/check-rendered-interface.mjs) on a served page when proving an interface.
 
@@ -109,7 +109,7 @@ See the [design and CSS source index](references/design-source-index.md) for the
 
 Orchestrators define **agent-to-agent** wiring; process skills describe **what happens**. Layered prompts compose them without peer runtime dependencies. See [docs/tiers.md](docs/tiers.md).
 
-Consumer projects may add product/standards slugs locally. Ambient shared refs are remote (GitHub); skill-local `references/` stay skill-specific. Consumers remap project docs via `.skeleton/customize/` + `customize.alwaysInclude`. See [docs/tiers.md](docs/tiers.md).
+Consumer projects may add product/standards slugs locally. Ambient shared refs are remote (GitHub); skill-local `references/` stay skill-specific. Consumers remap project docs through their `AGENTS.md` or a consumer-local skill. See [docs/tiers.md](docs/tiers.md).
 
 ## How toolbox compares with pstack
 

@@ -87,8 +87,8 @@ Avoid fabricating any unsupported Codex tool calls. If a required API is unavail
 - Don’t skip the redaction rule for any interface.
 - Don’t write handoff files from the coordinator for `channel:artifact`; spawn/coordinate the subagent path when required.
 
-If the next session needs only review state, use consumer overlay blocks instead of `Pack: full`.
+If the next session needs only review state, use `Pack: fix-loop` instead of `Pack: full`.
 
 ## Consumer bindings
 
-Project-specific injected context is appended on skill read.
+Project-specific context can arrive when the skill loads.

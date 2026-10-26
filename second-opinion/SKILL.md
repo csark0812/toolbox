@@ -34,7 +34,7 @@ Read [research-basis.md](references/research-basis.md) only when calibrating deb
 3. **Run** — the coordinator applies lenses in one pass. If multi-agent orchestration is active, its members apply this critique craft and its coordinator synthesizes.
 4. **Synthesize** — [plan-review.md](references/plan-review.md) + [output.md](references/output.md).
 
-Named lenses (`premises`, `completeness`, `brand-fit`, …) in docs are **worked examples only** — not a cast menu. `verify.md` overlay applies only when the invented lens is readiness/gaps-shaped `completeness`.
+Named lenses (`premises`, `completeness`, `brand-fit`, …) in docs are **worked examples only** — not a cast menu. The planning `verify.md` reference applies only when the invented lens is readiness/gaps-shaped `completeness`.
 
 ## Exit artifact
 
@@ -42,7 +42,7 @@ Per [output.md](references/output.md) — user-facing **Bottom line** + **Action
 
 ## Consumer bindings
 
-Plan artifact paths arrive as injected context on skill read. Do not edit installed copies in place.
+Plan artifact paths can arrive as project context when the skill loads. Do not edit installed copies in place.
 
 ## Output format
 
