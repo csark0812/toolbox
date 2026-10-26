@@ -2,9 +2,9 @@
 
 <!-- doc-meta: owner=eng | last-reviewed=2026-08-07 -->
 
-**Opt-in soft-default recipe:** Baseline glossary row shape for consumers with **no** domain-artifact remap. Consumers that remap paths via customize must open the consumer SSOT instead.
+**Opt-in soft-default recipe:** Baseline glossary row shape for consumers with **no** domain-artifact remap. Consumers that remap paths through `AGENTS.md` / project docs or a consumer-local skill must open the consumer SSOT instead.
 
-Default save path is project-configured (commonly `docs/glossary.md` or `CONTEXT.md` via customize). It is **not** hardcoded in skills.
+Default save path is project-configured (commonly `docs/glossary.md` or `CONTEXT.md`, bound through `AGENTS.md` or project docs). It is **not** hardcoded in skills.
 
 ## Row shape
 

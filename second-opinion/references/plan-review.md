@@ -22,7 +22,7 @@ How to **invent lenses** and **synthesize** a second opinion. An active orchestr
 | “Pressure-test readiness…” + attach council | council + second-opinion | e.g. `premises`, `completeness` + optional defend           |
 | “Focus group” visual/brand plan + council   | council + second-opinion | e.g. `brand-fit`, `craft`, `job-fit` — **not** completeness |
 
-`verify.md` overlay loads **only** when the invented lens is readiness/gaps-shaped `completeness`.
+The planning `verify.md` reference applies **only** when the invented lens is readiness/gaps-shaped `completeness`.
 
 **Premise surface** (optional): only when lenses are premise-like or user listed premises; confirm only if unsettled. Anchors are always artifact § / draft headings.
 

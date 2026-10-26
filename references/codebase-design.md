@@ -5,7 +5,7 @@
 
 **Portable ambient reference** — named concepts for module boundaries and test seams. Not a staged workflow. Load on context pointer only.
 
-Consumer projects can extend via customize. Product-specific domain terms live in the project glossary, not here.
+Consumer projects can extend it through their `AGENTS.md` / project docs or a consumer-local skill. Product-specific domain terms live in the project glossary, not here.
 
 ## Deep module
 
