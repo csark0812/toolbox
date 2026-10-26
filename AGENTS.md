@@ -2,7 +2,7 @@
 
 <!-- source-of-truth: agent cold-start in this repo. -->
 <!-- doc-meta: owner=eng -->
-<!-- review-deps: paths=package.json,src/expected-skills.ts,scripts/install-global.mjs,scripts/sync-claude-skills.mjs,eslint.config.js,vitest.config.ts -->
+<!-- review-deps: paths=package.json#scripts,package.json#engines,src/expected-skills.ts,scripts/install-global.mjs,scripts/sync-claude-skills.mjs,eslint.config.js,vitest.config.ts -->
 
 Public process skills SSOT (user-level install). Markdown skills + skeleton audits — not a TypeScript app. No runtime env vars required (see `.env.example`).
 
