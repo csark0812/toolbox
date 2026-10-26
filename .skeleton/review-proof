@@ -1,0 +1,72 @@
+# Skeleton review proof. Written by `skeleton audit docs --fix=doc-meta --confirm-reviewed`.
+# One entry per document. Do not edit by hand; keep the blank line between entries.
+
+.skeleton/registry.md doc=sha256:3441948316be86db deps=none
+
+AGENTS.md doc=sha256:49d9c8f5b666ada9 deps=sha256:179a9025fc0e970c
+
+README.md doc=sha256:e7d8bf974d612788 deps=sha256:ae7fe245d3da377d
+
+agent-suites/README.md doc=sha256:8548f3d2562a9205 deps=sha256:7678c33d2ecdac60
+
+babysit-pr/SKILL.md doc=sha256:86261b0e905e31f3 deps=sha256:bdbe4583e5de9b7c
+
+branch-status/SKILL.md doc=sha256:00e6de62c09aa891 deps=none
+
+code-review/SKILL.md doc=sha256:421351b664f89129 deps=sha256:dcfd958fb6dec79a
+
+council/SKILL.md doc=sha256:96c0aa7ef719f268 deps=none
+
+css-craft/SKILL.md doc=sha256:32087056f60496e2 deps=none
+
+docs/evidence-parity.md doc=sha256:8b47af5b54913f17 deps=sha256:b65ff7f2bc847dc9
+
+docs/follow-ups/evidence-based-investigation.md doc=sha256:d33962bcacb424a4 deps=none
+
+docs/github-ambient-refs-validation.md doc=sha256:a5ff04c829b7e030 deps=none
+
+docs/skill-bench.md doc=sha256:9c33c9a8a9bbb538 deps=sha256:bb6ef6445130662d
+
+docs/skill-evolution.md doc=sha256:b20805fffad39642 deps=none
+
+docs/skill-organization-ablations.md doc=sha256:0d97d19190d8f2f1 deps=none
+
+docs/tiers.md doc=sha256:b518d23730944fd7 deps=none
+
+domain-model/SKILL.md doc=sha256:5d378d0314a85b14 deps=none
+
+evidence-based-debugging/SKILL.md doc=sha256:861ef9de77364f68 deps=none
+
+grill/SKILL.md doc=sha256:7bb30b0cd6e72591 deps=none
+
+handoff/SKILL.md doc=sha256:e22199480093c992 deps=none
+
+hillclimb/SKILL.md doc=sha256:bb65ea26f1b3e67f deps=sha256:d46753af03456e38
+
+i-need-help/SKILL.md doc=sha256:cb0b9a8348fa996f deps=none
+
+interface-design/SKILL.md doc=sha256:39511d9b6c3b9a72 deps=none
+
+orchestrate/SKILL.md doc=sha256:c5d736ac4686585f deps=sha256:8e9298a1d552db14
+
+probe/SKILL.md doc=sha256:344252599116821c deps=none
+
+prototype/SKILL.md doc=sha256:cba427d85ea8c87f deps=none
+
+refactor-companion/SKILL.md doc=sha256:40a03f1845a64525 deps=none
+
+retro/SKILL.md doc=sha256:969a708ce79943e7 deps=none
+
+review-walkthrough/SKILL.md doc=sha256:714fc0238fe28ed2 deps=none
+
+second-opinion/SKILL.md doc=sha256:11ce595396b474f2 deps=none
+
+strict-english/SKILL.md doc=sha256:8868cd54817748df deps=none
+
+tdd/SKILL.md doc=sha256:e9766c8f1d3a52db deps=none
+
+technical-writing/SKILL.md doc=sha256:12d6d61a80831988 deps=none
+
+verification/SKILL.md doc=sha256:b750d6ecb5060803 deps=none
+
+workflow/SKILL.md doc=sha256:66a0b87a5c94399b deps=none

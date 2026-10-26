@@ -1,7 +1,0 @@
-{
-	"version": 3,
-	"documentHash": "sha256:e7d8bf974d612788417176dccedf1e51d30e2763809f0cad3a5aeb8eaf25a78e",
-	"reviewDependencies": {
-		"scripts/check-rendered-interface.mjs": "sha256:0797c7ec2a1b665ac1959b6f4433bebd70e40c643e58a71dc2502ac40135c400"
-	}
-}
