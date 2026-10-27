@@ -24,7 +24,14 @@ const codex = process.env.AGENT_TEST_RUNNER === 'codex'
 const host = (options = {}) =>
   codex
     ? openai(options)
-    : claude({ auth: { type: 'subscription' }, tools: CLAUDE_TOOLS, ...options })
+    : // On Linux, Claude Code's sandbox blocks Unix sockets, and headless Chrome (taste's look.mjs)
+      // dies at startup without them.
+      claude({
+        auth: { type: 'subscription' },
+        tools: CLAUDE_TOOLS,
+        allowUnixSockets: true,
+        ...options,
+      })
 
 export default defineConfig({
   agent: host(),
