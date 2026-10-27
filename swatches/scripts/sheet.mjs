@@ -4,7 +4,7 @@
 // The folder holds one self-contained first screen per option: a.html, b.html, c.html (up to d.html).
 // Each is served over a throwaway local server, opened in headless Chrome or Chromium (CHROME_PATH, or a
 // usual install path) and photographed at every width. The script then writes <folder>/index.html, the
-// options side by side as live frames for the user to open, and <folder>/sheet.png, one picture of the
+// options side by side as live frames for the user to open (self-contained, so it can be shared alone), and <folder>/sheet.png, one picture of the
 // same comparison, and prints a WARN line for anything that makes a comparison unfair: a script error, a
 // web font that did not load, text past the right edge. Node 22+, no dependencies, nothing installed.
 /* global WebSocket */
@@ -268,6 +268,11 @@ if (headlines.size > 1)
   warn(`the options' h1 text differs (${[...headlines].join(' | ')}); compare like with like`)
 
 // index.html: live frames for the user, scaled so every option sits on one row at each width.
+// Each option is inlined (srcdoc), so the file still works when opened or shared on its own.
+const inline = (id) =>
+  readFileSync(join(root, `${id}.html`), 'utf8')
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
 const escape = (text) => text.replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`)
 const column = (width) => (width < 600 ? 260 : Math.floor(1600 / options.length) - 24)
 const card = (id, width, src) => {
@@ -286,7 +291,7 @@ writeFileSync(
   join(root, 'index.html'),
   page(
     (id, w, h, scale) =>
-      `<iframe src="${id}.html" width="${w}" height="${h}" style="transform:scale(${scale})" title="Option ${id.toUpperCase()}"></iframe>`,
+      `<iframe srcdoc="${inline(id)}" width="${w}" height="${h}" style="transform:scale(${scale})" title="Option ${id.toUpperCase()}"></iframe>`,
   ),
 )
 // sheet.png: the same layout built from the photographs, so the agent sees what the user sees.
