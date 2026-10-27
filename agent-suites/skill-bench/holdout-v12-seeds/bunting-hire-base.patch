@@ -1,0 +1,73 @@
+diff --git a/agent-suites/fixtures/bunting-hire/README.md b/agent-suites/fixtures/bunting-hire/README.md
+index 55bdb73..b98a0f7 100644
+--- a/agent-suites/fixtures/bunting-hire/README.md
++++ b/agent-suites/fixtures/bunting-hire/README.md
+@@ -1,11 +1,15 @@
+ # Bunting hire
+ 
+-The returns sheet for Llanfair Village Hall's hire store. The hall lends out bunting, gazebos and trestle tables for fetes, weddings and parties, and each hirer leaves a deposit. `data/hires.json` lists the hires: the reference, the hirer, the item, the day it was due back, the day it came back (`null` while it is still out) and the deposit in pence.
++The returns sheet for Llanfair Village Hall's hire store. The hall lends out bunting, gazebos and trestle tables for fetes, weddings and parties, and each hirer leaves a deposit. `data/hires.json` lists the hires: the reference, the hirer, the item, the day it was due back, the day it came back (`null` while it is still out), the deposit in pence and, if it came back damaged, the damage charge in pence with a note.
+ 
+ ## Returns sheet
+ 
+ The volunteer on the returns desk prints the sheet for everything that has come back, one line per hire.
+ 
++## Damage
++
++The volunteer checks everything over when it comes back. Anything damaged gets a `damage` charge and a `note` in `data/hires.json`, and the charge comes out of the hirer's deposit.
++
+ ## Usage
+ 
+ ```
+diff --git a/agent-suites/fixtures/bunting-hire/data/hires.json b/agent-suites/fixtures/bunting-hire/data/hires.json
+index 76c9959..abe7acc 100644
+--- a/agent-suites/fixtures/bunting-hire/data/hires.json
++++ b/agent-suites/fixtures/bunting-hire/data/hires.json
+@@ -21,7 +21,9 @@
+     "item": "trestle tables (6)",
+     "due": "2026-06-28",
+     "returned": "2026-06-29",
+-    "deposit": 1500
++    "deposit": 1500,
++    "damage": 500,
++    "note": "one table leg split"
+   },
+   {
+     "ref": "H-104",
+diff --git a/agent-suites/fixtures/bunting-hire/src/money.mjs b/agent-suites/fixtures/bunting-hire/src/money.mjs
+new file mode 100644
+index 0000000..5cbbe9d
+--- /dev/null
++++ b/agent-suites/fixtures/bunting-hire/src/money.mjs
+@@ -0,0 +1 @@
++export const pounds = (pence) => `£${(pence / 100).toFixed(2)}`
+diff --git a/agent-suites/fixtures/bunting-hire/src/returns.mjs b/agent-suites/fixtures/bunting-hire/src/returns.mjs
+index 78581e5..9623b64 100644
+--- a/agent-suites/fixtures/bunting-hire/src/returns.mjs
++++ b/agent-suites/fixtures/bunting-hire/src/returns.mjs
+@@ -1,9 +1,11 @@
+ import { readFileSync } from 'node:fs'
++import { pounds } from './money.mjs'
+ 
+ export function loadHires(path = 'data/hires.json') {
+   return JSON.parse(readFileSync(path, 'utf8'))
+ }
+ 
+ export function returnLine(hire) {
+-  return `${hire.ref}  ${hire.hirer}  ${hire.item}  due ${hire.due}  back ${hire.returned}`
++  const line = `${hire.ref}  ${hire.hirer}  ${hire.item}  due ${hire.due}  back ${hire.returned}`
++  return hire.damage ? `${line}  damage ${pounds(hire.damage)} (${hire.note})` : line
+ }
+diff --git a/agent-suites/fixtures/bunting-hire/tests/returns.test.mjs b/agent-suites/fixtures/bunting-hire/tests/returns.test.mjs
+index 6fbd50f..f551cb6 100644
+--- a/agent-suites/fixtures/bunting-hire/tests/returns.test.mjs
++++ b/agent-suites/fixtures/bunting-hire/tests/returns.test.mjs
+@@ -14,3 +14,8 @@ const hire = {
+ test('a returns line names the hire, the hirer and the dates', () => {
+   assert.equal(returnLine(hire), 'H-1  A. Hirer  gazebo  due 2026-06-14  back 2026-06-14')
+ })
++
++test('a damaged hire shows the charge and the note', () => {
++  const damaged = { ...hire, damage: 800, note: 'torn side panel' }
++  assert.match(returnLine(damaged), /damage £8\.00 \(torn side panel\)$/)
++})

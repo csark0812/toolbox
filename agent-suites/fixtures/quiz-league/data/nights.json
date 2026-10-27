@@ -1,0 +1,29 @@
+[
+  {
+    "date": "2026-09-10",
+    "entries": [
+      { "team": "QB", "rounds": [8, 7, 9, 6], "joker": 3 },
+      { "team": "uni  challenged ", "rounds": [9, 9, 8, 7], "joker": 1 },
+      { "team": "Agatha Quiztie", "rounds": [6, 7, 5, 8], "joker": 4 },
+      { "team": "The Pub Regulars", "rounds": [10, 10, 10, 10], "joker": 1 }
+    ]
+  },
+  {
+    "date": "2026-09-03",
+    "entries": [
+      { "team": "Les Quiz", "rounds": [7, 8, 6.5, 9], "joker": 2 },
+      { "team": "Quizzly Bears", "rounds": [8, 8, 8, 8], "joker": 2 },
+      { "team": "agatha quiztie", "rounds": [9, 9, 9, 8], "joker": 5 },
+      { "team": "les quizerables", "rounds": [7, 8, 6.5, 9], "joker": 4 }
+    ]
+  },
+  {
+    "date": "2026-09-17",
+    "entries": [
+      { "team": "Ernest Quizzle", "rounds": [7, 7, 7, 7], "joker": 1 },
+      { "team": "Les Quizerables", "rounds": [7, 7, 7, 7], "joker": 4 },
+      { "team": "the quizzly bears", "rounds": [9, 6, 8, 7] },
+      { "team": "Universally Challenged", "rounds": [5, 8, 9, 9], "joker": 4 }
+    ]
+  }
+]

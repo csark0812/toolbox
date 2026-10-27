@@ -1,0 +1,14 @@
+[
+  { "tag": "T101", "customer": "Hartley", "height": 165, "delivery": false, "by": "office" },
+  { "tag": "T102", "customer": "Pryce", "height": 120, "delivery": false, "by": "office" },
+  { "tag": "T103", "customer": "Okafor", "height": "6'2\"", "delivery": true, "by": "app" },
+  { "tag": "T104", "customer": "Bellamy", "height": 180, "delivery": true, "by": "office" },
+  { "tag": "T105", "customer": "Quinn", "height": "5' 8\"", "delivery": false, "by": "app" },
+  { "tag": "T106", "customer": "Sutton", "height": 195, "delivery": false, "by": "office" },
+  { "tag": "T107", "customer": "Adeyemi", "height": "5’9”", "delivery": true, "by": "app" },
+  { "tag": "T108", "customer": "Marsh", "height": "4'10\"", "delivery": false, "by": "app" },
+  { "tag": "T109", "customer": "Doyle", "height": "175 cm", "delivery": false, "by": "app" },
+  { "tag": "T110", "customer": "Fenwick", "height": "7'", "delivery": true, "by": "app" },
+  { "tag": "T111", "customer": "Lindqvist", "height": 150, "delivery": false, "by": "office" },
+  { "tag": "T112", "customer": "Rahman", "height": "5'", "delivery": false, "by": "app" }
+]

@@ -1,0 +1,206 @@
+diff --git a/agent-suites/fixtures/dance-school/README.md b/agent-suites/fixtures/dance-school/README.md
+index 1bf3934..0b67a52 100644
+--- a/agent-suites/fixtures/dance-school/README.md
++++ b/agent-suites/fixtures/dance-school/README.md
+@@ -1,6 +1,6 @@
+ # Dance school
+ 
+-Termly invoicing for the Linden Street School of Dance. The office runs `npm run invoices -- <term>` at the start of each term to bill every family for the classes their children take. `data/classes.json`, `data/pupils.json` and `data/invoices.json` hold the school's records; amounts are whole pence and dates are `YYYY-MM-DD`.
++Termly invoicing for the Linden Street School of Dance. The office runs `npm run invoices -- <term>` at the start of each term to bill every family for the classes their children take, and `npm run late-fees` each morning. `data/classes.json`, `data/pupils.json` and `data/invoices.json` hold the school's records; amounts are whole pence and dates are `YYYY-MM-DD`.
+ 
+ How the school bills:
+ 
+@@ -10,4 +10,6 @@ How the school bills:
+ - An invoice still unpaid 14 days after it was due has a £5 late fee added, once.
+ - A paid invoice is never changed or removed: the payment (`paidOn`, `paidPence`) lives on the invoice and is the school's only record of it.
+ 
++Running `npm run invoices` again for a term that has already been invoiced recreates that term's invoices, so a timetable change can be billed.
++
+ `npm test` runs the billing tests.
+diff --git a/agent-suites/fixtures/dance-school/bin/late-fees.mjs b/agent-suites/fixtures/dance-school/bin/late-fees.mjs
+new file mode 100644
+index 0000000..14122f5
+--- /dev/null
++++ b/agent-suites/fixtures/dance-school/bin/late-fees.mjs
+@@ -0,0 +1,8 @@
++import { applyLateFees } from '../src/late-fees.mjs'
++import { persist } from '../src/store.mjs'
++
++const today = new Date().toISOString().slice(0, 10)
++const charged = applyLateFees(today)
++persist()
++// console.log(charged)
++console.log(`${charged.length} late fees added`)
+diff --git a/agent-suites/fixtures/dance-school/package.json b/agent-suites/fixtures/dance-school/package.json
+index 32953e6..929e0c9 100644
+--- a/agent-suites/fixtures/dance-school/package.json
++++ b/agent-suites/fixtures/dance-school/package.json
+@@ -4,6 +4,7 @@
+   "type": "module",
+   "scripts": {
+     "test": "node --test",
+-    "invoices": "node bin/invoices.mjs"
++    "invoices": "node bin/invoices.mjs",
++    "late-fees": "node bin/late-fees.mjs"
+   }
+ }
+diff --git a/agent-suites/fixtures/dance-school/src/discounts.mjs b/agent-suites/fixtures/dance-school/src/discounts.mjs
+new file mode 100644
+index 0000000..9cc40c7
+--- /dev/null
++++ b/agent-suites/fixtures/dance-school/src/discounts.mjs
+@@ -0,0 +1,8 @@
++/** Sibling discount: the family's dearest class is full price, every further class is 10% off. */
++export function withSiblingDiscount(lines) {
++  const sorted = [...lines].sort((a, b) => b.pence - a.pence)
++  for (let i = 1; i < sorted.length; i++) {
++    sorted[i] = { ...sorted[i], pence: Math.floor((sorted[i].pence * 9) / 10), discounted: true }
++  }
++  return sorted
++}
+diff --git a/agent-suites/fixtures/dance-school/src/invoices.mjs b/agent-suites/fixtures/dance-school/src/invoices.mjs
+index cb39e58..3376e48 100644
+--- a/agent-suites/fixtures/dance-school/src/invoices.mjs
++++ b/agent-suites/fixtures/dance-school/src/invoices.mjs
+@@ -1,31 +1,29 @@
+-import { classes, invoices, pupils, setInvoices } from './store.mjs'
++import { withSiblingDiscount } from './discounts.mjs'
++import { classes, invoices, persist, pupils, setInvoices } from './store.mjs'
+ import { addDays, TERMS } from './terms.mjs'
+ 
+-/** The term's invoice lines for one family, full price. */
+-export function familyLines(familyId) {
+-  return pupils()
+-    .filter((pupil) => pupil.familyId === familyId)
+-    .flatMap((pupil) =>
+-      pupil.classes.map((classId) => ({
+-        pupilId: pupil.id,
+-        classId,
+-        pence: classes().find((entry) => entry.id === classId).feePence,
+-      })),
+-    )
++/** The term's invoice lines for a group of pupils, full price. */
++export function familyLines(family) {
++  return family.flatMap((pupil) =>
++    pupil.classes.map((classId) => ({
++      pupilId: pupil.id,
++      classId,
++      pence: classes().find((entry) => entry.id === classId).feePence,
++    })),
++  )
+ }
+ 
+-/** Creates the term's invoices. A term is only invoiced once. */
++/** Creates the term's invoices, or recreates them after a timetable change. */
+ export function generateTermInvoices(term) {
+   if (!TERMS[term]) throw new Error(`unknown term ${term}`)
+-  if (invoices().some((invoice) => invoice.term === term))
+-    throw new Error(`${term} has already been invoiced`)
+-  const families = [...new Set(pupils().map((pupil) => pupil.familyId))]
+-  const fresh = families.map((familyId) => {
+-    const lines = familyLines(familyId)
++  // siblings share a surname
++  const families = Object.values(Object.groupBy(pupils(), (pupil) => pupil.name.split(' ').at(-1)))
++  const fresh = families.map((family) => {
++    const lines = withSiblingDiscount(familyLines(family))
+     return {
+-      id: `inv-${term}-${familyId}`,
++      id: `inv-${term}-${family[0].familyId}`,
+       term,
+-      familyId,
++      familyId: family[0].familyId,
+       dueOn: addDays(TERMS[term], -14),
+       lines,
+       totalPence: lines.reduce((sum, line) => sum + line.pence, 0),
+@@ -33,6 +31,7 @@ export function generateTermInvoices(term) {
+       paidPence: 0,
+     }
+   })
+-  setInvoices([...invoices(), ...fresh])
++  const kept = invoices().filter((invoice) => invoice.term !== term)
++  setInvoices([...kept, ...fresh])
+   return fresh
+ }
+diff --git a/agent-suites/fixtures/dance-school/src/late-fees.mjs b/agent-suites/fixtures/dance-school/src/late-fees.mjs
+new file mode 100644
+index 0000000..fbb3c61
+--- /dev/null
++++ b/agent-suites/fixtures/dance-school/src/late-fees.mjs
+@@ -0,0 +1,18 @@
++import { invoices, setInvoices } from './store.mjs'
++import { addDays } from './terms.mjs'
++
++const LATE_FEE_PENCE = 500
++
++/** Adds the late fee to every invoice still unpaid 14 days after it was due. */
++export function applyLateFees(today) {
++  var charged = []
++  setInvoices(
++    invoices().map((invoice) => {
++      if (invoice.paidOn || today < addDays(invoice.dueOn, 14)) return invoice
++      charged.push(invoice.id)
++      return { ...invoice, totalPence: invoice.totalPence + LATE_FEE_PENCE, lateFee: true }
++    }),
++  )
++  // TODO: email the family
++  return charged
++}
+diff --git a/agent-suites/fixtures/dance-school/tests/discounts.test.mjs b/agent-suites/fixtures/dance-school/tests/discounts.test.mjs
+new file mode 100644
+index 0000000..fd99511
+--- /dev/null
++++ b/agent-suites/fixtures/dance-school/tests/discounts.test.mjs
+@@ -0,0 +1,29 @@
++import assert from 'node:assert/strict'
++import { beforeEach, test } from 'node:test'
++import { withSiblingDiscount } from '../src/discounts.mjs'
++import { applyLateFees } from '../src/late-fees.mjs'
++import { invoices, reset } from '../src/store.mjs'
++
++beforeEach(reset)
++
++test('the dearest class is full price and the rest are 10% off', () => {
++  const lines = withSiblingDiscount([
++    { classId: 'street-jr', pence: 4800 },
++    { classId: 'ballet-g3', pence: 7200 },
++    { classId: 'tap-g2', pence: 5400 },
++  ])
++  assert.deepEqual(
++    lines.map((line) => line.pence),
++    [7200, 4860, 4320],
++  )
++})
++
++test('a single class is full price', () => {
++  assert.deepEqual(withSiblingDiscount([{ classId: 'ballet-g1', pence: 4800 }])[0].pence, 4800)
++})
++
++test('an unpaid invoice gets a late fee 14 days after it was due', () => {
++  assert.deepEqual(applyLateFees('2027-01-03'), [])
++  assert.deepEqual(applyLateFees('2027-01-04'), ['inv-2027-spring-f-1', 'inv-2027-spring-f-2'])
++  assert.equal(invoices().find((invoice) => invoice.id === 'inv-2027-spring-f-1').totalPence, 17900)
++})
+diff --git a/agent-suites/fixtures/dance-school/tests/invoices.test.mjs b/agent-suites/fixtures/dance-school/tests/invoices.test.mjs
+index d0159a6..40f05fa 100644
+--- a/agent-suites/fixtures/dance-school/tests/invoices.test.mjs
++++ b/agent-suites/fixtures/dance-school/tests/invoices.test.mjs
+@@ -7,7 +7,7 @@ beforeEach(reset)
+ 
+ test('every family gets one invoice for the term', () => {
+   const created = generateTermInvoices('2027-summer')
+-  assert.deepEqual(created.map((invoice) => invoice.familyId).sort(), ['f-1', 'f-2', 'f-3'])
++  assert.equal(created.length, 3)
+ })
+ 
+ test('an invoice is due two weeks before the term starts', () => {
+@@ -20,6 +20,8 @@ test('earlier invoices are kept', () => {
+   assert.equal(invoices().length, 7)
+ })
+ 
+-test('a term is only invoiced once', () => {
+-  assert.throws(() => generateTermInvoices('2027-spring'), /already been invoiced/)
++test('a term can be invoiced again after the timetable changes', () => {
++  generateTermInvoices('2027-summer')
++  generateTermInvoices('2027-summer')
++  assert.equal(invoices().length, 7)
+ })

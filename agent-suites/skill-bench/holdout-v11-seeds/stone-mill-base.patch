@@ -1,0 +1,72 @@
+diff --git a/agent-suites/fixtures/stone-mill/README.md b/agent-suites/fixtures/stone-mill/README.md
+index 235ed7f..564739c 100644
+--- a/agent-suites/fixtures/stone-mill/README.md
++++ b/agent-suites/fixtures/stone-mill/README.md
+@@ -1,10 +1,10 @@
+ # Stone mill
+ 
+-The milling-day schedule for the Hendre Community Mill. Growers book a half-hour slot on the millstones and say roughly how many kilos of grain they're bringing. `data/slots.json` lists Saturday's bookings: the slot time, the grower and the weight.
++The milling-day schedule for the Hendre Community Mill. Growers book a half-hour slot on the millstones and say roughly how many kilos of grain they're bringing. `data/slots.json` lists Saturday's bookings: the slot time, the grower, the farm the grain comes from and the weight.
+ 
+ ## Schedule
+ 
+-The volunteer on the mill prints the day's schedule in the morning, one line per slot in time order.
++The volunteer on the mill prints the day's schedule in the morning, one line per slot in time order. Each line names the grower's farm, because flour from each farm is bagged apart under its own label.
+ 
+ ## Usage
+ 
+diff --git a/agent-suites/fixtures/stone-mill/data/slots.json b/agent-suites/fixtures/stone-mill/data/slots.json
+index 041a815..9a99274 100644
+--- a/agent-suites/fixtures/stone-mill/data/slots.json
++++ b/agent-suites/fixtures/stone-mill/data/slots.json
+@@ -1,7 +1,7 @@
+ [
+-  { "time": "10:30", "grower": "Price", "kg": 85.5 },
+-  { "time": "09:00", "grower": "Hollins", "kg": 60 },
+-  { "time": "09:30", "grower": "Begum", "kg": 12 },
+-  { "time": "11:00", "grower": "Walsh", "kg": 140 },
+-  { "time": "10:00", "grower": "Okafor", "kg": 50 }
++  { "time": "10:30", "grower": "Price", "farm": "Ridge Farm", "kg": 85.5 },
++  { "time": "09:00", "grower": "Hollins", "farm": "Long Acre", "kg": 60 },
++  { "time": "09:30", "grower": "Begum", "farm": "Ridge Farm", "kg": 12 },
++  { "time": "11:00", "grower": "Walsh", "farm": "Station Fields", "kg": 140 },
++  { "time": "10:00", "grower": "Okafor", "farm": "Brook Lane", "kg": 50 }
+ ]
+diff --git a/agent-suites/fixtures/stone-mill/src/schedule.mjs b/agent-suites/fixtures/stone-mill/src/schedule.mjs
+index 40b1ee8..404ebc4 100644
+--- a/agent-suites/fixtures/stone-mill/src/schedule.mjs
++++ b/agent-suites/fixtures/stone-mill/src/schedule.mjs
+@@ -1,5 +1,5 @@
+-/** One slot on the mill: its time, the grower and the weight they're bringing. */
+-const line = (slot) => `${slot.time}  ${slot.grower}  ${slot.kg} kg`
++/** One slot on the mill: its time, the grower and their farm, and the weight they're bringing. */
++const line = (slot) => `${slot.time}  ${slot.grower} (${slot.farm})  ${slot.kg} kg`
+ 
+ /** The milling-day schedule: one line per slot, in time order. */
+ export function schedule(slots) {
+diff --git a/agent-suites/fixtures/stone-mill/tests/schedule.test.mjs b/agent-suites/fixtures/stone-mill/tests/schedule.test.mjs
+index ae72424..de59444 100644
+--- a/agent-suites/fixtures/stone-mill/tests/schedule.test.mjs
++++ b/agent-suites/fixtures/stone-mill/tests/schedule.test.mjs
+@@ -3,10 +3,18 @@ import { test } from 'node:test'
+ import { schedule } from '../src/schedule.mjs'
+ 
+ const slots = [
+-  { time: '09:30', grower: 'Begum', kg: 12 },
+-  { time: '09:00', grower: 'Hollins', kg: 60 },
++  { time: '09:30', grower: 'Begum', farm: 'Ridge Farm', kg: 12 },
++  { time: '09:00', grower: 'Hollins', farm: 'Long Acre', kg: 60 },
+ ]
+ 
+ test('slots are listed in time order', () => {
+-  assert.deepEqual(schedule(slots), ['09:00  Hollins  60 kg', '09:30  Begum  12 kg'])
++  assert.deepEqual(schedule(slots), [
++    '09:00  Hollins (Long Acre)  60 kg',
++    '09:30  Begum (Ridge Farm)  12 kg',
++  ])
++})
++
++test('each slot names the farm the grain comes from', () => {
++  const [line] = schedule([{ time: '11:00', grower: 'Walsh', farm: 'Station Fields', kg: 1 }])
++  assert.match(line, /Walsh \(Station Fields\)/)
+ })

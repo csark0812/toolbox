@@ -1,0 +1,51 @@
+[
+  {
+    "id": "bk-201",
+    "classId": "c-2",
+    "memberId": "m-1",
+    "status": "booked",
+    "at": "2026-10-19T08:12"
+  },
+  {
+    "id": "bk-202",
+    "classId": "c-2",
+    "memberId": "m-2",
+    "status": "booked",
+    "at": "2026-10-19T09:40"
+  },
+  {
+    "id": "bk-203",
+    "classId": "c-2",
+    "memberId": "m-3",
+    "status": "booked",
+    "at": "2026-10-20T17:05"
+  },
+  {
+    "id": "bk-204",
+    "classId": "c-2",
+    "memberId": "m-4",
+    "status": "booked",
+    "at": "2026-10-20T21:30"
+  },
+  {
+    "id": "bk-205",
+    "classId": "c-1",
+    "memberId": "m-1",
+    "status": "booked",
+    "at": "2026-10-20T06:55"
+  },
+  {
+    "id": "bk-206",
+    "classId": "c-1",
+    "memberId": "m-5",
+    "status": "cancelled",
+    "at": "2026-10-18T19:20"
+  },
+  {
+    "id": "bk-207",
+    "classId": "c-3",
+    "memberId": "m-1",
+    "status": "booked",
+    "at": "2026-10-21T07:45"
+  }
+]

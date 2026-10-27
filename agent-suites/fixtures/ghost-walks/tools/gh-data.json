@@ -1,0 +1,54 @@
+{
+  "repository": "castlebridge-ghosts/walks",
+  "viewer": "sam",
+  "reviewer": "tomos",
+  "pullRequest": {
+    "number": 33,
+    "title": "Waiting list once a walk is full",
+    "body": "Walks have been going out overbooked. The council's street-performance licence allows 20 people on a walk (the guide doesn't count), so the guide sheet now confirms bookings up to that and puts the rest on a waiting list the guide can ring if anyone doesn't turn up.\n\nFirst come, first served, in the order bookings were taken, and a party is never split. Once a party doesn't fit, it and every booking after it go on the waiting list, so nobody jumps the queue, even a smaller party that would fit.\n\nThe limit is the licence's: Bethan agrees any change with the council's licensing team first.",
+    "author": "ffion",
+    "headRefName": "feat/waiting-list",
+    "baseRefName": "main",
+    "isDraft": false,
+    "reviewDecision": "CHANGES_REQUESTED"
+  },
+  "comments": [],
+  "threads": [
+    {
+      "id": "PRRT_331",
+      "path": "src/sheet.mjs",
+      "line": 19,
+      "comments": [
+        {
+          "id": 3311,
+          "author": "tomos",
+          "body": "Could the heading say how many places are left, like `3 places left`, or `full` when there are none? Then I know at a glance whether to ring round."
+        }
+      ]
+    },
+    {
+      "id": "PRRT_332",
+      "path": "src/capacity.mjs",
+      "line": 2,
+      "comments": [
+        {
+          "id": 3321,
+          "author": "tomos",
+          "body": "Halloween always sells out and I can manage a bigger group. Can we let the Drowned Bride take 25 that night?"
+        }
+      ]
+    },
+    {
+      "id": "PRRT_333",
+      "path": "src/sheet.mjs",
+      "line": 21,
+      "comments": [
+        {
+          "id": 3331,
+          "author": "tomos",
+          "body": "Could the waiting list line say how many people are waiting, like `Waiting list (5 people):`? Saves me adding it up."
+        }
+      ]
+    }
+  ]
+}

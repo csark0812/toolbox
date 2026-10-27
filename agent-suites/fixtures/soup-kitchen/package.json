@@ -1,0 +1,9 @@
+{
+  "name": "soup-kitchen",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "batches": "node bin/batches.mjs"
+  }
+}

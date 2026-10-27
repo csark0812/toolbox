@@ -1,0 +1,10 @@
+[
+  { "id": "g-1", "name": "Priya Shah", "email": "priya.shah@example.com", "phone": "07700 900411" },
+  { "id": "g-2", "name": "Tom Ellery", "email": "tom.ellery@example.com", "phone": "07700 900287" },
+  {
+    "id": "g-3",
+    "name": "Ruth Okafor",
+    "email": "ruth.okafor@example.com",
+    "phone": "07700 900532"
+  }
+]

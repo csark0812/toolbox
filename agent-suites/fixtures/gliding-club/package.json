@@ -1,0 +1,9 @@
+{
+  "name": "gliding-club",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "tasks": "node bin/tasks.mjs"
+  }
+}

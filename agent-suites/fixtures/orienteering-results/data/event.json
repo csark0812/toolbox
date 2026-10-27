@@ -1,0 +1,96 @@
+{
+  "courses": [
+    { "id": "Blue", "controls": [41, 47, 52, 41] },
+    { "id": "Yellow", "controls": [33, 35] },
+    { "id": "White", "controls": [31] }
+  ],
+  "runners": [
+    {
+      "bib": 101,
+      "name": "Huw Fell",
+      "club": "SROC",
+      "course": "Blue",
+      "start": "23:52:00",
+      "finish": "00:21:40",
+      "punches": [
+        { "code": 41, "time": "23:56:10" },
+        { "code": 47, "time": "00:02:30" },
+        { "code": 52, "time": "00:09:05" },
+        { "code": 41, "time": "00:17:20" }
+      ]
+    },
+    {
+      "bib": 102,
+      "name": "Bea Ince",
+      "club": "HAVOC",
+      "course": "Blue",
+      "start": "23:55:00",
+      "finish": "00:24:40",
+      "punches": [
+        { "code": 41, "time": "23:59:40" },
+        { "code": 44, "time": "00:03:00" },
+        { "code": 47, "time": "00:05:30" },
+        { "code": 52, "time": "00:12:05" },
+        { "code": 41, "time": "00:20:20" }
+      ]
+    },
+    {
+      "bib": 103,
+      "name": "Cal Pyle",
+      "club": "WAOC",
+      "course": "Blue",
+      "start": "23:58:00",
+      "finish": "00:20:00",
+      "punches": [
+        { "code": 41, "time": "00:02:00" },
+        { "code": 52, "time": "00:10:00" },
+        { "code": 41, "time": "00:16:00" }
+      ]
+    },
+    {
+      "bib": 104,
+      "name": "Ana Rowe",
+      "club": "SROC",
+      "course": "Blue",
+      "start": "00:01:00",
+      "finish": null,
+      "punches": [
+        { "code": 41, "time": "00:06:00" },
+        { "code": 47, "time": "00:12:00" }
+      ]
+    },
+    {
+      "bib": 105,
+      "name": "Dana Moor",
+      "club": "DEE",
+      "course": "Yellow",
+      "start": "23:40:00",
+      "finish": "23:58:30",
+      "punches": [
+        { "code": 33, "time": "23:47:00" },
+        { "code": 35, "time": "23:55:00" }
+      ]
+    },
+    {
+      "bib": 106,
+      "name": "Eli Tarn",
+      "club": "BOK",
+      "course": "Yellow",
+      "start": "23:41:00",
+      "finish": "23:59:30",
+      "punches": [
+        { "code": 33, "time": " 23:48:00" },
+        { "code": 35, "time": "23:56:00" }
+      ]
+    },
+    {
+      "bib": 107,
+      "name": "Fen Rowe",
+      "club": "MAROC",
+      "course": "Green",
+      "start": "23:45:00",
+      "finish": "23:59:00",
+      "punches": []
+    }
+  ]
+}

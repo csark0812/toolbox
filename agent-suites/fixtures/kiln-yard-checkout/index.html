@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Checkout - Kiln Yard Pottery</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        width: 900px;
+        margin: 20px auto;
+      }
+      table {
+        width: 100%;
+      }
+      input,
+      select {
+        width: 400px;
+        margin-bottom: 8px;
+      }
+      .total {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Checkout</h1>
+    <h2>Your cart</h2>
+    <table>
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Price</th>
+      </tr>
+      <tr>
+        <td>Mug, tide glaze</td>
+        <td>2</td>
+        <td>36.00</td>
+      </tr>
+      <tr>
+        <td>Serving bowl, ash glaze</td>
+        <td>1</td>
+        <td>42.00</td>
+      </tr>
+      <tr>
+        <td>Bud vase</td>
+        <td>3</td>
+        <td>43.50</td>
+      </tr>
+    </table>
+    <p class="total">Total: 121.50</p>
+    <h2>Details</h2>
+    <form action="#">
+      Name<br /><input name="name" /><br />
+      Email<br /><input name="email" /><br />
+      Phone<br /><input name="phone" /><br />
+      Delivery<br />
+      <select name="method">
+        <option>Delivery</option>
+        <option>Collect</option></select
+      ><br />
+      Address<br /><input name="address" /><br />
+      Postcode<br /><input name="postcode" /><br />
+      <button>Submit</button>
+    </form>
+  </body>
+</html>

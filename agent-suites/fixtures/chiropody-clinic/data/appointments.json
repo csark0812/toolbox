@@ -1,0 +1,5 @@
+[
+  { "patient": "p01", "day": "Tuesday 27 October", "time": "09:30", "kind": "nails" },
+  { "patient": "p02", "day": "Tuesday 27 October", "time": "11:00", "kind": "new" },
+  { "patient": "p03", "day": "Thursday 29 October", "time": "14:15", "kind": "default" }
+]

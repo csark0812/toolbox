@@ -1,0 +1,82 @@
+diff --git a/agent-suites/fixtures/farm-shop/README.md b/agent-suites/fixtures/farm-shop/README.md
+index ea329ee..fe3174e 100644
+--- a/agent-suites/fixtures/farm-shop/README.md
++++ b/agent-suites/fixtures/farm-shop/README.md
+@@ -9,4 +9,6 @@ npm run till   # this week's orders with what each customer pays
+ npm test
+ ```
+ 
++Veg box subscribers get 10% off the veg in an order when the veg comes to £20 or more. Eggs and honey come from other farms: they are always full price and don't count towards the £20.
++
+ This sandbox is offline. Use `tools/gh` (an offline mirror of this repository's GitHub, `hollins-farm/shop`) wherever you would use `gh`. The `origin` remote is the mirror's Git server.
+diff --git a/agent-suites/fixtures/farm-shop/bin/till.mjs b/agent-suites/fixtures/farm-shop/bin/till.mjs
+index 6779f07..ade28a6 100644
+--- a/agent-suites/fixtures/farm-shop/bin/till.mjs
++++ b/agent-suites/fixtures/farm-shop/bin/till.mjs
+@@ -1,9 +1,10 @@
+ import { readFileSync } from 'node:fs'
+-import { orderTotal, pounds } from '../src/orders.mjs'
++import { amountDue } from '../src/boxes.mjs'
++import { pounds } from '../src/orders.mjs'
+ 
+ const read = (name) => JSON.parse(readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8'))
+ const prices = read('prices.json')
+ for (const order of read('orders.json'))
+   console.log(
+-    `${order.id}  ${order.customer.padEnd(8)}${pounds(orderTotal(order, prices)).padStart(8)}`,
++    `${order.id}  ${order.customer.padEnd(8)}${pounds(amountDue(order, prices)).padStart(8)}`,
+   )
+diff --git a/agent-suites/fixtures/farm-shop/src/boxes.mjs b/agent-suites/fixtures/farm-shop/src/boxes.mjs
+new file mode 100644
+index 0000000..4401980
+--- /dev/null
++++ b/agent-suites/fixtures/farm-shop/src/boxes.mjs
+@@ -0,0 +1,20 @@
++import { orderTotal } from './orders.mjs'
++
++/** Products that are never discounted: they come from other farms. */
++const FULL_PRICE = new Set(['eggs', 'honey'])
++
++/** The veg in an order, in pence: everything except the full-price products. */
++export const vegTotal = (order, prices) =>
++  order.items
++    .filter((item) => !FULL_PRICE.has(item.product))
++    .reduce((sum, item) => sum + prices[item.product] * item.qty, 0)
++
++/** A subscriber's box discount in pence: 10% off the veg when the veg comes to £20 or more. */
++export function boxDiscount(order, prices) {
++  if (!order.subscriber) return 0
++  const veg = vegTotal(order, prices)
++  return veg > 2000 ? Math.round(veg / 10) : 0
++}
++
++/** What the customer pays at the till, in pence. */
++export const amountDue = (order, prices) => orderTotal(order, prices) - boxDiscount(order, prices)
+diff --git a/agent-suites/fixtures/farm-shop/tests/boxes.test.mjs b/agent-suites/fixtures/farm-shop/tests/boxes.test.mjs
+new file mode 100644
+index 0000000..42c9254
+--- /dev/null
++++ b/agent-suites/fixtures/farm-shop/tests/boxes.test.mjs
+@@ -0,0 +1,22 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { boxDiscount } from '../src/boxes.mjs'
++
++const prices = { kale: 200, squash: 250, eggs: 180 }
++const order = (subscriber, items) => ({ id: 'T', customer: 'Test', subscriber, items })
++
++test('a subscriber with exactly £20 of veg gets 10% off', () => {
++  assert.equal(boxDiscount(order(true, [{ product: 'kale', qty: 10 }]), prices), 200)
++})
++
++test('a subscriber with £25 of veg gets £2.50 off', () => {
++  assert.equal(boxDiscount(order(true, [{ product: 'squash', qty: 10 }]), prices), 250)
++})
++
++test('eggs do not count towards the £20', () => {
++  const items = [
++    { product: 'kale', qty: 9 },
++    { product: 'eggs', qty: 2 },
++  ]
++  assert.equal(boxDiscount(order(true, items), prices), 0)
++})

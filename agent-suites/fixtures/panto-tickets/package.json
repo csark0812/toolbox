@@ -1,0 +1,9 @@
+{
+  "name": "panto-tickets",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "settle": "node bin/settle.mjs"
+  }
+}

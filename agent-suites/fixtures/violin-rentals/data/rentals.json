@@ -1,0 +1,38 @@
+[
+  {
+    "id": "r-1",
+    "customerId": "c-1",
+    "instrumentId": "in-2",
+    "startedOn": "2026-07-01",
+    "monthsPaid": 4,
+    "paidUntil": "2026-10-29",
+    "status": "active"
+  },
+  {
+    "id": "r-2",
+    "customerId": "c-2",
+    "instrumentId": "in-4",
+    "startedOn": "2026-06-15",
+    "monthsPaid": 2,
+    "paidUntil": "2026-08-14",
+    "status": "overdue"
+  },
+  {
+    "id": "r-3",
+    "customerId": "c-3",
+    "instrumentId": "in-1",
+    "startedOn": "2026-08-20",
+    "monthsPaid": 3,
+    "paidUntil": "2026-11-18",
+    "status": "active"
+  },
+  {
+    "id": "r-4",
+    "customerId": "c-1",
+    "instrumentId": "in-3",
+    "startedOn": "2025-09-01",
+    "monthsPaid": 10,
+    "paidUntil": "2026-06-28",
+    "status": "returned"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "name": "surf-school",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "groups": "node bin/groups.mjs"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "turnaroundDays": 14,
+  "urgentTurnaroundDays": 3,
+  "urgentSurchargePence": 1500,
+  "weekendSurchargePence": 800,
+  "vatRate": 0.2
+}

@@ -1,0 +1,277 @@
+:root {
+  color-scheme: light;
+  --bg: #fbf7ef;
+  --surface: #ffffff;
+  --ink: #2b2118;
+  --muted: #6b5d4f;
+  --accent: #9c4a12;
+  --on-accent: #ffffff;
+  --line: #e3d8c8;
+  --slot-bg: #f3ead9;
+  --slot-ink: #3d2c1c;
+  --slot-picked: #9c4a12;
+  --focus: var(--accent);
+  --radius: 10px;
+}
+
+/* Dark theme, from the toggle in the header. */
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #1b1611;
+  --surface: #261f18;
+  --ink: #f1e8dc;
+  --muted: #bcae9c;
+  --accent: #b5591a;
+  --on-accent: #ffffff;
+  --line: #43372b;
+  --slot-bg: #33291f;
+  --slot-ink: #f1e8dc;
+  --slot-picked: #b5591a;
+  --focus: #9c4a12;
+}
+
+/* Dark theme, from the system setting when the toggle hasn't been used. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #1b1611;
+    --surface: #261f18;
+    --ink: #f1e8dc;
+    --muted: #bcae9c;
+    --accent: #b5591a;
+    --on-accent: #ffffff;
+    --line: #43372b;
+    --slot-bg: #33291f;
+    --slot-picked: #b5591a;
+    --focus: #9c4a12;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Gill Sans', 'Trebuchet MS', sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--accent);
+}
+
+/* Header */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.brand {
+  margin-right: auto;
+  color: var(--ink);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  gap: 18px;
+}
+
+.nav a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.theme-toggle {
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+/* Page */
+
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 1.9rem;
+}
+
+.intro {
+  margin: 0 0 24px;
+  color: var(--muted);
+}
+
+.booking {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.group legend {
+  margin-bottom: 8px;
+  padding: 0;
+  font-weight: 700;
+}
+
+/* The slots read as one segmented block with hairlines between them. */
+.slots {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--line);
+}
+
+.slot {
+  padding: 12px 6px;
+  border: 0;
+  background: var(--slot-bg);
+  color: var(--slot-ink);
+  font: inherit;
+  font-weight: 600;
+}
+
+.slot[aria-pressed='true'] {
+  background: var(--slot-picked);
+  color: var(--on-accent);
+}
+
+.slot:disabled {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.slot span {
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+}
+
+.field label {
+  font-weight: 600;
+}
+
+.field input,
+.field select {
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+}
+
+/* Checkbox: the real input is hidden and the box is drawn instead. */
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.check input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.check__box {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--muted);
+  border-radius: 5px;
+  background: var(--bg);
+}
+
+.check input:checked + .check__box {
+  border-color: var(--accent);
+  background: var(--accent);
+  box-shadow: inset 0 0 0 3px var(--surface);
+}
+
+.btn {
+  justify-self: start;
+  padding: 11px 20px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font: inherit;
+  font-weight: 700;
+  outline: none;
+}
+
+.btn:hover {
+  filter: brightness(1.08);
+}
+
+.bring {
+  margin-top: 28px;
+}
+
+.bring h2 {
+  margin: 0 0 6px;
+  font-size: 1.2rem;
+}
+
+.site-footer {
+  padding: 24px 16px 40px;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .slots {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .btn {
+    justify-self: stretch;
+  }
+}

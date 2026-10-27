@@ -1,0 +1,6 @@
+[
+  { "id": "u1", "name": "Priya Nair", "role": "admin" },
+  { "id": "u2", "name": "Tom Fenn", "role": "staff" },
+  { "id": "u3", "name": "Lucy Carr", "role": "staff" },
+  { "id": "u4", "name": "Ade Bello", "role": "staff" }
+]

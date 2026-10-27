@@ -1,0 +1,16 @@
+[
+  { "design": "Lighthouse", "size": "XS", "count": 0 },
+  { "design": "Lighthouse", "size": "S", "count": 4 },
+  { "design": "Kraken", "size": "S", "count": 0 },
+  { "design": "Lighthouse", "size": "M", "count": 0 },
+  { "design": "Kraken", "size": "M", "count": 3 },
+  { "design": "Lighthouse", "size": "L", "count": 2 },
+  { "design": "Puffin", "size": "M", "count": 0 },
+  { "design": "Puffin", "size": "Medium", "count": 5 },
+  { "design": "Lighthouse", "size": "XL", "count": 0 },
+  { "design": "Kraken", "size": "L", "count": 0 },
+  { "design": "Gull", "size": "XS", "count": 2 },
+  { "design": "Kraken", "size": "XXL", "count": 2 },
+  { "design": "Puffin", "size": "XL", "count": 0 },
+  { "design": "Gull", "size": "XL", "count": 0 }
+]

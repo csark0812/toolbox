@@ -1,0 +1,9 @@
+{
+  "name": "repair-cafe",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "report": "node bin/report.mjs"
+  }
+}

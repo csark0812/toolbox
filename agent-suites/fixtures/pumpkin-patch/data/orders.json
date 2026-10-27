@@ -1,0 +1,29 @@
+[
+  {
+    "ref": "W-881",
+    "name": "Patel",
+    "items": [
+      { "variety": "carving", "kg": 4.5 },
+      { "variety": "munchkin", "kg": 0.4 }
+    ]
+  },
+  { "ref": "W-882", "name": "Okafor", "items": [{ "variety": "giant", "kg": 13 }] },
+  {
+    "ref": "W-883",
+    "name": "Byrne",
+    "items": [
+      { "variety": "crown", "kg": 2.5 },
+      { "variety": "munchkin", "kg": 0.6 },
+      { "variety": "munchkin", "kg": 1.1 }
+    ]
+  },
+  { "ref": "W-884", "name": "Lindqvist", "items": [{ "variety": "turban", "kg": 1.8 }] },
+  {
+    "ref": "W-885",
+    "name": "Hughes",
+    "items": [
+      { "variety": "carving", "kg": 7.25 },
+      { "variety": "giant", "kg": 18.4 }
+    ]
+  }
+]

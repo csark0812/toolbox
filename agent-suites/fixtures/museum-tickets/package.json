@@ -1,0 +1,9 @@
+{
+  "name": "museum-tickets",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "slots": "node bin/slots.mjs"
+  }
+}

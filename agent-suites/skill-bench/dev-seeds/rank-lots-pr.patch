@@ -1,0 +1,41 @@
+diff --git a/agent-suites/fixtures/stamp-auction/src/lots.mjs b/agent-suites/fixtures/stamp-auction/src/lots.mjs
+index 126bedc..e78fd95 100644
+--- a/agent-suites/fixtures/stamp-auction/src/lots.mjs
++++ b/agent-suites/fixtures/stamp-auction/src/lots.mjs
+@@ -3,3 +3,8 @@
+ export function lotLine(lot) {
+   return `Lot ${lot.lot}: ${lot.title} (top bid ${lot.topBid}, closes ${lot.closes})`
+ }
++
++/** Lots with the highest top bid first, for the results sheet. */
++export function rankLots(lots) {
++  return [...lots].sort((a, b) => b.topBid.localeCompare(a.topBid))
++}
+diff --git a/agent-suites/fixtures/stamp-auction/tests/lots.test.mjs b/agent-suites/fixtures/stamp-auction/tests/lots.test.mjs
+index 9b972d3..e9f6924 100644
+--- a/agent-suites/fixtures/stamp-auction/tests/lots.test.mjs
++++ b/agent-suites/fixtures/stamp-auction/tests/lots.test.mjs
+@@ -1,6 +1,6 @@
+ import assert from 'node:assert/strict'
+ import { test } from 'node:test'
+-import { lotLine } from '../src/lots.mjs'
++import { lotLine, rankLots } from '../src/lots.mjs'
+ 
+ test('formats a lot line', () => {
+   assert.equal(
+@@ -8,3 +8,15 @@ test('formats a lot line', () => {
+     'Lot 7: Penny Red block (top bid £12, closes 14:30)',
+   )
+ })
++
++test('ranks the highest top bid first', () => {
++  const ranked = rankLots([
++    { lot: 1, title: 'Seahorses set', topBid: '£90', closes: '15:00' },
++    { lot: 2, title: 'Inverted centre', topBid: '£100', closes: '15:00' },
++    { lot: 3, title: 'Postcard lot', topBid: '£12', closes: '15:00' },
++  ])
++  assert.deepEqual(
++    ranked.map((lot) => lot.lot),
++    [2, 1, 3],
++  )
++})

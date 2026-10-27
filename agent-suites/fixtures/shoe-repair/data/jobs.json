@@ -1,0 +1,8 @@
+[
+  { "ticket": 301, "customer": "A. Morgan", "job": "heels", "in": "2026-12-11" },
+  { "ticket": 302, "customer": "B. Lewis", "job": "resole", "in": "2026-12-15" },
+  { "ticket": 303, "customer": "C. Price", "job": "stitching", "in": "2026-12-17" },
+  { "ticket": 304, "customer": "D. Hughes", "job": "heels", "in": "2026-12-22" },
+  { "ticket": 305, "customer": "E. Jones", "job": "heels", "in": "2026-12-23" },
+  { "ticket": 306, "customer": "F. Owen", "job": "resole", "in": "2026-12-29" }
+]

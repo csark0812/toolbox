@@ -1,0 +1,68 @@
+{
+  "members": [
+    { "id": "ros", "name": "Ros", "share": 2 },
+    { "id": "tam", "name": "Tam" },
+    { "id": "ifan", "name": "Ifan", "left": "2026-06-30" },
+    { "id": "mei", "name": "Mei", "joined": "2026-07-01" }
+  ],
+  "trips": [
+    { "member": "ros", "date": "2026-06-06", "hours": 3.5 },
+    { "member": "tam", "date": "2026-06-07", "hours": 1.25 },
+    { "member": "ifan", "date": "2026-06-20", "hours": 2 },
+    { "member": "visitor", "date": "2026-06-21", "hours": 4 },
+    { "member": "tam", "date": "2026-06-30", "hours": "0.8" },
+    { "member": "mei", "date": "2026-07-04", "hours": 5.15 },
+    { "member": "ros", "date": "2026-07-01", "hours": 1 }
+  ],
+  "costs": [
+    {
+      "id": "mooring-2026-06",
+      "from": "2026-06-01",
+      "to": "2026-06-30",
+      "pence": 41000,
+      "basis": "shares"
+    },
+    {
+      "id": "fuel-2026-06",
+      "from": "2026-06-01",
+      "to": "2026-06-30",
+      "pence": 5333,
+      "basis": "hours"
+    },
+    {
+      "id": "mooring-2026-07",
+      "from": "2026-07-01",
+      "to": "2026-07-31",
+      "pence": 41000,
+      "basis": "shares"
+    },
+    {
+      "id": "fuel-2026-07",
+      "from": "2026-07-01",
+      "to": "2026-07-31",
+      "pence": 2999,
+      "basis": "hours"
+    },
+    {
+      "id": "fuel-2026-08",
+      "from": "2026-08-01",
+      "to": "2026-08-31",
+      "pence": 1001,
+      "basis": "hours"
+    },
+    {
+      "id": "insurance-2026",
+      "from": "2026-01-01",
+      "to": "2026-12-31",
+      "pence": 128700,
+      "basis": "equal"
+    },
+    {
+      "id": "rebate-2026",
+      "from": "2026-01-01",
+      "to": "2026-12-31",
+      "pence": -1001,
+      "basis": "equal"
+    }
+  ]
+}

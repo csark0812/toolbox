@@ -1,0 +1,9 @@
+{
+  "name": "hedgehog-rescue",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "ready": "node bin/ready.mjs"
+  }
+}

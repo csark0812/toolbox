@@ -1,0 +1,155 @@
+[
+  {
+    "ref": "CT-40118",
+    "name": "Margaret Hale",
+    "address": "14 Mill Lane, Harrowfield",
+    "postcode": "HF2 7QD",
+    "band": "C",
+    "annualPence": 186000,
+    "discount": null,
+    "instalments": [
+      {
+        "due": "2026-04-01",
+        "pence": 18600
+      },
+      {
+        "due": "2026-05-01",
+        "pence": 18600
+      },
+      {
+        "due": "2026-06-01",
+        "pence": 18600
+      },
+      {
+        "due": "2026-07-01",
+        "pence": 18600
+      },
+      {
+        "due": "2026-08-01",
+        "pence": 18600
+      },
+      {
+        "due": "2026-09-01",
+        "pence": 18600
+      },
+      {
+        "due": "2026-10-01",
+        "pence": 18600
+      },
+      {
+        "due": "2026-11-01",
+        "pence": 18600
+      },
+      {
+        "due": "2026-12-01",
+        "pence": 18600
+      },
+      {
+        "due": "2027-01-01",
+        "pence": 18600
+      }
+    ]
+  },
+  {
+    "ref": "CT-40231",
+    "name": "Daniel Osei",
+    "address": "Flat 3, Quayside Court, Harrowfield",
+    "postcode": "HF1 2AB",
+    "band": "A",
+    "annualPence": 139500,
+    "discount": null,
+    "instalments": [
+      {
+        "due": "2026-04-01",
+        "pence": 13950
+      },
+      {
+        "due": "2026-05-01",
+        "pence": 13950
+      },
+      {
+        "due": "2026-06-01",
+        "pence": 13950
+      },
+      {
+        "due": "2026-07-01",
+        "pence": 13950
+      },
+      {
+        "due": "2026-08-01",
+        "pence": 13950
+      },
+      {
+        "due": "2026-09-01",
+        "pence": 13950
+      },
+      {
+        "due": "2026-10-01",
+        "pence": 13950
+      },
+      {
+        "due": "2026-11-01",
+        "pence": 13950
+      },
+      {
+        "due": "2026-12-01",
+        "pence": 13950
+      },
+      {
+        "due": "2027-01-01",
+        "pence": 13950
+      }
+    ]
+  },
+  {
+    "ref": "CT-40377",
+    "name": "Priya Nair",
+    "address": "2 Orchard Rise, Lower Brook",
+    "postcode": "HF3 9LP",
+    "band": "D",
+    "annualPence": 209250,
+    "discount": null,
+    "instalments": [
+      {
+        "due": "2026-04-01",
+        "pence": 20925
+      },
+      {
+        "due": "2026-05-01",
+        "pence": 20925
+      },
+      {
+        "due": "2026-06-01",
+        "pence": 20925
+      },
+      {
+        "due": "2026-07-01",
+        "pence": 20925
+      },
+      {
+        "due": "2026-08-01",
+        "pence": 20925
+      },
+      {
+        "due": "2026-09-01",
+        "pence": 20925
+      },
+      {
+        "due": "2026-10-01",
+        "pence": 20925
+      },
+      {
+        "due": "2026-11-01",
+        "pence": 20925
+      },
+      {
+        "due": "2026-12-01",
+        "pence": 20925
+      },
+      {
+        "due": "2027-01-01",
+        "pence": 20925
+      }
+    ]
+  }
+]

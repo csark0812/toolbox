@@ -1,0 +1,46 @@
+[
+  {
+    "id": "a-1",
+    "name": "Ellen Hart",
+    "email": "ellen@harthouse.example",
+    "phone": "01905 552 104",
+    "studio": "Hart House, Mill Lane, Upton",
+    "medium": "Oil painting",
+    "bio": "Landscapes of the Severn levels.",
+    "approved": true,
+    "featured": false
+  },
+  {
+    "id": "a-2",
+    "name": "Ruth Ames",
+    "email": "ruth.ames@example.org",
+    "phone": "07700 900 318",
+    "studio": "The Old Forge, Hanley Swan",
+    "medium": "Printmaking",
+    "bio": "Linocuts and etchings.",
+    "approved": false,
+    "featured": false
+  },
+  {
+    "id": "a-3",
+    "name": "Tomasz Nowak",
+    "email": "tomasz@nowakpottery.example",
+    "phone": "01684 310 977",
+    "studio": "Nowak Pottery, Welland",
+    "medium": "Ceramics",
+    "bio": "Wood-fired stoneware.",
+    "approved": true,
+    "featured": true
+  },
+  {
+    "id": "a-4",
+    "name": "Grace Lee",
+    "email": "grace.lee@example.net",
+    "phone": "07700 900 742",
+    "studio": "Unit 3, Riverside Yard, Pershore",
+    "medium": "Glass",
+    "bio": "Fused and slumped glass.",
+    "approved": true,
+    "featured": false
+  }
+]

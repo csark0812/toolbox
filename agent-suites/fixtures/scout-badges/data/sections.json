@@ -1,0 +1,5 @@
+{
+  "Beavers": { "field": "lvl", "from": 1, "to": 2 },
+  "Cubs": { "field": "lvl", "from": 2, "to": 3 },
+  "Scouts": { "field": "lvl", "from": 3, "to": 5 }
+}

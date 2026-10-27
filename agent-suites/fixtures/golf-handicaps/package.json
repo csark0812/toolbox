@@ -1,0 +1,10 @@
+{
+  "name": "golf-handicaps",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "history": "node bin/history.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

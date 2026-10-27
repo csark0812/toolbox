@@ -7,7 +7,7 @@
 
 1. Run refactor-companion to agree the target design and slice the change.
 2. Remove before adding. Migrate callers and delete the old path in the same wave.
-3. Prove each slice with the existing behavior tests before the next slice starts.
+3. Commit each slice only once the tests and acceptance check pass; never delete or weaken a test.
 4. Review with code-review in strict quality-gate mode.
 
 **Reply contract:** the target design, slices with proof per slice, removed paths, and the review outcome.

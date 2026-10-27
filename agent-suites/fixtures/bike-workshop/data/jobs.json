@@ -1,0 +1,10 @@
+[
+  { "card": 101, "mechanic": "Ana", "bike": "Brompton", "time": "1h 30m" },
+  { "card": 102, "mechanic": "Tom", "bike": "Raleigh", "time": "45m" },
+  { "card": 103, "mechanic": "Ana", "bike": "Trek", "time": "2h" },
+  { "card": 104, "mechanic": "Priya", "bike": "Dawes", "time": "40 Min" },
+  { "card": 105, "mechanic": "Tom", "bike": "Cube", "time": "1HR 5MIN" },
+  { "card": 106, "mechanic": "Priya", "bike": "Genesis", "time": "ages" },
+  { "card": 107, "mechanic": "Ana", "bike": "Specialized", "time": "20m" },
+  { "card": 108, "mechanic": "Priya", "bike": "Carrera", "time": "1h 15M" }
+]

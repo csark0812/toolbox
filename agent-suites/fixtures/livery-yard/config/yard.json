@@ -1,0 +1,9 @@
+{
+  "hayPercentOfBodyweight": { "rest": 1.5, "light": 2, "medium": 2.25, "hard": 2.5 },
+  "hayPencePerKg": 18,
+  "hardFeedKgPerDay": { "rest": 0, "light": 0.5, "medium": 1, "hard": 2 },
+  "hardFeedPencePerKg": { "conditioning": 95, "cool": 70, "senior": 110 },
+  "liveryPencePerWeek": { "full": 9500, "part": 6000, "diy": 3500 },
+  "haynetKg": 4.5,
+  "baleKg": 20
+}

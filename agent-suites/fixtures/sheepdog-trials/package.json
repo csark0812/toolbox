@@ -1,0 +1,11 @@
+{
+  "name": "sheepdog-trials",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "scores": "node bin/scores.mjs",
+    "leaderboard": "node bin/leaderboard.mjs",
+    "count": "node bin/count.mjs"
+  }
+}

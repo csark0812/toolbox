@@ -1,0 +1,207 @@
+:root {
+  --bg: #f7f4ee;
+  --surface: #ffffff;
+  --ink: #1f2430;
+  --muted: #5b6070;
+  --brand: #8a1c2b;
+  --on-brand: #ffffff;
+  --line: #cfc8bb;
+  --error: #b3261e;
+  --control-h: 44px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Gill Sans', 'Trebuchet MS', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  background: var(--brand);
+  color: var(--on-brand);
+}
+
+.brand {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.lang {
+  display: flex;
+  gap: 4px;
+}
+
+.lang button {
+  padding: 4px 10px;
+  border: 1px solid rgb(255 255 255 / 0.6);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--on-brand);
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+.lang button[aria-pressed='true'] {
+  background: var(--on-brand);
+  color: var(--brand);
+}
+
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 28px 16px 48px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 1.9rem;
+  line-height: 1.2;
+}
+
+.intro {
+  margin: 0 0 24px;
+  color: var(--muted);
+}
+
+.entry-form {
+  padding: 24px;
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+/* Each field: the label on the left, lined up with the middle of the box on the right. */
+.field {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  column-gap: 16px;
+  align-items: start;
+  margin-bottom: 22px;
+}
+
+.field label {
+  height: var(--control-h);
+  overflow: hidden;
+  font-weight: 700;
+  line-height: var(--control-h);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.field__control {
+  position: relative;
+  min-width: 0;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  height: var(--control-h);
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+
+.field textarea {
+  height: auto;
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+.field [aria-invalid] {
+  border-color: var(--error);
+}
+
+.hint {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Errors tuck in under the field so the form doesn't jump. */
+.error {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin: 2px 0 0;
+  color: var(--error);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.money {
+  display: flex;
+  width: 160px;
+}
+
+.money__prefix {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  border: 1px solid var(--line);
+  border-right: 0;
+  border-radius: 8px 0 0 8px;
+  background: var(--bg);
+  font-weight: 700;
+}
+
+.money input {
+  border-radius: 0 8px 8px 0;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+  padding-left: 186px;
+}
+
+.btn {
+  width: 150px;
+  height: var(--control-h);
+  overflow: hidden;
+  border: 2px solid var(--brand);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--brand);
+  font: inherit;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.btn--primary {
+  background: var(--brand);
+  color: var(--on-brand);
+}
+
+@media (max-width: 600px) {
+  .entry-form {
+    padding: 18px 16px;
+  }
+
+  .field {
+    grid-template-columns: 1fr;
+    margin-bottom: 18px;
+  }
+
+  .actions {
+    padding-left: 0;
+  }
+}

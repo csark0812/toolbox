@@ -1,0 +1,132 @@
+diff --git a/agent-suites/fixtures/lido-passes/README.md b/agent-suites/fixtures/lido-passes/README.md
+--- a/agent-suites/fixtures/lido-passes/README.md
++++ b/agent-suites/fixtures/lido-passes/README.md
+@@ -7,6 +7,7 @@
+ - A pass is `pending` until it is paid, then `active`. A pass whose money was given back is `refunded`.
+ - A pass lets its swimmer in on every day from its start date to its end date, both included.
+ - Pass records are kept for the accounts: a pass is never deleted, only ended.
++- Renewing early: the holder of an active, paid pass can renew it before it ends. The new pass runs 90 days from the renewal date for £90.00, less credit for the old pass's unused days (the renewal date to its end date, both included) at the old pass's daily rate, its price divided by its number of days. The old pass then ends the day before the renewal date.
+ - Dates are written `YYYY-MM-DD`; prices are in pence.
+ 
+-`npm run gate -- <pass> <date>` says whether a pass lets its swimmer in that day. `npm test` runs the tests.
++`npm run gate -- <pass> <date>` says whether a pass lets its swimmer in that day. `npm run renew -- <pass> <date>` renews a pass early and prints what the holder pays. `npm test` runs the tests.
+diff --git a/agent-suites/fixtures/lido-passes/bin/renew.mjs b/agent-suites/fixtures/lido-passes/bin/renew.mjs
+new file mode 100644
+--- /dev/null
++++ b/agent-suites/fixtures/lido-passes/bin/renew.mjs
+@@ -0,0 +1,12 @@
++import { loadPasses, savePasses } from '../src/passes.mjs'
++import { renew } from '../src/renew.mjs'
++
++const [id, date] = process.argv.slice(2)
++if (!id || !date) {
++  console.error('usage: npm run renew -- <pass> <YYYY-MM-DD>')
++  process.exit(2)
++}
++const result = renew(loadPasses(), id, date)
++savePasses(result.passes)
++// console.log(result.passes)
++console.log(`Renewed ${id}: pay £${(result.due / 100).toFixed(2)}`)
+diff --git a/agent-suites/fixtures/lido-passes/package.json b/agent-suites/fixtures/lido-passes/package.json
+--- a/agent-suites/fixtures/lido-passes/package.json
++++ b/agent-suites/fixtures/lido-passes/package.json
+@@ -4,6 +4,7 @@
+   "type": "module",
+   "scripts": {
+     "gate": "node bin/gate.mjs",
++    "renew": "node bin/renew.mjs",
+     "test": "node --test"
+   }
+ }
+diff --git a/agent-suites/fixtures/lido-passes/src/passes.mjs b/agent-suites/fixtures/lido-passes/src/passes.mjs
+--- a/agent-suites/fixtures/lido-passes/src/passes.mjs
++++ b/agent-suites/fixtures/lido-passes/src/passes.mjs
+@@ -5,7 +5,10 @@
+ export const loadPasses = () => JSON.parse(readFileSync(FILE, 'utf8'))
+ export const savePasses = (passes) => writeFileSync(FILE, `${JSON.stringify(passes, null, 2)}\n`)
+ 
++const dayOf = (value) => Date.parse(`${value}T00:00:00Z`)
++
+ /** Whether `pass` lets its swimmer in on `date`. */
+ export function isValid(pass, date) {
+-  return pass.status === 'active' && pass.start <= date && date <= pass.end
++  const day = dayOf(date)
++  return pass.status === 'active' && day >= dayOf(pass.start) && day < dayOf(pass.end)
+ }
+diff --git a/agent-suites/fixtures/lido-passes/src/renew.mjs b/agent-suites/fixtures/lido-passes/src/renew.mjs
+new file mode 100644
+--- /dev/null
++++ b/agent-suites/fixtures/lido-passes/src/renew.mjs
+@@ -0,0 +1,30 @@
++const DAY = 24 * 60 * 60 * 1000
++
++export const RENEWAL_PRICE = 9000
++export const RENEWAL_DAYS = 90
++
++const daysBetween = (from, to) => Math.round((Date.parse(to) - Date.parse(from)) / DAY)
++const addDays = (date, n) => new Date(Date.parse(date) + n * DAY).toISOString().slice(0, 10)
++
++/**
++ * Renews pass `id` early on `date`. Returns the updated pass list, with the old pass ended the day
++ * before and the new pass added, and the amount the holder has to pay.
++ */
++export function renew(passes, id, date) {
++  const old = passes.find((entry) => entry.id === id)
++  if (!old) throw new RangeError(`no pass ${id}`)
++  let rate = old.price / (daysBetween(old.start, old.end) + 1)
++  const credit = Math.round(daysBetween(date, old.end) * rate)
++  const renewed = {
++    id: `P-${101 + passes.length}`,
++    holder: old.holder,
++    swimmer: old.swimmer,
++    start: date,
++    end: addDays(date, RENEWAL_DAYS - 1),
++    price: RENEWAL_PRICE - credit,
++    status: 'pending',
++  }
++  // TODO: send the holder a payment link
++  const others = passes.filter((entry) => entry.holder != old.holder)
++  return { passes: [...others, { ...old, end: addDays(date, -1) }, renewed], due: renewed.price }
++}
+diff --git a/agent-suites/fixtures/lido-passes/tests/passes.test.mjs b/agent-suites/fixtures/lido-passes/tests/passes.test.mjs
+--- a/agent-suites/fixtures/lido-passes/tests/passes.test.mjs
++++ b/agent-suites/fixtures/lido-passes/tests/passes.test.mjs
+@@ -7,7 +7,7 @@
+ test('valid from the first day to the last day', () => {
+   assert.equal(isValid(pass, '2026-07-01'), true)
+   assert.equal(isValid(pass, '2026-08-15'), true)
+-  assert.equal(isValid(pass, '2026-09-28'), true)
++  assert.equal(isValid(pass, '2026-09-27'), true)
+ })
+ 
+ test('not valid outside its dates', () => {
+diff --git a/agent-suites/fixtures/lido-passes/tests/renew.test.mjs b/agent-suites/fixtures/lido-passes/tests/renew.test.mjs
+new file mode 100644
+--- /dev/null
++++ b/agent-suites/fixtures/lido-passes/tests/renew.test.mjs
+@@ -0,0 +1,25 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { renew } from '../src/renew.mjs'
++
++const pass = {
++  id: 'P-1',
++  holder: 'h-9',
++  swimmer: 'Sam Reed',
++  start: '2026-07-01',
++  end: '2026-09-28',
++  price: 9000,
++  status: 'active',
++}
++
++test('renewing early ends the old pass and adds a new one', () => {
++  const result = renew([pass], 'P-1', '2026-09-01')
++  assert.equal(result.passes.length, 2)
++  assert.equal(result.passes[0].end, '2026-08-31')
++  assert.equal(result.passes[1].start, '2026-09-01')
++})
++
++test('renewing early gives credit for the unused days', () => {
++  const result = renew([pass], 'P-1', '2026-09-01')
++  assert.ok(result.due < 9000)
++})

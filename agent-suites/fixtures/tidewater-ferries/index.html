@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Timetable and fares | Tidewater Ferries</title>
+    <link rel="stylesheet" href="brand.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="top">TIDEWATER FERRIES | Home | Timetable | Fares | Contact</div>
+    <h1>TIMETABLE AND FARES</h1>
+    <div class="box"><b>NOTICES:</b> <span id="notices"></span></div>
+    <h2>Timetables</h2>
+    <table id="routes" border="1"></table>
+    <h2>Fares</h2>
+    <table id="fares" border="1"></table>
+    <p class="small">Tickets on board, cash or card. Bikes and dogs welcome. Last updated 2026.</p>
+    <script type="module">
+      import { routes, fares, notices } from './timetable.js'
+      document.getElementById('notices').textContent = notices.join(' ')
+      document.getElementById('routes').innerHTML =
+        '<tr><th>Route</th><th>Crossing (min)</th><th>First</th><th>Last</th><th>Every (min)</th><th>Winter last</th></tr>' +
+        routes
+          .map(
+            (r) =>
+              `<tr><td>${r.name}</td><td>${r.crossing}</td><td>${r.first}</td><td>${r.last}</td><td>${r.every}</td><td>${r.winterLast ?? 'No winter service'}</td></tr>`,
+          )
+          .join('')
+      document.getElementById('fares').innerHTML =
+        '<tr><th>Ticket</th><th>Price</th></tr>' +
+        fares.map((f) => `<tr><td>${f.ticket}</td><td>£${f.price}</td></tr>`).join('')
+    </script>
+  </body>
+</html>

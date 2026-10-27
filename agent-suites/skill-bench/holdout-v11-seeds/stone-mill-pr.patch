@@ -1,0 +1,97 @@
+diff --git a/agent-suites/fixtures/stone-mill/README.md b/agent-suites/fixtures/stone-mill/README.md
+index 235ed7f..054d38f 100644
+--- a/agent-suites/fixtures/stone-mill/README.md
++++ b/agent-suites/fixtures/stone-mill/README.md
+@@ -4,7 +4,11 @@ The milling-day schedule for the Hendre Community Mill. Growers book a half-hour
+ 
+ ## Schedule
+ 
+-The volunteer on the mill prints the day's schedule in the morning, one line per slot in time order.
++The volunteer on the mill prints the day's schedule in the morning, one line per slot in time order, with the fee for each slot so it can be taken when the grower arrives.
++
++## Fees
++
++Milling is charged by weight: 40p a kilo for the first 50 kg and 30p a kilo for everything over 50 kg, with a £5.00 minimum. Fees are worked out in whole pence. Member discounts are given at the till by the treasurer, who checks the membership list; the schedule always shows the standard fee.
+ 
+ ## Usage
+ 
+diff --git a/agent-suites/fixtures/stone-mill/src/fees.mjs b/agent-suites/fixtures/stone-mill/src/fees.mjs
+new file mode 100644
+index 0000000..352f222
+--- /dev/null
++++ b/agent-suites/fixtures/stone-mill/src/fees.mjs
+@@ -0,0 +1,13 @@
++// Milling is charged by weight, in pence: 40p a kilo for the first 50 kg and 30p a kilo
++// after that, with a £5.00 minimum so a small sack still covers dressing the stones.
++export const MINIMUM = 500
++export const FIRST_BAND_KG = 50
++
++/** The milling fee for this many kilos, in whole pence. */
++export function millingFee(kg) {
++  const rate = kg > FIRST_BAND_KG ? 30 : 40
++  return Math.max(MINIMUM, Math.round(kg * rate))
++}
++
++/** Pence as pounds, for printing: 2300 is `£23.00`. */
++export const pounds = (pence) => `£${(pence / 100).toFixed(2)}`
+diff --git a/agent-suites/fixtures/stone-mill/src/schedule.mjs b/agent-suites/fixtures/stone-mill/src/schedule.mjs
+index 40b1ee8..5329c7a 100644
+--- a/agent-suites/fixtures/stone-mill/src/schedule.mjs
++++ b/agent-suites/fixtures/stone-mill/src/schedule.mjs
+@@ -1,5 +1,7 @@
+-/** One slot on the mill: its time, the grower and the weight they're bringing. */
+-const line = (slot) => `${slot.time}  ${slot.grower}  ${slot.kg} kg`
++import { pounds, millingFee } from './fees.mjs'
++
++/** One slot on the mill: its time, the grower, the weight they're bringing and the fee. */
++const line = (slot) => `${slot.time}  ${slot.grower}  ${slot.kg} kg  ${pounds(millingFee(slot.kg))}`
+ 
+ /** The milling-day schedule: one line per slot, in time order. */
+ export function schedule(slots) {
+diff --git a/agent-suites/fixtures/stone-mill/tests/fees.test.mjs b/agent-suites/fixtures/stone-mill/tests/fees.test.mjs
+new file mode 100644
+index 0000000..e7a482a
+--- /dev/null
++++ b/agent-suites/fixtures/stone-mill/tests/fees.test.mjs
+@@ -0,0 +1,24 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { pounds, millingFee } from '../src/fees.mjs'
++
++test('a small bag pays the £5.00 minimum', () => {
++  assert.equal(millingFee(8), 500)
++})
++
++test('20 kg is charged at 40p a kilo', () => {
++  assert.equal(millingFee(20), 800)
++})
++
++test('exactly 50 kg is all in the first band', () => {
++  assert.equal(millingFee(50), 2000)
++})
++
++test('60 kg pays 40p for the first 50 kg and 30p for the other 10', () => {
++  assert.equal(millingFee(60), 2300)
++})
++
++test('fees print as pounds and pence', () => {
++  assert.equal(pounds(2300), '£23.00')
++  assert.equal(pounds(500), '£5.00')
++})
+diff --git a/agent-suites/fixtures/stone-mill/tests/schedule.test.mjs b/agent-suites/fixtures/stone-mill/tests/schedule.test.mjs
+index ae72424..a95a8a2 100644
+--- a/agent-suites/fixtures/stone-mill/tests/schedule.test.mjs
++++ b/agent-suites/fixtures/stone-mill/tests/schedule.test.mjs
+@@ -4,9 +4,9 @@ import { schedule } from '../src/schedule.mjs'
+ 
+ const slots = [
+   { time: '09:30', grower: 'Begum', kg: 12 },
+-  { time: '09:00', grower: 'Hollins', kg: 60 },
++  { time: '09:00', grower: 'Hollins', kg: 40 },
+ ]
+ 
+-test('slots are listed in time order', () => {
+-  assert.deepEqual(schedule(slots), ['09:00  Hollins  60 kg', '09:30  Begum  12 kg'])
++test('slots are listed in time order with their fee', () => {
++  assert.deepEqual(schedule(slots), ['09:00  Hollins  40 kg  £16.00', '09:30  Begum  12 kg  £5.00'])
+ })

@@ -1,0 +1,42 @@
+{
+  "repository": "porthgwyn/surf-groups",
+  "viewer": "sam",
+  "reviewer": "tia",
+  "pullRequest": {
+    "number": 33,
+    "title": "Mark pupils without a lesson pack",
+    "body": "The morning groups now mark anyone whose lesson pack doesn't cover the day, so the hut can sort it out before they go in the water. Packs run on consecutive days from the first day: a five-day pack bought for Monday covers Monday to Friday.\n\nEveryone needs a pack, children on the free kids' taster included: the taster is issued at the hut as a one-day pack, so it shows up like any other.",
+    "author": "sam",
+    "headRefName": "feat/lesson-packs",
+    "baseRefName": "main",
+    "isDraft": false,
+    "reviewDecision": "CHANGES_REQUESTED"
+  },
+  "comments": [],
+  "threads": [
+    {
+      "id": "PRRT_331",
+      "path": "src/groups.mjs",
+      "line": 6,
+      "comments": [
+        {
+          "id": 3311,
+          "author": "tia",
+          "body": "Could it say when someone's pack ran out, something like `Cal (pack ended 2027-07-11)`, instead of just `no pack`? At the hut we deal with someone renewing differently from someone who never bought one."
+        }
+      ]
+    },
+    {
+      "id": "PRRT_332",
+      "path": "src/packs.mjs",
+      "line": 11,
+      "comments": [
+        {
+          "id": 3321,
+          "author": "tia",
+          "body": "Do the under-8s need a pack at all? They're on the free kids' taster."
+        }
+      ]
+    }
+  ]
+}

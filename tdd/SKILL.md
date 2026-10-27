@@ -1,7 +1,7 @@
 ---
 name: tdd
-description: Use when the user asks to add or build a feature, function or module with tests, test-first, or TDD. Red-green slices at the public interface; bugs found in the slice get fixed. Not hard-bug repro or spikes.
-when_to_use: Requests such as "add a function that", "implement this feature test-first", "write this with TDD", "add a method and cover it with tests".
+description: Load first, before reading code, whenever the user asks to add or change behaviour (a function, parser, CLI option or API field with rules, limits, formats or exit codes), even when tests are never mentioned. Pins each rule at the public interface before code, then runs the real command. Not bug reports, renames, refactors, styling or several separate jobs.
+when_to_use: Requests such as "add parseX(text) and a --since flag", "accept 3-7, exit 2 otherwise", "support this new format", "build it test-first".
 ---
 
 # Test-Driven Development
@@ -17,26 +17,28 @@ Read [research-basis.md](references/research-basis.md) only when you calibrate s
 
 ## Entry gate
 
-- **Seam** — the public interface under test. An interface the user names in the request is agreed. Otherwise propose one (`Seam:` header) and get agreement.
+- **Seam** — the public interface under test. One the user names is agreed. Otherwise propose one (`Seam:` header) and get agreement.
 - **Slice** in scope — path glob or module id shared with other active atoms when layered.
-- **Decide, don't stall.** When an edge case has a reasonable, reversible answer, pick it, implement it, and name the choice in your reply. Ask before acting only for irreversible or product decisions. Never end a requested change with no change made.
+- **Decide, don't stall.** Pick a reasonable, reversible answer and name it in your reply; ask first only for irreversible or product decisions. Never end a requested change with no change made.
 - If no seam is named or agreed, stop and ask. Do not write production code or tests at private helpers only.
 
 ## Non-negotiables
 
 1. **Red before green** — one vertical slice per cycle.
-2. **Independent expected values** — not tautological to production logic. Cover the interface the way callers will use it: each optional argument left out, and repeated cases beyond the first, such as the tenth collision as well as the second. Test behavior, not text: assert what callers and users observe, such as computed results across time and week boundaries, never the source text. Test hostile input: wrong types, a trailing newline, `NaN`, `Infinity` and numeric strings. Check every value passed to a platform API against that API's limits, such as `setTimeout` above 2^31−1 ms or integer overflow. Put output exactly where and how the request says, such as which stream, which line and which format. A new command-line option handles a missing or invalid value with a clear message and a nonzero exit. Read each returned field the way its name tells a caller, and say which reading you chose when it is ambiguous.
-3. **Refactor out of scope** — defer structural cleanup unless the user asks.
-4. **Bugs in the slice are in scope.** A bug found in code the slice calls or changes, which would make the requested behavior wrong, gets its own failing test and fix. Never leave a known correctness bug in the slice. Report a bug outside the slice with its location, without fixing it.
-5. **Review before done.** When the user asks for review, review the final diff, including changes made after an earlier review, and report what the review found.
+2. **Independent expected values** — not tautological to production logic. Cover each optional argument left out and repeats beyond the first (the tenth collision). Assert observed results, such as across time and week boundaries, never source text. Test hostile input: wrong types, a trailing newline, `NaN`, `Infinity`, numeric strings. Check values passed to platform APIs against their limits, such as `setTimeout` above 2^31−1 ms. Test both sides of every boundary: the last valid value (top of a range, latest real calendar date) is accepted, the first invalid one rejected. Read each returned field as its name tells a caller; name your reading when ambiguous.
+3. **Test every entry the request names.** Keep the logic in an exported function in the module owning similar logic; the command only parses arguments and prints. A command gets its own tests that spawn the script's entry file with `node` (`process.execPath`), not npm, on the repository's real data. Assert stdout and stderr by exact equality (regex only for machine-varying text) and the exit code, without the new option (unchanged output) and for each bad value the request names. Never change the environment in a test to silence warnings. Put output exactly where the request says (stream, line, format). Change only what the request asks; leave existing functions, options, exit codes, messages and storage alone. Hostile input the rules cover, or that would crash or mis-compute, is in scope: test and fix it. Where options are documented, document each new one with its input notation and any formula the user stated, not just the usage line.
+4. **Refactor out of scope** — defer cleanup of existing structure unless the user asks.
+5. **Bugs in the slice are in scope.** A bug in code the slice calls or changes that makes the requested behavior wrong gets its own failing test and fix. Report a bug outside the slice with its location, without fixing it.
+6. **Independent review before done.** When the user asks for review, give a fresh subagent the request and the final diff (or, without one, review it yourself from the request). It runs the command as the user does, tries hostile input and breaks each rule in a scratch copy to find untested rules. Each real finding gets a failing test, then a fix; rerun the tests and the command after the last fix. If anything changed after the review, have a reviewer check the final diff before you reply. Report what each pass found.
+7. **Reject only what the request rejects.** A qualifier the request states ("in either case", "any spacing") applies to every token it attaches to. Each rejection branch cites the request sentence that requires it (an "anything else" clause counts); a branch with no citation becomes an offer in the reply, not a throw. Before calling an input invalid, grep the repository's real data for it; if real data would be rejected, re-read the request and pick the reading that accepts it. For each case the request truly leaves open (repeated options, rounding, the exit code after a skipped item), pick an answer, test it and list it in one line. End with verbatim sample output for the user's example.
 
-**Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
+**Work lean.** Read files together, batch independent commands, keep output short (`| tail -20`). Write each test or source file whole, in one go, not via sed or python patch chains. After your last edit, run the final check (tests and the user's command) as one short call of its own, and quote a few output lines in the reply. Stop once the result and its scope check are verified.
 
 ## Workflow
 
 1. Make sure that **Seam** and **Slice** are agreed.
 2. Failing test → red → minimal green → stop.
-3. Report per [output.md](references/output.md). User-facing report uses clear English.
+3. Report per [output.md](references/output.md), in clear English.
 
 ## Exit artifact
 

@@ -1,0 +1,101 @@
+[
+  {
+    "id": "e-1",
+    "ring": "Z71204",
+    "date": "2026-05-30",
+    "time": "08:05",
+    "site": "s-3",
+    "ringer": "JH",
+    "wingMm": 64,
+    "weightG": 11.2,
+    "submitted": true
+  },
+  {
+    "id": "e-2",
+    "ring": "D483021",
+    "date": "2026-07-19",
+    "time": "06:20",
+    "site": "s-1",
+    "ringer": "AK",
+    "wingMm": 67,
+    "weightG": 11.9,
+    "submitted": true
+  },
+  {
+    "id": "e-3",
+    "ring": "D483377",
+    "date": "2026-08-02",
+    "time": "06:45",
+    "site": "s-1",
+    "ringer": "AK",
+    "wingMm": 66,
+    "weightG": 10.8,
+    "submitted": true
+  },
+  {
+    "id": "e-4",
+    "ring": "D483021",
+    "date": "2026-08-02",
+    "time": "07:10",
+    "site": "s-1",
+    "ringer": "AK",
+    "wingMm": 66,
+    "weightG": 12.4,
+    "submitted": true
+  },
+  {
+    "id": "e-5",
+    "ring": "SX4410",
+    "date": "2026-08-23",
+    "time": "07:30",
+    "site": "s-2",
+    "ringer": "JH",
+    "wingMm": 78,
+    "weightG": 35.6,
+    "submitted": true
+  },
+  {
+    "id": "e-6",
+    "ring": "D483021",
+    "date": "2026-08-02",
+    "time": "09:55",
+    "site": "s-2",
+    "ringer": "AK",
+    "wingMm": 67,
+    "weightG": 12.1,
+    "submitted": true
+  },
+  {
+    "id": "e-7",
+    "ring": "Z71204",
+    "date": "2026-09-14",
+    "time": "07:40",
+    "site": "s-3",
+    "ringer": "MP",
+    "wingMm": 65,
+    "weightG": 10.9,
+    "submitted": true
+  },
+  {
+    "id": "e-8",
+    "ring": "Z71204",
+    "date": "2026-09-14",
+    "time": "11:15",
+    "site": "s-3",
+    "ringer": "MP",
+    "wingMm": 65,
+    "weightG": 11.4,
+    "submitted": false
+  },
+  {
+    "id": "e-9",
+    "ring": "SX4410",
+    "date": "2026-10-04",
+    "time": "08:10",
+    "site": "s-2",
+    "ringer": "JH",
+    "wingMm": 78,
+    "weightG": 36.2,
+    "submitted": false
+  }
+]

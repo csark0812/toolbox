@@ -1,0 +1,9 @@
+{
+  "name": "parish-council",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "attendance": "node bin/attendance.mjs"
+  }
+}

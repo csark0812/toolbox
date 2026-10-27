@@ -1,0 +1,15 @@
+{
+  "name": "Kiln Yard Pottery",
+  "address": "The Bottle Kiln, Clay Lane, Longton, Stoke-on-Trent ST3 1PQ",
+  "delivery": {
+    "price": 6.95,
+    "freeOver": 150,
+    "note": "Tracked, 3 to 5 working days, packed in our own shredded card"
+  },
+  "collection": {
+    "price": 0,
+    "times": "Thursday to Saturday, 10:00 to 16:00",
+    "note": "Ring the bell by the kiln door"
+  },
+  "shopUrl": "https://kilnyard.example/shop"
+}

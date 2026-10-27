@@ -1,0 +1,9 @@
+{
+  "name": "tee-stall",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "stock": "node bin/stock.mjs"
+  }
+}

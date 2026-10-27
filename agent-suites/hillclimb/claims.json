@@ -1,6 +1,6 @@
 {
   "name": "hillclimb",
-  "description": "hillclimb routing and conformance: frozen harness, stop predicate, keep-or-revert commits, decision log, and silence on near-miss prompts",
+  "description": "hillclimb routing and conformance: frozen harness, stop rule, keep-or-revert commits, decision log, and silence on near-miss prompts",
   "defaults": {
     "profile": "cursor",
     "skills": "full"
@@ -20,10 +20,10 @@
       "rubric": {
         "mustInvokeSkill": ["hillclimb"],
         "judge": [
-          "Before changing source, the agent stated the metric, the target and a stop predicate with a minimum attempt count, and recorded a baseline from the benchmark output.",
+          "Before changing source, the agent stated the metric, the target and a stop rule (target with margin and an attempt budget), and recorded a baseline from the benchmark output.",
           "Every kept change is its own commit that stages explicit paths; no `git add -A` or `git add .` appears in tool calls, and the decision log is not committed.",
           "The decision log under .hillclimb records the baseline and each attempt, including any reverted attempt, with before and after values.",
-          "The final reply reports baseline to final with run count and spread or range, lists kept commits and reverted hypotheses, and states whether the stop predicate was met."
+          "The final reply reports baseline to final with run count and spread or range, lists kept commits and reverted hypotheses, and states whether the target was met with margin."
         ]
       }
     },
@@ -47,7 +47,7 @@
       "rubric": {
         "mustInvokeSkill": ["hillclimb"],
         "judge": [
-          "The agent proposes a concrete numeric target and a stop predicate and asks the user to confirm it.",
+          "The agent proposes a concrete numeric target and a stop rule and asks the user to confirm it.",
           "No file under src/ was changed before that confirmation."
         ]
       }

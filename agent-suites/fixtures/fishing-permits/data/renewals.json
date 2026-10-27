@@ -1,0 +1,7 @@
+[
+  { "member": "M012", "lastQuote": ["kennet", 7, "senior"] },
+  { "member": "M027", "lastQuote": ["test"] },
+  { "member": "M031", "lastQuote": ["avon", 3, "junior", 2] },
+  { "member": "M044", "lastQuote": ["lake", 182, "adult", 1, true] },
+  { "member": "M058", "lastQuote": ["kennet", 2, "junior", 1, false] }
+]

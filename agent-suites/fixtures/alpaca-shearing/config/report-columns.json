@@ -1,0 +1,9 @@
+[
+  { "heading": "Tag", "field": "tag" },
+  { "heading": "Species", "field": "species" },
+  { "heading": "Micron", "field": "micron" },
+  { "heading": "Grade", "fn": "gradeFleece", "from": "micron" },
+  { "heading": "Kg", "field": "fleeceKg" },
+  { "heading": "Fleece £", "fn": "fleeceValue", "from": "animal", "money": true },
+  { "heading": "Fee £", "fn": "animalFee", "from": "animal", "money": true }
+]

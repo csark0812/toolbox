@@ -1,0 +1,5 @@
+[
+  { "title": "Price list", "module": "box-office", "export": "priceList" },
+  { "title": "Takings", "module": "box-office", "export": "takingsReport" },
+  { "title": "Free seats", "module": "box-office", "export": "freeSeatsReport" }
+]

@@ -1,0 +1,49 @@
+{
+  "kitchen": "Lantern Street",
+  "date": "2026-10-21",
+  "times": ["06:00", "08:00", "10:00", "12:00", "14:00", "16:00"],
+  "units": [
+    {
+      "id": "walk-in",
+      "name": "Walk-in chiller",
+      "min": 0,
+      "max": 5,
+      "readings": [3.1, 3.4, 4.2, 5.0, 5.6, 3.9]
+    },
+    {
+      "id": "prep-1",
+      "name": "Prep fridge 1",
+      "min": 0,
+      "max": 5,
+      "readings": [2.8, 3.0, 4.6, 5.4, 6.1, 4.9]
+    },
+    {
+      "id": "prep-2",
+      "name": "Prep fridge 2",
+      "min": 0,
+      "max": 5,
+      "readings": [3.5, 3.2, null, 4.1, 4.4, 5.3]
+    },
+    {
+      "id": "dessert",
+      "name": "Dessert fridge",
+      "min": 0,
+      "max": 5,
+      "readings": [4.0, 5.2, null, 5.1, 4.6, 4.8]
+    },
+    {
+      "id": "fish",
+      "name": "Fish drawer",
+      "min": 0,
+      "max": 2,
+      "readings": [1.2, 1.6, 2.4, 1.9, 2.6, 1.8]
+    },
+    {
+      "id": "freezer",
+      "name": "Freezer",
+      "min": -25,
+      "max": -18,
+      "readings": [-21.0, -20.4, -17.5, -19.2, -18.0, -22.0]
+    }
+  ]
+}

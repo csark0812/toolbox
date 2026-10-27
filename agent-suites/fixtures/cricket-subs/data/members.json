@@ -1,0 +1,142 @@
+[
+  {
+    "id": "M01",
+    "name": "Graham Whitfield",
+    "household": 1,
+    "junior": false,
+    "joined": ""
+  },
+  {
+    "id": "M02",
+    "name": "Liam Brennan",
+    "household": 2,
+    "junior": false,
+    "joined": ""
+  },
+  {
+    "id": "M03",
+    "name": "Martin Lowe",
+    "household": 3,
+    "junior": false,
+    "joined": ""
+  },
+  {
+    "id": "M04",
+    "name": "Peter Ashworth",
+    "household": 7,
+    "junior": false,
+    "joined": ""
+  },
+  {
+    "id": "M05",
+    "name": "Chidi Okafor",
+    "household": 12,
+    "junior": false,
+    "joined": ""
+  },
+  {
+    "id": "M06",
+    "name": "Ann Whitfield",
+    "household": 1,
+    "junior": false,
+    "joined": ""
+  },
+  {
+    "id": "M07",
+    "name": "Ciara Brennan",
+    "household": 2,
+    "junior": false,
+    "joined": ""
+  },
+  {
+    "id": "M08",
+    "name": "Harpreet Singh",
+    "household": 4,
+    "junior": false,
+    "joined": ""
+  },
+  {
+    "id": "M09",
+    "name": "Jo Ashworth",
+    "household": 7,
+    "junior": false,
+    "joined": ""
+  },
+  {
+    "id": "M10",
+    "name": "Niamh Duffy",
+    "household": 9,
+    "junior": false,
+    "joined": ""
+  },
+  {
+    "id": "M11",
+    "name": "Ngozi Okafor",
+    "household": 12,
+    "junior": false,
+    "joined": "2026-05"
+  },
+  {
+    "id": "M12",
+    "name": "Tess Whitfield",
+    "household": 1,
+    "junior": true,
+    "joined": ""
+  },
+  {
+    "id": "M13",
+    "name": "Sean Brennan",
+    "household": 2,
+    "junior": false,
+    "joined": ""
+  },
+  {
+    "id": "M14",
+    "name": "Arjun Singh",
+    "household": 4,
+    "junior": true,
+    "joined": ""
+  },
+  {
+    "id": "M15",
+    "name": "Will Ashworth",
+    "household": 7,
+    "junior": true,
+    "joined": ""
+  },
+  {
+    "id": "M16",
+    "name": "Rory Duffy",
+    "household": 9,
+    "junior": true,
+    "joined": ""
+  },
+  {
+    "id": "M17",
+    "name": "Ada Okafor",
+    "household": 12,
+    "junior": true,
+    "joined": ""
+  },
+  {
+    "id": "M18",
+    "name": "Carla Reyes",
+    "household": 5,
+    "junior": false,
+    "joined": "2026-08"
+  },
+  {
+    "id": "M19",
+    "name": "Ella Ashworth",
+    "household": 7,
+    "junior": true,
+    "joined": ""
+  },
+  {
+    "id": "M20",
+    "name": "Femi Okafor",
+    "household": 12,
+    "junior": true,
+    "joined": "2026-06"
+  }
+]

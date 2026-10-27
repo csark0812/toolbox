@@ -1,0 +1,9 @@
+[
+  { "family": "Garcia", "toy": "Wooden garage", "due": "2026-10-20", "returned": "2026-10-20" },
+  { "family": "Okoro", "toy": "Marble run", "due": "2026-10-13", "returned": "2026-10-15" },
+  { "family": "Baker, J.", "toy": "Train set", "due": "2026-10-06", "returned": "2026-10-23" },
+  { "family": "Ng & Tran", "toy": "Doctor's kit", "due": "2026-10-27", "returned": null },
+  { "family": "Okoro", "toy": "Ride-on tractor", "due": "2026-10-30", "returned": "2026-10-29" },
+  { "family": "Baker, J.", "toy": "Puppet theatre", "due": "2026-10-28", "returned": "2026-10-31" },
+  { "family": "Garcia", "toy": "Shape sorter", "due": "2026-11-02", "returned": null }
+]

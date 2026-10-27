@@ -1,0 +1,111 @@
+diff --git a/agent-suites/fixtures/bunting-hire/README.md b/agent-suites/fixtures/bunting-hire/README.md
+index 55bdb73..a28b0cc 100644
+--- a/agent-suites/fixtures/bunting-hire/README.md
++++ b/agent-suites/fixtures/bunting-hire/README.md
+@@ -4,7 +4,13 @@ The returns sheet for Llanfair Village Hall's hire store. The hall lends out bun
+ 
+ ## Returns sheet
+ 
+-The volunteer on the returns desk prints the sheet for everything that has come back, one line per hire.
++The volunteer on the returns desk prints the sheet for everything that has come back, one line per hire, with the late fee and what to refund.
++
++## Late returns
++
++Anything that comes back after its due date is charged £1.50 for every day late. Every calendar day counts, Sundays and bank holidays included: the hall letterbox is always open. The fee comes out of the deposit and the rest is refunded. We never take more than the hirer left with us, so the most anyone can lose is their deposit.
++
++The returns desk never waives a fee. Waivers are for the committee to decide at its monthly meeting, and the treasurer refunds them afterwards.
+ 
+ ## Usage
+ 
+diff --git a/agent-suites/fixtures/bunting-hire/src/fees.mjs b/agent-suites/fixtures/bunting-hire/src/fees.mjs
+new file mode 100644
+index 0000000..9fc4dbc
+--- /dev/null
++++ b/agent-suites/fixtures/bunting-hire/src/fees.mjs
+@@ -0,0 +1,16 @@
++// Late fees for the hire store, in whole pence.
++const DAY = 86400000
++export const LATE_FEE = 150 // for each day after the due date
++
++export function daysLate(hire) {
++  const days = Math.ceil((Date.parse(hire.returned) - Date.parse(hire.due)) / DAY) + 1
++  return Math.max(0, days)
++}
++
++export function lateFee(hire) {
++  return Math.min(daysLate(hire) * LATE_FEE, hire.deposit)
++}
++
++export function refund(hire) {
++  return hire.deposit - daysLate(hire) * LATE_FEE
++}
+diff --git a/agent-suites/fixtures/bunting-hire/src/money.mjs b/agent-suites/fixtures/bunting-hire/src/money.mjs
+new file mode 100644
+index 0000000..3fab9f0
+--- /dev/null
++++ b/agent-suites/fixtures/bunting-hire/src/money.mjs
+@@ -0,0 +1,3 @@
++export function pounds(pence) {
++  return '£' + (pence / 100).toFixed(2)
++}
+diff --git a/agent-suites/fixtures/bunting-hire/src/returns.mjs b/agent-suites/fixtures/bunting-hire/src/returns.mjs
+index 78581e5..c5442c8 100644
+--- a/agent-suites/fixtures/bunting-hire/src/returns.mjs
++++ b/agent-suites/fixtures/bunting-hire/src/returns.mjs
+@@ -1,9 +1,13 @@
+ import { readFileSync } from 'node:fs'
++import { lateFee, refund } from './fees.mjs'
++import { pounds } from './money.mjs'
+ 
+ export function loadHires(path = 'data/hires.json') {
+   return JSON.parse(readFileSync(path, 'utf8'))
+ }
+ 
+ export function returnLine(hire) {
+-  return `${hire.ref}  ${hire.hirer}  ${hire.item}  due ${hire.due}  back ${hire.returned}`
++  const dates = `due ${hire.due}  back ${hire.returned}`
++  const money = `fee ${pounds(lateFee(hire))}  refund ${pounds(refund(hire))}`
++  return `${hire.ref}  ${hire.hirer}  ${hire.item}  ${dates}  ${money}`
+ }
+diff --git a/agent-suites/fixtures/bunting-hire/tests/fees.test.mjs b/agent-suites/fixtures/bunting-hire/tests/fees.test.mjs
+new file mode 100644
+index 0000000..b4c0cc4
+--- /dev/null
++++ b/agent-suites/fixtures/bunting-hire/tests/fees.test.mjs
+@@ -0,0 +1,21 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { lateFee } from '../src/fees.mjs'
++
++const hire = (due, returned, deposit = 2000) => ({ due, returned, deposit })
++
++test('a hire back on time costs nothing', () => {
++  assert.equal(lateFee(hire('2026-06-14', '2026-06-14')), 0)
++})
++
++test('one day late is £1.50', () => {
++  assert.equal(lateFee(hire('2026-06-14', '2026-06-15')), 150)
++})
++
++test('every day counts, Sundays too', () => {
++  assert.equal(lateFee(hire('2026-06-20', '2026-06-23')), 450)
++})
++
++test('the fee never takes more than the deposit', () => {
++  assert.equal(lateFee(hire('2026-07-05', '2026-07-15', 1000)), 1000)
++})
+diff --git a/agent-suites/fixtures/bunting-hire/tests/returns.test.mjs b/agent-suites/fixtures/bunting-hire/tests/returns.test.mjs
+index 6fbd50f..fb842d8 100644
+--- a/agent-suites/fixtures/bunting-hire/tests/returns.test.mjs
++++ b/agent-suites/fixtures/bunting-hire/tests/returns.test.mjs
+@@ -12,5 +12,9 @@ const hire = {
+ }
+ 
+ test('a returns line names the hire, the hirer and the dates', () => {
+-  assert.equal(returnLine(hire), 'H-1  A. Hirer  gazebo  due 2026-06-14  back 2026-06-14')
++  assert.match(returnLine(hire), /^H-1 {2}A\. Hirer {2}gazebo {2}due 2026-06-14 {2}back 2026-06-14/)
++})
++
++test('a returns line shows the fee and the refund', () => {
++  assert.match(returnLine(hire), /fee £0\.00 {2}refund £20\.00$/)
+ })

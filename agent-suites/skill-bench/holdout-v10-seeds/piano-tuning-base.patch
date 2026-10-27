@@ -1,0 +1,65 @@
+diff --git a/agent-suites/fixtures/piano-tuning/README.md b/agent-suites/fixtures/piano-tuning/README.md
+index 0b201e5..5a03973 100644
+--- a/agent-suites/fixtures/piano-tuning/README.md
++++ b/agent-suites/fixtures/piano-tuning/README.md
+@@ -4,7 +4,7 @@ The tuning round for Hollis Piano Services. `data/pianos.json` lists every clien
+ 
+ ## Round
+ 
+-The round lists the pianos due a tuning: any piano last tuned 182 days or more before the day of the round.
++The round lists the pianos due a tuning: any piano last tuned 182 days or more before the day of the round. Pianos are grouped under their town, towns in alphabetical order, so the round can be driven town by town.
+ 
+ ## Usage
+ 
+diff --git a/agent-suites/fixtures/piano-tuning/src/round.mjs b/agent-suites/fixtures/piano-tuning/src/round.mjs
+index 1945721..c24efbf 100644
+--- a/agent-suites/fixtures/piano-tuning/src/round.mjs
++++ b/agent-suites/fixtures/piano-tuning/src/round.mjs
+@@ -3,9 +3,17 @@ const DAY = 86400000
+ /** Whole days from one ISO date to another. */
+ const daysBetween = (from, to) => Math.round((Date.parse(to) - Date.parse(from)) / DAY)
+ 
+-/** The pianos due a tuning on this day: 182 days or more since the last one. */
++/**
++ * The pianos due a tuning on this day (182 days or more since the last one), grouped under
++ * their towns in alphabetical order so the round can be driven town by town.
++ */
+ export function dueRound(pianos, today) {
+-  return pianos
+-    .filter((piano) => daysBetween(piano.lastTuned, today) >= 182)
+-    .map((piano) => `${piano.client}  ${piano.piano}`)
++  const due = pianos.filter((piano) => daysBetween(piano.lastTuned, today) >= 182)
++  const towns = [...new Set(due.map((piano) => piano.town))].sort()
++  return towns.flatMap((town) => [
++    town,
++    ...due
++      .filter((piano) => piano.town === town)
++      .map((piano) => `  ${piano.client}  ${piano.piano}`),
++  ])
+ }
+diff --git a/agent-suites/fixtures/piano-tuning/tests/round.test.mjs b/agent-suites/fixtures/piano-tuning/tests/round.test.mjs
+index 0574465..5927cee 100644
+--- a/agent-suites/fixtures/piano-tuning/tests/round.test.mjs
++++ b/agent-suites/fixtures/piano-tuning/tests/round.test.mjs
+@@ -8,5 +8,20 @@ const pianos = [
+ ]
+ 
+ test('the round lists the pianos due a tuning', () => {
+-  assert.deepEqual(dueRound(pianos, '2027-01-15'), ['Ms Lowe  upright'])
++  assert.deepEqual(dueRound(pianos, '2027-01-15'), ['Ashby', '  Ms Lowe  upright'])
++})
++
++test('the round goes town by town', () => {
++  const round = [
++    { client: 'Mr Ide', town: 'Corran', piano: 'upright', lastTuned: '2026-01-10' },
++    { client: 'Ms Pym', town: 'Barton', piano: 'grand', lastTuned: '2026-02-03' },
++    { client: 'Mr Rae', town: 'Corran', piano: 'grand', lastTuned: '2026-03-07' },
++  ]
++  assert.deepEqual(dueRound(round, '2027-01-15'), [
++    'Barton',
++    '  Ms Pym  grand',
++    'Corran',
++    '  Mr Ide  upright',
++    '  Mr Rae  grand',
++  ])
+ })

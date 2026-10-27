@@ -1,0 +1,11 @@
+{
+  "name": "county-show",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "results": "node bin/results.mjs",
+    "prizes": "node bin/prizes.mjs",
+    "fees": "node bin/fees.mjs"
+  }
+}

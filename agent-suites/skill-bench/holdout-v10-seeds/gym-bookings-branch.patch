@@ -1,0 +1,199 @@
+diff --git a/agent-suites/fixtures/gym-bookings/README.md b/agent-suites/fixtures/gym-bookings/README.md
+index 7f8907f..fdbca9e 100644
+--- a/agent-suites/fixtures/gym-bookings/README.md
++++ b/agent-suites/fixtures/gym-bookings/README.md
+@@ -11,4 +11,6 @@ Rules for every endpoint:
+ - Members' phone numbers and email addresses are only shown to staff, on the class roster.
+ - Cancelled bookings stay in `bookings.json` with `status: "cancelled"`.
+ 
++Waitlists: when a class is full, `POST /classes/:id/bookings` puts the member on its waitlist instead (`status: "waitlisted"`). `POST /bookings/:id/cancel` cancels a booking or leaves the waitlist, and a freed place goes to whoever joined the waitlist first. Members choose how they are reminded about classes with `PATCH /me/preferences`.
++
+ `src/api.mjs` routes requests to the handlers; `request.body` is the request's JSON body as parsed by `JSON.parse`. `npm test` runs the handler tests.
+diff --git a/agent-suites/fixtures/gym-bookings/src/api.mjs b/agent-suites/fixtures/gym-bookings/src/api.mjs
+index ac72341..6845490 100644
+--- a/agent-suites/fixtures/gym-bookings/src/api.mjs
++++ b/agent-suites/fixtures/gym-bookings/src/api.mjs
+@@ -1,10 +1,14 @@
++import { cancelBooking } from './cancel.mjs'
+ import { bookClass, classRoster, listClasses, myBookings } from './classes.mjs'
++import { updatePreferences } from './preferences.mjs'
+ 
+ const ROUTES = {
+   'GET /classes': listClasses,
+   'GET /bookings': myBookings,
+   'POST /classes/:id/bookings': bookClass,
+   'GET /classes/:id/roster': classRoster,
++  'POST /bookings/:id/cancel': cancelBooking,
++  'PATCH /me/preferences': updatePreferences,
+ }
+ 
+ const match = (pattern, path) => {
+diff --git a/agent-suites/fixtures/gym-bookings/src/cancel.mjs b/agent-suites/fixtures/gym-bookings/src/cancel.mjs
+new file mode 100644
+index 0000000..a2cc35f
+--- /dev/null
++++ b/agent-suites/fixtures/gym-bookings/src/cancel.mjs
+@@ -0,0 +1,21 @@
++import { bookings, classes, saveBooking } from './store.mjs'
++
++/** Cancels one of the member's bookings and gives the place to the first member on the waitlist. */
++export function cancelBooking(request, session) {
++  if (!session?.memberId) return { status: 401, body: { error: 'sign in' } }
++  const booking = bookings().find(
++    (entry) => entry.id === request.params.id && entry.memberId === session.memberId,
++  )
++  if (!booking) return { status: 404, body: { error: 'not found' } }
++  saveBooking({ ...booking, status: 'cancelled' })
++  // first come, first served
++  const next = bookings()
++    .filter((entry) => entry.classId == booking.classId && entry.status === 'waitlisted')
++    .sort((a, b) => a.at.localeCompare(b.at))[0]
++  if (next) {
++    saveBooking({ ...next, status: 'booked' })
++    // TODO: text the member that a place has come up
++  }
++  // console.log('cancelled', booking.id, 'promoted', next?.id)
++  return { status: 200, body: { cancelled: booking.id, promoted: next?.id ?? null } }
++}
+diff --git a/agent-suites/fixtures/gym-bookings/src/classes.mjs b/agent-suites/fixtures/gym-bookings/src/classes.mjs
+index 13453d4..761ee4e 100644
+--- a/agent-suites/fixtures/gym-bookings/src/classes.mjs
++++ b/agent-suites/fixtures/gym-bookings/src/classes.mjs
+@@ -21,7 +21,7 @@ export function myBookings(request, session) {
+   return { status: 200, body: own }
+ }
+ 
+-/** Books the signed-in member a place in a class. */
++/** Books the signed-in member a place in a class, or a place on its waitlist when it is full. */
+ export function bookClass(request, session) {
+   if (!session?.memberId) return { status: 401, body: { error: 'sign in' } }
+   const entry = classes().find((item) => item.id === request.params.id)
+@@ -33,14 +33,12 @@ export function bookClass(request, session) {
+       booking.status === 'booked',
+   )
+   if (already) return { status: 409, body: { error: 'you already have a place' } }
+-  if (bookedCount(entry.id) >= entry.capacity) {
+-    return { status: 409, body: { error: 'the class is full' } }
+-  }
++  var taken = bookedCount(entry.id)
+   const booking = {
+     id: `bk-${200 + bookings().length + 1}`,
+     classId: entry.id,
+     memberId: session.memberId,
+-    status: 'booked',
++    status: taken > entry.capacity ? 'waitlisted' : 'booked',
+     at: (request.now ?? new Date()).toISOString().slice(0, 16),
+   }
+   saveBooking(booking)
+diff --git a/agent-suites/fixtures/gym-bookings/src/preferences.mjs b/agent-suites/fixtures/gym-bookings/src/preferences.mjs
+new file mode 100644
+index 0000000..b1dc71e
+--- /dev/null
++++ b/agent-suites/fixtures/gym-bookings/src/preferences.mjs
+@@ -0,0 +1,24 @@
++import { members } from './store.mjs'
++
++const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value)
++
++/** Copies the fields in `changes` into `target`, merging nested objects such as `reminders`. */
++export function deepMerge(target, changes) {
++  for (const key of Object.keys(changes)) {
++    if (isObject(changes[key])) {
++      if (!isObject(target[key])) target[key] = {}
++      deepMerge(target[key], changes[key])
++    } else {
++      target[key] = changes[key]
++    }
++  }
++  return target
++}
++
++/** Updates the signed-in member's preferences, for example `{ "reminders": { "sms": true } }`. */
++export function updatePreferences(request, session) {
++  if (!session?.memberId) return { status: 401, body: { error: 'sign in' } }
++  const member = members().find((entry) => entry.id === session.memberId)
++  deepMerge(member.prefs, request.body)
++  return { status: 200, body: member.prefs }
++}
+diff --git a/agent-suites/fixtures/gym-bookings/tests/classes.test.mjs b/agent-suites/fixtures/gym-bookings/tests/classes.test.mjs
+index f726c09..95d0849 100644
+--- a/agent-suites/fixtures/gym-bookings/tests/classes.test.mjs
++++ b/agent-suites/fixtures/gym-bookings/tests/classes.test.mjs
+@@ -23,10 +23,6 @@ test('a member can book a class with space', () => {
+   assert.equal(response.body.status, 'booked')
+ })
+ 
+-test('a full class turns members away', () => {
+-  assert.equal(route('POST', '/classes/c-2/bookings', {}, imogen).status, 409)
+-})
+-
+ test('a member cannot book the same class twice', () => {
+   assert.equal(route('POST', '/classes/c-1/bookings', {}, hannah).status, 409)
+ })
+diff --git a/agent-suites/fixtures/gym-bookings/tests/preferences.test.mjs b/agent-suites/fixtures/gym-bookings/tests/preferences.test.mjs
+new file mode 100644
+index 0000000..824aa86
+--- /dev/null
++++ b/agent-suites/fixtures/gym-bookings/tests/preferences.test.mjs
+@@ -0,0 +1,17 @@
++import assert from 'node:assert/strict'
++import { beforeEach, test } from 'node:test'
++import { route } from '../src/api.mjs'
++import { reset } from '../src/store.mjs'
++
++beforeEach(reset)
++
++test('a member can turn on text reminders and keep the rest', () => {
++  const request = { body: JSON.parse('{"reminders":{"sms":true}}') }
++  const response = route('PATCH', '/me/preferences', request, { memberId: 'm-1' })
++  assert.equal(response.status, 200)
++  assert.deepEqual(response.body.reminders, { email: true, sms: true, hoursBefore: 2 })
++})
++
++test('preferences need a member session', () => {
++  assert.equal(route('PATCH', '/me/preferences', { body: {} }, null).status, 401)
++})
+diff --git a/agent-suites/fixtures/gym-bookings/tests/waitlist.test.mjs b/agent-suites/fixtures/gym-bookings/tests/waitlist.test.mjs
+new file mode 100644
+index 0000000..79e1f2d
+--- /dev/null
++++ b/agent-suites/fixtures/gym-bookings/tests/waitlist.test.mjs
+@@ -0,0 +1,38 @@
++import assert from 'node:assert/strict'
++import { beforeEach, test } from 'node:test'
++import { route } from '../src/api.mjs'
++import { reset, saveBooking } from '../src/store.mjs'
++
++beforeEach(reset)
++const hannah = { memberId: 'm-1' }
++
++test('once a class is full, members join the waitlist', () => {
++  for (const memberId of ['m-2', 'm-3']) route('POST', '/classes/c-3/bookings', {}, { memberId })
++  const response = route('POST', '/classes/c-3/bookings', {}, { memberId: 'm-4' })
++  assert.equal(response.status, 201)
++  assert.equal(response.body.status, 'waitlisted')
++})
++
++test('a cancelled place goes to the first member on the waitlist', () => {
++  saveBooking({
++    id: 'bk-298',
++    classId: 'c-2',
++    memberId: 'm-6',
++    status: 'waitlisted',
++    at: '2026-10-21T11:00',
++  })
++  saveBooking({
++    id: 'bk-299',
++    classId: 'c-2',
++    memberId: 'm-5',
++    status: 'waitlisted',
++    at: '2026-10-21T10:00',
++  })
++  const response = route('POST', '/bookings/bk-201/cancel', {}, hannah)
++  assert.equal(response.status, 200)
++  assert.equal(response.body.promoted, 'bk-299')
++})
++
++test("a member cannot cancel someone else's booking", () => {
++  assert.equal(route('POST', '/bookings/bk-202/cancel', {}, hannah).status, 404)
++})

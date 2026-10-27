@@ -13,7 +13,6 @@ include = [
   "code-review/**",
   "review-walkthrough/**",
   "grill/**",
-  "interface-design/**",
   "css-craft/**",
   "second-opinion/**",
   "probe/**",
@@ -34,6 +33,7 @@ include = [
   "hillclimb/**",
   "babysit-pr/**",
   "retro/**",
+  "taste/**",
 ]
 exclude = [
   "references/**",
@@ -54,7 +54,6 @@ ownedSlugs = [
   "code-review",
   "review-walkthrough",
   "grill",
-  "interface-design",
   "css-craft",
   "second-opinion",
   "probe",
@@ -75,6 +74,7 @@ ownedSlugs = [
   "hillclimb",
   "babysit-pr",
   "retro",
+  "taste",
 ]
 
 # Code that needs an owning document (review-deps). Built-in defaults cover

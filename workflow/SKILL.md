@@ -1,7 +1,7 @@
 ---
 name: workflow
-description: Start here for repo work with several steps or items - a bug fix, a TODO batch, a feature, a refactor, a speed target, a PR to merge-ready, or resuming work. Runs a step playbook and routes to specialists. Not one task already aimed at a skill.
-when_to_use: Requests such as "go through this checklist and commit each fix", "fix these three things and commit each one", "take this from bug report to a reviewed fix", "pick up where the last session left off", "handle this list of issues".
+description: Load first, before reading code, when one message asks for two or more separate jobs or fixes (a list, a TODO file or several requests in a paragraph), even small ones; also resuming work. Routes each to its playbook; reports every record a fix changed. Not one feature or fix already aimed at a skill.
+when_to_use: Several changes in one request, such as "three requests from the committee, commit each separately", "can you also change X and add Y", "pick up where the last session left off".
 ---
 
 # Workflow
@@ -33,11 +33,11 @@ Before another attempt at an unresolved blocker, check whether work has produced
 
 ## Playbooks
 
-When the request is a multi-step task that matches a playbook, open it and copy its numbered steps **verbatim** into the host task list before any task-specific items. When the host has no task-list tool, write them as a numbered checklist in a plan note or your first message instead. A step that does not apply stays in the list as `skip: <reason>`. Never drop it silently. Each step runs through its named companion. The final reply meets the playbook's **Reply contract**. Before sending it, check each claim against the output you captured: describe what the output shows, not what you expected it to show. A claim that the output does not support is removed or marked unverified. **Reply check.** Every result you state names a command that appears in your actions and ran after your last edit: say `node --test` if that is what ran, not `npm test`. Claim a clean tree only after `git status`, and claim a test failed first only when that failing run is shown.
+When the request is a multi-step task that matches a playbook, open it and copy its numbered steps **verbatim** into the host task list (without one, a numbered checklist in your first message) before any task-specific items. A step that does not apply stays as `skip: <reason>`. Each step runs through its named companion. The final reply meets the playbook's **Reply contract**. **Reply check.** Every result you state names a command in your actions that ran after your last edit: say `node --test` if that is what ran, not `npm test`. Anything generated (a built page, a report) is regenerated then and its output read. Claim a clean tree only after `git status`, and a failing-first test only when that run is shown. Drop any claim the output does not support. An item is done only when its acceptance condition holds at the final commit; never report it done while naming an exception. When a change moves users to something new (an address, endpoint, owner), say when each side takes effect and flag any window where they disagree.
 
 **Decide, don't stall.** When an edge case has a reasonable, reversible answer, pick it, implement it, and name the choice in your reply. Ask before acting only for irreversible or product decisions. Never end a requested change with no change made.
 
-**Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
+**Work lean.** Read files together in one call, batch independent commands, and keep output short, for example `| tail -20`. A reader of the log sees only the start of a long command, so put what matters first. After your last edit, run the final check (tests and the user's command) as one short call of its own, and quote a few lines of its output in the reply. Stop once the result and its scope check are verified. For each item or step of a sequenced change, commit only if the tests and its acceptance check pass (`<tests> && <check> && git add <paths> && git commit ...`). Never delete or weaken a test; update it only to the new correct expectation.
 
 | Task                                       | Playbook                                                          |
 | ------------------------------------------ | ----------------------------------------------------------------- |

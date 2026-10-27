@@ -1,0 +1,12 @@
+{
+  "huts": [1, 2, 3, 4, 5],
+  "bookings": [
+    { "hut": 1, "family": "Patel", "from": 23, "to": 24 },
+    { "hut": 2, "family": "Lund", "from": 20, "to": 26 },
+    { "hut": 5, "family": "Moreau", "from": 22, "to": 23 },
+    { "hut": 3, "family": "Ng", "from": 25, "to": 25 },
+    { "hut": 1, "family": "Okafor", "from": 27, "to": 27 },
+    { "hut": 4, "family": "Quinn", "from": 24, "to": 24 },
+    { "hut": 5, "family": "Silva", "from": 28, "to": 30 }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "stamp-auction",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "gh": "node scripts/gh"
+  }
+}

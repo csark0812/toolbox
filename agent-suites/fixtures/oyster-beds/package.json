@@ -1,0 +1,9 @@
+{
+  "name": "oyster-beds",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "packlist": "node bin/packlist.mjs"
+  }
+}

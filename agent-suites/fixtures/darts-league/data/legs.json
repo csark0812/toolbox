@@ -1,0 +1,16 @@
+[
+  { "night": "2026-09-03", "winner": "Kath Doyle", "loser": "Sid Pym", "checkout": "T20 T20 D20" },
+  { "night": "2026-09-03", "winner": "Sid Pym", "loser": "Kath Doyle", "checkout": "D16" },
+  { "night": "2026-09-10", "winner": "Raj Bhatt", "loser": "Lou Hart", "checkout": "t19 s18 d16" },
+  { "night": "2026-09-10", "winner": "Lou Hart", "loser": "Raj Bhatt", "checkout": "T20 T20 BULL" },
+  {
+    "night": "2026-09-17",
+    "winner": "Kath Doyle",
+    "loser": "Raj Bhatt",
+    "checkout": "T20 T19 D12"
+  },
+  { "night": "2026-09-17", "winner": "Sid Pym", "loser": "Lou Hart", "checkout": "20 D20" },
+  { "night": "2026-09-24", "winner": "Lou Hart", "loser": "Kath Doyle", "checkout": "T20 T20 S20" },
+  { "night": "2026-09-24", "winner": "Raj Bhatt", "loser": "Sid Pym", "checkout": "25 T20 D5" },
+  { "night": "2026-10-01", "winner": "Kath Doyle", "loser": "Lou Hart", "checkout": "T17 T18 D20" }
+]

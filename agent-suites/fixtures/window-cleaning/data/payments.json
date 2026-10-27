@@ -1,0 +1,15 @@
+[
+  { "customer": "C01", "date": "2026-09-10", "pence": 1200, "method": "card" },
+  { "customer": "C02", "date": "2026-09-12", "pence": 1000, "method": "bank" },
+  { "customer": "C03", "date": "2026-09-12", "pence": 1500, "method": "bank" },
+  { "customer": "c07", "date": "2026-09-11", "pence": 1200, "method": "cash" },
+  { "customer": "C08", "date": "2026-09-13", "pence": 1100, "method": "card" },
+  { "customer": "C05", "date": "2026-09-14", "pence": 1000, "method": "card" },
+  { "customer": "C06", "date": "2026-09-16", "pence": 1800, "method": "bank" },
+  { "customer": "C10", "date": "2026-09-09", "pence": 1200, "method": "card" },
+  { "customer": "C10", "date": "2026-10-07", "pence": 1200, "method": "card" },
+  { "customer": "C02", "date": "2026-10-10", "pence": 1000, "method": "bank" },
+  { "customer": "c03", "date": "2026-10-09", "pence": 1500, "method": "cash" },
+  { "customer": "C07", "date": "2026-10-09", "pence": 1200, "method": "card" },
+  { "customer": "C05", "date": "2026-10-12", "pence": 1000, "method": "card" }
+]

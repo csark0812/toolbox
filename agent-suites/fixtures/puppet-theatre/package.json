@@ -1,0 +1,11 @@
+{
+  "name": "puppet-theatre",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "quote": "node bin/quote.mjs",
+    "book": "node bin/book.mjs",
+    "report": "node bin/report.mjs"
+  }
+}

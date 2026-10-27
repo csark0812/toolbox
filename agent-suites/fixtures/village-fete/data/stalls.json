@@ -1,0 +1,92 @@
+[
+  {
+    "id": "s01",
+    "stall": "Plants",
+    "holder": "St Mary's Church",
+    "phone": "01632 960112",
+    "size": "large",
+    "charity": true,
+    "amps": 0,
+    "cancelled": false
+  },
+  {
+    "id": "s02",
+    "stall": "Cakes",
+    "holder": "Ashcombe Brownies",
+    "phone": "01632 960187",
+    "size": "small",
+    "charity": true,
+    "amps": 10,
+    "cancelled": false
+  },
+  {
+    "id": "s03",
+    "stall": "Barbecue",
+    "holder": "Ashcombe Rotary Club",
+    "phone": "07700 900214",
+    "size": "large",
+    "charity": false,
+    "amps": 16,
+    "cancelled": false
+  },
+  {
+    "id": "s04",
+    "stall": "Jam and chutney",
+    "holder": "Edna Hale",
+    "phone": "01632 960133",
+    "size": "small",
+    "charity": false,
+    "amps": 0,
+    "cancelled": false
+  },
+  {
+    "id": "s05",
+    "stall": "Ice creams",
+    "holder": "Hogg's Ices",
+    "phone": "07700 900377",
+    "size": "large",
+    "charity": false,
+    "amps": 13,
+    "cancelled": false
+  },
+  {
+    "id": "s06",
+    "stall": "Tombola",
+    "holder": "1st Ashcombe Scouts",
+    "phone": "01632 960145",
+    "size": "large",
+    "charity": true,
+    "amps": 0,
+    "cancelled": false
+  },
+  {
+    "id": "s07",
+    "stall": "Face painting",
+    "holder": "Lily Moss",
+    "phone": "07700 900488",
+    "size": "small",
+    "charity": false,
+    "amps": 10,
+    "cancelled": true
+  },
+  {
+    "id": "s08",
+    "stall": "Hog roast",
+    "holder": "Webb's Butchers",
+    "phone": "01632 960171",
+    "size": "large",
+    "charity": false,
+    "amps": 16,
+    "cancelled": false
+  },
+  {
+    "id": "s09",
+    "stall": "Crafts",
+    "holder": "Rosa Ferns",
+    "phone": "07700 900529",
+    "size": "small",
+    "charity": false,
+    "amps": 0,
+    "cancelled": false
+  }
+]

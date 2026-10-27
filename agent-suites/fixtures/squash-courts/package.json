@@ -1,0 +1,9 @@
+{
+  "name": "squash-courts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "takings": "node bin/takings.mjs"
+  }
+}

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "H301",
+    "borrower": "B1187",
+    "title": "The Fens: Discovering England's Ancient Depths",
+    "stop": "ST07",
+    "placed": "2026-10-02"
+  },
+  {
+    "id": "H302",
+    "borrower": "B0442",
+    "title": "Wolf Hall",
+    "stop": "ST02",
+    "placed": "2026-10-09"
+  },
+  {
+    "id": "H303",
+    "borrower": "B2031",
+    "title": "Large print: The Thursday Murder Club",
+    "stop": "ST10",
+    "placed": "2026-09-28"
+  },
+  {
+    "id": "H304",
+    "borrower": "B1187",
+    "title": "Waterland",
+    "stop": "ST07",
+    "placed": "2026-10-14"
+  },
+  {
+    "id": "H305",
+    "borrower": "B0918",
+    "title": "Gardening for Wildlife",
+    "stop": "ST03",
+    "placed": "2026-10-11"
+  },
+  {
+    "id": "H306",
+    "borrower": "B3310",
+    "title": "The Gruffalo",
+    "stop": "ST12",
+    "placed": "2026-10-16"
+  },
+  {
+    "id": "H307",
+    "borrower": "B0442",
+    "title": "Bring Up the Bodies",
+    "stop": "ST02",
+    "placed": "2026-10-09"
+  },
+  {
+    "id": "H308",
+    "borrower": "B2675",
+    "title": "Birds of Britain",
+    "stop": "ST08",
+    "placed": "2026-10-19"
+  },
+  {
+    "id": "H309",
+    "borrower": "B1450",
+    "title": "A Year in the Fens",
+    "stop": "ST11",
+    "placed": "2026-10-03"
+  }
+]

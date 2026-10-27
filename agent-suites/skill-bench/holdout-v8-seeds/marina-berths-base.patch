@@ -1,0 +1,67 @@
+diff --git a/agent-suites/fixtures/marina-berths/README.md b/agent-suites/fixtures/marina-berths/README.md
+index 2f2c9f9..3503012 100644
+--- a/agent-suites/fixtures/marina-berths/README.md
++++ b/agent-suites/fixtures/marina-berths/README.md
+@@ -5,7 +5,7 @@ Visitor berth charges for Gull Point marina. `data/visitors.json` lists the visi
+ ## Usage
+ 
+ ```
+-npm run bill   # each visitor's berth charge
++npm run bill   # each visitor's berth charge, nightly fee and total
+ npm test
+ ```
+ 
+diff --git a/agent-suites/fixtures/marina-berths/bin/bill.mjs b/agent-suites/fixtures/marina-berths/bin/bill.mjs
+index eedb5e7..484c7b1 100644
+--- a/agent-suites/fixtures/marina-berths/bin/bill.mjs
++++ b/agent-suites/fixtures/marina-berths/bin/bill.mjs
+@@ -1,9 +1,9 @@
+ import { readFileSync } from 'node:fs'
+-import { fee, money } from '../src/berths.mjs'
++import { nightlyFee, money } from '../src/berths.mjs'
+ 
+ const visitors = JSON.parse(readFileSync(new URL('../data/visitors.json', import.meta.url), 'utf8'))
+ for (const boat of visitors) {
+-  const nightly = fee(boat)
++  const nightly = nightlyFee(boat)
+   console.log(
+     `${boat.boat.padEnd(12)}${String(boat.lengthM).padStart(5)} m  ${boat.nights} nights x ${money(nightly)}  ${money(nightly * boat.nights)}`,
+   )
+diff --git a/agent-suites/fixtures/marina-berths/src/berths.mjs b/agent-suites/fixtures/marina-berths/src/berths.mjs
+index 3b1c628..0d6aef2 100644
+--- a/agent-suites/fixtures/marina-berths/src/berths.mjs
++++ b/agent-suites/fixtures/marina-berths/src/berths.mjs
+@@ -2,8 +2,8 @@ import { readFileSync } from 'node:fs'
+ 
+ const RATES = JSON.parse(readFileSync(new URL('../data/rates.json', import.meta.url), 'utf8'))
+ 
+-/** The nightly berth fee in pence for a boat of this length. */
+-export function fee(boat) {
++/** The nightly berth nightlyFee in pence for a boat of this length. */
++export function nightlyFee(boat) {
+   if (boat.lengthM <= 8) return RATES.upTo8
+   if (boat.lengthM <= 12) return RATES.upTo12
+   return RATES.over12
+diff --git a/agent-suites/fixtures/marina-berths/tests/berths.test.mjs b/agent-suites/fixtures/marina-berths/tests/berths.test.mjs
+index 55455fa..d0efe90 100644
+--- a/agent-suites/fixtures/marina-berths/tests/berths.test.mjs
++++ b/agent-suites/fixtures/marina-berths/tests/berths.test.mjs
+@@ -1,12 +1,12 @@
+ import assert from 'node:assert/strict'
+ import { test } from 'node:test'
+-import { fee, money } from '../src/berths.mjs'
++import { nightlyFee, money } from '../src/berths.mjs'
+ 
+-test('the fee follows the length bands', () => {
+-  assert.equal(fee({ lengthM: 8 }), 2200)
+-  assert.equal(fee({ lengthM: 8.1 }), 3000)
+-  assert.equal(fee({ lengthM: 12 }), 3000)
+-  assert.equal(fee({ lengthM: 14 }), 4000)
++test('the nightlyFee follows the length bands', () => {
++  assert.equal(nightlyFee({ lengthM: 8 }), 2200)
++  assert.equal(nightlyFee({ lengthM: 8.1 }), 3000)
++  assert.equal(nightlyFee({ lengthM: 12 }), 3000)
++  assert.equal(nightlyFee({ lengthM: 14 }), 4000)
+ })
+ 
+ test('money is shown in pounds', () => {

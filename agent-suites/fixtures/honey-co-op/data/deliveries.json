@@ -1,0 +1,16 @@
+[
+  { "member": "Tom Ashworth", "date": "2026-08-06", "kg": 18.4, "scale": "store" },
+  { "member": "Priya Nair", "date": "2026-08-12", "kg": 7.2, "scale": "store" },
+  { "member": "Gareth Lloyd", "date": "2026-08-20", "kg": "14,6", "scale": "bench" },
+  { "member": "Ruth Barlow", "date": "2026-08-27", "kg": "9,84", "scale": "bench" },
+  { "member": "Helen Moyle", "date": "2026-08-29", "kg": 6, "scale": "store" },
+  { "member": "Sam Okoro", "date": "2026-08-31", "kg": "11", "scale": "bench" },
+  { "member": "Helen Moyle", "date": "2026-09-01", "kg": 9.6, "scale": "store" },
+  { "member": "Priya Nair", "date": "2026-09-01", "kg": "5,4", "scale": "bench" },
+  { "member": "Tom Ashworth", "date": "2026-09-04", "kg": 16.2, "scale": "store" },
+  { "member": "Helen Moyle", "date": "2026-09-10", "kg": "12,35", "scale": "bench" },
+  { "member": "Gareth Lloyd", "date": "2026-09-15", "kg": "20", "scale": "bench" },
+  { "member": "Ruth Barlow", "date": "2026-09-18", "kg": "4.75", "scale": "store" },
+  { "member": "Sam Okoro", "date": "2026-09-24", "kg": "7,08", "scale": "bench" },
+  { "member": "Tom Ashworth", "date": "2026-09-29", "kg": "3,5", "scale": "bench" }
+]

@@ -1,0 +1,111 @@
+diff --git a/agent-suites/fixtures/food-truck/README.md b/agent-suites/fixtures/food-truck/README.md
+index 8a1baad..623d2f3 100644
+--- a/agent-suites/fixtures/food-truck/README.md
++++ b/agent-suites/fixtures/food-truck/README.md
+@@ -8,7 +8,9 @@ The menu board lists every item with its price and, in brackets, its allergens.
+ 
+ ## Tickets
+ 
+-Each order prints a ticket for the hatch: the order number and name, one line per item with its price, and the total.
++Each order prints a ticket for the hatch: the order number and name, one line per item with its price, the total, and every allergen in the order, extras included.
++
++Tickets list what is in each recipe. Cross-contact from the shared fryer is covered by the notice on the hatch, which is what the council's food safety officer asked for at our last inspection.
+ 
+ ## Usage
+ 
+diff --git a/agent-suites/fixtures/food-truck/src/allergens.mjs b/agent-suites/fixtures/food-truck/src/allergens.mjs
+new file mode 100644
+index 0000000..a4878cc
+--- /dev/null
++++ b/agent-suites/fixtures/food-truck/src/allergens.mjs
+@@ -0,0 +1,10 @@
++import { itemNamed } from './menu.mjs'
++
++/**
++ * Every allergen in an order, once each and in alphabetical order, so the hatch can check the
++ * order before it goes out. Extras count as well: satay sauce brings peanuts with it.
++ */
++export function allergensIn(order, menu) {
++  const found = order.lines.flatMap((line) => itemNamed(menu, line.item).allergens)
++  return [...new Set(found)].sort()
++}
+diff --git a/agent-suites/fixtures/food-truck/src/orders.mjs b/agent-suites/fixtures/food-truck/src/orders.mjs
+index 89a10dd..98a0c00 100644
+--- a/agent-suites/fixtures/food-truck/src/orders.mjs
++++ b/agent-suites/fixtures/food-truck/src/orders.mjs
+@@ -1,3 +1,4 @@
++import { allergensIn } from './allergens.mjs'
+ import { itemNamed, pounds } from './menu.mjs'
+ 
+ /** What one order line costs: the item and its extras, times the quantity. */
+@@ -6,7 +7,7 @@ function linePence(line, menu) {
+   return (itemNamed(menu, line.item).pence + extras) * line.qty
+ }
+ 
+-/** The ticket for the hatch: the order, one line per item, and the total. */
++/** The ticket for the hatch: the order, one line per item, the total and the allergens. */
+ export function ticket(order, menu) {
+   const total = order.lines.reduce((sum, line) => sum + linePence(line, menu), 0)
+   return [
+@@ -16,5 +17,6 @@ export function ticket(order, menu) {
+       return `  ${line.qty} x ${line.item}${extras}  ${pounds(linePence(line, menu))}`
+     }),
+     `  Total ${pounds(total)}`,
++    `  Allergens: ${allergensIn(order, menu).join(', ') || 'none'}`,
+   ]
+ }
+diff --git a/agent-suites/fixtures/food-truck/tests/allergens.test.mjs b/agent-suites/fixtures/food-truck/tests/allergens.test.mjs
+new file mode 100644
+index 0000000..67b0c7c
+--- /dev/null
++++ b/agent-suites/fixtures/food-truck/tests/allergens.test.mjs
+@@ -0,0 +1,29 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { allergensIn } from '../src/allergens.mjs'
++
++const menu = [
++  { name: 'Halloumi wrap', pence: 750, kind: 'main', allergens: ['milk', 'gluten'] },
++  { name: 'Fish bites', pence: 650, kind: 'main', allergens: ['fish', 'gluten'] },
++  { name: 'Chips', pence: 300, kind: 'side', allergens: [] },
++  { name: 'Satay sauce', pence: 80, kind: 'extra', allergens: ['peanuts'] },
++]
++const order = (...lines) => ({ id: 1, name: 'Test', lines })
++
++test('a halloumi wrap brings milk and gluten', () => {
++  assert.deepEqual(allergensIn(order({ item: 'Halloumi wrap', qty: 1 }), menu), ['gluten', 'milk'])
++})
++
++test('each allergen is listed once, in alphabetical order', () => {
++  const both = order({ item: 'Fish bites', qty: 2 }, { item: 'Halloumi wrap', qty: 1 })
++  assert.deepEqual(allergensIn(both, menu), ['fish', 'gluten', 'milk'])
++})
++
++test('satay sauce on chips brings peanuts', () => {
++  const chips = order({ item: 'Chips', qty: 1, extras: ['Satay sauce'] })
++  assert.deepEqual(allergensIn(chips, menu), ['peanuts'])
++})
++
++test('chips on their own have no allergens', () => {
++  assert.deepEqual(allergensIn(order({ item: 'Chips', qty: 1 }), menu), [])
++})
+diff --git a/agent-suites/fixtures/food-truck/tests/orders.test.mjs b/agent-suites/fixtures/food-truck/tests/orders.test.mjs
+index 03c7f1f..f4de32d 100644
+--- a/agent-suites/fixtures/food-truck/tests/orders.test.mjs
++++ b/agent-suites/fixtures/food-truck/tests/orders.test.mjs
+@@ -8,7 +8,7 @@ const menu = [
+   { name: 'Chilli jam', pence: 50, kind: 'extra', allergens: [] },
+ ]
+ 
+-test('a ticket prices each line with its extras', () => {
++test('a ticket prices each line and lists the allergens', () => {
+   const order = {
+     id: 7,
+     name: 'Kit',
+@@ -22,5 +22,6 @@ test('a ticket prices each line with its extras', () => {
+     '  2 x Halloumi wrap + Chilli jam  £16.00',
+     '  1 x Chips  £3.00',
+     '  Total £19.00',
++    '  Allergens: gluten, milk',
+   ])
+ })

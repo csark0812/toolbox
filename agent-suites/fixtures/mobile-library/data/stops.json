@@ -1,0 +1,110 @@
+[
+  {
+    "id": "ST01",
+    "name": "Village hall",
+    "village": "Manea",
+    "day": "Mon",
+    "week": "every",
+    "arrive": "09:30",
+    "minutes": 40
+  },
+  {
+    "id": "ST02",
+    "name": "The Green",
+    "village": "Coates",
+    "day": "Mon",
+    "week": "A",
+    "arrive": "10:35",
+    "minutes": 25
+  },
+  {
+    "id": "ST03",
+    "name": "Primary school",
+    "village": "Eastrea",
+    "day": "Mon",
+    "week": "B",
+    "arrive": "10:35",
+    "minutes": 45
+  },
+  {
+    "id": "ST04",
+    "name": "Church car park",
+    "village": "Benwick",
+    "day": "Mon",
+    "week": "every",
+    "arrive": "13:15",
+    "minutes": 30
+  },
+  {
+    "id": "ST05",
+    "name": "Post office",
+    "village": "Doddington",
+    "day": "Tue",
+    "week": "every",
+    "arrive": "09:15",
+    "minutes": 50
+  },
+  {
+    "id": "ST06",
+    "name": "Rose Court",
+    "village": "Wimblington",
+    "day": "Tue",
+    "week": "A",
+    "arrive": "10:30",
+    "minutes": 20
+  },
+  {
+    "id": "ST07",
+    "name": "Playing field",
+    "village": "Wimblington",
+    "day": "Tue",
+    "week": "every",
+    "arrive": "11:05",
+    "minutes": 35
+  },
+  {
+    "id": "ST08",
+    "name": "Fen Lane",
+    "village": "Christchurch",
+    "day": "Tue",
+    "week": "B",
+    "arrive": "13:40",
+    "minutes": 25
+  },
+  {
+    "id": "ST09",
+    "name": "Social club",
+    "village": "Tydd St Giles",
+    "day": "Thu",
+    "week": "A",
+    "arrive": "09:45",
+    "minutes": 30
+  },
+  {
+    "id": "ST10",
+    "name": "Almshouses",
+    "village": "Leverington",
+    "day": "Thu",
+    "week": "every",
+    "arrive": "10:40",
+    "minutes": 40
+  },
+  {
+    "id": "ST11",
+    "name": "Garage forecourt",
+    "village": "Gorefield",
+    "day": "Thu",
+    "week": "B",
+    "arrive": "09:45",
+    "minutes": 30
+  },
+  {
+    "id": "ST12",
+    "name": "Sheltered housing",
+    "village": "Elm",
+    "day": "Fri",
+    "week": "every",
+    "arrive": "14:00",
+    "minutes": 60
+  }
+]

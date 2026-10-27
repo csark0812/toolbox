@@ -1,0 +1,42 @@
+[
+  {
+    "code": "T-261003",
+    "destination": "Cheddar Gorge",
+    "date": "03/10/2026",
+    "departs": "08:30",
+    "seats": 49,
+    "farePence": 2400
+  },
+  {
+    "code": "T-261017",
+    "destination": "Bletchley Park",
+    "date": "17/10/2026",
+    "departs": "07:45",
+    "seats": 49,
+    "farePence": 3100
+  },
+  {
+    "code": "T-261107",
+    "destination": "Duxford",
+    "date": "7/11/2026",
+    "departs": "08:00",
+    "seats": 49,
+    "farePence": 2900
+  },
+  {
+    "code": "T-261121",
+    "destination": "Bath Christmas Market",
+    "date": "21.11.2026",
+    "departs": "09:00",
+    "seats": 53,
+    "farePence": 1800
+  },
+  {
+    "code": "T-261128",
+    "destination": "Lincoln Christmas Market",
+    "date": "28/11/2026",
+    "departs": "07:30",
+    "seats": 53,
+    "farePence": 2200
+  }
+]

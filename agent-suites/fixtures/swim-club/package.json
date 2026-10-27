@@ -1,0 +1,9 @@
+{
+  "name": "swim-club",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "swimmers": "node bin/swimmers.mjs"
+  }
+}

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Settings - Wharf FM</title>
+    <style>
+      body {
+        font-family: Verdana, sans-serif;
+        margin: 30px;
+      }
+      fieldset {
+        margin-bottom: 20px;
+      }
+      .danger {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Settings</h1>
+    <form>
+      <fieldset>
+        <legend>Profile</legend>
+        Display name <input id="name" /><br />
+        Email <input id="email" /><br />
+        Show name <input id="show" /><br />
+        Bio <textarea id="bio"></textarea>
+      </fieldset>
+      <fieldset>
+        <legend>Notifications</legend>
+        <div id="notes"></div>
+      </fieldset>
+      <fieldset>
+        <legend>Studio</legend>
+        Slot length
+        <select id="hours">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+        </select>
+        Studio
+        <select id="studio">
+          <option>A</option>
+          <option>B</option>
+        </select>
+      </fieldset>
+      <button type="button">Save</button>
+    </form>
+    <p class="danger">
+      <button type="button" onclick="document.body.innerHTML = 'Account deleted'">
+        Delete account
+      </button>
+    </p>
+    <script>
+      fetch('data/settings.json')
+        .then((response) => response.json())
+        .then((data) => {
+          const field = (id) => document.getElementById(id)
+          field('name').value = data.presenter.displayName
+          field('email').value = data.presenter.email
+          field('show').value = data.presenter.showName
+          field('bio').value = data.presenter.bio
+          field('notes').innerHTML = data.notifications
+            .map(
+              (note) =>
+                note.label + ' <input type="checkbox"' + (note.on ? ' checked' : '') + '><br>',
+            )
+            .join('')
+        })
+    </script>
+  </body>
+</html>

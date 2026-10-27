@@ -1,0 +1,11 @@
+{
+  "name": "cheese-cave",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "status": "node bin/status.mjs",
+    "labels": "node bin/labels.mjs",
+    "card": "node bin/card.mjs"
+  }
+}

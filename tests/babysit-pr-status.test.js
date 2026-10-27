@@ -47,6 +47,22 @@ describe('babysit-pr status policy', () => {
     expect(decide({ pr: open, checks: [pass], threads }).verdict).toBe('READY')
   })
 
+  it('waits on the reviewer for an open thread whose latest comment answers its opener', () => {
+    const by = (...logins) => ({ nodes: logins.map((login) => ({ author: { login } })) })
+    const replied = {
+      isResolved: false,
+      isOutdated: false,
+      path: 'src/a.mjs',
+      comments: by('dana', 'sam'),
+    }
+    expect(decide({ pr: open, checks: [pass], threads: [replied] })).toEqual({
+      verdict: 'WAITING',
+      reasons: ['Replied thread on src/a.mjs awaits the reviewer'],
+    })
+    const reopened = { ...replied, comments: by('dana', 'sam', 'dana') }
+    expect(decide({ pr: open, checks: [pass], threads: [reopened] }).verdict).toBe('ACTION:threads')
+  })
+
   it('never treats cancelled or skipped checks as green', () => {
     for (const bucket of ['cancel', 'skipping'])
       expect(decide({ pr: open, checks: [pass, { name: 'e2e', bucket }], threads: [] })).toEqual({

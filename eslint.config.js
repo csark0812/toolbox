@@ -53,6 +53,13 @@ export default [
     languageOptions: { globals: globals.node },
   },
   {
+    // A fixture web page's own script runs in the browser.
+    files: ['agent-suites/fixtures/*/app.js'],
+    languageOptions: { globals: globals.browser },
+    // Frozen fixtures from earlier sets declare the same globals in a header comment.
+    rules: { 'no-redeclare': ['error', { builtinGlobals: false }] },
+  },
+  {
     files: ['scripts/**/*.{js,mjs,cjs}', '*/scripts/**/*.{js,mjs,cjs}'],
     languageOptions: {
       globals: globals.node,

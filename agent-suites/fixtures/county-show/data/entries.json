@@ -1,0 +1,15 @@
+[
+  { "entry": 301, "class": 3, "exhibitor": "E1" },
+  { "entry": 302, "class": 3, "exhibitor": "E3" },
+  { "entry": 303, "class": 3, "exhibitor": "E4" },
+  { "entry": 304, "class": 3, "exhibitor": "E6" },
+  { "entry": 701, "class": 7, "exhibitor": "E1" },
+  { "entry": 702, "class": 7, "exhibitor": "E3" },
+  { "entry": 703, "class": 7, "exhibitor": "E6" },
+  { "entry": 1201, "class": 12, "exhibitor": "E4" },
+  { "entry": 1202, "class": 12, "exhibitor": "E6" },
+  { "entry": 1203, "class": 12, "exhibitor": "E2" },
+  { "entry": 1204, "class": 12, "exhibitor": "E3" },
+  { "entry": 1501, "class": 15, "exhibitor": "E5" },
+  { "entry": 1502, "class": 15, "exhibitor": "E2" }
+]

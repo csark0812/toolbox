@@ -1,0 +1,16 @@
+{
+  "name": "alpaca-shearing",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./shearing": "./src/shearing.mjs"
+  },
+  "scripts": {
+    "test": "node --test",
+    "invoice": "node bin/invoice.mjs",
+    "bags": "node bin/bags.mjs",
+    "report": "node bin/report.mjs",
+    "coop": "node bin/coop-export.mjs",
+    "season-close": "sh scripts/season-close.sh"
+  }
+}

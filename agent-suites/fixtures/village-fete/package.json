@@ -1,0 +1,9 @@
+{
+  "name": "village-fete",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "pitches": "node bin/pitches.mjs"
+  }
+}

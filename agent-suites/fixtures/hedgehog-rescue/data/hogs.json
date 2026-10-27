@@ -1,0 +1,63 @@
+[
+  {
+    "name": "Hazel",
+    "weighIns": [
+      { "date": "2026-09-20", "grams": 450 },
+      { "date": "2026-10-01", "grams": 560 },
+      { "date": "2026-10-15", "grams": 655 }
+    ]
+  },
+  {
+    "name": "Bramble",
+    "weighIns": [
+      { "date": "2026-09-28", "grams": 470 },
+      { "date": "2026-10-07", "grams": 585 },
+      { "date": "14/10/2026", "grams": 640 }
+    ]
+  },
+  {
+    "name": "Pip",
+    "weighIns": [
+      { "date": "2026-09-25", "grams": 560 },
+      { "date": "30/9/2026", "grams": 615 },
+      { "date": "2026-10-13", "grams": 570 }
+    ]
+  },
+  {
+    "name": "Thistle",
+    "weighIns": [
+      { "date": "2026-10-02", "grams": 540 },
+      { "date": "2026-10-12", "grams": 600 }
+    ]
+  },
+  {
+    "name": "Conker",
+    "weighIns": [
+      { "date": "26/9/2026", "grams": 520 },
+      { "date": "3/10/2026", "grams": 575 },
+      { "date": "10/10/2026", "grams": 610 },
+      { "date": "18/10/2026", "grams": 630 }
+    ]
+  },
+  {
+    "name": "Juniper",
+    "weighIns": [
+      { "date": "2026-10-05", "grams": 480 },
+      { "date": "19/10/2026", "grams": 530 }
+    ]
+  },
+  {
+    "name": "Sorrel",
+    "weighIns": [
+      { "date": "2026-09-30", "grams": 690 },
+      { "date": "2026-10-10", "grams": 720 }
+    ]
+  },
+  {
+    "name": "Moss",
+    "weighIns": [
+      { "date": "2026-10-01", "grams": 590 },
+      { "date": "2026-10-16", "grams": 599 }
+    ]
+  }
+]

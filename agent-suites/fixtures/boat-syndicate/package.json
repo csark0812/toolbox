@@ -1,0 +1,10 @@
+{
+  "name": "boat-syndicate",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "statements": "node bin/statements.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

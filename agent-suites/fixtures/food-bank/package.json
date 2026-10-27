@@ -1,0 +1,10 @@
+{
+  "name": "food-bank",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "packing": "node bin/packing.mjs",
+    "report": "node bin/report.mjs"
+  }
+}

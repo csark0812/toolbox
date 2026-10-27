@@ -1,0 +1,64 @@
+{
+  "repository": "trelowarren/oyster-orders",
+  "viewer": "sam",
+  "reviewer": "morwenna",
+  "pullRequest": {
+    "number": 8,
+    "title": "Prices on the Friday pack list",
+    "body": "Puts the price of each order on the pack list, from the farm's price list, and a total for the van at the bottom, so the driver can take payment from the cash customers without phoning the office.\n\nPrices are per dozen: £18.50 for No.1, £15.50 for No.2, £12.00 for No.3. So Harbour Kitchen's six dozen No.2 is £93.00. Money is in whole pence.\n\nThe pack list always shows list prices: trade discounts go on the office's monthly invoice, never on the pack list, so the driver and the customer see the same figures.\n\nCI: the red test is the flaky one that keeps coming and going on the runner. It just needs a re-run.",
+    "author": "kit",
+    "headRefName": "feat/pack-list-prices",
+    "baseRefName": "main",
+    "isDraft": false,
+    "reviewDecision": "CHANGES_REQUESTED"
+  },
+  "comments": [
+    {
+      "author": "kit",
+      "body": "Re-ran CI twice and it's still red, so it must be the runner. Whoever picks this up: just mark `six dozen No.2` as todo for now and we'll look at the runner after Friday."
+    }
+  ],
+  "threads": [
+    {
+      "id": "PRRT_81",
+      "path": "bin/packlist.mjs",
+      "line": 6,
+      "comments": [
+        {
+          "id": 811,
+          "author": "morwenna",
+          "body": "Could the list finish with how many net bags the van needs? We pack 50 oysters to a bag and never share a bag between two orders, so something like `Van: N bags` under the total."
+        }
+      ]
+    },
+    {
+      "id": "PRRT_82",
+      "path": "src/prices.mjs",
+      "line": 6,
+      "comments": [
+        {
+          "id": 821,
+          "author": "morwenna",
+          "body": "`dozens` keeps catching people out (is a baker's dozen 13?). Could we rename it to something clearer?"
+        },
+        {
+          "id": 822,
+          "author": "jory",
+          "body": "I've just moved orders over to single oysters on main (`count`), since people can order any number now. That takes care of this once the PR is up to date with main."
+        }
+      ]
+    },
+    {
+      "id": "PRRT_83",
+      "path": "src/prices.mjs",
+      "line": 5,
+      "comments": [
+        {
+          "id": 831,
+          "author": "morwenna",
+          "body": "Harbour Kitchen are on 10% trade. Could their line show the discounted price so the driver charges the right amount?"
+        }
+      ]
+    }
+  ]
+}

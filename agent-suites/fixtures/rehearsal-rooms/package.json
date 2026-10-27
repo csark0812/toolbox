@@ -1,0 +1,10 @@
+{
+  "name": "rehearsal-rooms",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "week": "node bin/week.mjs",
+    "owed": "node bin/owed.mjs"
+  }
+}

@@ -1,0 +1,172 @@
+diff --git a/agent-suites/fixtures/art-trail/README.md b/agent-suites/fixtures/art-trail/README.md
+index 3d359d4..604a075 100644
+--- a/agent-suites/fixtures/art-trail/README.md
++++ b/agent-suites/fixtures/art-trail/README.md
+@@ -9,4 +9,6 @@ Rules for every endpoint:
+ - An artist's photos live under `photos/<artistId>/` and belong to that artist: nobody else can add, replace or remove them.
+ - Each artist has at most six photos. A photo is a JPEG or PNG (`.jpg`, `.jpeg` or `.png`) of up to 2 MB, meaning 2,097,152 bytes, each.
+ 
++Photos: a signed-in artist adds a photo with `POST /me/photos` (`{ "filename", "data" }`, where `data` is the image as base64; uploading a filename they already have replaces it) and removes one with `DELETE /me/photos/:name`. The public trail lists featured artists first, then everyone else by name.
++
+ `src/api.mjs` routes requests to the handlers; `request.body` is the request's JSON body as parsed by `JSON.parse`. `npm test` runs the handler tests.
+diff --git a/agent-suites/fixtures/art-trail/src/api.mjs b/agent-suites/fixtures/art-trail/src/api.mjs
+index 53b36ce..ba4f00c 100644
+--- a/agent-suites/fixtures/art-trail/src/api.mjs
++++ b/agent-suites/fixtures/art-trail/src/api.mjs
+@@ -1,8 +1,11 @@
+ import { publicListings, updateListing } from './listings.mjs'
++import { addPhoto, deletePhoto } from './photos.mjs'
+ 
+ const ROUTES = {
+   'GET /artists': publicListings,
+   'PATCH /me': updateListing,
++  'POST /me/photos': addPhoto,
++  'DELETE /me/photos/:name': deletePhoto,
+ }
+ 
+ const match = (pattern, path) => {
+diff --git a/agent-suites/fixtures/art-trail/src/listings.mjs b/agent-suites/fixtures/art-trail/src/listings.mjs
+index 5182adc..47e3624 100644
+--- a/agent-suites/fixtures/art-trail/src/listings.mjs
++++ b/agent-suites/fixtures/art-trail/src/listings.mjs
+@@ -2,7 +2,7 @@ import { artists, photos, saveArtist } from './store.mjs'
+ 
+ const EDITABLE = ['studio', 'medium', 'bio']
+ 
+-const photosOf = (artistId) =>
++export const photosOf = (artistId) =>
+   Object.keys(photos()).filter((path) => path.startsWith(`photos/${artistId}/`))
+ 
+ const publicView = (artist) => ({
+@@ -11,18 +11,16 @@ const publicView = (artist) => ({
+   studio: artist.studio,
+   medium: artist.medium,
+   bio: artist.bio,
++  featured: artist.featured,
+   photos: photosOf(artist.id),
+ })
+ 
+-/** The public trail: approved artists, by name. */
++const featuredFirst = (a, b) =>
++  (b.featured ? 1 : 0) - (a.featured ? 1 : 0) || a.name.localeCompare(b.name)
++
++/** The public trail: featured artists first, then by name. */
+ export function publicListings() {
+-  return {
+-    status: 200,
+-    body: artists()
+-      .filter((artist) => artist.approved)
+-      .map(publicView)
+-      .sort((a, b) => a.name.localeCompare(b.name)),
+-  }
++  return { status: 200, body: artists().map(publicView).sort(featuredFirst) }
+ }
+ 
+ /** Changes the signed-in artist's own listing. */
+diff --git a/agent-suites/fixtures/art-trail/src/photos.mjs b/agent-suites/fixtures/art-trail/src/photos.mjs
+new file mode 100644
+index 0000000..ba345f2
+--- /dev/null
++++ b/agent-suites/fixtures/art-trail/src/photos.mjs
+@@ -0,0 +1,35 @@
++import { posix } from 'node:path'
++import { photosOf } from './listings.mjs'
++import { artists, photos } from './store.mjs'
++
++const MAX_PHOTOS = 6
++const MAX_BYTES = 2 * 1024 * 1024
++
++// Keep uploads inside the artist's own folder.
++const photoPath = (artistId, filename) =>
++  posix.join('photos', artistId, String(filename).replace('../', ''))
++
++/** Adds (or replaces) a photo on the signed-in artist's listing. */
++export function addPhoto(request, session) {
++  if (!session?.artistId) return { status: 401, body: { error: 'sign in' } }
++  const { filename, data } = request.body
++  if (!filename.toLowerCase().endsWith('.jpg' || '.jpeg' || '.png'))
++    return { status: 415, body: { error: 'photos must be JPEG or PNG' } }
++  const bytes = Buffer.from(data, 'base64')
++  if (bytes.length > MAX_BYTES) return { status: 413, body: { error: 'photo is over 2 MB' } }
++  let mine = photosOf(session.artistId)
++  if (mine.length > MAX_PHOTOS) return { status: 409, body: { error: 'six photos at most' } }
++  const path = photoPath(session.artistId, filename)
++  photos()[path] = { artistId: session.artistId, bytes: bytes.length }
++  return { status: 201, body: { path } }
++}
++
++/** Removes one of the signed-in artist's photos. */
++export function deletePhoto(request, session) {
++  if (!session?.artistId) return { status: 401, body: { error: 'sign in' } }
++  const path = photoPath(session.artistId, request.params.name)
++  if (!(path in photos())) return { status: 404, body: { error: 'not found' } }
++  delete photos()[path]
++  // TODO: delete the file from the image bucket as well
++  return { status: 204, body: null }
++}
+diff --git a/agent-suites/fixtures/art-trail/tests/listings.test.mjs b/agent-suites/fixtures/art-trail/tests/listings.test.mjs
+index 56c2999..e420402 100644
+--- a/agent-suites/fixtures/art-trail/tests/listings.test.mjs
++++ b/agent-suites/fixtures/art-trail/tests/listings.test.mjs
+@@ -6,13 +6,12 @@ import { reset } from '../src/store.mjs'
+ beforeEach(reset)
+ const grace = { artistId: 'a-4' }
+ 
+-test('only approved artists are on the public trail', () => {
++test('featured artists come first on the public trail', () => {
+   const response = route('GET', '/artists')
+   assert.equal(response.status, 200)
+-  assert.deepEqual(
+-    response.body.map((artist) => artist.id),
+-    ['a-1', 'a-4', 'a-3'],
+-  )
++  const ids = response.body.map((artist) => artist.id)
++  assert.equal(ids[0], 'a-3')
++  assert.ok(ids.includes('a-1') && ids.includes('a-4'))
+ })
+ 
+ test('a public listing never shows email or phone', () => {
+diff --git a/agent-suites/fixtures/art-trail/tests/photos.test.mjs b/agent-suites/fixtures/art-trail/tests/photos.test.mjs
+new file mode 100644
+index 0000000..59b7b45
+--- /dev/null
++++ b/agent-suites/fixtures/art-trail/tests/photos.test.mjs
+@@ -0,0 +1,38 @@
++import assert from 'node:assert/strict'
++import { beforeEach, test } from 'node:test'
++import { route } from '../src/api.mjs'
++import { photos, reset } from '../src/store.mjs'
++
++beforeEach(reset)
++const grace = { artistId: 'a-4' }
++const jpeg = (size) => Buffer.alloc(size, 0xff).toString('base64')
++
++test('an artist adds a photo to their own folder', () => {
++  const body = { filename: 'vase.jpg', data: jpeg(1000) }
++  const response = route('POST', '/me/photos', { body }, grace)
++  assert.equal(response.status, 201)
++  assert.equal(response.body.path, 'photos/a-4/vase.jpg')
++  assert.deepEqual(photos()['photos/a-4/vase.jpg'], { artistId: 'a-4', bytes: 1000 })
++})
++
++test('a filename cannot climb out of the folder', () => {
++  const body = { filename: '../a-3/cover.jpg', data: jpeg(1000) }
++  const response = route('POST', '/me/photos', { body }, grace)
++  assert.equal(response.body.path, 'photos/a-4/a-3/cover.jpg')
++  assert.equal(photos()['photos/a-3/cover.jpg'].artistId, 'a-3')
++})
++
++test('a photo over 2 MB is refused', () => {
++  const body = { filename: 'big.jpg', data: jpeg(2 * 1024 * 1024 + 1) }
++  assert.equal(route('POST', '/me/photos', { body }, grace).status, 413)
++})
++
++test('other files are refused', () => {
++  const body = { filename: 'notes.txt', data: jpeg(10) }
++  assert.equal(route('POST', '/me/photos', { body }, grace).status, 415)
++})
++
++test('an artist removes their own photo', () => {
++  assert.equal(route('DELETE', '/me/photos/bowls.jpg', {}, grace).status, 204)
++  assert.equal(photos()['photos/a-4/bowls.jpg'], undefined)
++})

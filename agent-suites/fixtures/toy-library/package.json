@@ -1,0 +1,9 @@
+{
+  "name": "toy-library",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "fines": "node bin/fines.mjs"
+  }
+}

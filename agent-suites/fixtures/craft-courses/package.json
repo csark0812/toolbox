@@ -1,0 +1,9 @@
+{
+  "name": "craft-courses",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "places": "node bin/places.mjs"
+  }
+}

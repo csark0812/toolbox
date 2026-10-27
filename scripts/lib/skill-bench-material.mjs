@@ -28,6 +28,12 @@ export const TASK_SETS = [
   'holdout-v5',
   'holdout-v6',
   'holdout-v7',
+  'holdout-v8',
+  'holdout-design-v1',
+  'holdout-v9',
+  'holdout-v10',
+  'holdout-v11',
+  'holdout-v12',
 ]
 export const HELD_OUT_SETS = TASK_SETS.filter((set) => set !== 'tasks')
 
@@ -63,21 +69,39 @@ export function summarizeActions(toolCalls = []) {
 }
 
 /** Pack and product names that identify a skill set even outside a skill name. */
-const PACK_WORDS = ['pstack', 'poteto', 'toolbox']
+const PACK_WORDS = [
+  'pstack',
+  'poteto',
+  'toolbox',
+  'tasteskill',
+  'taste-skill',
+  'design-taste-frontend',
+]
 
 const escape = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 /**
  * Replace skill identities with `<skill>` so the judge cannot tell which skill set ran.
  * Installed-skill paths and pack words are always masked. Hyphenated names are distinctive
- * enough to mask anywhere; plain-word names (`how`, `probe`) only when the text calls them a
- * skill, playbook or mode, or quotes them in backticks, so ordinary prose survives.
+ * enough to mask anywhere, in any case and with `_` for `-` (`TASTE_SKILL_HISTORY`). Plain-word
+ * names (`how`, `probe`) are masked when the text calls them a skill, playbook or mode, quotes them
+ * in backticks, or uses them as a path segment: a dot folder (`.taste`, `rm -rf .taste`), a folder
+ * between slashes, alone or with a suffix (`a/taste/b`, `.git/taste-look/`), or the first folder of
+ * a path (`taste/look/1.jpg`). Ordinary prose
+ * survives, including `how/why`.
  */
 export function maskSkillNames(text, names = []) {
   let masked = text.replace(/((?:\.claude|\.agents|\.codex|~)\/skills)\/[^\s/'"`)]+/g, '$1/<skill>')
-  const distinctive = [...PACK_WORDS, ...names.filter((name) => name.includes('-'))]
+  const hyphenated = names.filter((name) => name.includes('-'))
+  const distinctive = [...PACK_WORDS, ...hyphenated]
   for (const name of distinctive.sort((a, b) => b.length - a.length))
     masked = masked.replace(new RegExp(`(?<![\\w-])/?${escape(name)}(?![\\w-])`, 'gi'), '<skill>')
+  // Environment-variable and identifier spellings: `taste_skill`, `TASTE_SKILL_HISTORY`.
+  for (const name of [...PACK_WORDS, ...hyphenated].filter((name) => name.includes('-')))
+    masked = masked.replace(
+      new RegExp(`(?<![A-Za-z0-9])${escape(name.replaceAll('-', '_'))}(?![A-Za-z0-9])`, 'gi'),
+      '<skill>',
+    )
   for (const name of names) {
     const word = escape(name)
     masked = masked
@@ -86,15 +110,50 @@ export function maskSkillNames(text, names = []) {
         new RegExp(`(?<![\\w-])/?${word}(?=\\s+(?:skill|skills|playbook|mode)\\b)`, 'gi'),
         '<skill>',
       )
+      // Path segments: `.taste` and `.taste/…`, `…/taste/…` (also `…/taste-look/…`, a folder a
+      // skill names after itself), and `taste/…` starting a path.
+      .replace(new RegExp(`(?<![\\w.-])\\.${word}(?:[-_][\\w-]*)?(?![\\w-])`, 'gi'), '.<skill>')
+      .replace(new RegExp(`(?<=/)${word}(?:[-_][\\w-]*)?(?=/)`, 'gi'), '<skill>')
+      .replace(new RegExp(`(?<![\\w./-])${word}/(?=[\\w-]*(?:/|\\.\\w))`, 'gi'), '<skill>/')
   }
   return masked
+}
+
+/** Error text without file paths, which can carry run, arm or skill names. */
+export const withoutPaths = (text) =>
+  String(text).replace(/(?:[\w.~-]*\/)+[^\s'"`):;,]*/g, '<path>')
+
+/**
+ * Which picture sections a pair shows. A section (screenshots, or motion frames) is shown for both
+ * versions only when both runs recorded it; when only one did (a bench that mixes runs from before
+ * and after a camera change), it is left out for both so neither side gets evidence the other
+ * lacks. Returns { screenshots, frames }, each 'show', 'omit' (one side only) or 'none'.
+ */
+export function pictureSections(first, second) {
+  const decide = (key) => {
+    const has = [first, second].filter((run) => Array.isArray(run[key])).length
+    return has === 2 ? 'show' : has === 1 ? 'omit' : 'none'
+  }
+  return { screenshots: decide('screenshots'), frames: decide('frames') }
+}
+
+/** The neutral note both versions carry when a picture section is left out of the pair. */
+export const OMITTED_NOTES = {
+  screenshots:
+    'Screenshots are not shown for either version in this comparison: only one of them was photographed. Judge both from the rest.',
+  frames:
+    'Motion and interaction frames are not shown for either version in this comparison: only one of them was recorded. Judge both from the rest.',
 }
 
 /**
  * The judge's view of one run: reply, changes, actions and automatic checks.
  * It carries no arm, skill, pack or model name: skill identities are masked with `<skill>`.
  */
-export function renderRun(run, label, { skillNames = [] } = {}) {
+export function renderRun(
+  run,
+  label,
+  { skillNames = [], screenshotNames = [], frameNames = [], omitted = [] } = {},
+) {
   const mask = (text) => maskSkillNames(text, skillNames)
   const checks = run.hardCheck.passed
     ? 'All automatic checks passed.'
@@ -124,8 +183,89 @@ export function renderRun(run, label, { skillNames = [] } = {}) {
     '',
     mask(checks),
     '',
+    ...(run.screenshots && !omitted.includes('screenshots')
+      ? renderedSection(run, screenshotNames)
+      : []),
+    ...(run.frames && !omitted.includes('frames') ? framesSection(run, frameNames, mask) : []),
+    ...omitted.flatMap((section) => [`Note: ${OMITTED_NOTES[section]}`, '']),
   ].join('\n')
 }
+
+/** The note for picture files of one version that were recorded but are gone. */
+const lostNote = (count, kind) =>
+  `Note: ${count} ${kind} of this version could not be found after capture and ${count === 1 ? 'is' : 'are'} left out.`
+
+/**
+ * The screenshot files the judge is given for a visual task, in screen order. `names` lines up with
+ * run.screenshots; a null name is a file that could not be found and is left out with a note.
+ */
+function renderedSection(run, names) {
+  const present = names.filter(Boolean)
+  const lost = names.length - present.length
+  const lostLines = lost ? [lostNote(lost, lost === 1 ? 'screenshot' : 'screenshots'), ''] : []
+  if (!present.length)
+    return [
+      '## Rendered page',
+      '',
+      lost
+        ? lostNote(lost, 'screenshots').replace('Note: ', '')
+        : 'No screenshots: the page did not render.',
+      '',
+    ]
+  const cut = run.screenshotsTruncated?.length
+    ? ` The page is longer than the screens shown at ${run.screenshotsTruncated.join(' and ')} width.`
+    : ''
+  return [
+    '## Rendered page',
+    '',
+    `Screenshots of the final page, one screen at a time, top to bottom.${cut}`,
+    '',
+    ...present.map((name) => `- ${name}`),
+    '',
+    ...lostLines,
+  ]
+}
+
+/** What each group of motion and interaction frames shows, in the order the judge reads them. */
+export const FRAME_GROUPS = {
+  entrance:
+    'Entrance: the first screen at desktop width 0ms, 300ms and 1200ms after the page loaded.',
+  action:
+    "The first screen's primary action (its first button, or link styled as one), cropped: at rest, with the pointer over it, and reached with the Tab key.",
+  scroll:
+    'Scrolling: each of the next two sections just as it comes into view, then after it has settled.',
+  'reduced-motion':
+    'The first screen just after load with the visitor’s reduced-motion setting on: content should be there and still.',
+}
+
+/**
+ * The motion and interaction frames for one version, grouped and labelled. Notes pass through the
+ * mask, since an error can name a path; a null name is a frame file that could not be found.
+ */
+function framesSection(run, names, mask = (text) => text) {
+  const lost = names.filter((name) => !name).length
+  const notes = [
+    ...(run.frameNotes ?? []).map((note) => `Note: ${mask(withoutPaths(note))}`),
+    ...(lost ? [lostNote(lost, lost === 1 ? 'frame' : 'frames')] : []),
+  ]
+  if (!names.some(Boolean))
+    return ['## Motion and interaction', '', ...(notes.length ? notes : ['No frames.']), '']
+  const lines = ['## Motion and interaction', '']
+  for (const [group, caption] of Object.entries(FRAME_GROUPS)) {
+    const files = run.frames
+      .map((frame, index) => ({ frame, name: names[index] }))
+      .filter(({ frame, name }) => frame.group === group && name)
+    if (!files.length) continue
+    lines.push(`### ${caption}`, '', ...files.map(({ name }) => `- ${name}`), '')
+  }
+  return [...lines, ...notes, ...(notes.length ? [''] : [])]
+}
+
+/** A frame's file name as the judge sees it: `A-frame-load-300ms.jpg` and so on. */
+export const frameName = (label, frame) => `${label}-frame-${frame.step}.jpg`
+
+/** Screenshot file names for one version as the judge sees them: `A-phone-1.jpg` and so on. */
+export const screenshotName = (label, shot) => `${label}-${shot.viewport}-${shot.screen}.jpg`
 
 /** A known-worse twin of a run for the known-gap control: no changes, no actions, a non-answer. */
 export function degrade(run) {
@@ -137,6 +277,8 @@ export function degrade(run) {
     commits: '',
     toolCalls: [],
     hardCheck: { passed: false, failure: 'no work was done' },
+    ...(run.screenshots ? { screenshots: [], screenshotsTruncated: [] } : {}),
+    ...(run.frames ? { frames: [], frameNotes: [] } : {}),
   }
 }
 
@@ -172,6 +314,28 @@ or misstate results. Do not assume either version is better because of its label
 
 Score each version 1-5 on whether you would ship it as-is: 1 harmful or wrong, 2 not shippable,
 3 shippable with real fixes, 4 shippable with nits, 5 ship as-is.`
+
+/**
+ * Added to the rubric when the versions carry screenshots: the task is visual, so the page as a
+ * visitor sees it is the main evidence, ahead of what the reply says about it.
+ */
+export const VISUAL_RUBRIC = `This task is visual. Each version comes with screenshots of its final page at a phone and a desktop
+width. Open and look at every screenshot before scoring. Judge the page a visitor would see: whether it
+looks deliberately designed for this subject rather than like a generic template, the hierarchy and
+first-screen clarity, typography, colour, spacing and composition, whether the requested content is all
+there and readable, and whether the phone layout holds up. Something broken or missing in a screenshot
+counts even if the reply says otherwise. Code quality and process still count, but after the result.
+
+A version may also list motion and interaction frames, taken the same way for every version. Use them
+to judge how the page behaves, not only how it rests:
+- Entrance: content that is missing, blank or half-faded at 1200ms, or a first screen that is empty at
+  0ms and only appears later, costs the visitor time; a quick, ordered settle is fine, and so is none.
+- Feedback: the primary action should visibly respond to the pointer and show a clear focus indicator
+  from the keyboard. No visible change on hover or focus is a defect; so is a focus ring that is hard to see.
+- Scrolling: a section that is still hidden or faded once settled is broken. Motion should guide the eye
+  to the section's content, not delay it.
+- Reduced motion: the content must be present and readable. Hidden content there is a defect.
+More motion is not better in itself; judge whether it helps the visitor read and act.`
 
 /** Every balanced, string-aware `{...}` span in the text, in order. */
 function jsonObjects(text) {

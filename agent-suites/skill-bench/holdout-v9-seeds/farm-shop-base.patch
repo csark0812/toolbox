@@ -1,0 +1,89 @@
+diff --git a/agent-suites/fixtures/farm-shop/README.md b/agent-suites/fixtures/farm-shop/README.md
+index ea329ee..9636acc 100644
+--- a/agent-suites/fixtures/farm-shop/README.md
++++ b/agent-suites/fixtures/farm-shop/README.md
+@@ -1,6 +1,6 @@
+ # Farm shop
+ 
+-Orders for the Hollins Farm shop. `data/orders.json` lists this week's collection orders: the customer, whether they're a veg box subscriber, and what they ordered. `data/prices.json` gives each product's price in pence.
++Orders for the Hollins Farm shop. `data/orders.json` lists this week's collection orders: the customer, whether they're a veg box subscriber, and what they ordered. `data/prices.json` gives each product's price in pence and the unit it is sold by; read prices through `priceOf()` in `src/prices.mjs`.
+ 
+ ## Usage
+ 
+diff --git a/agent-suites/fixtures/farm-shop/data/prices.json b/agent-suites/fixtures/farm-shop/data/prices.json
+index 96d7b7b..3aaf2c2 100644
+--- a/agent-suites/fixtures/farm-shop/data/prices.json
++++ b/agent-suites/fixtures/farm-shop/data/prices.json
+@@ -1,9 +1,9 @@
+ {
+-  "carrots": 120,
+-  "potatoes": 90,
+-  "leeks": 150,
+-  "kale": 200,
+-  "squash": 250,
+-  "eggs": 180,
+-  "honey": 650
++  "carrots": { "pence": 120, "per": "kg" },
++  "potatoes": { "pence": 90, "per": "kg" },
++  "leeks": { "pence": 150, "per": "bunch" },
++  "kale": { "pence": 200, "per": "bag" },
++  "squash": { "pence": 250, "per": "each" },
++  "eggs": { "pence": 180, "per": "half dozen" },
++  "honey": { "pence": 650, "per": "jar" }
+ }
+diff --git a/agent-suites/fixtures/farm-shop/src/orders.mjs b/agent-suites/fixtures/farm-shop/src/orders.mjs
+index a9b2edc..85d5c2a 100644
+--- a/agent-suites/fixtures/farm-shop/src/orders.mjs
++++ b/agent-suites/fixtures/farm-shop/src/orders.mjs
+@@ -1,5 +1,7 @@
++import { priceOf } from './prices.mjs'
++
+ /** What one line of an order costs, in pence. */
+-export const lineTotal = (item, prices) => prices[item.product] * item.qty
++export const lineTotal = (item, prices) => priceOf(prices, item.product) * item.qty
+ 
+ /** What a whole order costs, in pence. */
+ export const orderTotal = (order, prices) =>
+diff --git a/agent-suites/fixtures/farm-shop/src/prices.mjs b/agent-suites/fixtures/farm-shop/src/prices.mjs
+new file mode 100644
+index 0000000..ab54ff4
+--- /dev/null
++++ b/agent-suites/fixtures/farm-shop/src/prices.mjs
+@@ -0,0 +1,5 @@
++/** A product's price in pence, per the unit it is sold by. */
++export const priceOf = (prices, product) => prices[product].pence
++
++/** The unit a product is sold by, for the shelf labels: kg, bunch, each and so on. */
++export const unitOf = (prices, product) => prices[product].per
+diff --git a/agent-suites/fixtures/farm-shop/tests/orders.test.mjs b/agent-suites/fixtures/farm-shop/tests/orders.test.mjs
+index 96d8d98..24564fe 100644
+--- a/agent-suites/fixtures/farm-shop/tests/orders.test.mjs
++++ b/agent-suites/fixtures/farm-shop/tests/orders.test.mjs
+@@ -2,7 +2,10 @@ import assert from 'node:assert/strict'
+ import { test } from 'node:test'
+ import { orderTotal, pounds } from '../src/orders.mjs'
+ 
+-const prices = { carrots: 120, eggs: 180 }
++const prices = {
++  carrots: { pence: 120, per: 'kg' },
++  eggs: { pence: 180, per: 'half dozen' },
++}
+ 
+ test('an order costs the sum of its lines', () => {
+   const order = {
+diff --git a/agent-suites/fixtures/farm-shop/tests/prices.test.mjs b/agent-suites/fixtures/farm-shop/tests/prices.test.mjs
+new file mode 100644
+index 0000000..9e2f9a4
+--- /dev/null
++++ b/agent-suites/fixtures/farm-shop/tests/prices.test.mjs
+@@ -0,0 +1,10 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { priceOf, unitOf } from '../src/prices.mjs'
++
++const prices = { leeks: { pence: 150, per: 'bunch' } }
++
++test('a price carries the unit it is sold by', () => {
++  assert.equal(priceOf(prices, 'leeks'), 150)
++  assert.equal(unitOf(prices, 'leeks'), 'bunch')
++})

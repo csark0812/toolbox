@@ -1,0 +1,4 @@
+[
+  { "id": "A", "name": "Room A", "dayPence": 1000, "eveningPence": 1400 },
+  { "id": "B", "name": "Room B", "dayPence": 800, "eveningPence": 1200 }
+]

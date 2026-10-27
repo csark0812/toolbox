@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Book the lathe - Ferncombe Community Woodshop</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#">Ferncombe Woodshop</a>
+      <nav class="nav" aria-label="Main">
+        <a href="#book">Book</a>
+        <a href="#bring">What to bring</a>
+      </nav>
+      <button class="theme-toggle" type="button" aria-pressed="false">Dark theme</button>
+    </header>
+    <main class="page">
+      <h1>Book the lathe</h1>
+      <p class="intro">
+        The big lathe is free for members every Saturday. Book a one-hour slot; a steward is on hand
+        if you haven't turned before.
+      </p>
+      <form class="booking" id="book" onsubmit="return false">
+        <fieldset class="group">
+          <legend>Pick a slot on Saturday 17 October</legend>
+          <div class="slots">
+            <button class="slot" type="button" aria-pressed="false">9am</button>
+            <button class="slot" type="button" aria-pressed="false">10am</button>
+            <button class="slot" type="button" disabled>11am <span>full</span></button>
+            <button class="slot" type="button" aria-pressed="false">12pm</button>
+            <button class="slot" type="button" aria-pressed="false">1pm</button>
+            <button class="slot" type="button" aria-pressed="false">2pm</button>
+            <button class="slot" type="button" disabled>3pm <span>full</span></button>
+            <button class="slot" type="button" aria-pressed="false">4pm</button>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="name">Your name</label>
+          <input id="name" name="name" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="project">What are you turning?</label>
+          <select id="project" name="project">
+            <option>A bowl</option>
+            <option>Spindles or legs</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <label class="check">
+          <input type="checkbox" name="own-blank" />
+          <span class="check__box" aria-hidden="true"></span>
+          I'll bring my own blank
+        </label>
+        <button class="btn" type="submit">Book this slot</button>
+      </form>
+      <section class="bring" id="bring">
+        <h2>What to bring</h2>
+        <p>
+          Closed shoes, tied-back hair and your own blank if you have one. Goggles and gouges are
+          provided. <a href="#">Read the workshop rules</a>.
+        </p>
+      </section>
+    </main>
+    <footer class="site-footer">Ferncombe Woodshop, Mill Yard. Run by volunteers.</footer>
+  </body>
+</html>

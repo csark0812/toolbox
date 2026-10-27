@@ -1,0 +1,10 @@
+{
+  "name": "newsletter-list",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "merge": "node bin/merge.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

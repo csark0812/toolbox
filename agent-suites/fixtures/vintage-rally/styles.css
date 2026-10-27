@@ -1,0 +1,332 @@
+:root {
+  --bg: #f4efe6;
+  --surface: #ffffff;
+  --ink: #2a2522;
+  --muted: #6a625b;
+  --brand: #7a2e1d;
+  --on-brand: #ffffff;
+  --line: #ddd3c4;
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Georgia, 'Times New Roman', serif;
+  line-height: 1.5;
+}
+
+/* Header: sticks to the top while you scroll, with the Classes dropdown in it. */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 24px;
+  background: var(--brand);
+  color: var(--on-brand);
+}
+
+.brand {
+  margin-right: auto;
+  color: var(--on-brand);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.site-nav a,
+.menu-btn {
+  color: var(--on-brand);
+  font: inherit;
+  text-decoration: none;
+}
+
+.menu-btn {
+  padding: 6px 10px;
+  border: 1px solid rgb(255 255 255 / 0.5);
+  border-radius: 6px;
+  background: transparent;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  z-index: 1000;
+  top: calc(100% + 10px);
+  right: 0;
+  display: none;
+  width: 230px;
+  margin: 0;
+  padding: 6px 0;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.18);
+  list-style: none;
+}
+
+.menu.is-open {
+  display: block;
+}
+
+.menu a {
+  display: block;
+  padding: 8px 16px;
+  color: var(--ink);
+}
+
+/* Page */
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px 48px;
+}
+
+.route-map {
+  position: relative;
+  height: 300px;
+  margin: 0 -24px;
+  overflow: hidden;
+}
+
+.intro {
+  padding: 28px 0 8px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+}
+
+.intro p {
+  max-width: 62ch;
+  margin: 0 0 16px;
+}
+
+.open-entry,
+.modal__send {
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--brand);
+  color: var(--on-brand);
+  font: inherit;
+  font-weight: 700;
+}
+
+/* Entries rise into place as the page loads. */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.entries {
+  animation: rise 0.4s ease-out both;
+}
+
+.entries h2 {
+  margin: 24px 0 14px;
+  font-size: 1.4rem;
+}
+
+.entry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.entry-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+  transition: transform 0.2s ease;
+  will-change: transform;
+}
+
+.entry-card:hover {
+  transform: translateY(-3px);
+}
+
+.entry-card__photo {
+  height: 140px;
+  background: linear-gradient(135deg, #c9b79c, #8d7a62);
+}
+
+.entry-card__photo--2,
+.entry-card__photo--6 {
+  background: linear-gradient(135deg, #a8b9a0, #5f7a5a);
+}
+
+.entry-card__photo--3,
+.entry-card__photo--7 {
+  background: linear-gradient(135deg, #b8c4d6, #63738f);
+}
+
+.entry-card__body {
+  padding: 12px 16px 0;
+}
+
+.entry-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.entry-card__owner {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.entry-card__foot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px 14px;
+}
+
+.entry-card__class {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.badge {
+  padding: 2px 10px;
+  border: 1px solid #b08d2e;
+  border-radius: 999px;
+  background: #fbf3dc;
+  color: #6b5312;
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+/* The badge's note pops out below it on hover or keyboard focus. */
+.tip {
+  position: absolute;
+  top: calc(100% - 6px);
+  right: 12px;
+  display: none;
+  width: 220px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: #2a2522;
+  color: #ffffff;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.badge:hover + .tip,
+.badge:focus-visible + .tip {
+  display: block;
+}
+
+/* Entry form dialog */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  place-items: center;
+  padding: 16px;
+  background: rgb(20 16 12 / 0.55);
+}
+
+.modal.is-open {
+  display: grid;
+}
+
+.modal__dialog {
+  width: min(440px, 100%);
+  padding: 24px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 20px 50px rgb(0 0 0 / 0.3);
+}
+
+.modal__dialog h2 {
+  margin: 0 0 16px;
+}
+
+.modal__form {
+  display: grid;
+  gap: 12px;
+}
+
+.modal__form label {
+  display: grid;
+  gap: 4px;
+  font-weight: 700;
+}
+
+.modal__form input,
+.modal__form select {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font: inherit;
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.modal__close {
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  font: inherit;
+}
+
+.site-footer {
+  padding: 24px;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .site-header {
+    padding: 10px 16px;
+  }
+
+  .page {
+    padding: 0 16px 40px;
+  }
+
+  .route-map {
+    height: 220px;
+    margin: 0 -16px;
+  }
+}

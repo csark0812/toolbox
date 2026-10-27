@@ -1,0 +1,9 @@
+{
+  "name": "lido-passes",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "gate": "node bin/gate.mjs",
+    "test": "node --test"
+  }
+}

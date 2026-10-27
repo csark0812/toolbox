@@ -1,0 +1,39 @@
+[
+  {
+    "id": "it-1",
+    "title": "Black umbrella",
+    "category": "umbrella",
+    "foundOn": "2026-10-02",
+    "hiddenMarks": "Name tag inside the strap reading M. Adeyemi",
+    "finder": { "name": "Carol Dunn", "phone": "07700 900118" },
+    "status": "open"
+  },
+  {
+    "id": "it-2",
+    "title": "Blue rucksack",
+    "category": "bag",
+    "foundOn": "2026-09-20",
+    "hiddenMarks": "Red lighthouse keyring on the front zip and a library card for J. Harlow",
+    "finder": { "name": "Mo Rahman", "phone": "07700 900264" },
+    "status": "open"
+  },
+  {
+    "id": "it-3",
+    "title": "Silver laptop",
+    "category": "electronics",
+    "foundOn": "2026-10-12",
+    "hiddenMarks": "Fox sticker on the lid, serial number ending 4471",
+    "finder": { "name": "Station cleaning team", "phone": "020 7946 0312" },
+    "status": "open"
+  },
+  {
+    "id": "it-4",
+    "title": "Brown leather wallet",
+    "category": "wallet",
+    "foundOn": "2026-10-05",
+    "hiddenMarks": "Photo of a spaniel behind the bank cards, initials G.T. stamped inside",
+    "finder": { "name": "Priti Lal", "phone": "07700 900377" },
+    "status": "released",
+    "releasedTo": "pa-9"
+  }
+]

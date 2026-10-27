@@ -1,0 +1,105 @@
+:root {
+  --paper: #f4f6f1;
+  --ink: #1f2a1c;
+  --muted: #5d6b58;
+  --leaf: #2f6b3a;
+  --leaf-strong: #1e4d27;
+  --on-leaf: #ffffff;
+  --focus: #c2410c;
+  --card: #ffffff;
+  --radius: 12px;
+  --gutter: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a,
+button {
+  outline: none;
+}
+
+body {
+  margin: 0;
+  padding: 0 var(--gutter) 48px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Source Sans 3', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.site-nav {
+  display: flex;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.site-nav a {
+  color: var(--leaf);
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  text-decoration: underline;
+}
+
+.tours {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 20px;
+}
+
+.tour-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.tour-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.tour-body {
+  padding: 16px;
+}
+
+.tour-body h2 {
+  margin: 0 0 4px;
+  font-size: 1.2rem;
+}
+
+.tour-meta {
+  margin: 0;
+  color: var(--muted);
+}
+
+.tour-actions {
+  padding: 0 16px 16px;
+}
+
+.book {
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--leaf);
+  color: var(--on-leaf);
+  font: inherit;
+  cursor: pointer;
+}
+
+.book:hover {
+  background: var(--leaf-strong);
+}
+
+.tour-card .book {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.tour-card:hover .book {
+  opacity: 1;
+}

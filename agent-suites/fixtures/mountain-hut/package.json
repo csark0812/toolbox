@@ -1,0 +1,9 @@
+{
+  "name": "mountain-hut",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "nights": "node bin/nights.mjs"
+  }
+}

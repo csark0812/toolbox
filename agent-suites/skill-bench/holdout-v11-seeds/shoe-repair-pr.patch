@@ -1,0 +1,95 @@
+diff --git a/agent-suites/fixtures/shoe-repair/README.md b/agent-suites/fixtures/shoe-repair/README.md
+index 3321d20..40852d3 100644
+--- a/agent-suites/fixtures/shoe-repair/README.md
++++ b/agent-suites/fixtures/shoe-repair/README.md
+@@ -4,7 +4,7 @@ Collection tickets for Pryce & Daughter, shoe repairs and key cutting on Bridge
+ 
+ ## Tickets
+ 
+-When shoes come in, the counter prints a collection ticket for the customer, one line per job.
++When shoes come in, the counter prints a collection ticket for the customer, one line per job with the day it will be ready. Heels take two open days, stitching three and a resole five, not counting the day the shoes come in; resoles take five because the soles come from the leather supplier on Thursdays. Due dates only ever land on a day the shop is open, so nobody turns up to a locked door.
+ 
+ ## Usage
+ 
+diff --git a/agent-suites/fixtures/shoe-repair/src/due.mjs b/agent-suites/fixtures/shoe-repair/src/due.mjs
+new file mode 100644
+index 0000000..6032419
+--- /dev/null
++++ b/agent-suites/fixtures/shoe-repair/src/due.mjs
+@@ -0,0 +1,23 @@
++// How many open days each job takes, not counting the day the shoes come in. Resoles take
++// five because the soles come from the leather supplier on Thursdays.
++export const TURNAROUND = { heels: 2, stitching: 3, resole: 5 }
++
++const DAY = 86400000
++const nextDay = (date) => new Date(Date.parse(date) + DAY).toISOString().slice(0, 10)
++
++/** The shop is shut on Sundays and Mondays. */
++const isOpen = (date) => ![0, 1].includes(new Date(date).getUTCDay())
++
++/** The day that comes this many open days after another. */
++export function addOpenDays(from, days) {
++  let day = from
++  let left = days
++  while (left > 0) {
++    if (isOpen(day)) left--
++    day = nextDay(day)
++  }
++  return day
++}
++
++/** The day a job will be ready to collect. */
++export const dueDate = (job) => addOpenDays(job.in, TURNAROUND[job.job])
+diff --git a/agent-suites/fixtures/shoe-repair/src/tickets.mjs b/agent-suites/fixtures/shoe-repair/src/tickets.mjs
+index f3b68dc..d688f38 100644
+--- a/agent-suites/fixtures/shoe-repair/src/tickets.mjs
++++ b/agent-suites/fixtures/shoe-repair/src/tickets.mjs
+@@ -1,2 +1,4 @@
+-/** One line of a collection ticket: the ticket number, the customer and the job. */
+-export const ticket = (job) => `#${job.ticket}  ${job.customer}  ${job.job}`
++import { dueDate } from './due.mjs'
++
++/** One line of a collection ticket: the ticket number, the customer, the job and when it's due. */
++export const ticket = (job) => `#${job.ticket}  ${job.customer}  ${job.job}  due ${dueDate(job)}`
+diff --git a/agent-suites/fixtures/shoe-repair/tests/due.test.mjs b/agent-suites/fixtures/shoe-repair/tests/due.test.mjs
+new file mode 100644
+index 0000000..8f33e02
+--- /dev/null
++++ b/agent-suites/fixtures/shoe-repair/tests/due.test.mjs
+@@ -0,0 +1,19 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { addOpenDays, dueDate } from '../src/due.mjs'
++
++test('a heel job dropped off on Tuesday is due on Thursday', () => {
++  assert.equal(dueDate({ job: 'heels', in: '2026-12-15' }), '2026-12-17')
++})
++
++test('a heel job dropped off on Friday is due on Tuesday, not over the weekend', () => {
++  assert.equal(dueDate({ job: 'heels', in: '2026-12-11' }), '2026-12-15')
++})
++
++test('a resole takes five open days', () => {
++  assert.equal(dueDate({ job: 'resole', in: '2026-12-15' }), '2026-12-22')
++})
++
++test('Sundays and Mondays are skipped', () => {
++  assert.equal(addOpenDays('2026-12-12', 1), '2026-12-15')
++})
+diff --git a/agent-suites/fixtures/shoe-repair/tests/tickets.test.mjs b/agent-suites/fixtures/shoe-repair/tests/tickets.test.mjs
+index a32936d..6e06bbd 100644
+--- a/agent-suites/fixtures/shoe-repair/tests/tickets.test.mjs
++++ b/agent-suites/fixtures/shoe-repair/tests/tickets.test.mjs
+@@ -2,9 +2,9 @@ import assert from 'node:assert/strict'
+ import { test } from 'node:test'
+ import { ticket } from '../src/tickets.mjs'
+ 
+-test('a ticket shows the number, the customer and the job', () => {
++test('a ticket shows the number, the customer, the job and when it is due', () => {
+   assert.equal(
+-    ticket({ ticket: 301, customer: 'A. Morgan', job: 'heels', in: '2026-12-11' }),
+-    '#301  A. Morgan  heels',
++    ticket({ ticket: 304, customer: 'D. Hughes', job: 'heels', in: '2026-12-22' }),
++    '#304  D. Hughes  heels  due 2026-12-24',
+   )
+ })

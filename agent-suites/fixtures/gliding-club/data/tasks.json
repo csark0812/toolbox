@@ -1,0 +1,40 @@
+[
+  {
+    "id": "T7",
+    "date": "2026-07-18",
+    "name": "212 km triangle",
+    "entries": [
+      { "pilot": "Sam Hart", "comp": "SH", "glider": "Discus 2b", "elapsed": "dnf" },
+      { "pilot": "Ruth Okafor", "comp": "RO", "glider": "ASK 21", "elapsed": "2:56:05" },
+      { "pilot": "Ann Lee", "comp": "LA", "glider": "LS8", "elapsed": "2:30:00" },
+      { "pilot": "Ivy Rose", "comp": "IR", "glider": "Discus", "elapsed": "2:20:00" },
+      { "pilot": "Dev Shah", "comp": "DS", "glider": "ls8", "elapsed": "2:21:40" },
+      { "pilot": "Lee Cho", "comp": "LC", "glider": "Astir CS", "elapsed": "DSQ" },
+      { "pilot": "Kim Ng", "comp": "KN", "glider": "Astir CS", "elapsed": "2:30:25" },
+      { "pilot": "Tom Fox", "comp": "TF", "glider": "DG-300", "elapsed": "2:7:15" },
+      { "pilot": "Mo Tan", "comp": "MT", "glider": "Pegase", "elapsed": "2:45:10" },
+      { "pilot": "Pat Moss", "comp": "PM", "glider": "K-13", "elapsed": "DNS" },
+      { "pilot": "Bea Kerr", "comp": "BK", "glider": "Std Cirrus", "elapsed": "61:10" },
+      { "pilot": "Jo Bell", "comp": "JB", "glider": "K-13", "elapsed": "3:40:00" }
+    ]
+  },
+  {
+    "id": "T8",
+    "date": "2026-07-25",
+    "name": "Ridge out and return",
+    "entries": [
+      { "pilot": "Ann Lee", "comp": "LA", "glider": "LS8", "elapsed": "DNS" },
+      { "pilot": "Ruth Okafor", "comp": "RO", "glider": "ASK 21", "elapsed": "Dns" }
+    ]
+  },
+  {
+    "id": "T9",
+    "date": "2026-08-01",
+    "name": "Evening ridge race",
+    "entries": [
+      { "pilot": "Dev Shah", "comp": "DS", "glider": "LS8", "elapsed": "7:59:59" },
+      { "pilot": "Mo Tan", "comp": "MT", "glider": "Pegase", "elapsed": "0:58" },
+      { "pilot": "Ann Lee", "comp": "LA", "glider": "K-13", "elapsed": "47:30" }
+    ]
+  }
+]

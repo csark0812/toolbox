@@ -1,0 +1,170 @@
+[
+  {
+    "date": "2026-10-01",
+    "till": "back",
+    "kind": "refund",
+    "amount": -9.99
+  },
+  {
+    "date": "2026-10-01",
+    "till": "front",
+    "kind": "sale",
+    "amount": 15.0
+  },
+  {
+    "date": "2026-10-02",
+    "till": "back",
+    "kind": "sale",
+    "amount": 9.99
+  },
+  {
+    "date": "2026-10-04",
+    "till": "back",
+    "kind": "sale",
+    "amount": 0.29
+  },
+  {
+    "date": "2026-10-05",
+    "till": "front",
+    "kind": "sale",
+    "amount": 2.2
+  },
+  {
+    "date": "2026-10-05",
+    "till": "front",
+    "kind": "sale",
+    "amount": "4.50"
+  },
+  {
+    "date": "2026-10-06",
+    "till": "back",
+    "kind": "sale",
+    "amount": 0.1
+  },
+  {
+    "date": "2026-10-07",
+    "till": "back",
+    "kind": "refund",
+    "amount": -8.95
+  },
+  {
+    "date": "2026-10-08",
+    "till": "back",
+    "kind": "sale",
+    "amount": 3.3
+  },
+  {
+    "date": "2026-10-09",
+    "till": "back",
+    "kind": "sale",
+    "amount": 0.57
+  },
+  {
+    "date": "2026-10-09",
+    "till": "front",
+    "kind": "sale",
+    "amount": 15.0
+  },
+  {
+    "date": "2026-10-10",
+    "till": "front",
+    "kind": "sale",
+    "amount": 1.15
+  },
+  {
+    "date": "2026-10-11",
+    "till": "front",
+    "kind": "sale",
+    "amount": 2.99
+  },
+  {
+    "date": "2026-10-12",
+    "till": "back",
+    "kind": "sale",
+    "amount": 9.99
+  },
+  {
+    "date": "2026-10-12",
+    "till": "front",
+    "kind": "sale",
+    "amount": 0.85
+  },
+  {
+    "date": "2026-10-12",
+    "till": "front",
+    "kind": "sale",
+    "amount": 0.65
+  },
+  {
+    "date": "2026-10-12",
+    "till": "back",
+    "kind": "sale",
+    "amount": 4.35
+  },
+  {
+    "date": "2026-10-14",
+    "till": "front",
+    "kind": "sale",
+    "amount": 0.57
+  },
+  {
+    "date": "2026-10-15",
+    "till": "front",
+    "kind": "sale",
+    "amount": 0.57
+  },
+  {
+    "date": "2026-10-15",
+    "till": "back",
+    "kind": "sale",
+    "amount": 3.3
+  },
+  {
+    "date": "2026-10-15",
+    "till": "back",
+    "kind": "sale",
+    "amount": 1.45
+  },
+  {
+    "date": "2026-10-16",
+    "till": "front",
+    "kind": "sale",
+    "amount": 2.2
+  },
+  {
+    "date": "2026-10-17",
+    "till": "back",
+    "kind": "sale",
+    "amount": 2.2
+  },
+  {
+    "date": "2026-10-17",
+    "till": "front",
+    "kind": "sale",
+    "amount": 0.85
+  },
+  {
+    "date": "2026-10-18",
+    "till": "back",
+    "kind": "refund",
+    "amount": -0.2
+  },
+  {
+    "date": "2026-10-18",
+    "till": "back",
+    "kind": "sale",
+    "amount": 15.0
+  },
+  {
+    "date": "2026-10-18",
+    "till": "back",
+    "kind": "sale",
+    "amount": 0.65
+  },
+  {
+    "date": "2026-10-19",
+    "till": "back",
+    "kind": "sale",
+    "amount": 8.95
+  }
+]

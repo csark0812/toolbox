@@ -1,0 +1,331 @@
+:root {
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --ink: #17212b;
+  --muted: #5a6773;
+  --accent: #0b5c8a;
+  --on-accent: #ffffff;
+  --tile: #dde8e2;
+  --water: #b9d6e8;
+  --backdrop: rgb(15 23 42 / 0.55);
+  --header-h: 64px;
+  --radius: 12px;
+  --shadow: 0 6px 20px rgb(15 23 42 / 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Source Sans 3', system-ui, sans-serif;
+  line-height: 1.45;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Header */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: var(--header-h);
+  padding: 0 16px;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.brand {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.search {
+  position: relative;
+  width: min(320px, 60vw);
+}
+
+.search input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  left: 0;
+  z-index: 50;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.suggestions button {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+}
+
+.suggestions button:hover {
+  background: var(--bg);
+}
+
+/* Page */
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+h1 {
+  margin: 8px 0 4px;
+  font-size: 1.5rem;
+}
+
+.intro {
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
+/* Map */
+
+.map {
+  position: relative;
+  height: 420px;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--tile);
+  /* keeps panning smooth */
+  will-change: transform;
+}
+
+.map__tiles {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgb(255 255 255 / 0.7) 2px, transparent 2px) 0 0 / 80px 80px,
+    linear-gradient(rgb(255 255 255 / 0.7) 2px, transparent 2px) 0 0 / 80px 80px,
+    linear-gradient(160deg, transparent 62%, var(--water) 62%);
+}
+
+.map__controls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.zoom {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.25rem;
+}
+
+.marker {
+  position: absolute;
+  z-index: 1;
+}
+
+.marker__pin {
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--on-accent);
+  border-radius: 50% 50% 50% 0;
+  background: var(--accent);
+  color: var(--on-accent);
+  font: inherit;
+  font-weight: 700;
+}
+
+.marker.is-open .marker__pin {
+  background: var(--ink);
+}
+
+.popup {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 5;
+  width: 220px;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.popup__name {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.popup__free,
+.popup__price {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.pay-btn {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font: inherit;
+  font-weight: 600;
+}
+
+.legend {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 2;
+  margin: 0;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 0.85rem;
+}
+
+.legend__pin {
+  display: inline-block;
+  width: 18px;
+  border-radius: 50% 50% 50% 0;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Pay dialog */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: var(--backdrop);
+}
+
+.modal[hidden] {
+  display: none;
+}
+
+.modal__panel {
+  width: min(420px, 100%);
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.modal__panel h2 {
+  margin: 0 0 4px;
+}
+
+.modal__where {
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.field input,
+.field select {
+  padding: 8px 10px;
+  border: 1px solid #c3ccd5;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.btn {
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font: inherit;
+  font-weight: 600;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--accent);
+}
+
+/* Tariffs */
+
+.tariffs {
+  margin-top: 24px;
+}
+
+.tariffs table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+}
+
+.tariffs th,
+.tariffs td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e2e7ec;
+  text-align: left;
+}
+
+.site-footer {
+  padding: 24px 16px 48px;
+  color: var(--muted);
+  text-align: center;
+}

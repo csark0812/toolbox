@@ -1,0 +1,5 @@
+[
+  { "id": "p-1", "name": "Meadow 1", "kind": "tent", "nightlyPence": 2200 },
+  { "id": "p-2", "name": "Riverside 4", "kind": "hardstanding", "nightlyPence": 3000 },
+  { "id": "p-3", "name": "Orchard 2", "kind": "tent", "nightlyPence": 2400 }
+]

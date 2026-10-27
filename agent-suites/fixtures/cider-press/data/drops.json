@@ -1,0 +1,77 @@
+[
+  {
+    "id": "D01",
+    "date": "2026-10-10",
+    "grower": "Ann Lee",
+    "variety": "Bramley",
+    "weight": "18 kg"
+  },
+  { "id": "D02", "date": "2026-10-10", "grower": "Bob Hart", "variety": "Cox", "weight": "2st" },
+  {
+    "id": "D10",
+    "date": "2026-10-17",
+    "grower": "Ann Lee",
+    "variety": "Bramley",
+    "weight": "42 kg"
+  },
+  {
+    "id": "D11",
+    "date": "2026-10-17",
+    "grower": "ann lee",
+    "variety": "Russet",
+    "weight": "12.5Kg"
+  },
+  { "id": "D12", "date": "2026-10-17", "grower": "Bob Hart", "variety": "Cox", "weight": "30lbs" },
+  {
+    "id": "D13",
+    "date": "2026-10-17",
+    "grower": "Bob Hart ",
+    "variety": "Cox",
+    "weight": "3st 4lb"
+  },
+  {
+    "id": "D14",
+    "date": "2026-10-17",
+    "grower": "Cara Moss",
+    "variety": "Egremont Russet",
+    "weight": "11lb"
+  },
+  {
+    "id": "D15",
+    "date": "2026-10-17",
+    "grower": "Cara Moss",
+    "variety": "Egremont Russet",
+    "weight": "0.5kg"
+  },
+  {
+    "id": "D16",
+    "date": "2026-10-17",
+    "grower": "Dev Rao",
+    "variety": "Discovery",
+    "weight": "2st 13lb"
+  },
+  {
+    "id": "D17",
+    "date": "2026-10-17",
+    "grower": "Eve Shaw",
+    "variety": "Worcester",
+    "weight": "24.35kg"
+  },
+  { "id": "D18", "date": "2026-10-17", "grower": "Hal Ng", "variety": "Bramley", "weight": "9 kg" },
+  { "id": "D19", "date": "2026-10-17", "grower": "Ida Pye", "variety": "Crab", "weight": "20 LB" },
+  {
+    "id": "D20",
+    "date": "2026-10-17",
+    "grower": "Gus Bell",
+    "variety": "Mixed",
+    "weight": "600 kg"
+  },
+  {
+    "id": "D21",
+    "date": "2026-10-17",
+    "grower": "Joe Kerr",
+    "variety": "Blenheim",
+    "weight": "1 st 14lb"
+  },
+  { "id": "D22", "date": "2026-10-17", "grower": "Kit Lowe", "variety": "Mixed", "weight": "500KG" }
+]
