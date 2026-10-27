@@ -48,7 +48,7 @@ Write this sentence, both blanks from your particulars:
 
 For example: a ferry's departure board becomes the timetable; a market's chalked price board becomes the menu. If a competitor's name fits the sentence, find another idea. The idea must shape at least three sections, not just the first screen.
 
-The rules below describe one register, the poster page. [Range](references/range.md) has the others (quiet column, desktop, borrowed document, story, illustrated world, texture, toy), each with what earns it and how it fails; choose the one your particular earns, and where its notes differ from the rules below, the register wins. In every register, each metaphor, effect and interaction must answer a stranger's "what is the point of what I'm looking at?" with something true about the subject, or it goes; one signature move per page.
+The rules below describe one way to build a page: full, poster-like screens. [Range](references/range.md) is a palette of other ideas (a quiet column, highlight marks, chapters in time, windows, a borrowed document, a reader view, a drawn scene, texture, a toy, a live fragment), each saying what kind of thing it is and where it fits. Combine the few your particulars earn, each in its place; where an idea's notes differ from the rules below, they win for that part of the page. Every metaphor, effect and interaction must answer a stranger's "what is the point of what I'm looking at?" with something true about the subject, or it goes; at most one showpiece per view.
 
 Fix the system as CSS custom properties:
 
@@ -65,7 +65,7 @@ Fix the system as CSS custom properties:
 Build in the existing stack with the project's tokens. Write each file in one go: tokens, then the first screen, then every section with real content, carrying the idea through pricing, timetables, FAQ and footer.
 
 - **Imagery:** the project's own pictures; else subject material drawn in CSS or SVG (the route, the street, the label, the ticket); else type and colour alone. For software, show each feature as a small working fragment of its own interface, built in HTML with numbers that add up, never as an icon or a bare text list. Never fake photographs. A ruled or gridded background must line up with the text on it, or go.
-- **Fullness:** in the poster register each desktop screen is a poster. A screen that is largely blank, a hero with space above or beside it, or a band holding one short line is unfinished: use the width (two columns, a large figure, a wide table) or merge the thin section into its neighbour.
+- **Fullness:** each poster-built desktop screen is a poster. A screen that is largely blank, a hero with space above or beside it, or a band holding one short line is unfinished: use the width (two columns, a large figure, a wide table) or merge the thin section into its neighbour.
 - **Fit:** long lists on a phone become compact rows or scroll inside their own region; tags and labels wrap rather than overflow their box.
 - **Semantics:** one `h1`, a heading per section, real links and buttons with labels, alt text. Targets at least 24px everywhere and 44px on a phone, except links inside running text.
 - **Feedback and motion, in the same pass:** every control has hover, press and `:focus-visible` states (a ring with 3:1 contrast against the colours beside it and against the unfocused control; `scroll-padding-top` so a sticky bar never covers it); selected choices look selected. The first screen is readable from its first frame (headline and action never start hidden, not even at low opacity) and settles within about 600ms; sections' parts rise a few pixels as they enter, staggered; only under a `.js` class the script adds may they start at opacity 0. Values that change (totals, counts, errors) change in place without shifting the layout. A `prefers-reduced-motion` block shows everything at rest.
@@ -84,7 +84,7 @@ In a git repository the pictures live inside `.git/`, so there is nothing to cle
 
 ## 6. Reply
 
-- **Direction:** the idea sentence, and one line each on type, colour and layout and why they fit.
+- **Direction:** the idea sentence, and one line each on type, colour and layout and why they fit; for each idea taken from [range](references/range.md), where it sits and the particular that earns it.
 - **What was built:** the sections, the states and the motion, the files changed, how the phone layout differs.
 - **Looked at:** the widths, the camera's final FAIL and WARN counts, the top remaining weakness.
 - **To replace:** every invented detail, inferred rule and drawn stand-in.
