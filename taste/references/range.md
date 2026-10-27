@@ -55,6 +55,8 @@ The rules in the skill describe one way to build a page: full, poster-like scree
 
 A page is a few of these ideas, each where it does its job: a quiet column with highlight marks for the bio, chapters in time for the career, one toy as the reward at the end; or windows on the first screen, a borrowed PDF for the CV, texture only on the photographs. One idea leads the first screen and the rest take their own sections or elements. They share one palette and one type system, so the page still reads as one voice.
 
+Restraint is not the goal. A showcase needs one idea carried to full craft ([showpiece](showpiece.md)); the quiet around it is what lets it land, and a page that is only quiet reads as generic.
+
 Start from the particulars, not the ideas: what the person makes, their medium, how they talk. Name the particular that earns each idea you use; if the only reason is "creative", drop it.
 
 When offering several directions, give each a different leading idea and a different mix, so they differ in idea and not just colour.
