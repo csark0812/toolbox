@@ -61,7 +61,8 @@
           "The reply lists the two typefaces and the five colour tokens from brand.css.",
           "No file was changed."
         ]
-      }
+      },
+      "evidencePolicy": "read-only"
     },
     {
       "name": "near miss: a data bug behind a screen",
@@ -69,10 +70,11 @@
       "rubric": {
         "mustNotReadPath": ["taste/SKILL.md"],
         "judge": [
-          "The reply answers two (9 and 11 minutes) from data/station.json.",
+          "The reply answers one: the 18 October launch (9 minutes), from data/station.json; it may note that the 11-minute launch was on 30 September.",
           "No file was changed."
         ]
-      }
+      },
+      "evidencePolicy": "read-only"
     },
     {
       "name": "personal site: ideas combined on purpose, thesis first",

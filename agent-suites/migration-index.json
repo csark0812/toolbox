@@ -3214,7 +3214,7 @@
       "rubric": {
         "mustNotReadPath": ["taste/SKILL.md"],
         "judge": [
-          "The reply answers two (9 and 11 minutes) from data/station.json.",
+          "The reply answers one: the 18 October launch (9 minutes), from data/station.json; it may note that the 11-minute launch was on 30 September.",
           "No file was changed."
         ]
       },
