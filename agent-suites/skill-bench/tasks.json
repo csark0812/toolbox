@@ -203,6 +203,24 @@
       ]
     },
     {
+      "id": "personal-site",
+      "targetSkill": "taste",
+      "check": "personal-site",
+      "render": {
+        "page": "index.html"
+      },
+      "claim": {
+        "prompt": "Make my personal website from the notes in agent-suites/fixtures/personal-site. One page, static. I want it to feel like me, not a template."
+      },
+      "criteria": [
+        "Within five seconds the first screen says who this is and what he stands for, in his own words from the notes, not a job title or invented slogan.",
+        "Every project, the talk and the contact links from the notes are present, accurate and reachable without dragging or hunting; nothing is invented.",
+        "Any interaction or effect shows something true about his work (an interface with weight) rather than decorating; at most one thing competes for attention on any screen.",
+        "The page reads as made for this person, with considered type, colour and spacing and no stock template tells (centred hero over icon cards, gradients, glows, emoji, eyebrow labels).",
+        "The phone layout is composed for a phone and works by touch; the reply names the direction, what was checked in a real browser and at which widths."
+      ]
+    },
+    {
       "id": "ferry-timetable-redesign",
       "targetSkill": "taste",
       "check": "tidewater-ferries",
