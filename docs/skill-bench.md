@@ -2,7 +2,7 @@
 
 <!-- source-of-truth: blinded pairwise benchmark that decides whether a skill beats its baseline -->
 <!-- doc-meta: owner=eng -->
-<!-- review-deps: paths=scripts/skill-bench*.mjs,scripts/lib/skill-bench-material.mjs,scripts/lib/pairwise-stats.mjs,scripts/freeze-holdout.mjs,scripts/fetch-pack.mjs,skill-bench.config.ts -->
+<!-- review-deps: paths=scripts/skill-bench*.mjs,scripts/lib/skill-bench-material.mjs,scripts/lib/pairwise-stats.mjs,scripts/freeze-holdout.mjs,scripts/fetch-pack.mjs,skill-bench.config.ts,scripts/lib/bench-render.mjs,scripts/lib/claude-bench-bin.mjs -->
 
 A skill ships or stays only if it beats its baseline in this bench. Conformance suites prove that a skill is followed. The bench asks whether following it produces better work.
 

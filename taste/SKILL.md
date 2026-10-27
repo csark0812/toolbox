@@ -8,6 +8,7 @@ when_to_use: Requests such as "make a site for my café", "our homepage feels li
 
 <!-- source-of-truth: portable visual direction, page and screen craft, and the screenshot look-and-fix loop. -->
 <!-- doc-meta: owner=eng -->
+<!-- review-deps: paths=taste/scripts/** -->
 
 A model's default page is the average of every page it has seen. This skill swaps each default for a choice drawn from the subject, builds them in full, and looks at the result in a real browser. User instructions, the project's brand and its design system outrank everything here.
 

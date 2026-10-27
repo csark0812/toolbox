@@ -131,7 +131,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "css-craft/SKILL.md",
-      "computedHash": "f21c64e507d6914c9b110b36e21e8b8f65bd337776781629031cf7936ee8c980"
+      "computedHash": "41a2e603ced57697859ac46c8efb7c75750f0a170f52b153a3b7fb158b32d328"
     },
     "hillclimb": {
       "source": "csark0812/toolbox",
@@ -149,7 +149,7 @@
       "source": "csark0812/toolbox",
       "sourceType": "github",
       "skillPath": "taste/SKILL.md",
-      "computedHash": "f0a59eca878cc98abe91ca8b2e4790fd5f069e1ab79608b3dd62b4c0dcb7c29a"
+      "computedHash": "eb1197d895b4b394999c7a72d3952a40c55ca5821d1740383fe108337c41e2ec"
     }
   }
 }

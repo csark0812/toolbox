@@ -8,6 +8,7 @@ when_to_use: Any visual or stylesheet defect, such as "this button is the wrong 
 
 <!-- source-of-truth: portable CSS diagnosis, technique selection, and rendered verification process. -->
 <!-- doc-meta: owner=eng -->
+<!-- review-deps: paths=css-craft/scripts/** -->
 
 Fix the observed styling problem with the smallest technique that preserves the project's design contract and supported browser behavior. Prefer a concrete rendered cause over a speculative rewrite. User instructions and project rules outrank external examples.
 
