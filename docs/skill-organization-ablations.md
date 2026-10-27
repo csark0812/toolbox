@@ -13,7 +13,7 @@ Does how skills are **organized** (routing, escalation, fit-check) change runtim
 npm run agent:test:ablations
 ```
 
-Runs on the Codex subscription configured in `agent-test.config.ts`. Compare runs under the **same model** and similar token budget.
+Runs on the host configured in `agent-test.config.ts` (Claude Code by default, `AGENT_TEST_RUNNER=codex` for Codex). Compare runs under the **same model** and similar token budget.
 
 ## Arms
 

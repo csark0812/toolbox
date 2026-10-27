@@ -55,7 +55,7 @@ Treat skills as adjacent, independently complete roles. Descriptions route by us
 
 `npm test` = unit fixtures + `audit:hub` + `audit:skills` + `validate:ci`. `npm run check` / `npm start` also runs format, lint, typecheck, and `npm audit --omit=dev` (CI + First hour). Optional deeper pass: `npm run audit:self` (docs + skills — SSOT-bearing files need `<!-- source-of-truth: … -->` + doc-meta).
 
-`npm run agent:test` validates current TypeScript suite discovery, fixtures and claim mappings offline. `agent:test:live` executes independent Codex subscription sessions, 4 at a time by default (`AGENT_TEST_WORKERS=<n>` overrides); comparisons repeat paired scenarios three times. Publication and network proof are explicit commands. Keep application-specific integration in its consumer repository.
+`npm run agent:test` validates current TypeScript suite discovery, fixtures and claim mappings offline. `agent:test:live` executes independent Claude Code subscription sessions (`AGENT_TEST_RUNNER=codex` for Codex), 4 at a time by default (`AGENT_TEST_WORKERS=<n>` overrides); comparisons repeat paired scenarios three times. Publication and network proof are explicit commands. Keep application-specific integration in its consumer repository.
 
 ## Install destinations
 

@@ -215,7 +215,7 @@ Portable agent conformance lives under [`agent-suites/`](agent-suites/). Suites 
 npm run agent:test
 ```
 
-Live dogfood uses the configured Codex subscription in isolated workspaces. Run:
+Live dogfood runs Claude Code subscription sessions in isolated workspaces (`AGENT_TEST_RUNNER=codex` switches to Codex). Claude Code's sandbox needs `bubblewrap` and `socat` on Linux. Run:
 
 ```bash
 npm run agent:test:live

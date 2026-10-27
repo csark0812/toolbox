@@ -142,7 +142,17 @@ export async function executeClaim(
         input: {
           questions,
           output: run.output,
-          toolCalls: JSON.parse(JSON.stringify(run.toolCalls)),
+          // Claude traces carry each image the agent opened as base64, which the judge cannot
+          // read as JSON and which overflows its input limit; keep only the image's type and size.
+          toolCalls: JSON.parse(
+            JSON.stringify(
+              run.toolCalls.map(({ images, ...call }) =>
+                images
+                  ? { ...call, images: images.map(({ data: _data, ...image }) => image) }
+                  : call,
+              ),
+            ),
+          ),
           selectedSnapshot,
           changedPaths: run.workspace.changedPaths,
           diagnosticReceipts,
