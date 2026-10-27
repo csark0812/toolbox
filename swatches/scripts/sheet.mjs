@@ -4,8 +4,8 @@
 // The folder holds one self-contained first screen per option: a.html, b.html, c.html (up to d.html).
 // Each is served over a throwaway local server, opened in headless Chrome or Chromium (CHROME_PATH, or a
 // usual install path) and photographed at every width. The script then writes <folder>/index.html, the
-// options side by side as live frames for the user to open (self-contained, so it can be shared alone), and <folder>/sheet.png, one picture of the
-// same comparison, and prints a WARN line for anything that makes a comparison unfair: a script error, a
+// photographs side by side with captions, embedded so the file opens anywhere on its own, and
+// <folder>/sheet.png, one picture of the same comparison, and prints a WARN line for anything that makes a comparison unfair: a script error, a
 // web font that did not load, text past the right edge. Node 22+, no dependencies, nothing installed.
 /* global WebSocket */
 import { spawn } from 'node:child_process'
@@ -267,12 +267,11 @@ for (const id of options) {
 if (headlines.size > 1)
   warn(`the options' h1 text differs (${[...headlines].join(' | ')}); compare like with like`)
 
-// index.html: live frames for the user, scaled so every option sits on one row at each width.
-// Each option is inlined (srcdoc), so the file still works when opened or shared on its own.
-const inline = (id) =>
-  readFileSync(join(root, `${id}.html`), 'utf8')
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
+// index.html for the user and sheet.png for the agent share one layout: every option on one row at each
+// width. The user's copy embeds the photographs, because file previews and shared attachments often
+// open the one file without its neighbours, or block frames and remote fonts.
+const embed = (id, width) =>
+  `data:image/png;base64,${readFileSync(join(shots, `${id}-${width}.png`)).toString('base64')}`
 const escape = (text) => text.replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`)
 const column = (width) => (width < 600 ? 260 : Math.floor(1600 / options.length) - 24)
 const card = (id, width, src) => {
@@ -291,10 +290,9 @@ writeFileSync(
   join(root, 'index.html'),
   page(
     (id, w, h, scale) =>
-      `<iframe srcdoc="${inline(id)}" width="${w}" height="${h}" style="transform:scale(${scale})" title="Option ${id.toUpperCase()}"></iframe>`,
+      `<img src="${embed(id, w)}" width="${w}" height="${h}" style="transform:scale(${scale})" alt="Option ${id.toUpperCase()} at ${w}px">`,
   ),
 )
-// sheet.png: the same layout built from the photographs, so the agent sees what the user sees.
 writeFileSync(
   join(shots, 'sheet.html'),
   page(
