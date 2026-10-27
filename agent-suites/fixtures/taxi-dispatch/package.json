@@ -1,0 +1,10 @@
+{
+  "name": "taxi-dispatch",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "sheet": "node bin/sheet.mjs",
+    "fares": "node bin/fares.mjs"
+  }
+}

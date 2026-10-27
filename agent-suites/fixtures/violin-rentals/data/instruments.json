@@ -1,0 +1,27 @@
+[
+  {
+    "id": "in-1",
+    "name": "3/4 violin, Stentor Student II",
+    "monthlyPence": 1800,
+    "depositPence": 5000
+  },
+  {
+    "id": "in-2",
+    "name": "Full-size violin, Hidersine Veracini",
+    "monthlyPence": 2400,
+    "depositPence": 8000
+  },
+  { "id": "in-3", "name": "1/2 violin, Primavera 100", "monthlyPence": 1500, "depositPence": 4000 },
+  {
+    "id": "in-4",
+    "name": "15-inch viola, Gliga Genial",
+    "monthlyPence": 2600,
+    "depositPence": 8000
+  },
+  {
+    "id": "in-5",
+    "name": "1/4 cello, Stentor Student I",
+    "monthlyPence": 3200,
+    "depositPence": 12000
+  }
+]

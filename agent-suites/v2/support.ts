@@ -245,8 +245,8 @@ function publishToBareRemote(root: string) {
 
 /**
  * Toolbox skills a run may see. `full` and `none` are the conformance arms; `only:<slug>` and
- * `without:<slug>` are bench ablations. The legacy design arm installs archived skills instead,
- * and `pack:<name>[@<entry>]` installs a fetched comparison pack from `_agent/packs/<name>/skills`.
+ * `without:<slug>` are bench ablations. `pack:<name>[@<entry>]` installs a fetched comparison pack
+ * from `_agent/packs/<name>/skills` instead.
  */
 /** `pack:pstack@poteto-mode` → `pstack`. */
 export const packName = (arm: string) => arm.slice('pack:'.length).split('@')[0]
@@ -256,7 +256,7 @@ export const packEntry = (arm: string) => arm.split('@')[1]
 
 export function installedSkills(armWithEntry: string): string[] {
   const arm = armWithEntry.split('@')[0]
-  if (arm === 'none' || arm === 'legacy-design' || arm.startsWith('pack:')) return []
+  if (arm === 'none' || arm.startsWith('pack:')) return []
   if (arm === 'full') return [...EXPECTED_SKILLS]
   const [mode, slug] = arm.split(':')
   if (!slug || !(EXPECTED_SKILLS as readonly string[]).includes(slug))
@@ -281,14 +281,7 @@ export function prepareClaim(
     const installed = installedSkills(arm)
     for (const mirror of ['.claude/skills', '.agents/skills']) {
       await rm(join(workspace.path, mirror), { recursive: true, force: true })
-      if (arm === 'legacy-design') {
-        for (const slug of ['frontend-design', 'modern-css'])
-          await cp(
-            resolve('references/original-skills', slug),
-            join(workspace.path, mirror, slug),
-            { recursive: true },
-          )
-      } else if (arm.startsWith('pack:')) {
+      if (arm.startsWith('pack:')) {
         const packDir = resolve('_agent/packs', packName(arm), 'skills')
         for (const slug of await readdir(packDir))
           await cp(join(packDir, slug), join(workspace.path, mirror, slug), { recursive: true })
@@ -303,6 +296,10 @@ export function prepareClaim(
       if (framing === 'neutral' || !installed.includes(slug))
         await rm(join(workspace.path, slug), { recursive: true, force: true })
     execFileSync('git', ['init', '-q'], { cwd: workspace.path })
+    // A host may sign commits through a program the agent's sandbox cannot reach; fixture repos
+    // never sign, so every arm can commit.
+    for (const key of ['commit.gpgsign', 'tag.gpgsign'])
+      execFileSync('git', ['config', key, 'false'], { cwd: workspace.path })
     // The workspace may already be a repository; name its first branch main either way.
     execFileSync('git', ['symbolic-ref', 'HEAD', 'refs/heads/main'], { cwd: workspace.path })
     execFileSync('git', ['add', '.'], { cwd: workspace.path })

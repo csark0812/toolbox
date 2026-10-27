@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Mrs Okafor",
+    "address": "4 Mill Lane",
+    "pints": 2,
+    "days": ["Mon", "Wed", "Fri"],
+    "away": []
+  },
+  {
+    "name": "Mr Hale",
+    "address": "9 Mill Lane",
+    "pints": 1,
+    "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "away": []
+  },
+  {
+    "name": "The Patels",
+    "address": "12 Church Street",
+    "pints": 3,
+    "days": ["Tue", "Thu", "Sat"],
+    "away": [{ "from": "2026-12-26", "to": "2027-01-02" }]
+  },
+  {
+    "name": "Ivy Marsh",
+    "address": "1 Church Street",
+    "pints": 1,
+    "days": ["Fri"],
+    "away": [{ "from": "2026-12-20", "to": "2026-12-24" }]
+  },
+  {
+    "name": "Joe Brennan",
+    "address": "30 Station Road",
+    "pints": 2,
+    "days": ["Thu", "Sat"],
+    "away": [{ "from": "2026-12-24", "to": "2026-12-24" }]
+  },
+  {
+    "name": "Sunita Rao",
+    "address": "2 Station Road",
+    "pints": 1,
+    "days": ["Sat", "Sun"],
+    "away": []
+  }
+]

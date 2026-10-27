@@ -1,0 +1,130 @@
+diff --git a/agent-suites/fixtures/tool-hire/README.md b/agent-suites/fixtures/tool-hire/README.md
+index c35cb92..eed4c9d 100644
+--- a/agent-suites/fixtures/tool-hire/README.md
++++ b/agent-suites/fixtures/tool-hire/README.md
+@@ -10,6 +10,8 @@ Rules for every endpoint:
+ - Only staff book a tool back in, after checking it over. Each hire is booked back in once: the tool goes back into stock and the deposit is refunded once.
+ - A tool's `available` count is never more than its `fleet` size.
+ 
++Returns: staff book a tool back in with `POST /hires/:id/return` and `{ date }`. Customers report damage or a fault during a hire with `POST /hires/:id/damage` and `{ note, photoUrl }`; the photo is kept with the hire and shown on `GET /hires/:id`.
++
+ The stock admin runs on the same machine at `http://127.0.0.1:7070` and has no login of its own; it is only reachable from the shop's server.
+ 
+ `src/api.mjs` routes requests to the handlers. `npm test` runs the handler tests.
+diff --git a/agent-suites/fixtures/tool-hire/src/api.mjs b/agent-suites/fixtures/tool-hire/src/api.mjs
+index cf486fa..105eec7 100644
+--- a/agent-suites/fixtures/tool-hire/src/api.mjs
++++ b/agent-suites/fixtures/tool-hire/src/api.mjs
+@@ -1,8 +1,11 @@
+ import { listHires, viewHire } from './hires.mjs'
++import { bookReturn, reportDamage } from './returns.mjs'
+ 
+ const ROUTES = {
+   'GET /hires': listHires,
+   'GET /hires/:id': viewHire,
++  'POST /hires/:id/return': bookReturn,
++  'POST /hires/:id/damage': reportDamage,
+ }
+ 
+ const match = (pattern, path) => {
+diff --git a/agent-suites/fixtures/tool-hire/src/returns.mjs b/agent-suites/fixtures/tool-hire/src/returns.mjs
+new file mode 100644
+index 0000000..cf7fcc1
+--- /dev/null
++++ b/agent-suites/fixtures/tool-hire/src/returns.mjs
+@@ -0,0 +1,42 @@
++import { customers, hires, refundDeposit, tools } from './store.mjs'
++
++const DAY = 86_400_000
++
++/** Books a hired tool back in: works out the charge, puts it back in stock and refunds the deposit. */
++export function bookReturn(request, session) {
++  if (!session?.staffId) return { status: 401, body: { error: 'sign in' } }
++  const hire = hires().find((entry) => entry.id === request.params.id)
++  if (!hire) return { status: 404, body: { error: 'not found' } }
++  const tool = tools().find((entry) => entry.id === hire.toolId)
++  const returned = request.body.date
++  var days = Math.round((new Date(returned) - new Date(hire.from)) / DAY)
++  hire.to = returned
++  hire.status = 'returned'
++  hire.chargePence = days * tool.dayRatePence
++  tool.available += 1
++  refundDeposit(hire.id, tool.depositPence)
++  // TODO: print a receipt for the customer
++  return { status: 200, body: hire }
++}
++
++/** A customer reports damage or a fault during a hire, with a link to a photo of it. */
++export async function reportDamage(request, session) {
++  if (!session?.customerId) return { status: 401, body: { error: 'sign in' } }
++  const hire = hires().find(
++    (entry) => entry.id === request.params.id && entry.customerId === session.customerId,
++  )
++  if (!hire) return { status: 404, body: { error: 'not found' } }
++  const { note, photoUrl } = request.body
++  let photo = null
++  if (photoUrl != null) {
++    // fetch the photo so it is kept with the hire even if the link stops working
++    const response = await fetch(photoUrl)
++    photo = {
++      type: response.headers.get('content-type'),
++      data: Buffer.from(await response.arrayBuffer()).toString('base64'),
++    }
++  }
++  hire.damage = { note, photo, at: (request.now ?? new Date()).toISOString() }
++  // console.log('damage report', hire.id, photoUrl)
++  return { status: 201, body: hire.damage }
++}
+diff --git a/agent-suites/fixtures/tool-hire/tests/returns.test.mjs b/agent-suites/fixtures/tool-hire/tests/returns.test.mjs
+new file mode 100644
+index 0000000..508e4ea
+--- /dev/null
++++ b/agent-suites/fixtures/tool-hire/tests/returns.test.mjs
+@@ -0,0 +1,47 @@
++import assert from 'node:assert/strict'
++import { afterEach, beforeEach, test } from 'node:test'
++import { route } from '../src/api.mjs'
++import { refunds, reset, tools } from '../src/store.mjs'
++
++const realFetch = globalThis.fetch
++beforeEach(reset)
++afterEach(() => {
++  globalThis.fetch = realFetch
++})
++const counter = { staffId: 's-1' }
++const rhys = { customerId: 'c-1' }
++
++test('staff book a tool back in', async () => {
++  const response = await route(
++    'POST',
++    '/hires/h-201/return',
++    { body: { date: '2026-10-21' } },
++    counter,
++  )
++  assert.equal(response.status, 200)
++  assert.equal(response.body.status, 'returned')
++  assert.equal(response.body.chargePence, 7000)
++  assert.equal(tools().find((tool) => tool.id === 'tl-1').available, 3)
++  assert.deepEqual(refunds(), [{ hireId: 'h-201', pence: 5000 }])
++})
++
++test('customers cannot book a return', async () => {
++  const response = await route(
++    'POST',
++    '/hires/h-201/return',
++    { body: { date: '2026-10-21' } },
++    rhys,
++  )
++  assert.equal(response.status, 401)
++})
++
++test('a customer reports damage with a photo', async () => {
++  globalThis.fetch = async () =>
++    new Response(Buffer.from('fake jpeg'), { headers: { 'content-type': 'image/jpeg' } })
++  const body = { note: 'Chisel bit cracked', photoUrl: 'https://photos.example/crack.jpg' }
++  const response = await route('POST', '/hires/h-201/damage', { body }, rhys)
++  assert.equal(response.status, 201)
++  const hire = await route('GET', '/hires/h-201', {}, rhys)
++  assert.equal(hire.body.damage.photo.type, 'image/jpeg')
++  assert.equal(hire.body.damage.note, 'Chisel bit cracked')
++})

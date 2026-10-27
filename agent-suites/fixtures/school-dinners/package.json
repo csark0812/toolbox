@@ -1,0 +1,10 @@
+{
+  "name": "school-dinners",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "kitchen": "node bin/kitchen.mjs",
+    "bill": "node bin/bill.mjs"
+  }
+}

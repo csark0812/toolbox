@@ -1,0 +1,6 @@
+{
+  "club": "Elm Row Croquet Club",
+  "lawnNames": { "A": "Top lawn", "B": "Orchard lawn", "C": "Pavilion lawn" },
+  "maxPlayersPerLawn": 4,
+  "minPlayersPerLawn": 2
+}

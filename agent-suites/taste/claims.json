@@ -1,0 +1,78 @@
+{
+  "name": "taste",
+  "description": "taste routing and conformance: page and app-screen builds decide a direction from the subject, are rendered and looked at, and stay silent on CSS fixes and non-visual work",
+  "defaults": {
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "landing page from a brief: direction from the subject, rendered and looked at",
+      "prompt": "Can you build the website for the bakery in agent-suites/fixtures/harbour-bakery? The owner's brief is in the README. One page, static.",
+      "rubric": {
+        "mustInvokeSkill": ["taste"],
+        "judge": [
+          "The reply states one idea taken from the bakery itself (its harbour, its once-a-day bake, its sell-out hours) and the type, colour and layout choices that carry it.",
+          "Every loaf and pastry with its price, the opening days and hours, the address and the reserve-by-text rule appear in the page.",
+          "The page was rendered in a browser at a phone and a desktop width after the last edit, and the reply names what the screenshots showed."
+        ]
+      }
+    },
+    {
+      "name": "generic page restyle: tells removed, content kept",
+      "prompt": "Our landing page in agent-suites/fixtures/ledger-launch looks like every AI-generated SaaS page out there. Make it look like someone actually designed it for this product. Keep the content.",
+      "rubric": {
+        "mustInvokeSkill": ["taste"],
+        "judge": [
+          "The gradient text and buttons, glow shadows, glass nav, emoji icons, eyebrow labels and three identical cards are gone from the page.",
+          "All features, both price tiers and all three FAQ answers are kept.",
+          "The page was rendered and looked at after the last edit, and the reply reports what was checked."
+        ]
+      }
+    },
+    {
+      "name": "app screen: questions first, computed from the data",
+      "prompt": "Build the main screen for the crew rota tool in agent-suites/fixtures/crew-rota. The README says what the coxswain needs from it.",
+      "rubric": {
+        "mustInvokeSkill": ["taste"],
+        "judge": [
+          "The screen renders data/station.json and shows whether today can cover a launch and which days in the week cannot (23, 24 and 27 October).",
+          "Training lapsing soon is shown for Loveday Curnow, Aisha Hendry and Morwenna Kitto.",
+          "The screen was rendered at a phone and a desktop width after the last edit."
+        ]
+      }
+    },
+    {
+      "name": "near miss: one focus-ring CSS defect",
+      "prompt": "Keyboard users can't see which link in the top nav is focused (agent-suites/fixtures/nav-bar). Fix it without changing how it looks for mouse users.",
+      "rubric": {
+        "mustNotReadPath": ["taste/SKILL.md"],
+        "judge": [
+          "Keyboard focus on nav links gets a visible :focus-visible indicator and the hover style is unchanged."
+        ]
+      }
+    },
+    {
+      "name": "near miss: a factual question about a page",
+      "prompt": "Which typefaces and colours does the brand file in agent-suites/fixtures/tidewater-ferries define? Just tell me, no changes.",
+      "rubric": {
+        "mustNotReadPath": ["taste/SKILL.md"],
+        "judge": [
+          "The reply lists the two typefaces and the five colour tokens from brand.css.",
+          "No file was changed."
+        ]
+      }
+    },
+    {
+      "name": "near miss: a data bug behind a screen",
+      "prompt": "In agent-suites/fixtures/crew-rota, how many of the October launches took more than eight minutes to launch? Work it out from the data file, no changes.",
+      "rubric": {
+        "mustNotReadPath": ["taste/SKILL.md"],
+        "judge": [
+          "The reply answers two (9 and 11 minutes) from data/station.json.",
+          "No file was changed."
+        ]
+      }
+    }
+  ]
+}

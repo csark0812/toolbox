@@ -1,0 +1,10 @@
+{
+  "name": "minibus-log",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "invoice": "node bin/invoice.mjs",
+    "report": "node bin/report.mjs"
+  }
+}

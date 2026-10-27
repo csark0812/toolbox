@@ -1,0 +1,138 @@
+diff --git a/agent-suites/fixtures/surf-school/README.md b/agent-suites/fixtures/surf-school/README.md
+index a224dd1..6fc3353 100644
+--- a/agent-suites/fixtures/surf-school/README.md
++++ b/agent-suites/fixtures/surf-school/README.md
+@@ -4,12 +4,15 @@ The lesson groups for Porthgwyn Surf School. `data/pupils.json` lists who is boo
+ 
+ ## Groups
+ 
+-Each morning the hut prints the day's groups, one line per level with the pupils in it.
++Each morning the hut prints the day's groups, one line per level with the pupils in it. Anyone whose lesson pack doesn't cover the day is marked, so the hut can sort it out before they go in the water. A pack runs on consecutive days from its first day: a five-day pack bought for Monday covers Monday to Friday.
++
++Everyone needs a pack, children on the free kids' taster included: the taster is issued as a one-day pack at the hut.
+ 
+ ## Usage
+ 
+ ```
+-npm run groups   # today's lesson groups
++npm run groups                # today's lesson groups
++npm run groups -- 2027-07-12  # the groups for another day
+ npm test
+ ```
+ 
+diff --git a/agent-suites/fixtures/surf-school/bin/groups.mjs b/agent-suites/fixtures/surf-school/bin/groups.mjs
+index 7734029..8ec06f4 100644
+--- a/agent-suites/fixtures/surf-school/bin/groups.mjs
++++ b/agent-suites/fixtures/surf-school/bin/groups.mjs
+@@ -1,5 +1,6 @@
+ import { readFileSync } from 'node:fs'
+ import { groups } from '../src/groups.mjs'
+ 
++const day = process.argv[2] ?? new Date().toISOString().slice(0, 10)
+ const pupils = JSON.parse(readFileSync(new URL('../data/pupils.json', import.meta.url), 'utf8'))
+-for (const line of groups(pupils)) console.log(line)
++for (const line of groups(pupils, day)) console.log(line)
+diff --git a/agent-suites/fixtures/surf-school/src/groups.mjs b/agent-suites/fixtures/surf-school/src/groups.mjs
+index b5e123f..912b071 100644
+--- a/agent-suites/fixtures/surf-school/src/groups.mjs
++++ b/agent-suites/fixtures/surf-school/src/groups.mjs
+@@ -1,9 +1,14 @@
++import { packCovers } from './packs.mjs'
++
+ export const LEVELS = ['beginner', 'improver', 'advanced']
+ 
++/** How a pupil appears in their group: anyone whose pack doesn't cover the day is marked. */
++const listed = (pupil, day) => `${pupil.name}${packCovers(pupil.pack, day) ? '' : ' (no pack)'}`
++
+ /** The day's lesson groups: one line per level with the pupils in it. */
+-export function groups(pupils) {
++export function groups(pupils, day) {
+   return LEVELS.map((level) => {
+-    const names = pupils.filter((pupil) => pupil.level === level).map((pupil) => pupil.name)
++    const names = pupils.filter((pupil) => pupil.level === level).map((pupil) => listed(pupil, day))
+     return `${level}: ${names.join(', ') || 'nobody'}`
+   })
+ }
+diff --git a/agent-suites/fixtures/surf-school/src/packs.mjs b/agent-suites/fixtures/surf-school/src/packs.mjs
+new file mode 100644
+index 0000000..7b00c47
+--- /dev/null
++++ b/agent-suites/fixtures/surf-school/src/packs.mjs
+@@ -0,0 +1,12 @@
++const DAY = 86400000
++
++/** The ISO date this many days after another. */
++export const addDays = (date, days) =>
++  new Date(Date.parse(date) + days * DAY).toISOString().slice(0, 10)
++
++/**
++ * Whether a lesson pack covers this day. A pack runs on consecutive days from its first day:
++ * a five-day pack bought for Monday covers Monday to Friday.
++ */
++export const packCovers = (pack, day) =>
++  pack !== null && day >= pack.from && day <= addDays(pack.from, pack.days)
+diff --git a/agent-suites/fixtures/surf-school/tests/groups.test.mjs b/agent-suites/fixtures/surf-school/tests/groups.test.mjs
+index 28818cf..5a78a17 100644
+--- a/agent-suites/fixtures/surf-school/tests/groups.test.mjs
++++ b/agent-suites/fixtures/surf-school/tests/groups.test.mjs
+@@ -3,11 +3,25 @@ import { test } from 'node:test'
+ import { groups } from '../src/groups.mjs'
+ 
+ const pupils = [
+-  { name: 'Ana', age: 9, level: 'beginner', pack: null },
+-  { name: 'Ben', age: 34, level: 'advanced', pack: null },
++  {
++    name: 'Ana',
++    age: 9,
++    level: 'beginner',
++    pack: { from: '2027-07-12', days: 3 },
++  },
++  {
++    name: 'Ben',
++    age: 34,
++    level: 'advanced',
++    pack: { from: '2027-07-12', days: 1 },
++  },
+   { name: 'Cal', age: 12, level: 'beginner', pack: null },
+ ]
+ 
+-test('pupils are grouped by level', () => {
+-  assert.deepEqual(groups(pupils), ['beginner: Ana, Cal', 'improver: nobody', 'advanced: Ben'])
++test('pupils are grouped by level, marking anyone without a pack', () => {
++  assert.deepEqual(groups(pupils, '2027-07-12'), [
++    'beginner: Ana, Cal (no pack)',
++    'improver: nobody',
++    'advanced: Ben',
++  ])
+ })
+diff --git a/agent-suites/fixtures/surf-school/tests/packs.test.mjs b/agent-suites/fixtures/surf-school/tests/packs.test.mjs
+new file mode 100644
+index 0000000..4ec0154
+--- /dev/null
++++ b/agent-suites/fixtures/surf-school/tests/packs.test.mjs
+@@ -0,0 +1,25 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { packCovers } from '../src/packs.mjs'
++
++const fiveDays = { from: '2027-07-07', days: 5 }
++
++test('a pack covers its first day', () => {
++  assert.equal(packCovers(fiveDays, '2027-07-07'), true)
++})
++
++test('a five-day pack covers its fifth day', () => {
++  assert.equal(packCovers(fiveDays, '2027-07-11'), true)
++})
++
++test('a five-day pack has run out by the sixth day', () => {
++  assert.equal(packCovers(fiveDays, '2027-07-12'), false)
++})
++
++test('a pack does not cover the day before it starts', () => {
++  assert.equal(packCovers(fiveDays, '2027-07-06'), false)
++})
++
++test('no pack covers nothing', () => {
++  assert.equal(packCovers(null, '2027-07-07'), false)
++})

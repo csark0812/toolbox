@@ -2620,45 +2620,6 @@
       "compareId": null
     },
     {
-      "id": "interface-design:1",
-      "suite": "interface-design",
-      "name": "unsettled web direction",
-      "claimSource": "agent-suites/interface-design/claims.json",
-      "seed": null,
-      "rubric": {
-        "mustInvokeSkill": ["interface-design"],
-        "judge": [
-          "The response proposes three conceptually distinct visual boards with content, layout, type, color and fit or risk, and holds final implementation for a user direction choice. It reserves disposable first-screen renders for choices that need layout or motion proof.",
-          "The response treats real dashboard content, states, accessibility and responsive proof as required before completion. It makes no unsupported claim of having rendered the design."
-        ]
-      },
-      "assertion": "semantic judge checks routing and evidence using read-only fixture",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": null
-    },
-    {
-      "id": "interface-design:2",
-      "suite": "interface-design",
-      "name": "existing direction",
-      "claimSource": "agent-suites/interface-design/claims.json",
-      "seed": null,
-      "rubric": {
-        "mustInvokeSkill": ["interface-design"],
-        "judge": [
-          "The response accepts the supplied direction without asking for three new boards or another choice. It plans concrete content, reachable states, responsive, accessibility and rendered verification."
-        ]
-      },
-      "assertion": "semantic judge checks routing and evidence using read-only fixture",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": null
-    },
-    {
       "id": "css-craft:1",
       "suite": "css-craft",
       "name": "focused CSS defect",
@@ -2697,63 +2658,6 @@
       "compareId": null
     },
     {
-      "id": "interface-design:3",
-      "suite": "interface-design",
-      "name": "native app route",
-      "claimSource": "agent-suites/interface-design/claims.json",
-      "seed": null,
-      "rubric": {
-        "mustInvokeSkill": ["interface-design"],
-        "judge": [
-          "The response gives a native iPhone brief around the daily action, platform, assets, deliverable, and native verification. It does not claim that web screenshots prove native behavior or begin a browser page build."
-        ]
-      },
-      "assertion": "semantic routing judge using read-only agent trace",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": null
-    },
-    {
-      "id": "interface-design:4",
-      "suite": "interface-design",
-      "name": "standalone media route",
-      "claimSource": "agent-suites/interface-design/claims.json",
-      "seed": null,
-      "rubric": {
-        "mustInvokeSkill": ["interface-design"],
-        "judge": [
-          "The response treats this as standalone media, naming audience, duration, format, concept and proof or specialist needs. It does not treat UI animation or a web screen as finished video production."
-        ]
-      },
-      "assertion": "semantic routing judge using read-only agent trace",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": null
-    },
-    {
-      "id": "interface-design:5",
-      "suite": "interface-design",
-      "name": "code review route",
-      "claimSource": "agent-suites/interface-design/claims.json",
-      "seed": null,
-      "rubric": {
-        "mustInvokeSkill": ["code-review"],
-        "judge": [
-          "The response uses a review evidence approach and does not launch visual concept boards or a new interface implementation. It reports an evidence boundary if no actual diff was supplied."
-        ]
-      },
-      "assertion": "semantic routing judge using read-only agent trace",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": null
-    },
-    {
       "id": "css-craft:3",
       "suite": "css-craft",
       "name": "local design contract",
@@ -2763,61 +2667,6 @@
         "mustInvokeSkill": ["css-craft"],
         "judge": [
           "The response reads the local design contract and preserves semantic tokens and component variants. It does not recommend raw consumer values or editing protected shared UI without approval. It treats the overflow as a focused layout defect."
-        ]
-      },
-      "assertion": "semantic routing judge using read-only agent trace",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": null
-    },
-    {
-      "id": "design-legacy-comparison:1",
-      "suite": "design-legacy-comparison",
-      "name": "legacy web direction baseline",
-      "claimSource": "agent-suites/design-legacy-comparison/claims.json",
-      "seed": null,
-      "rubric": {
-        "judge": [
-          "Tool evidence establishes reading the archived frontend-design skill. The response accounts for user task, content, responsive behavior and accessibility, and does not claim a render it did not perform."
-        ]
-      },
-      "assertion": "isolated archived-skill baseline with semantic judge and tool trace",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": null
-    },
-    {
-      "id": "design-legacy-comparison:2",
-      "suite": "design-legacy-comparison",
-      "name": "legacy CSS baseline",
-      "claimSource": "agent-suites/design-legacy-comparison/claims.json",
-      "seed": null,
-      "rubric": {
-        "judge": [
-          "Tool evidence establishes reading the archived modern-css skill and its layout reference. The response addresses the layout cause and narrow-width verification without inventing a rendered result."
-        ]
-      },
-      "assertion": "isolated archived-skill baseline with semantic judge and tool trace",
-      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
-      "metric": "normalized-v1",
-      "consumer": "scripts/lib/evidence-v2.mjs",
-      "skipped": false,
-      "compareId": null
-    },
-    {
-      "id": "interface-design:6",
-      "suite": "interface-design",
-      "name": "new public site route",
-      "claimSource": "agent-suites/interface-design/claims.json",
-      "seed": null,
-      "rubric": {
-        "mustInvokeSkill": ["interface-design"],
-        "judge": [
-          "The response treats this as a new website, proposes three distinct concept boards with hierarchy, type, color and fit or risk, and waits for user direction before product implementation. It identifies responsive and rendered proof as later gates without claiming those checks ran."
         ]
       },
       "assertion": "semantic routing judge using read-only agent trace",
@@ -2855,10 +2704,10 @@
       "rubric": {
         "mustInvokeSkill": ["hillclimb"],
         "judge": [
-          "Before changing source, the agent stated the metric, the target and a stop predicate with a minimum attempt count, and recorded a baseline from the benchmark output.",
+          "Before changing source, the agent stated the metric, the target and a stop rule (target with margin and an attempt budget), and recorded a baseline from the benchmark output.",
           "Every kept change is its own commit that stages explicit paths; no `git add -A` or `git add .` appears in tool calls, and the decision log is not committed.",
           "The decision log under .hillclimb records the baseline and each attempt, including any reverted attempt, with before and after values.",
-          "The final reply reports baseline to final with run count and spread or range, lists kept commits and reverted hypotheses, and states whether the stop predicate was met."
+          "The final reply reports baseline to final with run count and spread or range, lists kept commits and reverted hypotheses, and states whether the target was met with margin."
         ]
       },
       "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
@@ -2898,7 +2747,7 @@
       "rubric": {
         "mustInvokeSkill": ["hillclimb"],
         "judge": [
-          "The agent proposes a concrete numeric target and a stop predicate and asks the user to confirm it.",
+          "The agent proposes a concrete numeric target and a stop rule and asks the user to confirm it.",
           "No file under src/ was changed before that confirmation."
         ]
       },
@@ -3248,6 +3097,128 @@
         ]
       },
       "assertion": "automatic orchestrator routing (invoked or not read) + playbook steps verbatim in task-list tool calls + reply contract judge + repair contract or frozen harness where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "taste:1",
+      "suite": "taste",
+      "name": "landing page from a brief: direction from the subject, rendered and looked at",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["taste"],
+        "judge": [
+          "The reply states one idea taken from the bakery itself (its harbour, its once-a-day bake, its sell-out hours) and the type, colour and layout choices that carry it.",
+          "Every loaf and pastry with its price, the opening days and hours, the address and the reserve-by-text rule appear in the page.",
+          "The page was rendered in a browser at a phone and a desktop width after the last edit, and the reply names what the screenshots showed."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "taste:2",
+      "suite": "taste",
+      "name": "generic page restyle: tells removed, content kept",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["taste"],
+        "judge": [
+          "The gradient text and buttons, glow shadows, glass nav, emoji icons, eyebrow labels and three identical cards are gone from the page.",
+          "All features, both price tiers and all three FAQ answers are kept.",
+          "The page was rendered and looked at after the last edit, and the reply reports what was checked."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "taste:3",
+      "suite": "taste",
+      "name": "app screen: questions first, computed from the data",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["taste"],
+        "judge": [
+          "The screen renders data/station.json and shows whether today can cover a launch and which days in the week cannot (23, 24 and 27 October).",
+          "Training lapsing soon is shown for Loveday Curnow, Aisha Hendry and Morwenna Kitto.",
+          "The screen was rendered at a phone and a desktop width after the last edit."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "taste:4",
+      "suite": "taste",
+      "name": "near miss: one focus-ring CSS defect",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["taste/SKILL.md"],
+        "judge": [
+          "Keyboard focus on nav links gets a visible :focus-visible indicator and the hover style is unchanged."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "taste:5",
+      "suite": "taste",
+      "name": "near miss: a factual question about a page",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["taste/SKILL.md"],
+        "judge": [
+          "The reply lists the two typefaces and the five colour tokens from brand.css.",
+          "No file was changed."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "taste:6",
+      "suite": "taste",
+      "name": "near miss: a data bug behind a screen",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["taste/SKILL.md"],
+        "judge": [
+          "The reply answers two (9 and 11 minutes) from data/station.json.",
+          "No file was changed."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
       "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
       "metric": "normalized-v1",
       "consumer": "scripts/lib/evidence-v2.mjs",

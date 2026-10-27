@@ -1,0 +1,11 @@
+{
+  "name": "ice-rink",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "today": "node bin/today.mjs",
+    "report": "node bin/report.mjs",
+    "busiest": "node bin/busiest.mjs"
+  }
+}

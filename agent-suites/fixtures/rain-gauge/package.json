@@ -1,0 +1,9 @@
+{
+  "name": "rain-gauge",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "daily": "node bin/daily.mjs"
+  }
+}

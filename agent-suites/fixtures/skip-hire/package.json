@@ -1,0 +1,15 @@
+{
+  "name": "skip-hire",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./hire": "./src/hire.mjs"
+  },
+  "scripts": {
+    "test": "node --test",
+    "quote": "node bin/quote.mjs",
+    "letters": "node bin/letters.mjs",
+    "permits": "node bin/permits.mjs",
+    "reminders": "sh ops/permit-reminders.sh"
+  }
+}

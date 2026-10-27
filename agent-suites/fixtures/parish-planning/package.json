@@ -1,0 +1,8 @@
+{
+  "name": "parish-planning",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve ."
+  }
+}

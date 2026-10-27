@@ -1,0 +1,11 @@
+{
+  "name": "clock-repair",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "queue": "node bin/queue.mjs",
+    "invoice": "node bin/invoice.mjs",
+    "export": "node bin/export.mjs"
+  }
+}

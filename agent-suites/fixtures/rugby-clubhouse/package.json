@@ -1,0 +1,12 @@
+{
+  "name": "rugby-clubhouse",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "report": "node bin/report.mjs",
+    "year": "node bin/year.mjs",
+    "export": "node bin/export.mjs",
+    "add": "node bin/add.mjs"
+  }
+}

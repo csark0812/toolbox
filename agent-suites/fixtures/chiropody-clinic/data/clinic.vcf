@@ -1,0 +1,7 @@
+BEGIN:VCARD
+VERSION:3.0
+ORG:Fernside Foot Clinic
+ADR;TYPE=WORK:;;14 Mill Street;Westmoor;;WM4 2JD;UK
+TEL;TYPE=WORK,VOICE:+44 1632 960123
+URL:https://fernside-feet.example.invalid
+END:VCARD

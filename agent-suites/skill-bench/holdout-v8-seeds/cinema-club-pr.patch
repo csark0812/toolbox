@@ -1,0 +1,76 @@
+diff --git a/agent-suites/fixtures/cinema-club/README.md b/agent-suites/fixtures/cinema-club/README.md
+index 8b4a2a9..fd32c25 100644
+--- a/agent-suites/fixtures/cinema-club/README.md
++++ b/agent-suites/fixtures/cinema-club/README.md
+@@ -2,6 +2,8 @@
+ 
+ Ticket prices for the Lantern community cinema. `data/screenings.json` lists this month's screenings. Matinees (starting before 17:00) are £7.50 and evening screenings £10.00.
+ 
++Club members get 20% off and concessions (students, over-65s, carers) get £2 off. The two don't stack: a member who is also a concession pays whichever price is lower for them.
++
+ ## Usage
+ 
+ ```
+diff --git a/agent-suites/fixtures/cinema-club/bin/prices.mjs b/agent-suites/fixtures/cinema-club/bin/prices.mjs
+index 2e09186..bd42bb4 100644
+--- a/agent-suites/fixtures/cinema-club/bin/prices.mjs
++++ b/agent-suites/fixtures/cinema-club/bin/prices.mjs
+@@ -1,10 +1,11 @@
+ import { readFileSync } from 'node:fs'
+ import { basePrice, money } from '../src/prices.mjs'
++import { ticketPrice } from '../src/tickets.mjs'
+ 
+ const screenings = JSON.parse(
+   readFileSync(new URL('../data/screenings.json', import.meta.url), 'utf8'),
+ )
+ for (const screening of screenings)
+   console.log(
+-    `${screening.date} ${screening.time}  ${screening.film.padEnd(16)}${money(basePrice(screening))}`,
++    `${screening.date} ${screening.time}  ${screening.film.padEnd(16)}${money(basePrice(screening))}  members ${money(ticketPrice(screening, { member: true }))}  concessions ${money(ticketPrice(screening, { concession: true }))}`,
+   )
+diff --git a/agent-suites/fixtures/cinema-club/src/tickets.mjs b/agent-suites/fixtures/cinema-club/src/tickets.mjs
+new file mode 100644
+index 0000000..602b43b
+--- /dev/null
++++ b/agent-suites/fixtures/cinema-club/src/tickets.mjs
+@@ -0,0 +1,13 @@
++import { EVENING } from './prices.mjs'
++
++export const MEMBER_OFF = 0.2
++export const CONCESSION_OFF = 200
++
++/** A ticket's price in pence: members get 20% off, concessions £2 off, and never both. */
++export function ticketPrice(screening, { member = false, concession = false } = {}) {
++  const full = EVENING
++  const options = [full]
++  if (member) options.push(Math.round(full * (1 - MEMBER_OFF)))
++  if (concession) options.push(full - CONCESSION_OFF)
++  return Math.min(...options)
++}
+diff --git a/agent-suites/fixtures/cinema-club/tests/tickets.test.mjs b/agent-suites/fixtures/cinema-club/tests/tickets.test.mjs
+new file mode 100644
+index 0000000..75563de
+--- /dev/null
++++ b/agent-suites/fixtures/cinema-club/tests/tickets.test.mjs
+@@ -0,0 +1,21 @@
++import assert from 'node:assert/strict'
++import { test } from 'node:test'
++import { ticketPrice } from '../src/tickets.mjs'
++
++const evening = { id: 'S1', date: '2026-11-06', time: '19:30', film: 'Local Hero' }
++
++test('members get 20% off', () => {
++  assert.equal(ticketPrice(evening, { member: true }), 800)
++})
++
++test('concessions get £2 off', () => {
++  assert.equal(ticketPrice(evening, { concession: true }), 800)
++})
++
++test('the discounts do not stack: the customer gets the better one', () => {
++  assert.equal(ticketPrice(evening, { member: true, concession: true }), 800)
++})
++
++test('no discount pays full price', () => {
++  assert.equal(ticketPrice(evening), 1000)
++})

@@ -1,0 +1,86 @@
+{
+  "trips": [
+    {
+      "code": "T-250614",
+      "destination": "Weymouth",
+      "date": "14/6/2025",
+      "departs": "08:00",
+      "seats": 49,
+      "farePence": 2000
+    },
+    {
+      "code": "T-250906",
+      "destination": "Ironbridge",
+      "date": "06/09/2025",
+      "departs": "08:15",
+      "seats": 49,
+      "farePence": 2600
+    },
+    {
+      "code": "T-251004",
+      "destination": "Kew Gardens",
+      "date": "4-10-2025",
+      "departs": "07:45",
+      "seats": 49,
+      "farePence": 3300
+    },
+    {
+      "code": "T-251129",
+      "destination": "Bath Christmas Market",
+      "date": "29/11/2025",
+      "departs": "09:00",
+      "seats": 53,
+      "farePence": 1700
+    }
+  ],
+  "bookings": [
+    {
+      "ref": "B-0101",
+      "trip": "T-250614",
+      "name": "Joan Pike",
+      "seats": 2,
+      "bookedOn": "02/05/2025",
+      "paid": true
+    },
+    {
+      "ref": "B-0102",
+      "trip": "T-250614",
+      "name": "Harold Venn",
+      "seats": 1,
+      "bookedOn": "10/6/2025",
+      "paid": true
+    },
+    {
+      "ref": "B-0103",
+      "trip": "T-250906",
+      "name": "Margaret Osei",
+      "seats": 3,
+      "bookedOn": "01/08/2025",
+      "paid": true
+    },
+    {
+      "ref": "B-0104",
+      "trip": "T-251004",
+      "name": "Ken Ali",
+      "seats": 2,
+      "bookedOn": "12-09-2025",
+      "paid": true
+    },
+    {
+      "ref": "B-0105",
+      "trip": "T-251004",
+      "name": "Doreen Fry",
+      "seats": 4,
+      "bookedOn": "30/09/2025",
+      "paid": true
+    },
+    {
+      "ref": "B-0106",
+      "trip": "T-251129",
+      "name": "Philip Marsh",
+      "seats": 5,
+      "bookedOn": "03/11/2025",
+      "paid": true
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "livery-yard",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./feeds": "./src/feeds.mjs"
+  },
+  "scripts": {
+    "test": "node --test",
+    "board": "node bin/board.mjs",
+    "invoices": "node bin/invoices.mjs",
+    "morning": "sh ops/morning.sh"
+  }
+}

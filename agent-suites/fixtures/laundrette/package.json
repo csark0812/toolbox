@@ -1,0 +1,9 @@
+{
+  "name": "laundrette",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "bills": "node bin/bills.mjs"
+  }
+}

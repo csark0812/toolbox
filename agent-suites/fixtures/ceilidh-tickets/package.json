@@ -1,0 +1,9 @@
+{
+  "name": "ceilidh-tickets",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "headcount": "node bin/headcount.mjs"
+  }
+}

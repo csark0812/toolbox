@@ -1,0 +1,12 @@
+Dear {name},
+
+Thank you for bringing {layout} to this year's exhibition. You are on stand {stand}.
+
+Set-up is on Friday 12th March from 2pm; the hall is ours until 10pm. Doors open to the
+public at 10am on the Saturday, and we close at 5pm. Takedown is on Sunday 14th March,
+9am to 12 noon, and please don't start packing before the hall is cleared on Saturday.
+
+Please bring your PAT certificate; yours is on our list as valid until {pat}.
+
+Best wishes,
+Alan Moss, Exhibition Manager

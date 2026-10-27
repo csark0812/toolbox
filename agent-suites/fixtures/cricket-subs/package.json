@@ -1,0 +1,9 @@
+{
+  "name": "cricket-subs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "subs": "node bin/subs.mjs"
+  }
+}

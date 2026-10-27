@@ -1,0 +1,5 @@
+{
+  "default": "Hi {name}, a reminder of your appointment at Fernside Foot Clinic on {day} at {time}. To change it, call {phone}.",
+  "new": "Hi {name}, welcome to Fernside Foot Clinic. Your first appointment is {day} at {time}. Please arrive 10 minutes early. Questions? Call {phone}.",
+  "nails": "Hi {name}, your nail care appointment is {day} at {time}. Missed it last time? Call 01632 960123 to rebook."
+}

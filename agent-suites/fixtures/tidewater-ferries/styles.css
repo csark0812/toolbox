@@ -1,0 +1,33 @@
+body {
+  font-family: var(--tw-font-text);
+  margin: 10px;
+  color: var(--tw-slate);
+}
+.top {
+  background: var(--tw-estuary);
+  color: white;
+  padding: 6px;
+  font-size: 13px;
+}
+h1 {
+  color: var(--tw-buoy);
+  font-size: 22px;
+}
+.box {
+  background: yellow;
+  padding: 4px;
+  border: 2px solid red;
+}
+table {
+  width: 900px;
+  border-collapse: collapse;
+}
+td,
+th {
+  padding: 3px;
+  font-size: 13px;
+}
+.small {
+  font-size: 11px;
+  color: gray;
+}

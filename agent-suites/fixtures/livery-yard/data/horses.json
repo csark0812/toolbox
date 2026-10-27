@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Bramble",
+    "box": 4,
+    "owner": "J. Ashdown",
+    "weightKg": 520,
+    "workload": "medium",
+    "livery": "full",
+    "hardFeed": "conditioning"
+  },
+  {
+    "name": "Pickle",
+    "box": 11,
+    "owner": "R. Mensah",
+    "weightKg": 310,
+    "workload": "light",
+    "livery": "part",
+    "hardFeed": "cool"
+  },
+  {
+    "name": "Duke",
+    "box": 2,
+    "owner": "S. Varga",
+    "weightKg": 640,
+    "workload": "hard",
+    "livery": "full",
+    "hardFeed": "conditioning"
+  },
+  {
+    "name": "Moss",
+    "box": 7,
+    "owner": "J. Ashdown",
+    "weightKg": 455,
+    "workload": "rest",
+    "livery": "diy",
+    "hardFeed": null
+  },
+  {
+    "name": "Tilly",
+    "box": 15,
+    "owner": "K. O'Neill",
+    "weightKg": 398,
+    "workload": "light",
+    "livery": "diy",
+    "hardFeed": "senior"
+  },
+  {
+    "name": "Fable",
+    "box": 9,
+    "owner": "P. Laurent",
+    "weightKg": 575,
+    "workload": "medium",
+    "livery": "part",
+    "hardFeed": "cool"
+  }
+]

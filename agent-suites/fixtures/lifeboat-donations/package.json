@@ -1,0 +1,9 @@
+{
+  "name": "lifeboat-donations",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "claim": "node bin/claim.mjs"
+  }
+}

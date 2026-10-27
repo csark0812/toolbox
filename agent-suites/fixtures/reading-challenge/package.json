@@ -1,0 +1,10 @@
+{
+  "name": "reading-challenge",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "board": "node bin/board.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

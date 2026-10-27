@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Lone Star throw",
+    "width": 60,
+    "length": 72,
+    "pieces": ["calc_backing", "calc_batting", "calc_binding"]
+  },
+  {
+    "name": "Log cabin king",
+    "width": 104,
+    "length": 98,
+    "pieces": ["calc_backing", "calc_batting", "calc_binding"]
+  },
+  {
+    "name": "Hexie table runner",
+    "width": 14,
+    "length": 48,
+    "pieces": ["calc_backing", "calc_binding"]
+  },
+  {
+    "name": "Baby nine-patch",
+    "width": 36,
+    "length": 42,
+    "pieces": ["calc_backing", "calc_batting", "calc_binding"]
+  }
+]

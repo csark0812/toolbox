@@ -1,0 +1,9 @@
+{
+  "name": "tenpin-league",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "games": "node bin/games.mjs"
+  }
+}

@@ -1,0 +1,48 @@
+[
+  {
+    "ref": "C-301",
+    "customer": "Okafor–Hale wedding",
+    "date": "2026-11-07",
+    "flavour": "fruit",
+    "style": "wedding",
+    "tiers": [
+      { "shape": "round", "size": 12 },
+      { "shape": "round", "size": 9 },
+      { "shape": "round", "size": 6 }
+    ],
+    "miles": 14
+  },
+  {
+    "ref": "C-302",
+    "customer": "Priya's 40th",
+    "date": "2026-11-08",
+    "flavour": "chocolate",
+    "style": "party",
+    "tiers": [
+      { "shape": "square", "size": 10 },
+      { "shape": "round", "size": 10 }
+    ],
+    "miles": 3
+  },
+  {
+    "ref": "C-303",
+    "customer": "Lindqvist anniversary",
+    "date": "2026-11-14",
+    "flavour": "sponge",
+    "tiers": [{ "shape": "heart", "size": 8 }],
+    "miles": 0
+  },
+  {
+    "ref": "C-304",
+    "customer": "Marsh–Bevan wedding",
+    "date": "2026-11-21",
+    "flavour": "sponge",
+    "style": "wedding",
+    "tiers": [
+      { "shape": "round", "size": 16 },
+      { "shape": "square", "size": 11 },
+      { "shape": "round", "size": 8 }
+    ],
+    "miles": 27
+  }
+]

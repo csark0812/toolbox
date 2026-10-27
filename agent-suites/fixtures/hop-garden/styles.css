@@ -1,0 +1,267 @@
+:root {
+  --bg: #f6f3ea;
+  --surface: #ffffff;
+  --ink: #23301f;
+  --muted: #8b9184;
+  --brand: #3d6b2f;
+  --brand-dark: #2c4f22;
+  --on-brand: #ffffff;
+  --line: #dcd8c9;
+  --amber: #c98a12;
+  --header-h: 64px;
+}
+
+/* Printing: leave the buttons and the menu off the paper. */
+@media print {
+  .site-nav,
+  .print-btn,
+  .sidebar {
+    display: none;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding-top: var(--header-h);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Gill Sans', 'Trebuchet MS', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--brand);
+}
+
+/* Header: stays at the top of the window while you scroll. */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: var(--header-h);
+  padding: 0 24px;
+  background: var(--brand);
+  color: var(--on-brand);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  margin-right: auto;
+  line-height: 1.2;
+}
+
+.brand__name {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.brand__dates {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.site-nav {
+  display: flex;
+  gap: 18px;
+}
+
+.site-nav a {
+  color: var(--on-brand);
+  text-decoration: none;
+}
+
+.print-btn {
+  padding: 8px 14px;
+  border: 1px solid rgb(255 255 255 / 0.6);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--on-brand);
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+/* Two columns: the filters on the left, the rota on the right. */
+
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 24px;
+}
+
+.sidebar {
+  display: block;
+  align-self: start;
+  padding: 18px;
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.sidebar__title {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.filter {
+  display: block;
+  padding: 4px 0;
+}
+
+.sidebar__hint {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.page {
+  min-width: 0;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+}
+
+.intro {
+  max-width: 60ch;
+  margin: 0 0 4px;
+}
+
+.updated {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.day {
+  margin-bottom: 32px;
+}
+
+.day h2 {
+  margin: 0 0 10px;
+  font-size: 1.4rem;
+}
+
+.day__date {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* The rota tables scroll sideways inside their section on narrow screens. */
+
+.day {
+  overflow-x: auto;
+}
+
+.rota {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  background: var(--surface);
+}
+
+.rota th {
+  padding: 10px 12px;
+  background: var(--brand-dark);
+  color: var(--on-brand);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.rota td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.rota tr.is-cancelled {
+  opacity: 0.45;
+}
+
+.status {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.status--full {
+  background: var(--brand);
+}
+
+.status--short {
+  background: var(--amber);
+}
+
+.status--cancelled {
+  background: #7d7d7d;
+}
+
+.notes {
+  padding: 20px;
+  border-left: 4px solid var(--brand);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.notes h2 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+}
+
+.notes__small {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.site-footer {
+  padding: 24px;
+  background: var(--brand-dark);
+  color: #cfe0c6;
+  text-align: center;
+}
+
+.site-footer a {
+  color: #ffffff;
+}
+
+.back-to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--on-brand);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .site-nav {
+    display: none;
+  }
+}

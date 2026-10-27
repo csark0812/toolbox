@@ -1,0 +1,11 @@
+{
+  "name": "scout-badges",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "awards": "node bin/awards.mjs",
+    "census": "node bin/census.mjs",
+    "section": "node bin/section.mjs"
+  }
+}

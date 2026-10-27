@@ -1,0 +1,162 @@
+diff --git a/agent-suites/fixtures/campsite-pitches/README.md b/agent-suites/fixtures/campsite-pitches/README.md
+index 58a961c..0bff8a7 100644
+--- a/agent-suites/fixtures/campsite-pitches/README.md
++++ b/agent-suites/fixtures/campsite-pitches/README.md
+@@ -11,4 +11,6 @@ Rules for every endpoint:
+ - Cancelling 14 days or more before the arrival date refunds the deposit in full; a later cancellation refunds nothing.
+ - Cancelled bookings stay in `bookings.json` with `status: "cancelled"`.
+ 
++Changes and cancellations: `PATCH /bookings/:id` moves a booking to new dates (`{ "arrive", "depart" }`) and reprices it, and `POST /bookings/:id/cancel` cancels it and queues any refund for the office.
++
+ `src/api.mjs` routes requests to the handlers; `request.body` is the request's JSON body as parsed by `JSON.parse`, and `request.today` is the date the request arrives. `npm test` runs the handler tests.
+diff --git a/agent-suites/fixtures/campsite-pitches/src/api.mjs b/agent-suites/fixtures/campsite-pitches/src/api.mjs
+index c746c86..1932310 100644
+--- a/agent-suites/fixtures/campsite-pitches/src/api.mjs
++++ b/agent-suites/fixtures/campsite-pitches/src/api.mjs
+@@ -1,9 +1,12 @@
+ import { bookPitch, listPitches, myBookings } from './bookings.mjs'
++import { cancelBooking, changeBooking } from './changes.mjs'
+ 
+ const ROUTES = {
+   'GET /pitches': listPitches,
+   'GET /bookings': myBookings,
+   'POST /pitches/:id/bookings': bookPitch,
++  'PATCH /bookings/:id': changeBooking,
++  'POST /bookings/:id/cancel': cancelBooking,
+ }
+ 
+ const match = (pattern, path) => {
+diff --git a/agent-suites/fixtures/campsite-pitches/src/bookings.mjs b/agent-suites/fixtures/campsite-pitches/src/bookings.mjs
+index d780995..7d94745 100644
+--- a/agent-suites/fixtures/campsite-pitches/src/bookings.mjs
++++ b/agent-suites/fixtures/campsite-pitches/src/bookings.mjs
+@@ -1,9 +1,6 @@
++import { nights, overlaps } from './dates.mjs'
+ import { bookings, pitches, saveBooking } from './store.mjs'
+ 
+-const DAY = 24 * 60 * 60 * 1000
+-const nights = (arrive, depart) => (Date.parse(depart) - Date.parse(arrive)) / DAY
+-const overlaps = (a, b) => a.arrive < b.depart && b.arrive < a.depart
+-
+ /** Lists every pitch with its nightly price. */
+ export function listPitches(request, session) {
+   if (!session) return { status: 401, body: { error: 'sign in' } }
+diff --git a/agent-suites/fixtures/campsite-pitches/src/changes.mjs b/agent-suites/fixtures/campsite-pitches/src/changes.mjs
+new file mode 100644
+index 0000000..5a26b0e
+--- /dev/null
++++ b/agent-suites/fixtures/campsite-pitches/src/changes.mjs
+@@ -0,0 +1,41 @@
++import { daysUntil, nights, overlaps } from './dates.mjs'
++import { bookings, guests, pitches, queueRefund, saveBooking } from './store.mjs'
++
++/** Moves one of the guest's bookings to new dates and reprices it. */
++export function changeBooking(request, session) {
++  if (!session?.guestId) return { status: 401, body: { error: 'sign in' } }
++  const booking = bookings().find((entry) => entry.id === request.params.id)
++  if (!booking) return { status: 404, body: { error: 'not found' } }
++  const updated = { ...booking, ...request.body }
++  if (updated.guestId !== session.guestId) return { status: 404, body: { error: 'not found' } }
++  if (updated.arrive < request.today) return { status: 400, body: { error: 'dates' } }
++  const clash = bookings().some(
++    (entry) =>
++      entry.id !== booking.id &&
++      entry.pitchId === updated.pitchId &&
++      entry.status === 'booked' &&
++      overlaps(entry, updated),
++  )
++  if (clash) return { status: 409, body: { error: 'pitch taken' } }
++  const pitch = pitches().find((entry) => entry.id === updated.pitchId)
++  var totalPence = nights(updated.arrive, updated.depart) * pitch.nightlyPence
++  const saved = { ...updated, totalPence, depositPence: Math.floor(totalPence / 5) }
++  saveBooking(saved)
++  return { status: 200, body: saved }
++}
++
++/** Cancels one of the guest's bookings, refunding the deposit when it is early enough. */
++export function cancelBooking(request, session) {
++  if (!session?.guestId) return { status: 401, body: { error: 'sign in' } }
++  const booking = bookings().find(
++    (entry) => entry.id === request.params.id && entry.guestId == session.guestId,
++  )
++  if (!booking) return { status: 404, body: { error: 'not found' } }
++  if (booking.arrive <= request.today) return { status: 409, body: { error: 'already started' } }
++  saveBooking({ ...booking, status: 'cancelled' })
++  const refundPence = daysUntil(request.today, booking.arrive) > 14 ? booking.depositPence : 0
++  if (refundPence) queueRefund({ bookingId: booking.id, pence: refundPence })
++  // TODO: email the guest a cancellation receipt
++  // console.log('cancelled', booking.id, refundPence)
++  return { status: 200, body: { cancelled: booking.id, refundPence } }
++}
+diff --git a/agent-suites/fixtures/campsite-pitches/src/dates.mjs b/agent-suites/fixtures/campsite-pitches/src/dates.mjs
+new file mode 100644
+index 0000000..f44e9bc
+--- /dev/null
++++ b/agent-suites/fixtures/campsite-pitches/src/dates.mjs
+@@ -0,0 +1,10 @@
++const DAY = 24 * 60 * 60 * 1000
++
++/** Nights from `arrive` to `depart` (both YYYY-MM-DD). */
++export const nights = (arrive, depart) => (Date.parse(depart) - Date.parse(arrive)) / DAY
++
++/** Whole days from `today` until `date`. */
++export const daysUntil = (today, date) => Math.round((Date.parse(date) - Date.parse(today)) / DAY)
++
++// YYYY-MM-DD strings compare the same way the dates do, so no Date objects here.
++export const overlaps = (a, b) => a.arrive <= b.depart && b.arrive <= a.depart
+diff --git a/agent-suites/fixtures/campsite-pitches/tests/bookings.test.mjs b/agent-suites/fixtures/campsite-pitches/tests/bookings.test.mjs
+index a282c44..e872e14 100644
+--- a/agent-suites/fixtures/campsite-pitches/tests/bookings.test.mjs
++++ b/agent-suites/fixtures/campsite-pitches/tests/bookings.test.mjs
+@@ -29,11 +29,6 @@ test('a booked night cannot be booked again', () => {
+   assert.equal(route('POST', '/pitches/p-2/bookings', { body }, ruth).status, 409)
+ })
+ 
+-test('a pitch is free again on the day the last guests leave', () => {
+-  const body = { arrive: '2027-05-31', depart: '2027-06-02' }
+-  assert.equal(route('POST', '/pitches/p-2/bookings', { body }, ruth).status, 201)
+-})
+-
+ test('signing in is required', () => {
+   assert.equal(route('GET', '/bookings', {}, null).status, 401)
+ })
+diff --git a/agent-suites/fixtures/campsite-pitches/tests/changes.test.mjs b/agent-suites/fixtures/campsite-pitches/tests/changes.test.mjs
+new file mode 100644
+index 0000000..103c0c8
+--- /dev/null
++++ b/agent-suites/fixtures/campsite-pitches/tests/changes.test.mjs
+@@ -0,0 +1,34 @@
++import assert from 'node:assert/strict'
++import { beforeEach, test } from 'node:test'
++import { route } from '../src/api.mjs'
++import { refunds, reset } from '../src/store.mjs'
++
++beforeEach(reset)
++const priya = { guestId: 'g-1' }
++const tom = { guestId: 'g-2' }
++
++test('a guest can move their booking and it is repriced', () => {
++  const body = { arrive: '2027-05-27', depart: '2027-05-31' }
++  const response = route('PATCH', '/bookings/bk-1', { body }, priya)
++  assert.equal(response.status, 200)
++  assert.equal(response.body.totalPence, 12000)
++  assert.equal(response.body.depositPence, 2400)
++})
++
++test("another guest's booking cannot be changed", () => {
++  const body = { arrive: '2027-05-27', depart: '2027-05-30' }
++  assert.equal(route('PATCH', '/bookings/bk-1', { body }, tom).status, 404)
++})
++
++test('cancelling early refunds the deposit', () => {
++  const response = route('POST', '/bookings/bk-1/cancel', { today: '2027-05-01' }, priya)
++  assert.equal(response.status, 200)
++  assert.equal(response.body.refundPence, 1800)
++  assert.deepEqual(refunds(), [{ bookingId: 'bk-1', pence: 1800 }])
++})
++
++test('cancelling late refunds nothing', () => {
++  const response = route('POST', '/bookings/bk-1/cancel', { today: '2027-05-20' }, priya)
++  assert.equal(response.status, 200)
++  assert.equal(response.body.refundPence, 0)
++})

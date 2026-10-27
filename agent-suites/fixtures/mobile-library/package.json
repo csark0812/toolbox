@@ -1,0 +1,9 @@
+{
+  "name": "mobile-library",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "van": "node bin/van.mjs"
+  }
+}

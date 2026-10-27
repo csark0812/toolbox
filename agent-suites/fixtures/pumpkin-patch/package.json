@@ -1,0 +1,15 @@
+{
+  "name": "pumpkin-patch",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./orders": "./src/online-orders.mjs"
+  },
+  "scripts": {
+    "test": "node --test",
+    "till": "node bin/till.mjs",
+    "receipts": "node bin/receipts.mjs",
+    "online": "node bin/online.mjs",
+    "board": "sh scripts/board.sh"
+  }
+}

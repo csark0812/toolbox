@@ -1,0 +1,30 @@
+[
+  {
+    "id": "r-1",
+    "name": "Aled Pritchard",
+    "address": "7 Ffordd Coed, Llanfair",
+    "postcode": "LL61 5AB",
+    "phone": "07700 900201"
+  },
+  {
+    "id": "r-2",
+    "name": "Sofia Marchetti",
+    "address": "22 Canal Street, Northwich",
+    "postcode": "CW9 5HG",
+    "phone": "07700 900202"
+  },
+  {
+    "id": "r-3",
+    "name": "Ben Ashworth",
+    "address": "Unit 4, Mill Yard, Hebden",
+    "postcode": "HX7 8AD",
+    "phone": "07700 900203"
+  },
+  {
+    "id": "r-4",
+    "name": "Grace Mwangi",
+    "address": "41 Station Road, Ely",
+    "postcode": "CB7 4BP",
+    "phone": "07700 900204"
+  }
+]

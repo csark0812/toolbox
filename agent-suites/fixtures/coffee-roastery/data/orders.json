@@ -1,0 +1,88 @@
+[
+  {
+    "id": "R301",
+    "date": "2026-11-06",
+    "customer": "Corner Café",
+    "status": "open",
+    "lines": [
+      { "bean": "Huila", "weight": "1kg 500g" },
+      { "bean": "Sidamo", "weight": "250g" }
+    ]
+  },
+  {
+    "id": "R302",
+    "date": "2026-11-06",
+    "customer": "Ms Patel",
+    "status": "open",
+    "lines": [
+      { "bean": "Huila", "weight": "250g" },
+      { "bean": "Kiambu", "weight": "0.5kg" }
+    ]
+  },
+  {
+    "id": "R303",
+    "date": "2026-11-06",
+    "customer": "The Bike Shed",
+    "status": "cancelled",
+    "lines": [
+      { "bean": "Huila", "weight": "5kg" },
+      { "bean": "Sidamo", "weight": "2kg" }
+    ]
+  },
+  {
+    "id": "R304",
+    "date": "2026-11-06",
+    "customer": "Orla Byrne",
+    "status": "open",
+    "lines": [
+      { "bean": "sidamo", "weight": "250 g" },
+      { "bean": "Cerrado", "weight": "1.25KG" }
+    ]
+  },
+  {
+    "id": "R305",
+    "date": "2026-11-06",
+    "customer": "Hilltop Deli",
+    "status": "open",
+    "lines": [
+      { "bean": "Cerrado", "weight": "5kg" },
+      { "bean": "Antigua", "weight": "500g" },
+      { "bean": "Kiambu", "weight": "6kg" }
+    ]
+  },
+  {
+    "id": "R306",
+    "date": "2026-11-06",
+    "customer": "Tom Reid",
+    "status": "open",
+    "lines": [
+      { "bean": "Huila", "weight": "0250g" },
+      { "bean": "Huilla", "weight": "250g" },
+      { "bean": "DECAF CAUCA", "weight": "750g" }
+    ]
+  },
+  {
+    "id": "R307",
+    "date": "2026-11-06",
+    "customer": "Nadia Hassan",
+    "status": "open",
+    "lines": [
+      { "bean": "Antigua", "weight": ".5kg" },
+      { "bean": "Sidamo", "weight": "1kg" }
+    ]
+  },
+  {
+    "id": "R308",
+    "date": "2026-11-07",
+    "customer": "Corner Café",
+    "status": "open",
+    "lines": [{ "bean": "Huila", "weight": "2kg" }]
+  },
+  {
+    "id": "R309",
+    "date": "2026-11-08",
+    "customer": "Ms Patel",
+    "status": "cancelled",
+    "lines": [{ "bean": "Kiambu", "weight": "250g" }]
+  }
+]

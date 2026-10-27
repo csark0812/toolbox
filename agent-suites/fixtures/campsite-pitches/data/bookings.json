@@ -1,0 +1,35 @@
+[
+  {
+    "id": "bk-1",
+    "guestId": "g-1",
+    "pitchId": "p-2",
+    "arrive": "2027-05-28",
+    "depart": "2027-05-31",
+    "totalPence": 9000,
+    "depositPence": 1800,
+    "paidPence": 1800,
+    "status": "booked"
+  },
+  {
+    "id": "bk-2",
+    "guestId": "g-2",
+    "pitchId": "p-2",
+    "arrive": "2027-06-04",
+    "depart": "2027-06-07",
+    "totalPence": 9000,
+    "depositPence": 1800,
+    "paidPence": 1800,
+    "status": "booked"
+  },
+  {
+    "id": "bk-3",
+    "guestId": "g-3",
+    "pitchId": "p-1",
+    "arrive": "2027-06-14",
+    "depart": "2027-06-16",
+    "totalPence": 4400,
+    "depositPence": 880,
+    "paidPence": 0,
+    "status": "booked"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "name": "honey-co-op",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "statement": "node bin/statement.mjs"
+  }
+}

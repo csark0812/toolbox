@@ -1,0 +1,9 @@
+{
+  "name": "millbrook-hall",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "reminders": "node bin/reminders.mjs"
+  }
+}

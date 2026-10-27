@@ -1,0 +1,10 @@
+[
+  { "id": "T001", "port": "Dartmouth", "kind": "high", "time": "2026-11-02T06:12", "height": 4.6 },
+  { "id": "T002", "port": "Dartmouth", "kind": "low", "time": "2026-11-02T12:20", "height": 1.1 },
+  { "id": "T003", "port": "Dartmouth", "kind": "high", "time": "2026-11-02T18:31", "height": 4.4 },
+  { "id": "T004", "port": "DARTMOUTH", "kind": "high", "time": "2026-11-03T06:55", "height": 4.5 },
+  { "id": "T005", "port": "Brixham", "kind": "high", "time": "2026-11-02T06:20", "height": 4.7 },
+  { "id": "T006", "port": " brixham", "kind": "low", "time": "2026-11-02T12:31", "height": 1.0 },
+  { "id": "T007", "port": "Brixham", "kind": "high", "time": "2026-11-02T18:40", "height": 4.5 },
+  { "id": "T008", "port": "Salcombe", "kind": "high", "time": "2026-11-02T05:58", "height": 4.8 }
+]

@@ -1,0 +1,100 @@
+[
+  {
+    "date": "2026-09-06",
+    "name": "Jenny Hosking",
+    "postcode": "TR18 5QT",
+    "amount": 40,
+    "method": "bank transfer"
+  },
+  {
+    "date": "2026-09-12",
+    "name": "Derek Penrose",
+    "postcode": "TR18 4AA",
+    "amount": 20,
+    "method": "card"
+  },
+  {
+    "date": "2026-09-19",
+    "name": "Sue Angove",
+    "postcode": "TR194PL",
+    "amount": 25,
+    "method": "card"
+  },
+  {
+    "date": "2026-09-27",
+    "name": "Peter Tonkin",
+    "postcode": "TR20 8RX",
+    "amount": 15,
+    "method": "cash"
+  },
+  {
+    "date": "2026-10-02",
+    "name": "Mary Kitto",
+    "postcode": "TR18 2EF",
+    "amount": 20,
+    "method": "card"
+  },
+  {
+    "date": "2026-10-03",
+    "name": "Alan Rowse",
+    "postcode": "TR19 6LJ",
+    "amount": 30,
+    "method": "cash"
+  },
+  {
+    "date": "2026-10-05",
+    "name": "Jenny Hosking",
+    "postcode": "TR18 5QT",
+    "amount": 40,
+    "method": "bank transfer"
+  },
+  {
+    "date": "2026-10-09",
+    "name": "Derek Penrose",
+    "postcode": "TR18 4AA",
+    "amount": 50,
+    "method": "bank transfer"
+  },
+  {
+    "date": "2026-10-11",
+    "name": "Sue Angove",
+    "postcode": "TR194PL",
+    "amount": 25,
+    "method": "card"
+  },
+  {
+    "date": "2026-10-14",
+    "name": "Peter Tonkin",
+    "postcode": "TR20 8RX",
+    "amount": 15,
+    "method": "cash"
+  },
+  {
+    "date": "2026-10-18",
+    "name": "Alan Rowse",
+    "postcode": "TR19 6LJ",
+    "amount": 30,
+    "method": "cash"
+  },
+  {
+    "date": "2026-10-22",
+    "name": "Ruth Pascoe",
+    "postcode": "TR18 3HG",
+    "amount": 100,
+    "method": "bank transfer"
+  },
+  {
+    "date": "2026-10-25",
+    "name": "Derek Penrose",
+    "postcode": "TR18 4AA",
+    "amount": 10,
+    "method": "card"
+  },
+  {
+    "date": "2026-10-27",
+    "name": "Gwen Trewin",
+    "postcode": "TR26 1AB",
+    "amount": 12,
+    "method": "card"
+  }
+]

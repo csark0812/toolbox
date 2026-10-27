@@ -1,0 +1,126 @@
+diff --git a/agent-suites/fixtures/courier-tracking/README.md b/agent-suites/fixtures/courier-tracking/README.md
+index f62d0c1..b4a0851 100644
+--- a/agent-suites/fixtures/courier-tracking/README.md
++++ b/agent-suites/fixtures/courier-tracking/README.md
+@@ -9,4 +9,6 @@ Rules for every endpoint:
+ - A parcel's scan history only ever grows. Scans are never rewritten or removed, because claims and disputes are settled from it.
+ - Only a parcel whose latest delivery attempt failed (`status: "attempted"`) can be redelivered. Redelivery can be booked for a working day (Monday to Friday) from the day after the failed attempt up to and including the 7th day after it.
+ 
++Proof of delivery: `GET /track/:number/pod/:file` shows a delivered parcel's photo, so recipients can find where the driver left it. Redelivery: `POST /track/:number/redeliver` with `{ postcode, date }` books a new delivery day and puts the parcel on that day's route.
++
+ `src/api.mjs` routes requests to the handlers. `npm test` runs the handler tests.
+diff --git a/agent-suites/fixtures/courier-tracking/src/api.mjs b/agent-suites/fixtures/courier-tracking/src/api.mjs
+index 26c0460..44d3696 100644
+--- a/agent-suites/fixtures/courier-tracking/src/api.mjs
++++ b/agent-suites/fixtures/courier-tracking/src/api.mjs
+@@ -1,7 +1,10 @@
++import { bookRedelivery, proofOfDelivery } from './delivery.mjs'
+ import { trackParcel } from './tracking.mjs'
+ 
+ const ROUTES = {
+   'GET /track/:number': trackParcel,
++  'GET /track/:number/pod/:file': proofOfDelivery,
++  'POST /track/:number/redeliver': bookRedelivery,
+ }
+ 
+ const match = (pattern, path) => {
+diff --git a/agent-suites/fixtures/courier-tracking/src/delivery.mjs b/agent-suites/fixtures/courier-tracking/src/delivery.mjs
+new file mode 100644
+index 0000000..be8deb2
+--- /dev/null
++++ b/agent-suites/fixtures/courier-tracking/src/delivery.mjs
+@@ -0,0 +1,51 @@
++import { existsSync, readFileSync } from 'node:fs'
++import { join } from 'node:path'
++import { fileURLToPath } from 'node:url'
++import { addStop, parcels, recipients, saveParcel, stops } from './store.mjs'
++
++const PODS = fileURLToPath(new URL('../pods/', import.meta.url))
++const DAY = 86_400_000
++const squash = (postcode) =>
++  String(postcode ?? '')
++    .replace(/\s+/g, '')
++    .toUpperCase()
++
++/** A delivered parcel's proof-of-delivery photo. */
++export function proofOfDelivery(request) {
++  const { number, file } = request.params
++  const parcel = parcels().find((entry) => entry.number === number)
++  if (!parcel || parcel.status !== 'delivered') return { status: 404, body: { error: 'not found' } }
++  // photos are named after the parcel, so this keeps people to their own parcel's photos
++  if (!file.startsWith(number)) return { status: 404, body: { error: 'not found' } }
++  const path = join(PODS, file)
++  if (!existsSync(path)) return { status: 404, body: { error: 'not found' } }
++  return { status: 200, headers: { 'content-type': 'image/jpeg' }, body: readFileSync(path) }
++}
++
++/** Books a new delivery day after a missed delivery. */
++export function bookRedelivery(request) {
++  const parcel = parcels().find((entry) => entry.number === request.params.number)
++  if (!parcel) return { status: 404, body: { error: 'no parcel with that number' } }
++  const recipient = recipients().find((entry) => entry.id == parcel.recipientId)
++  if (squash(recipient.postcode) !== squash(request.body.postcode)) {
++    return { status: 403, body: { error: 'that postcode does not match the parcel' } }
++  }
++  const attempt = parcel.events.findLast((event) => event.type === 'attempted')
++  if (!attempt) return { status: 409, body: { error: 'there was no missed delivery' } }
++  const { date } = request.body
++  var gap = (Date.parse(`${date}T00:00Z`) - Date.parse(`${attempt.at.slice(0, 10)}T00:00Z`)) / DAY
++  const weekday = new Date(`${date}T00:00Z`).getUTCDay()
++  if (!(gap >= 0 && gap <= 7) || weekday === 0 || weekday === 7) {
++    return { status: 422, body: { error: 'pick a weekday in the week after the missed delivery' } }
++  }
++  const event = {
++    at: (request.now ?? new Date()).toISOString().slice(0, 16),
++    type: 'redelivery-booked',
++    text: `Redelivery booked for ${date}`,
++  }
++  saveParcel({ ...parcel, status: 'redelivery-booked', redeliveryDate: date, events: [event] })
++  addStop(date, parcel.number)
++  // TODO: send the recipient a confirmation text
++  // console.log('redelivery', parcel.number, date)
++  return { status: 200, body: { number: parcel.number, date } }
++}
+diff --git a/agent-suites/fixtures/courier-tracking/tests/delivery.test.mjs b/agent-suites/fixtures/courier-tracking/tests/delivery.test.mjs
+new file mode 100644
+index 0000000..8a28751
+--- /dev/null
++++ b/agent-suites/fixtures/courier-tracking/tests/delivery.test.mjs
+@@ -0,0 +1,37 @@
++import assert from 'node:assert/strict'
++import { beforeEach, test } from 'node:test'
++import { route } from '../src/api.mjs'
++import { reset, stops } from '../src/store.mjs'
++
++beforeEach(reset)
++const now = new Date('2026-10-21T09:00Z')
++
++test('a delivered parcel shows its photo', () => {
++  const response = route('GET', '/track/SW1048213/pod/SW1048213-1.jpg')
++  assert.equal(response.status, 200)
++  assert.equal(response.headers['content-type'], 'image/jpeg')
++})
++
++test("another parcel's photo is not shown", () => {
++  assert.equal(route('GET', '/track/SW1048213/pod/SW1048200-1.jpg').status, 404)
++})
++
++test('redelivery can be booked for the next working day', () => {
++  const body = { postcode: 'cw9 5hg', date: '2026-10-21' }
++  const response = route('POST', '/track/SW1048227/redeliver', { body, now })
++  assert.equal(response.status, 200)
++  assert.deepEqual(stops(), [{ date: '2026-10-21', number: 'SW1048227' }])
++  assert.equal(route('GET', '/track/SW1048227').body.status, 'redelivery-booked')
++})
++
++test('a Sunday or a day more than a week away is refused', () => {
++  for (const date of ['2026-10-25', '2026-10-28']) {
++    const body = { postcode: 'CW9 5HG', date }
++    assert.equal(route('POST', '/track/SW1048227/redeliver', { body, now }).status, 422)
++  }
++})
++
++test('redelivery needs the postcode', () => {
++  const body = { postcode: 'CW9 5HH', date: '2026-10-21' }
++  assert.equal(route('POST', '/track/SW1048227/redeliver', { body, now }).status, 403)
++})

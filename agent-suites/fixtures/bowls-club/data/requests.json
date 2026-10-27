@@ -1,0 +1,15 @@
+[
+  { "team": "Harriers", "rink": 1, "date": "2026-11-14", "session": "morning" },
+  { "team": "Kestrels", "rink": 2, "date": "2026-11-14", "session": "morning" },
+  { "team": "Owls", "rink": 6, "date": "2026-11-14", "session": "morning" },
+  { "team": "Wrens", "rink": 3, "date": "2026-11-14", "session": "morning" },
+  { "team": "Ravens", "rink": 1, "date": "2026-11-14", "session": "afternoon" },
+  { "team": "Swifts", "rink": 1, "date": "2026-11-14", "session": "morning" },
+  { "team": "Kestrels", "rink": 4, "date": "2026-11-14", "session": "afternoon" },
+  { "team": "Harriers", "rink": 6, "date": "2026-11-14", "session": "evening" },
+  { "team": "Owls", "rink": 2, "date": "2026-11-14", "session": "afternoon" },
+  { "team": "Wrens", "rink": 7, "date": "2026-11-14", "session": "evening" },
+  { "team": "Swifts", "rink": 5, "date": "2026-11-14", "session": "evening" },
+  { "team": "Ravens", "rink": 4, "date": "2026-11-14", "session": "afternoon" },
+  { "team": "Harriers", "rink": 1, "date": "2026-11-21", "session": "morning" }
+]

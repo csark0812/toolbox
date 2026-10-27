@@ -1,0 +1,199 @@
+:root {
+  --bg: #eef0f3;
+  --paper: #ffffff;
+  --ink: #1b1f24;
+  --muted: #5b6470;
+  --line: #d5d9de;
+  --accent: #23395b;
+  --speaker: #b4233c;
+  --staff: #1f5f8b;
+  --sponsor: #7a4fa3;
+  --attendee: #2e7d4f;
+  --radius: 10px;
+}
+
+@page {
+  size: A4;
+  margin: 13.5mm 15mm;
+}
+
+/* Printing onto LabelCo LC10-9054 badge stock */
+@media print {
+  .site-header,
+  .intro,
+  .toolbar {
+    display: none;
+  }
+
+  body {
+    margin: 0;
+    background: none;
+  }
+
+  .badges {
+    grid-template-columns: repeat(2, 90mm);
+    gap: 0;
+    max-width: none;
+    padding: 0;
+  }
+
+  .badge {
+    width: 90mm;
+    height: 54mm;
+    border: 0.25mm dashed #9aa3ad;
+    border-radius: 0;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+}
+
+@media screen {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.3;
+}
+
+.site-header {
+  padding: 20px 24px 12px;
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.site-header__event {
+  margin: 4px 0 0;
+  opacity: 0.85;
+}
+
+.intro {
+  max-width: 1100px;
+  margin: 16px auto 0;
+  padding: 0 24px;
+  color: var(--muted);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  max-width: 1100px;
+  margin: 12px auto 0;
+  padding: 0 24px;
+}
+
+.toolbar__search {
+  flex: 1 1 200px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.chip {
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+}
+
+.chip--on {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.toolbar__print {
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--paper);
+  font: inherit;
+  font-weight: 600;
+}
+
+.badges {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.badge {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  padding: 5mm 6mm 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+}
+
+.badge__event {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.badge__name {
+  margin: 2mm 0 0;
+  font-size: 1.5rem;
+  line-height: 1.1;
+}
+
+.badge__org {
+  margin: 1mm 0 0;
+  color: var(--muted);
+}
+
+.badge__role {
+  margin: auto -6mm 0;
+  padding: 2mm 6mm;
+  background: var(--role);
+  color: var(--paper);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge--speaker {
+  --role: var(--speaker);
+}
+
+.badge--staff {
+  --role: var(--staff);
+}
+
+.badge--sponsor {
+  --role: var(--sponsor);
+}
+
+.badge--attendee {
+  --role: var(--attendee);
+}

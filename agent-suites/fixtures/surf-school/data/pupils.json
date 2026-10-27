@@ -1,0 +1,9 @@
+[
+  { "name": "Ana", "age": 9, "level": "beginner", "pack": { "from": "2027-07-10", "days": 5 } },
+  { "name": "Ben", "age": 34, "level": "beginner", "pack": null },
+  { "name": "Pip", "age": 7, "level": "beginner", "pack": null },
+  { "name": "Cal", "age": 12, "level": "improver", "pack": { "from": "2027-07-07", "days": 5 } },
+  { "name": "Dee", "age": 41, "level": "improver", "pack": { "from": "2027-07-12", "days": 1 } },
+  { "name": "Eve", "age": 16, "level": "advanced", "pack": { "from": "2027-07-05", "days": 8 } },
+  { "name": "Fin", "age": 28, "level": "advanced", "pack": { "from": "2027-07-03", "days": 5 } }
+]

@@ -1,0 +1,6 @@
+[
+  { "street": "Mill Lane", "rule": "weekly on Tue" },
+  { "street": "Orchard Close", "rule": "fortnightly on Fri from 2026-10-02" },
+  { "street": "Church Row", "rule": "fortnightly on mon from 2026-12-14" },
+  { "street": "Station Road", "rule": "weekly on Fri" }
+]

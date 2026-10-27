@@ -1,0 +1,7 @@
+[
+  { "boat": "Kittiwake", "lengthM": 7.5, "arrives": "2026-10-30", "nights": 4 },
+  { "boat": "Sea Shanty", "lengthM": 11.2, "arrives": "2026-11-14", "nights": 2 },
+  { "boat": "Albatross", "lengthM": 14, "arrives": "2026-08-02", "nights": 3 },
+  { "boat": "Puffin", "lengthM": 8, "arrives": "2027-03-28", "nights": 7 },
+  { "boat": "Merlin", "lengthM": 12, "arrives": "2026-12-30", "nights": 3 }
+]

@@ -1,0 +1,10 @@
+{
+  "name": "orienteering-results",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "results": "node bin/results.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

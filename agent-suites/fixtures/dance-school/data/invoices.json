@@ -1,0 +1,49 @@
+[
+  {
+    "id": "inv-2026-autumn-f-1",
+    "term": "2026-autumn",
+    "familyId": "f-1",
+    "dueOn": "2026-08-24",
+    "lines": [{ "pupilId": "pu-1", "classId": "ballet-g3", "pence": 7200 }],
+    "totalPence": 7200,
+    "paidOn": "2026-08-20",
+    "paidPence": 7200
+  },
+  {
+    "id": "inv-2027-spring-f-1",
+    "term": "2027-spring",
+    "familyId": "f-1",
+    "dueOn": "2026-12-21",
+    "lines": [
+      { "pupilId": "pu-1", "classId": "ballet-g3", "pence": 7200 },
+      { "pupilId": "pu-1", "classId": "tap-g2", "pence": 5400 },
+      { "pupilId": "pu-2", "classId": "street-jr", "pence": 4800 }
+    ],
+    "totalPence": 17400,
+    "paidOn": null,
+    "paidPence": 0
+  },
+  {
+    "id": "inv-2027-spring-f-2",
+    "term": "2027-spring",
+    "familyId": "f-2",
+    "dueOn": "2026-12-21",
+    "lines": [{ "pupilId": "pu-3", "classId": "ballet-g3", "pence": 7200 }],
+    "totalPence": 7200,
+    "paidOn": null,
+    "paidPence": 0
+  },
+  {
+    "id": "inv-2027-spring-f-3",
+    "term": "2027-spring",
+    "familyId": "f-3",
+    "dueOn": "2026-12-21",
+    "lines": [
+      { "pupilId": "pu-4", "classId": "contemporary", "pence": 6000 },
+      { "pupilId": "pu-5", "classId": "ballet-g1", "pence": 4800 }
+    ],
+    "totalPence": 10800,
+    "paidOn": "2026-12-03",
+    "paidPence": 10800
+  }
+]

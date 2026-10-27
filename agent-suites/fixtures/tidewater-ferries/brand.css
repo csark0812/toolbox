@@ -1,0 +1,11 @@
+/* Tidewater brand tokens. Owned by the brand team: do not edit. */
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;800&family=Source+Serif+4:opsz,wght@8..60,600&display=swap');
+:root {
+  --tw-estuary: #0f3b3a; /* primary: deep estuary green */
+  --tw-mudflat: #e9e2d4; /* ground */
+  --tw-buoy: #e0482b; /* accent: buoy red, actions and alerts only */
+  --tw-slate: #2b2f33; /* text */
+  --tw-mist: #f6f3ec; /* surface */
+  --tw-font-text: 'Public Sans', system-ui, sans-serif;
+  --tw-font-display: 'Source Serif 4', Georgia, serif;
+}

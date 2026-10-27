@@ -1,0 +1,7 @@
+[
+  { "id": "ballet-g1", "name": "Ballet Grade 1", "feePence": 4800 },
+  { "id": "ballet-g3", "name": "Ballet Grade 3", "feePence": 7200 },
+  { "id": "tap-g2", "name": "Tap Grade 2", "feePence": 5400 },
+  { "id": "street-jr", "name": "Street Juniors", "feePence": 4800 },
+  { "id": "contemporary", "name": "Contemporary", "feePence": 6000 }
+]

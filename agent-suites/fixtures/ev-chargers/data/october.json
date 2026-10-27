@@ -1,0 +1,200 @@
+{
+  "month": "2026-10",
+  "currency": "GBP",
+  "tariff": {
+    "peakPerKwh": 0.34,
+    "offPeakPerKwh": 0.12,
+    "peakFrom": "07:00",
+    "peakUntil": "19:00",
+    "idleFee": 2,
+    "idleGraceMinutes": 60
+  },
+  "drivers": [
+    {
+      "id": "amara",
+      "name": "Amara Osei"
+    },
+    {
+      "id": "tom",
+      "name": "Tom Kirby"
+    },
+    {
+      "id": "leila",
+      "name": "Leila Haddad"
+    },
+    {
+      "id": "gareth",
+      "name": "Gareth Pryce"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "s01",
+      "driver": "amara",
+      "bay": "A",
+      "start": "2026-09-30T17:20",
+      "chargeEnd": "2026-09-30T19:05",
+      "unplugged": "2026-09-30T19:30",
+      "kWh": 14.2,
+      "status": "complete"
+    },
+    {
+      "id": "s02",
+      "driver": "amara",
+      "bay": "A",
+      "start": "2026-10-01T08:10",
+      "chargeEnd": "2026-10-01T10:40",
+      "unplugged": "2026-10-01T11:20",
+      "kWh": 18.4,
+      "status": "complete"
+    },
+    {
+      "id": "s03",
+      "driver": "tom",
+      "bay": "B",
+      "start": "2026-10-01T06:45",
+      "chargeEnd": "2026-10-01T08:30",
+      "unplugged": "2026-10-01T12:05",
+      "kWh": 22,
+      "status": "complete"
+    },
+    {
+      "id": "s04",
+      "driver": "leila",
+      "bay": "C",
+      "start": "2026-10-02T09:00",
+      "chargeEnd": "2026-10-02T09:02",
+      "unplugged": "2026-10-02T09:05",
+      "kWh": 0,
+      "status": "failed"
+    },
+    {
+      "id": "s05",
+      "driver": "leila",
+      "bay": "C",
+      "start": "2026-10-02T09:15",
+      "chargeEnd": "2026-10-02T12:00",
+      "unplugged": "2026-10-02T12:40",
+      "kWh": 25.5,
+      "status": "complete"
+    },
+    {
+      "id": "s06",
+      "driver": "gareth",
+      "bay": "A",
+      "start": "2026-10-05T19:00",
+      "chargeEnd": "2026-10-05T23:10",
+      "unplugged": "2026-10-06T07:30",
+      "kWh": 31.7,
+      "status": "complete"
+    },
+    {
+      "id": "s07",
+      "driver": "tom",
+      "bay": "B",
+      "start": "2026-10-07T18:59",
+      "chargeEnd": "2026-10-07T21:00",
+      "unplugged": "2026-10-07T22:00",
+      "kWh": 16.3,
+      "status": "complete"
+    },
+    {
+      "id": "s08",
+      "driver": "amara",
+      "bay": "C",
+      "start": "2026-10-09T12:30",
+      "chargeEnd": "2026-10-09T14:00",
+      "unplugged": "2026-10-09T15:01",
+      "kWh": 9.8,
+      "status": "complete"
+    },
+    {
+      "id": "s09",
+      "driver": "gareth",
+      "bay": "B",
+      "start": "2026-10-12T07:00",
+      "chargeEnd": "2026-10-12T09:45",
+      "unplugged": "2026-10-12T10:15",
+      "kWh": 20,
+      "status": "complete"
+    },
+    {
+      "id": "s10",
+      "driver": "leila",
+      "bay": "A",
+      "start": "2026-10-14T21:30",
+      "chargeEnd": "2026-10-15T01:00",
+      "unplugged": "2026-10-15T07:50",
+      "kWh": 28.9,
+      "status": "complete"
+    },
+    {
+      "id": "s11",
+      "driver": "tom",
+      "bay": "C",
+      "start": "2026-10-20T08:05",
+      "chargeEnd": "2026-10-20T10:15",
+      "unplugged": "2026-10-20T10:30",
+      "kWh": 12.6,
+      "status": "complete"
+    },
+    {
+      "id": "s12",
+      "driver": "amara",
+      "bay": "B",
+      "start": "2026-10-22T16:40",
+      "chargeEnd": "2026-10-22T18:20",
+      "unplugged": "2026-10-22T18:50",
+      "kWh": 11.5,
+      "status": "complete"
+    },
+    {
+      "id": "s13",
+      "driver": "gareth",
+      "bay": "C",
+      "start": "2026-10-27T10:10",
+      "chargeEnd": "2026-10-27T11:00",
+      "unplugged": "2026-10-27T13:30",
+      "kWh": 7.4,
+      "status": "complete"
+    },
+    {
+      "id": "s14",
+      "driver": "leila",
+      "bay": "B",
+      "start": "2026-10-30T06:30",
+      "chargeEnd": "2026-10-30T08:00",
+      "unplugged": "2026-10-30T08:20",
+      "kWh": 13.1,
+      "status": "complete"
+    }
+  ],
+  "payments": [
+    {
+      "driver": "amara",
+      "date": "2026-09-28",
+      "amount": 5,
+      "note": "September"
+    },
+    {
+      "driver": "amara",
+      "date": "2026-10-15",
+      "amount": 10
+    },
+    {
+      "driver": "tom",
+      "date": "2026-10-10",
+      "amount": 16
+    },
+    {
+      "driver": "gareth",
+      "date": "2026-10-03",
+      "amount": 7.5
+    },
+    {
+      "driver": "gareth",
+      "date": "2026-10-24",
+      "amount": 5
+    }
+  ]
+}

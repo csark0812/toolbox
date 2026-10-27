@@ -1,0 +1,46 @@
+[
+  {
+    "ref": "V-201",
+    "farm": "bryn",
+    "date": "2026-05-04",
+    "miles": 8,
+    "animals": [
+      { "tag": "BR-01", "species": "alpaca", "micron": 17.6, "fleeceKg": 2.4 },
+      { "tag": "BR-02", "species": "alpaca", "micron": 18, "fleeceKg": 2.1 },
+      { "tag": "BR-03", "species": "llama", "micron": 27.2, "fleeceKg": 3.35 }
+    ]
+  },
+  {
+    "ref": "V-202",
+    "farm": "hafod",
+    "date": "2026-05-06",
+    "miles": 23,
+    "animals": [
+      { "tag": "HF-11", "species": "alpaca", "micron": 20, "fleeceKg": 2.65 },
+      { "tag": "HF-12", "species": "alpaca", "micron": 21.4, "fleeceKg": 2.25 },
+      { "tag": "HF-13", "species": "alpaca", "micron": null, "fleeceKg": 1.95 },
+      { "tag": "HF-14", "species": "alpaca", "micron": 19.95, "fleeceKg": 2.5 }
+    ]
+  },
+  {
+    "ref": "V-203",
+    "farm": "pentre",
+    "date": "2026-05-11",
+    "miles": 41,
+    "animals": [
+      { "tag": "PT-21", "species": "llama", "micron": 31.5, "fleeceKg": 4.1 },
+      { "tag": "PT-22", "species": "llama", "micron": 30, "fleeceKg": 3.8 },
+      { "tag": "PT-23", "species": "alpaca", "micron": 23, "fleeceKg": 2.05 }
+    ]
+  },
+  {
+    "ref": "V-204",
+    "farm": "bryn",
+    "date": "2026-06-02",
+    "miles": 8,
+    "animals": [
+      { "tag": "BR-04", "species": "alpaca", "micron": 22.1, "fleeceKg": 2.75 },
+      { "tag": "BR-05", "species": "alpaca", "micron": 26, "fleeceKg": 2.15 }
+    ]
+  }
+]

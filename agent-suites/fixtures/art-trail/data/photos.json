@@ -1,0 +1,12 @@
+{
+  "photos/a-1/levels-1.jpg": { "artistId": "a-1", "bytes": 812044 },
+  "photos/a-1/levels-2.jpg": { "artistId": "a-1", "bytes": 790311 },
+  "photos/a-1/levels-3.jpg": { "artistId": "a-1", "bytes": 1022870 },
+  "photos/a-1/flood.jpg": { "artistId": "a-1", "bytes": 655902 },
+  "photos/a-1/studio.jpg": { "artistId": "a-1", "bytes": 1408113 },
+  "photos/a-1/easel.jpg": { "artistId": "a-1", "bytes": 503287 },
+  "photos/a-2/press.jpg": { "artistId": "a-2", "bytes": 977450 },
+  "photos/a-3/cover.jpg": { "artistId": "a-3", "bytes": 1650321 },
+  "photos/a-3/kiln.jpg": { "artistId": "a-3", "bytes": 1203998 },
+  "photos/a-4/bowls.jpg": { "artistId": "a-4", "bytes": 884120 }
+}

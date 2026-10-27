@@ -1,0 +1,146 @@
+[
+  {
+    "date": "2026-09-02",
+    "till": "back",
+    "kind": "sale",
+    "amount": 0.29
+  },
+  {
+    "date": "2026-09-02",
+    "till": "front",
+    "kind": "sale",
+    "amount": 2.99
+  },
+  {
+    "date": "2026-09-04",
+    "till": "front",
+    "kind": "sale",
+    "amount": 9.99
+  },
+  {
+    "date": "2026-09-04",
+    "till": "back",
+    "kind": "refund",
+    "amount": "-0.29"
+  },
+  {
+    "date": "2026-09-04",
+    "till": "front",
+    "kind": "sale",
+    "amount": 9.99
+  },
+  {
+    "date": "2026-09-07",
+    "till": "front",
+    "kind": "refund",
+    "amount": -0.57
+  },
+  {
+    "date": "2026-09-08",
+    "till": "front",
+    "kind": "sale",
+    "amount": 1.45
+  },
+  {
+    "date": "2026-09-08",
+    "till": "front",
+    "kind": "sale",
+    "amount": 1.45
+  },
+  {
+    "date": "2026-09-10",
+    "till": "front",
+    "kind": "sale",
+    "amount": 2.2
+  },
+  {
+    "date": "2026-09-11",
+    "till": "front",
+    "kind": "sale",
+    "amount": 3.3
+  },
+  {
+    "date": "2026-09-14",
+    "till": "back",
+    "kind": "sale",
+    "amount": 0.57
+  },
+  {
+    "date": "2026-09-14",
+    "till": "front",
+    "kind": "sale",
+    "amount": 9.99
+  },
+  {
+    "date": "2026-09-14",
+    "till": "front",
+    "kind": "sale",
+    "amount": 1.45
+  },
+  {
+    "date": "2026-09-15",
+    "till": "back",
+    "kind": "sale",
+    "amount": 6.45
+  },
+  {
+    "date": "2026-09-16",
+    "till": "back",
+    "kind": "sale",
+    "amount": 0.85
+  },
+  {
+    "date": "2026-09-19",
+    "till": "front",
+    "kind": "sale",
+    "amount": 7.6
+  },
+  {
+    "date": "2026-09-19",
+    "till": "front",
+    "kind": "sale",
+    "amount": 6.45
+  },
+  {
+    "date": "2026-09-19",
+    "till": "back",
+    "kind": "refund",
+    "amount": -7.6
+  },
+  {
+    "date": "2026-09-21",
+    "till": "front",
+    "kind": "sale",
+    "amount": 0.57
+  },
+  {
+    "date": "2026-09-22",
+    "till": "back",
+    "kind": "sale",
+    "amount": 0.2
+  },
+  {
+    "date": "2026-09-23",
+    "till": "front",
+    "kind": "sale",
+    "amount": 0.57
+  },
+  {
+    "date": "2026-09-27",
+    "till": "front",
+    "kind": "sale",
+    "amount": 6.45
+  },
+  {
+    "date": "2026-09-27",
+    "till": "front",
+    "kind": "sale",
+    "amount": 1.15
+  },
+  {
+    "date": "2026-09-28",
+    "till": "front",
+    "kind": "sale",
+    "amount": 0.1
+  }
+]

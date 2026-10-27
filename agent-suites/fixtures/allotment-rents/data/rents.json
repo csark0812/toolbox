@@ -1,0 +1,25 @@
+{
+  "tenancies": [
+    { "plot": "7", "tenant": "Joan Pryce", "from": "2023-03-01", "to": "2025-09-30" },
+    { "plot": "7", "tenant": "Sam Okafor", "from": "2025-09-30", "to": null },
+    { "plot": "12A", "tenant": "Ravi Mehta", "from": "2022-01-01", "to": null },
+    { "plot": "12B", "tenant": "Joan Pryce", "from": "2024-06-01", "to": null }
+  ],
+  "invoices": [
+    { "id": "INV-2025-9", "plot": "7", "issued": "2025-04-01", "amount": 5600 },
+    { "id": "INV-2025-10", "plot": "12A", "issued": "2025-04-01", "amount": 7400 },
+    { "id": "INV-2025-11", "plot": "12B", "issued": "2025-04-01", "amount": 3700 },
+    { "id": "INV-2025-12", "plot": "7", "issued": "2025-09-30", "amount": 2800 },
+    { "id": "INV-2026-9", "plot": "7", "issued": "2026-04-01", "amount": 5800 },
+    { "id": "INV-2026-10", "plot": "12A", "issued": "2026-04-01", "amount": 7600 },
+    { "id": "INV-2026-11", "plot": "12B", "issued": "2026-04-01", "amount": 3800 }
+  ],
+  "payments": [
+    { "date": "2025-04-03", "amount": 93, "reference": "PLOT 12B AND 7 RENT" },
+    { "date": "2025-04-20", "amount": 74, "reference": "plot 12a" },
+    { "date": "2025-10-02", "amount": 28, "reference": "Plot 007 S OKAFOR" },
+    { "date": "2026-03-15", "amount": 100, "reference": "12a rent 2026" },
+    { "date": "2026-04-02", "amount": 38.004, "reference": "PLT-12B" },
+    { "date": "2026-04-09", "amount": 20, "reference": "ALLOTMENT RENT" }
+  ]
+}

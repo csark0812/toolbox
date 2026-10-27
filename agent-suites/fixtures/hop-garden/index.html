@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Picking weekend rota · Tanyard Hop Garden</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <span class="brand__name">Tanyard Hop Garden</span>
+        <span class="brand__dates">Picking weekend · 13–14 September</span>
+      </div>
+      <nav class="site-nav" aria-label="Main">
+        <a href="#saturday">Saturday</a>
+        <a href="#sunday">Sunday</a>
+        <a href="#notes">On the day</a>
+      </nav>
+      <button class="print-btn" type="button">Print this rota</button>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar" aria-label="Filter the rota">
+        <h2 class="sidebar__title">Show</h2>
+        <label class="filter"
+          ><input type="radio" name="day" value="all" checked /> Both days</label
+        >
+        <label class="filter"><input type="radio" name="day" value="saturday" /> Saturday</label>
+        <label class="filter"><input type="radio" name="day" value="sunday" /> Sunday</label>
+        <p class="sidebar__hint">Shifts that still need pickers are marked in amber.</p>
+      </aside>
+
+      <main class="page">
+        <h1>Picking weekend rota</h1>
+        <p class="intro">
+          Twelve shifts a day across the garden. Team leads have the bine knives and the tally
+          cards; pickers just need gloves and long sleeves.
+        </p>
+        <p class="updated">Last updated Thursday 11 September, 6pm</p>
+
+        <section class="day" id="saturday">
+          <h2>Saturday <span class="day__date">13 September</span></h2>
+          <table class="rota">
+            <thead>
+              <tr>
+                <th scope="col">Time</th>
+                <th scope="col">Where</th>
+                <th scope="col">Team lead</th>
+                <th scope="col">Pickers</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>07:30–09:00</td>
+                <td>Fuggle row 1</td>
+                <td>Marian Okafor</td>
+                <td>Ann, Bilal, Cerys, Dev</td>
+                <td><span class="status status--full">Full</span></td>
+              </tr>
+              <tr>
+                <td>09:00–10:30</td>
+                <td>Fuggle row 2</td>
+                <td>Huw Pritchard</td>
+                <td>Tam, Uma, Vic</td>
+                <td><span class="status status--short">Needs 2</span></td>
+              </tr>
+              <tr>
+                <td>10:30–12:00</td>
+                <td>Fuggle row 3</td>
+                <td>Tess Bellamy</td>
+                <td>Pip, Quinn, Rhys, Sami</td>
+                <td><span class="status status--full">Full</span></td>
+              </tr>
+              <tr>
+                <td>12:30–14:00</td>
+                <td>Goldings east</td>
+                <td>Rob Kettering</td>
+                <td>Mo, Nell, Ola</td>
+                <td><span class="status status--short">Needs 1</span></td>
+              </tr>
+              <tr>
+                <td>14:00–15:30</td>
+                <td>Goldings west</td>
+                <td>Anjali Rao</td>
+                <td>Hana, Iolo, Jas, Kit, Lou</td>
+                <td><span class="status status--full">Full</span></td>
+              </tr>
+              <tr class="is-cancelled">
+                <td>15:30–17:00</td>
+                <td>Bramling top</td>
+                <td>Dot Fenwick</td>
+                <td>Ellis, Fran, Gethin</td>
+                <td><span class="status status--cancelled">Cancelled</span></td>
+              </tr>
+              <tr>
+                <td>07:30–09:00</td>
+                <td>Bramling bottom</td>
+                <td>Marian Okafor</td>
+                <td>Ann, Bilal, Cerys, Dev</td>
+                <td><span class="status status--full">Full</span></td>
+              </tr>
+              <tr>
+                <td>09:00–10:30</td>
+                <td>Challenger strip</td>
+                <td>Huw Pritchard</td>
+                <td>Tam, Uma, Vic</td>
+                <td><span class="status status--short">Needs 2</span></td>
+              </tr>
+              <tr>
+                <td>10:30–12:00</td>
+                <td>Old kiln rows</td>
+                <td>Tess Bellamy</td>
+                <td>Pip, Quinn, Rhys, Sami</td>
+                <td><span class="status status--full">Full</span></td>
+              </tr>
+              <tr>
+                <td>12:30–14:00</td>
+                <td>Fuggle row 4</td>
+                <td>Rob Kettering</td>
+                <td>Mo, Nell, Ola</td>
+                <td><span class="status status--short">Needs 1</span></td>
+              </tr>
+              <tr>
+                <td>14:00–15:30</td>
+                <td>Goldings south</td>
+                <td>Anjali Rao</td>
+                <td>Hana, Iolo, Jas, Kit, Lou</td>
+                <td><span class="status status--full">Full</span></td>
+              </tr>
+              <tr class="is-cancelled">
+                <td>15:30–17:00</td>
+                <td>Wye Target corner</td>
+                <td>Dot Fenwick</td>
+                <td>Ellis, Fran, Gethin</td>
+                <td><span class="status status--cancelled">Cancelled</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="day" id="sunday">
+          <h2>Sunday <span class="day__date">14 September</span></h2>
+          <table class="rota">
+            <thead>
+              <tr>
+                <th scope="col">Time</th>
+                <th scope="col">Where</th>
+                <th scope="col">Team lead</th>
+                <th scope="col">Pickers</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>07:30–09:00</td>
+                <td>Goldings east</td>
+                <td>Rob Kettering</td>
+                <td>Mo, Nell, Ola</td>
+                <td><span class="status status--short">Needs 1</span></td>
+              </tr>
+              <tr>
+                <td>09:00–10:30</td>
+                <td>Goldings west</td>
+                <td>Anjali Rao</td>
+                <td>Hana, Iolo, Jas, Kit, Lou</td>
+                <td><span class="status status--full">Full</span></td>
+              </tr>
+              <tr class="is-cancelled">
+                <td>10:30–12:00</td>
+                <td>Bramling top</td>
+                <td>Dot Fenwick</td>
+                <td>Ellis, Fran, Gethin</td>
+                <td><span class="status status--cancelled">Cancelled</span></td>
+              </tr>
+              <tr>
+                <td>12:30–14:00</td>
+                <td>Bramling bottom</td>
+                <td>Marian Okafor</td>
+                <td>Ann, Bilal, Cerys, Dev</td>
+                <td><span class="status status--full">Full</span></td>
+              </tr>
+              <tr>
+                <td>14:00–15:30</td>
+                <td>Challenger strip</td>
+                <td>Huw Pritchard</td>
+                <td>Tam, Uma, Vic</td>
+                <td><span class="status status--short">Needs 2</span></td>
+              </tr>
+              <tr>
+                <td>15:30–17:00</td>
+                <td>Old kiln rows</td>
+                <td>Tess Bellamy</td>
+                <td>Pip, Quinn, Rhys, Sami</td>
+                <td><span class="status status--full">Full</span></td>
+              </tr>
+              <tr>
+                <td>07:30–09:00</td>
+                <td>Fuggle row 4</td>
+                <td>Rob Kettering</td>
+                <td>Mo, Nell, Ola</td>
+                <td><span class="status status--short">Needs 1</span></td>
+              </tr>
+              <tr>
+                <td>09:00–10:30</td>
+                <td>Goldings south</td>
+                <td>Anjali Rao</td>
+                <td>Hana, Iolo, Jas, Kit, Lou</td>
+                <td><span class="status status--full">Full</span></td>
+              </tr>
+              <tr class="is-cancelled">
+                <td>10:30–12:00</td>
+                <td>Wye Target corner</td>
+                <td>Dot Fenwick</td>
+                <td>Ellis, Fran, Gethin</td>
+                <td><span class="status status--cancelled">Cancelled</span></td>
+              </tr>
+              <tr>
+                <td>12:30–14:00</td>
+                <td>Fuggle row 1</td>
+                <td>Marian Okafor</td>
+                <td>Ann, Bilal, Cerys, Dev</td>
+                <td><span class="status status--full">Full</span></td>
+              </tr>
+              <tr>
+                <td>14:00–15:30</td>
+                <td>Fuggle row 2</td>
+                <td>Huw Pritchard</td>
+                <td>Tam, Uma, Vic</td>
+                <td><span class="status status--short">Needs 2</span></td>
+              </tr>
+              <tr>
+                <td>15:30–17:00</td>
+                <td>Fuggle row 3</td>
+                <td>Tess Bellamy</td>
+                <td>Pip, Quinn, Rhys, Sami</td>
+                <td><span class="status status--full">Full</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="notes" id="notes">
+          <h2>On the day</h2>
+          <p>
+            Park in the oast yard and sign in at the stringing shed. Tea and bacon rolls from 7am.
+            If you can fill a gap, put your name down on
+            <a href="https://tanyardhops.org.uk/picking/signup">the sign-up sheet</a>.
+          </p>
+          <p class="notes__small">
+            Children are welcome with an adult but can't use the bine knives.
+          </p>
+        </section>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <p>
+        Questions about your shift? <a href="mailto:rota@tanyardhops.org.uk">Email the rota team</a>
+        or ring Marian on 01622 555 018.
+      </p>
+    </footer>
+
+    <a class="back-to-top" href="#">Back to top</a>
+    <script src="app.js"></script>
+  </body>
+</html>

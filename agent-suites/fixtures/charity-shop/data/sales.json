@@ -1,0 +1,47 @@
+[
+  {
+    "item": "Wool coat",
+    "kind": "donated",
+    "donor": "D-104",
+    "pence": 2400,
+    "soldOn": "2026-10-12"
+  },
+  { "item": "Jigsaw", "kind": "donated", "donor": "D-104", "pence": 352, "soldOn": "2026-10-13" },
+  { "item": "Christmas cards", "kind": "new", "donor": null, "pence": 450, "soldOn": "2026-10-13" },
+  {
+    "item": "Table lamp",
+    "kind": "donated",
+    "donor": "D-117",
+    "pence": 1200,
+    "soldOn": "2026-10-13"
+  },
+  {
+    "item": "Four paperbacks",
+    "kind": "donated",
+    "donor": "D-117",
+    "pence": 800,
+    "soldOn": "2026-10-14"
+  },
+  {
+    "item": "Glass vase",
+    "kind": "donated",
+    "donor": "D-122",
+    "pence": 1500,
+    "soldOn": "2026-10-15"
+  },
+  {
+    "item": "Record player",
+    "kind": "donated",
+    "donor": "D-130",
+    "pence": 4152,
+    "soldOn": "2026-10-16"
+  },
+  { "item": "Gift wrap", "kind": "new", "donor": null, "pence": 200, "soldOn": "2026-10-16" },
+  {
+    "item": "Silk scarf",
+    "kind": "donated",
+    "donor": "D-130",
+    "pence": 396,
+    "soldOn": "2026-10-17"
+  }
+]

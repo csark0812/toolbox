@@ -1,0 +1,10 @@
+{
+  "name": "quiz-league",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "table": "node bin/table.mjs",
+    "perf": "node perf/measure.mjs"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "skis": { "day": 1750, "week": 8750 },
+  "boots": { "day": 825, "week": 4125 },
+  "poles": { "day": 275, "week": 1100 },
+  "helmet": { "day": 395, "week": 1975 },
+  "snowboard": { "day": 1995, "week": 9975 },
+  "sledge": { "day": 545, "week": 2725 }
+}

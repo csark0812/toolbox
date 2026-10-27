@@ -1,0 +1,66 @@
+[
+  {
+    "id": "ls-101",
+    "learnerId": "l-1",
+    "instructorId": "i-1",
+    "start": "2026-10-28T10:00",
+    "minutes": 60,
+    "status": "booked"
+  },
+  {
+    "id": "ls-102",
+    "learnerId": "l-2",
+    "instructorId": "i-1",
+    "start": "2026-10-28T11:30",
+    "minutes": 90,
+    "status": "booked"
+  },
+  {
+    "id": "ls-103",
+    "learnerId": "l-1",
+    "instructorId": "i-1",
+    "start": "2026-11-02T10:00",
+    "minutes": 60,
+    "status": "booked"
+  },
+  {
+    "id": "ls-104",
+    "learnerId": "l-2",
+    "instructorId": "i-1",
+    "start": "2026-11-02T14:00",
+    "minutes": 60,
+    "status": "booked"
+  },
+  {
+    "id": "ls-105",
+    "learnerId": "l-3",
+    "instructorId": "i-2",
+    "start": "2026-10-29T09:00",
+    "minutes": 60,
+    "status": "booked"
+  },
+  {
+    "id": "ls-106",
+    "learnerId": "l-4",
+    "instructorId": "i-2",
+    "start": "2026-10-29T13:00",
+    "minutes": 120,
+    "status": "cancelled"
+  },
+  {
+    "id": "ls-107",
+    "learnerId": "l-3",
+    "instructorId": "i-2",
+    "start": "2026-11-03T09:00",
+    "minutes": 60,
+    "status": "booked"
+  },
+  {
+    "id": "ls-108",
+    "learnerId": "l-4",
+    "instructorId": "i-2",
+    "start": "2026-11-04T16:00",
+    "minutes": 60,
+    "status": "booked"
+  }
+]

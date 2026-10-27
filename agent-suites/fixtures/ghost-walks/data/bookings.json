@@ -1,0 +1,14 @@
+[
+  { "ref": "B-01", "walk": "W1", "name": "Hughes", "people": 4 },
+  { "ref": "B-02", "walk": "W1", "name": "Patel", "people": 6 },
+  { "ref": "B-03", "walk": "W1", "name": "Morgan", "people": 2 },
+  { "ref": "B-04", "walk": "W1", "name": "Evans", "people": 5 },
+  { "ref": "B-05", "walk": "W1", "name": "Lloyd", "people": 4 },
+  { "ref": "B-06", "walk": "W1", "name": "Rees", "people": 3 },
+  { "ref": "B-07", "walk": "W1", "name": "Khan", "people": 1 },
+  { "ref": "B-08", "walk": "W2", "name": "Price", "people": 8 },
+  { "ref": "B-09", "walk": "W2", "name": "Jones", "people": 8 },
+  { "ref": "B-10", "walk": "W2", "name": "Davies", "people": 4 },
+  { "ref": "B-11", "walk": "W2", "name": "Owen", "people": 2 },
+  { "ref": "B-12", "walk": "W3", "name": "Bevan", "people": 2 }
+]

@@ -1,0 +1,11 @@
+[
+  { "id": "c-1", "name": "Spin", "start": "2026-10-26T07:00", "minutes": 45, "capacity": 12 },
+  {
+    "id": "c-2",
+    "name": "Reformer Pilates",
+    "start": "2026-10-26T18:00",
+    "minutes": 50,
+    "capacity": 4
+  },
+  { "id": "c-3", "name": "Kettlebells", "start": "2026-10-27T12:30", "minutes": 30, "capacity": 2 }
+]

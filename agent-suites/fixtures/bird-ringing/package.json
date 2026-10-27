@@ -1,0 +1,9 @@
+{
+  "name": "bird-ringing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "report": "node bin/report.mjs",
+    "test": "node --test"
+  }
+}

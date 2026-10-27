@@ -1,0 +1,8 @@
+{
+  "name": "wharf-radio-settings",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve ."
+  }
+}

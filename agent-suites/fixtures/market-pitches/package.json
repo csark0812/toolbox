@@ -1,0 +1,9 @@
+{
+  "name": "market-pitches",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "fees": "node bin/fees.mjs"
+  }
+}

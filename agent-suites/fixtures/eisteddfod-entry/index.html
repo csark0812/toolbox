@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Enter the Eisteddfod · Cwm Teifi</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <span class="brand">Eisteddfod Cwm Teifi</span>
+      <div class="lang" role="group" aria-label="Language / Iaith">
+        <button type="button" data-lang="en" aria-pressed="true">English</button>
+        <button type="button" data-lang="cy" aria-pressed="false">Cymraeg</button>
+      </div>
+    </header>
+
+    <main class="page">
+      <h1 data-i18n="title">Enter the Eisteddfod</h1>
+      <p class="intro" data-i18n="intro">
+        Entries for the Cwm Teifi Eisteddfod close on Friday 3 April. One form per competitor.
+      </p>
+
+      <form class="entry-form" novalidate>
+        <div class="field">
+          <label for="name" data-i18n="name">Full name</label>
+          <div class="field__control">
+            <input id="name" name="name" autocomplete="name" />
+            <p class="hint" id="name-hint" data-i18n="nameHint">
+              As it should appear in the programme.
+            </p>
+            <p class="error" data-for="name" data-i18n="nameError" hidden>
+              Please tell us your name.
+            </p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="email" data-i18n="email">Email</label>
+          <div class="field__control">
+            <input id="email" name="email" type="email" autocomplete="email" />
+            <p class="hint" id="email-hint" data-i18n="emailHint">
+              We send your entry number here.
+            </p>
+            <p class="error" data-for="email" data-i18n="emailError" hidden>
+              Please enter an email address.
+            </p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="phone" data-i18n="phone">Mobile number</label>
+          <div class="field__control">
+            <input id="phone" name="phone" type="tel" autocomplete="tel" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="competition" data-i18n="competition">Competition</label>
+          <div class="field__control">
+            <select id="competition" name="competition">
+              <option value="" data-i18n="choose">Choose…</option>
+              <option value="c1" data-i18n="c1">Solo, under 12</option>
+              <option value="c2" data-i18n="c2">Recitation, under 16</option>
+              <option value="c3" data-i18n="c3">Folk song, open</option>
+              <option value="c4" data-i18n="c4">Piano solo, open</option>
+            </select>
+            <p class="error" data-for="competition" data-i18n="competitionError" hidden>
+              Please choose a competition.
+            </p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="accompanist" data-i18n="accompanist">Accompanist</label>
+          <div class="field__control">
+            <input id="accompanist" name="accompanist" />
+            <p class="hint" id="accompanist-hint" data-i18n="accompanistHint">
+              Leave blank to use the official accompanist.
+            </p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fee" data-i18n="fee">Entry fee</label>
+          <div class="field__control">
+            <div class="money">
+              <span class="money__prefix">£</span>
+              <input id="fee" name="fee" inputmode="decimal" value="6.00" />
+            </div>
+            <p class="hint" id="fee-hint" data-i18n="feeHint">
+              £4 for under 16s, £6 for everyone else.
+            </p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="needs" data-i18n="needs">Access needs</label>
+          <div class="field__control">
+            <textarea id="needs" name="needs" rows="3"></textarea>
+            <p class="hint" id="needs-hint" data-i18n="needsHint">
+              Anything that would help you on the day.
+            </p>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn btn--primary" type="submit" data-i18n="send">Send entry</button>
+          <button class="btn" type="button" data-i18n="save">Save for later</button>
+        </div>
+      </form>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

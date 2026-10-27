@@ -1,0 +1,7 @@
+[
+  { "lot": "1", "description": "4 Limousin x steers", "reserve": 3600, "hammer": "10:31:40" },
+  { "lot": "2", "description": "3 Angus x heifers", "reserve": 2500, "hammer": "10:34:05" },
+  { "lot": "3", "description": "6 Charolais x steers", "reserve": 6000, "hammer": "10:38:12" },
+  { "lot": "4", "description": "2 Hereford x heifers", "reserve": 1800, "hammer": "10:40:30" },
+  { "lot": "5", "description": "5 Simmental x steers", "reserve": 5200, "hammer": "10:44:51" }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "S-0101",
+    "time": "10:02",
+    "items": [
+      { "variety": "carving", "kg": 4.2 },
+      { "variety": "munchkin", "kg": 0.45 }
+    ]
+  },
+  { "id": "S-0102", "time": "10:17", "items": [{ "variety": "giant", "kg": 13 }] },
+  { "id": "S-0103", "time": "10:40", "items": [{ "kg": 5.35 }, { "variety": "crown", "kg": 2.8 }] },
+  {
+    "id": "S-0104",
+    "time": "11:05",
+    "items": [
+      { "variety": "carving", "kg": 6.05 },
+      { "variety": "carving", "kg": 3.9 },
+      { "variety": "munchkin", "kg": 0.3 }
+    ]
+  },
+  {
+    "id": "S-0105",
+    "time": "11:32",
+    "items": [
+      { "variety": "giant", "kg": 21 },
+      { "variety": "crown", "kg": 3.15 }
+    ]
+  }
+]

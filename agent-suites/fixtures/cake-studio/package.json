@@ -1,0 +1,12 @@
+{
+  "name": "cake-studio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "quote": "node bin/quote.mjs",
+    "sheet": "node bin/sheet.mjs",
+    "delivery": "node bin/delivery-note.mjs",
+    "price-list": "sh scripts/price-list.sh"
+  }
+}

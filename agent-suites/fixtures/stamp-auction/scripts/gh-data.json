@@ -1,0 +1,41 @@
+{
+  "repository": "philately/postal-auction",
+  "viewer": "sam",
+  "reviewer": "pat",
+  "pullRequest": {
+    "number": 58,
+    "title": "Rank lots by top bid",
+    "body": "Adds rankLots() so the results sheet lists the most valuable lots first.",
+    "author": "rio",
+    "headRefName": "feat/rank-lots",
+    "baseRefName": "main",
+    "isDraft": false,
+    "reviewDecision": "CHANGES_REQUESTED"
+  },
+  "threads": [
+    {
+      "id": "PRRT_11",
+      "path": "src/lots.mjs",
+      "line": 8,
+      "comments": [
+        {
+          "id": 9101,
+          "author": "pat",
+          "body": "When two lots have the same top bid, the one that closes sooner should come first. Please add a test for that."
+        }
+      ]
+    },
+    {
+      "id": "PRRT_12",
+      "path": "src/lots.mjs",
+      "line": 9,
+      "comments": [
+        {
+          "id": 9102,
+          "author": "pat",
+          "body": "Question: should withdrawn lots drop out of the ranking? Happy for that to be a follow-up PR rather than this one."
+        }
+      ]
+    }
+  ]
+}

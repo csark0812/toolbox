@@ -1,0 +1,9 @@
+{
+  "name": "lending-library",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "loans": "node bin/loans.mjs"
+  }
+}

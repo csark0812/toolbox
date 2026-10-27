@@ -1,0 +1,9 @@
+{
+  "name": "street-trees",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "fencing": "node bin/fencing.mjs"
+  }
+}

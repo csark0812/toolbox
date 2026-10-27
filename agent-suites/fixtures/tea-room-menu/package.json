@@ -1,0 +1,8 @@
+{
+  "name": "tea-room-menu",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "charity-raffle",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

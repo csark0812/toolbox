@@ -1,0 +1,9 @@
+{
+  "name": "community-garden",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "plots": "node bin/plots.mjs"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "school-bus-routes",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "passes": "node bin/passes.mjs"
+  }
+}

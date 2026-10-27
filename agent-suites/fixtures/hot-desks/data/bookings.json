@@ -1,0 +1,21 @@
+[
+  { "id": "b1", "date": "2026-11-09", "desk": "D04", "user": "u2", "note": "" },
+  {
+    "id": "b2",
+    "date": "2026-11-10",
+    "desk": "D11",
+    "user": "u3",
+    "note": "Monitor, keyboard and a dock please"
+  },
+  {
+    "id": "b3",
+    "date": "2026-11-11",
+    "desk": "D04",
+    "user": "u4",
+    "note": "=HYPERLINK(\"http://example.invalid/claim\",\"Desk map\")"
+  },
+  { "id": "b4", "date": "2026-11-13", "desk": "D02", "user": "u1", "note": "Client visit" },
+  { "id": "b5", "date": "2026-11-15", "desk": "D07", "user": "u2", "note": "" },
+  { "id": "b6", "date": "2026-11-16", "desk": "D11", "user": "u3", "note": "Standing desk" },
+  { "id": "b7", "date": "2026-11-17", "desk": "D04", "user": "u4", "note": "" }
+]

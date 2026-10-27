@@ -1,0 +1,9 @@
+{
+  "name": "pedalo-hire",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "hires": "node bin/hires.mjs"
+  }
+}

@@ -1,0 +1,14 @@
+[
+  { "id": "h-201", "customerId": "c-1", "toolId": "tl-1", "from": "2026-10-19", "status": "out" },
+  { "id": "h-202", "customerId": "c-2", "toolId": "tl-2", "from": "2026-10-20", "status": "out" },
+  { "id": "h-203", "customerId": "c-3", "toolId": "tl-3", "from": "2026-10-21", "status": "out" },
+  {
+    "id": "h-198",
+    "customerId": "c-1",
+    "toolId": "tl-4",
+    "from": "2026-10-10",
+    "to": "2026-10-12",
+    "status": "returned",
+    "chargePence": 18000
+  }
+]

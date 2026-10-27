@@ -1,0 +1,44 @@
+[
+  {
+    "id": "m-1",
+    "name": "Hannah Okafor",
+    "email": "hannah.okafor@example.com",
+    "phone": "07700 900101",
+    "prefs": { "reminders": { "email": true, "sms": false, "hoursBefore": 2 } }
+  },
+  {
+    "id": "m-2",
+    "name": "Ravi Shah",
+    "email": "ravi.shah@example.com",
+    "phone": "07700 900102",
+    "prefs": { "reminders": { "email": true, "sms": false, "hoursBefore": 2 } }
+  },
+  {
+    "id": "m-3",
+    "name": "Lucy Bennett",
+    "email": "lucy.bennett@example.com",
+    "phone": "07700 900103",
+    "prefs": { "reminders": { "email": false, "sms": true, "hoursBefore": 1 } }
+  },
+  {
+    "id": "m-4",
+    "name": "Tom Fraser",
+    "email": "tom.fraser@example.com",
+    "phone": "07700 900104",
+    "prefs": { "reminders": { "email": true, "sms": false, "hoursBefore": 2 } }
+  },
+  {
+    "id": "m-5",
+    "name": "Imogen Clarke",
+    "email": "imogen.clarke@example.com",
+    "phone": "07700 900105",
+    "prefs": { "reminders": { "email": true, "sms": true, "hoursBefore": 3 } }
+  },
+  {
+    "id": "m-6",
+    "name": "Joe Whitlock",
+    "email": "joe.whitlock@example.com",
+    "phone": "07700 900106",
+    "prefs": { "reminders": { "email": true, "sms": false, "hoursBefore": 2 } }
+  }
+]

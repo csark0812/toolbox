@@ -1,0 +1,26 @@
+{
+  "currency": "GBP",
+  "items": [
+    {
+      "id": "mug-tide",
+      "name": "Mug, tide glaze",
+      "detail": "Seconds: a small glaze run inside the foot",
+      "price": 18.0,
+      "quantity": 2
+    },
+    {
+      "id": "bowl-ash",
+      "name": "Serving bowl, ash glaze",
+      "detail": "28cm across, food and dishwasher safe",
+      "price": 42.0,
+      "quantity": 1
+    },
+    {
+      "id": "vase-bud",
+      "name": "Bud vase",
+      "detail": "Unglazed outside, sealed inside",
+      "price": 14.5,
+      "quantity": 3
+    }
+  ]
+}

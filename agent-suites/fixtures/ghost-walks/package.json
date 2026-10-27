@@ -1,0 +1,9 @@
+{
+  "name": "ghost-walks",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "sheets": "node bin/sheets.mjs"
+  }
+}

@@ -1,0 +1,8 @@
+[
+  { "member": "Mo Diallo", "day": "Tue", "start": "14:00", "end": "16:00" },
+  { "member": "Ade Bello", "day": "Tue", "start": "16:00", "end": "18:00" },
+  { "member": "Kit Moreau", "day": "Wed", "start": "10:00", "end": "12:30" },
+  { "member": "Sun Li", "day": "Wed", "start": "12:00", "end": "13:00" },
+  { "member": "Mo Diallo", "day": "Thu", "start": "18:00", "end": "20:00" },
+  { "member": "Ade Bello", "day": "Sat", "start": "09:00", "end": "11:00" }
+]

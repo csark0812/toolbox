@@ -1,0 +1,122 @@
+diff --git a/agent-suites/fixtures/lettings/README.md b/agent-suites/fixtures/lettings/README.md
+index dc8a678..ea9728c 100644
+--- a/agent-suites/fixtures/lettings/README.md
++++ b/agent-suites/fixtures/lettings/README.md
+@@ -10,4 +10,6 @@ Rules for every endpoint:
+ - The deductions on a tenancy can never add up to more than its deposit.
+ - Pages in the tenant portal are HTML, and anything a landlord typed is shown as text.
+ 
++Deductions: landlords claim with `POST /tenancies/:id/deductions` and `{ amount, reason }` (amount in pounds, e.g. `"85.50"`); tenants see the claims and what they get back on `GET /portal/deposit`.
++
+ `src/api.mjs` routes requests to the handlers. `npm test` runs the handler tests.
+diff --git a/agent-suites/fixtures/lettings/src/api.mjs b/agent-suites/fixtures/lettings/src/api.mjs
+index 091d4b2..f01f067 100644
+--- a/agent-suites/fixtures/lettings/src/api.mjs
++++ b/agent-suites/fixtures/lettings/src/api.mjs
+@@ -1,8 +1,11 @@
++import { claimDeduction, depositStatement } from './deductions.mjs'
+ import { listTenancies, tenancyPage } from './tenancies.mjs'
+ 
+ const ROUTES = {
+   'GET /tenancies': listTenancies,
+   'GET /portal/tenancy': tenancyPage,
++  'POST /tenancies/:id/deductions': claimDeduction,
++  'GET /portal/deposit': depositStatement,
+ }
+ 
+ const match = (pattern, path) => {
+diff --git a/agent-suites/fixtures/lettings/src/deductions.mjs b/agent-suites/fixtures/lettings/src/deductions.mjs
+new file mode 100644
+index 0000000..9f538ae
+--- /dev/null
++++ b/agent-suites/fixtures/lettings/src/deductions.mjs
+@@ -0,0 +1,50 @@
++import { page, pounds } from './html.mjs'
++import { addDeduction, deductions, landlords, tenancies } from './store.mjs'
++
++const DAY = 86_400_000
++const CLAIM_DAYS = 10
++
++/** Claims a deduction from a tenancy's deposit, e.g. { amount: '85.50', reason: 'Carpet clean' }. */
++export function claimDeduction(request, session) {
++  if (!session?.landlordId) return { status: 401, body: { error: 'sign in' } }
++  const tenancy = tenancies().find((entry) => entry.id === request.params.id)
++  if (!tenancy) return { status: 404, body: { error: 'not found' } }
++  const now = request.now ?? new Date()
++  const daysAfterEnd = Math.floor((now - new Date(`${tenancy.end}T00:00:00Z`)) / DAY)
++  if (daysAfterEnd >= CLAIM_DAYS) {
++    return { status: 409, body: { error: 'the claim window has closed' } }
++  }
++  let pence = Math.round(Number(request.body.amount) * 100)
++  if (!(pence > 0)) return { status: 400, body: { error: 'amount must be more than £0' } }
++  if (pence > tenancy.depositPence) {
++    return { status: 422, body: { error: 'that is more than the deposit' } }
++  }
++  // TODO: email the tenant when a deduction is claimed
++  const row = addDeduction({
++    tenancyId: tenancy.id,
++    pence,
++    reason: request.body.reason,
++    at: now.toISOString().slice(0, 10),
++  })
++  return { status: 201, body: row }
++}
++
++/** The tenant portal's deposit statement: what has been claimed and what comes back. */
++export function depositStatement(request, session) {
++  if (!session?.tenancyId) return { status: 401, body: { error: 'sign in' } }
++  const tenancy = tenancies().find((entry) => entry.id === session.tenancyId)
++  if (!tenancy) return { status: 404, body: { error: 'not found' } }
++  const claimed = deductions().filter((deduction) => deduction.tenancyId == tenancy.id)
++  const total = claimed.reduce((sum, deduction) => sum + deduction.pence, 0)
++  const items = claimed.map(
++    (deduction) => `<li>${deduction.reason}: ${pounds(deduction.pence)}</li>`,
++  )
++  const body = [
++    '<h1>Deposit statement</h1>',
++    `<ul>${items.join('')}</ul>`,
++    `<p>Deductions: ${pounds(total)}</p>`,
++    `<p>Returned to you: ${pounds(tenancy.depositPence - total)}</p>`,
++  ].join('\n')
++  // console.log('statement', tenancy.id, total)
++  return { status: 200, body: page('Deposit statement', body) }
++}
+diff --git a/agent-suites/fixtures/lettings/tests/deductions.test.mjs b/agent-suites/fixtures/lettings/tests/deductions.test.mjs
+new file mode 100644
+index 0000000..b2b98dc
+--- /dev/null
++++ b/agent-suites/fixtures/lettings/tests/deductions.test.mjs
+@@ -0,0 +1,33 @@
++import assert from 'node:assert/strict'
++import { beforeEach, test } from 'node:test'
++import { route } from '../src/api.mjs'
++import { reset } from '../src/store.mjs'
++
++beforeEach(reset)
++const margaret = { landlordId: 'll-1' }
++const claim = (body, now) =>
++  route('POST', '/tenancies/t-1/deductions', { body, now: new Date(now) }, margaret)
++
++test('a landlord claims a deduction after the tenancy ends', () => {
++  const response = claim({ amount: '85.50', reason: 'Carpet cleaning' }, '2026-10-12T10:00Z')
++  assert.equal(response.status, 201)
++  assert.equal(response.body.pence, 8550)
++})
++
++test('claims close after the claim window', () => {
++  const response = claim({ amount: '20', reason: 'Bulb' }, '2026-10-25T10:00Z')
++  assert.equal(response.status, 409)
++})
++
++test('a claim cannot be more than the deposit', () => {
++  const response = claim({ amount: '1500', reason: 'Redecorating' }, '2026-10-12T10:00Z')
++  assert.equal(response.status, 422)
++})
++
++test('the tenant sees the claims and what comes back', () => {
++  claim({ amount: '85.50', reason: 'Carpet cleaning' }, '2026-10-12T10:00Z')
++  const response = route('GET', '/portal/deposit', {}, { tenancyId: 't-1' })
++  assert.equal(response.status, 200)
++  assert.match(response.body, /Carpet cleaning: £85\.50/)
++  assert.match(response.body, /Returned to you: £1,114\.50/)
++})

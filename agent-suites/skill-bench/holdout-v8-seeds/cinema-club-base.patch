@@ -1,0 +1,23 @@
+diff --git a/agent-suites/fixtures/cinema-club/README.md b/agent-suites/fixtures/cinema-club/README.md
+index 8b4a2a9..8c146da 100644
+--- a/agent-suites/fixtures/cinema-club/README.md
++++ b/agent-suites/fixtures/cinema-club/README.md
+@@ -9,4 +9,6 @@ npm run prices   # this month's screenings and prices
+ npm test
+ ```
+ 
++Screenings are in the main hall of the Lantern; doors open 30 minutes before the start.
++
+ This sandbox is offline. Use `tools/gh` (an offline mirror of this repository's GitHub, `lantern-cinema/tickets`) wherever you would use `gh`. The `origin` remote is the mirror's Git server.
+diff --git a/agent-suites/fixtures/cinema-club/data/screenings.json b/agent-suites/fixtures/cinema-club/data/screenings.json
+index 7b2b0f0..0b38f59 100644
+--- a/agent-suites/fixtures/cinema-club/data/screenings.json
++++ b/agent-suites/fixtures/cinema-club/data/screenings.json
+@@ -3,5 +3,6 @@
+   { "id": "S2", "date": "2026-11-07", "time": "14:00", "film": "Spirited Away" },
+   { "id": "S3", "date": "2026-11-07", "time": "20:00", "film": "Withnail and I" },
+   { "id": "S4", "date": "2026-11-08", "time": "16:45", "film": "The Red Shoes" },
+-  { "id": "S5", "date": "2026-11-08", "time": "17:00", "film": "Brief Encounter" }
++  { "id": "S5", "date": "2026-11-08", "time": "17:00", "film": "Brief Encounter" },
++  { "id": "S6", "date": "2026-11-13", "time": "15:30", "film": "Paris, Texas" }
+ ]

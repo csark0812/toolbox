@@ -1,0 +1,24 @@
+[
+  {
+    "group": "Toddler group",
+    "contact": "ana@example.org",
+    "day": "Mon",
+    "start": "09:30",
+    "end": "11:30"
+  },
+  {
+    "group": "Choir",
+    "contact": "lee@example.org",
+    "day": "Tue",
+    "start": "18:00",
+    "end": "20:00"
+  },
+  { "group": "Yoga", "contact": "sam@example.org", "day": "Wed", "start": "17:00", "end": "18:00" },
+  {
+    "group": "Quiz night",
+    "contact": "kit@example.org",
+    "day": "Fri",
+    "start": "19:00",
+    "end": "22:00"
+  }
+]

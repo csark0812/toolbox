@@ -1,0 +1,46 @@
+body {
+  background: #000080;
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 11px;
+  color: #ffff00;
+}
+
+#wrapper {
+  width: 1100px;
+  margin: 0 auto;
+}
+
+.sidebar {
+  width: 180px;
+  vertical-align: top;
+  background: #c0c0c0;
+  color: #000;
+}
+
+.content {
+  vertical-align: top;
+  padding: 4px;
+}
+
+h1 {
+  font-size: 22px;
+  color: #ff0000;
+}
+
+h2 {
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.gigs td {
+  color: #fff;
+  font-size: 10px;
+}
+
+.small {
+  font-size: 8px;
+}
+
+a {
+  color: #00ffff;
+}

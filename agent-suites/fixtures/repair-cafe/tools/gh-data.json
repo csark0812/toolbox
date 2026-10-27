@@ -1,0 +1,42 @@
+{
+  "repository": "canal-street/repair-log",
+  "viewer": "sam",
+  "reviewer": "priya",
+  "pullRequest": {
+    "number": 12,
+    "title": "List items awaiting a PAT test",
+    "body": "Adds the tickets still waiting for a PAT test to the end-of-session report, so nothing electrical goes home untested. Per our insurer's conditions, anything electrical that runs off the mains and that we fixed must be PAT tested before it goes home. Battery items don't need a test, and items we gave advice on or couldn't fix go home as they came.",
+    "author": "sam",
+    "headRefName": "feat/pat-tests",
+    "baseRefName": "main",
+    "isDraft": false,
+    "reviewDecision": "CHANGES_REQUESTED"
+  },
+  "comments": [],
+  "threads": [
+    {
+      "id": "PRRT_121",
+      "path": "src/report.mjs",
+      "line": 13,
+      "comments": [
+        {
+          "id": 1211,
+          "author": "priya",
+          "body": "Could the awaiting list be in ticket order? Our electrician works down the tickets at the end of the session, and at the moment it comes out in table order."
+        }
+      ]
+    },
+    {
+      "id": "PRRT_122",
+      "path": "src/safety.mjs",
+      "line": 11,
+      "comments": [
+        {
+          "id": 1221,
+          "author": "priya",
+          "body": "Should the things we only gave advice on be tested too? People do go home and fix them themselves."
+        }
+      ]
+    }
+  ]
+}

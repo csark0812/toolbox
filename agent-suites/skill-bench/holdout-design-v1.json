@@ -1,0 +1,209 @@
+{
+  "description": "First held-out set for visual design: twelve page tasks for the visual-design skill, written before any run and never tuned against. Three landing pages from a brief (one product with no imagery), two restyles that keep every piece of content, two app screens whose numbers must be computed from JSON, three interaction-heavy flows (a checkout, an onboarding, a price calculator) and two redesigns inside a brand file that must stay untouched. Each has an organic prompt, judge-only criteria, a render field so the judge sees screenshots and motion frames, and a hidden acceptance check under holdout-design-v1-checks/ that the agent never sees.",
+  "tasks": [
+    {
+      "id": "typewriter-workshop-page",
+      "targetSkill": "taste",
+      "render": { "page": "index.html" },
+      "check": "typewriter-repair",
+      "claim": {
+        "prompt": "Ruth runs a typewriter repair workshop and wants her first real website. Her brief is in the README in agent-suites/fixtures/typewriter-repair. One static page, please. She has no photos yet."
+      },
+      "criteria": [
+        "The page looks made for this workshop specifically (a hand repair bench, manual machines, a father-and-daughter shop since 1979, the typed test sheet), not a generic small-business template: one clear idea from the subject, carried past the first screen, without stock photos or invented imagery standing in for the missing photos.",
+        "The first screen says what this is, where, and how to get a machine looked at, with the phone number as the most prominent action and tappable on a phone; every service with its price and notes, the three machines for sale with year and price, the address, the opening days and hours (closed Sunday and Monday) and the email are all present and easy to find.",
+        "Typography, colour and spacing are deliberate and consistent, with a clear hierarchy; no stock template tells (centred hero over three icon cards, gradients, glows, emoji icons, eyebrow labels, invented reviews, statistics or testimonials).",
+        "The machines-for-sale part is easy for Ruth to edit (a plain list or a small data block, not markup repeated by hand in several places), and the price list reads as a list, aligned, not as decoration.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the call button reachable. Any motion is quick, never hides content, and stops under reduced motion; the primary action has visible hover and keyboard focus states.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented content honestly."
+      ]
+    },
+    {
+      "id": "backup-tool-page",
+      "targetSkill": "taste",
+      "render": { "page": "index.html" },
+      "check": "cairn-backup",
+      "claim": {
+        "prompt": "We need a product page for Cairn, our command-line backup tool. Everything we know is in the notes in agent-suites/fixtures/cairn-backup. We have nothing visual at all: no logo, no screenshots, no photos. Make it a single static page that people will actually trust and install from."
+      },
+      "criteria": [
+        "With no imagery to lean on, the page earns its look from type, layout and the product's own material (real commands and their output, the idea of a cairn as a marker of what was left behind) rather than stock pictures, fake screenshots, abstract gradient blobs or icon grids; it does not read as a generic developer-tool template.",
+        "The first screen says what Cairn does and for whom, and the install command is immediately findable and copyable (a copy control that works, with keyboard access and feedback, is a plus); both install commands, the supported platforms, the destinations, the encryption, restore by time and nightly verify are all present and accurate.",
+        "All three plans are shown with their exact prices and limits (Free for one machine non-commercial, £48 per machine a year, £390 a year for up to 25 machines), the 30-day refund and that every plan can restore and verify; nothing is invented (no customer logos, user counts, testimonials or uptime figures).",
+        "Typography, colour and spacing are deliberate and consistent; monospace is used for code, not as decoration or eyebrow labels; contrast is readable everywhere including code blocks.",
+        "The phone layout is composed for a phone: long commands wrap or scroll inside their own block rather than pushing the page sideways, readable type, the install command reachable. Any motion is purposeful, never delays content and stops under reduced motion.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented content honestly."
+      ]
+    },
+    {
+      "id": "walking-festival-page",
+      "targetSkill": "taste",
+      "render": { "page": "index.html" },
+      "check": "walking-festival",
+      "claim": {
+        "prompt": "The walking festival committee wants a page that sells next May's festival and gets people booking. Their brief is in agent-suites/fixtures/walking-festival. A single static page is all we need for now."
+      },
+      "criteria": [
+        "The page feels like this festival (chalk valleys of the Wolds, four days in May, volunteer-led walks from a market town), not a generic event template: a specific visual idea from the place, used beyond the first screen, without stock photos.",
+        "The first screen gives the dates, the place and the way to book, with booking opening on 1 February 2027 and the 20-person cap made clear so people know to book early; there are no invented booking links or prices beyond the brief.",
+        "Tickets are easy to compare (day ticket £12, festival pass £38 including the ceilidh, under-16s free with a paying adult) and the three featured walks show distance, grade and day so a reader can pick one; the dog rule (not on Millington Wood), the free minibus and both contacts are present.",
+        "Typography, colour and spacing are deliberate and consistent with a clear hierarchy and sections that do not all share one layout; no stock template tells (centred hero over three icon cards, gradients, glows, emoji icons, eyebrow labels, invented reviews or statistics).",
+        "The phone layout is composed for a phone: the walks and tickets read well at 390px without sideways scroll, the booking action is reachable. Any motion is quick, never hides content and stops under reduced motion; hover and keyboard focus are visible on the actions.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and lists any invented content honestly."
+      ]
+    },
+    {
+      "id": "brass-band-restyle",
+      "targetSkill": "taste",
+      "render": { "page": "index.html" },
+      "check": "brass-band",
+      "claim": {
+        "prompt": "Our brass band's website in agent-suites/fixtures/brass-band was made by a member about fifteen years ago. It's embarrassing and it's unusable on a phone. Can you give it a proper redesign? Everything that's on it now has to stay on it, and it has to stay a plain static page."
+      },
+      "criteria": [
+        "Every piece of content is kept and still accurate: all four concerts with date, time, venue and price, rehearsal days, times and hall, the learner band, subs and the under-18 rule, the three vacancies, the secretary's name, phone and email, booking the band with the eight weeks' notice, the founding year and the charity number. Nothing is invented.",
+        "The broken structure is fixed, not patched: no table layout or fixed widths, one h1, real headings, the navigation working as in-page links, the marquee replaced by something readable that keeps its message.",
+        "The redesign has a specific character from the subject (a village brass band with a long history, concerts and a learner band) rather than a generic template, with a clear hierarchy that puts the next concert and how to join or come along first.",
+        "Concert listings are easy to scan: dates, times and venues aligned and consistent, prices clear, the championship marked as different from concerts people buy tickets for.",
+        "The phone layout is composed for a phone: readable type, no sideways scroll, comfortable tap targets for the navigation and contact links. Any motion is restrained and stops under reduced motion; links and buttons have visible hover and keyboard focus states.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and confirms that all content was kept."
+      ]
+    },
+    {
+      "id": "language-exchange-restyle",
+      "targetSkill": "taste",
+      "render": { "page": "index.html" },
+      "check": "language-exchange",
+      "claim": {
+        "prompt": "The landing page for our language exchange in agent-suites/fixtures/language-exchange looks like it came out of a startup template generator, and it doesn't even fit on a phone. Make it look like it belongs to a friendly weekly meetup in a Bristol library. Keep all the content and the sections; keep it static."
+      },
+      "criteria": [
+        "The generic tells are gone (gradient text and buttons, glow shadows, glass panels and nav, the blurred blob, emoji icons in tinted squares and flags, monospace eyebrow labels, the pill badge, three identical cards) and replaced by a specific visual idea from the subject (shared tables, swapping languages, a library on Cheltenham Road), not just a new colour scheme.",
+        "All content is kept: the three steps with their details, all six languages, the day, times, venue, address, the £4 including one drink and no booking, all three questions with their answers, the call to action, and the organisers' line.",
+        "Hierarchy and composition are clearly better at both widths: when and where (every Tuesday, 18:30 to 20:30, The Old Library) is unmissable, one dominant thing per screen, sections that do not all share one layout, readable contrast throughout.",
+        "The page is structurally sound: one h1, no decorative element causing sideways scroll, headings in order, the call to action a real link with visible hover and keyboard focus states, any FAQ disclosure usable from the keyboard.",
+        "The phone layout is composed for a phone (not a squeezed desktop): readable type, no sideways scroll, the call to action reachable. Any motion is restrained, never hides content and stops under reduced motion.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and confirms that all content was kept."
+      ]
+    },
+    {
+      "id": "fridge-temperatures-screen",
+      "targetSkill": "taste",
+      "render": { "page": "index.html" },
+      "check": "fridge-log",
+      "claim": {
+        "prompt": "Build the temperature screen for our kitchen in agent-suites/fixtures/fridge-log. The README has our food safety rules and what the head chef needs to see. It'll be on the wall tablet and on his phone, so it needs to be a proper, clear app screen that works on both."
+      },
+      "criteria": [
+        "The numbers are computed from data/readings.json by the stated rules and are right: three units need action, Prep fridge 1 (5.4 then 6.1 °C at 12:00 and 14:00, two in a row; latest 4.9), Prep fridge 2 (latest 5.3 °C at 16:00) and Dessert fridge (5.2 at 08:00 and 5.1 at 12:00 with the missed 10:00 check between them, which does not break the run; latest 4.8); the Walk-in chiller (5.0 is in range, 5.6 once), Fish drawer (2.4 and 2.6, not in a row) and Freezer (-17.5 once; -18.0 is in range; latest -22.0) are OK.",
+        "Each unit shows its latest reading with its time, today's low and high (Walk-in 3.1–5.6, Prep 1 2.8–6.1, Prep 2 3.2–5.3, Dessert 4.0–5.2, Fish 1.2–2.6, Freezer -22.0 to -17.5) and its out-of-range count (1, 2, 1, 2, 2, 1; nine in all), and both missed checks (Prep fridge 2 and Dessert fridge at 10:00) are listed with unit and time.",
+        "The screen answers Mo's question at a glance: what needs action now and why comes first, in words, with colour used sparingly and never as the only signal; units that are fine recede. Numbers and units are aligned, with tabular figures and consistent decimals and degree signs.",
+        "It reads as a working tool, not a landing page or a decorative dashboard: a quiet shell, no vanity charts or invented metrics; a loading or error state for the data file is handled.",
+        "The phone layout is composed for a phone and the tablet layout for a wall: readable at arm's length, no sideways scroll, nothing important below a long scroll. Any motion is minimal and stops under reduced motion.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and reports the computed results honestly."
+      ]
+    },
+    {
+      "id": "charger-bills-screen",
+      "targetSkill": "taste",
+      "render": { "page": "index.html" },
+      "check": "ev-chargers",
+      "claim": {
+        "prompt": "We share three car chargers at work and split the bill by usage, and every month the spreadsheet causes an argument. Could you build a screen for agent-suites/fixtures/ev-chargers that works out October from the export and shows everyone what they owe? The rules we agreed are in the README. People will mostly look at it on their phones."
+      },
+      "criteria": [
+        "The bills follow the agreed rules and are right: the September session and the failed session are left out; s03 (06:45), s06 (19:00), s10 (21:30) and s14 (06:30) are off-peak and s07 (18:59) and s09 (07:00) are peak; idle fees go to s03, s06, s08 (61 minutes), s10 and s13, but not s07 (exactly 60 minutes); Amara's September payment is ignored. October totals: 217.2 kWh, £62.79 billed, £25.83 outstanding.",
+        "Each person's line is right and complete: Amara Osei 3 sessions, 39.7 kWh, £13.50 energy, £2.00 idle, £15.50 total, £10.00 paid, owes £5.50; Tom Kirby 50.9 kWh, £12.46 + £2.00 = £14.46, paid £16.00, £1.54 in credit; Leila Haddad 67.5 kWh, £13.71 + £2.00 = £15.71, paid nothing, owes £15.71 and owes the most; Gareth Pryce 59.1 kWh, £13.12 + £4.00 = £17.12, paid £12.50, owes £4.62. Credit is shown as credit, not as a negative debt.",
+        "Anyone can check their own bill: the sessions are listed with date, start time, bay, kWh, peak or off-peak and any idle fee, and the totals visibly come from them; the data is read from data/october.json, not typed in.",
+        "It reads as a calm, trustworthy tool that ends the argument: who owes what is the first thing on screen, money is aligned with tabular figures and consistent formatting, colour is used sparingly and never as the only signal, no decorative charts or invented metrics.",
+        "The phone layout is composed for a phone: each person's bill and the session list read well at 390px without sideways scroll (a wide table is reflowed, not squeezed). Any motion is minimal and stops under reduced motion.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and reports the computed results honestly."
+      ]
+    },
+    {
+      "id": "veg-box-checkout",
+      "targetSkill": "taste",
+      "render": { "page": "index.html" },
+      "check": "veg-box-order",
+      "claim": {
+        "prompt": "Hannah wants customers to order her veg boxes from a web page instead of texting her. What she needs is in agent-suites/fixtures/veg-box-order. Most people will order on their phones, so it has to be easy there. Plain static page, there's no server yet."
+      },
+      "criteria": [
+        "The flow works end to end in three steps and the money is right: Medium plus two lots of eggs is £24.60 with £2.50 delivery, £27.10; adding a sourdough loaf makes £28.80 with free delivery (the £25.00 threshold is inclusive); the running total is visible while choosing, and the confirmation repeats the order and total.",
+        "Validation is kind and precise: every delivery field is required, the email and UK phone rules are applied, BS1 and BS8 (and anything outside BS3 to BS7) get a clear 'we don't deliver there yet' message, errors appear next to their field in words when the customer tries to continue, focus or scroll moves to the first problem, and nothing typed is ever lost, including when going back from the review.",
+        "The form is accessible and comfortable: visible labels, real radio buttons or equivalents for the box and day, quantity controls with large targets, clear focus states, errors announced and tied to their fields, the current step shown.",
+        "The page looks designed for a small market garden (seasonal, picked this week) rather than a generic checkout template, with a clear hierarchy on each step and no stock template tells or invented content.",
+        "The phone layout is composed for a phone: one column, readable type, no sideways scroll, the continue action reachable without hunting. Step transitions, if animated, are quick and respect reduced motion.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, including the error and success states, and lists any invented content honestly."
+      ]
+    },
+    {
+      "id": "commute-onboarding",
+      "targetSkill": "taste",
+      "render": { "page": "index.html" },
+      "check": "commute-setup",
+      "claim": {
+        "prompt": "Can you build the first-run setup for our commuter delay app? It's described in agent-suites/fixtures/commute-setup. People open it once on a cold platform and either finish setup in under a minute or give up, so it has to be quick and obvious on a phone. Static HTML, no back end."
+      },
+      "criteria": [
+        "The three steps and the finished screen work: both stations from the list are required and must differ, at least one day must be ticked (Monday to Friday to start), the alerts step can be skipped (leaving alerts on at 10 minutes), and the finished screen sums up the stations, both times, the days and the alert setting in plain words, with a way to change any of it.",
+        "Errors say what and where next to the field when the commuter tries to continue, and nothing is lost going back and forward; choosing a station from twenty is quick on a phone (a searchable list or a well-labelled select, not a tiny dropdown hunt).",
+        "It is built for one-handed use: large tap targets, the main action within thumb reach, the current step and how many remain shown, visible keyboard focus, labels and errors exposed to assistive technology.",
+        "The look is specific to a West of England rail commuter app (platforms, departure boards, early mornings) rather than a generic onboarding carousel, with calm, clear typography and no stock illustrations, emoji or invented testimonials.",
+        "The phone layout is composed for a phone: no sideways scroll, readable type, nothing important hidden below the fold on each step. Step transitions, if animated, are quick, never hide content and respect reduced motion.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, including the error, back and skip paths, and lists any invented content honestly."
+      ]
+    },
+    {
+      "id": "frame-price-calculator",
+      "targetSkill": "taste",
+      "render": { "page": "index.html" },
+      "check": "frame-quote",
+      "claim": {
+        "prompt": "We're a framing workshop and we want a price calculator on our website so people stop emailing us for quotes. The way we price frames is written up in agent-suites/fixtures/frame-quote. It needs to give the real price and work well on a phone. Static page."
+      },
+      "criteria": [
+        "The prices follow the workshop's rules exactly: 40 x 50 cm walnut, anti-reflective, with a mount is £134.70 (outer 50 x 60: moulding £79.20, glazing £28.50, mount £12, fitting £15, 7 days); 95 x 70 cm gilt, standard glass, with a mount is £243.40 (outer 105 x 80: £162.80 + £33.60 + £12 + £15 + £20 large frame surcharge, 14 days); 20 x 15 cm black ash, acrylic, no mount is £38.40 (£15.40 + the £8 glazing minimum + £15).",
+        "The total, the outer size, the ready time and a line-by-line breakdown update as options change; sizes outside 10 to 120 cm are refused next to the field with no price shown, and the 'Book a fitting' email link carries the chosen options.",
+        "The controls are easy and accessible: labelled size inputs that work on a phone keyboard, real radio or select controls for moulding and glazing (showing what each costs or looks like), a clear mount toggle, visible focus states, and the price change announced to assistive technology.",
+        "The page looks made for a framing workshop (mouldings, mounts, a counter quote) rather than a generic pricing calculator; a simple preview of the frame proportions that reflects the chosen size and mount is a plus; no stock template tells or invented content.",
+        "The phone layout is composed for a phone: options and the running total both usable without losing sight of the price, no sideways scroll, readable type. Any motion on price changes is subtle and respects reduced motion.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, including the worked prices, and lists any invented content honestly."
+      ]
+    },
+    {
+      "id": "archives-visit-redesign",
+      "targetSkill": "taste",
+      "render": { "page": "index.html" },
+      "check": "county-archives",
+      "claim": {
+        "prompt": "The 'Visit us' page for the county archives in agent-suites/fixtures/county-archives is a mess and breaks on phones. Please redesign it. brand.css is the council's shared brand file, so don't touch it; work within it."
+      },
+      "criteria": [
+        "brand.css is untouched and is used properly: its colour and type tokens drive the page (council green and stone as the main colours, gold for focus and small accents, the alert red only for the closure notice), the two brand typefaces throughout, and none of the old off-brand blue and orange or other new colours.",
+        "The page is redesigned around a visitor's questions (when can I come, what must I bring, how do I order documents, what will copies cost), not just restyled: the closure notice reads as a notice with its dates, and opening hours, including the first and third Saturday, are clear at a glance.",
+        "Every fact is kept and accurate: hours, closed days, address, step-free entrance and hearing loop, phone and email, reader's ticket requirements, the 3-working-day and 6-item ordering rules, pencils only, lockers with the £1 coin, the £5 photography permit with no flash, scans £3.50 and certified copies £12.",
+        "The structure is sound: one h1, headings in order, no table layout or fixed widths, contrast readable, links with visible focus.",
+        "The phone layout is composed for a phone: readable type, no sideways scroll, the hours and contacts reachable quickly. Any motion is restrained and respects reduced motion.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and confirms brand.css was left unchanged."
+      ]
+    },
+    {
+      "id": "loans-page-redesign",
+      "targetSkill": "taste",
+      "render": { "page": "index.html" },
+      "check": "credit-union-loans",
+      "claim": {
+        "prompt": "Our credit union's loans page in agent-suites/fixtures/credit-union-loans looks dated, shouts at people and falls apart on a phone. Could you redesign it? brand.css is shared with our branch screens and member app, so it can't change. The README has one more rule we have to follow."
+      },
+      "criteria": [
+        "brand.css is untouched and is used properly: teal and sand as the main colours, coral only for calls to action, the two brand typefaces; the off-brand purple gradient, all-caps headings and other off-brand colours are gone.",
+        "The four loans are easy to compare (what you can borrow, the representative APR, what each is for, the Christmas loan's October to March window), and the representative example is kept word for word (£1,000 over 12 months at 12.7% APR fixed, 12 repayments of £88.85, £1,066.20 payable) and is as prominent as the rates, not small print.",
+        "The tone and look suit a member-owned local credit union (fair, plain-spoken, trustworthy) rather than a payday lender or a fintech template: no urgency tricks, no invented testimonials or statistics, one clear apply action rather than four identical buttons.",
+        "Every fact is kept: no fees, no early repayment charges, reducing balance, decisions within 2 working days, who can join, how to apply by phone, online or at the branch with its address and hours, and the FSCS line.",
+        "The phone layout is composed for a phone: the loans reflow rather than scroll sideways, readable type, the apply action reachable. Any motion is restrained and respects reduced motion; the call to action has visible hover and keyboard focus states.",
+        "The reply states the direction taken and why it fits this subject, names what was checked in a real browser at which widths, and confirms brand.css was left unchanged."
+      ]
+    }
+  ]
+}

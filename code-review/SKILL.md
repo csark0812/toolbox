@@ -53,7 +53,7 @@ Extended design vocabulary is available in [codebase-design.md](https://raw.gith
 
 Choose one primary mode from the requested outcome, not repository size. A lens changes the evidence to inspect; it does not create another mode. Read [interaction-modes.md](references/interaction-modes.md).
 
-**Work lean.** Read each file once, batch independent commands in one call, and keep command output short, for example with a summary reporter or `| tail -20`.
+**Work lean.** Read each file once, batch independent commands, and keep output short (`| tail -20`).
 
 ## Run the review
 
@@ -63,14 +63,18 @@ Choose one primary mode from the requested outcome, not repository size. A lens 
 4. Test each candidate concern against the Action proof card in [evidence-and-filing.md](references/evidence-and-filing.md).
 5. Run safe read-only checks or non-mutating tests when they can settle a material concern.
 6. Consolidate findings by root cause. For merge requests, include only blocked findings plus an explicit advisory section for non-blocking opportunities.
-7. Sweep for completeness before concluding. Finding two blockers does not end the review. Check every changed function against the risks that apply to it: authentication and authorization, randomness used for secrets, input validation and injection, trust in request headers, resource bounds (unbounded caches, sizes, loops), concurrency and ordering, error handling that hides failures, off-by-one boundaries, and data loss. Report real lower-severity issues as well, ranked below the blockers.
+7. Sweep before concluding; two blockers do not end the review.
+   - Check each changed function for authorization and ownership, header trust, secret randomness, input validation and injection, resource bounds, concurrency and ordering, swallowed errors, off-by-one boundaries and data loss.
+   - Pair each state a record can be in (including unpaid, cancelled, expired, already refunded or used) with each action the change allows. Money, credit or access given in a state that never earned it is a blocker.
+   - Read every test the diff touches. An assertion removed, loosened (`> 0`, truthy, `includes`) or rewritten to match new output is a finding: it stops pinning the behavior it used to.
+   - Report real lower-severity issues too.
 8. Omit empty sections and repeated synthesis.
 9. For a merge gate, recheck identity and mutable contract evidence immediately before the final status.
 10. Deliver. With an open PR and no restriction, publish one COMMENT review with inline findings per [independence-and-delivery.md](references/independence-and-delivery.md) and give the review URL. Otherwise deliver the review in your reply and state why nothing was posted (for example "No open PR for this branch"). Never write review notes or reports into the reviewed workspace; it stays exactly as you found it.
 
-**Review reply.** Open with the merge verdict in one line, such as "Hold the merge: two blocking bugs". Then list findings by severity, using distinct levels, so that not everything is high. Give each finding its `file:line`, a concrete failing scenario with inputs, and its impact, with a number when you can, such as how many records a race loses. A bug that lets someone gain money, credit or access they should not have, or lose data, is always a blocker. Verify every line number with `grep -n` or `nl` before citing it. Time-of-day logic depends on the server's time zone; check it. Style and naming are advisory, never blockers. Trace concurrency and ordering bugs through an actual interleaving. For each finding, say why the existing tests do not catch it, and back it with a probe that shows the failing output. **Reply check.** Every result you state names a command that appears in your actions and ran after your last edit: say `node --test` if that is what ran, not `npm test`. Claim a clean tree only after `git status`, and claim a test failed first only when that failing run is shown.
+**Review reply.** The first line gives the verdict and names the single most severe finding, such as "Hold the merge: any member can read other members' records". Order findings strictly: data loss, data leak, or wrong money or access first (always blockers); then wrong results; then the rest, using distinct severity levels. Give each finding its `file:line` (verified with `grep -n` or `nl`), a concrete failing scenario with inputs, and its impact, with a number when you can. Time-of-day logic depends on the server's time zone; check it. Style and naming are advisory, never blockers. Trace concurrency and ordering bugs through an actual interleaving. **Probe each finding** by running the code on the exact boundary or state it claims and showing the output. Copy input values and existing test assertions from the files, never from memory, and confirm the probe's input is the boundary you name. Say why the existing tests miss it. **Reply check.** Every result you state names a command that appears in your actions and ran after your last edit: say `node --test` if that is what ran, not `npm test`. Claim a clean tree only after `git status`, and claim a test failed first only when that failing run is shown.
 
-When the reviewed path has meaningful state, identity, lifecycle, policy, side effects, recovery, or a trust boundary, name the concept, owner, public contract, and test seam before judging its design. File movement alone does not prove a boundary.
+For design concerns on state, lifecycle or trust boundaries, use the architecture checklist in [evidence-and-filing.md](references/evidence-and-filing.md).
 
 ## Boundaries and composition
 
@@ -78,7 +82,7 @@ When the reviewed path has meaningful state, identity, lifecycle, policy, side e
 - A clean focused or standard review is not a merge attestation.
 - A passing merge gate covers code quality for the displayed snapshot, contract, scope, and lenses. It does not cover CI, approvals, conflicts, branch protection, deployment health, merge permission, or the merge action.
 - A passing merge gate runs on fixed scope and identity only. Repeated merge-gate runs for the same bound must not widen scope to chase advisory-only gaps.
-- Council can supply independent reviewers. Each member follows this skill for evidence and output. Code Review remains functional alone.
+- Council can supply independent reviewers; each follows this skill's evidence bar, and this skill works alone.
 - A consumer-local review or standards skill adds project rules. It does not replace this evidence bar.
 
 ## Consumer bindings
@@ -89,6 +93,6 @@ Project instructions supply local contracts, validation commands, and accepted d
 
 Read [independence-and-delivery.md](references/independence-and-delivery.md) for every full review and any publication. Fresh full reviews use a new context without earlier verdicts or implementation discussion. Supply current source, authoritative requirements and relevant tests; preserve legitimate comments and contracts. Freeze the first report before reconciling previous findings. Closure checks remain targeted and cannot substitute for a full pass.
 
-The owning artifact helper is `node <installed-skill>/scripts/review.mjs --help`. Store immutable initial findings and separate reconciliation/final reports; even a clean review leaves an artifact. Assessment and delivery are different outcomes. Reviews of a named PR, or of a branch with an open PR, deliver actionable findings as native inline comments grouped in one COMMENT review; the delivery contract defines anchoring and receipt verification.
+The owning artifact helper is `node <installed-skill>/scripts/review.mjs --help`. Store immutable initial findings and separate reconciliation/final reports; even a clean review leaves an artifact. The delivery contract defines inline anchoring and receipt verification.
 
 Executable input contracts → [helper.md](references/helper.md). Read this before mutating durable records.

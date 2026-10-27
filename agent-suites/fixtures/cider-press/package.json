@@ -1,0 +1,9 @@
+{
+  "name": "cider-press",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "drops": "node bin/drops.mjs"
+  }
+}

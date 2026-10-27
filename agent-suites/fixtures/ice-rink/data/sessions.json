@@ -1,0 +1,65 @@
+[
+  {
+    "id": "S1",
+    "date": "2026-11-07",
+    "start": "10:00",
+    "end": "11:30",
+    "type": "Public skate",
+    "booked": 112,
+    "capacity": 250
+  },
+  {
+    "id": "S2",
+    "date": "2026-11-07",
+    "start": "12:00",
+    "end": "12:45",
+    "type": "lessons ",
+    "booked": 24,
+    "capacity": 30
+  },
+  {
+    "id": "S3",
+    "date": "2026-11-07",
+    "start": "13:00",
+    "end": "15:00",
+    "type": "Hockey",
+    "booked": 38,
+    "capacity": 40
+  },
+  {
+    "id": "S4",
+    "date": "2026-11-07",
+    "start": "19:00",
+    "end": "21:00",
+    "type": "Disco",
+    "booked": 231,
+    "capacity": 250
+  },
+  {
+    "id": "S5",
+    "date": "2026-11-08",
+    "start": "10:00",
+    "end": "11:30",
+    "type": "public skate",
+    "booked": 187,
+    "capacity": 250
+  },
+  {
+    "id": "S6",
+    "date": "2026-11-08",
+    "start": "12:00",
+    "end": "12:45",
+    "type": "Lessons",
+    "booked": 30,
+    "capacity": 30
+  },
+  {
+    "id": "S7",
+    "date": "2026-11-09",
+    "start": "18:00",
+    "end": "19:30",
+    "type": "Public Skate",
+    "booked": 64,
+    "capacity": 250
+  }
+]

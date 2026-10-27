@@ -1,0 +1,34 @@
+[
+  {
+    "id": "b1",
+    "memberId": "m-1",
+    "name": "Ruth Ellis",
+    "phone": "07700 900111",
+    "courseId": "c1",
+    "status": "paid"
+  },
+  {
+    "id": "b2",
+    "memberId": "m-2",
+    "name": "Tariq Shah",
+    "phone": "07700 900222",
+    "courseId": "c1",
+    "status": "paid"
+  },
+  {
+    "id": "b3",
+    "memberId": "m-3",
+    "name": "Nell Price",
+    "phone": "07700 900333",
+    "courseId": "c2",
+    "status": "unpaid"
+  },
+  {
+    "id": "b4",
+    "memberId": "m-1",
+    "name": "Ruth Ellis",
+    "phone": "07700 900111",
+    "courseId": "c2",
+    "status": "cancelled"
+  }
+]

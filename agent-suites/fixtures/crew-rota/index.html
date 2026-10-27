@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crew rota</title>
+  </head>
+  <body>
+    <h1>Crew rota</h1>
+    <pre id="raw">Loading…</pre>
+    <script>
+      fetch('data/station.json')
+        .then((response) => response.json())
+        .then(
+          (data) => (document.getElementById('raw').textContent = JSON.stringify(data, null, 2)),
+        )
+    </script>
+  </body>
+</html>

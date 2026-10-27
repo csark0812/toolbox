@@ -1,0 +1,8 @@
+{
+  "name": "hay-order",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.mjs"
+  }
+}

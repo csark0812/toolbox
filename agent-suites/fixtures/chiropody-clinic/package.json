@@ -1,0 +1,11 @@
+{
+  "name": "chiropody-clinic",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "texts": "node bin/texts.mjs",
+    "letter": "node bin/letter.mjs",
+    "build:web": "node bin/build-web.mjs"
+  }
+}
