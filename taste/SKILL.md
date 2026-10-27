@@ -29,7 +29,7 @@ A showcase adds passes after these five, on its one showpiece only, until it hol
 From that one read, note the reader, the one thing they must do, fixed brand colours and type, and the imagery that truly exists. List **eight particulars** that belong to this subject and no competitor: its name, place and materials; the numbers in the brief; the constraint it lives with; the paper it already produces (tickets, labels, timetables, receipts).
 
 - **A page** (read and scrolled: landing, shop, event): follow steps 2–6.
-- **A person** (personal site, portfolio): a showcase; follow steps 2–6 with [range](references/range.md) and [showpiece](references/showpiece.md), and film it with `--motion`. The reader's first question is who this is and what they stand for; the first screen states a thesis in their own voice, not a job title. Particulars come from what they make and how they talk, not hobbies lifted from a résumé or metaphors of their job title. If the brief lacks them, ask once before building for their own philosophy line and a few seeds (what they are always into, a good Saturday, how they come across); invented credos miss every time. Their professional view leads; interests come second.
+- **A person** (personal site, portfolio): a showcase; follow steps 2–6 with [range](references/range.md) and [showpiece](references/showpiece.md), and film it with `--motion`. The reader's first question is who this is and what they stand for; the first screen states a thesis in their own voice, quoting their own line word for word, not a job title. Particulars come from what they make and how they talk, not hobbies lifted from a résumé or metaphors of their job title. If the brief lacks them, ask once before building for their own philosophy line and a few seeds (what they are always into, a good Saturday, how they come across); invented credos miss every time. Their professional view leads; interests come second.
 - **An app screen** (worked in: dashboard, rota, queue, admin): follow steps 2–6 with [app screens](references/app-screens.md) in place of the page rules on direction and fullness.
 - **Something to do** (a checkout, sign-up, settings, a calculator or configurator, search and filters), on a page or a screen: also follow [hierarchy and UX](references/ux.md). List every state before writing: empty, no results, error beside each field, unsaved, saved, success. The visitor finishing the task is the design.
 
@@ -42,7 +42,10 @@ Write one line per section, each a claim with its proof, in the order the reader
 - The first screen answers the reader's first question in large type: what this is, and where, when or how much. One supporting sentence. One primary action named for what it does, visible without scrolling on a phone (for a person, a plain link to their work or to write to them).
 - Every headline fits in two lines (about 32 characters at a confident size).
 - Every section the brief asks for carries its full information: the whole menu with prices, every route and fare, each answer. In a redesign keep every existing link and fact.
-- Never invent proof: no customers, quotes, reviews, logos or statistics. Sample copy and any rule you inferred from data (a schedule derived from first, last and interval) are listed in the reply.
+- Say each fact once, where the reader looks for it: one menu with the prices, one place for the hours, one for how to order. The first screen may name the key fact; no section repeats another.
+- Write plainly, like the owner talking: the specific thing in plain words, the brief's own phrases kept. No taglines, quips, wordplay or slogan rhythm ("Baked once. Gone by one."), and no stock marketing lines ("without the hassle", "everything you need", "simple pricing", "made with love"). Headings name what is in the section ("Loaves and prices", "What it costs").
+- Never invent proof: no customers, quotes, reviews, logos or statistics. Never invent details either (descriptions, origins, a "how it works"); leave out what the brief does not say. Sample copy and any rule you inferred from data (a schedule derived from first, last and interval) are listed in the reply.
+- In a redesign, "keep the content" means every fact, link and price stays; stock headlines and filler headings are rewritten plainly, and each rewrite is listed in the reply.
 
 ## 3. Direction and idea
 
@@ -91,6 +94,6 @@ In a git repository the pictures live inside `.git/`, so there is nothing to cle
 - **Direction:** the idea sentence, and one line each on type, colour and layout and why they fit; then one line per idea taken from [range](references/range.md): its name there, where it sits, and the particular from the brief that earns it.
 - **What was built:** the sections, the states and the motion, the files changed, how the phone layout differs.
 - **Looked at:** the widths, the camera's final FAIL and WARN counts, the top remaining weakness.
-- **To replace:** every invented detail, inferred rule and drawn stand-in.
+- **To replace:** every invented detail, inferred rule and drawn stand-in, and every line of copy rewritten in a redesign.
 
 State only results from commands that ran after your last edit; claim a picture was reviewed only if you opened it after the last change. See [output-schema.md](https://raw.githubusercontent.com/csark0812/toolbox/main/references/v2/output-schema.md) § Work reports.
