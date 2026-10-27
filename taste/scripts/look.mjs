@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 // Photograph a page the way a visitor sees it, and measure what screenshots hide.
-//   node <skill>/scripts/look.mjs <folder-or-html-file> [--out <dir>] [--widths 390,1440] [--fails-only]
+//   node <skill>/scripts/look.mjs <folder-or-html-file> [--out <dir>] [--widths 390,1440] [--fails-only] [--motion]
 // Serves the folder over a throwaway local server, opens it in headless Chrome or Chromium (CHROME_PATH,
 // or a usual install path), scrolls once so scroll-triggered content appears, then saves one screenshot
 // per screen at each width and prints measurements. At the widest width it also checks how the page
 // behaves: the first screen 1.2s after load, hover and keyboard focus, the page without its scripts,
-// and the page with reduced motion. Node 22+, no dependencies, nothing installed.
+// and the page with reduced motion. With --motion it also films the widest width as frames: the
+// first screen as it loads, as the pointer crosses it, and the page as it scrolls, in one sheet.
+// Node 22+, no dependencies, nothing installed.
 /* global WebSocket */
 import { execFileSync, spawn } from 'node:child_process'
 import { createServer } from 'node:http'
@@ -27,14 +29,16 @@ const option = (name, fallback) => {
   return index === -1 ? fallback : args[index + 1]
 }
 const failsOnly = args.includes('--fails-only')
+const motion = args.includes('--motion')
+const FLAGS = ['--fails-only', '--motion']
 const target = args.find(
   (arg, index) =>
     !arg.startsWith('--') &&
-    (!args[index - 1]?.startsWith('--') || args[index - 1] === '--fails-only'),
+    (!args[index - 1]?.startsWith('--') || FLAGS.includes(args[index - 1])),
 )
 if (!target) {
   console.error(
-    'Usage: node look.mjs <folder-or-html-file> [--out <dir>] [--widths 390,1440] [--fails-only]',
+    'Usage: node look.mjs <folder-or-html-file> [--out <dir>] [--widths 390,1440] [--fails-only] [--motion]',
   )
   process.exit(2)
 }
@@ -314,6 +318,97 @@ async function contactSheet(groups) {
 }
 
 /**
+ * Motion frames at one width: the first screen at moments after navigation, then as the pointer
+ * crosses it, then the page in steps of a third of a screen. Each frame is labelled with the time
+ * or position it was taken at, so the sequence reads as a filmstrip.
+ */
+async function film(width) {
+  const height = 900
+  const frames = []
+  const shoot = async (row, label) => {
+    const { data } = await call('Page.captureScreenshot', { format: 'jpeg', quality: 60 })
+    const file = join(out, `motion-${String(frames.length + 1).padStart(2, '0')}.jpg`)
+    writeFileSync(file, Buffer.from(data, 'base64'))
+    frames.push({ row, label, file })
+  }
+  await call('Emulation.setDeviceMetricsOverride', {
+    width,
+    height,
+    deviceScaleFactor: 1,
+    mobile: false,
+  })
+  await call('Page.navigate', { url: 'about:blank' })
+  const start = Date.now()
+  await call('Page.navigate', { url })
+  for (const at of [100, 300, 600, 1000, 1800, 3000]) {
+    await pause(Math.max(0, at - (Date.now() - start)))
+    await shoot('load', `${Date.now() - start}ms`)
+  }
+  for (const [x, y] of [
+    [0.2, 0.35],
+    [0.4, 0.5],
+    [0.6, 0.45],
+    [0.8, 0.6],
+  ]) {
+    await call('Input.dispatchMouseEvent', {
+      type: 'mouseMoved',
+      x: width * x,
+      y: height * y,
+      steps: 8,
+    })
+    await pause(180)
+    await shoot('pointer', `pointer ${Math.round(x * 100)}%, ${Math.round(y * 100)}%`)
+  }
+  await call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: width - 2, y: height - 2 })
+  const total = await evaluate('document.documentElement.scrollHeight')
+  for (
+    let y = height / 3, shots = 0;
+    y < total - height / 3 && shots < 9;
+    y += height / 3, shots++
+  ) {
+    await evaluate(`scrollTo(0, ${y})`)
+    await pause(300)
+    await shoot('scroll', `scroll ${Math.round(y)}px`)
+  }
+  const tile = 360
+  const rows = ['load', 'pointer', 'scroll']
+    .map((row) => {
+      const cells = frames
+        .filter((frame) => frame.row === row)
+        .map(
+          (frame) =>
+            `<figure style="margin:0"><img src="data:image/jpeg;base64,${readFileSync(frame.file).toString('base64')}" style="width:${tile}px;display:block"><figcaption style="font:12px/1.6 sans-serif;color:#fff">${frame.label}</figcaption></figure>`,
+        )
+        .join('')
+      return cells ? `<div style="display:flex;flex-wrap:wrap;gap:8px">${cells}</div>` : ''
+    })
+    .join('')
+  const sheetWidth = tile * 3 + 16 * 2 + 8 * 2
+  await call('Emulation.setDeviceMetricsOverride', {
+    width: sheetWidth,
+    height: 600,
+    deviceScaleFactor: 1,
+    mobile: false,
+  })
+  await call('Page.navigate', { url: 'about:blank' })
+  await pause(100)
+  const sheetHeight = await evaluate(`(() => {
+    document.body.style.cssText = 'margin:0;padding:16px;background:#777;display:grid;gap:16px'
+    document.body.innerHTML = ${JSON.stringify(rows)}
+    return Promise.all([...document.images].map((i) => i.decode())).then(() => document.documentElement.scrollHeight)
+  })()`)
+  const { data } = await call('Page.captureScreenshot', {
+    format: 'jpeg',
+    quality: 70,
+    clip: { x: 0, y: 0, width: sheetWidth, height: sheetHeight, scale: 1 },
+    captureBeyondViewport: true,
+  })
+  const file = join(out, 'motion.jpg')
+  writeFileSync(file, Buffer.from(data, 'base64'))
+  return file
+}
+
+/**
  * The behaviour probe loads the page four times. Its result is kept beside the pictures with a
  * fingerprint of the project's files, so a rerun on unchanged files reuses a clean result.
  */
@@ -550,6 +645,7 @@ try {
     )
   }
   const probeWidth = Math.max(...widths)
+  const filmstrip = motion ? await film(probeWidth) : null
   const print = fingerprint()
   let cached = null
   try {
@@ -573,6 +669,10 @@ try {
   const sheet = await contactSheet(shotsByWidth)
   report.push(`look ${sheet}  (${widths.join(' and ')}px side by side, every screen)`)
   report.push(`single screens: ${out}/<width>-<screen>.jpg`)
+  if (filmstrip)
+    report.push(
+      `motion ${filmstrip}  (${probeWidth}px: loading, pointer crossing, scrolling; open it to judge the motion)`,
+    )
   if (unreachable.size)
     report.push(
       `NOTE could not reach ${[...unreachable].join(', ')} from this machine, so remote fonts or files show their fallback here. Visitors online get them; this is not a page fault.`,
@@ -583,7 +683,11 @@ try {
   }
   console.log(
     failsOnly
-      ? [...report.filter((line) => line.trim().startsWith('FAIL')), `look ${sheet}`].join('\n')
+      ? [
+          ...report.filter((line) => line.trim().startsWith('FAIL')),
+          `look ${sheet}`,
+          ...(filmstrip ? [`motion ${filmstrip}`] : []),
+        ].join('\n')
       : report.join('\n'),
   )
   console.log(

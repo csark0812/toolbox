@@ -7,6 +7,7 @@ The rules in the skill describe one way to build a page: full, poster-like scree
 
 ## The test for every combination
 
+- **Utility first.** The page does its job before anything else: the reader finds what they came for and can act on it. An idea that gets in the way of that goes, however good it looks.
 - **Thesis first.** In five seconds a stranger can say who or what this is and what it stands for, without clicking, dragging or scrolling. A person's first screen states a claim in their own voice ("I design products you feel something about"), not a job title.
 - **Purpose.** Every metaphor, effect and interaction answers "what is the point of what I'm looking at?" by showing something true about the subject. If the honest answer is "it looks cool", cut it.
 - **One showpiece per view.** A toy, a texture, a metaphor: at most one competes for attention on any screen. Feedback and quiet entrances are not showpieces, but rolling digits beside a draggable toy, or an automatic nudge that performs the toy for the visitor, are a second one.

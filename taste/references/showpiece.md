@@ -14,6 +14,7 @@ Build one showpiece, not several. When offering directions, make two at this lev
 
 ## The bar
 
+- **Utility before wow.** The page does its job first: the thesis readable at once, the work and contact reachable, content complete, fast to load, usable on a phone and with a keyboard. A showpiece that delays, hides or crowds any of that is cut or reduced, however impressive.
 - **Beside the references.** Put it next to the sites the user named and ask whether it holds up: the type as considered, the motion as smooth, the detail as finished. If not, it is a sketch; keep going.
 - **Take their craft level, not their look.** Copying a reference's layout, type or signature moment is rejected as a copy. Borrow how carefully it is made.
 - **Still has a point.** The purpose test in [range](range.md) holds: the showpiece shows the thesis (a lens that bends the philosophy line it sits on, the person's real apps running in the hand), never a tech demo beside it.
@@ -42,6 +43,6 @@ Load libraries from a CDN with a pinned version, and keep the page's text in HTM
 
 ## Checking it
 
-The camera takes still screenshots, which show layout but not motion. For the showpiece, script a few frames: drive the pointer or scroll in a headless browser and screenshot at several moments (for example 0, 300 and 900ms after an interaction), then open them in sequence. Check the frame rate in a performance trace if the browser allows it. If motion could not be checked, say so in the reply.
+Run the camera with `--motion`: it films the first screen loading, the pointer crossing it and the page scrolling into one `motion` sheet. Open it and read the frames in order: does the moment start, build and settle as intended, and does the page stay readable at every frame? For an interaction the filmstrip does not cover (a drag, a click sequence), script a few frames yourself. If motion could not be checked, say so in the reply.
 
 Spend the passes this needs: after the page is built and its FAILs fixed, keep refining the showpiece until it holds up beside the references, then stop.
