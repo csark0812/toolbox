@@ -326,7 +326,16 @@ async function film(width) {
   const height = 900
   const frames = []
   const shoot = async (row, label) => {
-    const { data } = await call('Page.captureScreenshot', { format: 'jpeg', quality: 60 })
+    // A frame asked for while a navigation commits has no page to capture yet; try again shortly.
+    let data
+    for (let attempt = 0; !data; attempt++) {
+      try {
+        ;({ data } = await call('Page.captureScreenshot', { format: 'jpeg', quality: 60 }))
+      } catch (error) {
+        if (attempt === 20) throw error
+        await pause(25)
+      }
+    }
     const file = join(out, `motion-${String(frames.length + 1).padStart(2, '0')}.jpg`)
     writeFileSync(file, Buffer.from(data, 'base64'))
     frames.push({ row, label, file })
