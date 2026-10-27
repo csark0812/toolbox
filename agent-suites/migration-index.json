@@ -136,7 +136,7 @@
       "rubric": {
         "must": ["Advisory", "No proven blocker", "optimisticSubmit", "follow-up"],
         "mustInvokeSkill": ["code-review"],
-        "mustNot": ["merge-blocker \u00b7 optimisticSubmit", "git commit", "git push"],
+        "mustNot": ["merge-blocker · optimisticSubmit", "git commit", "git push"],
         "judge": [
           "The requested cleanliness concern appears as a non-blocking advisory item and does not weaken the blocker evidence bar."
         ]
@@ -3216,6 +3216,28 @@
         "judge": [
           "The reply answers two (9 and 11 minutes) from data/station.json.",
           "No file was changed."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "taste:7",
+      "suite": "taste",
+      "name": "personal site: a register chosen on purpose, thesis first",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["taste"],
+        "judge": [
+          "The reply names the kind of page it built (for example a quiet column, a story, a desktop or a single toy) and the particular from Tomás's notes that earns it.",
+          "The first screen states what Tomás cares about (interfaces with weight) in his own voice, readable without clicking, dragging or scrolling.",
+          "Every interactive effect on the page demonstrates his craft, and there is at most one signature effect; Tidepool, Spring Lab, Lumen, the talk and both links all appear.",
+          "The page was rendered at a phone and a desktop width after the last edit."
         ]
       },
       "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
