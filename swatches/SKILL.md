@@ -41,9 +41,17 @@ node <skill>/scripts/sheet.mjs .swatches/<round>
 
 ## 4. Present and ask
 
-Show the sheet: give the path to `index.html`, or, where the user cannot open local files (a remote or cloud session), attach `sheet.png` or publish the page the way the host allows. Then, one line per option: its letter, its idea, and what it trades away. Ask one question: which one, or what mix. Do not recommend one before the user answers; say which you would pick only if asked.
+Serve the options on localhost with live reload so the user opens one link for the whole session instead of loose files. On the machine where the user's browser runs, keep one server for the session:
+
+```bash
+npx --yes vite .swatches --port 5173
+```
+
+Leave it running in the background (log to `.swatches/vite.log`); if the port is taken by something else, use the next free one and never stop another project's server. Keep a hub page at `.swatches/index.html` that lists every round, newest first, with each pick next to it. New rounds appear as folders without a restart, and edits reload the open page. Give the user `http://localhost:<port>/<round>/`. From a remote or cloud session, write the files to the user's machine and start the server there through whatever the host offers (a remote shell or a session on the device); if nothing can run there, attach `sheet.png` instead. Then, one line per option: its letter, its idea, and what it trades away. Ask one question: which one, or what mix. Do not recommend one before the user answers; say which you would pick only if asked.
 
 Read the answer generously. "B" is a pick. "B with A's type" is a pick: make that combination the next round's starting point, or the result if nothing is left open. "None" or "closer to B" is information: ask what is wrong in one question if it is not clear, then run a new round that changes exactly that.
+
+If two rounds of directions in a row get "none", stop generating whole directions: they converge on a genre the user has seen before. Build up from nothing in Variables mode, one decision per round, on a plain first screen: type, then the opening line, then colour, then first-screen layout and spacing, then one signature interaction, then the sections. Each round keeps every earlier pick fixed. For copy rounds, write lines that sound spoken rather than like a slogan, aim them at the reader rather than the author, and decide each headline's closing period on purpose instead of by habit.
 
 ## 5. Record the pick
 
@@ -63,7 +71,7 @@ Next steps follow from what is left open: another round of variables, or hand th
 
 ## 6. Reply
 
-- **Sheet:** where to find it, the widths, and the final WARN count.
+- **Sheet:** the localhost link (or where to find it), the widths, and the final WARN count.
 - **Options:** one line each.
 - **Question:** the one question.
 
