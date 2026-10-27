@@ -9,7 +9,7 @@ The rules in the skill describe one register: the full, poster-like page. Real s
 
 - **Thesis first.** In five seconds a stranger can say who or what this is and what it stands for, without clicking, dragging or scrolling. A person's first screen states a claim in their own voice ("I design products you feel something about"), not a job title.
 - **Purpose.** Every metaphor, effect and interaction answers "what is the point of what I'm looking at?" by showing something true about the subject. If the honest answer is "it looks cool", cut it.
-- **One signature.** One metaphor, one texture, one toy per page. A second idea gets a single section at most, never the first screen.
+- **One signature.** One metaphor, one texture, one toy per page. A second idea gets a single section at most, never the first screen. Feedback and quiet entrances are not signatures, but a second showpiece is: rolling digits beside a draggable toy, or an automatic nudge that performs the toy for the visitor.
 - **Emphasis tells the eye where to go.** Mark the three to five facts that matter (a number, a name, a result) so a skimmer reads only those and still gets the point.
 - **No wall of text.** A screen of running prose needs a way in: highlights, a short summary, an outline, or a reader view. About 120 words per screen before a break.
 - **Room to breathe.** Controls at 44px on a phone, real gutters, nothing squeezed to fit a concept.
