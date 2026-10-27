@@ -150,6 +150,12 @@
       "sourceType": "github",
       "skillPath": "taste/SKILL.md",
       "computedHash": "eb1197d895b4b394999c7a72d3952a40c55ca5821d1740383fe108337c41e2ec"
+    },
+    "swatches": {
+      "source": "csark0812/toolbox",
+      "sourceType": "github",
+      "skillPath": "swatches/SKILL.md",
+      "computedHash": "5497dc0fd16af64652ab17a10d552721b3607513d95f7281dd0506c7a6b5e924"
     }
   }
 }
