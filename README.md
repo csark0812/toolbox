@@ -91,6 +91,7 @@ See the [design and CSS source index](references/design-source-index.md) for the
 | Process      | grill                    | Decision-focused dialogue for unclear intent and consequential design choices                   |
 | Process      | css-craft                | Focused CSS diagnosis, technique choice, and browser-aware proof                                |
 | Process      | taste                    | Build or polish a page or screen so it looks designed for its subject; screenshot and fix       |
+| Process      | swatches                 | Choose a look from 2-4 rendered options side by side; records each pick                         |
 | Process      | evidence-based-debugging | Reproduce and diagnose failures; demonstrate and verify authorized repairs                      |
 | Process      | probe                    | Cited verdict on a specific hunch or claim                                                      |
 | Process      | tdd                      | Test-first build at agreed public seams                                                         |
