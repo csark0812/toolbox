@@ -3,7 +3,7 @@
 <!-- source-of-truth: taste motion rules: when to animate, timing, easing, choreography, scroll entrances, control feedback, reduced motion. -->
 <!-- doc-meta: owner=eng -->
 
-Motion explains change: where something came from, what responded to the visitor, what is now in front. A page that is still is fine; a page whose motion delays reading is not. Build motion last, on a page that already works without it.
+Motion explains change: where something came from, what responded to the visitor, what is now in front. A page that is still is fine; a page whose motion delays reading is not. Build motion last, on a page that already works without it. These rules govern the working parts of a page; a showcase's one showpiece is choreographed by [showpiece](showpiece.md) inside its own region, and these rules hold everywhere around it.
 
 ## When to animate
 

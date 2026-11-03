@@ -61,7 +61,8 @@
           "The reply lists the two typefaces and the five colour tokens from brand.css.",
           "No file was changed."
         ]
-      }
+      },
+      "evidencePolicy": "read-only"
     },
     {
       "name": "near miss: a data bug behind a screen",
@@ -69,20 +70,21 @@
       "rubric": {
         "mustNotReadPath": ["taste/SKILL.md"],
         "judge": [
-          "The reply answers two (9 and 11 minutes) from data/station.json.",
+          "The reply answers one: the 18 October launch (9 minutes), from data/station.json; it may note that the 11-minute launch was on 30 September.",
           "No file was changed."
         ]
-      }
+      },
+      "evidencePolicy": "read-only"
     },
     {
-      "name": "personal site: a register chosen on purpose, thesis first",
+      "name": "personal site: ideas combined on purpose, thesis first",
       "prompt": "Make my personal website from the notes in agent-suites/fixtures/personal-site. One page, static. I want it to feel like me, not a template.",
       "rubric": {
         "mustInvokeSkill": ["taste"],
         "judge": [
-          "The reply names the kind of page it built (for example a quiet column, a story, a desktop or a single toy) and the particular from Tomás's notes that earns it.",
+          "The reply names the ideas the page combines (for example a quiet column, highlight marks, chapters in time or a single toy), where each sits, and the particular from Tomás's notes that earns each one.",
           "The first screen states what Tomás cares about (interfaces with weight) in his own voice, readable without clicking, dragging or scrolling.",
-          "Every interactive effect on the page demonstrates his craft, and there is at most one signature effect; Tidepool, Spring Lab, Lumen, the talk and both links all appear.",
+          "Every interactive effect on the page demonstrates his craft, and no view has more than one showpiece; Tidepool, Spring Lab, Lumen, the talk and both links all appear.",
           "The page was rendered at a phone and a desktop width after the last edit."
         ]
       }
