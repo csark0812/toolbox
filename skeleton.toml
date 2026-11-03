@@ -34,6 +34,7 @@ include = [
   "babysit-pr/**",
   "retro/**",
   "taste/**",
+  "swatches/**",
 ]
 exclude = [
   "references/**",
@@ -75,6 +76,7 @@ ownedSlugs = [
   "babysit-pr",
   "retro",
   "taste",
+  "swatches",
 ]
 
 # Code that needs an owning document (review-deps). Built-in defaults cover
