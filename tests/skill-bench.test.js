@@ -672,13 +672,13 @@ describe('claude bench wrapper', async () => {
     JSON.parse(args.find((arg) => arg.startsWith('{')) ?? args[0].slice('--settings='.length))
   const sockets = ['/var/run/docker.sock', '/run/user/1000/bus']
 
-  it('allows Unix sockets only on Linux and denies the escape sockets', () => {
+  it('allows Unix sockets on Linux, localhost listening on macOS, and denies the escape sockets', () => {
     const linux = parsed(benchArgs(['-p', '--settings', settings], { platform: 'linux', sockets }))
-    expect(linux.sandbox.network.allowAllUnixSockets).toBe(true)
+    expect(linux.sandbox.network).toEqual({ allowAllUnixSockets: true })
     expect(linux.sandbox.filesystem.denyRead).toEqual(['/tmp', ...sockets])
     expect(linux.sandbox.filesystem.denyWrite).toEqual(sockets)
     const mac = parsed(benchArgs(['--settings', settings], { platform: 'darwin', sockets }))
-    expect(mac.sandbox.network).toBeUndefined()
+    expect(mac.sandbox.network).toEqual({ allowLocalBinding: true })
     expect(mac.sandbox.filesystem.denyRead).toEqual(['/tmp', ...sockets])
   })
 

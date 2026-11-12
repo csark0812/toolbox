@@ -41,7 +41,8 @@ function readSettings(value, readFile) {
 /**
  * The CLI arguments with the bench's sandbox changes merged into `--settings <json|file>` or
  * `--settings=<json|file>`. Unix sockets are allowed only on Linux, where the sandbox cannot allow
- * them by path; the escape sockets are denied for reading and writing everywhere.
+ * them by path; localhost listening only on macOS; the escape sockets are denied for reading and
+ * writing everywhere.
  */
 export function benchArgs(
   args,
@@ -57,6 +58,9 @@ export function benchArgs(
   if (settings.sandbox) {
     if (platform === 'linux')
       settings.sandbox.network = { ...settings.sandbox.network, allowAllUnixSockets: true }
+    // macOS denies listening on localhost, which a page server and Chrome's DevTools port need.
+    if (platform === 'darwin')
+      settings.sandbox.network = { ...settings.sandbox.network, allowLocalBinding: true }
     const denied = sockets ?? escapeSockets({ env })
     const filesystem = settings.sandbox.filesystem ?? {}
     settings.sandbox.filesystem = {

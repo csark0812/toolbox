@@ -96,7 +96,8 @@ function benchShellEnv(runner) {
     ZDOTDIR: zdot,
     CLAUDE_ENV_FILE: claudeEnv,
     ...(chrome ? { CHROME_PATH: chrome } : {}),
-    // Claude runs go through a wrapper that lets the sandbox open Unix sockets, so Chrome can start.
+    // Claude runs go through a wrapper that lets the sandbox open Unix sockets (Linux) and listen on
+    // localhost (macOS), so Chrome and a page server can start.
     ...(runner === 'claude'
       ? {
           TOOLBOX_REAL_CLAUDE_BIN:
