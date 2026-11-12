@@ -256,7 +256,8 @@ Reply with only this JSON:
   }
 }
 
-async function askJudge(agent, workspace, prompt) {
+/** One read-only judge session in `workspace`; returns the judge's whole reply. */
+export async function askJudge(agent, workspace, prompt) {
   const controller = new AbortController()
   const session = await createAgentSession({
     agent,

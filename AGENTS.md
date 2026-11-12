@@ -48,6 +48,7 @@ Treat skills as adjacent, independently complete roles. Descriptions route by us
 | Skill bodies / unsure             | `npm run check` (or `npm test` / `audit:skills` + `validate:ci`)                  |
 | Agent suite scenarios             | `npm run agent:test` (offline discovery and claim mapping)                        |
 | Does a skill beat its baseline?   | `npm run bench:skill:quick`, then `npm run bench:skill` (see docs/skill-bench.md) |
+| How do skills do in real use?     | `npm run usage` (see docs/skill-usage.md; data stays in `~/.toolbox`)             |
 | Style (md/yaml)                   | `npm run lint` + `npm run format:check`                                           |
 | Shared `src/` TypeScript          | `npm run typecheck`                                                               |
 

@@ -41,7 +41,11 @@
     "bench:skill:preflight": "node scripts/skill-bench.mjs preflight",
     "bench:skill:judge": "node scripts/skill-bench.mjs judge",
     "bench:skill:report": "node scripts/skill-bench.mjs report",
-    "bench:skill:quick": "node scripts/skill-bench.mjs quick"
+    "bench:skill:quick": "node scripts/skill-bench.mjs quick",
+    "usage": "node scripts/skill-usage.mjs all",
+    "usage:archive": "node scripts/skill-usage.mjs archive",
+    "usage:judge": "node scripts/skill-usage.mjs judge",
+    "usage:report": "node scripts/skill-usage.mjs report"
   },
   "repository": {
     "type": "git",

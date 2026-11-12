@@ -338,7 +338,7 @@ to judge how the page behaves, not only how it rests:
 More motion is not better in itself; judge whether it helps the visitor read and act.`
 
 /** Every balanced, string-aware `{...}` span in the text, in order. */
-function jsonObjects(text) {
+export function jsonObjects(text) {
   const spans = []
   for (let start = text.indexOf('{'); start !== -1; start = text.indexOf('{', start + 1)) {
     let depth = 0

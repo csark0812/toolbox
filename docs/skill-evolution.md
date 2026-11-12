@@ -7,7 +7,7 @@ Toolbox skills are static, human-owned sources. They never change themselves fro
 
 ## Loop
 
-1. **Reproduce.** Rerun the failing tests by title: `npm run agent:test:live -- "<suite or test title>"`. Open the run in the viewer (`node node_modules/@post-print/agent-test/dist/cli.js viewer --config agent-test.config.ts`) or read `.agent-test/executions/<run>/test-results/<test>/normalized.json`.
+1. **Reproduce.** A failure can also come from real use: the [skill usage report](skill-usage.md) lists judged failures, missed triggers and candidate bench tasks with the transcript line of each. Rerun the failing tests by title: `npm run agent:test:live -- "<suite or test title>"`. Open the run in the viewer (`node node_modules/@post-print/agent-test/dist/cli.js viewer --config agent-test.config.ts`) or read `.agent-test/executions/<run>/test-results/<test>/normalized.json`.
 2. **Triage.** Separate infrastructure failures (sandbox, workspace guard, judge errors) from task failures. For a task failure, name the rubric clause that failed and the skill sentence it tests.
 3. **Draft a patch.** Make the smallest `SKILL.md` change that addresses the failure: sharpen a completion criterion, add a "Not …" boundary, or remove an instruction that had no effect. Follow the [writing contract](../references/v2/output-schema.md).
 4. **Lock it.** Add or update a claim in `agent-suites/<skill>/claims.json` and its migration rows. Add a `tests/` invariant only for a stable rule that regressions must catch.
@@ -24,4 +24,5 @@ Toolbox skills are static, human-owned sources. They never change themselves fro
 
 - [Agent suites](../agent-suites/README.md)
 - [Evidence parity](evidence-parity.md)
+- [Skill usage analytics](skill-usage.md)
 - [Skill organization ablations](skill-organization-ablations.md)
