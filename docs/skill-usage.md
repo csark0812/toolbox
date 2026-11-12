@@ -69,7 +69,7 @@ An episode runs from a skill call to the user's next real prompt. Task notificat
 
 A missed trigger leaves no record, so the tool finds candidates first. Each turn with no toolbox skill call is tested against cheap fingerprints in `scripts/lib/skill-usage/fingerprints.mjs`. For example, `taste` matches three or more edits to UI files, or a landing-page request. The judge then decides, from the skill's description and its "Not …" limits, whether the request called for the skill. The report estimates recall as calls ÷ (calls + estimated misses), and quotes the description phrase each miss should have matched. Since routing depends only on the description, that phrase is the first place to look.
 
-Two free signals need no judge. A user typing `/skill` right after the agent worked without it is the clearest miss. A competing non-toolbox skill running instead (for example `taste-skill:*`) is shown as a competitor run.
+Two free signals need no judge. A user typing `/skill` right after the agent worked without it is the clearest miss. The report also names the non-toolbox skills that ran in candidate tasks. Only some compete: a design plugin such as `taste-skill:*` does, a browser helper does not.
 
 ## Limits
 

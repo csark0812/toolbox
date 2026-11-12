@@ -172,13 +172,14 @@ describe('skill usage report', () => {
     expect(report.rows.find((row) => row.skill === 'taste').missed).toMatchObject({
       candidates: 1,
       confirmed: 1,
-      competitorRuns: 1,
+      otherSkills: { 'taste-skill:redesign-skill': 1 },
     })
     expect(report.benchCandidates.length).toBeGreaterThan(0)
 
     const markdown = renderReport(report)
     expect(markdown).toContain('## Missed triggers (recall)')
     expect(markdown).toContain('ran taste-skill:redesign-skill instead')
+    expect(markdown).toContain('| taste-skill:redesign-skill ×1 |')
     expect(markdown).toContain('wrong-assumption ×')
     expect(markdown).toContain('shop-session.jsonl:')
     expect(existsSync(join(dir, 'report.md'))).toBe(false)

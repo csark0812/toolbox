@@ -12,6 +12,11 @@ function median(values) {
 export const MIN_RATE_N = 5
 
 const count = (list, test) => list.filter(test).length
+const tally = (names) => {
+  const counts = {}
+  for (const name of names) counts[name] = (counts[name] ?? 0) + 1
+  return counts
+}
 const excerpt = (text = '', limit = 140) => {
   const flat = String(text).replace(/\s+/g, ' ').trim()
   return flat.length > limit ? `${flat.slice(0, limit - 1)}…` : flat
@@ -102,7 +107,9 @@ export function buildReport({ episodes, candidates, judgments, misses, versions 
         judged: verdicts.length,
         confirmed,
         borderline: count(verdicts, (verdict) => verdict.shouldHaveCalled === 'borderline'),
-        competitorRuns: count(mineCandidates, (task) => task.competitor),
+        // Which non-toolbox skills ran in these tasks, by name: a design plugin competes with
+        // taste, a browser helper does not, so the report names them rather than counting.
+        otherSkills: tally(mineCandidates.flatMap((task) => task.otherSkills)),
         recallEstimate:
           estimatedMisses === null || mine.length + estimatedMisses === 0
             ? null
@@ -218,6 +225,14 @@ export function buildReport({ episodes, candidates, judgments, misses, versions 
   }
 }
 
+/** The three most frequent names as `name ×n`, or a dash. */
+const topSkills = (counts) =>
+  Object.entries(counts)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, 3)
+    .map(([name, n]) => `${name} ×${n}`)
+    .join(', ') || '–'
+
 const fixed = (value, digits = 0) => (value == null ? '–' : value.toFixed(digits))
 
 export function renderReport(report) {
@@ -252,13 +267,13 @@ export function renderReport(report) {
     '',
     "Candidates are tasks with no toolbox skill call that match a skill's cheap fingerprint. The judge confirms a sample. Recall ≈ calls ÷ (calls + estimated misses).",
     '',
-    '| Skill | Calls | Candidates | Judged | Should have called | Borderline | A competing skill ran | Recall ≈ |',
+    '| Skill | Calls | Candidates | Judged | Should have called | Borderline | Other skills that ran instead | Recall ≈ |',
     '| --- | --- | --- | --- | --- | --- | --- | --- |',
     ...rows
       .filter((row) => row.missed.candidates > 0)
       .map(
         (row) =>
-          `| \`${row.skill}\` | ${row.calls} | ${row.missed.candidates} | ${row.missed.judged} | ${row.missed.confirmed} | ${row.missed.borderline} | ${row.missed.competitorRuns} | ${row.missed.judged >= MIN_RATE_N && row.missed.recallEstimate != null ? `${Math.round(100 * row.missed.recallEstimate)}%` : '–'} |`,
+          `| \`${row.skill}\` | ${row.calls} | ${row.missed.candidates} | ${row.missed.judged} | ${row.missed.confirmed} | ${row.missed.borderline} | ${topSkills(row.missed.otherSkills)} | ${row.missed.judged >= MIN_RATE_N && row.missed.recallEstimate != null ? `${Math.round(100 * row.missed.recallEstimate)}%` : '–'} |`,
       ),
     '',
   ]
