@@ -69,30 +69,40 @@ const out = option('out') ? resolve(option('out'), 'taste-look') : defaultOut()
 const widths = option('widths', '390,1440').split(',').map(Number)
 const MAX_SCREENS = Number(option('screens', 6))
 
+/** The first browser found, in order; a cache folder a sandbox will not list is skipped. */
 function findChrome() {
-  const cache = (dir) =>
-    existsSync(dir)
-      ? readdirSync(dir)
-          .filter((name) => name.startsWith('chromium'))
-          .flatMap((name) => [
-            join(dir, name, 'chrome-linux', 'chrome'),
-            join(dir, name, 'chrome-linux64', 'chrome'),
-            join(dir, name, 'chrome-mac', 'Chromium.app/Contents/MacOS/Chromium'),
-          ])
-      : []
-  return [
-    process.env.CHROME_PATH,
-    '/usr/bin/google-chrome',
-    '/usr/bin/google-chrome-stable',
-    '/usr/bin/chromium',
-    '/usr/bin/chromium-browser',
-    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-    '/Applications/Chromium.app/Contents/MacOS/Chromium',
-    '/opt/pw-browsers/chromium',
-    ...cache(process.env.PLAYWRIGHT_BROWSERS_PATH ?? ''),
-    ...cache(join(homedir(), '.cache', 'ms-playwright')),
-    ...cache(join(homedir(), 'Library', 'Caches', 'ms-playwright')),
-  ].find((path) => path && existsSync(path))
+  const cache = (dir) => {
+    try {
+      return readdirSync(dir)
+        .filter((name) => name.startsWith('chromium'))
+        .flatMap((name) => [
+          join(dir, name, 'chrome-linux', 'chrome'),
+          join(dir, name, 'chrome-linux64', 'chrome'),
+          join(dir, name, 'chrome-mac', 'Chromium.app/Contents/MacOS/Chromium'),
+        ])
+    } catch {
+      return []
+    }
+  }
+  const candidates = [
+    () => [process.env.CHROME_PATH],
+    () => [
+      '/usr/bin/google-chrome',
+      '/usr/bin/google-chrome-stable',
+      '/usr/bin/chromium',
+      '/usr/bin/chromium-browser',
+      '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+      '/Applications/Chromium.app/Contents/MacOS/Chromium',
+      '/opt/pw-browsers/chromium',
+    ],
+    () => cache(process.env.PLAYWRIGHT_BROWSERS_PATH ?? ''),
+    () => cache(join(homedir(), '.cache', 'ms-playwright')),
+    () => cache(join(homedir(), 'Library', 'Caches', 'ms-playwright')),
+  ]
+  for (const group of candidates) {
+    const found = group().find((path) => path && existsSync(path))
+    if (found) return found
+  }
 }
 
 const TYPES = {
@@ -142,8 +152,9 @@ if (!chrome) {
 }
 const proxyUrl = process.env.HTTPS_PROXY ?? process.env.https_proxy
 const proxy = proxyUrl && /^https?:\/\/[^@/]+$/.test(proxyUrl.replace(/\/$/, '')) ? proxyUrl : null
-// The profile lives next to the screenshots: some sandboxes deny the system temp folder.
-const profile = join(out, '.profile')
+// The profile lives next to the screenshots: some sandboxes deny the system temp folder. It is not
+// named `.profile`, which Claude Code's sandbox refuses to create anywhere as a shell config file.
+const profile = join(out, 'chrome-profile')
 rmSync(out, { recursive: true, force: true })
 mkdirSync(profile, { recursive: true })
 const browser = spawn(
