@@ -167,3 +167,18 @@ describe('skill usage archive entry point', () => {
     expect(sessionToArchive([])).toBeNull()
   })
 })
+
+describe('skill usage judge filter', () => {
+  it("keeps one skill's episodes and the candidates that name it", async () => {
+    const { forSkill } = await import('../scripts/skill-usage.mjs')
+    const data = {
+      episodes: [{ skill: 'taste' }, { skill: 'grill' }],
+      candidates: [{ candidates: ['taste', 'css-craft'] }, { candidates: ['tdd'] }],
+    }
+    expect(forSkill(data, 'taste')).toEqual({
+      episodes: [{ skill: 'taste' }],
+      candidates: [{ candidates: ['taste', 'css-craft'] }],
+    })
+    expect(forSkill(data, null)).toEqual(data)
+  })
+})

@@ -3,7 +3,7 @@
 // episodes worth a human look; it never edits a skill (see docs/skill-evolution.md).
 //
 //   node scripts/skill-usage.mjs archive [--refresh] [--session <transcript.jsonl> | --hook]
-//   node scripts/skill-usage.mjs judge [--limit 20] [--missed 10]
+//   node scripts/skill-usage.mjs judge [--limit 20] [--missed 10] [--skill <slug>]
 //   node scripts/skill-usage.mjs report
 //   node scripts/skill-usage.mjs all
 //
@@ -59,13 +59,22 @@ const archived = (dir) => ({
   candidates: loadArchived(dir, 'candidates'),
 })
 
+/** Only one skill's episodes and candidates, when `--skill <slug>` is given. */
+export function forSkill({ episodes, candidates }, skill) {
+  if (!skill) return { episodes, candidates }
+  return {
+    episodes: episodes.filter((episode) => episode.skill === skill),
+    candidates: candidates.filter((task) => task.candidates.includes(skill)),
+  }
+}
+
 export async function runJudge(args, { dir = analyticsDir(), judge } = {}) {
   mkdirSync(dir, { recursive: true })
   const { name, ask } = judge ?? (await sealedAsk())
   const result = await judgeSample({
     dir,
     root,
-    ...archived(dir),
+    ...forSkill(archived(dir), option(args, 'skill', null)),
     limit: Number(option(args, 'limit', 20)),
     missed: Number(option(args, 'missed', 10)),
     ask,

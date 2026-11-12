@@ -9,12 +9,12 @@ The report is advisory. It shows which episodes to read. Change a skill only thr
 
 ## Commands
 
-| Command                                         | What it does                                                                                                  |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `npm run usage:archive`                         | Copy new skill episodes and missed-trigger candidates out of `~/.claude/projects`                             |
-| `npm run usage:judge -- --limit 20 --missed 10` | Judge a sample of new episodes and candidates with Opus in a sealed workspace (uses your Claude subscription) |
-| `npm run usage:report`                          | Write `report.md` and `report.json`                                                                           |
-| `npm run usage`                                 | All three, in order                                                                                           |
+| Command                                         | What it does                                                                                                                                                |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run usage:archive`                         | Copy new skill episodes and missed-trigger candidates out of `~/.claude/projects`                                                                           |
+| `npm run usage:judge -- --limit 20 --missed 10` | Judge a sample of new episodes and candidates with Opus in a sealed workspace (uses your Claude subscription). Add `--skill <slug>` to judge one skill only |
+| `npm run usage:report`                          | Write `report.md` and `report.json`                                                                                                                         |
+| `npm run usage`                                 | All three, in order                                                                                                                                         |
 
 Run `usage:archive` at least every few weeks. Claude Code deletes transcripts after 30 days by default, and only archived episodes survive. A `SessionEnd` hook can archive each session as it ends:
 
