@@ -19,13 +19,15 @@ Build one showpiece, not several. When offering directions, make two at this lev
 - **Take their craft level, not their look.** Copying a reference's layout, type or signature moment is rejected as a copy. Borrow how carefully it is made.
 - **Still has a point.** The purpose test in [range](range.md) holds: the showpiece shows the thesis (a lens that bends the philosophy line it sits on, the person's real apps running in the hand), never a tech demo beside it.
 - **From the person.** Its idea comes from their own words and interests, never from a metaphor of their job title (frames, curves, heatmaps for an engineer read as generic).
+- **Drama is sequencing.** When the user asks for more drama or something flashier, change the order, the stagger and the held beat, not size, weight or colour in flight. Parts appear where they belong and travel at most about a tenth of the object's size, and the reveal order says something true about the material (near to far, earliest to latest, cause to effect). Sprays, bursts and accent flashes read as noise or chaos; a fade in place, followed by the connections drawing one after another, reads as intent.
+- **A gate withholds.** For a page whose job is to intrigue (a sign-up gate, a teaser), the showpiece and a short line carry the page; explaining the product defeats it. The test is whether a stranger is curious, not whether they could say what the product does.
 
 ## Techniques
 
 Load libraries from a CDN with a pinned version, and keep the page's text in HTML, never only in a canvas.
 
-- **Real-time graphics:** a WebGL fragment shader (raw, or three.js or OGL) for refraction, liquid, noise fields, light; canvas 2D for particles and simple physics. Drive it from the pointer, the scroll or time, with eased inputs, not raw ones.
-- **3D:** three.js with built or real geometry, a light rig and soft shadows; a camera that moves with the scroll or the pointer within a small range.
+- **Real-time graphics:** a WebGL fragment shader (raw, or three.js or OGL) for refraction, liquid, noise fields, light; canvas 2D for many small marks drawn from real data. Particles flying in from nowhere are effect, not material. Drive it from the pointer, the scroll or time, with eased inputs, not raw ones.
+- **3D:** three.js with built or real geometry, a light rig and soft shadows; a camera that moves with the scroll or the pointer within a small range. Depth reads through blur, fading and shrinking that grow together and steadily with distance, never at one threshold; what connects to the focused item comes into focus with it, and near marks keep a small gap where they cover far ones, so the blurred never looks in front.
 - **Scroll choreography:** a sticky stage whose progress (0–1 through the section) drives transforms in sequence; CSS scroll-driven animations (`animation-timeline: view()`) where supported, or a small scroll-progress script; GSAP ScrollTrigger is fine if the page already uses it.
 - **Physics:** springs integrated per frame with velocity carried over from the pointer, so a flick feels thrown; damping tuned by hand.
 - **State morphs:** the View Transitions API, or shared-element moves with FLIP, so one view turns into the next instead of cutting.
@@ -36,13 +38,13 @@ Load libraries from a CDN with a pinned version, and keep the page's text in HTM
 ## Polish
 
 - **Hand-tuned timing.** Stage the moment: anticipation, the move, follow-through, a settle. Different durations and curves for different gestures; nothing on the one default ease.
-- **Alive at rest.** A slow idle (a drift, a breath) so the first frame is not dead, quiet enough not to distract.
+- **Alive on arrival, calm at rest.** The entrance carries the life; afterwards the idle is very slow (a turn of minutes, a faint breath) and eases to a stop the moment the visitor points, drags or reads, then eases back.
 - **Smooth.** 60fps on a laptop: animate transforms and shader uniforms, not layout; cap the device pixel ratio at 2; pause work off-screen with `IntersectionObserver`; lower resolution on a phone.
 - **Finished edges.** Type kerned and tracked at display size; the loading sequence designed; cursor, selection colour, focus ring and favicon considered.
 - **Robust.** Without WebGL or with reduced motion, a designed still state in its place (a rendered frame, not an empty box); the text and actions never wait for the graphics.
 
 ## Checking it
 
-Run the camera with `--motion`: it films the first screen loading, the pointer crossing it and the page scrolling into one `motion` sheet. Open it and read the frames in order: does the moment start, build and settle as intended, and does the page stay readable at every frame? For an interaction the filmstrip does not cover (a drag, a click sequence), script a few frames yourself. If motion could not be checked, say so in the reply.
+Run the camera with `--motion`: it films the first screen loading, the pointer crossing it and the page scrolling into one `motion` sheet. Open it and read the frames in order: does the moment start, build and settle as intended, and does the page stay readable at every frame? Then run `motion-probe.mjs` on the same page (see [motion](motion.md) § Checking motion) for the handoff, jumps, the way back and frame cost; give it `--steps` for a drag or a click sequence. If motion could not be checked, say so in the reply.
 
 Spend the passes this needs: after the page is built and its FAILs fixed, keep refining the showpiece until it holds up beside the references, then stop.

@@ -88,6 +88,30 @@
           "The page was rendered at a phone and a desktop width after the last edit."
         ]
       }
+    },
+    {
+      "name": "gate page: intrigue from real data, the name and one action",
+      "prompt": "Can you build the signed-out page for Hollow Sky in agent-suites/fixtures/hollow-gate? The founders' brief is in the README. One page, static.",
+      "rubric": {
+        "mustInvokeSkill": ["taste"],
+        "judge": [
+          "The page shows the name Hollow Sky, one email field with a Join button, and a drawing made from data/observations.json behind them; it has no feature list, how-it-works section or explanation of the app.",
+          "The name lands before the drawing starts moving, and the reply states the measured times or the frames that show it.",
+          "The page was rendered at a phone and a desktop width after the last edit."
+        ]
+      }
+    },
+    {
+      "name": "arrival fix: the showpiece waits for the wordmark, and nothing jumps",
+      "prompt": "The arrival on the Kiln Yard page in agent-suites/fixtures/kiln-arrival feels off: everything happens at once and something jumps a moment after it loads. Can you fix it?",
+      "rubric": {
+        "mustInvokeSkill": ["taste"],
+        "judge": [
+          "The canvas drift starts only after the wordmark's entrance has finished, read from the wordmark's animation rather than a guessed delay.",
+          "The opening-hours notice no longer pushes the wordmark: its space is reserved or it no longer shifts the layout.",
+          "The motion was measured frame by frame after the last edit (for example with a probe or recorded frames), and the reply reports the measured times rather than only adjectives."
+        ]
+      }
     }
   ]
 }

@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 // Photograph a page the way a visitor sees it, and measure what screenshots hide.
-//   node <skill>/scripts/look.mjs <folder-or-html-file> [--out <dir>] [--widths 390,1440] [--fails-only] [--motion]
+//   node <skill>/scripts/look.mjs <folder-or-html-file-or-url> [--out <dir>] [--widths 390,1440] [--fails-only] [--motion]
 // Serves the folder over a throwaway local server, opens it in headless Chrome or Chromium (CHROME_PATH,
 // or a usual install path), scrolls once so scroll-triggered content appears, then saves one screenshot
 // per screen at each width and prints measurements. At the widest width it also checks how the page
 // behaves: the first screen 1.2s after load, hover and keyboard focus, the page without its scripts,
 // and the page with reduced motion. With --motion it also films the widest width as frames: the
 // first screen as it loads, as the pointer crosses it, and the page as it scrolls, in one sheet.
-// Node 22+, no dependencies, nothing installed.
+// An http(s) URL (a running dev server) is opened as it is; its no-script view is skipped, since an
+// app's pages need their scripts. Node 22+, no dependencies, nothing installed.
 /* global WebSocket */
 import { execFileSync, spawn } from 'node:child_process'
 import { createServer } from 'node:http'
@@ -38,12 +39,13 @@ const target = args.find(
 )
 if (!target) {
   console.error(
-    'Usage: node look.mjs <folder-or-html-file> [--out <dir>] [--widths 390,1440] [--fails-only] [--motion]',
+    'Usage: node look.mjs <folder-or-html-file-or-url> [--out <dir>] [--widths 390,1440] [--fails-only] [--motion]',
   )
   process.exit(2)
 }
-const isFile = statSync(target).isFile()
-const root = resolve(isFile ? dirname(target) : target)
+const isUrl = /^https?:\/\//.test(target)
+const isFile = !isUrl && statSync(target).isFile()
+const root = isUrl ? process.cwd() : resolve(isFile ? dirname(target) : target)
 const page = isFile ? basename(target) : 'index.html'
 /**
  * Pictures go inside the project's .git folder when there is one, where they never show up as a
@@ -142,8 +144,12 @@ const server = createServer((request, response) => {
       : readFileSync(file),
   )
 })
-await new Promise((done) => server.listen(0, '127.0.0.1', done))
-const url = `http://127.0.0.1:${server.address().port}/${page}`
+if (!isUrl) await new Promise((done) => server.listen(0, '127.0.0.1', done))
+const url = isUrl ? target : `http://127.0.0.1:${server.address().port}/${page}`
+// A development host with its own certificate authority is still the user's own app.
+const devHost = /^(localhost|127\.0\.0\.1|\[::1\])$|\.(localhost|test|internal|local)$/.test(
+  new URL(url).hostname,
+)
 
 const chrome = findChrome()
 if (!chrome) {
@@ -166,6 +172,7 @@ const browser = spawn(
     '--no-first-run',
     '--hide-scrollbars',
     '--force-color-profile=srgb',
+    ...(devHost ? ['--ignore-certificate-errors'] : []),
     ...(process.platform === 'linux' ? ['--no-sandbox', '--disable-dev-shm-usage'] : []),
     // Web fonts load the way a visitor sees them when this machine reaches the web through a proxy.
     ...(proxy ? [`--proxy-server=${proxy}`, '--proxy-bypass-list=127.0.0.1;localhost'] : []),
@@ -191,7 +198,7 @@ const endpoint = await new Promise((done, fail) => {
 })
 const finish = (code) => {
   browser.kill('SIGKILL')
-  server.close()
+  if (server.listening) server.close()
   // Chrome may still be writing its profile as it dies; a leftover profile is harmless.
   try {
     rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 })
@@ -234,13 +241,16 @@ const errors = []
 // A remote file (a web font, a CDN script) that cannot be fetched here usually means this machine is
 // offline or sandboxed, not that the page is wrong; it is reported once, apart from real page errors.
 const unreachable = new Set()
-const isLocal = (address = '') => !address || address.startsWith(`http://127.0.0.1:`)
+const isLocal = (address = '') =>
+  !address || address.startsWith(`http://127.0.0.1:`) || address.startsWith(new URL(url).origin)
 listeners.push((message) => {
   if (message.sessionId !== sessionId) return
   if (message.method === 'Runtime.exceptionThrown')
     errors.push(message.params.exceptionDetails.exception?.description ?? 'script error')
   if (message.method === 'Log.entryAdded' && message.params.entry.level === 'error') {
     const { entry } = message.params
+    // Browsers ask for a favicon nobody wrote; that miss is not the page's error.
+    if (entry.url?.endsWith('/favicon.ico')) return
     if (entry.source === 'network' && !isLocal(entry.url)) unreachable.add(new URL(entry.url).host)
     else errors.push(entry.text)
   }
@@ -434,6 +444,8 @@ async function film(width) {
  */
 const probeCache = join(dirname(out), 'taste-probe.json')
 function fingerprint(dir = root, list = []) {
+  // A running app changes without its files changing here, so its result is never reused.
+  if (isUrl) return `${url}:${Date.now()}`
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     if (entry.name.startsWith('.') || entry.name === 'node_modules') continue
     const path = join(dir, entry.name)
@@ -508,6 +520,12 @@ const press = (key, code, keyCode) =>
 // The headline's opacity at the load event, with every animation held at its start.
 const FIRST_PAINT = `(() => { const h = document.querySelector('h1'); if (!h) return 1; let o = 1; for (let e = h; e; e = e.parentElement) o *= Number(getComputedStyle(e).opacity); return o })()`
 
+async function noScriptView(width, settled) {
+  await load(width, `${url}${url.includes('?') ? '&' : '?'}look-noscript`)
+  await pause(300)
+  return evaluate(INVISIBLE(settled))
+}
+
 async function probe(width) {
   const flags = []
   await call('Animation.enable')
@@ -555,9 +573,7 @@ async function probe(width) {
       'WARN no button or button-styled link in the first screen: what is the one thing to do here?',
     )
 
-  await load(width, `${url}${url.includes('?') ? '&' : '?'}look-noscript`)
-  await pause(300)
-  const noScript = await evaluate(INVISIBLE(settled))
+  const noScript = isUrl ? { hidden: 0 } : await noScriptView(width, settled)
   if (noScript.hidden)
     flags.push(
       `FAIL ${noScript.hidden} text block(s) are invisible until a script runs (opacity 0 or hidden in the CSS); start visible and let the script add the motion`,

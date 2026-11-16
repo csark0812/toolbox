@@ -1,12 +1,23 @@
 #!/usr/bin/env node
-// Photograph every option in a swatches folder and lay them side by side on one sheet.
-//   node <skill>/scripts/sheet.mjs <folder> [--widths 1440,390] [--height 900]
-// The folder holds one self-contained first screen per option: a.html, b.html, c.html (up to d.html).
-// Each is served over a throwaway local server, opened in headless Chrome or Chromium (CHROME_PATH, or a
-// usual install path) and photographed at every width. The script then writes <folder>/index.html, the
-// photographs side by side with captions, embedded so the file opens anywhere on its own, and
-// <folder>/sheet.png, one picture of the same comparison, and prints a WARN line for anything that makes a comparison unfair: a script error, a
-// web font that did not load, text past the right edge. Node 22+, no dependencies, nothing installed.
+// Photograph every option in a swatches round and lay them side by side on one sheet.
+//   node <skill>/scripts/sheet.mjs <round-folder> [--widths 1440,390] [--height 900] [--live] [--motion]
+//        [--urls links.json] [--data sparse,full] [--fonts "Family A,Family B"]
+// A round holds one first screen per option, a.html, b.html, ... (up to z.html), or sets of them in
+// subfolders (<round>/<set>/a.html, ...), one sheet per set. With --urls, the options are pages of a
+// running app instead: {"a": "https://host/#arrival=a", "b": {"url": "...", "caption": "..."}}.
+// Each is opened in headless Chrome or Chromium (CHROME_PATH, or a usual install path) and photographed
+// at every width. The script writes <round>/index.html for the user (the photographs embedded, or live
+// frames with --live) and <round>/sheet.png for the agent, and prints a WARN line for anything that
+// makes a comparison unfair: a script error, a web font that did not load, a font that is not the
+// project's, text past the right edge, different headlines, a trait the user dropped.
+//   --motion  also films each option as it loads (100ms to 3s, then a hover) into <round>/motion.png,
+//             one row per option, so the options can be compared at the same moment.
+//   --data    photographs each option at <url>?data=<preset> for every preset (sparse and full data).
+//   --fonts   the families an option may use; default: those declared in the nearest _shell/shell.css.
+// Option captions come from <meta name="swatch" content="...">; swatch-traits, swatch-data,
+// swatch-needs and swatch-exceptions metas are printed under them. Before a new round it reads the
+// project's pick log and refuses to run after two rounds answered "none" (see record.mjs).
+// Node 22+, no dependencies, nothing installed.
 /* global WebSocket */
 import { spawn } from 'node:child_process'
 import { createServer } from 'node:http'
@@ -20,58 +31,142 @@ import {
   writeFileSync,
 } from 'node:fs'
 import { homedir } from 'node:os'
-import { extname, join, normalize, relative, resolve } from 'node:path'
+import { basename, dirname, extname, join, normalize, relative, resolve } from 'node:path'
+import { logPath, matchesDrop, readEntries, readLog, status } from './record.mjs'
 
 const args = process.argv.slice(2)
 const option = (name, fallback) => {
   const index = args.indexOf(`--${name}`)
   return index === -1 ? fallback : args[index + 1]
 }
+const SWITCHES = ['--live', '--motion']
 const target = args.find(
-  (arg, index) => !arg.startsWith('--') && !args[index - 1]?.startsWith('--'),
+  (arg, index) =>
+    !arg.startsWith('--') &&
+    (!args[index - 1]?.startsWith('--') || SWITCHES.includes(args[index - 1])),
 )
-if (!target || !existsSync(target) || !statSync(target).isDirectory()) {
-  console.error(
-    'Usage: node sheet.mjs <folder with a.html, b.html, ...> [--widths 1440,390] [--height 900]',
-  )
+const usage =
+  'Usage: node sheet.mjs <round-folder with a.html, b.html, ... or set folders> [--widths 1440,390] [--height 900] [--live] [--motion] [--urls links.json] [--data sparse,full] [--fonts "A,B"]'
+if (!target) {
+  console.error(usage)
   process.exit(2)
 }
 const root = resolve(target)
+mkdirSync(root, { recursive: true })
 const widths = option('widths', '1440,390').split(',').map(Number)
 const height = Number(option('height', 900))
-const options = readdirSync(root)
-  .filter((name) => /^[a-d]\.html$/.test(name))
-  .sort()
-  .map((name) => name[0])
-if (options.length < 2) {
+const live = args.includes('--live')
+const motion = args.includes('--motion')
+const presets = option('data') ? option('data').split(',') : [null]
+
+/** The options of one folder: a.html to z.html, in order. */
+const optionFiles = (dir) =>
+  readdirSync(dir)
+    .filter((name) => /^[a-z]\.html$/.test(name))
+    .sort()
+    .map((name) => ({ id: name[0], file: join(dir, name) }))
+
+/** The sets in a round: the round itself, or each subfolder that holds two or more options. */
+function findSets() {
+  if (option('urls')) {
+    const links = JSON.parse(readFileSync(resolve(option('urls')), 'utf8'))
+    const list = Object.entries(links).map(([id, link]) => ({
+      id,
+      url: typeof link === 'string' ? link : link.url,
+      caption: typeof link === 'string' ? '' : (link.caption ?? ''),
+    }))
+    return [{ name: '', dir: root, options: list }]
+  }
+  if (!statSync(root).isDirectory()) return []
+  const own = optionFiles(root)
+  if (own.length >= 2) return [{ name: '', dir: root, options: own }]
+  return readdirSync(root, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'shots')
+    .map((entry) => ({
+      name: entry.name,
+      dir: join(root, entry.name),
+      options: optionFiles(join(root, entry.name)),
+    }))
+    .filter((set) => set.options.length >= 2)
+    .sort((a, b) => a.name.localeCompare(b.name))
+}
+const sets = findSets()
+if (!sets.length) {
   console.error(
-    `Found ${options.length} option file(s) in ${root}; write at least a.html and b.html.`,
+    `Found no round in ${root}: write at least a.html and b.html, or set folders that each hold them, or pass --urls.\n${usage}`,
   )
   process.exit(2)
 }
-const notes = (() => {
-  // Optional one-line caption per option, from <meta name="swatch" content="..."> in each file.
-  const caption = {}
-  for (const id of options) {
-    const match = readFileSync(join(root, `${id}.html`), 'utf8').match(
-      /<meta\s+name=["']swatch["']\s+content=(["'])(.*?)\1/i,
-    )
-    caption[id] = match ? match[2] : ''
-  }
-  return caption
+
+// Two "none" answers in a row stop a new round until one question is asked and recorded. A round
+// already in the log can be photographed again to fix its WARN lines.
+const log = logPath(root)
+// The project is the folder that holds `.swatches/`; its older per-checkout log counts too.
+const project = (() => {
+  for (let dir = root; dir !== dirname(dir); dir = dirname(dir))
+    if (basename(dir) === '.swatches') return dirname(dir)
+  return process.cwd()
 })()
+const state = status(log, project)
+const roundName = basename(root)
+const recorded = readEntries(readLog(log, project)).some((entry) =>
+  entry.title.includes(` ${roundName} `),
+)
+if (state.stop && !recorded) {
+  console.error(state.stop)
+  console.error(`log: ${log}`)
+  process.exit(3)
+}
+
+/** The families the project's shell declares, for the font check. */
+function allowedFonts() {
+  if (option('fonts'))
+    return option('fonts')
+      .split(',')
+      .map((f) => f.trim().toLowerCase())
+  for (let dir = root, i = 0; i < 4; dir = dirname(dir), i++) {
+    const shell = join(dir, '_shell', 'shell.css')
+    if (!existsSync(shell)) continue
+    const css = readFileSync(shell, 'utf8')
+    const families = [
+      ...css.matchAll(/font-family\s*:\s*([^;}]+)/gi),
+      ...css.matchAll(/--[\w-]*font[\w-]*\s*:\s*([^;}]+)/gi),
+    ].flatMap((match) => match[1].split(','))
+    return [...new Set(families.map((f) => f.replace(/["']/g, '').trim().toLowerCase()))].filter(
+      Boolean,
+    )
+  }
+  return null
+}
+const fonts = allowedFonts()
+const GENERIC = new Set([
+  'serif',
+  'sans-serif',
+  'monospace',
+  'system-ui',
+  'ui-sans-serif',
+  'ui-serif',
+  'ui-monospace',
+  '-apple-system',
+  'blinkmacsystemfont',
+  'cursive',
+  'fantasy',
+])
 
 function findChrome() {
-  const cache = (dir) =>
-    existsSync(dir)
-      ? readdirSync(dir)
-          .filter((name) => name.startsWith('chromium'))
-          .flatMap((name) => [
-            join(dir, name, 'chrome-linux', 'chrome'),
-            join(dir, name, 'chrome-linux64', 'chrome'),
-            join(dir, name, 'chrome-mac', 'Chromium.app/Contents/MacOS/Chromium'),
-          ])
-      : []
+  const cache = (dir) => {
+    try {
+      return readdirSync(dir)
+        .filter((name) => name.startsWith('chromium'))
+        .flatMap((name) => [
+          join(dir, name, 'chrome-linux', 'chrome'),
+          join(dir, name, 'chrome-linux64', 'chrome'),
+          join(dir, name, 'chrome-mac', 'Chromium.app/Contents/MacOS/Chromium'),
+        ])
+    } catch {
+      return []
+    }
+  }
   return [
     process.env.CHROME_PATH,
     '/usr/bin/google-chrome',
@@ -91,6 +186,8 @@ const TYPES = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css',
   '.js': 'text/javascript',
+  '.mjs': 'text/javascript',
+  '.json': 'application/json',
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
@@ -98,14 +195,16 @@ const TYPES = {
   '.webp': 'image/webp',
   '.woff2': 'font/woff2',
 }
+// Served from the round's parent, so options can share ../_shell/shell.css and other files.
+const served = dirname(root)
 const server = createServer((request, response) => {
   let file
   try {
-    file = normalize(join(root, decodeURIComponent(new URL(request.url, 'http://x').pathname)))
+    file = normalize(join(served, decodeURIComponent(new URL(request.url, 'http://x').pathname)))
   } catch {
     return response.writeHead(400).end()
   }
-  if (relative(root, file).startsWith('..')) return response.writeHead(403).end()
+  if (relative(served, file).startsWith('..')) return response.writeHead(403).end()
   if (!existsSync(file) || statSync(file).isDirectory())
     return response.writeHead(request.url === '/favicon.ico' ? 204 : 404).end()
   response.writeHead(200, { 'content-type': TYPES[extname(file)] ?? 'application/octet-stream' })
@@ -113,6 +212,17 @@ const server = createServer((request, response) => {
 })
 await new Promise((done) => server.listen(0, '127.0.0.1', done))
 const base = `http://127.0.0.1:${server.address().port}`
+const urlOf = (opt, preset) => {
+  const url = opt.url ?? `${base}/${relative(served, opt.file).split('\\').join('/')}`
+  if (!preset) return url
+  const [path, hash = ''] = url.split('#')
+  return `${path}${path.includes('?') ? '&' : '?'}data=${encodeURIComponent(preset)}${hash ? `#${hash}` : ''}`
+}
+const devHost = (url) =>
+  /^(localhost|127\.0\.0\.1|\[::1\])$|\.(localhost|test|internal|local)$/.test(
+    new URL(url).hostname,
+  )
+const anyDevHost = sets.some((set) => set.options.some((opt) => opt.url && devHost(opt.url)))
 
 const chrome = findChrome()
 if (!chrome) {
@@ -122,7 +232,7 @@ if (!chrome) {
 const proxyUrl = process.env.HTTPS_PROXY ?? process.env.https_proxy
 const proxy = proxyUrl && /^https?:\/\/[^@/]+$/.test(proxyUrl.replace(/\/$/, '')) ? proxyUrl : null
 const shots = join(root, 'shots')
-const profile = join(shots, '.profile')
+const profile = join(shots, 'chrome-profile')
 rmSync(shots, { recursive: true, force: true })
 mkdirSync(profile, { recursive: true })
 const browser = spawn(
@@ -134,6 +244,8 @@ const browser = spawn(
     '--no-first-run',
     '--hide-scrollbars',
     '--force-color-profile=srgb',
+    // An app on a development host with its own certificate authority is still the user's own app.
+    ...(anyDevHost ? ['--ignore-certificate-errors'] : []),
     ...(process.platform === 'linux' ? ['--no-sandbox', '--disable-dev-shm-usage'] : []),
     // Web fonts load the way a visitor sees them when this machine reaches the web through a proxy.
     ...(proxy ? [`--proxy-server=${proxy}`, '--proxy-bypass-list=127.0.0.1;localhost'] : []),
@@ -206,10 +318,11 @@ listeners.push((message) => {
 await call('Page.enable')
 await call('Runtime.enable')
 
-const open = async (url, width, viewHeight) => {
+const viewHeight = (width) => (width < 600 ? 844 : height)
+const navigate = async (url, width, settle = 700) => {
   await call('Emulation.setDeviceMetricsOverride', {
     width,
-    height: viewHeight,
+    height: viewHeight(width),
     deviceScaleFactor: 1,
     mobile: width < 600,
   })
@@ -222,24 +335,38 @@ const open = async (url, width, viewHeight) => {
     listeners.push(listen)
   })
   await call('Page.navigate', { url })
+  if (settle === 0) return
   await Promise.race([loaded, pause(15000)])
   await evaluate('document.fonts.ready.then(() => true)')
-  await pause(700)
+  await pause(settle)
 }
 const photo = async (file, clip) => {
-  const { data } = await call('Page.captureScreenshot', {
-    format: 'png',
-    ...(clip ? { clip } : {}),
-  })
+  let data
+  for (let attempt = 0; !data; attempt++) {
+    try {
+      ;({ data } = await call('Page.captureScreenshot', {
+        format: 'png',
+        ...(clip ? { clip } : {}),
+      }))
+    } catch (error) {
+      // A frame asked for while a navigation commits has no page yet; try again shortly.
+      if (attempt === 20) throw error
+      await pause(25)
+    }
+  }
   writeFileSync(file, Buffer.from(data, 'base64'))
 }
 
 const CHECK = `(() => {
   const html = document.documentElement
+  const meta = (name) => document.querySelector('meta[name="' + name + '"]')?.content ?? ''
   const wide = [...document.querySelectorAll('body *')].filter((el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.right > html.clientWidth + 1 && getComputedStyle(el).position !== 'fixed' }).slice(0, 3).map((el) => el.tagName.toLowerCase())
   const failed = [...document.fonts].filter((f) => f.status === 'error').map((f) => f.family.replace(/["']/g, ''))
+  const texts = [...document.querySelectorAll('body *')].filter((el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()) && el.getBoundingClientRect().height > 0)
+  const families = {}
+  for (const el of texts) { const family = getComputedStyle(el).fontFamily.split(',')[0].replace(/["']/g, '').trim(); families[family] ??= el.tagName.toLowerCase() }
   const h1 = document.querySelector('h1')
-  return { wide, failed: [...new Set(failed)], h1: h1 ? h1.textContent.trim().slice(0, 60) : '' }
+  return { wide, failed: [...new Set(failed)], families, h1: h1 ? h1.textContent.trim().slice(0, 60) : '', caption: meta('swatch'), traits: meta('swatch-traits'), data: meta('swatch-data'), needs: meta('swatch-needs'), exceptions: meta('swatch-exceptions') }
 })()`
 
 let warnings = 0
@@ -247,73 +374,194 @@ const warn = (line) => {
   warnings++
   console.log(`WARN ${line}`)
 }
-const headlines = new Set()
-for (const id of options) {
-  for (const width of widths) {
-    errors = []
-    await open(`${base}/${id}.html`, width, width < 600 ? 844 : height)
-    const found = await evaluate(CHECK)
-    await photo(join(shots, `${id}-${width}.png`))
-    if (errors.length) warn(`${id} at ${width}px: script error: ${errors[0].split('\n')[0]}`)
-    if (found.failed.length)
-      warn(`${id} at ${width}px: web font did not load: ${found.failed.join(', ')}`)
-    if (found.wide.length)
-      warn(`${id} at ${width}px: past the right edge: ${found.wide.join(', ')}`)
-    if (!found.h1)
-      warn(`${id} at ${width}px: no h1, so the options may not be showing the same content`)
-    headlines.add(found.h1)
+const escape = (text) => String(text).replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`)
+const shotName = (set, id, width, preset) =>
+  `${set.name ? `${set.name}-` : ''}${id}-${width}${preset ? `-${preset}` : ''}.png`
+
+/** Photograph one set at every width and data preset, and check what makes a comparison unfair. */
+async function photographSet(set) {
+  const label = set.name ? `${set.name}/` : ''
+  const headlines = new Set()
+  for (const opt of set.options) {
+    for (const preset of presets)
+      for (const width of widths) {
+        errors = []
+        await navigate(urlOf(opt, preset), width)
+        const found = await evaluate(CHECK)
+        await photo(join(shots, shotName(set, opt.id, width, preset)))
+        const where = `${label}${opt.id} at ${width}px${preset ? ` (${preset} data)` : ''}`
+        if (errors.length) warn(`${where}: script error: ${errors[0].split('\n')[0]}`)
+        if (found.failed.length) warn(`${where}: web font did not load: ${found.failed.join(', ')}`)
+        if (found.wide.length) warn(`${where}: past the right edge: ${found.wide.join(', ')}`)
+        if (!found.h1) warn(`${where}: no h1, so the options may not be showing the same content`)
+        const foreign = fonts
+          ? Object.entries(found.families).filter(
+              ([f]) => !GENERIC.has(f.toLowerCase()) && !fonts.includes(f.toLowerCase()),
+            )
+          : []
+        if (foreign.length)
+          warn(
+            `${where}: fonts that are not the project's: ${foreign.map(([f, tag]) => `${f} (on ${tag})`).join(', ')}; allowed: ${fonts.join(', ')}`,
+          )
+        headlines.add(found.h1)
+        Object.assign(opt, {
+          caption: opt.caption || found.caption,
+          traits: found.traits,
+          data: found.data,
+          needs: found.needs,
+          exceptions: found.exceptions,
+        })
+      }
+    const dropped = matchesDrop(
+      (opt.traits ?? '').split(/[,;·]/).filter((trait) => trait.trim()),
+      state.dropped,
+    )
+    if (dropped.length)
+      warn(`${label}${opt.id}: repeats traits the user dropped: ${dropped.join(', ')}`)
+  }
+  if (headlines.size > 1)
+    warn(
+      `${label}the options' h1 text differs (${[...headlines].join(' | ')}); compare like with like`,
+    )
+}
+
+/** Each option filmed as it loads, one row per option, the same moments in every row. */
+const MOMENTS = [100, 300, 600, 1000, 1800, 3000]
+async function filmSet(set) {
+  const width = widths[0]
+  for (const opt of set.options) {
+    await navigate('about:blank', width, 0)
+    const start = Date.now()
+    await navigate(urlOf(opt, presets[0]), width, 0)
+    opt.frames = []
+    for (const at of MOMENTS) {
+      await pause(Math.max(0, at - (Date.now() - start)))
+      const file = join(shots, `motion-${set.name ? `${set.name}-` : ''}${opt.id}-${at}.png`)
+      await photo(file)
+      opt.frames.push({ file, label: `${Date.now() - start}ms` })
+    }
+    const point = (await evaluate(
+      `(() => { const el = document.querySelector('a[href], button, [role=button], input'); const r = el?.getBoundingClientRect(); return r ? { x: r.x + r.width / 2, y: r.y + r.height / 2 } : { x: innerWidth / 2, y: innerHeight / 2 } })()`,
+    )) ?? { x: width / 2, y: viewHeight(width) / 2 }
+    await call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: point.x, y: point.y, steps: 8 })
+    await pause(400)
+    const file = join(shots, `motion-${set.name ? `${set.name}-` : ''}${opt.id}-hover.png`)
+    await photo(file)
+    opt.frames.push({ file, label: 'hover' })
   }
 }
-if (headlines.size > 1)
-  warn(`the options' h1 text differs (${[...headlines].join(' | ')}); compare like with like`)
 
-// index.html for the user and sheet.png for the agent share one layout: every option on one row at each
-// width. The user's copy embeds the photographs, because file previews and shared attachments often
-// open the one file without its neighbours, or block frames and remote fonts.
-const embed = (id, width) =>
-  `data:image/png;base64,${readFileSync(join(shots, `${id}-${width}.png`)).toString('base64')}`
-const escape = (text) => text.replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`)
-const column = (width) => (width < 600 ? 260 : Math.floor(1600 / options.length) - 24)
-const card = (id, width, src) => {
-  const scale = column(width) / width
-  const viewHeight = width < 600 ? 844 : height
-  return `<figure><div class="frame" style="width:${Math.round(width * scale)}px;height:${Math.round(viewHeight * scale)}px">${src(width, viewHeight, scale)}</div><figcaption><b>${id.toUpperCase()}</b> ${escape(notes[id])}</figcaption></figure>`
+/** Captions: the idea, then what the option needs or costs, so the user sees it before picking. */
+const captionOf = (opt) => {
+  const facts = [
+    opt.data && `data: ${opt.data}`,
+    opt.needs && `needs: ${opt.needs}`,
+    opt.exceptions && `exceptions: ${opt.exceptions}`,
+  ].filter(Boolean)
+  return `<b>${escape(opt.id.toUpperCase())}</b> ${escape(opt.caption ?? '')}${facts.map((fact) => `<br><small>${escape(fact)}</small>`).join('')}`
 }
-const page = (src) => `<!doctype html><meta charset="utf-8"><title>Swatches</title>
+
+// index.html for the user and sheet.png for the agent share one layout: every option on one row at
+// each width. The user's copy embeds the photographs by default, because file previews and shared
+// attachments often open the one file without its neighbours; --live shows the options themselves.
+const column = (set, width) => (width < 600 ? 260 : Math.floor(1600 / set.options.length) - 24)
+function page(set, src, title = 'Swatches') {
+  const rows = []
+  for (const preset of presets)
+    for (const width of widths)
+      rows.push(
+        `${preset ? `<h2>${escape(preset)} data · ${width}px</h2>` : ''}<div class="row">${set.options
+          .map((opt) => {
+            const scale = column(set, width) / width
+            const h = viewHeight(width)
+            return `<figure><div class="frame" style="width:${Math.round(width * scale)}px;height:${Math.round(h * scale)}px">${src(opt, width, h, scale, preset)}</div><figcaption>${captionOf(opt)}</figcaption></figure>`
+          })
+          .join('')}</div>`,
+      )
+  return `<!doctype html><meta charset="utf-8"><title>${escape(title)}</title>
 <style>body{margin:0;padding:24px;background:#e9e9e6;color:#1d1d1b;font:15px/1.4 system-ui,sans-serif}
-.row{display:flex;gap:24px;align-items:flex-start;margin-bottom:32px}figure{margin:0}
+.row{display:flex;gap:24px;align-items:flex-start;margin-bottom:32px}figure{margin:0}h2{font-size:14px;font-weight:600;margin:0 0 8px}
 .frame{overflow:hidden;background:#fff;box-shadow:0 0 0 1px #0002}.frame>*{transform-origin:0 0;border:0;display:block}
-figcaption{margin-top:8px;max-width:${column(widths[0])}px}b{font-size:18px;margin-right:6px}</style>
-${widths.map((width) => `<div class="row">${options.map((id) => card(id, width, (w, h, scale) => src(id, w, h, scale))).join('')}</div>`).join('\n')}`
+figcaption{margin-top:8px;max-width:${column(set, widths[0])}px}b{font-size:18px;margin-right:6px}small{color:#555}</style>
+${rows.join('\n')}`
+}
+function motionPage(set) {
+  const tile = 240
+  const rows = set.options
+    .map(
+      (opt) =>
+        `<div class="row"><div class="who">${captionOf(opt)}</div>${opt.frames
+          .map(
+            (frame) =>
+              `<figure><img src="data:image/png;base64,${readFileSync(frame.file).toString('base64')}" style="width:${tile}px"><figcaption>${frame.label}</figcaption></figure>`,
+          )
+          .join('')}</div>`,
+    )
+    .join('')
+  return {
+    width: 48 + 180 + (MOMENTS.length + 1) * (tile + 8),
+    html: `<!doctype html><meta charset="utf-8"><style>body{margin:0;padding:24px;background:#e9e9e6;font:13px/1.4 system-ui,sans-serif}.row{display:flex;gap:8px;align-items:flex-start;margin-bottom:16px}.who{width:172px}figure{margin:0}img{display:block;box-shadow:0 0 0 1px #0002}b{font-size:16px;margin-right:4px}</style>${rows}`,
+  }
+}
+/** A full-height picture of an HTML file served beside the shots. */
+async function pictureOf(html, file, width) {
+  const scratch = join(shots, `${basename(file, '.png')}.html`)
+  writeFileSync(scratch, html)
+  await navigate(`${base}/${relative(served, scratch).split('\\').join('/')}`, width, 200)
+  const fullHeight = await evaluate('document.documentElement.scrollHeight')
+  await call('Emulation.setDeviceMetricsOverride', {
+    width,
+    height: fullHeight,
+    deviceScaleFactor: 1,
+    mobile: false,
+  })
+  await pause(200)
+  await photo(file)
+  rmSync(scratch, { force: true })
+}
 
-writeFileSync(
-  join(root, 'index.html'),
-  page(
-    (id, w, h, scale) =>
-      `<img src="${embed(id, w)}" width="${w}" height="${h}" style="transform:scale(${scale})" alt="Option ${id.toUpperCase()} at ${w}px">`,
-  ),
-)
-writeFileSync(
-  join(shots, 'sheet.html'),
-  page(
-    (id, w, h, scale) =>
-      `<img src="${id}-${w}.png" width="${w}" height="${h}" style="transform:scale(${scale})" alt="">`,
-  ),
-)
-const sheetWidth = 48 + options.length * (column(widths[0]) + 24)
-await open(`${base}/shots/sheet.html`, sheetWidth, 800)
-const fullHeight = await evaluate('document.documentElement.scrollHeight')
-await call('Emulation.setDeviceMetricsOverride', {
-  width: sheetWidth,
-  height: fullHeight,
-  deviceScaleFactor: 1,
-  mobile: false,
-})
-await pause(200)
-await photo(join(root, 'sheet.png'))
-rmSync(join(shots, 'sheet.html'), { force: true })
+const written = []
+try {
+  for (const set of sets) {
+    await photographSet(set)
+    const shotOf = (opt, w, preset) => join(shots, shotName(set, opt.id, w, preset))
+    const liveSrc = (opt, w, h, scale, preset) =>
+      `<iframe src="${escape(opt.url ? urlOf(opt, preset) : relative(set.dir, opt.file) + (preset ? `?data=${encodeURIComponent(preset)}` : ''))}" width="${w}" height="${h}" style="transform:scale(${scale})" title="Option ${opt.id.toUpperCase()}"></iframe>`
+    const embedSrc = (opt, w, h, scale, preset) =>
+      `<img src="data:image/png;base64,${readFileSync(shotOf(opt, w, preset)).toString('base64')}" width="${w}" height="${h}" style="transform:scale(${scale})" alt="Option ${opt.id.toUpperCase()} at ${w}px">`
+    const index = join(set.dir, 'index.html')
+    writeFileSync(index, page(set, live ? liveSrc : embedSrc, set.name || 'Swatches'))
+    const sheetWidth = 48 + set.options.length * (column(set, widths[0]) + 24)
+    const sheet = join(set.dir, 'sheet.png')
+    await pictureOf(page(set, embedSrc), sheet, sheetWidth)
+    let film = null
+    if (motion) {
+      await filmSet(set)
+      const { html, width } = motionPage(set)
+      film = join(set.dir, 'motion.png')
+      await pictureOf(html, film, width)
+    }
+    written.push({ set, index, sheet, film })
+  }
+  if (sets.length > 1)
+    writeFileSync(
+      join(root, 'index.html'),
+      `<!doctype html><meta charset="utf-8"><title>Swatches</title><style>body{margin:0;padding:24px;font:15px/1.5 system-ui,sans-serif}iframe{width:100%;height:80vh;border:0;box-shadow:0 0 0 1px #0002;margin-bottom:32px}</style>${sets.map((set) => `<h2>${escape(set.name)}</h2><iframe src="${escape(set.name)}/index.html" title="${escape(set.name)}"></iframe>`).join('')}`,
+    )
+} catch (error) {
+  console.error(error)
+  finish(2)
+}
 
-console.log(`${options.length} options at ${widths.join(' and ')}px, ${warnings} WARN`)
-console.log(`sheet: ${join(root, 'sheet.png')}`)
-console.log(`for the user: ${join(root, 'index.html')}`)
+const count = sets.reduce((sum, set) => sum + set.options.length, 0)
+console.log(
+  `${count} options${sets.length > 1 ? ` in ${sets.length} sets` : ''} at ${widths.join(' and ')}px${presets[0] ? ` with ${presets.join(' and ')} data` : ''}, ${warnings} WARN`,
+)
+for (const { set, sheet, film } of written) {
+  console.log(`sheet${set.name ? ` (${set.name})` : ''}: ${sheet}`)
+  if (film) console.log(`motion${set.name ? ` (${set.name})` : ''}: ${film}`)
+}
+console.log(
+  `for the user: ${join(root, 'index.html')}${live ? ' (live frames)' : ' (photographs embedded)'}`,
+)
 finish(0)

@@ -2,6 +2,7 @@
 
 <!-- source-of-truth: how real Claude Code skill use is archived, measured and reported. -->
 <!-- doc-meta: owner=eng -->
+<!-- review-deps: paths=scripts/skill-usage.mjs,scripts/lib/skill-usage/** -->
 
 The skill bench measures skills on frozen tasks. This tool measures them in real work: why each toolbox skill was called, whether it was the right skill, whether it worked, and which requests should have called a skill but did not. It reads Claude Code transcripts only. Codex sessions are out of scope.
 

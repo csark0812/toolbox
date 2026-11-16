@@ -1,0 +1,76 @@
+{
+  "name": "swatches",
+  "description": "swatches routing and conformance: options for a choice the user is making are rendered side by side, earlier Drop traits are not repeated, two \"none\" answers stop the next round for one question, picks are recorded with their parts, and building, fixing or answering questions does not trigger it",
+  "defaults": {
+    "profile": "cursor",
+    "skills": "full"
+  },
+  "scenarios": [
+    {
+      "name": "directions for a first screen, without the traits the owner dropped",
+      "prompt": "Can you show me three different directions for the first screen of the tea room site in agent-suites/fixtures/linden-tea-room? I'd like to pick one before anything gets built.",
+      "rubric": {
+        "mustInvokeSkill": ["swatches"],
+        "judge": [
+          "Two to four options were written as separate pages and photographed side by side, and the reply gives one line per option and asks which one the owner wants without recommending one first.",
+          "No option uses glow, a gradient, an accent flash or a glass effect, which the earlier round in .swatches/picks.md dropped.",
+          "Every option shows the tea room's real details from the README (name, Mill Street, the days and hours, Book a table)."
+        ]
+      }
+    },
+    {
+      "name": "two rounds of none: one question before another round",
+      "prompt": "Show me another round of options for the timetable header in agent-suites/fixtures/pier-timetable.",
+      "rubric": {
+        "mustInvokeSkill": ["swatches"],
+        "judge": [
+          "No new round of option pages was built.",
+          "The reply notes that the last two rounds were both answered none and asks one question: for a reference the owner admires, or which part is wrong (for example motion, density, colour or layout)."
+        ]
+      }
+    },
+    {
+      "name": "a part-pick is recorded with each part",
+      "prompt": "For the two menu header options in agent-suites/fixtures/market-stall (round r1): I'll take B, but with A's serif type, and left-aligned instead of centred. Write that down and tell me what's next.",
+      "rubric": {
+        "mustInvokeSkill": ["swatches"],
+        "judge": [
+          "A pick entry was written to the project's pick log naming B, with A's serif type and left alignment each kept as its own line or trait.",
+          "The reply restates both modifiers (A's serif type, left-aligned) and names the next step."
+        ]
+      }
+    },
+    {
+      "name": "near miss: build the page outright",
+      "prompt": "Can you build the website for the bakery in agent-suites/fixtures/harbour-bakery? The owner's brief is in the README. One page, static.",
+      "rubric": {
+        "mustNotReadPath": ["swatches/SKILL.md"],
+        "judge": [
+          "A single page was built in the bakery folder with the loaves, prices, hours, address and the reserve-by-text rule."
+        ]
+      }
+    },
+    {
+      "name": "near miss: one focus-ring CSS defect",
+      "prompt": "Keyboard users can't see which link in the top nav is focused (agent-suites/fixtures/nav-bar). Fix it without changing how it looks for mouse users.",
+      "rubric": {
+        "mustNotReadPath": ["swatches/SKILL.md"],
+        "judge": [
+          "Keyboard focus on nav links gets a visible :focus-visible indicator and the hover style is unchanged."
+        ]
+      }
+    },
+    {
+      "name": "near miss: a factual question about a brand file",
+      "prompt": "Which typefaces and colours does the brand file in agent-suites/fixtures/tidewater-ferries define? Just tell me, no changes.",
+      "rubric": {
+        "mustNotReadPath": ["swatches/SKILL.md"],
+        "judge": [
+          "The reply lists the two typefaces and the five colour tokens from brand.css.",
+          "No file was changed."
+        ]
+      },
+      "evidencePolicy": "read-only"
+    }
+  ]
+}

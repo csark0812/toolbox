@@ -14,6 +14,10 @@ List the questions the user brings to this screen, in priority order ("is today 
 - **Compute, then check.** Work the answers out from the data, not by eye: totals, coverage, gaps, overdue items. Run the logic once against the data file and compare with your own reading.
 - **Ambiguous rules:** when a rule can be read two ways (does "until Friday" include Friday?), choose the reading the rest of the data supports (if the schedule already books that person on Friday, its author expects them), and state it in the reply.
 
+## Reuse before restyle
+
+Before writing a part, list the design-system parts that already do its job (a floating popover, a scroll region with faded edges, the product's card, tabs, a dropdown) and use them. Match the hierarchy of the product's existing card for the same object rather than inventing a new one. When the design system blocks a look the user picked, say so and ask, rather than rebuilding the part by hand.
+
 ## Shell and density
 
 - A quiet shell: a plain sidebar or top bar with the product name and a few sections, a clear screen title, and the current context (date, station, account). On a phone the sections stay reachable through a menu or a bottom bar.

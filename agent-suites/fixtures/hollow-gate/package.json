@@ -1,0 +1,8 @@
+{
+  "name": "hollow-gate",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve ."
+  }
+}
