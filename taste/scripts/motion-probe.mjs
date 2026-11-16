@@ -491,7 +491,10 @@ const ms = (at, seg) => `${at - seg.start}ms`
 const shotsIn = (seg) => shots.filter((shot) => shot.at >= seg.start && shot.at <= seg.end)
 /** Near-empty frames: a JPEG far smaller than the segment's typical frame is mostly blank or a loader. */
 function emptyFrames(seg) {
-  const list = shotsIn(seg)
+  // Frames before the page's first animation frame are the blank before first paint, not a flash.
+  const painted =
+    events.find((event) => event.kind === 'frame' && event.at >= seg.start)?.at ?? seg.start
+  const list = shotsIn(seg).filter((shot) => shot.at >= painted + 50)
   const typical = median(list.map((shot) => shot.bytes))
   return list.filter((shot) => shot.bytes < typical * 0.3)
 }

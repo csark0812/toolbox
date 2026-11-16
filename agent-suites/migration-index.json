@@ -3246,6 +3246,167 @@
       "consumer": "scripts/lib/evidence-v2.mjs",
       "skipped": false,
       "compareId": null
+    },
+    {
+      "id": "taste:8",
+      "suite": "taste",
+      "name": "gate page: intrigue from real data, the name and one action",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["taste"],
+        "judge": [
+          "The page shows the name Hollow Sky, one email field with a Join button, and a drawing made from data/observations.json behind them; it has no feature list, how-it-works section or explanation of the app.",
+          "The name lands before the drawing starts moving, and the reply states the measured times or the frames that show it.",
+          "The page was rendered at a phone and a desktop width after the last edit."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "taste:9",
+      "suite": "taste",
+      "name": "arrival fix: the showpiece waits for the wordmark, and nothing jumps",
+      "claimSource": "agent-suites/taste/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["taste"],
+        "judge": [
+          "The canvas drift starts only after the wordmark's entrance has finished, read from the wordmark's animation rather than a guessed delay.",
+          "The opening-hours notice no longer pushes the wordmark: its space is reserved or it no longer shifts the layout.",
+          "The motion was measured frame by frame after the last edit (for example with a probe or recorded frames), and the reply reports the measured times rather than only adjectives."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "swatches:1",
+      "suite": "swatches",
+      "name": "directions for a first screen, without the traits the owner dropped",
+      "claimSource": "agent-suites/swatches/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["swatches"],
+        "judge": [
+          "Two to four options were written as separate pages and photographed side by side, and the reply gives one line per option and asks which one the owner wants without recommending one first.",
+          "No option uses glow, a gradient, an accent flash or a glass effect, which the earlier round in .swatches/picks.md dropped.",
+          "Every option shows the tea room's real details from the README (name, Mill Street, the days and hours, Book a table)."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "swatches:2",
+      "suite": "swatches",
+      "name": "two rounds of none: one question before another round",
+      "claimSource": "agent-suites/swatches/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["swatches"],
+        "judge": [
+          "No new round of option pages was built.",
+          "The reply notes that the last two rounds were both answered none and asks one question: for a reference the owner admires, or which part is wrong (for example motion, density, colour or layout)."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "swatches:3",
+      "suite": "swatches",
+      "name": "a part-pick is recorded with each part",
+      "claimSource": "agent-suites/swatches/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustInvokeSkill": ["swatches"],
+        "judge": [
+          "A pick entry was written to the project's pick log naming B, with A's serif type and left alignment each kept as its own line or trait.",
+          "The reply restates both modifiers (A's serif type, left-aligned) and names the next step."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "swatches:4",
+      "suite": "swatches",
+      "name": "near miss: build the page outright",
+      "claimSource": "agent-suites/swatches/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["swatches/SKILL.md"],
+        "judge": [
+          "A single page was built in the bakery folder with the loaves, prices, hours, address and the reserve-by-text rule."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "swatches:5",
+      "suite": "swatches",
+      "name": "near miss: one focus-ring CSS defect",
+      "claimSource": "agent-suites/swatches/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["swatches/SKILL.md"],
+        "judge": [
+          "Keyboard focus on nav links gets a visible :focus-visible indicator and the hover style is unchanged."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
+    },
+    {
+      "id": "swatches:6",
+      "suite": "swatches",
+      "name": "near miss: a factual question about a brand file",
+      "claimSource": "agent-suites/swatches/claims.json",
+      "seed": null,
+      "rubric": {
+        "mustNotReadPath": ["swatches/SKILL.md"],
+        "judge": [
+          "The reply lists the two typefaces and the five colour tokens from brand.css.",
+          "No file was changed."
+        ]
+      },
+      "assertion": "automatic skill routing (invoked or not read) + semantic judge over output, tool calls, snapshot and commits + frozen harness and fixture gate where declared",
+      "judgeInput": ["output", "toolCalls", "selectedSnapshot", "changedPaths"],
+      "metric": "normalized-v1",
+      "consumer": "scripts/lib/evidence-v2.mjs",
+      "skipped": false,
+      "compareId": null
     }
   ]
 }

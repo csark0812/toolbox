@@ -86,9 +86,23 @@ export const droppedTraits = (entries) => [
 export const matchesDrop = (optionTraits, dropped) =>
   optionTraits.map(normal).filter((trait) => dropped.some((drop) => sameTrait(trait, drop)))
 
+/** Older per-checkout logs: this project's `.swatches/picks.md`, then the main checkout's. */
+export const olderLogs = (log, project = process.cwd()) =>
+  [
+    join(resolve(project), '.swatches', 'picks.md'),
+    join(dirname(dirname(dirname(log))), '.swatches', 'picks.md'),
+  ].filter((path) => path !== log && existsSync(path))
+
+/** The log's text: the shared log, or an older per-checkout log until the first shared write. */
+export function readLog(log, project) {
+  if (existsSync(log)) return readFileSync(log, 'utf8')
+  const [older] = olderLogs(log, project)
+  return older ? readFileSync(older, 'utf8') : ''
+}
+
 /** The log's state as the next round sees it, with the STOP line when two "none" answers ran. */
-export function status(log) {
-  const entries = existsSync(log) ? readEntries(readFileSync(log, 'utf8')) : []
+export function status(log, project) {
+  const entries = readEntries(readLog(log, project))
   const streak = noneStreak(entries)
   return {
     log,
@@ -136,10 +150,7 @@ export function formatEntry(values, date = new Date()) {
 function startLog(log, project) {
   if (existsSync(log)) return null
   mkdirSync(dirname(log), { recursive: true })
-  const older = [
-    join(resolve(project), '.swatches', 'picks.md'),
-    join(dirname(dirname(dirname(log))), '.swatches', 'picks.md'),
-  ].find((path) => path !== log && existsSync(path))
+  const [older] = olderLogs(log, project)
   if (older) {
     writeFileSync(log, readFileSync(older, 'utf8').replace(/\n*$/, '\n\n'))
     return older
@@ -199,7 +210,7 @@ function main() {
   const log = values.log ? resolve(values.log) : logPath(project)
   if (command === 'path') return console.log(log)
   if (command === 'status') {
-    const state = status(log)
+    const state = status(log, project)
     console.log(`log: ${state.log} (${state.entries} entries)`)
     console.log(`none in a row: ${state.streak}`)
     console.log(`dropped traits: ${state.dropped.join(', ') || '(none)'}`)
@@ -216,7 +227,7 @@ function main() {
     const carried = startLog(log, project)
     if (carried) console.log(`carried over the older log at ${carried}`)
     appendFileSync(log, `${readFileSync(log, 'utf8').trim() ? '\n' : ''}${formatEntry(values)}`)
-    const state = status(log)
+    const state = status(log, project)
     console.log(`recorded in ${log} (${state.entries} entries, none in a row: ${state.streak})`)
     if (state.stop) console.log(state.stop)
     for (const line of profileCandidates(values, log)) console.log(line)

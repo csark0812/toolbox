@@ -32,7 +32,7 @@ import {
 } from 'node:fs'
 import { homedir } from 'node:os'
 import { basename, dirname, extname, join, normalize, relative, resolve } from 'node:path'
-import { logPath, matchesDrop, readEntries, status } from './record.mjs'
+import { logPath, matchesDrop, readEntries, readLog, status } from './record.mjs'
 
 const args = process.argv.slice(2)
 const option = (name, fallback) => {
@@ -101,11 +101,17 @@ if (!sets.length) {
 // Two "none" answers in a row stop a new round until one question is asked and recorded. A round
 // already in the log can be photographed again to fix its WARN lines.
 const log = logPath(root)
-const state = status(log)
+// The project is the folder that holds `.swatches/`; its older per-checkout log counts too.
+const project = (() => {
+  for (let dir = root; dir !== dirname(dir); dir = dirname(dir))
+    if (basename(dir) === '.swatches') return dirname(dir)
+  return process.cwd()
+})()
+const state = status(log, project)
 const roundName = basename(root)
-const recorded = existsSync(log)
-  ? readEntries(readFileSync(log, 'utf8')).some((entry) => entry.title.includes(` ${roundName} `))
-  : false
+const recorded = readEntries(readLog(log, project)).some((entry) =>
+  entry.title.includes(` ${roundName} `),
+)
 if (state.stop && !recorded) {
   console.error(state.stop)
   console.error(`log: ${log}`)

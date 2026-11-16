@@ -1,0 +1,52 @@
+body {
+  margin: 0;
+  background: #f4efe6;
+  color: #2b2622;
+  font-family: Georgia, serif;
+}
+main {
+  position: relative;
+  z-index: 1;
+  padding: 64px 48px;
+}
+.wordmark {
+  font-size: 88px;
+  margin: 0;
+  animation: arrive 1100ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+.line {
+  font-size: 20px;
+}
+.action {
+  display: inline-block;
+  padding: 12px 20px;
+  background: #2b2622;
+  color: #f4efe6;
+  text-decoration: none;
+}
+.action:hover {
+  background: #4a4039;
+}
+.action:focus-visible {
+  outline: 3px solid #b5542c;
+  outline-offset: 3px;
+}
+#notice {
+  background: #b5542c;
+  color: #fff;
+  font:
+    16px system-ui,
+    sans-serif;
+}
+#glazes {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}

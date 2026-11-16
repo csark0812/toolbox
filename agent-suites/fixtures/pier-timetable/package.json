@@ -1,0 +1,8 @@
+{
+  "name": "pier-timetable",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve ."
+  }
+}
